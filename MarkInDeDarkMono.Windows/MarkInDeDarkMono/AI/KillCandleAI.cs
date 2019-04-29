@@ -1,0 +1,98 @@
+﻿using Mark.Engine;
+using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Levels;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MarkInDeDarkMono.AI
+{
+    public class KillCandleAI : IEnemyAI
+    {
+        private Queue<CharacterActions> _actionsToCandle;
+        private readonly IEnemyAI _nextAI;
+        private readonly GameGrid _gameGrid;
+        private readonly Candle _targetCandle;
+
+        public enum KillCandleStatus
+        {
+            WalkingToCandle,
+            Smashing,
+            Ended
+        }
+
+        private KillCandleStatus _currentKillCandleStatus;
+
+        public KillCandleAI(
+            Candle targetCandle,
+            IEnumerable<CharacterActions> actionsToCandle,
+            IEnemyAI nextAI,
+            GameGrid gameGrid)
+        {
+            _gameGrid = gameGrid;
+            _targetCandle = targetCandle;
+            targetCandle.AreSomeMonsterIsFollowingMe = true;
+            _actionsToCandle = new Queue<CharacterActions>(actionsToCandle);
+            _nextAI = nextAI;
+
+            _currentKillCandleStatus = KillCandleStatus.WalkingToCandle;
+        }
+
+        public CharacterActions Update(
+            Enemy character,
+            TimeSpan elapsed)
+        {
+            switch (_currentKillCandleStatus)
+            {
+                case KillCandleStatus.WalkingToCandle:
+
+                    bool anyPathToFollow = _actionsToCandle.Any();
+
+                    // .IsActive perché se la candela viene distrutta da qualcun altro,
+                    // torno indietro
+                    if (anyPathToFollow && _targetCandle.IsActive)
+                    {
+                        return _actionsToCandle.Dequeue();
+                    }
+                    else if (!_targetCandle.IsActive)
+                    {
+                        return character.SetNewAI(_nextAI);
+                    }
+                    else if (!anyPathToFollow)
+                    {
+                        _currentKillCandleStatus = KillCandleStatus.Smashing;
+                        _targetCandle.Die();
+                        character.Attack();
+                        return CharacterActions.Idle;
+                    }
+
+                    break;
+
+                case KillCandleStatus.Smashing:
+
+                    if (!_targetCandle.IsActive)
+                    {
+                        character.StopAttacking();
+                        return character.SetNewAI(_nextAI);
+                    }
+
+                    break;
+
+                case KillCandleStatus.Ended:
+                    return character.SetNewAI(_nextAI);
+            }
+
+            return CharacterActions.Idle;
+        }
+
+        public static KeyValuePair<Candle, IEnumerable<CharacterActions>> SearchForNearCandlePath(
+            Enemy character,
+            CandlesManager candlesManager)
+        {
+            return candlesManager.GetNearestCandleActionsPath(
+                character.Position,
+                character.NCellsCandleFindingRange);
+        }
+    }
+}

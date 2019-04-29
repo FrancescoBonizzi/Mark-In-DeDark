@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F30F12E0-6054-4A35-98A4-5A96EC8FA90D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MarkInDeDarkMono</RootNamespace>
+    <AssemblyName>MarkInDeDarkMono</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FlowsoftGamesMonogame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FlowsoftGamesMonogame.2018.4.13.1\lib\FlowsoftGamesMonogame.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.7.0.1464, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.Portable.3.7.0.1464-develop\lib\portable-net45+win8+wpa81\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AI\IEnemyAI.cs" />
+    <Compile Include="AI\KillCandleAI.cs" />
+    <Compile Include="AI\ChargeDirectionAI.cs" />
+    <Compile Include="AI\PatrolChargeAI.cs" />
+    <Compile Include="AI\PatrolHunterLineOfSightAI.cs" />
+    <Compile Include="AI\PlayerHunterAI.cs" />
+    <Compile Include="AI\IdleAI.cs" />
+    <Compile Include="AI\PatrolAI.cs" />
+    <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
+    <Compile Include="Assets\GameConfig.cs" />
+    <Compile Include="Assets\GameStrings.cs" />
+    <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\CharacterConfiguration.cs" />
+    <Compile Include="Characters\EnemyConfiguration.cs" />
+    <Compile Include="GameOrchestrator.cs" />
+    <Compile Include="GameHUD.cs" />
+    <Compile Include="Characters\CharacterActions.cs" />
+    <Compile Include="Levels\GameCell.cs" />
+    <Compile Include="Levels\GameGrid.cs" />
+    <Compile Include="Levels\GameGridLoader.cs" />
+    <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\LinkDirection.cs" />
+    <Compile Include="Levels\Wall.cs" />
+    <Compile Include="MarkKeyboard.cs" />
+    <Compile Include="Menu\LevelUI.cs" />
+    <Compile Include="MarkInDeDarkGame.cs" />
+    <Compile Include="Assets\AssetsLoader.cs" />
+    <Compile Include="Objects\CandlePack.cs" />
+    <Compile Include="Objects\TimedBreakableTrap.cs" />
+    <Compile Include="Objects\InstantlyDieTrap.cs" />
+    <Compile Include="Objects\TriggerObject.cs" />
+    <Compile Include="Particles\Light.cs" />
+    <Compile Include="MarkInDeDarkBootstrap.cs" />
+    <Compile Include="Menu\LevelsPage.cs" />
+    <Compile Include="Menu\MainMenuPage.cs" />
+    <Compile Include="Characters\Enemy.cs" />
+    <Compile Include="Characters\Goblin.cs" />
+    <Compile Include="Characters\Skeletron.cs" />
+    <Compile Include="Characters\Werewolf.cs" />
+    <Compile Include="Characters\Taurus.cs" />
+    <Compile Include="Characters\Zombie.cs" />
+    <Compile Include="Objects\Candle.cs" />
+    <Compile Include="Objects\CandlesManager.cs" />
+    <Compile Include="Objects\CollectableObject.cs" />
+    <Compile Include="Objects\Exit.cs" />
+    <Compile Include="Particles\BloodParticleSystem.cs" />
+    <Compile Include="Particles\BrokenWallSmokeParticleSystem.cs" />
+    <Compile Include="Particles\CandleSmokeParticleSystem.cs" />
+    <Compile Include="Particles\SparkleParticleSystem.cs" />
+    <Compile Include="Characters\Player.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundManager.cs" />
+    <Compile Include="Characters\PlayerDescendingStairs.cs" />
+    <Compile Include="Characters\PlayerFalling.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\ContentBuilder\bin\Backgrounds\background4_nomark.xnb" />
+    <None Include="Assets\ContentBuilder\bin\font.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\accendi_fiamma.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\attack1.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\attack2.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\attack3.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\attack4.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\blood.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\candela.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\fuoco.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\goblin_voice.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\key.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\player_walk.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\skeletron_voice.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\wolf_voice.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\zombie_voice.xnb" />
+    <None Include="Assets\ContentBuilder\ContentBuilder.mgcb" />
+    <None Include="Assets\ContentBuilder\font.spritefont" />
+    <None Include="Assets\Levels\LevelEditor.xlsm" />
+    <None Include="Assets\_TextureProject\Game.tps" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Assets\ContentBuilder\Backgrounds\levels.png" />
+    <Content Include="Assets\ContentBuilder\Backgrounds\menu.png" />
+    <Content Include="Assets\ContentBuilder\Backgrounds\splashscreen.png" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\break_wall.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\ladder.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\patrol_seen_you.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\taurus_starting_charge.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\accendi_fiamma.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\attack1.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\attack2.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\attack3.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\attack4.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\blood.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\candela.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\fuoco.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\goblin_voice.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\key.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\player_walk.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\skeletron_voice.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\fall.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\wolf_voice.wav" />
+    <Content Include="Assets\ContentBuilder\Soundtrack\zombie_voice.wav" />
+    <Content Include="Assets\ContentBuilder\Spritesheet.png" />
+    <Content Include="Assets\ContentBuilder\Spritesheet.txt" />
+    <Content Include="Assets\GameConfig.txt" />
+    <Content Include="Assets\Levels\1.txt" />
+    <Content Include="Assets\Levels\2.txt" />
+    <Content Include="Assets\Levels\3.txt" />
+    <Content Include="Assets\Levels\4.txt" />
+    <Content Include="Assets\Levels\SuperSimple.txt" />
+    <Content Include="Assets\_TextureProject\Backgrounds\background1.jpg" />
+    <Content Include="Assets\_TextureProject\Backgrounds\background2.jpg" />
+    <Content Include="Assets\_TextureProject\Backgrounds\background3.jpg" />
+    <Content Include="Assets\_TextureProject\Backgrounds\background4.jpg" />
+    <Content Include="Assets\_TextureProject\Backgrounds\levels.png" />
+    <Content Include="Assets\_TextureProject\Backgrounds\menu.png" />
+    <Content Include="Assets\_TextureProject\Game\angle0.png" />
+    <Content Include="Assets\_TextureProject\Game\angle1.png" />
+    <Content Include="Assets\_TextureProject\Game\angle2.png" />
+    <Content Include="Assets\_TextureProject\Game\angle3.png" />
+    <Content Include="Assets\_TextureProject\Game\angle4.png" />
+    <Content Include="Assets\_TextureProject\Game\angle5.png" />
+    <Content Include="Assets\_TextureProject\Game\angle6.png" />
+    <Content Include="Assets\_TextureProject\Game\blood.png" />
+    <Content Include="Assets\_TextureProject\Game\blood_decal.png" />
+    <Content Include="Assets\_TextureProject\Game\candle1.png" />
+    <Content Include="Assets\_TextureProject\Game\candle2.png" />
+    <Content Include="Assets\_TextureProject\Game\candle3.png" />
+    <Content Include="Assets\_TextureProject\Game\candle4.png" />
+    <Content Include="Assets\_TextureProject\Game\candle5.png" />
+    <Content Include="Assets\_TextureProject\Game\candle6.png" />
+    <Content Include="Assets\_TextureProject\Game\candle_pack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\candle_pack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\candle_pack_3.png" />
+    <Content Include="Assets\_TextureProject\Game\cell0.png" />
+    <Content Include="Assets\_TextureProject\Game\cell1.png" />
+    <Content Include="Assets\_TextureProject\Game\cell2.png" />
+    <Content Include="Assets\_TextureProject\Game\cell3.png" />
+    <Content Include="Assets\_TextureProject\Game\cell4.png" />
+    <Content Include="Assets\_TextureProject\Game\cell5.png" />
+    <Content Include="Assets\_TextureProject\Game\cell6.png" />
+    <Content Include="Assets\_TextureProject\Game\cell7.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty0.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty1.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty2.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty3.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty4.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty5.png" />
+    <Content Include="Assets\_TextureProject\Game\dirty6.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_back_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_back_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_side_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_side_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\goblin_side_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\key.png" />
+    <Content Include="Assets\_TextureProject\Game\light_1.png" />
+    <Content Include="Assets\_TextureProject\Game\light_pixel.png" />
+    <Content Include="Assets\_TextureProject\Game\macerie0.png" />
+    <Content Include="Assets\_TextureProject\Game\player_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\player_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\player_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\player_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\player_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\player_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\player_side_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\scintilla.png" />
+    <Content Include="Assets\_TextureProject\Game\scintilla_lightmap.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_back_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_back_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_side_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_side_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\skeleton_side_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\smoke.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_back_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_back_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_side_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_side_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\taurus_side_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\trap_instantly_die.png" />
+    <Content Include="Assets\_TextureProject\Game\wall0.png" />
+    <Content Include="Assets\_TextureProject\Game\wall1.png" />
+    <Content Include="Assets\_TextureProject\Game\wall2.png" />
+    <Content Include="Assets\_TextureProject\Game\wall3.png" />
+    <Content Include="Assets\_TextureProject\Game\wall4.png" />
+    <Content Include="Assets\_TextureProject\Game\wall5.png" />
+    <Content Include="Assets\_TextureProject\Game\wall6.png" />
+    <Content Include="Assets\_TextureProject\Game\wall7.png" />
+    <Content Include="Assets\_TextureProject\Game\wall_breakable.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_back_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_back_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_side_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_side_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\werewolf_side_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\win.png" />
+    <Content Include="Assets\_TextureProject\Game\win_closed.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_back_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_back_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_back_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_back_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_back_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_dying_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_dying_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_dying_3.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_front_walking_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_side_attack_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_side_attack_2.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_side_iddle.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_side_walking_1.png" />
+    <Content Include="Assets\_TextureProject\Game\zombie_side_walking_2.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="it-IT" target-language="ro" original="Traduzioni.resx" tool-id="MultilingualAppToolkit" product-name="MarkInDeDark" product-version="1.0.0.10" build-num="0">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="3.1.1085.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="Resx">
+        <trans-unit id="Resx/AboutAltreApp" translate="yes" xml:space="preserve">
+          <source>My other Apps</source>
+          <target state="signed-off">Mai multe App de la Francesco Bonizzi</target></trans-unit>
+        <trans-unit id="Resx/AboutVota" translate="yes" xml:space="preserve">
+          <source>Rate my App</source>
+          <target state="signed-off">Votează în Store</target></trans-unit>
+        <trans-unit id="Resx/GameRiprova" translate="yes" xml:space="preserve">
+          <source>Try again</source>
+          <target state="signed-off">Reîncercați</target></trans-unit>
+        <trans-unit id="Resx/GamePausa" translate="yes" xml:space="preserve">
+          <source>Game paused</source>
+          <target state="signed-off">Joc în pauză</target></trans-unit>
+        <trans-unit id="Resx/GameRiprendi" translate="yes" xml:space="preserve">
+          <source>Continue</source>
+          <target state="signed-off">Continua</target></trans-unit>
+        <trans-unit id="Resx/GameLivelloSuperato" translate="yes" xml:space="preserve">
+          <source>Great!</source>
+          <target state="signed-off">Nivel depășit!</target></trans-unit>
+        <trans-unit id="Resx/GameEsci" translate="yes" xml:space="preserve">
+          <source>Exit</source>
+          <target state="signed-off">Ieșire</target></trans-unit>
+        <trans-unit id="Resx/AboutGiocoCompleto" translate="yes" xml:space="preserve">
+          <source>Pro version, infos</source>
+          <target state="signed-off">Despre jocul complet</target></trans-unit>
+        <trans-unit id="Resx/AboutInviaMail" translate="yes" xml:space="preserve">
+          <source>Send me a mail!</source>
+          <target state="signed-off">Trimite-mi un e-mail!</target></trans-unit>
+        <trans-unit id="Resx/AboutThanks" translate="yes" xml:space="preserve">
+          <source>You have the PRO version! Thanks!</source>
+          <target state="signed-off">Aveți versiunea PRO! Vă mulțumesc!</target></trans-unit>
+        <trans-unit id="Resx/LivelliTitolo" translate="yes" xml:space="preserve">
+          <source>Levels</source>
+          <target state="signed-off">Niveluri</target></trans-unit>
+        <trans-unit id="Resx/MenuAbout" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="signed-off">About</target>
+        </trans-unit>
+        <trans-unit id="Resx/MenuGioca" translate="yes" xml:space="preserve">
+          <source>Play!</source>
+          <target state="signed-off">Joacă!</target></trans-unit>
+        <trans-unit id="Resx/MenuSuoniSi" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="signed-off">Da</target></trans-unit>
+        <trans-unit id="Resx/NegozioPulsante3" translate="yes" xml:space="preserve">
+          <source>More informations</source>
+          <target state="signed-off">Click pentru mai multe informații</target></trans-unit>
+        <trans-unit id="Resx/NegozioPulsante2" translate="yes" xml:space="preserve">
+          <source>30 completely new levels,
+no ads!</source>
+          <target state="signed-off">30 de niveluri noi, fără publicitate!</target></trans-unit>
+        <trans-unit id="Resx/NegozioPulsante1" translate="yes" xml:space="preserve">
+          <source>This is the LITE version of Mark in DeDark.
+If you like my game, please consider the PRO version!</source>
+          <target state="signed-off">Aceasta este versiunea LITE de Mark în DeDark.
+Dacă va plăcut acest joc, luați în considerare achiziția versiunei PRO!</target></trans-unit>
+        <trans-unit id="Resx/MenuSuoniNo" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="signed-off">Nu</target>
+        </trans-unit>
+        <trans-unit id="Resx/MenuSuoni" translate="yes" xml:space="preserve">
+          <source>Sounds</source>
+          <target state="signed-off">Sunete</target></trans-unit>
+        <trans-unit id="Resx/MenuProVersion" translate="yes" xml:space="preserve">
+          <source>PRO version</source>
+          <target state="signed-off">Versiunea PRO</target></trans-unit>
+        <trans-unit id="Resx/MenuRateMyApp" translate="yes" xml:space="preserve">
+          <source>Thanks for playing my game! :-)
+Would you please rate it on the Store?
+Your opinion is very important!</source>
+          <target state="signed-off">Vă mulțumesc mult pentru descărcarea jocului meu :-)
+Ați putea scrie o mică recenzie?
+Părerea voastră este importantă!</target></trans-unit>
+        <trans-unit id="Resx/MenuLiteVersion" translate="yes" xml:space="preserve">
+          <source>LITE version</source>
+          <target state="signed-off">Versiunea LITE</target></trans-unit>
+        <trans-unit id="Resx/MenuGiocoCompleto" translate="yes" xml:space="preserve">
+          <source>Full version</source>
+          <target state="signed-off">Jocul Complet</target></trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
