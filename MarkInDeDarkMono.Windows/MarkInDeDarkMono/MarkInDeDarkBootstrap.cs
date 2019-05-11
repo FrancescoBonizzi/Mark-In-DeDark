@@ -91,7 +91,7 @@ namespace MarkInDeDarkMono
         {
             _viewportAdapter = new ScalingViewportAdapter(
                   GraphicsDeviceManager.GraphicsDevice,
-                  800, 480); // Questo diventerà 1920x1080
+                  1920, 1080); // Questo diventerà 1920x1080
             _scaleMatrix = _viewportAdapter.GetScaleMatrix();
 
             base.Initialize();
