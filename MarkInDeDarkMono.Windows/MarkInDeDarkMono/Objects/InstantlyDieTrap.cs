@@ -30,7 +30,8 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = new Vector2(
                     collisionRectangle.X, 
-                    collisionRectangle.Y)
+                    collisionRectangle.Y),
+                Origin = collisionRectangle.Center.ToVector2()
             };
         }
 

@@ -73,7 +73,7 @@ namespace MarkInDeDarkMono.Characters
 
             if (action == CharacterActions.Candle)
             {
-                _candlesManager.PlaceCandle(_gameGrid.GetCellAtPixel(WorldCenter).Position);
+                _candlesManager.PlaceCandle(_gameGrid.GetCellAtPixel(WorldCenter).TopLeftPosition);
             }
             else
             {

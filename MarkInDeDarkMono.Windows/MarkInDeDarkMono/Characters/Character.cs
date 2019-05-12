@@ -95,7 +95,8 @@ namespace MarkInDeDarkMono.Characters
             _drawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(50, 50, 50, 50)
+                HitBoxTolerance = new Rectangle(50, 50, 50, 50),
+                Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
             _nextLocation = Position;
@@ -212,7 +213,7 @@ namespace MarkInDeDarkMono.Characters
                 AnimationsManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
                 _startingLocation = _drawingInfos.Position;
                 _drawingInfos.IsFlipped = false;
-                _nextLocation = currentCell.NorthCell.Position;
+                _nextLocation = currentCell.NorthCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationUp;
@@ -227,7 +228,7 @@ namespace MarkInDeDarkMono.Characters
                 AnimationsManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
                 _startingLocation = _drawingInfos.Position;
                 _drawingInfos.IsFlipped = false;
-                _nextLocation = currentCell.SouthCell.Position;
+                _nextLocation = currentCell.SouthCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationDown;
@@ -242,7 +243,7 @@ namespace MarkInDeDarkMono.Characters
                 AnimationsManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
                 _drawingInfos.IsFlipped = false;
                 _startingLocation = _drawingInfos.Position;
-                _nextLocation = currentCell.EastCell.Position;
+                _nextLocation = currentCell.EastCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationRight;
@@ -257,7 +258,7 @@ namespace MarkInDeDarkMono.Characters
                 AnimationsManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
                 _drawingInfos.IsFlipped = true;
                 _startingLocation = _drawingInfos.Position;
-                _nextLocation = currentCell.WestCell.Position;
+                _nextLocation = currentCell.WestCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationLeft;

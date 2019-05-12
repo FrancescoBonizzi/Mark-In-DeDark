@@ -32,7 +32,7 @@ namespace MarkInDeDarkMono.Characters
                   new CharacterConfiguration(
                       assetsLoader,
                       "taurus",
-                      patrolPath.First().Position,
+                      patrolPath.First().TopLeftPosition,
                       gameConfig.TaurusLightColorRGB1,
                       gameConfig.TaurusLightColorRGB2,
                       gameConfig.TaurusLightSize,

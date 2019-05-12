@@ -35,7 +35,7 @@ namespace MarkInDeDarkMono.Menu
             _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(viewportAdapter.VirtualWidth / 2f, 50f),
+                Position = new Vector2(viewportAdapter.VirtualWidth / 2f, 120f),
                 Origin = new Vector2(_font.GetTextCenter(_titleText).X, 0),
                 OverlayColor = new Color(138, 7, 7)
             };
@@ -43,16 +43,16 @@ namespace MarkInDeDarkMono.Menu
             _background = assetsLoader.Sprites["levels"];
             _scaleMatrix = viewportAdapter.GetScaleMatrix();
             _levelsUi = assetsLoader.Levels.Select(l => new LevelUI(assetsLoader, l)).ToList();
-            _startingPosition = new Vector2(100f, 100f);
+            _startingPosition = new Vector2(240f, 240f);
 
             var startingPosition = _startingPosition;
-            const float padding = 60f;
+            const float padding = 144f;
 
             for (int i = 0; i < _levelsUi.Count; ++i)
             {
                 var levelUi = _levelsUi[i];
 
-                if (i % 5 == 0)
+                if (i % 4 == 0)
                 {
                     startingPosition.Y += levelUi.BoxRectangle.Height + padding;
                     startingPosition.X = _startingPosition.X;

@@ -41,12 +41,12 @@ namespace MarkInDeDarkMono.Menu
             _font = assetsLoader.Font;
             _scaleMatrix = viewportAdapter.GetScaleMatrix();
             _background = assetsLoader.Sprites["menu"];
-            
+
             _titleText = "Mark in DeDark";
             _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(viewportAdapter.VirtualWidth / 3f, 150f),
+                Position = new Vector2(viewportAdapter.VirtualWidth / 3f, 360f),
                 Origin = _font.GetTextCenter(_titleText),
                 OverlayColor = new Color(138, 7, 7)
             };
@@ -55,7 +55,7 @@ namespace MarkInDeDarkMono.Menu
             _playScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _playDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(140f, 250f),
+                Position = new Vector2(336f, 600f),
                 Origin = _font.GetTextCenter(_playText),
                 OverlayColor = Color.Black
             };
@@ -65,7 +65,7 @@ namespace MarkInDeDarkMono.Menu
             _shopScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _shopDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(140f, 320f),
+                Position = new Vector2(336f, 768f),
                 Origin = _font.GetTextCenter(_shopText),
                 OverlayColor = Color.Black
             };
@@ -80,7 +80,7 @@ namespace MarkInDeDarkMono.Menu
         }
 
         public void HandleInput(
-            Vector2 touchPoint, 
+            Vector2 touchPoint,
             GameOrchestrator orchestrator)
         {
             if (_playDrawingInfos.HitBox((int)_playTextSize.X, (int)_playTextSize.Y)
@@ -89,7 +89,11 @@ namespace MarkInDeDarkMono.Menu
                 _soundManager.StopSounds();
                 orchestrator.SetLevelState();
             }
-            
+            else if (_shopDrawingInfos.HitBox((int)_shopTextSize.X, (int)_shopTextSize.Y)
+                .Contains(touchPoint))
+            {
+                // TODO
+            }
         }
 
         public void Update(TimeSpan elapsed)

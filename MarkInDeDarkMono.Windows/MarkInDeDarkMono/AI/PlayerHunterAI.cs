@@ -45,7 +45,7 @@ namespace MarkInDeDarkMono.AI
                 _oldDestionation = destination;
                 _currentActions = _gameGrid.FindActionsToPath(
                     character.Position, 
-                    destination.Position).ToList();
+                    destination.TopLeftPosition).ToList();
             }
 
             if (_currentActions != null && _currentActions.Any())

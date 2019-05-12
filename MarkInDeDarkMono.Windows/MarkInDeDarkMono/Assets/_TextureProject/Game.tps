@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/ProjectsGit/MarkInDeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
+        <string>C:/ProjectsGit/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,7 +187,7 @@
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">None</enum>
+            <enum type="SpriteSettings::TrimMode">CropKeepPos</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>

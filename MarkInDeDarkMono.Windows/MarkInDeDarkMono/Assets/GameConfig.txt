@@ -44,7 +44,7 @@ CandleColorRGB1:255-195-163
 CandleColorRGB2:255-247-207
 CandleLightSize:0.5
 ExitLightSize:1.0
-CameraOffsetFromPlayer:300-240
+CameraOffsetFromPlayer:720-576
 DoMonstersAttackTheSameCandle:1
 CandleTimeToLiveWhenAttackedSeconds:1.5
 IsFullScreen:0

@@ -25,13 +25,13 @@ namespace MarkInDeDarkMono.Characters
             _walkUpAnimation = assetsLoader.GetAnimation("playerWalkUp");
             _drawingInfos = new DrawingInfos()
             {
-                Origin = new Vector2(_walkUpAnimation.FirstFrameSprite.Width / 2, 0)
+                Origin = _walkUpAnimation.FirstFrameSprite.SpriteCenter,
             };
         }
 
         public void SetPosition(Vector2 position)
         {
-            _drawingInfos.Position = position + new Vector2(_walkUpAnimation.FirstFrameSprite.Width / 2, 5);
+            _drawingInfos.Position = position;
         }
 
         public void Update(TimeSpan elapsed)
@@ -44,7 +44,7 @@ namespace MarkInDeDarkMono.Characters
 
                 _opacity += _opacityDelta;
                 _drawingInfos.Scale += _scaleDelta;
-                _drawingInfos.OverlayColor = _drawingInfos.OverlayColor * _opacity;
+                _drawingInfos.OverlayColor *= _opacity;
             }
 
             _walkUpAnimation.Update(elapsed);

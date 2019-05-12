@@ -75,7 +75,8 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = new Vector2(
                    triggerCollisionRectangle.X,
-                   triggerCollisionRectangle.Y)
+                   triggerCollisionRectangle.Y),
+                Origin = triggerCollisionRectangle.Center.ToVector2()
             };
         }
 

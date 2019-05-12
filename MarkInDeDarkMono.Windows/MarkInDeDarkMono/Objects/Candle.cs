@@ -35,7 +35,8 @@ namespace Mark.Engine
 
             _drawingInfos = new DrawingInfos()
             {
-                Position = position
+                Position = position,
+                Origin = _animation.FirstFrameSprite.SpriteCenter
             };
 
             LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);

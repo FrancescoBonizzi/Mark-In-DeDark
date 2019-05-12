@@ -56,7 +56,7 @@ namespace MarkInDeDarkMono.AI
             {
                 _currentActions = new Queue<CharacterActions>(_gameGrid.FindActionsToPath(
                     character.Position,
-                    _waypoints[_currentWaypointIndex].Position));
+                    _waypoints[_currentWaypointIndex].TopLeftPosition));
 
                 // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;

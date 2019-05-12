@@ -25,14 +25,14 @@ namespace MarkInDeDarkMono
         private readonly SpriteFont _font;
 
         private readonly DrawingInfos _gameElapsedTimeDrawingInfos;
-        private StringBuilder _gameElapsedString;
+        private readonly StringBuilder _gameElapsedString;
         public TimeSpan GameElapsed { get; private set; }
 
         private readonly DrawingInfos _remainingCandlesDrawingInfos;
-        private StringBuilder _remainingCandlesString;
+        private readonly StringBuilder _remainingCandlesString;
 
         private readonly Vector2 _messagesStartPosition;
-        private List<PopupText> _messages;
+        private readonly List<PopupText> _messages;
 
         private readonly CandlesManager _candlesManager;
 
@@ -46,7 +46,7 @@ namespace MarkInDeDarkMono
             _gameElapsedString = new StringBuilder();
             _gameElapsedTimeDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(10.0f, 10.0f),
+                Position = new Vector2(24.0f, 24.0f),
                 OverlayColor = Color.White,
                 Scale = 0.6f
             };
@@ -55,15 +55,15 @@ namespace MarkInDeDarkMono
             _remainingCandlesDrawingInfos = new DrawingInfos()
             {
                 Position = new Vector2(
-                    viewportAdapter.VirtualWidth - 50f,
-                    viewportAdapter.VirtualHeight - 40f),
+                    viewportAdapter.VirtualWidth - 120f,
+                    viewportAdapter.VirtualHeight - 96f),
                 Scale = 0.4f,
                 OverlayColor = Color.Brown
             };
 
             _messagesStartPosition = new Vector2(
                viewportAdapter.ViewportWidth / 2,
-               30f);
+               78f);
 
             _messages = new List<PopupText>();
             GameElapsed = TimeSpan.Zero;
@@ -71,17 +71,19 @@ namespace MarkInDeDarkMono
         }
 
         public void ShowMessage(
-            string text, 
+            string text,
             Color color,
             bool isImportant = false)
         {
             var messagePosition = _messagesStartPosition;
 
-            if (_messages.Any())
+            if (_messages.Count > 0)
             {
                 // Non scrivo due messaggi identici in fila
                 if (_messages.Last().Text == text)
+                {
                     return;
+                }
 
                 messagePosition =
                     new Vector2(
@@ -99,7 +101,7 @@ namespace MarkInDeDarkMono
                     60f),
                 DrawingInfos = new DrawingInfos()
                 {
-                    Scale = isImportant ? 2.0f : 0.6f,
+                    Scale = isImportant ? 0.7f : 0.6f,
                     Position = messagePosition,
                     Origin = new Vector2(_font.GetTextCenter(text).X, 0)
                 }
@@ -126,7 +128,9 @@ namespace MarkInDeDarkMono
                 message.DrawingInfos.OverlayColor = message.PopupObject.OverlayColor;
 
                 if (message.PopupObject.IsCompleted)
+                {
                     _messages.RemoveAt(i);
+                }
             }
         }
 
@@ -135,8 +139,10 @@ namespace MarkInDeDarkMono
             spriteBatch.DrawString(_font, _gameElapsedString.ToString(), _gameElapsedTimeDrawingInfos);
             spriteBatch.DrawString(_font, _remainingCandlesString.ToString(), _remainingCandlesDrawingInfos);
 
-            foreach(var message in _messages)
+            foreach (var message in _messages)
+            {
                 spriteBatch.DrawString(_font, message.Text, message.DrawingInfos);
+            }
         }
 
     }

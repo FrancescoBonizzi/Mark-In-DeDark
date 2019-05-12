@@ -23,7 +23,7 @@ namespace MarkInDeDarkMono.Characters
                   new CharacterConfiguration(
                       assetsLoader,
                       "zombie",
-                      patrolPath.First().Position,
+                      patrolPath.First().TopLeftPosition,
                       gameConfig.ZombieLightColorRGB1,
                       gameConfig.ZombieLightColorRGB2,
                       gameConfig.ZombieLightSize,

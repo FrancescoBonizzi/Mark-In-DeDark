@@ -140,8 +140,11 @@ namespace MarkInDeDarkMono.Levels
         public GameCell WestCell
             => Links[LinkDirection.WestLink];
 
-        public Vector2 Position
+        public Vector2 TopLeftPosition
             => _cellDrawingInfos.Position;
+
+        public Vector2 CenterPosition
+            => _cellDrawingInfos.Center(_width, _height);
 
         public Rectangle CollisionRectangle
             => _cellDrawingInfos.HitBox(_width, _height);

@@ -100,7 +100,7 @@ namespace MarkInDeDarkMono.Levels
             CharacterActions direction,
             Vector2 breakerPosition)
         {
-            var thisCellIndexes = GetCellIndexByPixel(cell.Position);
+            var thisCellIndexes = GetCellIndexByPixel(cell.TopLeftPosition);
             Vector2 afterTheWallCellIndexes;
             GameCell cellAfterWall;
 
@@ -192,8 +192,8 @@ namespace MarkInDeDarkMono.Levels
         public Vector2 GetPixelBy_ij(int i, int j)
         {
             return new Vector2(
-                i * CellWidth + _position.X,
-                j * CellWidth + _position.Y);
+                i * CellWidth + _position.X + CellWidth / 2,
+                j * CellWidth + _position.Y + CellHeight / 2);
         }
 
         public int GetCellByPixelX(int X)

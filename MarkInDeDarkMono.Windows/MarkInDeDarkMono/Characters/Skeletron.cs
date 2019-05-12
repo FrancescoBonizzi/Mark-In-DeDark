@@ -23,7 +23,7 @@ namespace MarkInDeDarkMono.Characters
             new CharacterConfiguration(
                 assetsLoader,
                 "skeleton",
-                patrolPath.First().Position,
+                patrolPath.First().TopLeftPosition,
                 gameConfig.SkeletronLightColorRGB1,
                 gameConfig.SkeletronLightColorRGB2,
                 gameConfig.SkeletronLightSize,
