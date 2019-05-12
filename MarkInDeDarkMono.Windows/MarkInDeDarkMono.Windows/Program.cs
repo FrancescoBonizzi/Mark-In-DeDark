@@ -1,4 +1,4 @@
-﻿using FlowsoftGamesWindows;
+﻿using FbonizziMonoGameWindowsDesktop;
 using System;
 using System.Globalization;
 using System.IO;
@@ -11,8 +11,8 @@ namespace MarkInDeDarkMono.Windows
         [STAThread]
         static void Main()
         {
-            int width = 800;
-            int height = 480;
+            int width = 1422;
+            int height = 800;
 
             using (var game = new MarkInDeDarkBootstrap(
                 new WindowsTextFileImporter(),

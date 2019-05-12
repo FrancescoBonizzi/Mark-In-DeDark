@@ -1,8 +1,11 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.AfterGameManagement;
-using FlowsoftGamesMonogame.Assets;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.InputListeners;
+﻿using FbonizziMonoGame.Assets;
+using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Input;
+using FbonizziMonoGame.Input.Abstractions;
+using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.StringsLocalization;
+using FbonizziMonoGame.StringsLocalization.Abstractions;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Menu;
@@ -32,11 +35,11 @@ namespace MarkInDeDarkMono
         public event EventHandler ExitGameRequested;
         public event EventHandler ShowAd;
 
+        private readonly ILocalizedStringsRepository _localizedStringsRepository;
+
         private GameOrchestrator _orchestrator;
-        private AfterGameManager _afterGameManager;
         private AssetsLoader _assetsLoader;
-        private ScalingViewportAdapter _viewportAdapter;
-        private Matrix _scaleMatrix;
+        private IScreenTransformationMatrixProvider _matrixScaleProvider;
 
         private readonly IEnumerable<string> _levelsNames;
         private readonly bool _isPc;
@@ -70,6 +73,8 @@ namespace MarkInDeDarkMono
                 SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,
                 IsFullScreen = _gameConfig.IsFullScreen
             };
+
+            _localizedStringsRepository = new InMemoryLocalizedStringsRepository(new Dictionary<string, string>());
         }
 
 #warning Questo lo metto nel costruttore così non va più settato fuori
@@ -89,19 +94,18 @@ namespace MarkInDeDarkMono
 
         protected override void Initialize()
         {
-            _viewportAdapter = new ScalingViewportAdapter(
+            _matrixScaleProvider = new DynamicScalingMatrixProvider(
+                  new GameWindowScreenSizeChangedNotifier(Window),
                   GraphicsDeviceManager.GraphicsDevice,
-                  1920, 1080); // Questo diventerà 1920x1080
-            _scaleMatrix = _viewportAdapter.GetScaleMatrix();
+                  1920, 1080,
+                  true);
 
             base.Initialize();
         }
 
         private void LoadGameAssets()
         {
-            new GameStrings(_gameCulture);
-
-            _afterGameManager = new AfterGameManager(false, 1);
+            new GameStringsLoader(_localizedStringsRepository, _gameCulture);
 
             _assetsLoader = new AssetsLoader(
                 Content, 
@@ -119,34 +123,34 @@ namespace MarkInDeDarkMono
                     _assetsLoader,
                     level,
                     _gameConfig,
-                    _viewportAdapter,
-                    _settingsRepository,
-                    _soundManager));
+                    _matrixScaleProvider,
+                    _soundManager,
+                    _localizedStringsRepository));
 
             var menuFactory = new Func<MainMenuPage>(
                 () => new MainMenuPage(
                     _assetsLoader,
                     _soundManager,
-                    _viewportAdapter));
+                    _matrixScaleProvider,
+                    _localizedStringsRepository));
 
             var levelsPageFactory = new Func<LevelsPage>(
-                () => new LevelsPage(_viewportAdapter, _assetsLoader));
+                () => new LevelsPage(
+                    _matrixScaleProvider, 
+                    _localizedStringsRepository, 
+                    _assetsLoader));
 
             _orchestrator = new GameOrchestrator(
                 gameFactory,
                 menuFactory,
                 levelsPageFactory,
                 _spriteBatch.GraphicsDevice,
-                _settingsRepository,
-                _viewportAdapter,
-                _afterGameManager);
-
-            _orchestrator.ShowAd += _orchestrator_ShowAd;
+                _matrixScaleProvider);
 
             _inputListeners = new List<IInputListener>();
             if (_isPc)
             {
-                var mouseListener = new MouseListener(_viewportAdapter);
+                var mouseListener = new MouseListener(_matrixScaleProvider);
                 mouseListener.MouseDown += MouseListener_MouseClicked;
 
                 var keyboardListener = new KeyboardListener();
@@ -159,7 +163,7 @@ namespace MarkInDeDarkMono
             }
             else
             {
-                var touchListener = new TouchListener(_viewportAdapter);
+                var touchListener = new TouchListener(_matrixScaleProvider);
                 touchListener.TouchStarted += TouchListener_TouchEnded;
 
                 var gamepadListener = new GamePadListener();
@@ -282,7 +286,7 @@ namespace MarkInDeDarkMono
             if (_splashScreenAssetsLoader != null)
             {
                 GraphicsDevice.Clear(Color.Black);
-                _spriteBatch.Begin(transformMatrix: _scaleMatrix);
+                _spriteBatch.Begin(transformMatrix: _matrixScaleProvider.ScaleMatrix);
                 _splashScreenAssetsLoader.Draw(_spriteBatch);
                 _spriteBatch.End();
                 return;

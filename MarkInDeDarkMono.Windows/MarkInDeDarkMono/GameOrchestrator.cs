@@ -1,14 +1,12 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.AfterGameManagement;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.UI;
-using Mark.Engine;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace MarkInDeDarkMono
@@ -33,51 +31,54 @@ namespace MarkInDeDarkMono
         private readonly Func<LevelsPage> _levelsPageFactory;
         private LevelsPage _levels;
 
-        private readonly Matrix _scaleMatrix;
-        private readonly AfterGameManager _afterGameManager;
-        private readonly ISettingsRepository _settingsRepository;
-
         private FadeObject _stateTransition;
         private Action _afterTransitionAction;
 
-        private readonly RenderTarget2D _renderTarget;
-        private readonly ViewportAdapter _viewportAdapter;
+        private RenderTarget2D _renderTarget;
+        private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
+
+        private readonly GraphicsDevice _graphicsDevice;
 
         public bool ShouldEndApplication { get; private set; }
         public bool IsPaused { get; private set; } = false;
 
         private readonly TimeSpan _fadeDuration = TimeSpan.FromMilliseconds(800);
-        private bool _thisGameAfterGameManagerCalled = false;
-
-        public event EventHandler ShowAd;
+        private readonly Uri _aboutUri = new Uri("https://www.fbonizzi.it");
 
         public GameOrchestrator(
           Func<Level, MarkInDeDarkGame> gameFactory,
           Func<MainMenuPage> menuFactory,
           Func<LevelsPage> levelsPageFactory,
           GraphicsDevice graphicsDevice,
-          ISettingsRepository settingsRepository,
-          ViewportAdapter viewportAdapter,
-          AfterGameManager afterGameManager)
+          IScreenTransformationMatrixProvider matrixScaleProvider)
         {
             _gameFactory = gameFactory ?? throw new ArgumentNullException(nameof(gameFactory));
             _menuFactory = menuFactory ?? throw new ArgumentNullException(nameof(menuFactory));
             _levelsPageFactory = levelsPageFactory ?? throw new ArgumentNullException(nameof(levelsPageFactory));
-            _scaleMatrix = viewportAdapter.GetScaleMatrix();
+            _graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
 
-            _afterGameManager = afterGameManager ?? throw new ArgumentNullException(nameof(afterGameManager));
-            _settingsRepository = settingsRepository;
-
-            _viewportAdapter = viewportAdapter;
-            _renderTarget = new RenderTarget2D(
-                graphicsDevice,
-                viewportAdapter.ViewportWidth,
-                viewportAdapter.ViewportHeight);
+            _matrixScaleProvider = matrixScaleProvider ?? throw new ArgumentNullException(nameof(matrixScaleProvider));
+            if (_matrixScaleProvider is DynamicScalingMatrixProvider)
+            {
+                (_matrixScaleProvider as DynamicScalingMatrixProvider).ScaleMatrixChanged += GameOrchestrator_ScaleMatrixChanged;
+            }
+            RegenerateRenderTarget();
 
             ShouldEndApplication = false;
 
             _stateTransition = new FadeObject(_fadeDuration, Color.White);
             _stateTransition.FadeOutCompleted += _stateTransition_FadeOutCompleted;
+        }
+
+        private void GameOrchestrator_ScaleMatrixChanged(object sender, EventArgs e)
+            => RegenerateRenderTarget();
+
+        public void RegenerateRenderTarget()
+        {
+            _renderTarget = new RenderTarget2D(
+                _graphicsDevice,
+                _matrixScaleProvider.VirtualWidth,
+                _matrixScaleProvider.VirtualHeight);
         }
 
         public void Start()
@@ -95,25 +96,11 @@ namespace MarkInDeDarkMono
             if (_stateTransition.IsFading)
                 return;
 
-            if (_thisGameAfterGameManagerCalled)
-                return;
-
             _game.StopMusic();
 
             ShouldEndApplication = false;
-            _thisGameAfterGameManagerCalled = true;
-            var newState = _afterGameManager.GetAfterGameState();
-            switch (newState)
-            {
-                case AfterGameManager.AfterGameStates.ShowAd:
-                    ShowAd?.Invoke(this, EventArgs.Empty);
-                    SetLevelState();
-                    break;
-
-                case AfterGameManager.AfterGameStates.ShowProTip:
-                    // No protip in this game
-                    break;
-            }
+            // TODO Mettere uno slideshow con trucchi e consigli
+            SetLevelState();
         }
 
         public void SetMenuState()
@@ -153,7 +140,6 @@ namespace MarkInDeDarkMono
                 return;
 
             ShouldEndApplication = false;
-            _thisGameAfterGameManagerCalled = false;
             _stateTransition.FadeOut();
             _afterTransitionAction = new Action(
                 () =>

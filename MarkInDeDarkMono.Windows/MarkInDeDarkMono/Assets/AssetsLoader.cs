@@ -1,5 +1,7 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Assets;
+﻿using FbonizziMonoGame;
+using FbonizziMonoGame.Assets;
+using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.Sprites;
 using Mark.Engine;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework.Audio;
@@ -18,7 +20,7 @@ namespace MarkInDeDarkMono.Assets
         public SpriteFont Font { get; private set; }
         public List<Level> Levels { get; private set; } = new List<Level>();
 
-        private readonly TexturePackerCustomImporter _textureImporter;
+        private readonly CustomSpriteImporter _textureImporter;
         private readonly ContentManager _contentManager;
         private readonly ISettingsRepository _settingsRepository;
         private readonly ITextFileLoader _fileLoader;
@@ -34,7 +36,7 @@ namespace MarkInDeDarkMono.Assets
             _contentManager = contentManager ?? throw new ArgumentNullException(nameof(contentManager));
             _fileLoader = fileLoader ?? throw new ArgumentNullException(nameof(fileLoader));
             _levelNames = levelNames ?? throw new ArgumentNullException(nameof(levelNames));
-            _textureImporter = new TexturePackerCustomImporter(fileLoader);
+            _textureImporter = new CustomSpriteImporter(fileLoader);
             LoadResources();
         }
 

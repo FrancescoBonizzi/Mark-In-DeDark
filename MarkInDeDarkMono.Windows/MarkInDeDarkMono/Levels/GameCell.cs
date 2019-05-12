@@ -1,6 +1,7 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Extensions;
+﻿using FbonizziMonoGame;
+using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Particles;
@@ -84,7 +85,7 @@ namespace MarkInDeDarkMono.Levels
             _bloodDecalDrawingInfos = new DrawingInfos()
             {
                 Position = position,
-                Rotation = MathHelperExtensions.RandomBetween(-360f, 360f)
+                Rotation = Numbers.RandomBetween(-360f, 360f)
             };
 
             Links = new Dictionary<LinkDirection, GameCell>()
@@ -100,15 +101,15 @@ namespace MarkInDeDarkMono.Levels
 
             for (int i = 0; i < 2; ++i)
             {
-                if (MathHelperExtensions.RandomBetween(0D, 1D) <= dirtyProbability)
+                if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
                 {
                     _dirtysDrawingInfos.Add(new DrawingInfos()
                     {
                         Position = new Vector2(
-                            position.X + MathHelperExtensions.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
-                            position.Y + MathHelperExtensions.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
-                        Scale = MathHelperExtensions.RandomBetween(0.5f, 1.2f),
-                        Rotation = MathHelperExtensions.RandomBetween(0, 360f),
+                            position.X + Numbers.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
+                            position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
+                        Scale = Numbers.RandomBetween(0.5f, 1.2f),
+                        Rotation = Numbers.RandomBetween(0, 360f),
                         Origin = _dirtySprite.SpriteCenter
                     });
             }

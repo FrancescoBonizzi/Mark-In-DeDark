@@ -1,7 +1,7 @@
-﻿using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.Extensions;
-using FlowsoftGamesMonogame.UI;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.TransformationObjects;
 using Mark.Engine;
 using MarkInDeDarkMono.Assets;
 using Microsoft.Xna.Framework;
@@ -38,7 +38,7 @@ namespace MarkInDeDarkMono
 
         public GameHUD(
             AssetsLoader assetsLoader,
-            ViewportAdapter viewportAdapter,
+            IScreenTransformationMatrixProvider scaleMatrixProvider,
             CandlesManager candlesManager)
         {
             _font = assetsLoader.Font;
@@ -55,14 +55,14 @@ namespace MarkInDeDarkMono
             _remainingCandlesDrawingInfos = new DrawingInfos()
             {
                 Position = new Vector2(
-                    viewportAdapter.VirtualWidth - 120f,
-                    viewportAdapter.VirtualHeight - 96f),
+                    scaleMatrixProvider.VirtualWidth - 120f,
+                    scaleMatrixProvider.VirtualHeight - 96f),
                 Scale = 0.4f,
                 OverlayColor = Color.Brown
             };
 
             _messagesStartPosition = new Vector2(
-               viewportAdapter.ViewportWidth / 2,
+               scaleMatrixProvider.RealScreenWidth / 2,
                78f);
 
             _messages = new List<PopupText>();

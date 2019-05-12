@@ -1,8 +1,9 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.Extensions;
-using FlowsoftGamesMonogame.UI;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
+using FbonizziMonoGame.StringsLocalization.Abstractions;
+using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Assets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,33 +17,34 @@ namespace MarkInDeDarkMono.Menu
     {
         private readonly Sprite _background;
         private readonly SpriteFont _font;
-
+        private readonly IScreenTransformationMatrixProvider _screenTransformationMatrixProvider;
         private readonly ScalingObject _titleScalingObject;
         private readonly DrawingInfos _titleDrawingInfos;
         private readonly string _titleText;
-
-        private readonly Matrix _scaleMatrix;
-        private List<LevelUI> _levelsUi;
+        
+        private List<MenuLevelButton> _levelsUi;
         private Vector2 _startingPosition;
 
         public LevelsPage(
-            ViewportAdapter viewportAdapter,
+            IScreenTransformationMatrixProvider screenTransformationMatrixProvider,
+            ILocalizedStringsRepository localizedStringsRepository,
             AssetsLoader assetsLoader)
         {
             _font = assetsLoader.Font;
 
-            _titleText = GameStrings.LevelsPageTitleString.GetTranslation();
+            _screenTransformationMatrixProvider = screenTransformationMatrixProvider;
+
+            _titleText = localizedStringsRepository.Get(GameStringsLoader.LevelsPageTitleString);
             _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(viewportAdapter.VirtualWidth / 2f, 120f),
+                Position = new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2f, 120f),
                 Origin = new Vector2(_font.GetTextCenter(_titleText).X, 0),
                 OverlayColor = new Color(138, 7, 7)
             };
 
             _background = assetsLoader.Sprites["levels"];
-            _scaleMatrix = viewportAdapter.GetScaleMatrix();
-            _levelsUi = assetsLoader.Levels.Select(l => new LevelUI(assetsLoader, l)).ToList();
+            _levelsUi = assetsLoader.Levels.Select(l => new MenuLevelButton(assetsLoader, l)).ToList();
             _startingPosition = new Vector2(240f, 240f);
 
             var startingPosition = _startingPosition;
@@ -85,7 +87,7 @@ namespace MarkInDeDarkMono.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: _scaleMatrix);
+            spriteBatch.Begin(transformMatrix: _screenTransformationMatrixProvider.ScaleMatrix);
 
             spriteBatch.Draw(_background);
             spriteBatch.DrawString(_font, _titleText, _titleDrawingInfos);

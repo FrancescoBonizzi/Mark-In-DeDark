@@ -1,4 +1,5 @@
-﻿using FlowsoftGamesMonogame.Drawing;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Particles;

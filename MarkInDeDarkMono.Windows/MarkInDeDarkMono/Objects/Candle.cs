@@ -1,8 +1,8 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Extensions;
-using FlowsoftGamesMonogame.Particles;
-using FlowsoftGamesMonogame.UI;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Particles;
+using FbonizziMonoGame.Sprites;
+using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;

@@ -1,4 +1,5 @@
-﻿using FlowsoftGamesMonogame;
+﻿using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.Sprites;
 using System;
 
 namespace MarkInDeDarkMono.Levels

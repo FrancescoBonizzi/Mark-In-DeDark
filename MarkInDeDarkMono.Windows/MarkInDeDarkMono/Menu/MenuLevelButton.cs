@@ -1,6 +1,6 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Extensions;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MarkInDeDarkMono.Menu
 {
-    public class LevelUI
+    public class MenuLevelButton
     {
         private string _upText;
         private readonly Sprite _backgroundSprite;
@@ -32,7 +32,7 @@ namespace MarkInDeDarkMono.Menu
 
         private const float _fontSize = 0.3f;
 
-        public LevelUI(
+        public MenuLevelButton(
             AssetsLoader assetsLoader,
             Level level)
         {

@@ -1,8 +1,9 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.Extensions;
-using FlowsoftGamesMonogame.UI;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
+using FbonizziMonoGame.StringsLocalization.Abstractions;
+using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Assets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,9 +14,9 @@ namespace MarkInDeDarkMono.Menu
     public class MainMenuPage
     {
         private readonly Sprite _background;
+        private readonly IScreenTransformationMatrixProvider _screenTransformationMatrixProvider;
         private readonly SpriteFont _font;
-        private readonly Matrix _scaleMatrix;
-
+        
         private readonly ScalingObject _titleScalingObject;
         private readonly DrawingInfos _titleDrawingInfos;
         private readonly string _titleText;
@@ -35,23 +36,25 @@ namespace MarkInDeDarkMono.Menu
         public MainMenuPage(
             AssetsLoader assetsLoader,
             SoundManager soundManager,
-            ViewportAdapter viewportAdapter)
+            IScreenTransformationMatrixProvider screenTransformationMatrixProvider,
+            ILocalizedStringsRepository localizedStringsRepository)
         {
             _soundManager = soundManager;
             _font = assetsLoader.Font;
-            _scaleMatrix = viewportAdapter.GetScaleMatrix();
             _background = assetsLoader.Sprites["menu"];
+
+            _screenTransformationMatrixProvider = screenTransformationMatrixProvider;
 
             _titleText = "Mark in DeDark";
             _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(viewportAdapter.VirtualWidth / 3f, 360f),
+                Position = new Vector2(screenTransformationMatrixProvider.VirtualWidth / 3f, 360f),
                 Origin = _font.GetTextCenter(_titleText),
                 OverlayColor = new Color(138, 7, 7)
             };
 
-            _playText = GameStrings.PlayButtonString.GetTranslation();
+            _playText = localizedStringsRepository.Get(GameStringsLoader.PlayButtonString);
             _playScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _playDrawingInfos = new DrawingInfos()
             {
@@ -61,7 +64,7 @@ namespace MarkInDeDarkMono.Menu
             };
             _playTextSize = _font.MeasureString(_playText);
 
-            _shopText = GameStrings.ShopString.GetTranslation();
+            _shopText = localizedStringsRepository.Get(GameStringsLoader.ShopString);
             _shopScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _shopDrawingInfos = new DrawingInfos()
             {
@@ -71,7 +74,8 @@ namespace MarkInDeDarkMono.Menu
             };
             _shopTextSize = _font.MeasureString(_shopText);
 
-            // background menu music play
+            // Background menu music play
+            // TODO About
         }
 
         public void StopMusic()
@@ -110,7 +114,7 @@ namespace MarkInDeDarkMono.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: _scaleMatrix);
+            spriteBatch.Begin(transformMatrix: _screenTransformationMatrixProvider.ScaleMatrix);
 
             spriteBatch.Draw(_background);
 

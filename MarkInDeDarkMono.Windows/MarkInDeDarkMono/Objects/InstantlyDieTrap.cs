@@ -1,6 +1,6 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Extensions;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
 using Microsoft.Xna.Framework;

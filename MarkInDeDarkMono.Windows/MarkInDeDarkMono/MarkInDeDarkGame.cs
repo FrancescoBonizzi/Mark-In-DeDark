@@ -1,7 +1,7 @@
-﻿using FlowsoftGamesMonogame;
-using FlowsoftGamesMonogame.Drawing;
-using FlowsoftGamesMonogame.Drawing.ViewportAdapters;
-using FlowsoftGamesMonogame.Extensions;
+﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.StringsLocalization.Abstractions;
 using Mark.Engine;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
@@ -39,7 +39,7 @@ namespace MarkInDeDarkMono
         private RenderTarget2D _mainScene;
         private RenderTarget2D _lightMaskRenderTarget;
         private BlendState _blendStateMultiply;
-        private readonly ViewportAdapter _viewportAdapter;
+        private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
         private readonly SoundManager _soundManager;
         private readonly GameConfig _gameConfig;
@@ -59,6 +59,7 @@ namespace MarkInDeDarkMono
         }
 
         private GameStates _currentGameState;
+        private readonly ILocalizedStringsRepository _localizedStringsRepository;
 
         public MarkInDeDarkGame(
             GraphicsDevice graphicsDevice,
@@ -66,18 +67,18 @@ namespace MarkInDeDarkMono
             AssetsLoader assetsLoader,
             Level selectedLevel,
             GameConfig gameConfig,
-            ViewportAdapter viewportAdapter,
-            ISettingsRepository settingsRepository,
-            SoundManager soundManager)
+            IScreenTransformationMatrixProvider matrixScaleProvider,
+            SoundManager soundManager,
+            ILocalizedStringsRepository localizedStringsRepository)
         {
             _graphicsDevice = graphicsDevice;
             _currentGameState = GameStates.Playing;
+            _localizedStringsRepository = localizedStringsRepository;
 
             _elapsedFinish = TimeSpan.Zero;
 
-            _viewportAdapter = viewportAdapter;
-            _scaleMatrix = viewportAdapter.GetScaleMatrix();
-
+            _matrixScaleProvider = matrixScaleProvider;
+        
             _gameOrchestrator = gameOrchestrator;
             _soundManager = soundManager;
             _gameConfig = gameConfig;
@@ -99,7 +100,7 @@ namespace MarkInDeDarkMono
 
             _currentLevel = selectedLevel;
 
-            _camera = new Camera2D(_viewportAdapter);
+            _camera = new Camera2D(_matrixScaleProvider);
             _grid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _grid, gameConfig);
             _player = new Player(assetsLoader, _grid, gameConfig, _candlesManager, _soundManager);
@@ -190,7 +191,7 @@ namespace MarkInDeDarkMono
 
             _candlePacks = _grid.CandlePacks;
             ElapsedGameTime = TimeSpan.Zero;
-            _gameHud = new GameHUD(assetsLoader, viewportAdapter, _candlesManager);
+            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
         }
 
         public void HandleInput(CharacterActions action)
@@ -198,7 +199,7 @@ namespace MarkInDeDarkMono
             if (action == CharacterActions.Candle && _candlesManager.LeftCandles == 0)
             {
                 _gameHud.ShowMessage(
-                    GameStrings.NotEnoughCandlesString.GetTranslation(),
+                    _localizedStringsRepository.Get(GameStringsLoader.NotEnoughCandlesString),
                     _gameConfig.NotEnoughCandlesStringColorRGB);
             }
 
@@ -222,7 +223,7 @@ namespace MarkInDeDarkMono
                     if (_player.IsDying)
                     {
                         _gameHud.ShowMessage(
-                             string.Format(GameStrings.GameOverString.GetTranslation()),
+                             string.Format(_localizedStringsRepository.Get(GameStringsLoader.GameOverString)),
                              _gameConfig.GameOverStringColorRGB,
                              true);
 
@@ -235,7 +236,7 @@ namespace MarkInDeDarkMono
                         {
                             _key.Collect();
                             _gameHud.ShowMessage(
-                                string.Format(GameStrings.KeyFoundString.GetTranslation()),
+                                string.Format(_localizedStringsRepository.Get(GameStringsLoader.KeyFoundString)),
                                 _gameConfig.KeyFoundStringColorRGB);
                             _exit.SetOpen();
                         }
@@ -247,7 +248,7 @@ namespace MarkInDeDarkMono
                         {
                             _player.Win(_exit);
                             _gameHud.ShowMessage(
-                               string.Format(GameStrings.LevelCompletedString.GetTranslation()),
+                               string.Format(_localizedStringsRepository.Get(GameStringsLoader.LevelCompletedString)),
                                _gameConfig.LevelCompletedStringColorRGB,
                                true);
                             _currentGameState = GameStates.Finishing;
@@ -255,7 +256,7 @@ namespace MarkInDeDarkMono
                         else
                         {
                             _gameHud.ShowMessage(
-                                string.Format(GameStrings.ClosedDoorString.GetTranslation()),
+                                string.Format(_localizedStringsRepository.Get(GameStringsLoader.ClosedDoorString)),
                                 _gameConfig.ClosedDoorStringColorRGB);
                         }
                     }
@@ -279,7 +280,7 @@ namespace MarkInDeDarkMono
                                 candlePack.Collect();
                                 _candlesManager.AddCandlesToInventory(candlePack.NCandlesInThisPack);
                                 _gameHud.ShowMessage(
-                                    string.Format(GameStrings.CandlePackFoundString.GetTranslation(), candlePack.NCandlesInThisPack),
+                                    string.Format(_localizedStringsRepository.Get(GameStringsLoader.CandlePackFoundString), candlePack.NCandlesInThisPack),
                                     _gameConfig.CandlePackFoundStringColorRGB);
                             }
                         }

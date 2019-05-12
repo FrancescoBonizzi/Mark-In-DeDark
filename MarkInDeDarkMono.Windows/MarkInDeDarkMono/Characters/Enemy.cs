@@ -1,4 +1,4 @@
-﻿using FlowsoftGamesMonogame;
+﻿using FbonizziMonoGame;
 using MarkInDeDarkMono.AI;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Levels;
@@ -54,7 +54,7 @@ namespace MarkInDeDarkMono.Characters
         }
 
         public void SetRandomScreamTimer()
-            => _screamTimer = TimeSpan.FromSeconds(MathHelperExtensions.RandomBetween(5, 8));
+            => _screamTimer = TimeSpan.FromSeconds(Numbers.RandomBetween(5, 8));
 
         public CharacterActions SetNewAI(IEnemyAI newAI)
         {
