@@ -1,12 +1,73 @@
-﻿<Window x:Class="MarkInDeDark.LevelEditor.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MarkInDeDark.LevelEditor"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+﻿<Window
+    x:Class="MarkInDeDark.LevelEditor.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Mark in DeDark - Level editor"
+    Width="1422"
+    Height="900"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+
+    <DockPanel>
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem
+                    x:Name="btnNuovo"
+                    Click="BtnNuovo_Click"
+                    Header="Nuovo" />
+                <Separator />
+                <MenuItem
+                    x:Name="btnApri"
+                    Click="BtnApri_Click"
+                    Header="Apri" />
+                <Separator />
+                <MenuItem
+                    x:Name="btnSalva"
+                    Click="BtnSalva_Click"
+                    Header="Salva" />
+            </MenuItem>
+        </Menu>
+
+        <ToolBar
+            DockPanel.Dock="Top"
+            ToolBar.OverflowMode="Never"
+            ToolBarTray.IsLocked="True">
+
+            <ToggleButton x:Name="btnBuio" Click="BtnBuio_Click" ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="Black" />
+                    <TextBlock Padding="5,2" Text="Buio" />
+                </StackPanel>
+            </ToggleButton>
+
+            <ToggleButton x:Name="btnTerra" Click="BtnTerra_Click" ToolTip="Disegna una cella sui il personaggio può camminare">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="Brown" />
+                    <TextBlock Padding="5,2" Text="Terra" />
+                </StackPanel>
+            </ToggleButton>
+
+
+        </ToolBar>
+
+        <Grid>
+            <Canvas
+                Name="levelEditorCanvas"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                MouseDown="LevelEditorCanvas_MouseDown"
+                MouseMove="LevelEditorCanvas_MouseMove" />
+        </Grid>
+
+    </DockPanel>
+
 </Window>
