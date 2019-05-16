@@ -36,26 +36,20 @@ namespace MarkInDeDark.LevelEditor.Editor
             {
                 for (int row = 0; row < _gameGrid.Rows; ++row)
                 {
-                    var cell = DrawSingleCell(row, column);
+                    var cellType = _gameGrid.Grid[column, row];
+
+                    var cell = new Rectangle
+                    {
+                        Fill = CellTypeColorConverter.Convert(cellType.CellType),
+                        Width = _cellSize,
+                        Height = _cellSize,
+                        Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0)
+                    };
+
+                    _canvasCell[column, row] = cell;
                     _canvas.Children.Add(cell);
                 }
             }
-        }
-
-        private Rectangle DrawSingleCell(int row, int column)
-        {
-            var cellType = _gameGrid.Grid[column, row];
-
-            var cell = new Rectangle
-            {
-                Fill = CellTypeColorConverter.Convert(cellType.CellType),
-                Width = _cellSize,
-                Height = _cellSize,
-                Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0)
-            };
-
-            _canvasCell[column, row] = cell;
-            return cell;
         }
 
         public void SetCellType(Point where, CellTypes type)
@@ -64,8 +58,8 @@ namespace MarkInDeDark.LevelEditor.Editor
             int row = (int)where.Y / _cellSize;
 
             _gameGrid.SetCellType(row, column, type);
-            DrawSingleCell(row, column);
-#warning Con DrawAll funziona, ma io voglio disegnarne solo uno!
+
+            _canvasCell[column, row].Fill = CellTypeColorConverter.Convert(type);
         }
     }
 }
