@@ -1,6 +1,8 @@
 ﻿using MarkInDeDark.LevelEditor.Domain;
 using MarkInDeDark.LevelEditor.Editor;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MarkInDeDark.LevelEditor
@@ -17,7 +19,6 @@ namespace MarkInDeDark.LevelEditor
             InitializeComponent();
             NewGrid();
             btnBuio.IsChecked = true;
-            
         }
 
 #warning Lo stile dei pulsanti dev'essere centralizzato in qualche modo
@@ -44,19 +45,10 @@ namespace MarkInDeDark.LevelEditor
 
         }
 
-        private void BtnBuio_Click(object sender, RoutedEventArgs e)
+        private void BtnCellType_Click(object sender, RoutedEventArgs e)
         {
-            _currentSelectedCellType = CellTypes.Buio;
-        }
-
-        private void BtnTerra_Click(object sender, RoutedEventArgs e)
-        {
-            _currentSelectedCellType = CellTypes.Terra;
-        }
-
-        private void BtnMacerie_Click(object sender, RoutedEventArgs e)
-        {
-            _currentSelectedCellType = CellTypes.Macerie;
+            var button = sender as RadioButton;
+            _currentSelectedCellType = (CellTypes)Convert.ToInt32(button.Tag);
         }
 
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)

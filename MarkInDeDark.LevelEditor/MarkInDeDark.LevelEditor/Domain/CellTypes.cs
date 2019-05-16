@@ -2,8 +2,8 @@
 {
     public enum CellTypes : int
     {
-        Buio,
-        Terra,
-        Macerie
+        Buio = 0,
+        Terra = 1,
+        Macerie = 2
     }
 }

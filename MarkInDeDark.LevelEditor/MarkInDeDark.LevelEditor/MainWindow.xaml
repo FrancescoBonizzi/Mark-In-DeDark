@@ -47,10 +47,11 @@
                 Width="80"
                 Margin="10,0"
                 Padding="5,2"
-                Click="BtnBuio_Click"
+                Click="BtnCellType_Click"
                 Cursor="Hand"
                 GroupName="PulsantiEditor"
                 Style="{StaticResource {x:Type ToggleButton}}"
+                Tag="0"
                 ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle
@@ -62,14 +63,14 @@
             </RadioButton>
 
             <RadioButton
-                x:Name="btnTerra"
-                Margin="10,0"
-                Cursor="Hand"
                 Width="80"
+                Margin="10,0"
                 Padding="5,2"
-                Click="BtnTerra_Click"
+                Click="BtnCellType_Click"
+                Cursor="Hand"
                 GroupName="PulsantiEditor"
                 Style="{StaticResource {x:Type ToggleButton}}"
+                Tag="1"
                 ToolTip="Disegna una cella sui il personaggio può camminare">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle
@@ -81,14 +82,14 @@
             </RadioButton>
 
             <RadioButton
-                x:Name="btnMacerie"
-                Margin="10,0"
-                Cursor="Hand"
                 Width="80"
+                Margin="10,0"
                 Padding="5,2"
-                Click="BtnMacerie_Click"
+                Click="BtnCellType_Click"
+                Cursor="Hand"
                 GroupName="PulsantiEditor"
                 Style="{StaticResource {x:Type ToggleButton}}"
+                Tag="2"
                 ToolTip="Disegna una cella sui il personaggio non può camminare">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle
@@ -103,10 +104,10 @@
 
         <Grid>
             <Canvas
-                Cursor="Pen"
                 Name="levelEditorCanvas"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                Cursor="Pen"
                 MouseDown="LevelEditorCanvas_MouseDown"
                 MouseMove="LevelEditorCanvas_MouseMove" />
         </Grid>
