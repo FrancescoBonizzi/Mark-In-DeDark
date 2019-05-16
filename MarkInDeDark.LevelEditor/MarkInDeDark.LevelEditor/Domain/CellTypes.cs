@@ -2,7 +2,8 @@
 {
     public enum CellTypes : int
     {
-        Dark,
-        Ground
+        Buio,
+        Terra,
+        Macerie
     }
 }

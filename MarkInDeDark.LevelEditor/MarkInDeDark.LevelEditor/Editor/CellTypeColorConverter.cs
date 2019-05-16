@@ -10,13 +10,14 @@ namespace MarkInDeDark.LevelEditor.Editor
         {
             switch (type)
             {
-                case CellTypes.Dark:
+                case CellTypes.Buio:
                     return new SolidColorBrush(Colors.Black);
-                case CellTypes.Ground:
 
+                case CellTypes.Terra:
                     return new SolidColorBrush(Colors.Brown);
 
-                    // TODO Many other...
+                case CellTypes.Macerie:
+                    return new SolidColorBrush(Colors.White);
             }
 
             throw new NotImplementedException();

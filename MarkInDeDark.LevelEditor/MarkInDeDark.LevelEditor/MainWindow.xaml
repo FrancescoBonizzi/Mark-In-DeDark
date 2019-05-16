@@ -1,8 +1,8 @@
 ﻿<Window
     x:Class="MarkInDeDark.LevelEditor.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Mark in DeDark - Level editor"
     Width="1422"
@@ -36,7 +36,22 @@
             ToolBar.OverflowMode="Never"
             ToolBarTray.IsLocked="True">
 
-            <ToggleButton x:Name="btnBuio" Click="BtnBuio_Click" ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
+            <TextBlock
+                Width="60"
+                Margin="4,0"
+                VerticalAlignment="Center"
+                Text="Terreno: " />
+
+            <RadioButton
+                x:Name="btnBuio"
+                Width="80"
+                Margin="10,0"
+                Padding="5,2"
+                Click="BtnBuio_Click"
+                Cursor="Hand"
+                GroupName="PulsantiEditor"
+                Style="{StaticResource {x:Type ToggleButton}}"
+                ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle
                         Width="10"
@@ -44,9 +59,18 @@
                         Fill="Black" />
                     <TextBlock Padding="5,2" Text="Buio" />
                 </StackPanel>
-            </ToggleButton>
+            </RadioButton>
 
-            <ToggleButton x:Name="btnTerra" Click="BtnTerra_Click" ToolTip="Disegna una cella sui il personaggio può camminare">
+            <RadioButton
+                x:Name="btnTerra"
+                Margin="10,0"
+                Cursor="Hand"
+                Width="80"
+                Padding="5,2"
+                Click="BtnTerra_Click"
+                GroupName="PulsantiEditor"
+                Style="{StaticResource {x:Type ToggleButton}}"
+                ToolTip="Disegna una cella sui il personaggio può camminare">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle
                         Width="10"
@@ -54,13 +78,32 @@
                         Fill="Brown" />
                     <TextBlock Padding="5,2" Text="Terra" />
                 </StackPanel>
-            </ToggleButton>
+            </RadioButton>
 
+            <RadioButton
+                x:Name="btnMacerie"
+                Margin="10,0"
+                Cursor="Hand"
+                Width="80"
+                Padding="5,2"
+                Click="BtnMacerie_Click"
+                GroupName="PulsantiEditor"
+                Style="{StaticResource {x:Type ToggleButton}}"
+                ToolTip="Disegna una cella sui il personaggio non può camminare">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="White" />
+                    <TextBlock Padding="5,2" Text="Maceria" />
+                </StackPanel>
+            </RadioButton>
 
         </ToolBar>
 
         <Grid>
             <Canvas
+                Cursor="Pen"
                 Name="levelEditorCanvas"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"

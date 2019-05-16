@@ -31,7 +31,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             {
                 for (int row = 0; row < Rows; ++row)
                 {
-                    emptyGrid[column, row] = new Cell() { CellType = CellTypes.Dark };
+                    emptyGrid[column, row] = new Cell() { CellType = CellTypes.Buio };
                 }
             }
 

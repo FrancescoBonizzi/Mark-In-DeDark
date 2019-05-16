@@ -16,7 +16,12 @@ namespace MarkInDeDark.LevelEditor
         {
             InitializeComponent();
             NewGrid();
+            btnBuio.IsChecked = true;
+            
         }
+
+#warning Lo stile dei pulsanti dev'essere centralizzato in qualche modo
+#warning Sperimentare con i resource dictionary così trovo un UI più carina
 
         private void NewGrid()
         {
@@ -41,16 +46,17 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnBuio_Click(object sender, RoutedEventArgs e)
         {
-            _currentSelectedCellType = CellTypes.Dark;
-            // TODO Deselezionare gli altri
-            // https://stackoverflow.com/questions/2362641/how-to-get-a-group-of-toggle-buttons-to-act-like-radio-buttons-in-wpf
+            _currentSelectedCellType = CellTypes.Buio;
         }
 
         private void BtnTerra_Click(object sender, RoutedEventArgs e)
         {
-            _currentSelectedCellType = CellTypes.Ground;
-            // TODO Deselezionare gli altri
-            // https://stackoverflow.com/questions/2362641/how-to-get-a-group-of-toggle-buttons-to-act-like-radio-buttons-in-wpf
+            _currentSelectedCellType = CellTypes.Terra;
+        }
+
+        private void BtnMacerie_Click(object sender, RoutedEventArgs e)
+        {
+            _currentSelectedCellType = CellTypes.Macerie;
         }
 
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -69,8 +75,16 @@ namespace MarkInDeDark.LevelEditor
             }
             else if (e.RightButton == MouseButtonState.Pressed)
             {
-                _presentation.SetCellType(e.GetPosition(levelEditorCanvas), CellTypes.Dark);
+                _presentation.SetCellType(e.GetPosition(levelEditorCanvas), CellTypes.Buio);
+
+#warning TODO Mettere una gomma o qualcosa di simile
+                levelEditorCanvas.Cursor = Cursors.AppStarting;
+            }
+            else if (e.RightButton == MouseButtonState.Released)
+            {
+                levelEditorCanvas.Cursor = Cursors.Pen;
             }
         }
+
     }
 }
