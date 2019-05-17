@@ -12,6 +12,7 @@ namespace MarkInDeDark.LevelEditor.Editor
         private readonly int _cellSize;
 
         private Border[,] _canvasCell;
+        private (int Column, int Row)? _lastHoveredCell;
 
         public WpfCanvasEditorPresentation(
             GameGrid gameGrid,
@@ -41,8 +42,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 #warning Per quando metterò il testo
                     var cellContent = new TextBlock
                     {
-                        Width = _cellSize,
-                        Height = _cellSize
+
                     };
 
                     var cellBorder = new Border()
@@ -50,8 +50,8 @@ namespace MarkInDeDark.LevelEditor.Editor
                         Child = cellContent,
                         Background = EditorTypesColorConverter.Convert(editorCell.GroundType),
                         Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0),
-                        BorderBrush = new SolidColorBrush(Colors.Gray),
-                        BorderThickness = new Thickness(2)
+                        Width = _cellSize,
+                        Height = _cellSize
                     };
 
                     _canvasCell[column, row] = cellBorder;
@@ -75,13 +75,21 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(type);
         }
 
-        public void SetWallType(Point where, WallTypes type)
+        public void ClearHover()
         {
-            double gridX = where.X / _cellSize;
-            double gridY = where.Y / _cellSize;
+            // ...e rimozione dell'hover
+            if (_lastHoveredCell != null)
+            {
+                var lastHoveredCellGroundType = _gameGrid.Grid[_lastHoveredCell.Value.Column, _lastHoveredCell.Value.Row].GroundType;
+                _canvasCell[_lastHoveredCell.Value.Column, _lastHoveredCell.Value.Row].Background =
+                    EditorTypesColorConverter.Convert(lastHoveredCellGroundType);
+            }
+        }
 
-            int column = (int)gridX;
-            int row = (int)gridY;
+        public void SetHover(Point where)
+        {
+            int column = (int)where.X / _cellSize;
+            int row = (int)where.Y / _cellSize;
 
             if (column < 0 || column >= _gameGrid.Columns
                 || row < 0 || row >= _gameGrid.Rows)
@@ -89,57 +97,44 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return;
             }
 
-            const int cellIntervals = 2;
-            const double cellIntervalWidth = 1.0 / cellIntervals;
-            const double cellIntervalHeight = 1.0 / cellIntervals;
-            WallPositions wallPosition;
+            // Gestione hover...
+            if (_lastHoveredCell != (column, row))
+            {
+                var thisCellBackground = _canvasCell[column, row].Background as SolidColorBrush;
+                _canvasCell[column, row].Background = new SolidColorBrush(thisCellBackground.Color.Lighter());
 
-            if (gridX <= column + cellIntervalWidth)
-            {
-                wallPosition = WallPositions.Left;
+                // ...e rimozione dell'hover
+                ClearHover();
+
+                _lastHoveredCell = (column, row);
             }
-            else if (gridX >= column + (cellIntervalWidth * (cellIntervals - 1)))
-            {
-                wallPosition = WallPositions.Right;
-            }
-            else if (gridY <= row + cellIntervalHeight)
-            {
-                wallPosition = WallPositions.Top;
-            }
-            else if (gridY > row + (cellIntervalHeight * (cellIntervals - 1)))
-            {
-                wallPosition = WallPositions.Bottom;
-            }
-            else
+        }
+
+        public void SetWallOfCurrentHoveredCellType(WallTypes type, WallPositions wallPosition)
+        {
+            if (_lastHoveredCell == null)
             {
                 return;
             }
 
+            int column = _lastHoveredCell.Value.Column;
+            int row = _lastHoveredCell.Value.Row;
+
             _gameGrid.SetWallType(row, column, type, wallPosition);
 
             var currentBorderThickness = _canvasCell[column, row].BorderThickness;
+            int strokeWidth = type == WallTypes.Niente ? 0 : 4;
 
-            const int strokeWidth = 4;
-            switch (type)
+            _canvasCell[column, row].BorderThickness = new Thickness(
+                left: wallPosition == WallPositions.Left ? strokeWidth : currentBorderThickness.Left,
+                top: wallPosition == WallPositions.Top ? strokeWidth : currentBorderThickness.Top,
+                right: wallPosition == WallPositions.Right ? strokeWidth : currentBorderThickness.Right,
+                bottom: wallPosition == WallPositions.Bottom ? strokeWidth : currentBorderThickness.Bottom);
+
+            if (type != WallTypes.Niente)
             {
-                case WallTypes.Niente:
-                    _canvasCell[column, row].BorderThickness = new Thickness(0);
-                    break;
-
-                case WallTypes.Occludente:
-                case WallTypes.Fragile:
-                    _canvasCell[column, row].BorderThickness = new Thickness(
-                        left: wallPosition == WallPositions.Left ? strokeWidth : currentBorderThickness.Left,
-                        top: wallPosition == WallPositions.Top ? strokeWidth : currentBorderThickness.Top,
-                        right: wallPosition == WallPositions.Right ? strokeWidth : currentBorderThickness.Right,
-                        bottom: wallPosition == WallPositions.Bottom ? strokeWidth : currentBorderThickness.Bottom);
-                    break;
+                _canvasCell[column, row].BorderBrush = EditorTypesColorConverter.Convert(type);
             }
-
-            _canvasCell[column, row].BorderBrush = EditorTypesColorConverter.Convert(type);
-
-            System.Diagnostics.Debug.WriteLine($"Changed a cell: {column}, {row} - {wallPosition}");
-
         }
     }
 }

@@ -19,6 +19,7 @@ namespace MarkInDeDark.LevelEditor
         public MainWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             NewGrid();
             btnBuio.IsChecked = true;
         }
@@ -51,6 +52,7 @@ namespace MarkInDeDark.LevelEditor
             var button = sender as RadioButton;
             _currentSelectedCellType = (GroundTypes)Convert.ToInt32(button.Tag);
             _currentEditorAction = EditorActions.Ground;
+            _presentation.ClearHover();
         }
 
         private void BtnWallType_Click(object sender, RoutedEventArgs e)
@@ -58,6 +60,7 @@ namespace MarkInDeDark.LevelEditor
             var button = sender as RadioButton;
             _currentSelectedWallType = (WallTypes)Convert.ToInt32(button.Tag);
             _currentEditorAction = EditorActions.Wall;
+            _presentation.ClearHover();
         }
 
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -77,13 +80,46 @@ namespace MarkInDeDark.LevelEditor
                     case EditorActions.Ground:
                         _presentation.SetGroundType(e.GetPosition(levelEditorCanvas), _currentSelectedCellType);
                         break;
+                }
+            }
+            else if (_currentEditorAction == EditorActions.Wall)
+            {
+                // Effetto hover
+                _presentation.SetHover(e.GetPosition(levelEditorCanvas));
+            }
+        }
 
-                    case EditorActions.Wall:
-                        _presentation.SetWallType(e.GetPosition(levelEditorCanvas), _currentSelectedWallType);
-                        break;
+        private void LevelEditorCanvas_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (_currentEditorAction == EditorActions.Wall)
+            {
+                if (e.Key == Key.Up)
+                {
+                    _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Top);
+                }
+                else if (e.Key == Key.Right)
+                {
+                    _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Right);
+                }
+                else if (e.Key == Key.Down)
+                {
+                    _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Bottom);
+                }
+                else if (e.Key == Key.Left)
+                {
+                    _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Left);
                 }
             }
         }
 
+        private void HelpWalls_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Seleziona un tipo di muro, posizionati col mouse su una cella, poi utilizzare i tasti freccia della tastiera per posizionare o togliere un muro", "Aiutino!");
+        }
+
+        private void HelpGround_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Seleziona un tipo di terreno e premi col mouse su una cella per impostarlo", "Aiutino!");
+        }
     }
 }

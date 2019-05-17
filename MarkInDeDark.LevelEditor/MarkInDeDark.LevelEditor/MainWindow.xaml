@@ -7,6 +7,7 @@
     Title="Mark in DeDark - Level editor"
     Width="1422"
     Height="900"
+    PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="NoResize"
     mc:Ignorable="d">
 
@@ -38,8 +39,8 @@
 
             <StackPanel Orientation="Vertical">
 
-                <StackPanel Orientation="Horizontal" Margin="0, 5">
-                    
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+
                     <TextBlock
                         Width="60"
                         Margin="4,0"
@@ -104,10 +105,20 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <Button
+                        Width="22"
+                        Padding="5,2"
+                        Cursor="Help"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Content="?"
+                        Click="HelpGround_Click"
+                        x:Name="helpGround"/>
+                    
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="0, 5">
-                    
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+
                     <TextBlock
                         Width="60"
                         Margin="4,0"
@@ -118,8 +129,8 @@
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
-                        Cursor="Hand"
                         Click="BtnWallType_Click"
+                        Cursor="Hand"
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="0"
@@ -132,13 +143,13 @@
                             <TextBlock Padding="5,2" Text="No muro" />
                         </StackPanel>
                     </RadioButton>
-                    
+
                     <RadioButton
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
-                        Cursor="Hand"
                         Click="BtnWallType_Click"
+                        Cursor="Hand"
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="1"
@@ -156,9 +167,9 @@
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
+                        Click="BtnWallType_Click"
                         Cursor="Hand"
                         GroupName="PulsantiEditor"
-                        Click="BtnWallType_Click"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="2"
                         ToolTip="Disegna un muro che potrà essere essere distrutto">
@@ -171,6 +182,15 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <Button
+                        Width="22"
+                        Padding="5,2"
+                        Cursor="Help"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Content="?"
+                        Click="HelpWalls_Click"
+                        x:Name="helpWalls"/>
 
                 </StackPanel>
 
