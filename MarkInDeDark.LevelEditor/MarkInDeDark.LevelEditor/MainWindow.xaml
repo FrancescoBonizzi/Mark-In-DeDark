@@ -36,69 +36,145 @@
             ToolBar.OverflowMode="Never"
             ToolBarTray.IsLocked="True">
 
-            <TextBlock
-                Width="60"
-                Margin="4,0"
-                VerticalAlignment="Center"
-                Text="Terreno: " />
+            <StackPanel Orientation="Vertical">
 
-            <RadioButton
-                x:Name="btnBuio"
-                Width="80"
-                Margin="10,0"
-                Padding="5,2"
-                Click="BtnCellType_Click"
-                Cursor="Hand"
-                GroupName="PulsantiEditor"
-                Style="{StaticResource {x:Type ToggleButton}}"
-                Tag="0"
-                ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle
-                        Width="10"
-                        Height="10"
-                        Fill="Black" />
-                    <TextBlock Padding="5,2" Text="Buio" />
-                </StackPanel>
-            </RadioButton>
+                <StackPanel Orientation="Horizontal" Margin="0, 5">
+                    
+                    <TextBlock
+                        Width="60"
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        Text="Terreno: " />
 
-            <RadioButton
-                Width="80"
-                Margin="10,0"
-                Padding="5,2"
-                Click="BtnCellType_Click"
-                Cursor="Hand"
-                GroupName="PulsantiEditor"
-                Style="{StaticResource {x:Type ToggleButton}}"
-                Tag="1"
-                ToolTip="Disegna una cella sui il personaggio può camminare">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle
-                        Width="10"
-                        Height="10"
-                        Fill="Brown" />
-                    <TextBlock Padding="5,2" Text="Terra" />
-                </StackPanel>
-            </RadioButton>
+                    <RadioButton
+                        x:Name="btnBuio"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="0"
+                        ToolTip="Disegna una cella buia. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Black" />
+                            <TextBlock Padding="5,2" Text="Buio" />
+                        </StackPanel>
+                    </RadioButton>
 
-            <RadioButton
-                Width="80"
-                Margin="10,0"
-                Padding="5,2"
-                Click="BtnCellType_Click"
-                Cursor="Hand"
-                GroupName="PulsantiEditor"
-                Style="{StaticResource {x:Type ToggleButton}}"
-                Tag="2"
-                ToolTip="Disegna una cella sui il personaggio non può camminare">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle
-                        Width="10"
-                        Height="10"
-                        Fill="White" />
-                    <TextBlock Padding="5,2" Text="Maceria" />
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="1"
+                        ToolTip="Disegna una cella sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Brown" />
+                            <TextBlock Padding="5,2" Text="Terra" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="2"
+                        ToolTip="Disegna una cella sui il personaggio non può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="White" />
+                            <TextBlock Padding="5,2" Text="Maceria" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
-            </RadioButton>
+
+                <StackPanel Orientation="Horizontal" Margin="0, 5">
+                    
+                    <TextBlock
+                        Width="60"
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        Text="Muri: " />
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Cursor="Hand"
+                        Click="BtnWallType_Click"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="0"
+                        ToolTip="Cancella il muro">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Black" />
+                            <TextBlock Padding="5,2" Text="No muro" />
+                        </StackPanel>
+                    </RadioButton>
+                    
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Cursor="Hand"
+                        Click="BtnWallType_Click"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="1"
+                        ToolTip="Disegna un muro che non potrà essere oltrepassato">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Green" />
+                            <TextBlock Padding="5,2" Text="Muro" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Click="BtnWallType_Click"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="2"
+                        ToolTip="Disegna un muro che potrà essere essere distrutto">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Red" />
+                            <TextBlock Padding="5,2" Text="Muro fragile" />
+                        </StackPanel>
+                    </RadioButton>
+
+
+                </StackPanel>
+
+            </StackPanel>
 
         </ToolBar>
 

@@ -1,6 +1,6 @@
 ﻿namespace MarkInDeDark.LevelEditor.Domain
 {
-    public enum CellTypes : int
+    public enum GroundTypes : int
     {
         Buio = 0,
         Terra = 1,

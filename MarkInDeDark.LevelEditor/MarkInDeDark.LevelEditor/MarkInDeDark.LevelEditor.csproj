@@ -64,8 +64,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Domain\Cell.cs" />
-    <Compile Include="Domain\CellTypes.cs" />
-    <Compile Include="Editor\CellTypeColorConverter.cs" />
+    <Compile Include="Domain\EditorActions.cs" />
+    <Compile Include="Domain\WallPositions.cs" />
+    <Compile Include="Domain\WallTypes.cs" />
+    <Compile Include="Domain\GroundTypes.cs" />
+    <Compile Include="Editor\EditorTypesColorConverter.cs" />
     <Compile Include="Editor\GameGrid.cs" />
     <Compile Include="Editor\WpfCanvasEditorPresentation.cs" />
     <Compile Include="MainWindow.xaml.cs">

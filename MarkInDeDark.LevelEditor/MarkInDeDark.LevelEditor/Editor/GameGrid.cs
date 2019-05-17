@@ -31,20 +31,39 @@ namespace MarkInDeDark.LevelEditor.Editor
             {
                 for (int row = 0; row < Rows; ++row)
                 {
-                    emptyGrid[column, row] = new Cell() { CellType = CellTypes.Buio };
+                    emptyGrid[column, row] = new Cell() { GroundType = GroundTypes.Buio };
                 }
             }
 
             Grid = emptyGrid;
         }
 
-        public void SetCellType(int row, int column, CellTypes type)
+        public void SetGroundType(int row, int column, GroundTypes type)
         {
-            if (column >= 0 && column < Columns
-                && row >= 0 && row < Rows)
+            Grid[column, row].GroundType = type;
+        }
+
+        public void SetWallType(int row, int column, WallTypes type, WallPositions wallPosition)
+        {
+            switch (wallPosition)
             {
-                Grid[column, row].CellType = type;
+                case WallPositions.Top:
+                    Grid[column, row].Top = type;
+                    break;
+
+                case WallPositions.Right:
+                    Grid[column, row].Right = type;
+                    break;
+
+                case WallPositions.Left:
+                    Grid[column, row].Left = type;
+                    break;
+
+                case WallPositions.Bottom:
+                    Grid[column, row].Bottom = type;
+                    break;
             }
         }
+
     }
 }

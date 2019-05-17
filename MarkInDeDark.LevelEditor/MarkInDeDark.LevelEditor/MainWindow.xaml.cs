@@ -12,7 +12,9 @@ namespace MarkInDeDark.LevelEditor
         private GameGrid _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
 
-        private CellTypes _currentSelectedCellType;
+        private EditorActions _currentEditorAction;
+        private GroundTypes _currentSelectedCellType;
+        private WallTypes _currentSelectedWallType;
 
         public MainWindow()
         {
@@ -22,7 +24,6 @@ namespace MarkInDeDark.LevelEditor
         }
 
 #warning Lo stile dei pulsanti dev'essere centralizzato in qualche modo
-#warning Sperimentare con i resource dictionary così trovo un UI più carina
 
         private void NewGrid()
         {
@@ -32,23 +33,31 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnNuovo_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
-        private void BtnCellType_Click(object sender, RoutedEventArgs e)
+        private void BtnGroundType_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as RadioButton;
-            _currentSelectedCellType = (CellTypes)Convert.ToInt32(button.Tag);
+            _currentSelectedCellType = (GroundTypes)Convert.ToInt32(button.Tag);
+            _currentEditorAction = EditorActions.Ground;
+        }
+
+        private void BtnWallType_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as RadioButton;
+            _currentSelectedWallType = (WallTypes)Convert.ToInt32(button.Tag);
+            _currentEditorAction = EditorActions.Wall;
         }
 
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,18 +72,16 @@ namespace MarkInDeDark.LevelEditor
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                _presentation.SetCellType(e.GetPosition(levelEditorCanvas), _currentSelectedCellType);
-            }
-            else if (e.RightButton == MouseButtonState.Pressed)
-            {
-                _presentation.SetCellType(e.GetPosition(levelEditorCanvas), CellTypes.Buio);
+                switch (_currentEditorAction)
+                {
+                    case EditorActions.Ground:
+                        _presentation.SetGroundType(e.GetPosition(levelEditorCanvas), _currentSelectedCellType);
+                        break;
 
-#warning TODO Mettere una gomma o qualcosa di simile
-                levelEditorCanvas.Cursor = Cursors.AppStarting;
-            }
-            else if (e.RightButton == MouseButtonState.Released)
-            {
-                levelEditorCanvas.Cursor = Cursors.Pen;
+                    case EditorActions.Wall:
+                        _presentation.SetWallType(e.GetPosition(levelEditorCanvas), _currentSelectedWallType);
+                        break;
+                }
             }
         }
 
