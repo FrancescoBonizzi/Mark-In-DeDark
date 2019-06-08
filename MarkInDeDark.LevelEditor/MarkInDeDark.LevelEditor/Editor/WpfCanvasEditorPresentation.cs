@@ -39,11 +39,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                 {
                     var editorCell = _gameGrid.Grid[column, row];
 
-#warning Per quando metterò il testo
-                    var cellContent = new TextBlock
+                    UIElement cellContent = new TextBlock();
+                    if (editorCell.ObjectType != null)
                     {
-
-                    };
+                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value);
+                    }
 
                     var cellBorder = new Border()
                     {
@@ -73,6 +73,22 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             _gameGrid.SetGroundType(row, column, type);
             _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(type);
+        }
+
+        public void SetObjectType(Point where, ObjectTypes type)
+        {
+            int column = (int)where.X / _cellSize;
+            int row = (int)where.Y / _cellSize;
+
+            if (column < 0 || column >= _gameGrid.Columns
+                || row < 0 || row >= _gameGrid.Rows)
+            {
+                return;
+            }
+
+            _gameGrid.SetObjectType(row, column, type);
+            _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+            _canvasCell[column, row].Child = EditorTypesObjectsConverter.Convert(type);
         }
 
         public void ClearHover()

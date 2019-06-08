@@ -43,6 +43,11 @@ namespace MarkInDeDark.LevelEditor.Editor
             Grid[column, row].GroundType = type;
         }
 
+        public void SetObjectType(int row, int column, ObjectTypes type)
+        {
+            Grid[column, row].ObjectType = type;
+        }
+
         public void SetWallType(int row, int column, WallTypes type, WallPositions wallPosition)
         {
             switch (wallPosition)

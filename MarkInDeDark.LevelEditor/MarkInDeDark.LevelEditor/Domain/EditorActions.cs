@@ -3,6 +3,7 @@
     public enum EditorActions
     {
         Ground = 0,
-        Wall = 1
+        Wall = 1,
+        Object = 2
     }
 }

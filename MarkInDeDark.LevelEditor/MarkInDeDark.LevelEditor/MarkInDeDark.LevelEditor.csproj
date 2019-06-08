@@ -65,10 +65,12 @@
     </Compile>
     <Compile Include="Domain\Cell.cs" />
     <Compile Include="Domain\EditorActions.cs" />
+    <Compile Include="Domain\ObjectTypes.cs" />
     <Compile Include="Domain\WallPositions.cs" />
     <Compile Include="Domain\WallTypes.cs" />
     <Compile Include="Domain\GroundTypes.cs" />
     <Compile Include="Editor\ColorExtensions.cs" />
+    <Compile Include="Editor\EditorTypesObjectsConverter.cs" />
     <Compile Include="Editor\EditorTypesColorConverter.cs" />
     <Compile Include="Editor\GameGrid.cs" />
     <Compile Include="Editor\WpfCanvasEditorPresentation.cs" />
@@ -104,7 +106,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <Resource Include="Assets\icons\candle6.png" />
+    <Resource Include="Assets\icons\key.png" />
+    <Resource Include="Assets\icons\win_closed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\player_front_iddle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

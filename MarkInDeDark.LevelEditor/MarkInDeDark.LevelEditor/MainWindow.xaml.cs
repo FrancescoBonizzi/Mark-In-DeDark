@@ -15,11 +15,14 @@ namespace MarkInDeDark.LevelEditor
         private EditorActions _currentEditorAction;
         private GroundTypes _currentSelectedCellType;
         private WallTypes _currentSelectedWallType;
+        private ObjectTypes _currentSelectedObjectType;
 
         public MainWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            WindowState = WindowState.Maximized;
+
             NewGrid();
             btnBuio.IsChecked = true;
         }
@@ -63,6 +66,14 @@ namespace MarkInDeDark.LevelEditor
             _presentation.ClearHover();
         }
 
+        private void BtnObjectType_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as RadioButton;
+            _currentSelectedObjectType = (ObjectTypes)Convert.ToInt32(button.Tag);
+            _currentEditorAction = EditorActions.Object;
+            _presentation.ClearHover();
+        }
+
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
@@ -79,6 +90,10 @@ namespace MarkInDeDark.LevelEditor
                 {
                     case EditorActions.Ground:
                         _presentation.SetGroundType(e.GetPosition(levelEditorCanvas), _currentSelectedCellType);
+                        break;
+
+                    case EditorActions.Object:
+                        _presentation.SetObjectType(e.GetPosition(levelEditorCanvas), _currentSelectedObjectType);
                         break;
                 }
             }
@@ -121,5 +136,11 @@ namespace MarkInDeDark.LevelEditor
         {
             MessageBox.Show("Seleziona un tipo di terreno e premi col mouse su una cella per impostarlo", "Aiutino!");
         }
+
+        private void HelpObjects_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Seleziona un oggetto e premi col mouse su una cella per impostarlo", "Aiutino!");
+        }
+
     }
 }
