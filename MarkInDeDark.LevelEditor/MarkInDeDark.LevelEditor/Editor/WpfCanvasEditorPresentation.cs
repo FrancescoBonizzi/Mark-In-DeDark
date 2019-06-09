@@ -45,7 +45,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     UIElement cellContent = new TextBlock();
                     if (editorCell.ObjectType != null)
                     {
-                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value);
+                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeQuantity);
                     }
 
                     var cellBorder = new Border()
@@ -95,10 +95,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             var canvasCell = _canvasCell[column, row];
             canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
-            canvasCell.Child = EditorTypesObjectsConverter.Convert(type);
-
-            if (type != ObjectTypes.Candele)
-                canvasCell.ToolTip = null;
+            canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantity);
 
             switch (type)
             {
@@ -178,9 +175,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     break;
 
                 case ObjectTypes.Candele:
-                    if (quantity != null)
-                        canvasCell.ToolTip = $"Quantità: {quantity.ToString()}";
-
+             
                     if (previousObjectType != null)
                     {
                         switch (previousObjectType.Value)

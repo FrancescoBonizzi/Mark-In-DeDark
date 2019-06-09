@@ -8,7 +8,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public static class EditorTypesObjectsConverter
     {
-        public static Image Convert(ObjectTypes type)
+        public static Grid Convert(ObjectTypes type, int? quantity)
         {
             string imagePath = string.Empty;
             switch (type)
@@ -30,12 +30,31 @@ namespace MarkInDeDark.LevelEditor.Editor
                     break;
             }
 
-            return new Image()
+            var container = new Grid();
+
+            container.Children.Add(new Image()
             {
                 Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 20
-            };
+                Margin = new System.Windows.Thickness(2)
+            });
+
+            if (quantity != null)
+            {
+                container.Children.Add(new TextBlock()
+                {
+                    Text = quantity.Value.ToString(),
+                    FontFamily = new FontFamily("SEGOE UI"),
+                    FontWeight = System.Windows.FontWeights.SemiBold,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Bottom,
+                    Margin = new System.Windows.Thickness(0),
+                    Padding = new System.Windows.Thickness(0),
+                    FontSize = 10
+                });
+            }
+
+            return container;
         }
     }
 }
