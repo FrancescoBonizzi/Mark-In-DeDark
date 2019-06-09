@@ -69,6 +69,7 @@
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
+                        x:Name="BtnGroundType_Ground"
                         Click="BtnGroundType_Click"
                         Cursor="Hand"
                         GroupName="PulsantiEditor"
@@ -104,15 +105,15 @@
                     </RadioButton>
 
                     <Button
+                        x:Name="helpGround"
                         Width="22"
                         Padding="5,2"
-                        Cursor="Help"
                         VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Content="?"
                         Click="HelpGround_Click"
-                        x:Name="helpGround"/>
-                    
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
@@ -181,14 +182,14 @@
                     </RadioButton>
 
                     <Button
+                        x:Name="helpWalls"
                         Width="22"
                         Padding="5,2"
-                        Cursor="Help"
                         VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Content="?"
                         Click="HelpWalls_Click"
-                        x:Name="helpWalls"/>
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
 
                 </StackPanel>
 
@@ -204,8 +205,8 @@
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
-                        Cursor="Hand"
                         Click="BtnObjectType_Click"
+                        Cursor="Hand"
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="0"
@@ -220,6 +221,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnObjectType_Player"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -239,6 +241,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnObjectType_Key"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -258,6 +261,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnObjectType_Exit"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -296,17 +300,17 @@
                     </RadioButton>
 
                     <Button
+                        x:Name="helpObjects"
                         Width="22"
                         Padding="5,2"
-                        Cursor="Help"
                         VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Content="?"
                         Click="HelpObjects_Click"
-                        x:Name="helpObjects"/>
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
 
                 </StackPanel>
-                
+
             </StackPanel>
 
         </ToolBar>

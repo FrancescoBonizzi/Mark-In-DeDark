@@ -32,7 +32,11 @@ namespace MarkInDeDark.LevelEditor
         private void NewGrid()
         {
             _gameGrid = new GameGrid(25, 45);
-            _presentation = new WpfCanvasEditorPresentation(_gameGrid, levelEditorCanvas, 30);
+            _presentation = new WpfCanvasEditorPresentation(
+                this, 
+                _gameGrid, 
+                levelEditorCanvas, 
+                30);
         }
 
         private void BtnNuovo_Click(object sender, RoutedEventArgs e)
@@ -94,6 +98,15 @@ namespace MarkInDeDark.LevelEditor
 
                     case EditorActions.Object:
                         _presentation.SetObjectType(e.GetPosition(levelEditorCanvas), _currentSelectedObjectType);
+                        if (_currentSelectedObjectType == ObjectTypes.Chiave
+                            || _currentSelectedObjectType == ObjectTypes.Giocatore
+                            || _currentSelectedObjectType == ObjectTypes.Uscita)
+                        {
+                            _currentEditorAction = EditorActions.Ground;
+                            _currentSelectedCellType = GroundTypes.Terra;
+                            BtnGroundType_Ground.IsChecked = true;
+                        }
+
                         break;
                 }
             }

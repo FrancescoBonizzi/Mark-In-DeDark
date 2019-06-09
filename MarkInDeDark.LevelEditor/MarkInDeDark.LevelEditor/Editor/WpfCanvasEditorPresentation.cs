@@ -9,12 +9,14 @@ namespace MarkInDeDark.LevelEditor.Editor
     {
         private readonly GameGrid _gameGrid;
         private readonly Canvas _canvas;
-        private readonly int _cellSize;
+        private readonly MainWindow _window;
 
+        private readonly int _cellSize;
         private Border[,] _canvasCell;
         private (int Column, int Row)? _lastHoveredCell;
 
         public WpfCanvasEditorPresentation(
+            MainWindow window,
             GameGrid gameGrid,
             Canvas canvas,
             int cellSize)
@@ -22,6 +24,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             _gameGrid = gameGrid;
             _cellSize = cellSize;
             _canvas = canvas;
+            _window = window;
 
             DrawAll();
         }
@@ -86,9 +89,48 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return;
             }
 
+            var previousObjectType = _gameGrid.Grid[column, row].ObjectType;
+
             _gameGrid.SetObjectType(row, column, type);
             _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
             _canvasCell[column, row].Child = EditorTypesObjectsConverter.Convert(type);
+
+            switch (type)
+            {
+                case ObjectTypes.Cancella:
+
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+                        }
+                    }
+
+                    break;
+
+                case ObjectTypes.Giocatore:
+                    _window.BtnObjectType_Player.IsEnabled = false;
+                    break;
+
+                case ObjectTypes.Chiave:
+                    _window.BtnObjectType_Key.IsEnabled = false;
+                    break;
+
+                case ObjectTypes.Uscita:
+                    _window.BtnObjectType_Exit.IsEnabled = false;
+                    break;
+            }
         }
 
         public void ClearHover()
