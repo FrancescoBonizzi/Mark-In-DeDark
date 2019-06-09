@@ -97,7 +97,30 @@ namespace MarkInDeDark.LevelEditor
                         break;
 
                     case EditorActions.Object:
-                        _presentation.SetObjectType(e.GetPosition(levelEditorCanvas), _currentSelectedObjectType);
+
+                        var mousePosition = e.GetPosition(levelEditorCanvas);
+
+                        int? quantity = null;
+                        if (_currentSelectedObjectType == ObjectTypes.Candele)
+                        {
+                            var inputDialog = new InputDialog("Inserimento nuovo oggetto", "Quante candele deve avere il pacco di candele?");
+                            if (inputDialog.ShowDialog() == false)
+                                return;
+
+                            if (!int.TryParse(inputDialog.InputString, out int inputNumber))
+                            {
+                                MessageBox.Show(
+                                    $"'{inputDialog.InputString}' non è un numero :-)",
+                                    "Erroraccio!",
+                                    MessageBoxButton.OK, 
+                                    MessageBoxImage.Error);
+                            }
+
+                            quantity = inputNumber;
+                        }
+
+                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantity);
+
                         if (_currentSelectedObjectType == ObjectTypes.Chiave
                             || _currentSelectedObjectType == ObjectTypes.Giocatore
                             || _currentSelectedObjectType == ObjectTypes.Uscita)

@@ -78,7 +78,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(type);
         }
 
-        public void SetObjectType(Point where, ObjectTypes type)
+        public void SetObjectType(Point where, ObjectTypes type, int? quantity)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;
@@ -91,9 +91,14 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             var previousObjectType = _gameGrid.Grid[column, row].ObjectType;
 
-            _gameGrid.SetObjectType(row, column, type);
-            _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
-            _canvasCell[column, row].Child = EditorTypesObjectsConverter.Convert(type);
+            _gameGrid.SetObjectType(row, column, type, quantity);
+
+            var canvasCell = _canvasCell[column, row];
+            canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+            canvasCell.Child = EditorTypesObjectsConverter.Convert(type);
+
+            if (type != ObjectTypes.Candele)
+                canvasCell.ToolTip = null;
 
             switch (type)
             {
@@ -121,14 +126,79 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case ObjectTypes.Giocatore:
                     _window.BtnObjectType_Player.IsEnabled = false;
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+                        }
+                    }
+
                     break;
 
                 case ObjectTypes.Chiave:
                     _window.BtnObjectType_Key.IsEnabled = false;
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+                        }
+                    }
+
                     break;
 
                 case ObjectTypes.Uscita:
                     _window.BtnObjectType_Exit.IsEnabled = false;
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = true;
+                                break;
+                        }
+                    }
+                    break;
+
+                case ObjectTypes.Candele:
+                    if (quantity != null)
+                        canvasCell.ToolTip = $"Quantità: {quantity.ToString()}";
+
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+                        }
+                    }
+
                     break;
             }
         }
