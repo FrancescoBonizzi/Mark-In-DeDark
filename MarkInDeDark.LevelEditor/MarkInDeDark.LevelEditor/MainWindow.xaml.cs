@@ -175,7 +175,11 @@ namespace MarkInDeDark.LevelEditor
 
         private void HelpObjects_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Seleziona un oggetto e premi col mouse su una cella per impostarlo", "Aiutino!");
+            MessageBox.Show(
+                "- Seleziona un oggetto e premi col mouse su una cella per impostarlo" +
+                $"{Environment.NewLine}" +
+                "- Se ti posizioni col mouse su una cella, ti vengono date informazioni aggiuntive come quante candele hai impostato",
+                "Aiutino!");
         }
 
     }
