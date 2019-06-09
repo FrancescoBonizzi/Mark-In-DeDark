@@ -202,5 +202,20 @@ namespace MarkInDeDark.LevelEditor
         {
             MessageBox.Show("Seleziona un nemico e premi col mouse su una cella per impostarlo", "Aiutino!");
         }
+
+        private void BtnProvaInGame_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSalvaCopia_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnCambiaSettingsGioco_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

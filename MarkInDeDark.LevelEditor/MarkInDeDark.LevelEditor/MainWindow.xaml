@@ -16,17 +16,37 @@
                 <MenuItem
                     x:Name="btnNuovo"
                     Click="BtnNuovo_Click"
-                    Header="Nuovo" />
+                    Header="Nuovo"
+                    IsEnabled="False" />
                 <Separator />
                 <MenuItem
                     x:Name="btnApri"
                     Click="BtnApri_Click"
-                    Header="Apri" />
+                    Header="Apri"
+                    IsEnabled="False" />
                 <Separator />
                 <MenuItem
                     x:Name="btnSalva"
                     Click="BtnSalva_Click"
-                    Header="Salva" />
+                    Header="Salva"
+                    IsEnabled="False" />
+                <MenuItem
+                    x:Name="btnSalvaCopia"
+                    Click="BtnSalvaCopia_Click"
+                    Header="Salva una copia"
+                    IsEnabled="False" />
+            </MenuItem>
+            <MenuItem Header="Strumenti">
+                <MenuItem
+                    x:Name="btnProvaInGame"
+                    Click="BtnProvaInGame_Click"
+                    Header="Prova in game"
+                    IsEnabled="False" />
+                <MenuItem
+                    x:Name="btnCambiaSettingsGioco"
+                    Click="BtnCambiaSettingsGioco_Click"
+                    Header="Cambia impostazioni di gioco"
+                    IsEnabled="False" />
             </MenuItem>
         </Menu>
 
@@ -54,7 +74,7 @@
                         Content="?"
                         Cursor="Help"
                         FontWeight="Bold" />
-                    
+
                     <RadioButton
                         x:Name="btnBuio"
                         Width="100"
@@ -76,10 +96,10 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnGroundType_Ground"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
-                        x:Name="BtnGroundType_Ground"
                         Click="BtnGroundType_Click"
                         Cursor="Hand"
                         GroupName="PulsantiEditor"
@@ -210,7 +230,7 @@
                         Content="?"
                         Cursor="Help"
                         FontWeight="Bold" />
-                    
+
                     <RadioButton
                         Width="100"
                         Margin="10,0"
@@ -407,8 +427,8 @@
                             <TextBlock Padding="5,2" Text="Taurus" />
                         </StackPanel>
                     </RadioButton>
-                    
-                    <!-- TODO Aggiungere Wolf -->
+
+                    <!--  TODO Aggiungere Wolf  -->
 
                 </StackPanel>
 
