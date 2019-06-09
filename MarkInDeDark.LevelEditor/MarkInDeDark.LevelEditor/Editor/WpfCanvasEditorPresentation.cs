@@ -45,7 +45,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     UIElement cellContent = new TextBlock();
                     if (editorCell.ObjectType != null)
                     {
-                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeQuantity);
+                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeQuantityInfo);
                     }
 
                     var cellBorder = new Border()
@@ -78,7 +78,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(type);
         }
 
-        public void SetObjectType(Point where, ObjectTypes type, int? quantity)
+        public void SetObjectType(Point where, ObjectTypes type, string quantityInfo)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;
@@ -91,11 +91,11 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             var previousObjectType = _gameGrid.Grid[column, row].ObjectType;
 
-            _gameGrid.SetObjectType(row, column, type, quantity);
+            _gameGrid.SetObjectType(row, column, type, quantityInfo);
 
             var canvasCell = _canvasCell[column, row];
             canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
-            canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantity);
+            canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantityInfo);
 
             switch (type)
             {
@@ -116,6 +116,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                             case ObjectTypes.Uscita:
                                 _window.BtnObjectType_Exit.IsEnabled = true;
                                 break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = true;
+                                break;
                         }
                     }
 
@@ -133,6 +137,10 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                             case ObjectTypes.Uscita:
                                 _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = true;
                                 break;
                         }
                     }
@@ -152,6 +160,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                             case ObjectTypes.Uscita:
                                 _window.BtnObjectType_Exit.IsEnabled = true;
                                 break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = true;
+                                break;
                         }
                     }
 
@@ -170,10 +182,38 @@ namespace MarkInDeDark.LevelEditor.Editor
                             case ObjectTypes.Chiave:
                                 _window.BtnObjectType_Key.IsEnabled = true;
                                 break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = true;
+                                break;
                         }
                     }
                     break;
 
+                case ObjectTypes.Goblin:
+                    _window.BtnObjectType_Goblin.IsEnabled = false;
+                    if (previousObjectType != null)
+                    {
+                        switch (previousObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+                        }
+                    }
+                    break;
+
+                case ObjectTypes.Zombie:
+                case ObjectTypes.Scheletro:
+                case ObjectTypes.Taurus:
                 case ObjectTypes.Candele:
              
                     if (previousObjectType != null)
@@ -190,6 +230,10 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                             case ObjectTypes.Uscita:
                                 _window.BtnObjectType_Exit.IsEnabled = true;
+                                break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = true;
                                 break;
                         }
                     }

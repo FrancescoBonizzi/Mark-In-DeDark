@@ -121,5 +121,13 @@
   <ItemGroup>
     <Resource Include="Assets\icons\player_front_iddle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\zombie_front_walking_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\goblin_front_dying_1.png" />
+    <Resource Include="Assets\icons\skeleton_front_iddle.png" />
+    <Resource Include="Assets\icons\taurus_front_iddle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

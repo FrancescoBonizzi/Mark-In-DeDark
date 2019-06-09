@@ -8,7 +8,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public static class EditorTypesObjectsConverter
     {
-        public static Grid Convert(ObjectTypes type, int? quantity)
+        public static Grid Convert(ObjectTypes type, string quantityInfo)
         {
             string imagePath = string.Empty;
             switch (type)
@@ -28,6 +28,22 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Candele:
                     imagePath = "Assets/icons/candle6.png";
                     break;
+
+                case ObjectTypes.Zombie:
+                    imagePath = "Assets/icons/zombie_front_walking_1.png";
+                    break;
+
+                case ObjectTypes.Scheletro:
+                    imagePath = "Assets/icons/skeleton_front_iddle.png";
+                    break;
+
+                case ObjectTypes.Goblin:
+                    imagePath = "Assets/icons/goblin_front_dying_1.png";
+                    break;
+
+                case ObjectTypes.Taurus:
+                    imagePath = "Assets/icons/taurus_front_iddle.png";
+                    break;
             }
 
             var container = new Grid();
@@ -38,11 +54,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                 Margin = new System.Windows.Thickness(2)
             });
 
-            if (quantity != null)
+            if (quantityInfo != null)
             {
                 container.Children.Add(new TextBlock()
                 {
-                    Text = quantity.Value.ToString(),
+                    Text = quantityInfo,
                     FontFamily = new FontFamily("SEGOE UI"),
                     FontWeight = System.Windows.FontWeights.SemiBold,
                     Foreground = new SolidColorBrush(Colors.White),

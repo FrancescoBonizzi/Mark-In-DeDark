@@ -311,6 +311,107 @@
 
                 </StackPanel>
 
+                <StackPanel Margin="0,5" Orientation="Horizontal">
+
+                    <TextBlock
+                        Width="60"
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        Text="Nemici: " />
+
+                    <Button
+                        Width="22"
+                        Padding="5,2"
+                        VerticalAlignment="Center"
+                        Click="HelpEnemies_Click"
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
+
+                    <RadioButton
+                        x:Name="BtnObjectType_Zombie"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="5"
+                        ToolTip="Imposta la posizione dello zombie">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/zombie_front_walking_1.png" />
+                            <TextBlock Padding="5,2" Text="Zombie" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_Skeleton"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="6"
+                        ToolTip="Imposta la posizione dello scheletro">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/skeleton_front_iddle.png" />
+                            <TextBlock Padding="5,2" Text="Scheletro" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_Goblin"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="7"
+                        ToolTip="Imposta la posizione dello scheletro">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/goblin_front_dying_1.png" />
+                            <TextBlock Padding="5,2" Text="Goblin" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_Taurus"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="8"
+                        ToolTip="Imposta la posizione del taurus">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/taurus_front_iddle.png" />
+                            <TextBlock Padding="5,2" Text="Taurus" />
+                        </StackPanel>
+                    </RadioButton>
+                    
+                    <!-- TODO Aggiungere Wolf -->
+
+                </StackPanel>
+
             </StackPanel>
 
         </ToolBar>

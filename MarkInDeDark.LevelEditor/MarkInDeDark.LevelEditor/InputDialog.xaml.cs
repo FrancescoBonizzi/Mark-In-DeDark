@@ -8,11 +8,18 @@ namespace MarkInDeDark.LevelEditor
 
         public InputDialog(
             string title,
-            string text)
+            string text,
+            string preinputString = null)
         {
             InitializeComponent();
             Title = title;
             txtText.Text = text;
+    
+            if (preinputString != null)
+            {
+                txtInput.Text = preinputString;
+            }
+
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 

@@ -4,7 +4,7 @@
     {
         public GroundTypes GroundType { get; set; }
         public ObjectTypes? ObjectType { get; set; }
-        public int? ObjectTypeQuantity { get; set; }
+        public string ObjectTypeQuantityInfo { get; set; }
         public WallTypes Top { get; set; }
         public WallTypes Right { get; set; }
         public WallTypes Bottom { get; set; }

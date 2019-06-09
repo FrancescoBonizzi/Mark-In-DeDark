@@ -33,9 +33,9 @@ namespace MarkInDeDark.LevelEditor
         {
             _gameGrid = new GameGrid(25, 45);
             _presentation = new WpfCanvasEditorPresentation(
-                this, 
-                _gameGrid, 
-                levelEditorCanvas, 
+                this,
+                _gameGrid,
+                levelEditorCanvas,
                 30);
         }
 
@@ -100,30 +100,50 @@ namespace MarkInDeDark.LevelEditor
 
                         var mousePosition = e.GetPosition(levelEditorCanvas);
 
-                        int? quantity = null;
+                        string quantityInfo = null;
                         if (_currentSelectedObjectType == ObjectTypes.Candele)
                         {
                             var inputDialog = new InputDialog("Inserimento nuovo oggetto", "Quante candele deve avere il pacco di candele?");
                             if (inputDialog.ShowDialog() == false)
+                            {
                                 return;
+                            }
 
                             if (!int.TryParse(inputDialog.InputString, out int inputNumber))
                             {
                                 MessageBox.Show(
                                     $"'{inputDialog.InputString}' non è un numero :-)",
                                     "Erroraccio!",
-                                    MessageBoxButton.OK, 
+                                    MessageBoxButton.OK,
                                     MessageBoxImage.Error);
                             }
 
-                            quantity = inputNumber;
+                            quantityInfo = inputNumber.ToString();
+                        }
+                        else if (_currentSelectedObjectType == ObjectTypes.Zombie
+                            || _currentSelectedObjectType == ObjectTypes.Scheletro
+                            || _currentSelectedObjectType == ObjectTypes.Taurus)
+                        {
+                            string pathTemplate = $"{_currentSelectedObjectType.ToString().ToUpper()[0]}-*-*";
+
+                            var inputDialog = new InputDialog(
+                                $"Inserimento nuovo {_currentSelectedObjectType.ToString()}",
+                                "Inserisci la stringa per identificare il suo path:",
+                                pathTemplate);
+                            if (inputDialog.ShowDialog() == false)
+                            {
+                                return;
+                            }
+
+                            quantityInfo = inputDialog.InputString;
                         }
 
-                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantity);
+                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo);
 
                         if (_currentSelectedObjectType == ObjectTypes.Chiave
                             || _currentSelectedObjectType == ObjectTypes.Giocatore
-                            || _currentSelectedObjectType == ObjectTypes.Uscita)
+                            || _currentSelectedObjectType == ObjectTypes.Uscita
+                            || _currentSelectedObjectType == ObjectTypes.Goblin)
                         {
                             _currentEditorAction = EditorActions.Ground;
                             _currentSelectedCellType = GroundTypes.Terra;
@@ -178,5 +198,9 @@ namespace MarkInDeDark.LevelEditor
             MessageBox.Show("Seleziona un oggetto e premi col mouse su una cella per impostarlo", "Aiutino!");
         }
 
+        private void HelpEnemies_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Seleziona un nemico e premi col mouse su una cella per impostarlo", "Aiutino!");
+        }
     }
 }

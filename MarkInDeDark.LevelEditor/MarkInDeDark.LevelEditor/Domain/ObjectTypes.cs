@@ -6,6 +6,11 @@
         Giocatore = 1,
         Chiave = 2,
         Uscita = 3,
-        Candele = 4
+        Candele = 4,
+        Zombie = 5,
+        Scheletro = 6,
+        Goblin = 7,
+        Taurus = 8,
+        Werewolf = 9
     }
 }

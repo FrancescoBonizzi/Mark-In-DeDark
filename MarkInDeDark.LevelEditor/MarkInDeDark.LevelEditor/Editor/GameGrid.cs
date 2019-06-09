@@ -43,10 +43,10 @@ namespace MarkInDeDark.LevelEditor.Editor
             Grid[column, row].GroundType = type;
         }
 
-        public void SetObjectType(int row, int column, ObjectTypes type, int? quantity = null)
+        public void SetObjectType(int row, int column, ObjectTypes type, string quantityInfo = null)
         {
             Grid[column, row].ObjectType = type;
-            Grid[column, row].ObjectTypeQuantity = quantity;
+            Grid[column, row].ObjectTypeQuantityInfo = quantityInfo;
         }
 
         public void SetWallType(int row, int column, WallTypes type, WallPositions wallPosition)
