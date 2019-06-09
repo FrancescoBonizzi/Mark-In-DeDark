@@ -45,6 +45,16 @@
                         VerticalAlignment="Center"
                         Text="Terreno: " />
 
+                    <Button
+                        x:Name="helpGround"
+                        Width="22"
+                        Padding="5,2"
+                        VerticalAlignment="Center"
+                        Click="HelpGround_Click"
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
+                    
                     <RadioButton
                         x:Name="btnBuio"
                         Width="100"
@@ -104,16 +114,6 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <Button
-                        x:Name="helpGround"
-                        Width="22"
-                        Padding="5,2"
-                        VerticalAlignment="Center"
-                        Click="HelpGround_Click"
-                        Content="?"
-                        Cursor="Help"
-                        FontWeight="Bold" />
-
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
@@ -123,6 +123,16 @@
                         Margin="4,0"
                         VerticalAlignment="Center"
                         Text="Muri: " />
+
+                    <Button
+                        x:Name="helpWalls"
+                        Width="22"
+                        Padding="5,2"
+                        VerticalAlignment="Center"
+                        Click="HelpWalls_Click"
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
 
                     <RadioButton
                         Width="100"
@@ -181,16 +191,6 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <Button
-                        x:Name="helpWalls"
-                        Width="22"
-                        Padding="5,2"
-                        VerticalAlignment="Center"
-                        Click="HelpWalls_Click"
-                        Content="?"
-                        Cursor="Help"
-                        FontWeight="Bold" />
-
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
@@ -201,6 +201,16 @@
                         VerticalAlignment="Center"
                         Text="Oggetti: " />
 
+                    <Button
+                        x:Name="helpObjects"
+                        Width="22"
+                        Padding="5,2"
+                        VerticalAlignment="Center"
+                        Click="HelpObjects_Click"
+                        Content="?"
+                        Cursor="Help"
+                        FontWeight="Bold" />
+                    
                     <RadioButton
                         Width="100"
                         Margin="10,0"
@@ -298,16 +308,6 @@
                             <TextBlock Padding="5,2" Text="Candele" />
                         </StackPanel>
                     </RadioButton>
-
-                    <Button
-                        x:Name="helpObjects"
-                        Width="22"
-                        Padding="5,2"
-                        VerticalAlignment="Center"
-                        Click="HelpObjects_Click"
-                        Content="?"
-                        Cursor="Help"
-                        FontWeight="Bold" />
 
                 </StackPanel>
 
