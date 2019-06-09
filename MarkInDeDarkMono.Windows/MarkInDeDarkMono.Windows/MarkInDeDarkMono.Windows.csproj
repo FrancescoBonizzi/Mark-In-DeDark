@@ -112,6 +112,10 @@
       <Link>Content\Levels\4.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\Prova.txt">
+      <Link>Content\Levels\Prova.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\Levels\SuperSimple.txt">
       <Link>Content\Levels\SuperSimple.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -112,7 +112,7 @@ namespace MarkInDeDarkMono.Levels
                         Rotation = Numbers.RandomBetween(0, 360f),
                         Origin = _dirtySprite.SpriteCenter
                     });
-            }
+                }
             }
 
             _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader);

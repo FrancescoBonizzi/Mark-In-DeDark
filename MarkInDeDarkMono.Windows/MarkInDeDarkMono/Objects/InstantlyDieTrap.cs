@@ -19,19 +19,16 @@ namespace MarkInDeDarkMono.Objects
             IEnumerable<Character> affectedCharacters,
             Rectangle collisionRectangle)
             : base(
-                  collisionRectangle.WithTolerance(60),
-                  affectedCharacters,
-                  (character, elapsed) => character.DieForTrap(
-                      new Vector2(collisionRectangle.X, collisionRectangle.Y)),
-                  false)
+                  triggerCollisionRectangle: collisionRectangle.WithTolerance(100),
+                  affectedCharacters: affectedCharacters,
+                  onTrigger: (character, elapsed) => character.DieForTrap(collisionRectangle.Center.ToVector2()),
+                  shouldFireOnce: false)
         {
             _trapSprite = assetsLoader.Sprites["trap_instantly_die"];
             _drawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(
-                    collisionRectangle.X, 
-                    collisionRectangle.Y),
-                Origin = collisionRectangle.Center.ToVector2()
+                Position = collisionRectangle.Center.ToVector2(),
+                Origin = _trapSprite.SpriteCenter
             };
         }
 

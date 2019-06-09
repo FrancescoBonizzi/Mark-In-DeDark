@@ -73,10 +73,8 @@ namespace MarkInDeDarkMono.Objects
             _breakableTrapSprite = assetsLoader.Sprites["trap_breakable"];
             _drawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(
-                   triggerCollisionRectangle.X,
-                   triggerCollisionRectangle.Y),
-                Origin = triggerCollisionRectangle.Center.ToVector2()
+                Position = triggerCollisionRectangle.Center.ToVector2(),
+                Origin = _breakableTrapSprite.SpriteCenter
             };
         }
 
