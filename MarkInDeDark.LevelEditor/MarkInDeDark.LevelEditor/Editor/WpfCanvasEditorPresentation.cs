@@ -97,6 +97,8 @@ namespace MarkInDeDark.LevelEditor.Editor
             canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
             canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantityInfo);
 
+            // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
+            // una volta inserto l'oggetto
             switch (type)
             {
                 case ObjectTypes.Cancella:
@@ -215,7 +217,9 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Scheletro:
                 case ObjectTypes.Taurus:
                 case ObjectTypes.Candele:
-             
+                case ObjectTypes.TrappolaMorteIstantanea:
+                case ObjectTypes.TrappolaTemporizzata:
+
                     if (previousObjectType != null)
                     {
                         switch (previousObjectType.Value)

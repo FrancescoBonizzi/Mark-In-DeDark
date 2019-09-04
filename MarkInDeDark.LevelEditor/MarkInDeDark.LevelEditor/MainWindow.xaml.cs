@@ -140,6 +140,8 @@ namespace MarkInDeDark.LevelEditor
 
                         _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo);
 
+                        // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
+                        // una volta inserto l'oggetto
                         if (_currentSelectedObjectType == ObjectTypes.Chiave
                             || _currentSelectedObjectType == ObjectTypes.Giocatore
                             || _currentSelectedObjectType == ObjectTypes.Uscita

@@ -129,5 +129,9 @@
     <Resource Include="Assets\icons\skeleton_front_iddle.png" />
     <Resource Include="Assets\icons\taurus_front_iddle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\trap_breakable.png" />
+    <Resource Include="Assets\icons\trap_instantly_die.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

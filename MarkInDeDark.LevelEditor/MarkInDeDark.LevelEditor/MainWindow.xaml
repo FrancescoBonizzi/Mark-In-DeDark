@@ -7,6 +7,7 @@
     Title="Mark in DeDark - Level editor"
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="CanMinimize"
+    Width="1000"
     mc:Ignorable="d">
 
     <DockPanel>
@@ -428,7 +429,49 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <!--  TODO Aggiungere Wolf  -->
+                    <!--  TODO Aggiungere Wolf con tag 9 -->
+
+                    <RadioButton
+                        x:Name="BtnObjectType_TrappolaMorteIstantanea"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="10"
+                        ToolTip="Imposta una trappola a morte istantanea">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/trap_instantly_die.png" />
+                            <TextBlock Padding="5,2" Text="Trappola ist." />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_TrappolaTemporizzata"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="11"
+                        ToolTip="Imposta una trappola con botola">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/trap_breakable.png" />
+                            <TextBlock Padding="5,2" Text="Trappola dt" />
+                        </StackPanel>
+                    </RadioButton>
+                    
+                  
 
                 </StackPanel>
 
