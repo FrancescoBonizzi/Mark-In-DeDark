@@ -4,6 +4,8 @@
     {
         Buio = 0,
         Terra = 1,
-        Macerie = 2
+        Macerie = 2,
+        TrappolaMorteIstantanea = 3,
+        TrappolaTemporizzata = 4
     }
 }

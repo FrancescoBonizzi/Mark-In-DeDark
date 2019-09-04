@@ -44,14 +44,6 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Taurus:
                     imagePath = "Assets/icons/taurus_front_iddle.png";
                     break;
-
-                case ObjectTypes.TrappolaMorteIstantanea:
-                    imagePath = "Assets/icons/trap_instantly_die.png";
-                    break;
-
-                case ObjectTypes.TrappolaTemporizzata:
-                    imagePath = "Assets/icons/trap_breakable.png";
-                    break;
             }
 
             var container = new Grid();

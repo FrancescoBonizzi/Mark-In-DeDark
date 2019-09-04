@@ -18,6 +18,12 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case GroundTypes.Macerie:
                     return new SolidColorBrush(Colors.White);
+
+                case GroundTypes.TrappolaMorteIstantanea:
+                    return new SolidColorBrush(Colors.Fuchsia);
+
+                case GroundTypes.TrappolaTemporizzata:
+                    return new SolidColorBrush(Colors.Aqua);
             }
 
             throw new NotImplementedException();

@@ -135,6 +135,44 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="3"
+                        ToolTip="Imposta una trappola a morte istantanea">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Fuchsia" />
+                            <TextBlock Padding="5,2" Text="Trappola ist." />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="4"
+                        ToolTip="Imposta una trappola con botola">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Aqua" />
+                            <TextBlock Padding="5,2" Text="Trappola dt" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
@@ -430,48 +468,6 @@
                     </RadioButton>
 
                     <!--  TODO Aggiungere Wolf con tag 9 -->
-
-                    <RadioButton
-                        x:Name="BtnObjectType_TrappolaMorteIstantanea"
-                        Width="100"
-                        Margin="10,0"
-                        Padding="5,2"
-                        Click="BtnObjectType_Click"
-                        Cursor="Hand"
-                        GroupName="PulsantiEditor"
-                        Style="{StaticResource {x:Type ToggleButton}}"
-                        Tag="10"
-                        ToolTip="Imposta una trappola a morte istantanea">
-                        <StackPanel Orientation="Horizontal">
-                            <Image
-                                Width="20"
-                                Height="20"
-                                Source="Assets/icons/trap_instantly_die.png" />
-                            <TextBlock Padding="5,2" Text="Trappola ist." />
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton
-                        x:Name="BtnObjectType_TrappolaTemporizzata"
-                        Width="100"
-                        Margin="10,0"
-                        Padding="5,2"
-                        Click="BtnObjectType_Click"
-                        Cursor="Hand"
-                        GroupName="PulsantiEditor"
-                        Style="{StaticResource {x:Type ToggleButton}}"
-                        Tag="11"
-                        ToolTip="Imposta una trappola con botola">
-                        <StackPanel Orientation="Horizontal">
-                            <Image
-                                Width="20"
-                                Height="20"
-                                Source="Assets/icons/trap_breakable.png" />
-                            <TextBlock Padding="5,2" Text="Trappola dt" />
-                        </StackPanel>
-                    </RadioButton>
-                    
-                  
 
                 </StackPanel>
 

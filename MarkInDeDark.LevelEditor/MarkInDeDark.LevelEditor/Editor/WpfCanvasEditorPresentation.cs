@@ -90,11 +90,18 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
 
             var previousObjectType = _gameGrid.Grid[column, row].ObjectType;
+            var previousGroundType = _gameGrid.Grid[column, row].GroundType;
 
             _gameGrid.SetObjectType(row, column, type, quantityInfo);
 
             var canvasCell = _canvasCell[column, row];
-            canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+            
+            // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
+            if (previousGroundType == GroundTypes.Buio || previousGroundType == GroundTypes.Macerie)
+            {
+                canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+            }
+            
             canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantityInfo);
 
             // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
@@ -217,8 +224,6 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Scheletro:
                 case ObjectTypes.Taurus:
                 case ObjectTypes.Candele:
-                case ObjectTypes.TrappolaMorteIstantanea:
-                case ObjectTypes.TrappolaTemporizzata:
 
                     if (previousObjectType != null)
                     {
