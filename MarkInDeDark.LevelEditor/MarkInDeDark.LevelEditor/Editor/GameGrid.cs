@@ -1,4 +1,6 @@
 ﻿using MarkInDeDark.LevelEditor.Domain;
+using MarkInDeDark.LevelEditor.Exceptions;
+using System;
 
 namespace MarkInDeDark.LevelEditor.Editor
 {

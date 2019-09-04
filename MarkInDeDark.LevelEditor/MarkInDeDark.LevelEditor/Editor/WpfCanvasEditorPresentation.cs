@@ -59,6 +59,15 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                     _canvasCell[column, row] = cellBorder;
                     _canvas.Children.Add(cellBorder);
+
+                    if (editorCell.Top != WallTypes.Niente)
+                        SetWallType(editorCell.Top, WallPositions.Top, row, column);
+                    if (editorCell.Right != WallTypes.Niente)
+                        SetWallType(editorCell.Right, WallPositions.Right, row, column);
+                    if (editorCell.Bottom != WallTypes.Niente)
+                        SetWallType(editorCell.Bottom, WallPositions.Bottom, row, column);
+                    if (editorCell.Left != WallTypes.Fragile)
+                        SetWallType(editorCell.Left, WallPositions.Left, row, column);
                 }
             }
         }
@@ -95,13 +104,13 @@ namespace MarkInDeDark.LevelEditor.Editor
             _gameGrid.SetObjectType(row, column, type, quantityInfo);
 
             var canvasCell = _canvasCell[column, row];
-            
+
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
             if (previousGroundType == GroundTypes.Buio || previousGroundType == GroundTypes.Macerie)
             {
                 canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
             }
-            
+
             canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantityInfo);
 
             // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
@@ -296,6 +305,15 @@ namespace MarkInDeDark.LevelEditor.Editor
             int column = _lastHoveredCell.Value.Column;
             int row = _lastHoveredCell.Value.Row;
 
+            SetWallType(type, wallPosition, row, column);
+        }
+
+        public void SetWallType(
+            WallTypes type,
+            WallPositions wallPosition,
+            int row,
+            int column)
+        {
             _gameGrid.SetWallType(row, column, type, wallPosition);
 
             var currentBorderThickness = _canvasCell[column, row].BorderThickness;

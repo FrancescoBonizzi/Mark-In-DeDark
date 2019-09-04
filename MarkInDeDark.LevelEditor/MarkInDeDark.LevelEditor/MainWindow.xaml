@@ -17,14 +17,12 @@
                 <MenuItem
                     x:Name="btnNuovo"
                     Click="BtnNuovo_Click"
-                    Header="Nuovo"
-                    IsEnabled="False" />
+                    Header="Nuovo" />
                 <Separator />
                 <MenuItem
                     x:Name="btnApri"
                     Click="BtnApri_Click"
-                    Header="Apri"
-                    IsEnabled="False" />
+                    Header="Apri" />
                 <Separator />
                 <MenuItem
                     x:Name="btnSalva"

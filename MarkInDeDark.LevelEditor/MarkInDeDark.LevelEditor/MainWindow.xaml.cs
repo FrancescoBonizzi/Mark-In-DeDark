@@ -1,6 +1,9 @@
 ﻿using MarkInDeDark.LevelEditor.Domain;
 using MarkInDeDark.LevelEditor.Editor;
+using MarkInDeDark.LevelEditor.Settings;
+using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,36 +20,74 @@ namespace MarkInDeDark.LevelEditor
         private WallTypes _currentSelectedWallType;
         private ObjectTypes _currentSelectedObjectType;
 
+        private const int _gridRows = 25;
+        private const int _gridCols = 45;
+        private const int _cellSize = 30;
+
+        private readonly ISettingsRepository _settingsRepository;
+
         public MainWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             WindowState = WindowState.Maximized;
 
+            _settingsRepository = new FileSettingsRepository("settings.txt");
+
             NewGrid();
             btnBuio.IsChecked = true;
         }
 
-#warning Lo stile dei pulsanti dev'essere centralizzato in qualche modo
-
         private void NewGrid()
         {
-            _gameGrid = new GameGrid(25, 45);
+            _gameGrid = new GameGrid(_gridRows, _gridCols);
             _presentation = new WpfCanvasEditorPresentation(
                 this,
                 _gameGrid,
                 levelEditorCanvas,
-                30);
+                _cellSize);
         }
 
         private void BtnNuovo_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(
+                messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
+                caption: "Proseguire?",
+                button: MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                NewGrid();
+            }
         }
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var openFileStartingFolder = _settingsRepository.GetValue(SettingsKeys.OpenFileStartingFolder) ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "Mark in DeDark files (*.mark)|*.mark",
+                InitialDirectory = openFileStartingFolder
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _settingsRepository.SetValue(SettingsKeys.OpenFileStartingFolder, Path.GetDirectoryName(openFileDialog.FileName));
+
+                var levelContent = File.ReadAllText(openFileDialog.FileName);
+                _gameGrid = new GameGrid(_gridRows, _gridCols);
+
+                var gameGridLoader = new GameGridLoader(
+                    levelContent,
+                    _gameGrid);
+                gameGridLoader.LoadGrid();
+
+                _presentation = new WpfCanvasEditorPresentation(
+                    this,
+                    _gameGrid,
+                    levelEditorCanvas,
+                    _cellSize);
+            }
         }
 
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
