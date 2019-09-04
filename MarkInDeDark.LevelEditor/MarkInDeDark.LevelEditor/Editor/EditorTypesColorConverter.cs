@@ -24,6 +24,9 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case GroundTypes.TrappolaTemporizzata:
                     return new SolidColorBrush(Colors.Aqua);
+
+                case GroundTypes.TriggerGoblin:
+                    return new SolidColorBrush(Colors.Lime);
             }
 
             throw new NotImplementedException();

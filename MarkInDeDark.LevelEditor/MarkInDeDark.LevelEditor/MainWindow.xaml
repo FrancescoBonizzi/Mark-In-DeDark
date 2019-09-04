@@ -92,7 +92,7 @@
                                 Width="10"
                                 Height="10"
                                 Fill="Black" />
-                            <TextBlock Padding="5,2" Text="Buio" />
+                            <TextBlock Padding="2,2" Text="Buio" />
                         </StackPanel>
                     </RadioButton>
 
@@ -112,7 +112,7 @@
                                 Width="10"
                                 Height="10"
                                 Fill="Brown" />
-                            <TextBlock Padding="5,2" Text="Terra" />
+                            <TextBlock Padding="2,2" Text="Terra" />
                         </StackPanel>
                     </RadioButton>
 
@@ -131,7 +131,7 @@
                                 Width="10"
                                 Height="10"
                                 Fill="White" />
-                            <TextBlock Padding="5,2" Text="Maceria" />
+                            <TextBlock Padding="2,2" Text="Maceria" />
                         </StackPanel>
                     </RadioButton>
 
@@ -150,7 +150,7 @@
                                 Width="10"
                                 Height="10"
                                 Fill="Fuchsia" />
-                            <TextBlock Padding="5,2" Text="Trappola ist." />
+                            <TextBlock Padding="2,2" Text="Trappola ist." />
                         </StackPanel>
                     </RadioButton>
 
@@ -169,7 +169,26 @@
                                 Width="10"
                                 Height="10"
                                 Fill="Aqua" />
-                            <TextBlock Padding="5,2" Text="Trappola dt" />
+                            <TextBlock Padding="2,2" Text="Trappola dt" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="5"
+                        ToolTip="Trigger per far apparire il Goblin">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Lime" />
+                            <TextBlock Padding="2,2" Text="Goblin trigger" />
                         </StackPanel>
                     </RadioButton>
 
@@ -208,7 +227,7 @@
                                 Width="4"
                                 Height="15"
                                 Fill="Black" />
-                            <TextBlock Padding="5,2" Text="No muro" />
+                            <TextBlock Padding="2,2" Text="No muro" />
                         </StackPanel>
                     </RadioButton>
 
@@ -227,7 +246,7 @@
                                 Width="4"
                                 Height="15"
                                 Fill="Green" />
-                            <TextBlock Padding="5,2" Text="Muro" />
+                            <TextBlock Padding="2,2" Text="Muro" />
                         </StackPanel>
                     </RadioButton>
 
@@ -246,7 +265,7 @@
                                 Width="4"
                                 Height="15"
                                 Fill="Red" />
-                            <TextBlock Padding="5,2" Text="Muro fragile" />
+                            <TextBlock Padding="2,2" Text="Muro fragile" />
                         </StackPanel>
                     </RadioButton>
 
@@ -285,7 +304,7 @@
                                 Width="4"
                                 Height="15"
                                 Fill="Black" />
-                            <TextBlock Padding="5,2" Text="Cancella" />
+                            <TextBlock Padding="2,2" Text="Cancella" />
                         </StackPanel>
                     </RadioButton>
 
@@ -305,7 +324,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/player_front_iddle.png" />
-                            <TextBlock Padding="5,2" Text="Giocatore" />
+                            <TextBlock Padding="2,2" Text="Giocatore" />
                         </StackPanel>
                     </RadioButton>
 
@@ -325,7 +344,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/key.png" />
-                            <TextBlock Padding="5,2" Text="Chiave" />
+                            <TextBlock Padding="2,2" Text="Chiave" />
                         </StackPanel>
                     </RadioButton>
 
@@ -345,7 +364,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/win_closed.png" />
-                            <TextBlock Padding="5,2" Text="Uscita" />
+                            <TextBlock Padding="2,2" Text="Uscita" />
                         </StackPanel>
                     </RadioButton>
 
@@ -364,7 +383,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/candle6.png" />
-                            <TextBlock Padding="5,2" Text="Candele" />
+                            <TextBlock Padding="2,2" Text="Candele" />
                         </StackPanel>
                     </RadioButton>
 
@@ -403,7 +422,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/zombie_front_walking_1.png" />
-                            <TextBlock Padding="5,2" Text="Zombie" />
+                            <TextBlock Padding="2,2" Text="Zombie" />
                         </StackPanel>
                     </RadioButton>
 
@@ -423,7 +442,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/skeleton_front_iddle.png" />
-                            <TextBlock Padding="5,2" Text="Scheletro" />
+                            <TextBlock Padding="2,2" Text="Scheletro" />
                         </StackPanel>
                     </RadioButton>
 
@@ -443,7 +462,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/goblin_front_dying_1.png" />
-                            <TextBlock Padding="5,2" Text="Goblin" />
+                            <TextBlock Padding="2,2" Text="Goblin" />
                         </StackPanel>
                     </RadioButton>
 
@@ -463,7 +482,7 @@
                                 Width="20"
                                 Height="20"
                                 Source="Assets/icons/taurus_front_iddle.png" />
-                            <TextBlock Padding="5,2" Text="Taurus" />
+                            <TextBlock Padding="2,2" Text="Taurus" />
                         </StackPanel>
                     </RadioButton>
 

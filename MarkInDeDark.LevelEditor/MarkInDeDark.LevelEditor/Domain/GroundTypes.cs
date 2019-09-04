@@ -6,6 +6,7 @@
         Terra = 1,
         Macerie = 2,
         TrappolaMorteIstantanea = 3,
-        TrappolaTemporizzata = 4
+        TrappolaTemporizzata = 4,
+        TriggerGoblin = 5
     }
 }
