@@ -13,6 +13,7 @@
     <DockPanel>
 
         <Menu DockPanel.Dock="Top">
+            
             <MenuItem Header="File">
                 <MenuItem
                     x:Name="btnNuovo"
@@ -27,14 +28,13 @@
                 <MenuItem
                     x:Name="btnSalva"
                     Click="BtnSalva_Click"
-                    Header="Salva"
-                    IsEnabled="False" />
+                    Header="Salva" />
                 <MenuItem
                     x:Name="btnSalvaCopia"
                     Click="BtnSalvaCopia_Click"
-                    Header="Salva una copia"
-                    IsEnabled="False" />
+                    Header="Salva una copia" />
             </MenuItem>
+            
             <MenuItem Header="Strumenti">
                 <MenuItem
                     x:Name="btnProvaInGame"
@@ -47,6 +47,7 @@
                     Header="Cambia impostazioni di gioco"
                     IsEnabled="False" />
             </MenuItem>
+            
         </Menu>
 
         <ToolBar

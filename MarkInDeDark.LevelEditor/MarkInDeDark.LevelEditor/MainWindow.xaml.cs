@@ -20,19 +20,21 @@ namespace MarkInDeDark.LevelEditor
         private WallTypes _currentSelectedWallType;
         private ObjectTypes _currentSelectedObjectType;
 
+        private string _currentLevelFilePath;
+
         private const int _gridRows = 25;
         private const int _gridCols = 45;
         private const int _cellSize = 30;
 
         private readonly ISettingsRepository _settingsRepository;
-
+        
         public MainWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             WindowState = WindowState.Maximized;
 
-            _settingsRepository = new FileSettingsRepository("settings.txt");
+            _settingsRepository = new FileSettingsRepository("configuration.txt");
 
             NewGrid();
             btnBuio.IsChecked = true;
@@ -61,38 +63,58 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
-            var openFileStartingFolder = _settingsRepository.GetValue(SettingsKeys.OpenFileStartingFolder) ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
             var openFileDialog = new OpenFileDialog
             {
                 Multiselect = false,
                 Filter = "Mark in DeDark files (*.mark)|*.mark",
-                InitialDirectory = openFileStartingFolder
+                RestoreDirectory = true
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                _settingsRepository.SetValue(SettingsKeys.OpenFileStartingFolder, Path.GetDirectoryName(openFileDialog.FileName));
-
                 var levelContent = File.ReadAllText(openFileDialog.FileName);
                 _gameGrid = new GameGrid(_gridRows, _gridCols);
 
-                var gameGridLoader = new GameGridLoader(
-                    levelContent,
-                    _gameGrid);
-                gameGridLoader.LoadGrid();
+                new GameGridSerializer().DeserializeLevel(levelContent, _gameGrid);
 
                 _presentation = new WpfCanvasEditorPresentation(
                     this,
                     _gameGrid,
                     levelEditorCanvas,
                     _cellSize);
+
+                _currentLevelFilePath = openFileDialog.FileName;
             }
         }
 
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(_currentLevelFilePath))
+            {
+                BtnSalvaCopia_Click(sender, e);
+                return;
+            }
+
+            var serializedLevel = new GameGridSerializer().SerializeLevel(_gameGrid);
+            File.WriteAllText(_currentLevelFilePath, serializedLevel);
+            MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void BtnSalvaCopia_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Mark in DeDark files (*.mark)|*.mark",
+                RestoreDirectory = true
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var serializedLevel = new GameGridSerializer().SerializeLevel(_gameGrid);
+                File.WriteAllText(saveFileDialog.FileName, serializedLevel);
+                _currentLevelFilePath = saveFileDialog.FileName;
+                MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BtnGroundType_Click(object sender, RoutedEventArgs e)
@@ -248,17 +270,12 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnProvaInGame_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void BtnSalvaCopia_Click(object sender, RoutedEventArgs e)
-        {
-
+            throw new NotImplementedException();
         }
 
         private void BtnCambiaSettingsGioco_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

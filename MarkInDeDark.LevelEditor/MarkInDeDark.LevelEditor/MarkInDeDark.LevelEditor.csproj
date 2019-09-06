@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Editor\GameGridSerializerV2.cs" />
     <Compile Include="Settings\FileSettingsRepository.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\SettingsKeys.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Editor\EditorTypesObjectsConverter.cs" />
     <Compile Include="Editor\EditorTypesColorConverter.cs" />
     <Compile Include="Editor\GameGrid.cs" />
-    <Compile Include="Editor\GameGridLoader.cs" />
+    <Compile Include="Editor\GameGridSerializer.cs" />
     <Compile Include="Editor\WpfCanvasEditorPresentation.cs" />
     <Compile Include="Exceptions\InvalidFileException.cs" />
     <Compile Include="InputDialog.xaml.cs">

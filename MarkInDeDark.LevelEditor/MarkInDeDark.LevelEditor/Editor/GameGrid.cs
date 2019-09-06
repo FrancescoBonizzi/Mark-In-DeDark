@@ -1,15 +1,13 @@
 ﻿using MarkInDeDark.LevelEditor.Domain;
-using MarkInDeDark.LevelEditor.Exceptions;
-using System;
 
 namespace MarkInDeDark.LevelEditor.Editor
 {
     public class GameGrid
     {
-        public int Rows { get; }
-        public int Columns { get; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
 
-        public Cell[,] Grid { get; private set; }
+        public Cell[,] Grid { get; set; }
 
         public GameGrid(int rows, int columns)
         {
