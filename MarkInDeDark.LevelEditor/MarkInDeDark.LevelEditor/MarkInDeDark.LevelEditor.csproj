@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Editor\GameGridSerializerV2.cs" />
     <Compile Include="Settings\FileSettingsRepository.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\SettingsKeys.cs" />
@@ -71,19 +70,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Domain\Cell.cs" />
     <Compile Include="Domain\EditorActions.cs" />
-    <Compile Include="Domain\ObjectTypes.cs" />
-    <Compile Include="Domain\WallPositions.cs" />
-    <Compile Include="Domain\WallTypes.cs" />
-    <Compile Include="Domain\GroundTypes.cs" />
     <Compile Include="Editor\ColorExtensions.cs" />
     <Compile Include="Editor\EditorTypesObjectsConverter.cs" />
     <Compile Include="Editor\EditorTypesColorConverter.cs" />
-    <Compile Include="Editor\GameGrid.cs" />
-    <Compile Include="Editor\GameGridSerializer.cs" />
     <Compile Include="Editor\WpfCanvasEditorPresentation.cs" />
-    <Compile Include="Exceptions\InvalidFileException.cs" />
     <Compile Include="InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -139,6 +130,12 @@
   <ItemGroup>
     <Resource Include="Assets\icons\trap_breakable.png" />
     <Resource Include="Assets\icons\trap_instantly_die.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
+      <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
+      <Name>MarkInDeDark.GameGrid</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

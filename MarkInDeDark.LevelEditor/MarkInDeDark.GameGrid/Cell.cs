@@ -1,4 +1,4 @@
-﻿namespace MarkInDeDark.LevelEditor.Domain
+﻿namespace MarkInDeDark.GameGrid
 {
     public class Cell
     {

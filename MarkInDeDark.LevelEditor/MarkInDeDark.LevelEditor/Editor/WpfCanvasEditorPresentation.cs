@@ -1,4 +1,4 @@
-﻿using MarkInDeDark.LevelEditor.Domain;
+﻿using MarkInDeDark.GameGrid;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,7 +7,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public class WpfCanvasEditorPresentation
     {
-        private readonly GameGrid _gameGrid;
+        private readonly GameGridBundle _gameGrid;
         private readonly Canvas _canvas;
         private readonly MainWindow _window;
 
@@ -17,7 +17,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
         public WpfCanvasEditorPresentation(
             MainWindow window,
-            GameGrid gameGrid,
+            GameGridBundle gameGrid,
             Canvas canvas,
             int cellSize)
         {

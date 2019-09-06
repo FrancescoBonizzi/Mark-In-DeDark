@@ -1,4 +1,5 @@
-﻿using MarkInDeDark.LevelEditor.Domain;
+﻿using MarkInDeDark.GameGrid;
+using MarkInDeDark.LevelEditor.Domain;
 using MarkInDeDark.LevelEditor.Editor;
 using MarkInDeDark.LevelEditor.Settings;
 using Microsoft.Win32;
@@ -12,7 +13,7 @@ namespace MarkInDeDark.LevelEditor
 {
     public partial class MainWindow : Window
     {
-        private GameGrid _gameGrid;
+        private GameGridBundle _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
 
         private EditorActions _currentEditorAction;
@@ -42,7 +43,7 @@ namespace MarkInDeDark.LevelEditor
 
         private void NewGrid()
         {
-            _gameGrid = new GameGrid(_gridRows, _gridCols);
+            _gameGrid = new GameGridBundle(_gridRows, _gridCols);
             _presentation = new WpfCanvasEditorPresentation(
                 this,
                 _gameGrid,
@@ -73,7 +74,7 @@ namespace MarkInDeDark.LevelEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 var levelContent = File.ReadAllText(openFileDialog.FileName);
-                _gameGrid = new GameGrid(_gridRows, _gridCols);
+                _gameGrid = new GameGridBundle(_gridRows, _gridCols);
 
                 new GameGridSerializer().DeserializeLevel(levelContent, _gameGrid);
 

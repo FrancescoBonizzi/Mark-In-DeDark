@@ -1,22 +1,20 @@
-﻿using MarkInDeDark.LevelEditor.Domain;
-
-namespace MarkInDeDark.LevelEditor.Editor
+﻿namespace MarkInDeDark.GameGrid
 {
-    public class GameGrid
+    public class GameGridBundle
     {
         public int Rows { get; set; }
         public int Columns { get; set; }
 
         public Cell[,] Grid { get; set; }
 
-        public GameGrid(int rows, int columns)
+        public GameGridBundle(int rows, int columns)
         {
             Rows = rows;
             Columns = columns;
             ClearGrid();
         }
 
-        public GameGrid(Cell[,] grid)
+        public GameGridBundle(Cell[,] grid)
         {
             Grid = grid;
             Columns = grid.GetLength(0);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarkInDeDark.LevelEditor.Exceptions
+namespace MarkInDeDark.GameGrid
 {
     public class InvalidFileException : Exception
     {

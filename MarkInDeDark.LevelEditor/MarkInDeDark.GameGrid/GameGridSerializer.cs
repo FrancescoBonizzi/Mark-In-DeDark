@@ -1,10 +1,8 @@
-﻿using MarkInDeDark.LevelEditor.Domain;
-using MarkInDeDark.LevelEditor.Exceptions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 
-namespace MarkInDeDark.LevelEditor.Editor
+namespace MarkInDeDark.GameGrid
 {
     public class GameGridSerializer
     {
@@ -12,7 +10,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
         public void DeserializeLevel(
             string levelContentRaw,
-            GameGrid gameGrid)
+            GameGridBundle gameGrid)
         {
             if (string.IsNullOrEmpty(levelContentRaw))
                 throw new InvalidFileException("File vuoto");
@@ -147,7 +145,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
         }
 
-        public string SerializeLevel(GameGrid gameGrid)
+        public string SerializeLevel(GameGridBundle gameGrid)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(gameGrid.Rows).Append(_separator).Append(gameGrid.Columns).AppendLine();

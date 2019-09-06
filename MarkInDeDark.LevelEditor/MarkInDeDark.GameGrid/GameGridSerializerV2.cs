@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace MarkInDeDark.LevelEditor.Editor
+namespace MarkInDeDark.GameGrid
 {
     public class GameGridSerializerV2
     {
         public void DeserializeLevel(
             string levelContentRaw,
-            GameGrid gameGrid)
+            GameGridBundle gameGrid)
         {
             throw new NotImplementedException();
         }
 
-        public string SerializeLevel(GameGrid gameGrid)
+        public string SerializeLevel(GameGridBundle gameGrid)
         {
             throw new NotImplementedException();
         }
