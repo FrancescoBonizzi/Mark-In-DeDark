@@ -8,6 +8,7 @@
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="CanMinimize"
     Width="1000"
+    Closing="Window_Closing"
     mc:Ignorable="d">
 
     <DockPanel>

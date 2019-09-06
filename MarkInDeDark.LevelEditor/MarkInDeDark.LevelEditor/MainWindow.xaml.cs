@@ -32,6 +32,7 @@ namespace MarkInDeDark.LevelEditor
         public MainWindow()
         {
             InitializeComponent();
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             WindowState = WindowState.Maximized;
 
@@ -56,7 +57,7 @@ namespace MarkInDeDark.LevelEditor
             if (MessageBox.Show(
                 messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
                 caption: "Proseguire?",
-                button: MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Question) == MessageBoxResult.Yes)
+                button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 NewGrid();
             }
@@ -277,6 +278,17 @@ namespace MarkInDeDark.LevelEditor
         private void BtnCambiaSettingsGioco_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show(
+               messageBoxText: "Se non hai salvato, perderai le modifiche. Chiudere comunque?",
+               caption: "Chiusura applicazione",
+               button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
