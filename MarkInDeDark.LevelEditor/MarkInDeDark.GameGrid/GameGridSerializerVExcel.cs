@@ -1,31 +1,21 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.GameGrid
 {
-    public class GameGridSerializer
+    public class GameGridSerializerVExcel : IGameGridSerializer
     {
-        private const char _separator = '|';
+        private const int _gridRows = 25;
+        private const int _gridCols = 45;
 
-        public void DeserializeLevel(
-            string levelContentRaw,
-            GameGridBundle gameGrid)
+        public GameGridBundle DeserializeLevel(List<string> levelContentRawLine)
         {
-            if (string.IsNullOrEmpty(levelContentRaw))
-                throw new InvalidFileException("File vuoto");
-
-            var lines = levelContentRaw
-                .Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
-                .Where(s => !string.IsNullOrWhiteSpace(s));
-
-            if (lines.Count() != gameGrid.Rows * gameGrid.Columns)
-                throw new InvalidFileException("Dimensione della mappa non compatibile");
-
             int i = 0;
             int j = 0;
 
-            foreach (var riga in lines)
+            var gameGrid = new GameGridBundle(_gridRows, _gridCols);
+
+            foreach (var riga in levelContentRawLine)
             {
                 var rigaParts = riga.Split(':');
 
@@ -143,46 +133,17 @@ namespace MarkInDeDark.GameGrid
                 }
             }
 
+            return gameGrid;
         }
 
         public string SerializeLevel(GameGridBundle gameGrid)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(gameGrid.Rows).Append(_separator).Append(gameGrid.Columns).AppendLine();
+            throw new NotImplementedException();
+        }
 
-            // Scrivo solo le celle che hanno un valore, così risparmio spazio
-            for (int i = 0; i < gameGrid.Rows; ++i)
-            {
-                for(int j = 0; j < gameGrid.Columns; ++j)
-                {
-                    var cell = gameGrid.Grid[j, i];
-
-                    if (cell.GroundType == GroundTypes.Buio)
-                        continue;
-
-                    stringBuilder
-                        .Append(i)
-                        .Append(_separator)
-                        .Append(j)
-                        .Append(_separator)
-                        .Append((int)cell.GroundType)
-                        .Append(_separator)
-                        .Append(cell.ObjectType == null ? string.Empty : ((int)cell.ObjectType).ToString())
-                        .Append(_separator)
-                        .Append(cell.ObjectTypeQuantityInfo ?? string.Empty)
-                        .Append(_separator)
-                        .Append((int)cell.Top)
-                        .Append(_separator)
-                        .Append((int)cell.Right)
-                        .Append(_separator)
-                        .Append((int)cell.Bottom)
-                        .Append(_separator)
-                        .Append((int)cell.Left)
-                        .AppendLine();
-                }
-            }
-
-            return stringBuilder.ToString();
+        public bool WasTheFileSerializedWithThisClass(string levelContentRawFirstRow)
+        {
+            throw new NotImplementedException();
         }
     }
 }

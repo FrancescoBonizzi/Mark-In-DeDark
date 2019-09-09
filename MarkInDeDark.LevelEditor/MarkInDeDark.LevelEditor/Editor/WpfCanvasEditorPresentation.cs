@@ -45,7 +45,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     UIElement cellContent = new TextBlock();
                     if (editorCell.ObjectType != null)
                     {
-                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeQuantityInfo);
+                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeAdditionalData);
                     }
 
                     var cellBorder = new Border()

@@ -41,10 +41,10 @@
             Grid[column, row].GroundType = type;
         }
 
-        public void SetObjectType(int row, int column, ObjectTypes type, string quantityInfo = null)
+        public void SetObjectType(int row, int column, ObjectTypes type, string additionalData = null)
         {
             Grid[column, row].ObjectType = type;
-            Grid[column, row].ObjectTypeQuantityInfo = quantityInfo;
+            Grid[column, row].ObjectTypeAdditionalData = additionalData;
         }
 
         public void SetWallType(int row, int column, WallTypes type, WallPositions wallPosition)

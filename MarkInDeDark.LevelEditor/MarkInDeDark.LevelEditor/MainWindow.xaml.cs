@@ -21,11 +21,11 @@ namespace MarkInDeDark.LevelEditor
         private WallTypes _currentSelectedWallType;
         private ObjectTypes _currentSelectedObjectType;
 
-        private string _currentLevelFilePath;
-
-        private const int _gridRows = 25;
-        private const int _gridCols = 45;
+        private const int _defaultGridRows = 25;
+        private const int _defaultGridCols = 45;
         private const int _cellSize = 30;
+
+        private string _currentLevelFilePath;
 
         private readonly ISettingsRepository _settingsRepository;
         
@@ -44,7 +44,7 @@ namespace MarkInDeDark.LevelEditor
 
         private void NewGrid()
         {
-            _gameGrid = new GameGridBundle(_gridRows, _gridCols);
+            _gameGrid = new GameGridBundle(_defaultGridRows, _defaultGridCols);
             _presentation = new WpfCanvasEditorPresentation(
                 this,
                 _gameGrid,
@@ -65,6 +65,14 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show(
+                  messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
+                  caption: "Proseguire?",
+                  button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
+            {
+                return;
+            }
+
             var openFileDialog = new OpenFileDialog
             {
                 Multiselect = false,
@@ -75,9 +83,8 @@ namespace MarkInDeDark.LevelEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 var levelContent = File.ReadAllText(openFileDialog.FileName);
-                _gameGrid = new GameGridBundle(_gridRows, _gridCols);
-
-                new GameGridSerializer().DeserializeLevel(levelContent, _gameGrid);
+                var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
+                _gameGrid = gameGridSerializerManager.DeserializeLevel();
 
                 _presentation = new WpfCanvasEditorPresentation(
                     this,
@@ -97,7 +104,7 @@ namespace MarkInDeDark.LevelEditor
                 return;
             }
 
-            var serializedLevel = new GameGridSerializer().SerializeLevel(_gameGrid);
+            var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
             File.WriteAllText(_currentLevelFilePath, serializedLevel);
             MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -112,7 +119,7 @@ namespace MarkInDeDark.LevelEditor
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                var serializedLevel = new GameGridSerializer().SerializeLevel(_gameGrid);
+                var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
                 File.WriteAllText(saveFileDialog.FileName, serializedLevel);
                 _currentLevelFilePath = saveFileDialog.FileName;
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
