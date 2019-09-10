@@ -1,6 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
-using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Levels;
@@ -131,12 +130,12 @@ namespace MarkInDeDarkMono
                 });
         }
 
-        public void SetGameState(Level levelToLoad)
+        public void SetGameState(Level levelToLoad, bool force = false)
         {
             if (_currentState == GameStates.Playing)
                 return;
 
-            if (_stateTransition.IsFading)
+            if (_stateTransition.IsFading && !force)
                 return;
 
             ShouldEndApplication = false;

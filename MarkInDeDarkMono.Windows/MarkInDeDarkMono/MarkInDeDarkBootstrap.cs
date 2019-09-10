@@ -45,6 +45,7 @@ namespace MarkInDeDarkMono
         private readonly bool _isPc;
 
         // private Sprite _mousePointer;
+        private string _forcedLevelPath;
 
         private SoundManager _soundManager;
         private MarkKeyboard _markKeyboard;
@@ -90,13 +91,18 @@ namespace MarkInDeDarkMono
             }
         }
 
+        public void ForceStartLevel(string levelFilePath)
+        {
+            _forcedLevelPath = levelFilePath;
+        }
+
         protected override void Initialize()
         {
             _matrixScaleProvider = new DynamicScalingMatrixProvider(
-                  new GameWindowScreenSizeChangedNotifier(Window),
-                  GraphicsDeviceManager.GraphicsDevice,
-                  1920, 1080,
-                  true);
+                new GameWindowScreenSizeChangedNotifier(Window),
+                GraphicsDeviceManager.GraphicsDevice,
+                1920, 1080,
+                true);
 
             base.Initialize();
         }
@@ -172,9 +178,6 @@ namespace MarkInDeDarkMono
             }
         }
 
-        private void _orchestrator_ShowAd(object sender, EventArgs e)
-            => ShowAd?.Invoke(this, EventArgs.Empty);
-
         private void GamepadListener_ButtonDown(object sender, GamePadEventArgs e)
         {
             if (e.Button == Buttons.Back)
@@ -218,10 +221,6 @@ namespace MarkInDeDarkMono
                         Exit(); // Devono ancora fixare il problema dell'uscita da Android
                 }
             }
-            //else
-            //{
-            //    _orchestrator.HandleKeyboardPressed(e.Key);
-            //}
         }
 
         private void TouchListener_TouchEnded(object sender, TouchEventArgs e)
@@ -248,6 +247,11 @@ namespace MarkInDeDarkMono
         {
             _splashScreenAssetsLoader = null;
             _orchestrator.Start();
+            if (_forcedLevelPath != null)
+            {
+                _assetsLoader.ForceLoadLevel(_forcedLevelPath);
+                _orchestrator.SetGameState(_assetsLoader.Levels[0], true);
+            }
         }
 
         public void Pause()

@@ -1,14 +1,14 @@
-﻿using FbonizziMonoGame;
-using FbonizziMonoGame.Assets;
+﻿using FbonizziMonoGame.Assets;
 using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
-using Mark.Engine;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace MarkInDeDarkMono.Assets
 {
@@ -24,18 +24,19 @@ namespace MarkInDeDarkMono.Assets
         private readonly ContentManager _contentManager;
         private readonly ISettingsRepository _settingsRepository;
         private readonly ITextFileLoader _fileLoader;
-        private readonly IEnumerable<string> _levelNames;
+
+        private IEnumerable<string> _levelPaths;
 
         public AssetsLoader(
             ContentManager contentManager,
             ITextFileLoader fileLoader,
-            IEnumerable<string> levelNames,
+            IEnumerable<string> levelPaths,
             ISettingsRepository settingsRepository)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
             _contentManager = contentManager ?? throw new ArgumentNullException(nameof(contentManager));
             _fileLoader = fileLoader ?? throw new ArgumentNullException(nameof(fileLoader));
-            _levelNames = levelNames ?? throw new ArgumentNullException(nameof(levelNames));
+            _levelPaths = levelPaths ?? throw new ArgumentNullException(nameof(levelPaths));
             _textureImporter = new CustomSpriteImporter(fileLoader);
             LoadResources();
         }
@@ -61,11 +62,18 @@ namespace MarkInDeDarkMono.Assets
             LoadLevels();
         }
 
+        public void ForceLoadLevel(string levelFilePath)
+        {
+            _levelPaths = new List<string>() { levelFilePath };
+            Levels.Clear();
+            LoadLevels();
+        }
+
         private void LoadLevels()
         {
             float dirtyProbability = 0.2f;
             int textureIndex = 0;
-            foreach (var levelName in _levelNames)
+            foreach (var levelPath in _levelPaths)
             {
                 if (dirtyProbability > 1f)
                 {
@@ -79,8 +87,8 @@ namespace MarkInDeDarkMono.Assets
                 Levels.Add(
                    new Level(
                        _settingsRepository,
-                        _fileLoader.LoadFile($@"Content\Levels\{levelName}"),
-                       levelName.Replace(".txt", string.Empty),
+                       _fileLoader.LoadFile(levelPath),
+                       Path.GetFileNameWithoutExtension(levelPath),
                        Sprites[$"cell{textureIndex}"],
                        Sprites[$"dirty{textureIndex}"],
                        Sprites[$"wall{textureIndex}"],
@@ -91,6 +99,8 @@ namespace MarkInDeDarkMono.Assets
 
                 dirtyProbability += 0.2f;
             }
+
+            Levels = Levels.OrderBy(l => l.LevelTitleToShow).ToList();
         }
 
         private void LoadSprites()
