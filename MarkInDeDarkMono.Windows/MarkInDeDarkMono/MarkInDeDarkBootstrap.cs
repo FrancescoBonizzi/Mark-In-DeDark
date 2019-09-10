@@ -108,8 +108,8 @@ namespace MarkInDeDarkMono
             new GameStringsLoader(_localizedStringsRepository, _gameCulture);
 
             _assetsLoader = new AssetsLoader(
-                Content, 
-                _textFileAssetsLoader, 
+                Content,
+                _textFileAssetsLoader,
                 _levelsNames,
                 _settingsRepository);
             _soundManager = new SoundManager(_assetsLoader);

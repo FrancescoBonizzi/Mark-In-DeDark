@@ -32,8 +32,7 @@ namespace MarkInDeDarkMono
         private TimeSpan _elapsedFinish;
 
         private Color background_color_ = Color.Black;
-        private Matrix _scaleMatrix;
-        private GameHUD _gameHud;
+        private readonly GameHUD _gameHud;
 
         private GraphicsDevice _graphicsDevice;
         private RenderTarget2D _mainScene;

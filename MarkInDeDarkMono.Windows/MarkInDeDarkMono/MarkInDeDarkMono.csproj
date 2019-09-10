@@ -188,7 +188,12 @@
     <None Include="Assets\_TextureProject\Game.tps" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\MarkInDeDark.LevelEditor\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
+      <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
+      <Name>MarkInDeDark.GameGrid</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ContentBuilder\Backgrounds\levels.png" />
     <Content Include="Assets\ContentBuilder\Backgrounds\menu.png" />
