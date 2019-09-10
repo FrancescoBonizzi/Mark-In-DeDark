@@ -54,7 +54,9 @@ namespace MarkInDeDarkMono
             ISettingsRepository settingsRepository,
             CultureInfo gameCulture,
             bool isPc,
-            IEnumerable<string> levelNames)
+            IEnumerable<string> levelNames,
+            int width,
+            int height)
         {
             if (isPc)
             {
@@ -75,11 +77,7 @@ namespace MarkInDeDarkMono
             };
 
             _localizedStringsRepository = new InMemoryLocalizedStringsRepository(new Dictionary<string, string>());
-        }
 
-#warning Questo lo metto nel costruttore così non va più settato fuori
-        public void SetGraphicsDeviceViewportSize(int width, int height)
-        {
             if (GraphicsDeviceManager.IsFullScreen)
             {
                 GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
