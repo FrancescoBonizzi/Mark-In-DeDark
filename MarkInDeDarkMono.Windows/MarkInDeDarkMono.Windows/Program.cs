@@ -19,7 +19,7 @@ namespace MarkInDeDarkMono.Windows
                 new TransientWindowsSettingsRepository(),
                 CultureInfo.CreateSpecificCulture("en-US"),
                 true,
-                Directory.GetFiles("Content/Levels", "*.txt").Select(f => Path.GetFileName(f))))
+                Directory.GetFiles("Content/Levels", "*.mark").Select(f => Path.GetFileName(f))))
             {
                 game.SetGraphicsDeviceViewportSize(width, height);
                 game.Run();

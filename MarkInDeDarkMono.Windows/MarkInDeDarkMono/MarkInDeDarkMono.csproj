@@ -132,7 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Assets\ContentBuilder\bin\Backgrounds\background4_nomark.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Backgrounds\levels.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Backgrounds\menu.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Backgrounds\splashscreen.xnb" />
     <None Include="Assets\ContentBuilder\bin\font.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\accendi_fiamma.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\attack1.xnb" />
@@ -140,14 +142,20 @@
     <None Include="Assets\ContentBuilder\bin\Soundtrack\attack3.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\attack4.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\blood.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\break_wall.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\candela.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\fall.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\fuoco.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\goblin_voice.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\key.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\ladder.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\patrol_seen_you.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\player_walk.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\skeletron_voice.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Soundtrack\taurus_starting_charge.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\wolf_voice.xnb" />
     <None Include="Assets\ContentBuilder\bin\Soundtrack\zombie_voice.xnb" />
+    <None Include="Assets\ContentBuilder\bin\Spritesheet.xnb" />
     <None Include="Assets\ContentBuilder\ContentBuilder.mgcb" />
     <None Include="Assets\ContentBuilder\font.spritefont" />
     <None Include="Assets\Levels\1 TUTORIAL.mark" />
