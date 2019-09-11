@@ -34,21 +34,25 @@
                     x:Name="btnSalvaCopia"
                     Click="BtnSalvaCopia_Click"
                     Header="Salva una copia" />
+                <Separator />
+                <MenuItem
+                    x:Name="btnImpostaPathGioco"
+                    Click="BtnImpostaPathGioco_Click"
+                    Header="Imposta percorso del gioco" />
             </MenuItem>
             
             <MenuItem Header="Strumenti">
                 <MenuItem
                     x:Name="btnProvaInGame"
                     Click="BtnProvaInGame_Click"
-                    Header="Prova in game"
-                    IsEnabled="False" />
+                    Header="Prova in game" />
                 <MenuItem
                     x:Name="btnCambiaSettingsGioco"
                     Click="BtnCambiaSettingsGioco_Click"
                     Header="Cambia impostazioni di gioco"
                     IsEnabled="False" />
             </MenuItem>
-            
+
         </Menu>
 
         <ToolBar

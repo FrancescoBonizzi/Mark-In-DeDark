@@ -55,9 +55,9 @@ namespace MarkInDeDarkMono
             ISettingsRepository settingsRepository,
             CultureInfo gameCulture,
             bool isPc,
-            IEnumerable<string> levelNames,
-            int width,
-            int height)
+            IEnumerable<string> levelPaths,
+            int windowWidth,
+            int windowHeight)
         {
             if (isPc)
             {
@@ -67,7 +67,7 @@ namespace MarkInDeDarkMono
 
             _textFileAssetsLoader = textFileAssetsLoader;
             _settingsRepository = settingsRepository;
-            _levelsNames = levelNames;
+            _levelsNames = levelPaths;
             _gameCulture = gameCulture;
             _gameConfig = new GameConfig(textFileAssetsLoader.LoadFile(@"Content/GameConfig.txt"));
 
@@ -86,8 +86,8 @@ namespace MarkInDeDarkMono
             }
             else
             {
-                GraphicsDeviceManager.PreferredBackBufferWidth = width;
-                GraphicsDeviceManager.PreferredBackBufferHeight = height;
+                GraphicsDeviceManager.PreferredBackBufferWidth = windowWidth;
+                GraphicsDeviceManager.PreferredBackBufferHeight = windowHeight;
             }
         }
 

@@ -4,6 +4,7 @@ using MarkInDeDark.LevelEditor.Editor;
 using MarkInDeDark.LevelEditor.Settings;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,7 @@ namespace MarkInDeDark.LevelEditor
         private string _currentLevelFilePath;
 
         private readonly ISettingsRepository _settingsRepository;
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -104,8 +105,7 @@ namespace MarkInDeDark.LevelEditor
                 return;
             }
 
-            var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
-            File.WriteAllText(_currentLevelFilePath, serializedLevel);
+            SerializeAndSave(_currentLevelFilePath);
             MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -119,11 +119,16 @@ namespace MarkInDeDark.LevelEditor
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
-                File.WriteAllText(saveFileDialog.FileName, serializedLevel);
+                SerializeAndSave(saveFileDialog.FileName);
                 _currentLevelFilePath = saveFileDialog.FileName;
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void SerializeAndSave(string filePath)
+        {
+            var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
+            File.WriteAllText(filePath, serializedLevel);
         }
 
         private void BtnGroundType_Click(object sender, RoutedEventArgs e)
@@ -279,7 +284,41 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnProvaInGame_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
+
+            if (gameExecutablePath == null)
+            {
+                MessageBox.Show("Devi prima selezionare l'eseguibile del gioco!", "Attenzione");
+                return;
+            }
+
+            if (!File.Exists(gameExecutablePath))
+            {
+                MessageBox.Show("L'eseguibile del gioco non esiste più, reimpostalo!", "Attenzione");
+                return;
+            }
+
+            string randomFilePath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".mark";
+            SerializeAndSave(randomFilePath);
+
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = gameExecutablePath;
+                process.StartInfo.Arguments = $"\"{randomFilePath}\"";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(gameExecutablePath);
+
+                process.Start();
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                {
+                    var errors = process.StandardError.ReadToEnd();
+                    MessageBox.Show(errors, "Errore!");
+                }
+            }
+
+            File.Delete(randomFilePath);
         }
 
         private void BtnCambiaSettingsGioco_Click(object sender, RoutedEventArgs e)
@@ -295,6 +334,23 @@ namespace MarkInDeDark.LevelEditor
                button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void BtnImpostaPathGioco_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "Mark in DeDark game (*.exe)|*.exe",
+                RestoreDirectory = true,
+                Title = "Percorso del gioco",
+                CheckFileExists = true
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _settingsRepository.SetValue(SettingsKeys.GameExecutablePath, openFileDialog.FileName);
             }
         }
     }

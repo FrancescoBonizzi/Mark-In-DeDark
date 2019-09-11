@@ -35,7 +35,9 @@ namespace MarkInDeDark.LevelEditor.Settings
                         continue;
 
                     string[] splittedSetting = settingRow.Split(':');
-                    _settings.Add((SettingsKeys)Enum.Parse(typeof(SettingsKeys), splittedSetting[0]), splittedSetting[1]);
+                    _settings.Add(
+                        (SettingsKeys)Enum.Parse(typeof(SettingsKeys), splittedSetting[0]),
+                        settingRow.Substring(splittedSetting[0].Length + 1)); // Perchè se mi baso sullo split non considero le stringhe che hanno i due punti!
                 }
             }
         }
