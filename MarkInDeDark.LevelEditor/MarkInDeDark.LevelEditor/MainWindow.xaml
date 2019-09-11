@@ -11,10 +11,10 @@
     Closing="Window_Closing"
     mc:Ignorable="d">
 
-    <DockPanel>
+    <DockPanel Background="AliceBlue">
 
         <Menu DockPanel.Dock="Top">
-            
+
             <MenuItem Header="File">
                 <MenuItem
                     x:Name="btnNuovo"
@@ -40,7 +40,7 @@
                     Click="BtnImpostaPathGioco_Click"
                     Header="Imposta percorso del gioco" />
             </MenuItem>
-            
+
             <MenuItem Header="Strumenti">
                 <MenuItem
                     x:Name="btnProvaInGame"
@@ -499,6 +499,7 @@
         </ToolBar>
 
         <Grid>
+
             <Canvas
                 Name="levelEditorCanvas"
                 HorizontalAlignment="Stretch"
@@ -506,6 +507,7 @@
                 Cursor="Pen"
                 MouseDown="LevelEditorCanvas_MouseDown"
                 MouseMove="LevelEditorCanvas_MouseMove" />
+
         </Grid>
 
     </DockPanel>

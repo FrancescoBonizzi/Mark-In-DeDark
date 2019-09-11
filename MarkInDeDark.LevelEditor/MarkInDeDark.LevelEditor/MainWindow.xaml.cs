@@ -6,9 +6,12 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
 namespace MarkInDeDark.LevelEditor
 {
@@ -16,6 +19,7 @@ namespace MarkInDeDark.LevelEditor
     {
         private GameGridBundle _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
+        private BusyIndicator _busyIndicator;
 
         private EditorActions _currentEditorAction;
         private GroundTypes _currentSelectedCellType;
@@ -64,6 +68,22 @@ namespace MarkInDeDark.LevelEditor
             }
         }
 
+        private void StartWaiting()
+        {
+            Opacity = 0.5;
+            Effect = new BlurEffect();
+            _busyIndicator = new BusyIndicator();
+            _busyIndicator.Show();
+        }
+
+        private void StopWaiting()
+        {
+            Opacity = 1;
+            Effect = null;
+            _busyIndicator.Close();
+            _busyIndicator = null;
+        }
+
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show(
@@ -81,20 +101,32 @@ namespace MarkInDeDark.LevelEditor
                 RestoreDirectory = true
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == false)
+                return;
+
+            StartWaiting();
+
+            Dispatcher.Invoke(() =>
             {
-                var levelContent = File.ReadAllText(openFileDialog.FileName);
-                var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
-                _gameGrid = gameGridSerializerManager.DeserializeLevel();
+                try
+                {
+                    var levelContent = File.ReadAllText(openFileDialog.FileName);
+                    var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
+                    _gameGrid = gameGridSerializerManager.DeserializeLevel();
 
-                _presentation = new WpfCanvasEditorPresentation(
-                    this,
-                    _gameGrid,
-                    levelEditorCanvas,
-                    _cellSize);
+                    _presentation = new WpfCanvasEditorPresentation(
+                        this,
+                        _gameGrid,
+                        levelEditorCanvas,
+                        _cellSize);
+                }
+                finally
+                {
+                    StopWaiting();
+                }
+            }, DispatcherPriority.Background);
 
-                _currentLevelFilePath = openFileDialog.FileName;
-            }
+            _currentLevelFilePath = openFileDialog.FileName;
         }
 
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
