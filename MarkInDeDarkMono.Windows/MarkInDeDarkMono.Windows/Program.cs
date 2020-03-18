@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace MarkInDeDarkMono.Windows
 {
@@ -49,14 +50,8 @@ namespace MarkInDeDarkMono.Windows
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine("Error!");
-
-                if (args.Length > 0)
-                    Console.Error.WriteLine($"args[0]: {args[0]}");
-                else Console.Error.WriteLine("No args");
-
-                Console.Error.WriteLine($"{ex.Message}");
-                Environment.Exit(-1);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
     }

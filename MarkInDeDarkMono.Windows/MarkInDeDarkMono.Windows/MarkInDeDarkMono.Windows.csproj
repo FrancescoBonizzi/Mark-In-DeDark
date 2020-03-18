@@ -17,7 +17,8 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://fbonizzi.it/MarkInDeDark/Game/</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://fbonizzi.it/fbonizzi.it/MarkInDeDark/Game/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,12 +29,14 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://www.fbonizzi.it/MarkInDeDark/Game/</InstallUrl>
+    <ProductName>Mark in DeDark</ProductName>
+    <PublisherName>Francesco Bonizzi</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -59,11 +62,9 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>D8423E7717FA445DF6D7A72855B8B5AE51712DFC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F56EAD3C1DDBDE284BCC564CC00BA7608482762C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>MarkInDeDarkMono.Windows_TemporaryKey.pfx</ManifestKeyFile>
@@ -73,6 +74,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -116,6 +120,7 @@
       <HintPath>..\packages\SharpDX.XInput.4.2.0\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +132,9 @@
       <Link>Content\GameConfig.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icon.ico" />
+    <Content Include="Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\font.xnb">
@@ -226,116 +233,115 @@
       <Link>Content\Spritesheet.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\1 TUTORIAL.mark">
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\1 TUTORIAL.mark">
       <Link>Content\Levels\1 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\10 G TUTORIAL.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\10 G TUTORIAL.mark">
       <Link>Content\Levels\10 G TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\11 G.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\11 G.mark">
       <Link>Content\Levels\11 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\12 G.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\12 G.mark">
       <Link>Content\Levels\12 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\13 G.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\13 G.mark">
       <Link>Content\Levels\13 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\14 G.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\14 G.mark">
       <Link>Content\Levels\14 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\2 TUTORIAL.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\2 TUTORIAL.mark">
       <Link>Content\Levels\2 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\3 TUTORIAL.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\3 TUTORIAL.mark">
       <Link>Content\Levels\3 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\4 TUTORIAL.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\4 TUTORIAL.mark">
       <Link>Content\Levels\4 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\5.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\5.mark">
       <Link>Content\Levels\5.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\6.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\6.mark">
       <Link>Content\Levels\6.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\7.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\7.mark">
       <Link>Content\Levels\7.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\8.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\8.mark">
       <Link>Content\Levels\8.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\9.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\9.mark">
       <Link>Content\Levels\9.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\Boh1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\Boh1.mark">
       <Link>Content\Levels\Boh1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\Boh2.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\Boh2.mark">
       <Link>Content\Levels\Boh2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\F_G1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_G1.mark">
       <Link>Content\Levels\F_G1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\F_K1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_K1.mark">
       <Link>Content\Levels\F_K1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK1.mark">
       <Link>Content\Levels\F_ZK1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK2.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK2.mark">
       <Link>Content\Levels\F_ZK2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\F__1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F__1.mark">
       <Link>Content\Levels\F__1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M S_4.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M S_4.mark">
       <Link>Content\Levels\M S_4.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M_K2.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_K2.mark">
       <Link>Content\Levels\M_K2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M_S1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_S1.mark">
       <Link>Content\Levels\M_S1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M_T1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_T1.mark">
       <Link>Content\Levels\M_T1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M_T2.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_T2.mark">
       <Link>Content\Levels\M_T2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\MarkInDeDarkMono\Assets\Levels\M_ZK1.mark">
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_ZK1.mark">
       <Link>Content\Levels\M_ZK1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="app.config" />
-    <None Include="app.manifest" />
     <None Include="MarkInDeDarkMono.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
