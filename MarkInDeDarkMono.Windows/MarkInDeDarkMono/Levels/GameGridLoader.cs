@@ -72,7 +72,6 @@ namespace MarkInDeDarkMono.Levels
 
                             case ObjectTypes.Uscita:
                                 grid.ExitPosition = grid.GetPixelBy_ij(i, j);
-                                gameCell.IsUnwalkableForEnemies = true; // Non voglio che i mostri ci vadano sopra
                                 break;
 
                             case ObjectTypes.Candele:
