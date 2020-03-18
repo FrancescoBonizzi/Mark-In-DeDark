@@ -37,7 +37,7 @@ namespace MarkInDeDarkMono.Levels
                         case GroundTypes.Buio:
                             grid.SetNullCell(i, j);
                             continue;
-                            
+
                         case GroundTypes.Macerie:
                             gameCell.IsUnwalkable = true;
                             break;
@@ -226,28 +226,66 @@ namespace MarkInDeDarkMono.Levels
                     // Non può andare out of range l'indice perchè se è passable l'altra è nella griglia
                     if (cell.IsNorthPassable)
                     {
-                        cell.AddLink(grid.GetCellByIndex(i, j - 1), LinkDirection.NorthLink);
+                        // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
+                        var northCell = grid.GetCellByIndex(i, j - 1);
+                        if (northCell.IsUnwalkable)
+                        {
+                            cell.AddLink(null, LinkDirection.NorthLink);
+                            cell.IsNorthPassable = false;
+                        }
+                        else
+                        {
+                            cell.AddLink(northCell, LinkDirection.NorthLink);
+                        }
                     }
                     else
                         cell.AddLink(null, LinkDirection.NorthLink);
 
                     if (cell.IsEastPassable)
                     {
-                        cell.AddLink(grid.GetCellByIndex(i + 1, j), LinkDirection.EastLink);
+                        // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
+                        var eastCell = grid.GetCellByIndex(i + 1, j);
+                        if (eastCell.IsUnwalkable)
+                        {
+                            cell.AddLink(null, LinkDirection.EastLink);
+                            cell.IsEastPassable = false;
+                        }
+                        else
+                        {
+                            cell.AddLink(eastCell, LinkDirection.EastLink);
+                        }
                     }
                     else
                         cell.AddLink(null, LinkDirection.EastLink);
 
                     if (cell.IsSouthPassable)
                     {
-                        cell.AddLink(grid.GetCellByIndex(i, j + 1), LinkDirection.SouthLink);
+                        var southCell = grid.GetCellByIndex(i, j + 1);
+                        if (southCell.IsUnwalkable)
+                        {
+                            cell.AddLink(null, LinkDirection.SouthLink);
+                            cell.IsSouthPassable = false;
+                        }
+                        else
+                        {
+                            cell.AddLink(southCell, LinkDirection.SouthLink);
+                        }
                     }
                     else
                         cell.AddLink(null, LinkDirection.SouthLink);
 
                     if (cell.IsWestPassable)
                     {
-                        cell.AddLink(grid.GetCellByIndex(i - 1, j), LinkDirection.WestLink);
+                        var westCell = grid.GetCellByIndex(i - 1, j);
+                        if (westCell.IsUnwalkable)
+                        {
+                            cell.AddLink(null, LinkDirection.WestLink);
+                            cell.IsWestPassable = false;
+                        }
+                        else
+                        {
+                            cell.AddLink(westCell, LinkDirection.WestLink);
+                        }
                     }
                     else
                         cell.AddLink(null, LinkDirection.WestLink);
