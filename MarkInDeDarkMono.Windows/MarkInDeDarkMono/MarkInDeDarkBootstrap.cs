@@ -33,7 +33,6 @@ namespace MarkInDeDarkMono
         private readonly GameConfig _gameConfig;
 
         public event EventHandler ExitGameRequested;
-        public event EventHandler ShowAd;
 
         private readonly ILocalizedStringsRepository _localizedStringsRepository;
 
