@@ -28,7 +28,7 @@ namespace MarkInDeDark.CmdUtilities
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine($"{Path.GetFileName(f)} error");
+                    Console.WriteLine($"{Path.GetFileName(f)} error. {ex.Message}");
                 }
             }
 
