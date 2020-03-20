@@ -1,11 +1,10 @@
 ﻿using Mark.Engine;
-using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDarkMono.AI

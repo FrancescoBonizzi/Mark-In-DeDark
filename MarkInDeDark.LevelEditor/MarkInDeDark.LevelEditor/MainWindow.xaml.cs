@@ -355,7 +355,8 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnCambiaSettingsGioco_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var g = new GameConfigEditorWindow();
+            g.ShowDialog();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

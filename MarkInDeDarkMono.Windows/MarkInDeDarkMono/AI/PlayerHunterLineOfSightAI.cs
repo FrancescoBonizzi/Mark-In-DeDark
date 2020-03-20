@@ -1,6 +1,7 @@
 ﻿using Mark.Engine;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using System;
 using System.Collections.Generic;

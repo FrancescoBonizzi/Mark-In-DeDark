@@ -84,7 +84,6 @@
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
-    <Compile Include="Assets\GameConfig.cs" />
     <Compile Include="Assets\GameStringsLoader.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\CharacterConfiguration.cs" />
@@ -192,6 +191,10 @@
     <ProjectReference Include="..\..\MarkInDeDark.LevelEditor\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
       <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
       <Name>MarkInDeDark.GameGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkInDeDark.Common\MarkInDeDark.Common.csproj">
+      <Project>{53c00a5f-9ee4-489d-b0e7-5473a170da79}</Project>
+      <Name>MarkInDeDark.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

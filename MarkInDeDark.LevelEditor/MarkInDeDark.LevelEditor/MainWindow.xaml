@@ -49,8 +49,7 @@
                 <MenuItem
                     x:Name="btnCambiaSettingsGioco"
                     Click="BtnCambiaSettingsGioco_Click"
-                    Header="Cambia impostazioni di gioco"
-                    IsEnabled="False" />
+                    Header="Cambia impostazioni di gioco" />
             </MenuItem>
 
         </Menu>

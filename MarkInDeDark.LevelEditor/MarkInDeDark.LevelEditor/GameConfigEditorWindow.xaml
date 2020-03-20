@@ -1,0 +1,109 @@
+﻿<Window
+    x:Class="MarkInDeDark.LevelEditor.GameConfigEditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:MarkInDeDark.LevelEditor.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:otherControls="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:xnaClasses="clr-namespace:Microsoft.Xna.Framework;assembly=MonoGame.Framework"
+    xmlns:myClasses="clr-namespace:MarkInDeDark.Common;assembly=MarkInDeDark.Common"
+    Title="Configurazione del gioco"
+    Width="600"
+    Height="750"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <converters:XnaColorToWindowsColor x:Key="XnaColorToWindowsColor" />
+        <converters:XnaVector2ToX x:Key="XnaVector2ToX" />
+        <converters:XnaVector2ToY x:Key="XnaVector2ToY" />
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <otherControls:PropertyGrid
+            x:Name="propertyGrid"
+            Grid.Row="0"
+            Margin="10"
+            IsReadOnly="False"
+            NameColumnWidth="350"
+            ShowSearchBox="False"
+            ShowSortOptions="False"
+            ShowSummary="False"
+            ShowTitle="False">
+
+            <otherControls:PropertyGrid.EditorDefinitions>
+
+                <otherControls:EditorTemplateDefinition TargetProperties="{x:Type xnaClasses:Color}">
+
+                    <otherControls:EditorTemplateDefinition.EditingTemplate>
+                        <DataTemplate>
+                            <otherControls:ColorPicker SelectedColor="{Binding Value, Converter={StaticResource XnaColorToWindowsColor}}" />
+                        </DataTemplate>
+                    </otherControls:EditorTemplateDefinition.EditingTemplate>
+
+                </otherControls:EditorTemplateDefinition>
+
+                <otherControls:EditorTemplateDefinition TargetProperties="{x:Type myClasses:ClassVector2}">
+
+                    <otherControls:EditorTemplateDefinition.EditingTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="X" VerticalAlignment="Center" />
+                                    <TextBox Width="100" DataContext="{Binding Value}" Text="{Binding X}" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Y" VerticalAlignment="Center" />
+                                    <TextBox Width="100" DataContext="{Binding Value}" Text="{Binding Y}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </otherControls:EditorTemplateDefinition.EditingTemplate>
+
+                </otherControls:EditorTemplateDefinition>
+
+            </otherControls:PropertyGrid.EditorDefinitions>
+
+        </otherControls:PropertyGrid>
+
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnSalvaInAltroFile"
+                Width="150"
+                Margin="5"
+                Padding="0,5"
+                ToolTip="Ti servirà per passarmi il file"
+                Click="btnSalvaInAltroFile_Click"
+                Content="Salva con nome" />
+            <Button
+                x:Name="btnSalva"
+                Width="150"
+                Margin="5"
+                Padding="0,5"
+                ToolTip="Lo salva direttamente nella configurazione del gioco che hai installato al momento. Si sovrascrive quando aggiorni il gioco!"
+                Click="btnSalva_Click"
+                Content="Salva sul gioco corrente" />
+
+            <Rectangle Width="1" Margin="5" Fill="Gray" />
+
+            <Button
+                x:Name="btnAnnulla"
+                Width="150"
+                Margin="5"
+                Padding="0,5"
+                Click="btnAnnulla_Click"
+                Content="Esci" />
+        </StackPanel>
+
+    </Grid>
+
+</Window>

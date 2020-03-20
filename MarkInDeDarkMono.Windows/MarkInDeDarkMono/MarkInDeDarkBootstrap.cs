@@ -7,6 +7,7 @@ using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Menu;
 using Microsoft.Xna.Framework;
@@ -69,7 +70,7 @@ namespace MarkInDeDarkMono
             _levelsNames = levelPaths;
             _gameCulture = gameCulture;
             _gameConfig = new GameConfig(textFileAssetsLoader.LoadFile(@"Content/GameConfig.txt"));
-
+            
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {
                 SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,

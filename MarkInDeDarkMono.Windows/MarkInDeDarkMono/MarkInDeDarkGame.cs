@@ -5,6 +5,7 @@ using FbonizziMonoGame.StringsLocalization.Abstractions;
 using Mark.Engine;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
@@ -81,7 +82,7 @@ namespace MarkInDeDarkMono
             _gameOrchestrator = gameOrchestrator;
             _soundManager = soundManager;
             _gameConfig = gameConfig;
-            _playerCameraOffset = gameConfig.CameraOffsetFromPlayer;
+            _playerCameraOffset = gameConfig.CameraOffsetFromPlayer.ToXnaVector2();
 
             var presentationParameters = graphicsDevice.PresentationParameters;
             _mainScene = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);

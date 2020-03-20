@@ -1,6 +1,7 @@
 ﻿using MarkInDeDarkMono;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
