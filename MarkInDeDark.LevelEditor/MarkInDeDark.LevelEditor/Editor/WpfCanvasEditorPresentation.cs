@@ -66,7 +66,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                         SetWallType(editorCell.Right, WallPositions.Right, row, column);
                     if (editorCell.Bottom != WallTypes.Niente)
                         SetWallType(editorCell.Bottom, WallPositions.Bottom, row, column);
-                    if (editorCell.Left != WallTypes.Fragile)
+                    if (editorCell.Left != WallTypes.Niente)
                         SetWallType(editorCell.Left, WallPositions.Left, row, column);
                 }
             }
