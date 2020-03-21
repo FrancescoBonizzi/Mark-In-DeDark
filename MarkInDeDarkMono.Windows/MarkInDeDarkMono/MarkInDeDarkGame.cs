@@ -1,5 +1,6 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using Mark.Engine;
@@ -32,7 +33,6 @@ namespace MarkInDeDarkMono
         private readonly TimeSpan _attackTimer = TimeSpan.FromSeconds(1);
         private TimeSpan _elapsedFinish;
 
-        private Color background_color_ = Color.Black;
         private readonly GameHUD _gameHud;
 
         private GraphicsDevice _graphicsDevice;
@@ -43,6 +43,7 @@ namespace MarkInDeDarkMono
         private readonly SoundManager _soundManager;
         private readonly GameConfig _gameConfig;
         private readonly Level _currentLevel;
+        private readonly Color _backgroundColorForLightMask;
 
         private Camera2D _camera;
         private List<CandlePack> _candlePacks;
@@ -85,6 +86,10 @@ namespace MarkInDeDarkMono
 
             var presentationParameters = graphicsDevice.PresentationParameters;
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
+            if (gameConfig.GodModePlayerSeesEverything)
+                _backgroundColorForLightMask = Color.White;
+            else _backgroundColorForLightMask = Color.Black;
 
             _blendStateMultiply = new BlendState()
             {
@@ -357,8 +362,7 @@ namespace MarkInDeDarkMono
             Matrix viewMatrix)
         {
             _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
-            _graphicsDevice.Clear(background_color_);
-
+            _graphicsDevice.Clear(_backgroundColorForLightMask);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: viewMatrix);
 
             _player.DrawLightMap(spriteBatch);
@@ -374,7 +378,6 @@ namespace MarkInDeDarkMono
             spriteBatch.End();
 
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
-            _graphicsDevice.Clear(Color.Black);
         }
 
         public void Draw(
@@ -385,7 +388,6 @@ namespace MarkInDeDarkMono
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
 
             spriteBatch.Begin(transformMatrix: viewMatrix);
-            _graphicsDevice.Clear(Color.Black);
 
             _grid.DrawCells(spriteBatch);
             _grid.DrawDirtys(spriteBatch);

@@ -42,6 +42,9 @@ namespace Mark.Engine
 
             _assetsLoader = assetsLoader;
             _gameConfig = gameConfig;
+
+            if (_gameConfig.GodModeInfiniteCandles)
+                _avaibleCandlesNumber = short.MaxValue;
         }
 
         public void AddCandlesToInventory(int nCandles)

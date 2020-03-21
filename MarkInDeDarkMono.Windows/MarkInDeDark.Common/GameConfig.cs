@@ -67,6 +67,10 @@ namespace MarkInDeDarkMono.Common
         public Color LevelCompletedStringColorRGB { get; set; }
         public Color ClosedDoorStringColorRGB { get; set; }
 
+        public bool GodModeInfiniteCandles { get; set; }
+        public bool GodModePlayerDoesntDie { get; set; }
+        public bool GodModePlayerSeesEverything { get; set; }
+
         public GameConfig(string gameConfigRaw)
         {
             var gameConfigDictionary = gameConfigRaw
@@ -135,6 +139,10 @@ namespace MarkInDeDarkMono.Common
             GameOverStringColorRGB = LoadColor(gameConfigDictionary[nameof(GameOverStringColorRGB)]);
             LevelCompletedStringColorRGB = LoadColor(gameConfigDictionary[nameof(LevelCompletedStringColorRGB)]);
             ClosedDoorStringColorRGB = LoadColor(gameConfigDictionary[nameof(ClosedDoorStringColorRGB)]);
+
+            GodModeInfiniteCandles = LoadBoolean(gameConfigDictionary[nameof(GodModeInfiniteCandles)]);
+            GodModePlayerDoesntDie = LoadBoolean(gameConfigDictionary[nameof(GodModePlayerDoesntDie)]);
+            GodModePlayerSeesEverything = LoadBoolean(gameConfigDictionary[nameof(GodModePlayerSeesEverything)]);
         }
 
         private float LoadFloat(string value)
