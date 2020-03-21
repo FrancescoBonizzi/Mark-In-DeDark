@@ -29,7 +29,6 @@ namespace MarkInDeDarkMono.AI
         public ChargeDirectionAI(
             CharacterActions direction,
             GameGrid gameGrid,
-            Player playerReference,
             Taurus taurus,
             SoundManager soundManager,
             CandlesManager candlesManager,

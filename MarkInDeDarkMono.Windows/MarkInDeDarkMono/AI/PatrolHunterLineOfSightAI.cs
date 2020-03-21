@@ -3,9 +3,9 @@ using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
-using FbonizziMonoGame.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDarkMono.AI
@@ -34,23 +34,27 @@ namespace MarkInDeDarkMono.AI
             // Seconda euristica: il nemico sta guardando in faccia il player?
             // (Se è di schiena non lo può vedere)
             if ((
-                (character.CurrentCharacterState == Character.CharacterState.GoingLeft
+                ((character.CurrentCharacterState == Character.CharacterState.GoingLeft 
+                || character.CurrentCharacterState == Character.CharacterState.IdleLeft)
                 && character.Position.X < position.X)
 
-                || (character.CurrentCharacterState == Character.CharacterState.GoingRight
+                || ((character.CurrentCharacterState == Character.CharacterState.GoingRight
+                || character.CurrentCharacterState == Character.CharacterState.IdleRight)
                 && character.Position.X > position.X)
 
-                || (character.CurrentCharacterState == Character.CharacterState.GoingUp
+                || ((character.CurrentCharacterState == Character.CharacterState.GoingUp
+                || character.CurrentCharacterState == Character.CharacterState.IdleUp)
                 && character.Position.Y < position.Y)
 
-                || (character.CurrentCharacterState == Character.CharacterState.GoingDown
+                || ((character.CurrentCharacterState == Character.CharacterState.GoingDown
+                || character.CurrentCharacterState == Character.CharacterState.IdleDown)
                 && character.Position.Y > position.Y)
                 ))
             {
                 return null;
             }
 
-            // Se sono sulla stessa retta, calcolo le azioni per raggiungersi,
+            // Calcolo le azioni per raggiungersi,
             // così posso vedere se ci sono muri di mezzo (ovvero se deve fare più azioni per raggiungerlo)
             var actionsToPlayer = gameGrid.FindActionsToPath(
                 character.Position,

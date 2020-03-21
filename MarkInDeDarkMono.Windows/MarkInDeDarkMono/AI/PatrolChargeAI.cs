@@ -47,7 +47,7 @@ namespace MarkInDeDarkMono.AI
             if (straightDirectionToPosition != null)
             {
                 return character.SetNewAI(
-                    new ChargeDirectionAI(straightDirectionToPosition.Value, _gameGrid, _player, character as Taurus, _soundManager, _candlesManager, this));
+                    new ChargeDirectionAI(straightDirectionToPosition.Value, _gameGrid, character as Taurus, _soundManager, _candlesManager, this));
             }
 
             return base.Update(character, elapsed);

@@ -20,6 +20,8 @@ namespace MarkInDeDarkMono.AI
         private readonly GameGrid _gameGrid;
         private GameCell _oldDestionation;
 
+        private CharacterActions? _lastAction;
+
         private readonly float _originalSpeed;
 
         public PlayerHunterLineOfSightAI(
@@ -49,28 +51,36 @@ namespace MarkInDeDarkMono.AI
             => _currentActions != null && _currentActions.Any();
 
         public CharacterActions Update(
-            Enemy character,
+            Enemy enemy,
             TimeSpan elapsed)
         {
-            var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
+            var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(enemy, _candlesManager);
             if (actionsToNearCandle.Key != null)
             {
-                character.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this, _gameGrid));
+                enemy.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this, _gameGrid));
                 _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
-                return character.CurrentAI.Update(character, elapsed);
+                return enemy.CurrentAI.Update(enemy, elapsed);
             }
 
-            var destination = _gameGrid.GetCellAtPixel(_player.Position);
-            // Se il player si è spostato rispetto a prima o se ho finito le azioni da fare...
-            if (_oldDestionation != destination || !HasActionsToDo)
+            var destinationCell = _gameGrid.GetCellAtPixel(_player.Position);
+            var enemyCell = _gameGrid.GetCellAtPixel(enemy.Position);
+
+            // Se sono sulla stessa cella deve continuare a seguirlo
+            if (destinationCell == enemyCell && _lastAction != null)
             {
+                _currentActions = new Queue<CharacterActions>();
+                _currentActions.Enqueue(_lastAction.Value);
+            }
+            // Se il player si è spostato rispetto a prima o se ho finito le azioni da fare...
+            else if (_oldDestionation != destinationCell || !HasActionsToDo)
+            {                
                 // ...cerco di capire se riesco comunque a raggiungerlo a vista
                 var pathToPlayerIfFacingAndSameDirection = PatrolHunterLineOfSightAI.PathToPositionIfFacingAndSameDirection(
-                    character, _player.Position, _gameGrid);
+                    enemy, _player.Position, _gameGrid);
 
                 if (pathToPlayerIfFacingAndSameDirection != null)
                 {
-                    _oldDestionation = destination;
+                    _oldDestionation = destinationCell;
                     _currentActions = new Queue<CharacterActions>(pathToPlayerIfFacingAndSameDirection);
                 }
             }
@@ -78,13 +88,14 @@ namespace MarkInDeDarkMono.AI
             // Finchè ho azioni da fare, le eseguo
             if (HasActionsToDo)
             {
-                return _currentActions.Dequeue();
+                _lastAction = _currentActions.Dequeue();
+                return _lastAction.Value;
             }
 
             // Altrimenti ritorno allo stato originale
-            character.ResetNormalColor();
-            character.Speed = _originalSpeed;
-            return character.SetNewAI(_nextAI);
+            enemy.ResetNormalColor();
+            enemy.Speed = _originalSpeed;
+            return enemy.SetNewAI(_nextAI);
         }
     }
 }
