@@ -44,7 +44,7 @@ namespace MarkInDeDarkMono.Characters
             player,
             assetsLoader)
         {
-#warning Onde evitare problemi con i nomi dei nemici... Metti una enum globale
+
         }
     }
 }

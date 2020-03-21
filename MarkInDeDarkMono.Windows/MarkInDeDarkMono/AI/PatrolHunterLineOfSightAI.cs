@@ -25,7 +25,6 @@ namespace MarkInDeDarkMono.AI
             _gameConfig = gameConfig;
         }
 
-#warning Forse è un metodo più da enemy che da AI... boh
         public static IEnumerable<CharacterActions> PathToPositionIfFacingAndSameDirection(
             Enemy character, 
             Vector2 position, 
