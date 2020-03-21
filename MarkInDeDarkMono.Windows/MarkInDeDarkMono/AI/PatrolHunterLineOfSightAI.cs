@@ -3,6 +3,7 @@ using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
+using FbonizziMonoGame.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +31,6 @@ namespace MarkInDeDarkMono.AI
             Vector2 position, 
             GameGrid gameGrid)
         {
-            // Prima euristica: devono essere sulla stessa retta,
-            // Verticale o orizzontale che sia
-            if (character.Position.Y != position.Y
-                && character.Position.X != position.X)
-            {
-                return null;
-            }
-
             // Seconda euristica: il nemico sta guardando in faccia il player?
             // (Se è di schiena non lo può vedere)
             if ((
