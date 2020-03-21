@@ -54,6 +54,25 @@ namespace MarkInDeDark.LevelEditor.Editor
                     if (editorCell.ObjectType != null)
                     {
                         cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeAdditionalData);
+
+                        switch (editorCell.ObjectType.Value)
+                        {
+                            case ObjectTypes.Giocatore:
+                                _window.BtnObjectType_Player.IsEnabled = false;
+                                break;
+
+                            case ObjectTypes.Chiave:
+                                _window.BtnObjectType_Key.IsEnabled = false;
+                                break;
+
+                            case ObjectTypes.Uscita:
+                                _window.BtnObjectType_Exit.IsEnabled = false;
+                                break;
+
+                            case ObjectTypes.Goblin:
+                                _window.BtnObjectType_Goblin.IsEnabled = false;
+                                break;
+                        }
                     }
 
                     var cellBorder = new Border()
