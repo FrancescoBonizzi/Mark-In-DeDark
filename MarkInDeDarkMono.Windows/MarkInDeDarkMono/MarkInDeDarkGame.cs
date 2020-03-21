@@ -36,7 +36,6 @@ namespace MarkInDeDarkMono
         private readonly GameHUD _gameHud;
 
         private GraphicsDevice _graphicsDevice;
-        private RenderTarget2D _mainScene;
         private RenderTarget2D _lightMaskRenderTarget;
         private BlendState _blendStateMultiply;
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
@@ -85,7 +84,6 @@ namespace MarkInDeDarkMono
             _playerCameraOffset = gameConfig.CameraOffsetFromPlayer.ToXnaVector2();
 
             var presentationParameters = graphicsDevice.PresentationParameters;
-            _mainScene = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _blendStateMultiply = new BlendState()
