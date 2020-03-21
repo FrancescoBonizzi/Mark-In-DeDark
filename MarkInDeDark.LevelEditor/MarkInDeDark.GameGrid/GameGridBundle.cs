@@ -7,6 +7,9 @@
 
         public Cell[,] Grid { get; set; }
 
+        public int EnvironmentTexturePackId { get; set; }
+        public int DirtyProbabilityPercentage { get; set; }
+
         public GameGridBundle(int rows, int columns)
         {
             Rows = rows;

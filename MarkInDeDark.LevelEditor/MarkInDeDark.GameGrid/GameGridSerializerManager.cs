@@ -20,8 +20,11 @@ namespace MarkInDeDark.GameGrid
                 .ToList();
 
             var serializerV2 = new GameGridSerializerV2();
+            var serializerV3 = new GameGridSerializerV3();
             if (serializerV2.WasTheFileSerializedWithThisClass(_lines[0]))
                 _thisFileSerializer = serializerV2;
+            else if (serializerV3.WasTheFileSerializedWithThisClass(_lines[0]))
+                _thisFileSerializer = serializerV3;
             else
                 _thisFileSerializer = new GameGridSerializerVExcel();
         }

@@ -20,6 +20,10 @@ namespace MarkInDeDark.GameGrid
             var columns = Convert.ToInt32(firstLineSplitted[1]);
             var gameGrid = new GameGridBundle(rows, columns);
 
+            // In questa versione del serializzatore non permetto di modificare questi parametri
+            gameGrid.DirtyProbabilityPercentage = 40;
+            gameGrid.EnvironmentTexturePackId = 0;
+
             foreach (var line in levelContentRawLines.Skip(2))
             {
                 var splitted = line.Split(_separator);

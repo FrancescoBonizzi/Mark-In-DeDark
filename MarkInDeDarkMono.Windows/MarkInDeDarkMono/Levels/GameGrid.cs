@@ -57,8 +57,8 @@ namespace MarkInDeDarkMono.Levels
             _position = Vector2.Zero;
             _camera = camera;
 
-            CellWidth = levelToLoad.Cell.Width;
-            CellHeight = levelToLoad.Cell.Height;
+            CellWidth = levelToLoad.CellSprite.Width;
+            CellHeight = levelToLoad.CellSprite.Height;
             _totalWidthInPixel = CellWidth * HorizontalCellsNumber;
             _totalHeightInPixel = CellHeight * VerticalCellsNumber;
 
@@ -73,12 +73,12 @@ namespace MarkInDeDarkMono.Levels
                     _cells[i, j] = new GameCell(
                         nextCellPosition,
                         assetsLoader,
-                        levelToLoad.Cell,
-                        levelToLoad.Wall,
-                        levelToLoad.DestroyableWall,
-                        levelToLoad.Angle,
-                        levelToLoad.Dirty,
-                        levelToLoad.WhiteCell,
+                        levelToLoad.CellSprite,
+                        levelToLoad.WallSprite,
+                        levelToLoad.DestroyableWallSprite,
+                        levelToLoad.AngleSprite,
+                        levelToLoad.DirtySprite,
+                        levelToLoad.MacerieCellSprite,
                         levelToLoad.DirtyProbability,
                         soundManager);
 
@@ -89,7 +89,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelContentRaw, this);
+            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this);
         }
 
         public void SetNullCell(int cellX, int cellY)
@@ -259,7 +259,6 @@ namespace MarkInDeDarkMono.Levels
         }
 
         // E' una BFS greedy
-#warning Implementare euristica
         private List<GameCell> FindPath(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();

@@ -1,5 +1,7 @@
 ﻿using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDark.GameGrid;
+using MarkInDeDarkMono.Assets;
 using System;
 
 namespace MarkInDeDarkMono.Levels
@@ -7,20 +9,20 @@ namespace MarkInDeDarkMono.Levels
     public class Level
     {
         public string LevelTitleToShow { get; private set; }
-        public string LevelContentRaw { get; }
 
         public bool IsCompleted { get; private set; }
         public int? RecordUsedCandles { get; private set; }
         public TimeSpan? RecordCompletionTime { get; private set; }
 
-        public Sprite Cell { get; private set; }
-        public Sprite WhiteCell { get; private set; }
-        public Sprite Dirty { get; private set; }
-        public Sprite Wall { get; private set; }
-        public Sprite DestroyableWall { get; private set; }
-        public Sprite Angle { get; private set; }
+        public Sprite CellSprite { get; private set; }
+        public Sprite MacerieCellSprite { get; private set; }
+        public Sprite DirtySprite { get; private set; }
+        public Sprite WallSprite { get; private set; }
+        public Sprite DestroyableWallSprite { get; private set; }
+        public Sprite AngleSprite { get; private set; }
         public double DirtyProbability { get; private set; }
 
+        public GameGridBundle LevelEditorDeserializedGrid { get; }
         private readonly ISettingsRepository _settingsRepository;
 
         private readonly string _isCompletedKey;
@@ -28,19 +30,23 @@ namespace MarkInDeDarkMono.Levels
         private readonly string _recordCompletionTimeKey;
 
         public Level(
+            AssetsLoader assetsLoader,
             ISettingsRepository settingsRepository,
             string levelContentRaw,
-            string levelTitleToShow,
-            Sprite cell,
-            Sprite dirty,
-            Sprite wall,
-            Sprite destroyableWall,
-            Sprite angle,
-            Sprite whiteCell,
-            double dirtyProbability)
+            string levelTitleToShow)
         {
             LevelTitleToShow = levelTitleToShow;
-            LevelContentRaw = levelContentRaw;
+
+            var serializer = new GameGridDeserializerManager(levelContentRaw);
+            LevelEditorDeserializedGrid = serializer.DeserializeLevel();
+
+            CellSprite = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            DirtySprite = assetsLoader.Sprites[$"dirty{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            WallSprite = assetsLoader.Sprites[$"wall{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            DestroyableWallSprite = assetsLoader.Sprites[$"wall_breakable"];
+            AngleSprite = assetsLoader.Sprites[$"angle{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            MacerieCellSprite = assetsLoader.Sprites["macerie0"];
+            DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;
             _isCompletedKey = $"{levelTitleToShow}-IsCompleted";
@@ -56,14 +62,6 @@ namespace MarkInDeDarkMono.Levels
             RecordCompletionTime = settingsRepository.GetOrSetTimeSpan(_recordCompletionTimeKey, TimeSpan.Zero);
             if (RecordCompletionTime == TimeSpan.Zero)
                 RecordCompletionTime = null;
-
-            Cell = cell;
-            Dirty = dirty;
-            DirtyProbability = dirtyProbability;
-            Wall = wall;
-            DestroyableWall = destroyableWall;
-            Angle = angle;
-            WhiteCell = whiteCell;
         }
 
         public void SetCompletionParameters(

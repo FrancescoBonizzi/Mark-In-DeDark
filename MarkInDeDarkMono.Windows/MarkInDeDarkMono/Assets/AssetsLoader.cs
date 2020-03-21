@@ -71,33 +71,14 @@ namespace MarkInDeDarkMono.Assets
 
         private void LoadLevels()
         {
-            float dirtyProbability = 0.2f;
-            int textureIndex = 0;
             foreach (var levelPath in _levelPaths)
             {
-                if (dirtyProbability > 1f)
-                {
-                    dirtyProbability = 0.2f;
-                    ++textureIndex;
-
-                    if (textureIndex > 7)
-                        textureIndex = 0;
-                }
-
                 Levels.Add(
                    new Level(
+                       this,
                        _settingsRepository,
                        _fileLoader.LoadFile(levelPath),
-                       Path.GetFileNameWithoutExtension(levelPath),
-                       Sprites[$"cell{textureIndex}"],
-                       Sprites[$"dirty{textureIndex}"],
-                       Sprites[$"wall{textureIndex}"],
-                       Sprites[$"wall_breakable"],
-                       Sprites[$"angle{textureIndex}"],
-                       Sprites["macerie0"],
-                       dirtyProbability));
-
-                dirtyProbability += 0.2f;
+                       Path.GetFileNameWithoutExtension(levelPath)));
             }
 
             Levels = Levels.OrderBy(l => l.LevelTitleToShow).ToList();

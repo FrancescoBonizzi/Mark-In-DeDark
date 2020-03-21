@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Mark in DeDark - Level editor"
-    PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
-    ResizeMode="CanMinimize"
     Width="1000"
     Closing="Window_Closing"
+    PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
+    ResizeMode="CanResize"
     mc:Ignorable="d">
 
     <DockPanel Background="AliceBlue">
@@ -489,9 +490,81 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <!--  TODO Aggiungere Wolf con tag 9 -->
+                    <!--  TODO Aggiungere Wolf con tag 9  -->
 
                 </StackPanel>
+
+                <Border
+                    Padding="0,5"
+                    Margin="0,5"
+                    Background="LightYellow"
+                    CornerRadius="5">
+                    <StackPanel Margin="0,5" Orientation="Horizontal">
+
+                        <TextBlock
+                            Width="60"
+                            Margin="4,0"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            Text="Texture: " />
+
+                        <Button
+                            Width="22"
+                            Padding="5,2"
+                            VerticalAlignment="Center"
+                            Click="HelpTexture_Click"
+                            Content="?"
+                            Cursor="Help"
+                            FontWeight="Bold" />
+
+                        <StackPanel
+                            Width="220"
+                            Margin="10,0"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Pacco di texture:" />
+
+                            <ComboBox
+                                x:Name="cmbTexturePack"
+                                Width="100"
+                                Cursor="Hand"
+                                ToolTip="Indica il pacco di texture da utilizzare in questo livello">
+
+                                <ComboBoxItem>Texture 1</ComboBoxItem>
+                                <ComboBoxItem>Texture 2</ComboBoxItem>
+                                <ComboBoxItem>Texture 3</ComboBoxItem>
+                                <ComboBoxItem>Texture 4</ComboBoxItem>
+                                <ComboBoxItem>Texture 5</ComboBoxItem>
+                                <ComboBoxItem>Texture 6</ComboBoxItem>
+                                <ComboBoxItem>Texture 7</ComboBoxItem>
+
+                            </ComboBox>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10,0" Orientation="Horizontal">
+
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Probabilità di sporcare (%):" />
+
+                            <xceed:IntegerUpDown
+                                x:Name="numDirtyProbability"
+                                Width="100"
+                                Maximum="100"
+                                Minimum="0"
+                                ToolTip="Indica la probabilità di sporcare la texture principale del pavimento" />
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
 
             </StackPanel>
 

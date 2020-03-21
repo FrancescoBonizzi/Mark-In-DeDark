@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -114,6 +113,9 @@ namespace MarkInDeDark.LevelEditor
                     var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
                     _gameGrid = gameGridSerializerManager.DeserializeLevel();
 
+                    numDirtyProbability.Value = _gameGrid.DirtyProbabilityPercentage;
+                    cmbTexturePack.SelectedIndex = _gameGrid.EnvironmentTexturePackId;
+
                     _presentation = new WpfCanvasEditorPresentation(
                         this,
                         _gameGrid,
@@ -159,7 +161,9 @@ namespace MarkInDeDark.LevelEditor
 
         private void SerializeAndSave(string filePath)
         {
-            var serializedLevel = new GameGridSerializerV2().SerializeLevel(_gameGrid);
+            _gameGrid.DirtyProbabilityPercentage = numDirtyProbability.Value ?? 0;
+            _gameGrid.EnvironmentTexturePackId = cmbTexturePack.SelectedIndex;
+            var serializedLevel = new GameGridSerializerV3().SerializeLevel(_gameGrid);
             File.WriteAllText(filePath, serializedLevel);
         }
 
@@ -312,6 +316,11 @@ namespace MarkInDeDark.LevelEditor
         private void HelpEnemies_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Seleziona un nemico e premi col mouse su una cella per impostarlo", "Aiutino!");
+        }
+
+        private void HelpTexture_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Da qui puoi impostare alcuni parametri relativi alle texture specifici per questo livello", "Aiutino!");
         }
 
         private void BtnProvaInGame_Click(object sender, RoutedEventArgs e)

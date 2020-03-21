@@ -13,12 +13,9 @@ namespace MarkInDeDarkMono.Levels
         public static void LoadGrid(
             AssetsLoader assetsLoader,
             SoundManager soundManager,
-            string levelContentRaw,
+            GameGridBundle levelEditorGrid,
             GameGrid grid)
         {
-            var serializer = new GameGridDeserializerManager(levelContentRaw);
-            var levelEditorGrid = serializer.DeserializeLevel();
-
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var taurusPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
