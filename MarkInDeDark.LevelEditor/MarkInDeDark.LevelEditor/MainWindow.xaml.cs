@@ -16,6 +16,8 @@ namespace MarkInDeDark.LevelEditor
 {
     public partial class MainWindow : Window
     {
+        private const string _baseWindowTitle = "Mark in DeDark Level editor";
+
         private GameGridBundle _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
         private BusyIndicator _busyIndicator;
@@ -54,6 +56,7 @@ namespace MarkInDeDark.LevelEditor
                 _gameGrid,
                 levelEditorCanvas,
                 _cellSize);
+            Title = $"{_baseWindowTitle} - Nuovo";
         }
 
         private void BtnNuovo_Click(object sender, RoutedEventArgs e)
@@ -121,6 +124,8 @@ namespace MarkInDeDark.LevelEditor
                         _gameGrid,
                         levelEditorCanvas,
                         _cellSize);
+
+                    Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
                 }
                 finally
                 {
@@ -155,6 +160,7 @@ namespace MarkInDeDark.LevelEditor
             {
                 SerializeAndSave(saveFileDialog.FileName);
                 _currentLevelFilePath = saveFileDialog.FileName;
+                Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}";
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
