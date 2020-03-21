@@ -218,11 +218,6 @@ namespace MarkInDeDarkMono.Assets
             _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
         }
 
-        // Per la rotazione in caso di caduta
-        //p_rotating_.Add(_textures_rectangles["easy_back_iddle"]);
-        //p_rotating_.Add(_textures_rectangles["easy_front_iddle"]);
-        //p_rotating_.Add(_textures_rectangles["easy_side_iddle"]);
-
         private void LoadOtherResources()
         {
             Font = _contentManager.Load<SpriteFont>("font");
