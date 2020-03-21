@@ -136,7 +136,6 @@ namespace MarkInDeDarkMono.Assets
 
         private void LoadSounds()
         {
-            // TODO ci sarà il modo di vedere cos'ha enumerato content e di prenderli in automatico
             Sounds.Add("attack1", _contentManager.Load<SoundEffect>("Soundtrack/attack1"));
             Sounds.Add("attack2", _contentManager.Load<SoundEffect>("Soundtrack/attack2"));
             Sounds.Add("attack3", _contentManager.Load<SoundEffect>("Soundtrack/attack3"));
