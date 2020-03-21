@@ -238,6 +238,13 @@ namespace MarkInDeDarkMono.Levels
                     else
                         cell.AddLink(null, LinkDirection.NorthLink);
 
+                    // Per ovviare al problema che ogni cella può avere un muro rompibile e si possono sovrapporre
+                    if (cell.IsNorthDestroyable)
+                    {
+                        var northCell = grid.GetCellByIndex(i, j - 1);
+                        northCell.IsSouthDestroyable = true;
+                    }
+
                     if (cell.IsEastPassable)
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
@@ -255,6 +262,13 @@ namespace MarkInDeDarkMono.Levels
                     else
                         cell.AddLink(null, LinkDirection.EastLink);
 
+                    // Per ovviare al problema che ogni cella può avere un muro rompibile e si possono sovrapporre
+                    if (cell.IsEastDestroyable)
+                    {
+                        var eastCell = grid.GetCellByIndex(i + 1, j);
+                        eastCell.IsWestDestroyable = true;
+                    }
+
                     if (cell.IsSouthPassable)
                     {
                         var southCell = grid.GetCellByIndex(i, j + 1);
@@ -271,6 +285,13 @@ namespace MarkInDeDarkMono.Levels
                     else
                         cell.AddLink(null, LinkDirection.SouthLink);
 
+                    // Per ovviare al problema che ogni cella può avere un muro rompibile e si possono sovrapporre
+                    if (cell.IsSouthDestroyable)
+                    {
+                        var southCell = grid.GetCellByIndex(i, j + 1);
+                        southCell.IsNorthDestroyable = true;
+                    }
+
                     if (cell.IsWestPassable)
                     {
                         var westCell = grid.GetCellByIndex(i - 1, j);
@@ -286,6 +307,13 @@ namespace MarkInDeDarkMono.Levels
                     }
                     else
                         cell.AddLink(null, LinkDirection.WestLink);
+
+                    // Per ovviare al problema che ogni cella può avere un muro rompibile e si possono sovrapporre
+                    if (cell.IsWestDestroyable)
+                    {
+                        var westCell = grid.GetCellByIndex(i - 1, j);
+                        westCell.IsEastDestroyable = true;
+                    }
 
                     // Aggiungo altri muretti. Posso farlo solo qua perchè prima non ho i link alle celle intorno!
 
