@@ -26,6 +26,14 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvas = canvas;
             _window = window;
 
+            _window.BtnObjectType_Player.IsEnabled = true;
+            _window.BtnObjectType_Key.IsEnabled = true;
+            _window.BtnObjectType_Exit.IsEnabled = true;
+            _window.BtnObjectType_Goblin.IsEnabled = true;
+
+            _window.cmbTexturePack.SelectedIndex = 0;
+            _window.numDirtyProbability.Value = 10;
+
             DrawAll();
         }
 
