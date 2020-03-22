@@ -12,6 +12,7 @@ namespace MarkInDeDarkMono.Characters
         public IEnemyAI CurrentAI { get; private set; }
 
         private TimeSpan _screamTimer;
+        private bool _canMove;
         private readonly int _screamSoundIndex;
         private readonly int _attackSoundIndex;
 
@@ -51,6 +52,7 @@ namespace MarkInDeDarkMono.Characters
             _attackSoundIndex = enemyConfiguration.AttackSoundIndex;
             _screamSoundIndex = enemyConfiguration.ScreamSoundIndex;
             CurrentAI = enemyConfiguration.StartingAI;
+            _canMove = true;
         }
 
         public void SetRandomScreamTimer()
@@ -110,6 +112,12 @@ namespace MarkInDeDarkMono.Characters
                     break;
 
             }
+        }
+
+        public void GameFinished()
+        {
+            StopAttacking();
+            _canMove = false;
         }
 
         public void StopAttacking()
@@ -179,7 +187,7 @@ namespace MarkInDeDarkMono.Characters
                 CurrentAI = new IdleAI();
             }
 
-            if (!IsMoving)
+            if (!IsMoving && _canMove)
             {
                 base.HandleInput(CurrentAI.Update(this, elapsed));
             }

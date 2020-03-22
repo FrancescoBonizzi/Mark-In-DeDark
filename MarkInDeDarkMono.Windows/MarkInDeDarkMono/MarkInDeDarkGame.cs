@@ -323,7 +323,7 @@ namespace MarkInDeDarkMono
                     if (_elapsedFinish >= _attackTimer)
                     {
                         foreach (var e in _enemies)
-                            e.StopAttacking();
+                            e.GameFinished();
                     }
 
 
