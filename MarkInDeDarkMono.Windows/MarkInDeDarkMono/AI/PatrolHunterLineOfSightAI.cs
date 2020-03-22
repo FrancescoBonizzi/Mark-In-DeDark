@@ -34,6 +34,8 @@ namespace MarkInDeDarkMono.AI
             var playerCellIndex = gameGrid.GetCellIndexByPixel(playerPosition);
             var enemyCellIndex = gameGrid.GetCellIndexByPixel(enemy.Position);
 
+            // Se il player ha i piedi in due celle bisogna valutarle entrambe
+
             bool areInTheSameVertical = playerCellIndex.X == enemyCellIndex.X;
             bool areInTheSameHorizontal = playerCellIndex.Y == enemyCellIndex.Y;
 
@@ -44,7 +46,6 @@ namespace MarkInDeDarkMono.AI
             }
 
             // Seconda euristica: il nemico non dev'essere di schiena rispetto al player
-
             if (areInTheSameVertical)
             {
                 if (

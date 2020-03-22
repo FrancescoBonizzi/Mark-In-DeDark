@@ -106,6 +106,8 @@ namespace MarkInDeDarkMono.Characters
             _torch = new Light(configuration.TorchSprite, configuration.FirstTorchColor, configuration.SecondTorchColor, configuration.TorchScale);
             Speed = configuration.MovementSpeed;
 
+            _lightMap.SetPosition(_drawingInfos.Position);
+
             AnimationsManager = new AnimationsManager()
                 .AddAnimation(AnimationsNames.WalkUp.ToString(), configuration.WalkUpAnimation)
                 .AddAnimation(AnimationsNames.WalkDown.ToString(), configuration.WalkDownAnimation)
