@@ -418,7 +418,9 @@ namespace MarkInDeDarkMono
 
             // I nemici morti vengono disegnati sotto il player
             foreach (Enemy en in _enemies.Where(enemy => enemy.IsDead))
+            {
                 en.Draw(spriteBatch);
+            }
 
             _candlesManager.Draw(spriteBatch);
             _player.Draw(spriteBatch);

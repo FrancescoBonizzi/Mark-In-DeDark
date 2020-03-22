@@ -114,8 +114,11 @@ namespace MarkInDeDarkMono.Characters
 
         public void StopAttacking()
         {
-            StopAttackSound();
-            SetDirectionAnimation(CharacterActions.Down);
+            if (CurrentCharacterState != CharacterState.Dying && CurrentCharacterState != CharacterState.Dead)
+            {
+                StopAttackSound();
+                SetDirectionAnimation(CharacterActions.Down);
+            }
         }
 
         private void PlayMyVoice()
