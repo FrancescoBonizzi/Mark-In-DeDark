@@ -40,7 +40,7 @@ CandleLightSize:0.5
 ExitLightSize:1.0
 CameraOffsetFromPlayer:720-576
 DoMonstersAttackTheSameCandle:1
-CandleTimeToLiveWhenAttackedSeconds:1.5
+CandleTimeToLiveWhenAttackedSeconds:3
 IsFullScreen:0
 BreakableTrapBreakingTimeSeconds:2
 NotEnoughCandlesStringColorRGB:255-0-0

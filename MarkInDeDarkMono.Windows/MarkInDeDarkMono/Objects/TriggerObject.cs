@@ -13,7 +13,7 @@ namespace MarkInDeDarkMono.Objects
 
         private readonly List<Character> _affectedCharacters;
         private Action<Character, TimeSpan> _onTriggerPressed;
-        private Action<Character, TimeSpan> _onTriggerLeft;
+        private Action _onTriggerLeft;
         private readonly bool _shouldFireOnce;
         private bool _hasFired = false;
 
@@ -21,7 +21,7 @@ namespace MarkInDeDarkMono.Objects
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters,
             Action<Character, TimeSpan> onTriggerPressed,
-            Action<Character, TimeSpan> onTriggerLeft,
+            Action onTriggerLeft,
             bool shouldFireOnce)
         {
             _triggerArea = triggerCollisionRectangle;
@@ -39,33 +39,35 @@ namespace MarkInDeDarkMono.Objects
         protected void SetOnTriggerPressed(Action<Character, TimeSpan> onTriggerPressed)
             => _onTriggerPressed = onTriggerPressed;
 
-        protected void SetOnTriggerLeft(Action<Character, TimeSpan> onTriggerLeft)
+        protected void SetOnTriggerLeft(Action onTriggerLeft)
             => _onTriggerLeft = onTriggerLeft;
 
         public virtual void Update(TimeSpan elapsed)
         {
+            bool someOneOnTheTrigger = false;
             if ((_shouldFireOnce && !_hasFired)
                 || !_shouldFireOnce)
             {
+                
                 for (int i = _affectedCharacters.Count() - 1; i >= 0; --i)
                 {
                     if (_affectedCharacters[i].CollisionRectangle.Intersects(_triggerArea))
                     {
+                        someOneOnTheTrigger = true;
                         _onTriggerPressed(_affectedCharacters[i], elapsed);
                         _hasFired = true;
 
                         if (_affectedCharacters[i].IsDead || _affectedCharacters[i].IsDying)
                             _affectedCharacters.RemoveAt(i);
                     }
-                    else
-                    {
-                        if (_hasFired)
-                        {
-                            _onTriggerLeft(_affectedCharacters[i], elapsed);
-                            _hasFired = false;
-                        }
-                    }
+                        
                 }
+            }
+
+            if (_hasFired && !someOneOnTheTrigger)
+            {
+                _onTriggerLeft();
+                _hasFired = false;
             }
         }
 
