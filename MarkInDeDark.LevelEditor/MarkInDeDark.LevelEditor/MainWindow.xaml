@@ -381,7 +381,7 @@
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="4"
-                        ToolTip="Imposta un pacco di candele">
+                        ToolTip="Imposta un pacco di candele da utilizzare">
                         <StackPanel Orientation="Horizontal">
                             <Image
                                 Width="20"

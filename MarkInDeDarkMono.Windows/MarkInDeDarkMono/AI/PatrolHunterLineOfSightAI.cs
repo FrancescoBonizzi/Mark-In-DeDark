@@ -27,38 +27,60 @@ namespace MarkInDeDarkMono.AI
         }
 
         public static IEnumerable<CharacterActions> PathToPositionIfFacingAndSameDirection(
-            Enemy character, 
-            Vector2 position, 
+            Enemy enemy,
+            Vector2 playerPosition,
             GameGrid gameGrid)
         {
-            // Seconda euristica: il nemico sta guardando in faccia il player?
-            // (Se è di schiena non lo può vedere)
-            if ((
-                ((character.CurrentCharacterState == Character.CharacterState.GoingLeft 
-                || character.CurrentCharacterState == Character.CharacterState.IdleLeft)
-                && character.Position.X < position.X)
+            var playerCellIndex = gameGrid.GetCellIndexByPixel(playerPosition);
+            var enemyCellIndex = gameGrid.GetCellIndexByPixel(enemy.Position);
 
-                || ((character.CurrentCharacterState == Character.CharacterState.GoingRight
-                || character.CurrentCharacterState == Character.CharacterState.IdleRight)
-                && character.Position.X > position.X)
+            bool areInTheSameVertical = playerCellIndex.X == enemyCellIndex.X;
+            bool areInTheSameHorizontal = playerCellIndex.Y == enemyCellIndex.Y;
 
-                || ((character.CurrentCharacterState == Character.CharacterState.GoingUp
-                || character.CurrentCharacterState == Character.CharacterState.IdleUp)
-                && character.Position.Y < position.Y)
-
-                || ((character.CurrentCharacterState == Character.CharacterState.GoingDown
-                || character.CurrentCharacterState == Character.CharacterState.IdleDown)
-                && character.Position.Y > position.Y)
-                ))
+            // Prima euristica: devono essere sulla stessa retta
+            if (!areInTheSameVertical && !areInTheSameHorizontal)
             {
                 return null;
+            }
+
+            // Seconda euristica: il nemico non dev'essere di schiena rispetto al player
+
+            if (areInTheSameVertical)
+            {
+                if (
+                        ((enemy.CurrentCharacterState == Character.CharacterState.GoingUp
+                        || enemy.CurrentCharacterState == Character.CharacterState.IdleUp)
+                        && enemyCellIndex.Y < playerCellIndex.Y)
+
+                        || ((enemy.CurrentCharacterState == Character.CharacterState.GoingDown
+                        || enemy.CurrentCharacterState == Character.CharacterState.IdleDown)
+                        && enemyCellIndex.Y > playerCellIndex.Y)
+                   )
+                {
+                    return null;
+                }
+            }
+            else if (areInTheSameHorizontal)
+            {
+                if (
+                        ((enemy.CurrentCharacterState == Character.CharacterState.GoingLeft
+                        || enemy.CurrentCharacterState == Character.CharacterState.IdleLeft)
+                        && enemyCellIndex.X < playerCellIndex.X)
+
+                        || ((enemy.CurrentCharacterState == Character.CharacterState.GoingRight
+                        || enemy.CurrentCharacterState == Character.CharacterState.IdleRight)
+                        && enemyCellIndex.X > playerCellIndex.X)
+                    )
+                {
+                    return null;
+                }
             }
 
             // Calcolo le azioni per raggiungersi,
             // così posso vedere se ci sono muri di mezzo (ovvero se deve fare più azioni per raggiungerlo)
             var actionsToPlayer = gameGrid.FindActionsToPath(
-                character.Position,
-                position);
+                enemy.Position,
+                playerPosition);
 
             if (actionsToPlayer == null || !actionsToPlayer.Any()) // Può succedere se il player si sposta al volo
             {
