@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/ProjectsGit/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
+        <string>C:/Users/Francesco/Source/Repos/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -426,6 +426,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/player_back_iddle_2.png</key>
+            <key type="filename">Game/player_back_iddle_3.png</key>
+            <key type="filename">Game/player_front_iddle_2.png</key>
+            <key type="filename">Game/player_front_iddle_3.png</key>
+            <key type="filename">Game/player_side_iddle_2.png</key>
+            <key type="filename">Game/player_side_iddle_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -584,6 +602,12 @@
             <filename>Game/wall_breakable.png</filename>
             <filename>Game/trap_instantly_die.png</filename>
             <filename>Game/trap_breakable.png</filename>
+            <filename>Game/player_back_iddle_2.png</filename>
+            <filename>Game/player_back_iddle_3.png</filename>
+            <filename>Game/player_front_iddle_2.png</filename>
+            <filename>Game/player_front_iddle_3.png</filename>
+            <filename>Game/player_side_iddle_2.png</filename>
+            <filename>Game/player_side_iddle_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

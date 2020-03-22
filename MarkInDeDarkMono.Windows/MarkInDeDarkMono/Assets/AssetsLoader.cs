@@ -159,9 +159,24 @@ namespace MarkInDeDarkMono.Assets
                 var characterWalkUp = new List<Sprite>() { Sprites[$"{characterName}_back_walking_1"], Sprites[$"{characterName}_back_iddle"], Sprites[$"{characterName}_back_walking_2"] };
                 var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_iddle"], Sprites[$"{characterName}_front_walking_2"] };
                 var characterWalkSide = new List<Sprite>() { Sprites[$"{characterName}_side_walking_1"], Sprites[$"{characterName}_side_iddle"], Sprites[$"{characterName}_side_walking_2"], Sprites[$"{characterName}_side_iddle"] };
+                
                 var characterIdleUp = new List<Sprite>() { Sprites[$"{characterName}_back_iddle"] };
                 var characterIdleDown = new List<Sprite>() { Sprites[$"{characterName}_front_iddle"] };
                 var characterIdleSide = new List<Sprite>() { Sprites[$"{characterName}_side_iddle"] };
+
+                // Per gli Idle dei mostri vedremo
+                if (characterName == "player")
+                {
+                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_2"]);
+                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_3"]);
+
+                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_2"]);
+                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_3"]);
+
+                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_2"]);
+                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_3"]);
+                }
+
                 var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };
                 
                 _animations[$"{characterName}WalkUp"] = new SpriteAnimation(characterWalkUp, TimeSpan.FromMilliseconds(200));
