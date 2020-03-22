@@ -147,6 +147,12 @@ namespace MarkInDeDarkMono.Characters
         public void HitPlayer()
             => CurrentAI = new IdleAI();
 
+        public override void Die()
+        {
+            StopAttackSound();
+            base.Die();
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             // Rimodulo sempre il volume dell'attacco per fare il fade
