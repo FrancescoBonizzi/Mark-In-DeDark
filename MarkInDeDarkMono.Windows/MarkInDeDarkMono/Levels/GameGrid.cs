@@ -355,45 +355,45 @@ namespace MarkInDeDarkMono.Levels
         {
             var cell = GetCellAtPixel(where);
 
-            cell.ApplyBloodDecal();
+            cell.ApplyBloodDecal(CellRelativePosition.Center);
 
             // Spargo il sangue anche sulle celle adiacenti
 
             // Su
             if (cell.Links[LinkDirection.NorthLink] != null)
-                cell.Links[LinkDirection.NorthLink].ApplyBloodDecal();
+                cell.Links[LinkDirection.NorthLink].ApplyBloodDecal(CellRelativePosition.Up);
 
             // Su-Destra
             if (cell.Links[LinkDirection.NorthLink] != null)
                 if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
-                    cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].ApplyBloodDecal();
+                    cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].ApplyBloodDecal(CellRelativePosition.UpRight);
 
             // Destra
             if (cell.Links[LinkDirection.EastLink] != null)
-                cell.Links[LinkDirection.EastLink].ApplyBloodDecal();
+                cell.Links[LinkDirection.EastLink].ApplyBloodDecal(CellRelativePosition.Right);
 
             // Destra-Giu
             if (cell.Links[LinkDirection.EastLink] != null)
                 if (cell.Links[LinkDirection.EastLink].Links[LinkDirection.SouthLink] != null)
-                    cell.Links[LinkDirection.EastLink].Links[LinkDirection.SouthLink].ApplyBloodDecal();
+                    cell.Links[LinkDirection.EastLink].Links[LinkDirection.SouthLink].ApplyBloodDecal(CellRelativePosition.DownRight);
 
             // Sotto
             if (cell.Links[LinkDirection.SouthLink] != null)
-                cell.Links[LinkDirection.SouthLink].ApplyBloodDecal();
+                cell.Links[LinkDirection.SouthLink].ApplyBloodDecal(CellRelativePosition.Down);
 
-            // Sotto-Sinitra
+            // Sotto-Sinistra
             if (cell.Links[LinkDirection.SouthLink] != null)
                 if (cell.Links[LinkDirection.SouthLink].Links[LinkDirection.WestLink] != null)
-                    cell.Links[LinkDirection.SouthLink].Links[LinkDirection.WestLink].ApplyBloodDecal();
+                    cell.Links[LinkDirection.SouthLink].Links[LinkDirection.WestLink].ApplyBloodDecal(CellRelativePosition.DownLeft);
 
             // Sinistra
             if (cell.Links[LinkDirection.WestLink] != null)
-                cell.Links[LinkDirection.WestLink].ApplyBloodDecal();
+                cell.Links[LinkDirection.WestLink].ApplyBloodDecal(CellRelativePosition.Left);
 
             // Sinistra-Su
             if (cell.Links[LinkDirection.WestLink] != null)
                 if (cell.Links[LinkDirection.WestLink].Links[LinkDirection.NorthLink] != null)
-                    cell.Links[LinkDirection.WestLink].Links[LinkDirection.NorthLink].ApplyBloodDecal();
+                    cell.Links[LinkDirection.WestLink].Links[LinkDirection.NorthLink].ApplyBloodDecal(CellRelativePosition.UpLeft);
         }
 
         public void Update(TimeSpan elapsed)
