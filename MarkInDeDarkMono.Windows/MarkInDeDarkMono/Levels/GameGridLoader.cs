@@ -33,10 +33,12 @@ namespace MarkInDeDarkMono.Levels
                     {
                         case GroundTypes.Buio:
                             grid.SetNullCell(i, j);
+                            gameCell.NoDecals = true;
                             continue;
 
                         case GroundTypes.Macerie:
                             gameCell.IsUnwalkable = true;
+                            gameCell.NoDecals = true;
                             break;
 
                         case GroundTypes.Terra:

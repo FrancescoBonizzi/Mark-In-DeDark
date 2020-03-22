@@ -23,10 +23,10 @@ namespace MarkInDeDarkMono.Levels
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
 
-        private int _width;
-        private int _height;
-        private float _wallHeightOver2;
-        private float _angleHeightOver2;
+        private readonly int _width;
+        private readonly int _height;
+        private readonly float _wallHeightOver2;
+        private readonly float _angleHeightOver2;
 
         private readonly SoundManager _soundManager;
 
@@ -41,6 +41,8 @@ namespace MarkInDeDarkMono.Levels
         public bool IsUnwalkable { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
         public bool DontDraw { get; set; }
+        public bool NoDecals { get; set; }
+
         private bool _drawBloodDecal;
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
 
@@ -235,7 +237,10 @@ namespace MarkInDeDarkMono.Levels
             => Links[direction] = destionationCell;
 
         public void ApplyBloodDecal()
-            => _drawBloodDecal = true;
+        {
+            if (!NoDecals)
+                _drawBloodDecal = true;
+        }
 
         public void AddNWAngle()
         {
@@ -309,12 +314,15 @@ namespace MarkInDeDarkMono.Levels
 
         public void DrawDirtys(SpriteBatch spriteBatch)
         {
-            foreach (var dirtyDrawingInfos in _dirtysDrawingInfos)
-                spriteBatch.Draw(_dirtySprite, dirtyDrawingInfos);
-
-            if (_drawBloodDecal)
+            if (!NoDecals)
             {
-                spriteBatch.Draw(_bloodDecal, _bloodDecalDrawingInfos);
+                foreach (var dirtyDrawingInfos in _dirtysDrawingInfos)
+                    spriteBatch.Draw(_dirtySprite, dirtyDrawingInfos);
+
+                if (_drawBloodDecal)
+                {
+                    spriteBatch.Draw(_bloodDecal, _bloodDecalDrawingInfos);
+                }
             }
 
             // Lo metto qua perché è già sopra le celle

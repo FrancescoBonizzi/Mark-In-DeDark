@@ -18,8 +18,8 @@ namespace MarkInDeDarkMono.Levels
         public const int HorizontalCellsNumber = 45;
         public const int VerticalCellsNumber = 25;
 
-        private int _totalWidthInPixel;
-        private int _totalHeightInPixel;
+        private readonly int _totalWidthInPixel;
+        private readonly int _totalHeightInPixel;
 
         private GameCell[,] _cells;
 
