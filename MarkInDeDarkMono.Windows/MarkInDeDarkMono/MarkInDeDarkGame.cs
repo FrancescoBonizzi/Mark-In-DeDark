@@ -118,21 +118,29 @@ namespace MarkInDeDarkMono
             if (_grid.GoblinTriggerRectangle != null && _grid.GoblinStartPosition != null)
             {
                 _triggerObjects.Add(new TriggerObject(
-                    _grid.GoblinTriggerRectangle.Value,
-                    new Character[] { _player },
-                    (character, elapsed) =>
+                    triggerCollisionRectangle: _grid.GoblinTriggerRectangle.Value,
+                    affectedCharacters: new Character[] { _player },
+                    onTriggerPressed: (character, elapsed) =>
                     {
-                        _enemies.Add(new Goblin(
-                            assetsLoader, 
-                            _grid.GoblinStartPosition.Value, 
-                            _grid, 
-                            _candlesManager, 
-                            _soundManager, 
-                            _player, 
-                            gameConfig));
+                        var newGoblin = new Goblin(
+                            assetsLoader,
+                            _grid.GoblinStartPosition.Value,
+                            _grid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig);
+                        _enemies.Add(newGoblin);
                         _soundManager.PlayBreakWallSound();
+
+                        // Aggiungo il goblin al controllo delle trappole
+                        foreach (var trap in _triggerObjects.Where(t => t is InstantlyDieTrap || t is TimedBreakableTrap))
+                        {
+                            trap.AddAffectedCharacter(newGoblin);
+                        }
                     },
-                    true));
+                    onTriggerLeft: (character, elapsed) => { },
+                    shouldFireOnce: true));
             }
             // Se non metto il trigger, lo spawno subito
             else if (_grid.GoblinStartPosition != null)

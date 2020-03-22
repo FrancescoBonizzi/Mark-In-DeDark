@@ -47,8 +47,8 @@ namespace MarkInDeDarkMono.Characters
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
-        private Light _lightMap;
-        private Light _torch;
+        private readonly Light _lightMap;
+        private readonly Light _torch;
 
         public bool AreLightsActive { get; set; }
 
