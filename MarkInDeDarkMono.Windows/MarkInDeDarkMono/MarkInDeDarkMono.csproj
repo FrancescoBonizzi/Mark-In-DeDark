@@ -91,6 +91,7 @@
     <Compile Include="GameOrchestrator.cs" />
     <Compile Include="GameHUD.cs" />
     <Compile Include="Characters\CharacterActions.cs" />
+    <Compile Include="Levels\CellRelativePosition.cs" />
     <Compile Include="Levels\GameCell.cs" />
     <Compile Include="Levels\GameGrid.cs" />
     <Compile Include="Levels\GameGridLoader.cs" />

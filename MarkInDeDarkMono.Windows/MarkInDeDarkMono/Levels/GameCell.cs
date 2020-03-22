@@ -23,10 +23,10 @@ namespace MarkInDeDarkMono.Levels
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
 
-        private int _width;
-        private int _height;
-        private float _wallHeightOver2;
-        private float _angleHeightOver2;
+        private readonly int _width;
+        private readonly int _height;
+        private readonly float _wallHeightOver2;
+        private readonly float _angleHeightOver2;
 
         private readonly SoundManager _soundManager;
 
@@ -35,13 +35,14 @@ namespace MarkInDeDarkMono.Levels
         public List<Wall> Walls { get; }
 
         private readonly DrawingInfos _cellDrawingInfos;
-        private readonly DrawingInfos _bloodDecalDrawingInfos;
+        private DrawingInfos _bloodDecalDrawingInfos;
         public IDictionary<LinkDirection, GameCell> Links { get; }
 
         public bool IsUnwalkable { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
         public bool DontDraw { get; set; }
-        private bool _drawBloodDecal;
+        public bool NoDecals { get; set; }
+
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
 
         public GameCell(
@@ -57,7 +58,6 @@ namespace MarkInDeDarkMono.Levels
             SoundManager soundManager)
         {
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
-            _drawBloodDecal = false;
             DontDraw = false;
 
             _cellSprite = cell;
@@ -80,12 +80,6 @@ namespace MarkInDeDarkMono.Levels
             _cellDrawingInfos = new DrawingInfos()
             {
                 Position = position
-            };
-
-            _bloodDecalDrawingInfos = new DrawingInfos()
-            {
-                Position = position,
-                Rotation = Numbers.RandomBetween(-360f, 360f)
             };
 
             Links = new Dictionary<LinkDirection, GameCell>()
@@ -234,8 +228,58 @@ namespace MarkInDeDarkMono.Levels
         public void AddLink(GameCell destionationCell, LinkDirection direction)
             => Links[direction] = destionationCell;
 
-        public void ApplyBloodDecal()
-            => _drawBloodDecal = true;
+        public void ApplyBloodDecal(CellRelativePosition cellRelativePosition)
+        {
+            if (NoDecals)
+                return;
+
+            var decalPosition = _cellDrawingInfos.Center(_cellSprite.Width, _cellSprite.Height);
+            var randomDeltaFromPosition = Numbers.RandomBetween(2f, 3f);
+
+            switch (cellRelativePosition)
+            {
+                case CellRelativePosition.Up:
+                    decalPosition += new Vector2(0, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+
+                case CellRelativePosition.Down:
+                    decalPosition += new Vector2(0, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+
+                case CellRelativePosition.Left:
+                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, 0);
+                    break;
+
+                case CellRelativePosition.Right:
+                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, 0);
+                    break;
+
+                case CellRelativePosition.UpLeft:
+                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+
+                case CellRelativePosition.UpRight:
+                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+
+                case CellRelativePosition.DownLeft:
+                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+
+                case CellRelativePosition.DownRight:
+                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    break;
+            }
+
+            _bloodDecalDrawingInfos = new DrawingInfos()
+            {
+                Position = decalPosition,
+                Rotation = Numbers.RandomBetween(0f, 20f),
+                Scale = Numbers.RandomBetween(0.3f, 1f),
+                Origin = _bloodDecal.SpriteCenter
+            };
+
+        }
 
         public void AddNWAngle()
         {
@@ -309,12 +353,15 @@ namespace MarkInDeDarkMono.Levels
 
         public void DrawDirtys(SpriteBatch spriteBatch)
         {
-            foreach (var dirtyDrawingInfos in _dirtysDrawingInfos)
-                spriteBatch.Draw(_dirtySprite, dirtyDrawingInfos);
-
-            if (_drawBloodDecal)
+            if (!NoDecals)
             {
-                spriteBatch.Draw(_bloodDecal, _bloodDecalDrawingInfos);
+                foreach (var dirtyDrawingInfos in _dirtysDrawingInfos)
+                    spriteBatch.Draw(_dirtySprite, dirtyDrawingInfos);
+
+                if (_bloodDecalDrawingInfos != null)
+                {
+                    spriteBatch.Draw(_bloodDecal, _bloodDecalDrawingInfos);
+                }
             }
 
             // Lo metto qua perché è già sopra le celle

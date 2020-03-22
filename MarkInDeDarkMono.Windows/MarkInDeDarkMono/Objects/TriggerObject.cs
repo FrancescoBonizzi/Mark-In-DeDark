@@ -12,24 +12,35 @@ namespace MarkInDeDarkMono.Objects
         private Rectangle _triggerArea;
 
         private readonly List<Character> _affectedCharacters;
-        private Action<Character, TimeSpan> _onTrigger;
+        private Action<Character, TimeSpan> _onTriggerPressed;
+        private Action<Character, TimeSpan> _onTriggerLeft;
         private readonly bool _shouldFireOnce;
         private bool _hasFired = false;
 
         public TriggerObject(
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters,
-            Action<Character, TimeSpan> onTrigger,
+            Action<Character, TimeSpan> onTriggerPressed,
+            Action<Character, TimeSpan> onTriggerLeft,
             bool shouldFireOnce)
         {
             _triggerArea = triggerCollisionRectangle;
             _affectedCharacters = new List<Character>(affectedCharacters);
-            _onTrigger = onTrigger;
+            _onTriggerPressed = onTriggerPressed;
+            _onTriggerLeft = onTriggerLeft;
             _shouldFireOnce = shouldFireOnce;
         }
 
-        protected void SetOnTriggerFunction(Action<Character, TimeSpan> onTrigger)
-            => _onTrigger = onTrigger;
+        public void AddAffectedCharacter(Character character)
+        {
+            _affectedCharacters.Add(character);
+        }
+
+        protected void SetOnTriggerPressed(Action<Character, TimeSpan> onTriggerPressed)
+            => _onTriggerPressed = onTriggerPressed;
+
+        protected void SetOnTriggerLeft(Action<Character, TimeSpan> onTriggerLeft)
+            => _onTriggerLeft = onTriggerLeft;
 
         public virtual void Update(TimeSpan elapsed)
         {
@@ -40,11 +51,19 @@ namespace MarkInDeDarkMono.Objects
                 {
                     if (_affectedCharacters[i].CollisionRectangle.Intersects(_triggerArea))
                     {
-                        _onTrigger(_affectedCharacters[i], elapsed);
+                        _onTriggerPressed(_affectedCharacters[i], elapsed);
                         _hasFired = true;
 
                         if (_affectedCharacters[i].IsDead || _affectedCharacters[i].IsDying)
                             _affectedCharacters.RemoveAt(i);
+                    }
+                    else
+                    {
+                        if (_hasFired)
+                        {
+                            _onTriggerLeft(_affectedCharacters[i], elapsed);
+                            _hasFired = false;
+                        }
                     }
                 }
             }

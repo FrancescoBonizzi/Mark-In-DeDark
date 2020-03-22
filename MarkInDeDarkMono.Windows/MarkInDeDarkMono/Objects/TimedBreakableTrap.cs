@@ -34,14 +34,15 @@ namespace MarkInDeDarkMono.Objects
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters)
             : base(
-                  triggerCollisionRectangle,
-                  affectedCharacters,
-                  (character, elapsed) => { },
-                  false)
+                  triggerCollisionRectangle: triggerCollisionRectangle,
+                  affectedCharacters: affectedCharacters,
+                  onTriggerPressed: (character, elapsed) => { },
+                  onTriggerLeft: (character, elapsed) => { },
+                  shouldFireOnce: false)
         {
             _trapTimeToBreak = TimeSpan.FromSeconds(gameConfig.BreakableTrapBreakingTimeSeconds);
 
-            SetOnTriggerFunction(
+            SetOnTriggerPressed(
                 (character, elapsed) => 
                 {
                     switch (_currentTrapState)
@@ -52,12 +53,21 @@ namespace MarkInDeDarkMono.Objects
 
                         case TrapStates.GoingToBreak:
                             _elapsedSinceTrigger += elapsed;
-                            // TODO il problema è far ripartire il timer quando non c'è più su nessuno
 
                             break;
 
                         case TrapStates.Broken:
                             break;
+                    }
+                });
+
+            SetOnTriggerLeft(
+                (character, elapsed) =>
+                {
+                    if (_currentTrapState != TrapStates.Broken)
+                    {
+                        _elapsedSinceTrigger = TimeSpan.Zero;
+                        _currentTrapState = TrapStates.Idle;
                     }
                 });
 
