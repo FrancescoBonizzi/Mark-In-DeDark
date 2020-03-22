@@ -12,7 +12,7 @@ namespace MarkInDeDarkMono.Characters
         public IEnemyAI CurrentAI { get; private set; }
 
         private TimeSpan _screamTimer;
-        private bool _canMove;
+        private bool _gameFinished;
         private readonly int _screamSoundIndex;
         private readonly int _attackSoundIndex;
 
@@ -52,7 +52,6 @@ namespace MarkInDeDarkMono.Characters
             _attackSoundIndex = enemyConfiguration.AttackSoundIndex;
             _screamSoundIndex = enemyConfiguration.ScreamSoundIndex;
             CurrentAI = enemyConfiguration.StartingAI;
-            _canMove = true;
         }
 
         public void SetRandomScreamTimer()
@@ -117,7 +116,7 @@ namespace MarkInDeDarkMono.Characters
         public void GameFinished()
         {
             StopAttacking();
-            _canMove = false;
+            _gameFinished = true;
         }
 
         public void StopAttacking()
@@ -160,6 +159,9 @@ namespace MarkInDeDarkMono.Characters
 
         public override void Update(TimeSpan elapsed)
         {
+            if (_gameFinished)
+                return;
+
             // Rimodulo sempre il volume dell'attacco per fare il fade
             // quando il player si allontana.
             if (AnimationsManager.CurrentAnimationName.Contains("Attack"))
@@ -187,7 +189,7 @@ namespace MarkInDeDarkMono.Characters
                 CurrentAI = new IdleAI();
             }
 
-            if (!IsMoving && _canMove)
+            if (!IsMoving)
             {
                 base.HandleInput(CurrentAI.Update(this, elapsed));
             }
