@@ -45,8 +45,8 @@ namespace MarkInDeDarkMono
         private readonly Level _currentLevel;
         private readonly Color _backgroundColorForLightMask;
 
-        private Camera2D _camera;
-        private List<CandlePack> _candlePacks;
+        private readonly Camera2D _camera;
+        private readonly List<CandlePack> _candlePacks;
         private Vector2 _playerCameraOffset;
 
         public TimeSpan ElapsedGameTime { get; private set; }
@@ -218,7 +218,12 @@ namespace MarkInDeDarkMono
         }
 
         private void RepositionCamera()
-            => _camera.Position = _player.Position - _playerCameraOffset;
+        {
+            var newCameraPosition = _player.Position - _playerCameraOffset;
+            _camera.Position = new Vector2(
+                MathHelper.Lerp(_camera.Position.X, newCameraPosition.X, 0.1f),
+                MathHelper.Lerp(_camera.Position.Y, newCameraPosition.Y, 0.1f));
+        }
 
         public void Update(TimeSpan elapsed)
         {

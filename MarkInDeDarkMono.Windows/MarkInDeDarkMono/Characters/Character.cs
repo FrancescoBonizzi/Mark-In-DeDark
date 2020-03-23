@@ -173,6 +173,7 @@ namespace MarkInDeDarkMono.Characters
             Die();
             _drawingInfos.Position = trapPosition;
             _drawingInfos.Scale = 0.8f;
+            SetLightPosition();
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
