@@ -37,7 +37,7 @@ namespace MarkInDeDarkMono.Objects
                   triggerCollisionRectangle: triggerCollisionRectangle,
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => { },
-                  onTriggerLeft: () => { },
+                  onTriggerLeft: null,
                   shouldFireOnce: false)
         {
             _trapTimeToBreak = TimeSpan.FromSeconds(gameConfig.BreakableTrapBreakingTimeSeconds);
@@ -68,6 +68,7 @@ namespace MarkInDeDarkMono.Objects
                     {
                         _elapsedSinceTrigger = TimeSpan.Zero;
                         _currentTrapState = TrapStates.Idle;
+                        _hasFired = false;
                     }
                 });
 

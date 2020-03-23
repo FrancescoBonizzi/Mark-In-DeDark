@@ -15,7 +15,7 @@ namespace MarkInDeDarkMono.Objects
         private Action<Character, TimeSpan> _onTriggerPressed;
         private Action _onTriggerLeft;
         private readonly bool _shouldFireOnce;
-        private bool _hasFired = false;
+        protected bool _hasFired = false;
 
         public TriggerObject(
             Rectangle triggerCollisionRectangle,
@@ -27,8 +27,8 @@ namespace MarkInDeDarkMono.Objects
             _triggerArea = triggerCollisionRectangle;
             _affectedCharacters = new List<Character>(affectedCharacters);
             _onTriggerPressed = onTriggerPressed;
-            _onTriggerLeft = onTriggerLeft;
             _shouldFireOnce = shouldFireOnce;
+            _onTriggerLeft = onTriggerLeft;
         }
 
         public void AddAffectedCharacter(Character character)
@@ -48,7 +48,7 @@ namespace MarkInDeDarkMono.Objects
             if ((_shouldFireOnce && !_hasFired)
                 || !_shouldFireOnce)
             {
-                
+
                 for (int i = _affectedCharacters.Count() - 1; i >= 0; --i)
                 {
                     if (_affectedCharacters[i].CollisionRectangle.Intersects(_triggerArea))
@@ -60,14 +60,14 @@ namespace MarkInDeDarkMono.Objects
                         if (_affectedCharacters[i].IsDead || _affectedCharacters[i].IsDying)
                             _affectedCharacters.RemoveAt(i);
                     }
-                        
+
                 }
             }
 
             if (_hasFired && !someOneOnTheTrigger)
             {
-                _onTriggerLeft();
-                _hasFired = false;
+                if (_onTriggerLeft != null)
+                    _onTriggerLeft();
             }
         }
 

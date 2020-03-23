@@ -22,7 +22,7 @@ namespace MarkInDeDarkMono.Objects
                   triggerCollisionRectangle: collisionRectangle.WithTolerance(100),
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => character.DieForTrap(collisionRectangle.Center.ToVector2()),
-                  onTriggerLeft: () => { },
+                  onTriggerLeft: null,
                   shouldFireOnce: false)
         {
             _trapSprite = assetsLoader.Sprites["trap_instantly_die"];

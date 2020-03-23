@@ -139,7 +139,7 @@ namespace MarkInDeDarkMono
                             trap.AddAffectedCharacter(newGoblin);
                         }
                     },
-                    onTriggerLeft: () => { },
+                    onTriggerLeft: null,
                     shouldFireOnce: true));
             }
             // Se non metto il trigger, lo spawno subito

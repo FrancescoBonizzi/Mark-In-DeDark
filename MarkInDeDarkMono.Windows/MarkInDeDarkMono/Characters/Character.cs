@@ -71,7 +71,7 @@ namespace MarkInDeDarkMono.Characters
         private Vector2 _torchPositionTraslationDown;
 
         private CharacterActions? _nextActionToProcess;
-        private BloodParticleSystem _bloodEffect;
+        private readonly BloodParticleSystem _bloodEffect;
 
         public AnimationsManager AnimationsManager { get; }
 
@@ -99,6 +99,7 @@ namespace MarkInDeDarkMono.Characters
                 HitBoxTolerance = new Rectangle(50, 50, 50, 50),
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
+            // TODO se voglio davvero centrare le sprite posso cambiare l'origin ad ogni update
 
             _nextLocation = Position;
 
