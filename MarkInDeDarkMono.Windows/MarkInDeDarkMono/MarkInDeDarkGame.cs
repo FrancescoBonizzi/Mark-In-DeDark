@@ -400,7 +400,7 @@ namespace MarkInDeDarkMono
             var viewMatrix = _camera.GetViewMatrix();
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
 
-            spriteBatch.Begin(transformMatrix: viewMatrix);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
 
             _grid.DrawCells(spriteBatch);
             _grid.DrawDirtys(spriteBatch);
