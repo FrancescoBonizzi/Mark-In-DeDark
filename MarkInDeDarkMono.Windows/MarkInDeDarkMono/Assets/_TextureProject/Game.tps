@@ -405,6 +405,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/player_back_iddle_2.png</key>
+            <key type="filename">Game/player_back_iddle_3.png</key>
+            <key type="filename">Game/player_front_iddle_2.png</key>
+            <key type="filename">Game/player_front_iddle_3.png</key>
+            <key type="filename">Game/player_side_iddle_2.png</key>
+            <key type="filename">Game/player_side_iddle_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/wall0.png</key>
             <key type="filename">Game/wall1.png</key>
             <key type="filename">Game/wall2.png</key>
@@ -423,24 +441,6 @@
                 <rect>20,10,40,19</rect>
                 <key>scale9Paddings</key>
                 <rect>20,10,40,19</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/player_back_iddle_2.png</key>
-            <key type="filename">Game/player_back_iddle_3.png</key>
-            <key type="filename">Game/player_front_iddle_2.png</key>
-            <key type="filename">Game/player_front_iddle_3.png</key>
-            <key type="filename">Game/player_side_iddle_2.png</key>
-            <key type="filename">Game/player_side_iddle_3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9Paddings</key>
-                <rect>48,48,96,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
