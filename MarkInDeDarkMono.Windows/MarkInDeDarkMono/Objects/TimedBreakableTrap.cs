@@ -90,6 +90,12 @@ namespace MarkInDeDarkMono.Objects
             };
         }
 
+        public override void AddAffectedCharacter(Character character)
+        {
+            _instantlyDieTrap.AddAffectedCharacter(character);
+            base.AddAffectedCharacter(character);
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             switch (_currentTrapState)

@@ -31,7 +31,7 @@ namespace MarkInDeDarkMono.Objects
             _onTriggerLeft = onTriggerLeft;
         }
 
-        public void AddAffectedCharacter(Character character)
+        public virtual void AddAffectedCharacter(Character character)
         {
             _affectedCharacters.Add(character);
         }
