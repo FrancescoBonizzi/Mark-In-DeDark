@@ -103,6 +103,7 @@
     <Compile Include="MarkInDeDarkGame.cs" />
     <Compile Include="Assets\AssetsLoader.cs" />
     <Compile Include="Objects\CandlePack.cs" />
+    <Compile Include="Objects\GoblinTriggerTrap.cs" />
     <Compile Include="Objects\TimedBreakableTrap.cs" />
     <Compile Include="Objects\InstantlyDieTrap.cs" />
     <Compile Include="Objects\TriggerObject.cs" />

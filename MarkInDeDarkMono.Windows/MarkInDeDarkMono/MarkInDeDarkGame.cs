@@ -117,7 +117,8 @@ namespace MarkInDeDarkMono
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
             if (_grid.GoblinTriggerRectangle != null && _grid.GoblinStartPosition != null)
             {
-                _triggerObjects.Add(new TriggerObject(
+                _triggerObjects.Add(new GoblinTriggerTrap(
+                    assetsLoader: assetsLoader,
                     triggerCollisionRectangle: _grid.GoblinTriggerRectangle.Value,
                     affectedCharacters: new Character[] { _player },
                     onTriggerPressed: (character, elapsed) =>
@@ -138,9 +139,7 @@ namespace MarkInDeDarkMono
                         {
                             trap.AddAffectedCharacter(newGoblin);
                         }
-                    },
-                    onTriggerLeft: null,
-                    shouldFireOnce: true));
+                    }));
             }
             // Se non metto il trigger, lo spawno subito
             else if (_grid.GoblinStartPosition != null)
