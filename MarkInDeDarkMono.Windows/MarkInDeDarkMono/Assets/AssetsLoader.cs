@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Assets;
 using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -21,6 +22,7 @@ namespace MarkInDeDarkMono.Assets
         public List<Level> Levels { get; private set; } = new List<Level>();
 
         private readonly CustomSpriteImporter _textureImporter;
+        private readonly GameConfig _gameConfig;
         private readonly ContentManager _contentManager;
         private readonly ISettingsRepository _settingsRepository;
         private readonly ITextFileLoader _fileLoader;
@@ -31,13 +33,15 @@ namespace MarkInDeDarkMono.Assets
             ContentManager contentManager,
             ITextFileLoader fileLoader,
             IEnumerable<string> levelPaths,
-            ISettingsRepository settingsRepository)
+            ISettingsRepository settingsRepository,
+            GameConfig gameConfig)
         {
             _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
             _contentManager = contentManager ?? throw new ArgumentNullException(nameof(contentManager));
             _fileLoader = fileLoader ?? throw new ArgumentNullException(nameof(fileLoader));
             _levelPaths = levelPaths ?? throw new ArgumentNullException(nameof(levelPaths));
             _textureImporter = new CustomSpriteImporter(fileLoader);
+            _gameConfig = gameConfig ?? throw new ArgumentNullException(nameof(gameConfig));
             LoadResources();
         }
 
@@ -182,13 +186,13 @@ namespace MarkInDeDarkMono.Assets
 
                 var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };
                 
-                _animations[$"{characterName}WalkUp"] = new SpriteAnimation(characterWalkUp, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}WalkDown"] = new SpriteAnimation(characterWalkDown, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}WalkSide"] = new SpriteAnimation(characterWalkSide, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}IdleUp"] = new SpriteAnimation(characterIdleUp, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}IdleDown"] = new SpriteAnimation(characterIdleDown, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}IdleSide"] = new SpriteAnimation(characterIdleSide, TimeSpan.FromMilliseconds(200));
-                _animations[$"{characterName}Dying"] = new SpriteAnimation(characterDying, TimeSpan.FromMilliseconds(200), false);
+                _animations[$"{characterName}WalkUp"] = new SpriteAnimation(characterWalkUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}WalkDown"] = new SpriteAnimation(characterWalkDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}WalkSide"] = new SpriteAnimation(characterWalkSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}IdleUp"] = new SpriteAnimation(characterIdleUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}IdleDown"] = new SpriteAnimation(characterIdleDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}IdleSide"] = new SpriteAnimation(characterIdleSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                _animations[$"{characterName}Dying"] = new SpriteAnimation(characterDying, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames), false);
 
                 if (hasAttackAnimations)
                 {
@@ -197,10 +201,10 @@ namespace MarkInDeDarkMono.Assets
                     var characterAttackLeft = new List<Sprite>() { Sprites[$"{characterName}_side_attack_1"], Sprites[$"{characterName}_side_attack_2"] };
                     var characterAttackRight = new List<Sprite>() { Sprites[$"{characterName}_side_attack_1"], Sprites[$"{characterName}_side_attack_2"] };
 
-                    _animations[$"{characterName}AttackUp"] = new SpriteAnimation(characterAttackUp, TimeSpan.FromMilliseconds(200));
-                    _animations[$"{characterName}AttackDown"] = new SpriteAnimation(characterAttackDown, TimeSpan.FromMilliseconds(200));
-                    _animations[$"{characterName}AttackLeft"] = new SpriteAnimation(characterAttackLeft, TimeSpan.FromMilliseconds(200));
-                    _animations[$"{characterName}AttackRight"] = new SpriteAnimation(characterAttackRight, TimeSpan.FromMilliseconds(200));
+                    _animations[$"{characterName}AttackUp"] = new SpriteAnimation(characterAttackUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                    _animations[$"{characterName}AttackDown"] = new SpriteAnimation(characterAttackDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                    _animations[$"{characterName}AttackLeft"] = new SpriteAnimation(characterAttackLeft, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
+                    _animations[$"{characterName}AttackRight"] = new SpriteAnimation(characterAttackRight, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 }
             }
 

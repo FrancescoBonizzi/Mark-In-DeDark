@@ -71,6 +71,8 @@ namespace MarkInDeDarkMono.Common
         public bool GodModePlayerDoesntDie { get; set; }
         public bool GodModePlayerSeesEverything { get; set; }
 
+        public int CharactersAnimationsMillisecondsBetweenFrames { get; set; }
+
         public GameConfig(string gameConfigRaw)
         {
             var gameConfigDictionary = gameConfigRaw
@@ -143,6 +145,8 @@ namespace MarkInDeDarkMono.Common
             GodModeInfiniteCandles = LoadBoolean(gameConfigDictionary[nameof(GodModeInfiniteCandles)]);
             GodModePlayerDoesntDie = LoadBoolean(gameConfigDictionary[nameof(GodModePlayerDoesntDie)]);
             GodModePlayerSeesEverything = LoadBoolean(gameConfigDictionary[nameof(GodModePlayerSeesEverything)]);
+
+            CharactersAnimationsMillisecondsBetweenFrames = LoadInt(gameConfigDictionary[nameof(CharactersAnimationsMillisecondsBetweenFrames)]);
         }
 
         private float LoadFloat(string value)

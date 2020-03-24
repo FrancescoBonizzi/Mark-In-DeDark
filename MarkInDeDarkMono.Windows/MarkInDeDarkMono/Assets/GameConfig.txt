@@ -52,3 +52,4 @@ ClosedDoorStringColorRGB:255-255-255
 GodModeInfiniteCandles:0
 GodModePlayerDoesntDie:0
 GodModePlayerSeesEverything:0
+CharactersAnimationsMillisecondsBetweenFrames:200

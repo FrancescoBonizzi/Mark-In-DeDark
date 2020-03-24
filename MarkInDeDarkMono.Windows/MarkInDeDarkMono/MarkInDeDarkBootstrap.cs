@@ -115,7 +115,8 @@ namespace MarkInDeDarkMono
                 Content,
                 _textFileAssetsLoader,
                 _levelsNames,
-                _settingsRepository);
+                _settingsRepository,
+                _gameConfig);
             _soundManager = new SoundManager(_assetsLoader);
 
             // _mousePointer = AssetsLoader.Sprites["manina"];
