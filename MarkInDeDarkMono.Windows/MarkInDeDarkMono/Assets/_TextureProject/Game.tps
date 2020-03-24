@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>FlowosoftGames Exporter</string>
         <key>textureFileName</key>
-        <filename>../ContentBuilder/Spritesheet.png</filename>
+        <filename>../ContentBuilder/Spritesheet-{n}.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -150,11 +150,11 @@
             <key>FlowosoftGamesExporter</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../ContentBuilder/Spritesheet.txt</filename>
+                <filename>../ContentBuilder/Spritesheet-{n}.txt</filename>
             </struct>
         </map>
         <key>multiPack</key>
-        <false/>
+        <true/>
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>
@@ -187,7 +187,7 @@
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">CropKeepPos</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>

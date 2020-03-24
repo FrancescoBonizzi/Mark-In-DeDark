@@ -124,8 +124,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\Spritesheet.txt">
-      <Link>Content\Spritesheet.txt</Link>
+    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\Spritesheet-0.txt">
+      <Link>Content\Spritesheet-0.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\Spritesheet-1.txt">
+      <Link>Content\Spritesheet-1.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\GameConfig.txt">
@@ -227,10 +231,6 @@
     </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Backgrounds\splashscreen.xnb">
       <Link>Content\Backgrounds\splashscreen.xnb</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Spritesheet.xnb">
-      <Link>Content\Spritesheet.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\Levels\1 TUTORIAL.mark">
@@ -339,6 +339,14 @@
     </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_ZK1.mark">
       <Link>Content\Levels\M_ZK1.mark</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Spritesheet-0.xnb">
+      <Link>Content\Spritesheet-0.xnb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Spritesheet-1.xnb">
+      <Link>Content\Spritesheet-1.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />

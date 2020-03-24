@@ -87,10 +87,13 @@ namespace MarkInDeDarkMono.Assets
         private void LoadSprites()
         {
             const string gameSpriteSheetName = "Spritesheet";
-            var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}");
-            var gameSpritesDescriptions = _textureImporter.Import($"Content/{gameSpriteSheetName}.txt");
 
-            AddSpritesFromDictionary(gameSpritesDescriptions, gameSpriteSheet);
+            for(int i= 0; i < 2; ++i)
+            {
+                var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
+                var gameSpritesDescriptions = _textureImporter.Import($"Content/{gameSpriteSheetName}-{i}.txt");
+                AddSpritesFromDictionary(gameSpritesDescriptions, gameSpriteSheet);
+            }
 
             var menuTexture = _contentManager.Load<Texture2D>("Backgrounds/menu");
             var menuSprite = new Sprite(

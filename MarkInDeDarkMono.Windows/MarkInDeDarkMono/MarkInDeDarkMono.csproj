@@ -221,8 +221,10 @@
     <Content Include="Assets\ContentBuilder\Soundtrack\fall.wav" />
     <Content Include="Assets\ContentBuilder\Soundtrack\wolf_voice.wav" />
     <Content Include="Assets\ContentBuilder\Soundtrack\zombie_voice.wav" />
-    <Content Include="Assets\ContentBuilder\Spritesheet.png" />
-    <Content Include="Assets\ContentBuilder\Spritesheet.txt" />
+    <Content Include="Assets\ContentBuilder\Spritesheet-0.png" />
+    <Content Include="Assets\ContentBuilder\Spritesheet-0.txt" />
+    <Content Include="Assets\ContentBuilder\Spritesheet-1.png" />
+    <Content Include="Assets\ContentBuilder\Spritesheet-1.txt" />
     <Content Include="Assets\GameConfig.txt" />
     <Content Include="Assets\_TextureProject\Backgrounds\background1.jpg" />
     <Content Include="Assets\_TextureProject\Backgrounds\background2.jpg" />
