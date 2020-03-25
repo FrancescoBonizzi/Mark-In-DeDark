@@ -163,9 +163,9 @@ namespace MarkInDeDarkMono.Assets
                 string characterName, 
                 bool hasAttackAnimations)
             {
-                var characterWalkUp = new List<Sprite>() { Sprites[$"{characterName}_back_walking_1"], Sprites[$"{characterName}_back_iddle"], Sprites[$"{characterName}_back_walking_2"] };
-                var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_iddle"], Sprites[$"{characterName}_front_walking_2"] };
-                var characterWalkSide = new List<Sprite>() { Sprites[$"{characterName}_side_walking_1"], Sprites[$"{characterName}_side_iddle"], Sprites[$"{characterName}_side_walking_2"], Sprites[$"{characterName}_side_iddle"] };
+                var characterWalkUp = new List<Sprite>() { Sprites[$"{characterName}_back_walking_1"], Sprites[$"{characterName}_back_walking_2"] };
+                var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_walking_2"] };
+                var characterWalkSide = new List<Sprite>() { Sprites[$"{characterName}_side_walking_1"], Sprites[$"{characterName}_side_walking_2"] };
                 
                 var characterIdleUp = new List<Sprite>() { Sprites[$"{characterName}_back_iddle"] };
                 var characterIdleDown = new List<Sprite>() { Sprites[$"{characterName}_front_iddle"] };
