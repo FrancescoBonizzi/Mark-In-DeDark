@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGameWindowsDesktop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace MarkInDeDarkMono.Windows
 {
     public static class Program
     {
+        private static MarkInDeDarkBootstrap _game;
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -31,7 +34,7 @@ namespace MarkInDeDarkMono.Windows
                     ? Directory.GetFiles("Content/Levels", "*.mark").ToList()
                     : new List<string>() { forcedLevelPath };
 
-                using (var game = new MarkInDeDarkBootstrap(
+                using (_game = new MarkInDeDarkBootstrap(
                     textFileAssetsLoader: new WindowsTextFileImporter(),
                     settingsRepository: new TransientWindowsSettingsRepository(),
                     gameCulture: CultureInfo.CurrentCulture,
@@ -42,10 +45,14 @@ namespace MarkInDeDarkMono.Windows
                 {
                     if (forcedLevelPath != null)
                     {
-                        game.ForceStartLevel(args[0]);
+                        _game.ForceStartLevel(args[0]);
                     }
 
-                    game.Run();
+                    _game.Deactivated += Game_Deactivated;
+                    _game.Activated += Game_Activated;
+                    _game.Run();
+                    _game.Deactivated -= Game_Deactivated;
+                    _game.Activated -= Game_Activated;
                 }
             }
             catch (Exception ex)
@@ -54,5 +61,11 @@ namespace MarkInDeDarkMono.Windows
                 throw;
             }
         }
+
+        private static void Game_Activated(object sender, EventArgs e)
+            => _game.Resume();
+
+        private static void Game_Deactivated(object sender, EventArgs e)
+            => _game.Pause();
     }
 }

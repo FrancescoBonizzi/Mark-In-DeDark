@@ -238,12 +238,18 @@ namespace MarkInDeDarkMono
 
         public void Resume()
         {
+            if (!IsPaused)
+                return;
+
             _game?.Resume();
             IsPaused = false;
         }
 
         public void Pause()
         {
+            if (IsPaused)
+                return;
+
             _game?.Pause();
             IsPaused = true;
         }

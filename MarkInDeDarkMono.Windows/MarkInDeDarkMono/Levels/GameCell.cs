@@ -25,7 +25,10 @@ namespace MarkInDeDarkMono.Levels
 
         private readonly int _width;
         private readonly int _height;
+
         private readonly float _wallHeightOver2;
+
+        private readonly float _angleWidthOver2;
         private readonly float _angleHeightOver2;
 
         private readonly SoundManager _soundManager;
@@ -72,7 +75,11 @@ namespace MarkInDeDarkMono.Levels
 
             _width = cell.Width;
             _height = cell.Height;
+
+            // Considerando che la texture del muro parte orizzontale
             _wallHeightOver2 = _wallSprite.Height / 2f;
+
+            _angleWidthOver2 = _angleSprite.Width / 2f;
             _angleHeightOver2 = _angleSprite.Height / 2f;
 
             _soundManager = soundManager;
@@ -286,7 +293,7 @@ namespace MarkInDeDarkMono.Levels
             AnglesDrawingInfos.Add(new DrawingInfos()
             {
                 Position = new Vector2(
-                    _cellDrawingInfos.Position.X - _angleHeightOver2,
+                    _cellDrawingInfos.Position.X - _angleWidthOver2,
                     _cellDrawingInfos.Position.Y - _angleHeightOver2)
             });
         }
@@ -296,7 +303,7 @@ namespace MarkInDeDarkMono.Levels
             AnglesDrawingInfos.Add(new DrawingInfos()
             {
                 Position = new Vector2(
-                      _cellDrawingInfos.Position.X + _width - _angleHeightOver2,
+                      _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
                       _cellDrawingInfos.Position.Y - _angleHeightOver2)
             });
         }
@@ -306,7 +313,7 @@ namespace MarkInDeDarkMono.Levels
             AnglesDrawingInfos.Add(new DrawingInfos()
             {
                 Position = new Vector2(
-                    _cellDrawingInfos.Position.X - _angleHeightOver2,
+                    _cellDrawingInfos.Position.X - _angleWidthOver2,
                     _cellDrawingInfos.Position.Y + _width - _angleHeightOver2)
             });
         }
@@ -316,7 +323,7 @@ namespace MarkInDeDarkMono.Levels
             AnglesDrawingInfos.Add(new DrawingInfos()
             {
                 Position = new Vector2(
-                    _cellDrawingInfos.Position.X + _width - _angleHeightOver2,
+                    _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
                     _cellDrawingInfos.Position.Y + _width - _angleHeightOver2)
             });
         }
