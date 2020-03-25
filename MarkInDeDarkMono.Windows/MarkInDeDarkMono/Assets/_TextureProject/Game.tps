@@ -349,6 +349,8 @@
             <key type="filename">Game/player_side_iddle_3.png</key>
             <key type="filename">Game/player_side_walking_1.png</key>
             <key type="filename">Game/player_side_walking_2.png</key>
+            <key type="filename">Game/player_side_walking_3.png</key>
+            <key type="filename">Game/player_side_walking_4.png</key>
             <key type="filename">Game/skeleton_back_attack_1.png</key>
             <key type="filename">Game/skeleton_back_attack_2.png</key>
             <key type="filename">Game/skeleton_back_iddle.png</key>
