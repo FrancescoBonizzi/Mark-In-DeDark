@@ -3,6 +3,7 @@ using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
+using FbonizziMonoGame.TransformationObjects;
 using Mark.Engine;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
@@ -30,14 +31,18 @@ namespace MarkInDeDarkMono
         public bool IsPaused { get; private set; }
 
         private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(4);
+        private readonly TimeSpan _gameFinishGameOverSceneTimer = TimeSpan.FromSeconds(1);
         private readonly TimeSpan _attackTimer = TimeSpan.FromSeconds(1);
         private TimeSpan _elapsedFinish;
+        private FadeObject _gameOverFadeObject;
 
         private readonly GameHUD _gameHud;
 
-        private GraphicsDevice _graphicsDevice;
-        private RenderTarget2D _lightMaskRenderTarget;
-        private BlendState _blendStateMultiply;
+        private readonly GraphicsDevice _graphicsDevice;
+        private readonly RenderTarget2D _lightMaskRenderTarget;
+        private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
+        private readonly RenderTarget2D _gameOverForegroundRenderTarget;
+        private readonly BlendState _blendStateMultiply;
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
         private readonly SoundManager _soundManager;
@@ -48,6 +53,8 @@ namespace MarkInDeDarkMono
         private readonly Camera2D _camera;
         private readonly List<CandlePack> _candlePacks;
         private Vector2 _playerCameraOffset;
+
+        private bool? _runGameOverScene;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -78,7 +85,7 @@ namespace MarkInDeDarkMono
             _elapsedFinish = TimeSpan.Zero;
 
             _matrixScaleProvider = matrixScaleProvider;
-        
+
             _gameOrchestrator = gameOrchestrator;
             _soundManager = soundManager;
             _gameConfig = gameConfig;
@@ -86,6 +93,8 @@ namespace MarkInDeDarkMono
 
             var presentationParameters = graphicsDevice.PresentationParameters;
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;
@@ -275,7 +284,7 @@ namespace MarkInDeDarkMono
                                 _gameConfig.ClosedDoorStringColorRGB);
                         }
                     }
-                    
+
                     if (_triggerObjects != null)
                     {
                         foreach (var triggerObject in _triggerObjects)
@@ -310,6 +319,24 @@ namespace MarkInDeDarkMono
                 case GameStates.Finishing:
 
                     _elapsedFinish += elapsed;
+
+                    if (_elapsedFinish >= _gameFinishGameOverSceneTimer)
+                    {
+                        if (_runGameOverScene == null)
+                        {
+                            _runGameOverScene = !_player.HasWon;
+                            if (_runGameOverScene == true) 
+                            {
+                                _gameOverFadeObject = new FadeObject(TimeSpan.FromSeconds(2), Color.White);
+                                _gameOverFadeObject.FadeOut();
+                            }
+                        }
+                    }
+
+                    if (_gameOverFadeObject?.IsFading == true)
+                    {
+                        _gameOverFadeObject.Update(elapsed);
+                    }
 
                     if (_elapsedFinish >= _gameFinishTimer)
                     {
@@ -396,9 +423,39 @@ namespace MarkInDeDarkMono
             SpriteBatch spriteBatch,
             RenderTarget2D virtualDrawTarget)
         {
+            if (_runGameOverScene == true)
+            {
+                DrawPlayingScene(spriteBatch, _gameOverBackgroundRenderTarget);
+
+                var viewMatrix = _camera.GetViewMatrix();
+
+                _graphicsDevice.SetRenderTarget(_gameOverForegroundRenderTarget);
+                _graphicsDevice.Clear(Color.Black);
+                spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+                _player.Draw(spriteBatch);
+                spriteBatch.End();
+
+                _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+                _graphicsDevice.Clear(Color.Black);
+                spriteBatch.Begin();
+                spriteBatch.Draw(_gameOverBackgroundRenderTarget, Vector2.Zero, _gameOverFadeObject.OverlayColor);
+                spriteBatch.Draw(_gameOverForegroundRenderTarget, Vector2.Zero, Color.White.WithAlpha(1 - _gameOverFadeObject.CurrentAlpha));
+                spriteBatch.End();
+
+                return;
+            }
+            else
+            {
+                DrawPlayingScene(spriteBatch, virtualDrawTarget);
+            }
+        }
+
+        public void DrawPlayingScene(
+            SpriteBatch spriteBatch, 
+            RenderTarget2D virtualDrawTarget)
+        {
             var viewMatrix = _camera.GetViewMatrix();
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
-
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
 
             _grid.DrawCells(spriteBatch);
@@ -443,6 +500,5 @@ namespace MarkInDeDarkMono
             _gameHud.Draw(spriteBatch);
             spriteBatch.End();
         }
-
     }
 }
