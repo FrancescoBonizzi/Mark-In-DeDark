@@ -162,7 +162,7 @@ namespace MarkInDeDarkMono.Levels
 
                     gameCell.IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
                     gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente;
-                    
+
                     gameCell.IsEastDestroyable = levelEditorCell.Right == WallTypes.Fragile;
                     gameCell.IsEastPassable = levelEditorCell.Right == WallTypes.Niente;
 
@@ -173,7 +173,6 @@ namespace MarkInDeDarkMono.Levels
                     gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente;
 
                     gameCell.GenerateWalls();
-                    gameCell.SetSimpleAngles();
                 }
             }
 
@@ -208,6 +207,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             GridAsGraph(grid);
+            GenerateAngles(grid);
             CleanGrid(grid);
         }
 
@@ -316,58 +316,71 @@ namespace MarkInDeDarkMono.Levels
                         var westCell = grid.GetCellByIndex(i - 1, j);
                         westCell.IsEastDestroyable = true;
                     }
+                }
+            }
+        }
+
+        private static void GenerateAngles(GameGrid grid)
+        {
+            for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
+            {
+                for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
+                {
+                    var cell = grid.GetCellByIndex(i, j);
+
+                    if (cell == null || cell.IsUnwalkable)
+                        continue;
+
+                    cell.SetSimpleAngles();
 
                     // Aggiungo altri muretti. Posso farlo solo qua perchè prima non ho i link alle celle intorno!
-
-                    // Diagonale alto a destra
                     if (!cell.IsEastPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
                                 if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
                                     cell.AddNEAngle();
 
-                    // Diagonale alto a sinistra
                     if (!cell.IsWestPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)
                                 if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink].IsSouthPassable)
                                     cell.AddNWAngle();
 
-                    // Sotto e destra
                     if (cell.Links[LinkDirection.NorthLink] != null)
                         if (!cell.Links[LinkDirection.NorthLink].IsEastPassable)
                             if (cell.Links[LinkDirection.EastLink] != null)
                                 if (!cell.Links[LinkDirection.EastLink].IsNorthPassable)
                                     cell.AddNEAngle();
 
-                    // Sotto e a sinistra
                     if (cell.Links[LinkDirection.NorthLink] != null)
                         if (!cell.Links[LinkDirection.NorthLink].IsWestPassable)
                             if (cell.Links[LinkDirection.WestLink] != null)
                                 if (!cell.Links[LinkDirection.WestLink].IsNorthPassable)
                                     cell.AddNWAngle();
 
-                    // Per disegnare i pilastri in cui i muri non sono da soli (solo delle righe senza angoli)
                     if (!cell.IsNorthPassable)
                         if (cell.Links[LinkDirection.EastLink] != null)
-                            if (cell.Links[LinkDirection.EastLink].IsNorthPassable)
-                                cell.AddNEAngle();
+                            if (cell.Links[LinkDirection.EastLink].IsNorthPassable || cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
+                                if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
+                                    cell.AddNEAngle();
 
                     if (!cell.IsNorthPassable)
                         if (cell.Links[LinkDirection.WestLink] != null)
-                            if (cell.Links[LinkDirection.WestLink].IsNorthPassable)
-                                cell.AddNWAngle();
+                            if (cell.Links[LinkDirection.WestLink].IsNorthPassable || cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
+                                if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
+                                    cell.AddNWAngle();
 
                     if (!cell.IsEastPassable)
                         if (cell.Links[LinkDirection.SouthLink] != null)
-                            if (cell.Links[LinkDirection.SouthLink].IsEastPassable)
-                                cell.AddSEAngle();
+                            if (cell.Links[LinkDirection.SouthLink].IsEastPassable || cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
+                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
+                                    cell.AddSEAngle();
 
                     if (!cell.IsEastPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
-                            if (cell.Links[LinkDirection.NorthLink].IsEastPassable)
-                                cell.AddNEAngle();
-
+                            if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                                    cell.AddNEAngle();
                 }
             }
         }
