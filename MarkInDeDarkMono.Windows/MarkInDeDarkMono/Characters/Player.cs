@@ -11,8 +11,9 @@ namespace MarkInDeDarkMono.Characters
 {
     public class Player : Character
     {
-        private PlayerDescendingStairs _winAnimation;
-        private SparkleParticleSystem _sparkleEffect;
+        private readonly PlayerDescendingStairs _winAnimation;
+        private readonly GameStartSparkleParticleSystem _gameStartSparkleEffect;
+        private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
 
         private readonly SoundManager _soundManager;
         private readonly CandlesManager _candlesManager;
@@ -45,10 +46,10 @@ namespace MarkInDeDarkMono.Characters
                         gameConfig.PlayerLightColorRGB2,
                         gameConfig.PlayerLightSize,
                         gameConfig.PlayerSpeed,
-                        torchPositionTraslationUp: new Vector2(-16, -20),
-                        torchPositionTraslationLeft: new Vector2(-20, -20),
-                        torchPositionTraslationRight: new Vector2(20, -20),
-                        torchPositionTraslationDown: new Vector2(16, -20)))
+                        torchPositionTraslationUp: new Vector2(-42, -38),
+                        torchPositionTraslationLeft: new Vector2(-38, -38),
+                        torchPositionTraslationRight: new Vector2(38, -38),
+                        torchPositionTraslationDown: new Vector2(35, -30)))
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
@@ -58,8 +59,10 @@ namespace MarkInDeDarkMono.Characters
 
             _currentPlayerState = PlayerStates.LevelIntro;
 
-            _sparkleEffect = new SparkleParticleSystem(assetsLoader);
-            _sparkleEffect.AddParticles(WorldCenter + new Vector2(16, -20));
+            _gameStartSparkleEffect = new GameStartSparkleParticleSystem(assetsLoader);
+            _gameStartSparkleEffect.AddParticles(WorldCenter + new Vector2(16, -20));
+
+            _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
 
             _winAnimation = new PlayerDescendingStairs(assetsLoader);
 
@@ -99,8 +102,8 @@ namespace MarkInDeDarkMono.Characters
             {
                 case PlayerStates.LevelIntro:
 
-                    _sparkleEffect.Update(elapsed);
-                    if (!_sparkleEffect.HasActiveParticles)
+                    _gameStartSparkleEffect.Update(elapsed);
+                    if (!_gameStartSparkleEffect.HasActiveParticles)
                     {
                         _currentPlayerState = PlayerStates.Playing;
                         AreLightsActive = true;
@@ -116,6 +119,13 @@ namespace MarkInDeDarkMono.Characters
                         _soundManager.PlayPlayerWalking();
                     else
                         _soundManager.StopPlayerWalking();
+
+                    _playerCandleFireParticleSystem.Update(elapsed);
+
+                    if (!IsDead)
+                    {
+                        _playerCandleFireParticleSystem.AddParticles(TorchPosition);
+                    }
 
                     base.Update(elapsed);
 
@@ -139,7 +149,7 @@ namespace MarkInDeDarkMono.Characters
         {
             if (_currentPlayerState == PlayerStates.LevelIntro)
             {
-                _sparkleEffect.Draw(spriteBatch);
+                _gameStartSparkleEffect.Draw(spriteBatch);
             }
 
             base.DrawLightMap(spriteBatch);
@@ -150,11 +160,12 @@ namespace MarkInDeDarkMono.Characters
             switch (_currentPlayerState)
             {
                 case PlayerStates.LevelIntro:
-                    _sparkleEffect.Draw(spriteBatch);
+                    _gameStartSparkleEffect.Draw(spriteBatch);
                     break;
 
                 case PlayerStates.Playing:
                     base.Draw(spriteBatch);
+                    _playerCandleFireParticleSystem.Draw(spriteBatch);
                     break;
 
                 case PlayerStates.Exiting:

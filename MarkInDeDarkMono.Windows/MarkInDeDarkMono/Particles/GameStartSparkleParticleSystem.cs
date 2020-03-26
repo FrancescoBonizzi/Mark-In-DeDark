@@ -5,9 +5,9 @@ using System;
 
 namespace MarkInDeDarkMono.Particles
 {
-    public class SparkleParticleSystem : ParticleGenerator
+    public class GameStartSparkleParticleSystem : ParticleGenerator
     {
-        public SparkleParticleSystem(AssetsLoader assetsLoader)
+        public GameStartSparkleParticleSystem(AssetsLoader assetsLoader)
             : base(
                   assetsLoader.Sprites["scintilla"],
                   density: 2,

@@ -124,8 +124,9 @@
     <Compile Include="Particles\BloodParticleSystem.cs" />
     <Compile Include="Particles\BrokenWallSmokeParticleSystem.cs" />
     <Compile Include="Particles\CandleSmokeParticleSystem.cs" />
-    <Compile Include="Particles\SparkleParticleSystem.cs" />
+    <Compile Include="Particles\GameStartSparkleParticleSystem.cs" />
     <Compile Include="Characters\Player.cs" />
+    <Compile Include="Particles\CandleFireParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundManager.cs" />
     <Compile Include="Characters\PlayerDescendingStairs.cs" />

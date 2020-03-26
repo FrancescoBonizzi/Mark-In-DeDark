@@ -139,6 +139,9 @@ namespace MarkInDeDarkMono.Characters
             _torch.ResetColor();
         }
 
+        public Vector2 TorchPosition
+            => _torch.Position;
+
         public Vector2 WorldCenter
             => _drawingInfos.Center(
                 AnimationsManager.CurrentAnimation.CurrentFrameWidth,
@@ -443,7 +446,7 @@ namespace MarkInDeDarkMono.Characters
         {
             AnimationsManager.Draw(spriteBatch, _drawingInfos);
 
-            if (AreLightsActive)
+            if (AreLightsActive && !IsDead)
             {
                 _torch.Draw(spriteBatch);
             }

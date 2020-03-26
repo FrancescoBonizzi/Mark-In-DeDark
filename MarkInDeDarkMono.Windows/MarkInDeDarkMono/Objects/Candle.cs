@@ -14,11 +14,14 @@ namespace Mark.Engine
 {
     public class Candle
     {
-        private Light _torch;
+        private readonly Light _torch;
 
-        private ParticleGeneratorTimedEffect _smokeEffect;
-        private DrawingInfos _drawingInfos;
-        private FadeObject _fadeObject;
+        private readonly ParticleGeneratorTimedEffect _smokeEffect;
+        private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
+        private readonly Vector2 _fireEffectGenerationCenter;
+        private readonly DrawingInfos _drawingInfos;
+        private readonly FadeObject _fadeObject;
+        
         private TimeSpan _timeToLive;
 
         public Light LightMap { get; }
@@ -56,10 +59,13 @@ namespace Mark.Engine
                 _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
                 TimeSpan.FromMilliseconds(35),
                 _timeToLive);
-
+            
             _fadeObject = new FadeObject(
                 _timeToLive,
                 _drawingInfos.OverlayColor);
+
+            _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
+            _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 42.0f);
         }
 
         public void Die()
@@ -90,7 +96,12 @@ namespace Mark.Engine
                 _torch.SetTemporaryColor(_fadeObject.OverlayColor);
                 LightMap.SetTemporaryColor(_fadeObject.OverlayColor);
             }
+            else
+            {
+                _playerCandleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
+            }
 
+            _playerCandleFireParticleSystem.Update(elapsed);
             _animation.Update(elapsed);
             LightMap.Update(elapsed);
             _torch.Update(elapsed);
@@ -100,6 +111,7 @@ namespace Mark.Engine
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
             _torch.Draw(spriteBatch);
+            _playerCandleFireParticleSystem.Draw(spriteBatch);
         }
 
         public void DrawSmoke(SpriteBatch spriteBatch)
