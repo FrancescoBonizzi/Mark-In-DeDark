@@ -258,6 +258,7 @@
             <key type="filename">Game/light_pixel.png</key>
             <key type="filename">Game/macerie0.png</key>
             <key type="filename">Game/skeleton_front_dying_3.png</key>
+            <key type="filename">Game/stairs.png</key>
             <key type="filename">Game/taurus_back_attack_1.png</key>
             <key type="filename">Game/taurus_back_attack_2.png</key>
             <key type="filename">Game/taurus_back_iddle_1.png</key>

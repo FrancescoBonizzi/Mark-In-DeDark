@@ -376,6 +376,7 @@
     <Content Include="Assets\_TextureProject\Game\skeleton_side_walking_1.png" />
     <Content Include="Assets\_TextureProject\Game\skeleton_side_walking_2.png" />
     <Content Include="Assets\_TextureProject\Game\smoke.png" />
+    <Content Include="Assets\_TextureProject\Game\stairs.png" />
     <Content Include="Assets\_TextureProject\Game\taurus_back_attack_1.png" />
     <Content Include="Assets\_TextureProject\Game\taurus_back_attack_2.png" />
     <Content Include="Assets\_TextureProject\Game\taurus_back_iddle_1.png" />

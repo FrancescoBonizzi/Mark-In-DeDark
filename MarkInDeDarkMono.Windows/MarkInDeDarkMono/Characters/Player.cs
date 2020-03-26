@@ -17,7 +17,6 @@ namespace MarkInDeDarkMono.Characters
 
         private readonly SoundManager _soundManager;
         private readonly CandlesManager _candlesManager;
-        private readonly GameGrid _gameGrid;
         private readonly bool _doesntDie;
 
         private enum PlayerStates
@@ -53,8 +52,6 @@ namespace MarkInDeDarkMono.Characters
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
-            _gameGrid = gameGrid;
-
             _doesntDie = gameConfig.GodModePlayerDoesntDie;
 
             _currentPlayerState = PlayerStates.LevelIntro;

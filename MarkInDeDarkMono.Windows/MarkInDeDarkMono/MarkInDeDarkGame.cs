@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.PlatformAbstractions;
+using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
 using Mark.Engine;
@@ -20,13 +21,16 @@ namespace MarkInDeDarkMono
 {
     public class MarkInDeDarkGame
     {
-        private readonly GameGrid _grid;
+        private readonly GameGrid _gameGrid;
         private readonly Exit _exit;
         private readonly Player _player;
         private readonly List<Enemy> _enemies;
         private readonly List<TriggerObject> _triggerObjects;
         private readonly CandlesManager _candlesManager;
         private readonly CollectableObject _key;
+
+        private readonly Sprite _playerStartingPointTexture;
+        private readonly DrawingInfos _playerStartingPointDrawingInfos;
 
         public bool IsPaused { get; private set; }
 
@@ -113,29 +117,35 @@ namespace MarkInDeDarkMono
             _currentLevel = selectedLevel;
 
             _camera = new Camera2D(_matrixScaleProvider);
-            _grid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager);
-            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _grid, gameConfig);
-            _player = new Player(assetsLoader, _grid, gameConfig, _candlesManager, _soundManager);
+            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager);
+            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
+            _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager);
 
-            _exit = new Exit(assetsLoader, gameConfig, _grid.ExitPosition);
-            _key = new CollectableObject(assetsLoader.Sprites["key"], _grid.KeyPosition, _soundManager);
+            _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
+            _key = new CollectableObject(assetsLoader.Sprites["key"], _gameGrid.KeyPosition, _soundManager);
+            _playerStartingPointTexture = assetsLoader.Sprites["stairs"];
+            _playerStartingPointDrawingInfos = new DrawingInfos() 
+            { 
+                Position = _gameGrid.PlayerStartingPosition, 
+                Origin = _playerStartingPointTexture.SpriteCenter
+            };
 
             _enemies = new List<Enemy>();
             _triggerObjects = new List<TriggerObject>();
 
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
-            if (_grid.GoblinTriggerRectangle != null && _grid.GoblinStartPosition != null)
+            if (_gameGrid.GoblinTriggerRectangle != null && _gameGrid.GoblinStartPosition != null)
             {
                 _triggerObjects.Add(new GoblinTriggerTrap(
                     assetsLoader: assetsLoader,
-                    triggerCollisionRectangle: _grid.GoblinTriggerRectangle.Value,
+                    triggerCollisionRectangle: _gameGrid.GoblinTriggerRectangle.Value,
                     affectedCharacters: new Character[] { _player },
                     onTriggerPressed: (character, elapsed) =>
                     {
                         var newGoblin = new Goblin(
                             assetsLoader,
-                            _grid.GoblinStartPosition.Value,
-                            _grid,
+                            _gameGrid.GoblinStartPosition.Value,
+                            _gameGrid,
                             _candlesManager,
                             _soundManager,
                             _player,
@@ -151,51 +161,51 @@ namespace MarkInDeDarkMono
                     }));
             }
             // Se non metto il trigger, lo spawno subito
-            else if (_grid.GoblinStartPosition != null)
+            else if (_gameGrid.GoblinStartPosition != null)
             {
-                _enemies.Add(new Goblin(assetsLoader, _grid.GoblinStartPosition.Value, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                _enemies.Add(new Goblin(assetsLoader, _gameGrid.GoblinStartPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
             }
 
-            if (_grid.WerewolfStartingPosition != null)
+            if (_gameGrid.WerewolfStartingPosition != null)
             {
-                _enemies.Add(new Werewolf(assetsLoader, _grid.WerewolfStartingPosition.Value, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                _enemies.Add(new Werewolf(assetsLoader, _gameGrid.WerewolfStartingPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
             }
 
-            if (_grid.ZombiesPath != null)
+            if (_gameGrid.ZombiesPath != null)
             {
-                foreach (var zombiePath in _grid.ZombiesPath)
+                foreach (var zombiePath in _gameGrid.ZombiesPath)
                 {
-                    _enemies.Add(new Zombie(assetsLoader, zombiePath, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Zombie(assetsLoader, zombiePath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
                 }
             }
 
-            if (_grid.GhostsPath != null)
+            if (_gameGrid.GhostsPath != null)
             {
-                foreach (var ghostPath in _grid.GhostsPath)
+                foreach (var ghostPath in _gameGrid.GhostsPath)
                 {
-                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
                 }
             }
 
-            if (_grid.SkeletronsPath != null)
+            if (_gameGrid.SkeletronsPath != null)
             {
-                foreach (var skeletronPath in _grid.SkeletronsPath)
+                foreach (var skeletronPath in _gameGrid.SkeletronsPath)
                 {
-                    _enemies.Add(new Skeletron(assetsLoader, skeletronPath, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Skeletron(assetsLoader, skeletronPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
                 }
             }
 
-            if (_grid.TaurusPath != null)
+            if (_gameGrid.TaurusPath != null)
             {
-                foreach (var taurusPath in _grid.TaurusPath)
+                foreach (var taurusPath in _gameGrid.TaurusPath)
                 {
-                    _enemies.Add(new Taurus(assetsLoader, taurusPath, _grid, _candlesManager, _soundManager, _player, gameConfig, _enemies));
+                    _enemies.Add(new Taurus(assetsLoader, taurusPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, _enemies));
                 }
             }
 
-            if (_grid.InstantlyDieTrapCollisionRectangles != null)
+            if (_gameGrid.InstantlyDieTrapCollisionRectangles != null)
             {
-                foreach (var instantlyDieTrapRectangle in _grid.InstantlyDieTrapCollisionRectangles)
+                foreach (var instantlyDieTrapRectangle in _gameGrid.InstantlyDieTrapCollisionRectangles)
                 {
                     _triggerObjects.Add(new InstantlyDieTrap(
                         assetsLoader,
@@ -204,9 +214,9 @@ namespace MarkInDeDarkMono
                 }
             }
 
-            if (_grid.BrekableTrapCollisionRectangles != null)
+            if (_gameGrid.BrekableTrapCollisionRectangles != null)
             {
-                foreach (var breakableTrapRectangle in _grid.BrekableTrapCollisionRectangles)
+                foreach (var breakableTrapRectangle in _gameGrid.BrekableTrapCollisionRectangles)
                 {
                     _triggerObjects.Add(new TimedBreakableTrap(
                         assetsLoader,
@@ -216,7 +226,7 @@ namespace MarkInDeDarkMono
                 }
             }
 
-            _candlePacks = _grid.CandlePacks;
+            _candlePacks = _gameGrid.CandlePacks;
             ElapsedGameTime = TimeSpan.Zero;
             _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
         }
@@ -373,7 +383,7 @@ namespace MarkInDeDarkMono
                     return;
             }
 
-            _grid.Update(elapsed);
+            _gameGrid.Update(elapsed);
             _player.Update(elapsed);
             _candlesManager.Update(elapsed);
             _key.Update(elapsed);
@@ -466,9 +476,10 @@ namespace MarkInDeDarkMono
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
 
-            _grid.DrawCells(spriteBatch);
-            _grid.DrawDirtys(spriteBatch);
+            _gameGrid.DrawCells(spriteBatch);
+            _gameGrid.DrawDirtys(spriteBatch);
             _exit.Draw(spriteBatch);
+            spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
 
             if (_triggerObjects != null)
             {
@@ -476,8 +487,8 @@ namespace MarkInDeDarkMono
                     triggerObject.Draw(spriteBatch);
             }
 
-            _grid.DrawWalls(spriteBatch);
-            _grid.DrawAngles(spriteBatch);
+            _gameGrid.DrawWalls(spriteBatch);
+            _gameGrid.DrawAngles(spriteBatch);
 
             _key.Draw(spriteBatch);
             foreach (var candlePack in _candlePacks)

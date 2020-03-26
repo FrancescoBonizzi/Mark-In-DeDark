@@ -10,11 +10,10 @@ using System;
 
 namespace Mark.Engine
 {
-#warning Potrebbe diventare un trigger object per togliere un po' di logica al game
     public class Exit
     {
         private Sprite _sprite;
-        private Sprite _openSprite;
+        private readonly Sprite _openSprite;
         private readonly DrawingInfos _drawingInfos;
         public Light LightMap { get; }
 
