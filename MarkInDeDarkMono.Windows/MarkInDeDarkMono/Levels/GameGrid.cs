@@ -36,6 +36,7 @@ namespace MarkInDeDarkMono.Levels
         public List<List<GameCell>> ZombiesPath { get; set; }
         public List<List<GameCell>> SkeletronsPath { get; set; }
         public List<List<GameCell>> TaurusPath { get; set; }
+        public List<List<GameCell>> GhostsPath { get; set; }
         public List<Rectangle> InstantlyDieTrapCollisionRectangles { get; set; }
         public List<Rectangle> BrekableTrapCollisionRectangles { get; set; }
 

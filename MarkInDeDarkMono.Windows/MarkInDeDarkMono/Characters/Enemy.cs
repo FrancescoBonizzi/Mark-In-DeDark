@@ -17,9 +17,9 @@ namespace MarkInDeDarkMono.Characters
         private readonly int _attackSoundIndex;
 
         private readonly SoundManager _soundManager;
-        private readonly Player _player;
+        protected readonly Player _player;
 
-        public int NCellsCandleFindingRange { get; }
+        public int? NCellsCandleFindingRange { get; }
 
         private enum AnimationsNames
         {
@@ -163,6 +163,11 @@ namespace MarkInDeDarkMono.Characters
             base.Die();
         }
 
+        public virtual bool CustomConditionToAttackPlayer()
+        {
+            return true;
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             if (_gameFinished)
@@ -187,6 +192,7 @@ namespace MarkInDeDarkMono.Characters
 
             if (!(_player.IsDead || _player.IsDying)
                 && !_player.HasWon
+                && CustomConditionToAttackPlayer()
                 && CollisionRectangle.Intersects(_player.CollisionRectangle))
             {
                 Attack();

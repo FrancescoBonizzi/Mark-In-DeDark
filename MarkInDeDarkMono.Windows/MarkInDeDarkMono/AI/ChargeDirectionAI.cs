@@ -79,7 +79,7 @@ namespace MarkInDeDarkMono.AI
                     var possibleCandle = _candlesManager.IsThereACandle(currentCell);
                     if (possibleCandle != null)
                     {
-                        possibleCandle.Die();
+                        possibleCandle.DieFast();
                     }
 
                     // Se posso andare avanti vado avanti caricando

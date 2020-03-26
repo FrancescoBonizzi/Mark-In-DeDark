@@ -169,6 +169,14 @@ namespace MarkInDeDarkMono
                 }
             }
 
+            if (_grid.GhostsPath != null)
+            {
+                foreach (var ghostPath in _grid.GhostsPath)
+                {
+                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _grid, _candlesManager, _soundManager, _player, gameConfig));
+                }
+            }
+
             if (_grid.SkeletronsPath != null)
             {
                 foreach (var skeletronPath in _grid.SkeletronsPath)

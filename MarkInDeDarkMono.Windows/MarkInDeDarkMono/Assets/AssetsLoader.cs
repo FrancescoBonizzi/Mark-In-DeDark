@@ -161,7 +161,8 @@ namespace MarkInDeDarkMono.Assets
         {
             void LoadCharacterAnimations(
                 string characterName, 
-                bool hasAttackAnimations)
+                bool hasAttackAnimations,
+                bool hasDieAnimations)
             {
                 var characterWalkUp = new List<Sprite>() { Sprites[$"{characterName}_back_walking_1"], Sprites[$"{characterName}_back_walking_2"] };
                 var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_walking_2"] };
@@ -196,15 +197,18 @@ namespace MarkInDeDarkMono.Assets
                     characterWalkUp.Add(Sprites[$"{characterName}_back_walking_4"]);
                 }
 
-                var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };
-                
                 _animations[$"{characterName}WalkUp"] = new SpriteAnimation(characterWalkUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 _animations[$"{characterName}WalkDown"] = new SpriteAnimation(characterWalkDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 _animations[$"{characterName}WalkSide"] = new SpriteAnimation(characterWalkSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 _animations[$"{characterName}IdleUp"] = new SpriteAnimation(characterIdleUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 _animations[$"{characterName}IdleDown"] = new SpriteAnimation(characterIdleDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
                 _animations[$"{characterName}IdleSide"] = new SpriteAnimation(characterIdleSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}Dying"] = new SpriteAnimation(characterDying, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames), false);
+
+                if (hasDieAnimations)
+                {
+                    var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };
+                    _animations[$"{characterName}Dying"] = new SpriteAnimation(characterDying, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames), false);
+                }
 
                 if (hasAttackAnimations)
                 {
@@ -220,12 +224,13 @@ namespace MarkInDeDarkMono.Assets
                 }
             }
 
-            LoadCharacterAnimations("player", false);
-            LoadCharacterAnimations("goblin", true);
-            LoadCharacterAnimations("werewolf", true);
-            LoadCharacterAnimations("skeleton", true);
-            LoadCharacterAnimations("zombie", true);
-            LoadCharacterAnimations("taurus", true);
+            LoadCharacterAnimations(characterName: "player", hasAttackAnimations: false, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "goblin", hasAttackAnimations: true, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "werewolf", hasAttackAnimations: true, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "skeleton", hasAttackAnimations: true, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "zombie", hasAttackAnimations: true, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "taurus", hasAttackAnimations: true, hasDieAnimations: true);
+            LoadCharacterAnimations(characterName: "ghost", hasAttackAnimations: true, hasDieAnimations: false);
 
             var candleAnimation = new List<Sprite>();
             for (int i = 1; i <= 6; ++i)

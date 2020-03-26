@@ -11,7 +11,7 @@ namespace MarkInDeDarkMono.Characters
             string enemyName,
             int attackSoundIndex,
             int screamSoundIndex,
-            int nCellsFindingRange,
+            int? nCellsFindingRange,
             IEnemyAI startingAI)
         {
             AttackDownAnimation = assetsLoader.GetAnimation($"{enemyName}AttackDown");
@@ -32,7 +32,7 @@ namespace MarkInDeDarkMono.Characters
 
         public int AttackSoundIndex { get; }
         public int ScreamSoundIndex { get; }
-        public int NCellsFindingRange { get; }
+        public int? NCellsFindingRange { get; }
 
         public IEnemyAI StartingAI { get; }
     }

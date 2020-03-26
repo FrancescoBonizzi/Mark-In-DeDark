@@ -19,18 +19,22 @@ namespace MarkInDeDarkMono.AI
         protected GameGrid _gameGrid;
         protected SoundManager _soundManager;
 
+        private readonly bool _searchesCandles;
+
         public PatrolAI(
             List<GameCell> patrolWaypoints,
             GameGrid gameGrid,
             CandlesManager candlesManager,
             Player player,
-            SoundManager soundManager)
+            SoundManager soundManager,
+            bool searchesCandles = true)
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
             _waypoints = patrolWaypoints;
             _player = player;
             _gameGrid = gameGrid;
+            _searchesCandles = searchesCandles;
 
             // 0 è la sua posizione di partenza
             _currentWaypointIndex = 1;
@@ -43,12 +47,15 @@ namespace MarkInDeDarkMono.AI
             Enemy character,
             TimeSpan elapsed)
         {
-            var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
-            if (actionsToNearCandle.Key != null)
+            if (_searchesCandles)
             {
-                character.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this, _gameGrid));
-                _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
-                return character.CurrentAI.Update(character, elapsed);
+                var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
+                if (actionsToNearCandle.Key != null)
+                {
+                    character.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this));
+                    _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
+                    return character.CurrentAI.Update(character, elapsed);
+                }
             }
 
             // Se non ho niente da fare, cerco la posizione per il prossimo waypoint

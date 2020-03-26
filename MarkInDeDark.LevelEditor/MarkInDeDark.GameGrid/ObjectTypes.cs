@@ -11,6 +11,7 @@
         Scheletro = 6,
         Goblin = 7,
         Taurus = 8,
-        Werewolf = 9
+        Werewolf = 9,
+        Ghost = 10
     }
 }

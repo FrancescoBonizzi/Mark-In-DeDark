@@ -23,6 +23,8 @@ namespace MarkInDeDarkMono.Particles
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
 
+        private Color? _forcedColor;
+
         public Light(
             Sprite sprite,
             Color firstAnimationColor,
@@ -52,12 +54,17 @@ namespace MarkInDeDarkMono.Particles
         public Light(Sprite sprite, float scale = 1.0f)
             : this(sprite, Color.White, Color.White.WithAlpha(0.9f), scale) { }
 
-        public void SetTemporaryColor(Color color)
+        public void SetTemporaryColorForAnimation(Color color)
         {
             _colorChangingObject = new ColorChangingObject(
                 _firstAnimationColor, color, _originalColorChangingSpeed * 4);
             _scalingObject = new ScalingObject(
                 _originalMinScale * 1.5f, _originalMaxScale * 1.5f, _originalScalingSpeed * 2f);
+        }
+
+        public void ForceColor(Color color)
+        {
+            _forcedColor = color;
         }
 
         public void ResetColor()
@@ -76,9 +83,16 @@ namespace MarkInDeDarkMono.Particles
 
         public void Update(TimeSpan elapsed)
         {
-            // Cambiamento di colore
-            _colorChangingObject.Update(elapsed);
-            _drawingInfos.OverlayColor = _colorChangingObject.Color;
+            if (_forcedColor == null)
+            {
+                // Cambiamento di colore
+                _colorChangingObject.Update(elapsed);
+                _drawingInfos.OverlayColor = _colorChangingObject.Color;
+            }
+            else
+            {
+                _drawingInfos.OverlayColor = _forcedColor.Value;
+            }
 
             // Cambiamento di scala
             _scalingObject.Update(elapsed);

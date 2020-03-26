@@ -241,7 +241,8 @@ namespace MarkInDeDark.LevelEditor
                         }
                         else if (_currentSelectedObjectType == ObjectTypes.Zombie
                             || _currentSelectedObjectType == ObjectTypes.Scheletro
-                            || _currentSelectedObjectType == ObjectTypes.Taurus)
+                            || _currentSelectedObjectType == ObjectTypes.Taurus
+                            || _currentSelectedObjectType == ObjectTypes.Ghost)
                         {
                             string pathTemplate = $"{_currentSelectedObjectType.ToString().ToUpper()[0]}-*-*";
 

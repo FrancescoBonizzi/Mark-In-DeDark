@@ -490,7 +490,25 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <!--  TODO Aggiungere Wolf con tag 9  -->
+                    <RadioButton
+                        x:Name="BtnObjectType_Ghost"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="10"
+                        ToolTip="Imposta la posizione del ghost">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/ghost_back_attack_1.png" />
+                            <TextBlock Padding="2,2" Text="Ghost" />
+                        </StackPanel>
+                    </RadioButton>
 
                 </StackPanel>
 

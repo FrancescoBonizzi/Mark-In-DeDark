@@ -326,6 +326,42 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/ghost_back_attack_1.png</key>
+            <key type="filename">Game/ghost_back_attack_2.png</key>
+            <key type="filename">Game/ghost_back_attack_3.png</key>
+            <key type="filename">Game/ghost_back_iddle_1.png</key>
+            <key type="filename">Game/ghost_back_walking_1.png</key>
+            <key type="filename">Game/ghost_back_walking_2.png</key>
+            <key type="filename">Game/ghost_back_walking_3.png</key>
+            <key type="filename">Game/ghost_back_walking_4.png</key>
+            <key type="filename">Game/ghost_back_walking_5.png</key>
+            <key type="filename">Game/ghost_back_walking_6.png</key>
+            <key type="filename">Game/ghost_back_walking_7.png</key>
+            <key type="filename">Game/ghost_back_walking_8.png</key>
+            <key type="filename">Game/ghost_front_attack_1.png</key>
+            <key type="filename">Game/ghost_front_attack_2.png</key>
+            <key type="filename">Game/ghost_front_attack_3.png</key>
+            <key type="filename">Game/ghost_front_iddle_1.png</key>
+            <key type="filename">Game/ghost_front_walking_1.png</key>
+            <key type="filename">Game/ghost_front_walking_2.png</key>
+            <key type="filename">Game/ghost_front_walking_3.png</key>
+            <key type="filename">Game/ghost_front_walking_4.png</key>
+            <key type="filename">Game/ghost_front_walking_5.png</key>
+            <key type="filename">Game/ghost_front_walking_6.png</key>
+            <key type="filename">Game/ghost_front_walking_7.png</key>
+            <key type="filename">Game/ghost_front_walking_8.png</key>
+            <key type="filename">Game/ghost_side_attack_1.png</key>
+            <key type="filename">Game/ghost_side_attack_2.png</key>
+            <key type="filename">Game/ghost_side_attack_3.png</key>
+            <key type="filename">Game/ghost_side_iddle_1.png</key>
+            <key type="filename">Game/ghost_side_walking_1.png</key>
+            <key type="filename">Game/ghost_side_walking_2.png</key>
+            <key type="filename">Game/ghost_side_walking_3.png</key>
+            <key type="filename">Game/ghost_side_walking_4.png</key>
+            <key type="filename">Game/ghost_side_walking_5.png</key>
+            <key type="filename">Game/ghost_side_walking_6.png</key>
+            <key type="filename">Game/ghost_side_walking_7.png</key>
+            <key type="filename">Game/ghost_side_walking_8.png</key>
             <key type="filename">Game/goblin_back_attack_1.png</key>
             <key type="filename">Game/goblin_back_attack_2.png</key>
             <key type="filename">Game/goblin_back_iddle_1.png</key>

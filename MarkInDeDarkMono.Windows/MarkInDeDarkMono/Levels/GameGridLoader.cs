@@ -19,6 +19,7 @@ namespace MarkInDeDarkMono.Levels
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var taurusPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
+            var ghostPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             grid.InstantlyDieTrapCollisionRectangles = new List<Rectangle>();
             grid.BrekableTrapCollisionRectangles = new List<Rectangle>();
 
@@ -96,6 +97,30 @@ namespace MarkInDeDarkMono.Levels
                                     else
                                     {
                                         zombiesPaths.Add(
+                                            patrolNumber,
+                                            new List<KeyValuePair<int, GameCell>>() { cellWithOrder });
+                                    }
+                                }
+                                break;
+
+                            case ObjectTypes.Ghost:
+
+                                {
+                                    // Ghost
+                                    // Essendo un patrol, avrò il suo percorso nel formato G-1-1 ecc
+                                    var patrolPart = levelEditorCell.ObjectTypeAdditionalData.Split('-');
+                                    var patrolNumber = Convert.ToInt32(patrolPart[1]);
+                                    var patrolWaypointNumber = Convert.ToInt32(patrolPart[2]);
+                                    var cellWithOrder = new KeyValuePair<int, GameCell>(patrolWaypointNumber, gameCell);
+
+                                    // Ogni riga di _zombies_path è uno zombie
+                                    if (ghostPaths.ContainsKey(patrolNumber))
+                                    {
+                                        ghostPaths[patrolNumber].Add(cellWithOrder);
+                                    }
+                                    else
+                                    {
+                                        ghostPaths.Add(
                                             patrolNumber,
                                             new List<KeyValuePair<int, GameCell>>() { cellWithOrder });
                                     }
@@ -190,6 +215,16 @@ namespace MarkInDeDarkMono.Levels
             foreach (var path in zombiesPaths)
             {
                 grid.ZombiesPath.Add(
+                    path.Value
+                    .OrderBy(p => p.Key)
+                    .Select(p => p.Value)
+                    .ToList());
+            }
+
+            grid.GhostsPath = new List<List<GameCell>>();
+            foreach (var path in ghostPaths)
+            {
+                grid.GhostsPath.Add(
                     path.Value
                     .OrderBy(p => p.Key)
                     .Select(p => p.Value)

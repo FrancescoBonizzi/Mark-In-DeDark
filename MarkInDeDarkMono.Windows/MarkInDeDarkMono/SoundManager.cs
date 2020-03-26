@@ -94,6 +94,12 @@ namespace MarkInDeDarkMono
         {
             return RegisterMonsterSound("zombie_voice", false);
         }
+        
+        public int RegisterGhostScreamSound()
+        {
+            // TODO Suono tipo fantasmino
+            return RegisterMonsterSound("skeletron_voice", false);
+        }
 
         public int RegisterGoblinScreamSound()
         {
@@ -116,6 +122,11 @@ namespace MarkInDeDarkMono
         }
 
         public int RegisterZombieAttackSound()
+        {
+            return RegisterMonsterSound("attack1", true);
+        }
+
+        public int RegisterGhostAttackSound()
         {
             return RegisterMonsterSound("attack1", true);
         }

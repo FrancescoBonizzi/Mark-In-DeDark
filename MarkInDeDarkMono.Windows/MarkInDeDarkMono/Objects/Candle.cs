@@ -16,13 +16,17 @@ namespace Mark.Engine
     {
         private readonly Light _torch;
 
-        private readonly ParticleGeneratorTimedEffect _smokeEffect;
+        private ParticleGeneratorTimedEffect _smokeEffect;
+
         private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
+        private readonly CandleSmokeParticleSystem _smokeEffectParticleSystem;
+
         private readonly Vector2 _fireEffectGenerationCenter;
         private readonly DrawingInfos _drawingInfos;
-        private readonly FadeObject _fadeObject;
-        
+        private FadeObject _fadeObject;
+
         private TimeSpan _timeToLive;
+
 
         public Light LightMap { get; }
         public bool IsDying { get; private set; }
@@ -54,16 +58,7 @@ namespace Mark.Engine
 
             _timeToLive = TimeSpan.FromSeconds(gameConfig.CandleTimeToLiveWhenAttackedSeconds);
 
-            _smokeEffect = new ParticleGeneratorTimedEffect(
-                new CandleSmokeParticleSystem(assetsLoader),
-                _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
-                TimeSpan.FromMilliseconds(35),
-                _timeToLive);
-            
-            _fadeObject = new FadeObject(
-                _timeToLive,
-                _drawingInfos.OverlayColor);
-
+            _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader);
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 42.0f);
         }
@@ -72,12 +67,41 @@ namespace Mark.Engine
         {
             IsDying = true;
 
-            if (!_fadeObject.IsFading)
+            if (_fadeObject == null)
+            {
+                _fadeObject = new FadeObject(
+                    _timeToLive,
+                    _drawingInfos.OverlayColor);
+
+                _smokeEffect = new ParticleGeneratorTimedEffect(
+                    _smokeEffectParticleSystem,
+                    _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
+                    TimeSpan.FromMilliseconds(35),
+                    _timeToLive);
+
                 _fadeObject.FadeOut();
+            }
+        }
+
+        public void DieFast()
+        {
+            _timeToLive = TimeSpan.FromMilliseconds(500);
+            Die();
         }
 
         public bool IsActive
-            => _timeToLive > TimeSpan.Zero;
+        {
+            get
+            {
+                if (_timeToLive > TimeSpan.Zero)
+                    return true;
+
+                if (_smokeEffect != null)
+                    return !_smokeEffect.HasFinished;
+
+                return false;
+            }
+        }
 
         public Vector2 WorldCenter
             => _drawingInfos.Center(_animation.CurrentFrameWidth, _animation.CurrentFrameHeight);
@@ -93,8 +117,8 @@ namespace Mark.Engine
                 _smokeEffect.Update(elapsed);
                 _fadeObject.Update(elapsed);
                 _drawingInfos.OverlayColor = _fadeObject.OverlayColor;
-                _torch.SetTemporaryColor(_fadeObject.OverlayColor);
-                LightMap.SetTemporaryColor(_fadeObject.OverlayColor);
+                _torch.ForceColor(_fadeObject.OverlayColor);
+                LightMap.ForceColor(_fadeObject.OverlayColor);
             }
             else
             {

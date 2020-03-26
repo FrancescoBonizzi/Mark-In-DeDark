@@ -57,7 +57,7 @@ namespace MarkInDeDarkMono.Characters
 
         protected DrawingInfos _drawingInfos;
 
-        private readonly GameGrid _grid;
+        protected readonly GameGrid _gameGrid;
         private readonly SoundManager _soundManager;
         private float _movementLerpAmount;
         private float _startingLerpAmount;
@@ -84,7 +84,7 @@ namespace MarkInDeDarkMono.Characters
             _startingLerpAmount = 0f;
             _movementLerpAmount = 1.0f;
 
-            _grid = grid;
+            _gameGrid = grid;
             _soundManager = soundManager;
             AreLightsActive = true;
 
@@ -116,8 +116,10 @@ namespace MarkInDeDarkMono.Characters
                 .AddAnimation(AnimationsNames.IdleUp.ToString(), configuration.IdleUpAnimation)
                 .AddAnimation(AnimationsNames.IdleDown.ToString(), configuration.IdleDownAnimation)
                 .AddAnimation(AnimationsNames.IdleLeft.ToString(), configuration.IdleSideAnimation)
-                .AddAnimation(AnimationsNames.IdleRight.ToString(), configuration.IdleSideAnimation)
-                .AddAnimation(AnimationsNames.Die.ToString(), configuration.DieAnimation);
+                .AddAnimation(AnimationsNames.IdleRight.ToString(), configuration.IdleSideAnimation);
+
+            if (configuration.DieAnimation != null)
+                AnimationsManager.AddAnimation(AnimationsNames.Die.ToString(), configuration.DieAnimation);
 
             CurrentCharacterState = CharacterState.IdleDown;
             AnimationsManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
@@ -129,8 +131,8 @@ namespace MarkInDeDarkMono.Characters
 
         public void SetTemporaryColor(Color color)
         {
-            _lightMap.SetTemporaryColor(color);
-            _torch.SetTemporaryColor(color);
+            _lightMap.SetTemporaryColorForAnimation(color);
+            _torch.SetTemporaryColorForAnimation(color);
         }
 
         public void ResetNormalColor()
@@ -163,7 +165,7 @@ namespace MarkInDeDarkMono.Characters
 
         public virtual void Die()
         {
-            _grid.ApplyBloodDecal(WorldCenter);
+            _gameGrid.ApplyBloodDecal(WorldCenter);
             _soundManager.PlayBlood();
             _bloodEffect.AddParticles(WorldCenter);
             CurrentCharacterState = CharacterState.Dying;
@@ -274,7 +276,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void HandleBufferedInput()
         {
-            var currentCell = _grid.GetCellAtPixel(_drawingInfos.Position);
+            var currentCell = _gameGrid.GetCellAtPixel(_drawingInfos.Position);
 
             if (!IsMoving)
             {

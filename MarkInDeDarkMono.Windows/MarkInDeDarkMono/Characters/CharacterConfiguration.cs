@@ -17,9 +17,14 @@ namespace MarkInDeDarkMono.Characters
             Vector2 torchPositionTraslationUp,
             Vector2 torchPositionTraslationLeft,
             Vector2 torchPositionTraslationRight,
-            Vector2 torchPositionTraslationDown)
+            Vector2 torchPositionTraslationDown,
+            bool withDieAnimation = true)
         {
-            DieAnimation = assetsLoader.GetAnimation($"{characterName}Dying");
+            if (withDieAnimation)
+            {
+                DieAnimation = assetsLoader.GetAnimation($"{characterName}Dying");
+            }
+
             IdleDownAnimation = assetsLoader.GetAnimation($"{characterName}IdleDown");
             IdleSideAnimation = assetsLoader.GetAnimation($"{characterName}IdleSide");
             IdleUpAnimation = assetsLoader.GetAnimation($"{characterName}IdleUp");

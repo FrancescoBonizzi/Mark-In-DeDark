@@ -10,9 +10,8 @@ namespace MarkInDeDarkMono.AI
 {
     public class KillCandleAI : IEnemyAI
     {
-        private Queue<CharacterActions> _actionsToCandle;
+        private readonly Queue<CharacterActions> _actionsToCandle;
         private readonly IEnemyAI _nextAI;
-        private readonly GameGrid _gameGrid;
         private readonly Candle _targetCandle;
 
         public enum KillCandleStatus
@@ -27,10 +26,8 @@ namespace MarkInDeDarkMono.AI
         public KillCandleAI(
             Candle targetCandle,
             IEnumerable<CharacterActions> actionsToCandle,
-            IEnemyAI nextAI,
-            GameGrid gameGrid)
+            IEnemyAI nextAI)
         {
-            _gameGrid = gameGrid;
             _targetCandle = targetCandle;
             targetCandle.AreSomeMonsterIsFollowingMe = true;
             _actionsToCandle = new Queue<CharacterActions>(actionsToCandle);
@@ -92,7 +89,7 @@ namespace MarkInDeDarkMono.AI
         {
             return candlesManager.GetNearestCandleActionsPath(
                 character.Position,
-                character.NCellsCandleFindingRange);
+                character.NCellsCandleFindingRange.Value);
         }
     }
 }

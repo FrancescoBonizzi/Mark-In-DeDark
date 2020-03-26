@@ -19,6 +19,11 @@ namespace MarkInDeDarkMono.Common
         public float ZombieSpeed { get; set; }
         public int ZombieMaxCellsForNearCandle { get; set; }
 
+        public Color GhostLightColorRGB1 { get; set; }
+        public Color GhostLightColorRGB2 { get; set; }
+        public float GhostLightSize { get; set; }
+        public float GhostSpeed { get; set; }
+
         public Color SkeletronLightColorRGB1 { get; set; }
         public Color SkeletronLightColorRGB2 { get; set; }
         public float SkeletronLightSize { get; set; }
@@ -101,6 +106,11 @@ namespace MarkInDeDarkMono.Common
             SkeletronMaxCellsForNearCandle = LoadInt(gameConfigDictionary[nameof(SkeletronMaxCellsForNearCandle)]);
             SkeletronRageColorRGB = LoadColor(gameConfigDictionary[nameof(SkeletronRageColorRGB)]);
             SkeletronHuntingSpeed = LoadFloat(gameConfigDictionary[nameof(SkeletronHuntingSpeed)]);
+
+            GhostLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(GhostLightColorRGB1)]);
+            GhostLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(GhostLightColorRGB2)]);
+            GhostLightSize = LoadFloat(gameConfigDictionary[nameof(GhostLightSize)]);
+            GhostSpeed = LoadFloat(gameConfigDictionary[nameof(GhostSpeed)]);
 
             GoblinLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(GoblinLightColorRGB1)]);
             GoblinLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(GoblinLightColorRGB2)]);
