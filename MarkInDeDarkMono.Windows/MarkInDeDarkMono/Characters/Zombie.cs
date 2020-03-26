@@ -4,6 +4,7 @@ using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,9 @@ namespace MarkInDeDarkMono.Characters
 {
     public class Zombie : Enemy
     {
+        private readonly CandlesManager _candlesManager;
+        private readonly PatrolAI _thisAI;
+
         public Zombie(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -38,13 +42,28 @@ namespace MarkInDeDarkMono.Characters
                       enemyName: "zombie",
                       attackSoundIndex: soundManager.RegisterZombieAttackSound(),
                       screamSoundIndex: soundManager.RegisterZombieScreamSound(),
-                      nCellsFindingRange: gameConfig.ZombieMaxCellsForNearCandle,
-                      startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager)),
+                      nCellsFindingRange: null,
+                      startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: false)),
                   soundManager,
                   player,
                   assetsLoader)
         {
+            _candlesManager = candlesManager;
+            _thisAI = CurrentAI as PatrolAI;
+        }
 
+        public override void Update(TimeSpan elapsed)
+        {
+            // Se incontra una candela, la spegne all'istante
+            var currentCell = _gameGrid.GetCellAtPixel(Position);
+            var possibleCandle = _candlesManager.IsThereACandle(currentCell);
+            if (possibleCandle != null)
+            {
+                SetNewAI(new KillCandleAI(possibleCandle, Array.Empty<CharacterActions>(), _thisAI));
+                CurrentAI.Update(this, elapsed);
+            }
+
+            base.Update(elapsed);
         }
 
     }

@@ -15,7 +15,7 @@ namespace MarkInDeDarkMono.AI
             CandlesManager candlesManager,
             Player player,
             SoundManager soundManager)
-            : base(patrolWaypoints, gameGrid, candlesManager, player, soundManager)
+            : base(patrolWaypoints, gameGrid, candlesManager, player, soundManager, true)
         {
 
         }

@@ -5,7 +5,6 @@ using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDarkMono.AI
@@ -21,7 +20,7 @@ namespace MarkInDeDarkMono.AI
             Player player,
             SoundManager soundManager,
             GameConfig gameConfig)
-            : base(patrolWaypoints, gameGrid, candlesManager, player, soundManager)
+            : base(patrolWaypoints, gameGrid, candlesManager, player, soundManager, true)
         {
             _gameConfig = gameConfig;
         }

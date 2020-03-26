@@ -27,7 +27,7 @@ namespace MarkInDeDarkMono.AI
             CandlesManager candlesManager,
             Player player,
             SoundManager soundManager,
-            bool searchesCandles = true)
+            bool searchesCandles)
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
@@ -39,6 +39,9 @@ namespace MarkInDeDarkMono.AI
             // 0 è la sua posizione di partenza
             _currentWaypointIndex = 1;
         }
+
+        public void ClearActions()
+            => _currentActions.Clear();
 
         private bool HasActionsToDo
             => _currentActions != null && _currentActions.Any();

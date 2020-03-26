@@ -6,7 +6,6 @@ ZombieLightColorRGB1:139-239-90
 ZombieLightColorRGB2:109-188-69
 ZombieLightSize:0.5
 ZombieSpeed:1.5
-ZombieMaxCellsForNearCandle:3
 GhostLightColorRGB1:156-238-192
 GhostLightColorRGB2:239-192-227
 GhostLightSize:0.5
