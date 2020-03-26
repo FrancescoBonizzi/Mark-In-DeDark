@@ -167,24 +167,33 @@ namespace MarkInDeDarkMono.Assets
                 var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_walking_2"] };
                 var characterWalkSide = new List<Sprite>() { Sprites[$"{characterName}_side_walking_1"], Sprites[$"{characterName}_side_walking_2"]};
                 
-                var characterIdleUp = new List<Sprite>() { Sprites[$"{characterName}_back_iddle"] };
-                var characterIdleDown = new List<Sprite>() { Sprites[$"{characterName}_front_iddle"] };
-                var characterIdleSide = new List<Sprite>() { Sprites[$"{characterName}_side_iddle"] };
+                var characterIdleUp = new List<Sprite>() { Sprites[$"{characterName}_back_iddle_1"] };
+                var characterIdleDown = new List<Sprite>() { Sprites[$"{characterName}_front_iddle_1"] };
+                var characterIdleSide = new List<Sprite>() { Sprites[$"{characterName}_side_iddle_1"] };
 
                 // Per gli Idle dei mostri vedremo
                 if (characterName == "player")
                 {
                     characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_2"]);
                     characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_3"]);
+                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_4"]);
 
                     characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_2"]);
                     characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_3"]);
+                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_4"]);
 
                     characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_2"]);
                     characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_3"]);
+                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_4"]);
 
                     characterWalkSide.Add(Sprites[$"{characterName}_side_walking_3"]);
                     characterWalkSide.Add(Sprites[$"{characterName}_side_walking_4"]);
+
+                    characterWalkDown.Add(Sprites[$"{characterName}_front_walking_3"]);
+                    characterWalkDown.Add(Sprites[$"{characterName}_front_walking_4"]);
+
+                    characterWalkUp.Add(Sprites[$"{characterName}_back_walking_3"]);
+                    characterWalkUp.Add(Sprites[$"{characterName}_back_walking_4"]);
                 }
 
                 var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };

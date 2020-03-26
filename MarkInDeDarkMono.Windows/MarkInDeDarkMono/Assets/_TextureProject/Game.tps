@@ -199,67 +199,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Game/OLDtrap_instantly_die.png</key>
-            <key type="filename">Game/blood_decal.png</key>
-            <key type="filename">Game/candle1.png</key>
-            <key type="filename">Game/candle2.png</key>
-            <key type="filename">Game/candle3.png</key>
-            <key type="filename">Game/candle4.png</key>
-            <key type="filename">Game/candle5.png</key>
-            <key type="filename">Game/candle6.png</key>
-            <key type="filename">Game/candle_pack_1.png</key>
-            <key type="filename">Game/candle_pack_2.png</key>
-            <key type="filename">Game/candle_pack_3.png</key>
-            <key type="filename">Game/cell0.png</key>
-            <key type="filename">Game/cell1.png</key>
-            <key type="filename">Game/cell2.png</key>
-            <key type="filename">Game/cell3.png</key>
-            <key type="filename">Game/cell4.png</key>
-            <key type="filename">Game/cell5.png</key>
-            <key type="filename">Game/cell6.png</key>
-            <key type="filename">Game/cell7.png</key>
-            <key type="filename">Game/goblin_front_dying_3.png</key>
-            <key type="filename">Game/goblin_trigger.png</key>
-            <key type="filename">Game/key.png</key>
-            <key type="filename">Game/light_pixel.png</key>
-            <key type="filename">Game/macerie0.png</key>
-            <key type="filename">Game/skeleton_front_dying_3.png</key>
-            <key type="filename">Game/taurus_back_attack_1.png</key>
-            <key type="filename">Game/taurus_back_attack_2.png</key>
-            <key type="filename">Game/taurus_back_iddle.png</key>
-            <key type="filename">Game/taurus_back_walking_1.png</key>
-            <key type="filename">Game/taurus_back_walking_2.png</key>
-            <key type="filename">Game/taurus_front_attack_1.png</key>
-            <key type="filename">Game/taurus_front_attack_2.png</key>
-            <key type="filename">Game/taurus_front_dying_1.png</key>
-            <key type="filename">Game/taurus_front_dying_2.png</key>
-            <key type="filename">Game/taurus_front_dying_3.png</key>
-            <key type="filename">Game/taurus_front_iddle.png</key>
-            <key type="filename">Game/taurus_front_walking_1.png</key>
-            <key type="filename">Game/taurus_front_walking_2.png</key>
-            <key type="filename">Game/taurus_side_attack_1.png</key>
-            <key type="filename">Game/taurus_side_attack_2.png</key>
-            <key type="filename">Game/taurus_side_iddle.png</key>
-            <key type="filename">Game/taurus_side_walking_1.png</key>
-            <key type="filename">Game/taurus_side_walking_2.png</key>
-            <key type="filename">Game/trap_breakable.png</key>
-            <key type="filename">Game/trap_instantly_die.png</key>
-            <key type="filename">Game/werewolf_front_dying_3.png</key>
-            <key type="filename">Game/win.png</key>
-            <key type="filename">Game/win_closed.png</key>
-            <key type="filename">Game/zombie_front_dying_3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9Paddings</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/angle0.png</key>
             <key type="filename">Game/angle1.png</key>
             <key type="filename">Game/angle2.png</key>
@@ -295,6 +234,66 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/blood_decal.png</key>
+            <key type="filename">Game/candle1.png</key>
+            <key type="filename">Game/candle2.png</key>
+            <key type="filename">Game/candle3.png</key>
+            <key type="filename">Game/candle4.png</key>
+            <key type="filename">Game/candle5.png</key>
+            <key type="filename">Game/candle6.png</key>
+            <key type="filename">Game/candle_pack_1.png</key>
+            <key type="filename">Game/candle_pack_2.png</key>
+            <key type="filename">Game/candle_pack_3.png</key>
+            <key type="filename">Game/cell0.png</key>
+            <key type="filename">Game/cell1.png</key>
+            <key type="filename">Game/cell2.png</key>
+            <key type="filename">Game/cell3.png</key>
+            <key type="filename">Game/cell4.png</key>
+            <key type="filename">Game/cell5.png</key>
+            <key type="filename">Game/cell6.png</key>
+            <key type="filename">Game/cell7.png</key>
+            <key type="filename">Game/goblin_front_dying_3.png</key>
+            <key type="filename">Game/goblin_trigger.png</key>
+            <key type="filename">Game/key.png</key>
+            <key type="filename">Game/light_pixel.png</key>
+            <key type="filename">Game/macerie0.png</key>
+            <key type="filename">Game/skeleton_front_dying_3.png</key>
+            <key type="filename">Game/taurus_back_attack_1.png</key>
+            <key type="filename">Game/taurus_back_attack_2.png</key>
+            <key type="filename">Game/taurus_back_iddle_1.png</key>
+            <key type="filename">Game/taurus_back_walking_1.png</key>
+            <key type="filename">Game/taurus_back_walking_2.png</key>
+            <key type="filename">Game/taurus_front_attack_1.png</key>
+            <key type="filename">Game/taurus_front_attack_2.png</key>
+            <key type="filename">Game/taurus_front_dying_1.png</key>
+            <key type="filename">Game/taurus_front_dying_2.png</key>
+            <key type="filename">Game/taurus_front_dying_3.png</key>
+            <key type="filename">Game/taurus_front_iddle_1.png</key>
+            <key type="filename">Game/taurus_front_walking_1.png</key>
+            <key type="filename">Game/taurus_front_walking_2.png</key>
+            <key type="filename">Game/taurus_side_attack_1.png</key>
+            <key type="filename">Game/taurus_side_attack_2.png</key>
+            <key type="filename">Game/taurus_side_iddle_1.png</key>
+            <key type="filename">Game/taurus_side_walking_1.png</key>
+            <key type="filename">Game/taurus_side_walking_2.png</key>
+            <key type="filename">Game/trap_breakable.png</key>
+            <key type="filename">Game/trap_instantly_die.png</key>
+            <key type="filename">Game/werewolf_front_dying_3.png</key>
+            <key type="filename">Game/win.png</key>
+            <key type="filename">Game/win_closed.png</key>
+            <key type="filename">Game/zombie_front_dying_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/dirty0.png</key>
             <key type="filename">Game/dirty1.png</key>
             <key type="filename">Game/dirty2.png</key>
@@ -316,90 +315,97 @@
             </struct>
             <key type="filename">Game/goblin_back_attack_1.png</key>
             <key type="filename">Game/goblin_back_attack_2.png</key>
-            <key type="filename">Game/goblin_back_iddle.png</key>
+            <key type="filename">Game/goblin_back_iddle_1.png</key>
             <key type="filename">Game/goblin_back_walking_1.png</key>
             <key type="filename">Game/goblin_back_walking_2.png</key>
             <key type="filename">Game/goblin_front_attack_1.png</key>
             <key type="filename">Game/goblin_front_attack_2.png</key>
             <key type="filename">Game/goblin_front_dying_1.png</key>
             <key type="filename">Game/goblin_front_dying_2.png</key>
-            <key type="filename">Game/goblin_front_iddle.png</key>
+            <key type="filename">Game/goblin_front_iddle_1.png</key>
             <key type="filename">Game/goblin_front_walking_1.png</key>
             <key type="filename">Game/goblin_front_walking_2.png</key>
             <key type="filename">Game/goblin_side_attack_1.png</key>
             <key type="filename">Game/goblin_side_attack_2.png</key>
-            <key type="filename">Game/goblin_side_iddle.png</key>
+            <key type="filename">Game/goblin_side_iddle_1.png</key>
             <key type="filename">Game/goblin_side_walking_1.png</key>
             <key type="filename">Game/goblin_side_walking_2.png</key>
-            <key type="filename">Game/player_back_iddle.png</key>
+            <key type="filename">Game/player_back_iddle_1.png</key>
             <key type="filename">Game/player_back_iddle_2.png</key>
             <key type="filename">Game/player_back_iddle_3.png</key>
+            <key type="filename">Game/player_back_iddle_4.png</key>
             <key type="filename">Game/player_back_walking_1.png</key>
             <key type="filename">Game/player_back_walking_2.png</key>
+            <key type="filename">Game/player_back_walking_3.png</key>
+            <key type="filename">Game/player_back_walking_4.png</key>
             <key type="filename">Game/player_front_dying_1.png</key>
             <key type="filename">Game/player_front_dying_2.png</key>
             <key type="filename">Game/player_front_dying_3.png</key>
-            <key type="filename">Game/player_front_iddle.png</key>
+            <key type="filename">Game/player_front_iddle_1.png</key>
             <key type="filename">Game/player_front_iddle_2.png</key>
             <key type="filename">Game/player_front_iddle_3.png</key>
+            <key type="filename">Game/player_front_iddle_4.png</key>
             <key type="filename">Game/player_front_walking_1.png</key>
             <key type="filename">Game/player_front_walking_2.png</key>
-            <key type="filename">Game/player_side_iddle.png</key>
+            <key type="filename">Game/player_front_walking_3.png</key>
+            <key type="filename">Game/player_front_walking_4.png</key>
+            <key type="filename">Game/player_side_iddle_1.png</key>
             <key type="filename">Game/player_side_iddle_2.png</key>
             <key type="filename">Game/player_side_iddle_3.png</key>
+            <key type="filename">Game/player_side_iddle_4.png</key>
             <key type="filename">Game/player_side_walking_1.png</key>
             <key type="filename">Game/player_side_walking_2.png</key>
             <key type="filename">Game/player_side_walking_3.png</key>
             <key type="filename">Game/player_side_walking_4.png</key>
             <key type="filename">Game/skeleton_back_attack_1.png</key>
             <key type="filename">Game/skeleton_back_attack_2.png</key>
-            <key type="filename">Game/skeleton_back_iddle.png</key>
+            <key type="filename">Game/skeleton_back_iddle_1.png</key>
             <key type="filename">Game/skeleton_back_walking_1.png</key>
             <key type="filename">Game/skeleton_back_walking_2.png</key>
             <key type="filename">Game/skeleton_front_attack_1.png</key>
             <key type="filename">Game/skeleton_front_attack_2.png</key>
             <key type="filename">Game/skeleton_front_dying_1.png</key>
             <key type="filename">Game/skeleton_front_dying_2.png</key>
-            <key type="filename">Game/skeleton_front_iddle.png</key>
+            <key type="filename">Game/skeleton_front_iddle_1.png</key>
             <key type="filename">Game/skeleton_front_walking_1.png</key>
             <key type="filename">Game/skeleton_front_walking_2.png</key>
             <key type="filename">Game/skeleton_side_attack_1.png</key>
             <key type="filename">Game/skeleton_side_attack_2.png</key>
-            <key type="filename">Game/skeleton_side_iddle.png</key>
+            <key type="filename">Game/skeleton_side_iddle_1.png</key>
             <key type="filename">Game/skeleton_side_walking_1.png</key>
             <key type="filename">Game/skeleton_side_walking_2.png</key>
             <key type="filename">Game/werewolf_back_attack_1.png</key>
             <key type="filename">Game/werewolf_back_attack_2.png</key>
-            <key type="filename">Game/werewolf_back_iddle.png</key>
+            <key type="filename">Game/werewolf_back_iddle_1.png</key>
             <key type="filename">Game/werewolf_back_walking_1.png</key>
             <key type="filename">Game/werewolf_back_walking_2.png</key>
             <key type="filename">Game/werewolf_front_attack_1.png</key>
             <key type="filename">Game/werewolf_front_attack_2.png</key>
             <key type="filename">Game/werewolf_front_dying_1.png</key>
             <key type="filename">Game/werewolf_front_dying_2.png</key>
-            <key type="filename">Game/werewolf_front_iddle.png</key>
+            <key type="filename">Game/werewolf_front_iddle_1.png</key>
             <key type="filename">Game/werewolf_front_walking_1.png</key>
             <key type="filename">Game/werewolf_front_walking_2.png</key>
             <key type="filename">Game/werewolf_side_attack_1.png</key>
             <key type="filename">Game/werewolf_side_attack_2.png</key>
-            <key type="filename">Game/werewolf_side_iddle.png</key>
+            <key type="filename">Game/werewolf_side_iddle_1.png</key>
             <key type="filename">Game/werewolf_side_walking_1.png</key>
             <key type="filename">Game/werewolf_side_walking_2.png</key>
             <key type="filename">Game/zombie_back_attack_1.png</key>
             <key type="filename">Game/zombie_back_attack_2.png</key>
-            <key type="filename">Game/zombie_back_iddle.png</key>
+            <key type="filename">Game/zombie_back_iddle_1.png</key>
             <key type="filename">Game/zombie_back_walking_1.png</key>
             <key type="filename">Game/zombie_back_walking_2.png</key>
             <key type="filename">Game/zombie_front_attack_1.png</key>
             <key type="filename">Game/zombie_front_attack_2.png</key>
             <key type="filename">Game/zombie_front_dying_1.png</key>
             <key type="filename">Game/zombie_front_dying_2.png</key>
-            <key type="filename">Game/zombie_front_iddle.png</key>
+            <key type="filename">Game/zombie_front_iddle_1.png</key>
             <key type="filename">Game/zombie_front_walking_1.png</key>
             <key type="filename">Game/zombie_front_walking_2.png</key>
             <key type="filename">Game/zombie_side_attack_1.png</key>
             <key type="filename">Game/zombie_side_attack_2.png</key>
-            <key type="filename">Game/zombie_side_iddle.png</key>
+            <key type="filename">Game/zombie_side_iddle_1.png</key>
             <key type="filename">Game/zombie_side_walking_1.png</key>
             <key type="filename">Game/zombie_side_walking_2.png</key>
             <struct type="IndividualSpriteSettings">
