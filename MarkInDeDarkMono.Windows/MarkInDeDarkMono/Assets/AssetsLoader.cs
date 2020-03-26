@@ -92,7 +92,7 @@ namespace MarkInDeDarkMono.Assets
         {
             const string gameSpriteSheetName = "Spritesheet";
 
-            for(int i= 0; i < 2; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
                 var gameSpritesDescriptions = _textureImporter.Import($"Content/{gameSpriteSheetName}-{i}.txt");
@@ -103,8 +103,10 @@ namespace MarkInDeDarkMono.Assets
             var menuSprite = new Sprite(
                 new SpriteDescription()
                 {
-                    X = 0, Y = 0,
-                    Width = menuTexture.Width, Height = menuTexture.Height,
+                    X = 0,
+                    Y = 0,
+                    Width = menuTexture.Width,
+                    Height = menuTexture.Height,
                     Name = menuTexture.Name
                 },
                 menuTexture);
@@ -114,8 +116,10 @@ namespace MarkInDeDarkMono.Assets
             var levelsBackgroundSprite = new Sprite(
                 new SpriteDescription()
                 {
-                    X = 0, Y = 0,
-                    Width = menuTexture.Width, Height = menuTexture.Height,
+                    X = 0,
+                    Y = 0,
+                    Width = menuTexture.Width,
+                    Height = menuTexture.Height,
                     Name = menuTexture.Name
                 },
                 levelsTexture);
@@ -159,78 +163,50 @@ namespace MarkInDeDarkMono.Assets
 
         private void LoadAnimations()
         {
-            void LoadCharacterAnimations(
-                string characterName, 
-                bool hasAttackAnimations,
-                bool hasDieAnimations)
+            void LoadCharacterAnimations(string characterName)
             {
-                var characterWalkUp = new List<Sprite>() { Sprites[$"{characterName}_back_walking_1"], Sprites[$"{characterName}_back_walking_2"] };
-                var characterWalkDown = new List<Sprite>() { Sprites[$"{characterName}_front_walking_1"], Sprites[$"{characterName}_front_walking_2"] };
-                var characterWalkSide = new List<Sprite>() { Sprites[$"{characterName}_side_walking_1"], Sprites[$"{characterName}_side_walking_2"]};
-                
-                var characterIdleUp = new List<Sprite>() { Sprites[$"{characterName}_back_iddle_1"] };
-                var characterIdleDown = new List<Sprite>() { Sprites[$"{characterName}_front_iddle_1"] };
-                var characterIdleSide = new List<Sprite>() { Sprites[$"{characterName}_side_iddle_1"] };
+                const int _maxFramesNumber = 10;
 
-                // Per gli Idle dei mostri vedremo
-                if (characterName == "player")
+                void LoadCharacterAnimation(string animationName, string frameName, bool isAnimationLooped)
                 {
-                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_2"]);
-                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_3"]);
-                    characterIdleUp.Add(Sprites[$"{characterName}_back_iddle_4"]);
+                    var animation = new List<Sprite>();
+                    for (int f = 1; f <= _maxFramesNumber; ++f)
+                    {
+                        string completeFrameName = $"{frameName}_{f}";
+                        if (Sprites.ContainsKey(completeFrameName))
+                            animation.Add(Sprites[completeFrameName]);
+                        else break;
+                    }
 
-                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_2"]);
-                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_3"]);
-                    characterIdleDown.Add(Sprites[$"{characterName}_front_iddle_4"]);
-
-                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_2"]);
-                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_3"]);
-                    characterIdleSide.Add(Sprites[$"{characterName}_side_iddle_4"]);
-
-                    characterWalkSide.Add(Sprites[$"{characterName}_side_walking_3"]);
-                    characterWalkSide.Add(Sprites[$"{characterName}_side_walking_4"]);
-
-                    characterWalkDown.Add(Sprites[$"{characterName}_front_walking_3"]);
-                    characterWalkDown.Add(Sprites[$"{characterName}_front_walking_4"]);
-
-                    characterWalkUp.Add(Sprites[$"{characterName}_back_walking_3"]);
-                    characterWalkUp.Add(Sprites[$"{characterName}_back_walking_4"]);
+                    if (animation.Count > 0)
+                    {
+                        _animations[animationName] = new SpriteAnimation(
+                            animation,
+                            TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames),
+                            isAnimationLooped);
+                    }
                 }
 
-                _animations[$"{characterName}WalkUp"] = new SpriteAnimation(characterWalkUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}WalkDown"] = new SpriteAnimation(characterWalkDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}WalkSide"] = new SpriteAnimation(characterWalkSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}IdleUp"] = new SpriteAnimation(characterIdleUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}IdleDown"] = new SpriteAnimation(characterIdleDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                _animations[$"{characterName}IdleSide"] = new SpriteAnimation(characterIdleSide, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-
-                if (hasDieAnimations)
-                {
-                    var characterDying = new List<Sprite>() { Sprites[$"{characterName}_front_dying_1"], Sprites[$"{characterName}_front_dying_2"], Sprites[$"{characterName}_front_dying_3"] };
-                    _animations[$"{characterName}Dying"] = new SpriteAnimation(characterDying, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames), false);
-                }
-
-                if (hasAttackAnimations)
-                {
-                    var characterAttackUp = new List<Sprite>() { Sprites[$"{characterName}_back_attack_1"], Sprites[$"{characterName}_back_attack_2"] };
-                    var characterAttackDown = new List<Sprite>() { Sprites[$"{characterName}_front_attack_1"], Sprites[$"{characterName}_front_attack_2"] };
-                    var characterAttackLeft = new List<Sprite>() { Sprites[$"{characterName}_side_attack_1"], Sprites[$"{characterName}_side_attack_2"] };
-                    var characterAttackRight = new List<Sprite>() { Sprites[$"{characterName}_side_attack_1"], Sprites[$"{characterName}_side_attack_2"] };
-
-                    _animations[$"{characterName}AttackUp"] = new SpriteAnimation(characterAttackUp, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                    _animations[$"{characterName}AttackDown"] = new SpriteAnimation(characterAttackDown, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                    _animations[$"{characterName}AttackLeft"] = new SpriteAnimation(characterAttackLeft, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                    _animations[$"{characterName}AttackRight"] = new SpriteAnimation(characterAttackRight, TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames));
-                }
+                LoadCharacterAnimation($"{characterName}WalkUp", $"{characterName}_back_walking", true);
+                LoadCharacterAnimation($"{characterName}WalkDown", $"{characterName}_front_walking", true);
+                LoadCharacterAnimation($"{characterName}WalkSide", $"{characterName}_side_walking", true);
+                LoadCharacterAnimation($"{characterName}IdleUp", $"{characterName}_back_iddle", true);
+                LoadCharacterAnimation($"{characterName}IdleDown", $"{characterName}_front_iddle", true);
+                LoadCharacterAnimation($"{characterName}IdleSide", $"{characterName}_side_iddle", true);
+                LoadCharacterAnimation($"{characterName}Dying", $"{characterName}_front_dying", false);
+                LoadCharacterAnimation($"{characterName}AttackUp", $"{characterName}_back_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackDown", $"{characterName}_front_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackLeft", $"{characterName}_side_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackRight", $"{characterName}_side_attack", true);
             }
 
-            LoadCharacterAnimations(characterName: "player", hasAttackAnimations: false, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "goblin", hasAttackAnimations: true, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "werewolf", hasAttackAnimations: true, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "skeleton", hasAttackAnimations: true, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "zombie", hasAttackAnimations: true, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "taurus", hasAttackAnimations: true, hasDieAnimations: true);
-            LoadCharacterAnimations(characterName: "ghost", hasAttackAnimations: true, hasDieAnimations: false);
+            LoadCharacterAnimations(characterName: "player");
+            LoadCharacterAnimations(characterName: "goblin");
+            LoadCharacterAnimations(characterName: "werewolf");
+            LoadCharacterAnimations(characterName: "skeleton");
+            LoadCharacterAnimations(characterName: "zombie");
+            LoadCharacterAnimations(characterName: "taurus");
+            LoadCharacterAnimations(characterName: "ghost");
 
             var candleAnimation = new List<Sprite>();
             for (int i = 1; i <= 6; ++i)
