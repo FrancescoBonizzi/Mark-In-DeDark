@@ -19,7 +19,7 @@ namespace MarkInDeDarkMono.Common
         public float ZombieSpeed { get; set; }
 
         public float BubuSpeed { get; set; }
-        public int? BubuMaxCellsForNearCandle { get; set; }
+        public int BubuMaxCellsForNearCandle { get; set; }
 
         public Color GhostLightColorRGB1 { get; set; }
         public Color GhostLightColorRGB2 { get; set; }
