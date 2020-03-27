@@ -55,15 +55,16 @@
                     Margin="10"
                     Click="btnCancel_Click"
                     Content="Annulla"
-                    FontSize="20" />
+                    FontSize="16" />
                 <Button
                     x:Name="btnOk"
                     Grid.Column="1"
+                    IsDefault="True"
                     Width="150"
                     Margin="10"
                     Click="btnOk_Click"
                     Content="Ok"
-                    FontSize="20" />
+                    FontSize="16" />
 
             </Grid>
 
