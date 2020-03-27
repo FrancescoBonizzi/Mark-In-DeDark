@@ -15,7 +15,7 @@ namespace MarkInDeDarkMono.Levels
 {
     public class GameCell
     {
-        private readonly Sprite _cellSprite;
+        public Sprite GroundSprite { get; set; }
         private readonly Sprite _maceriaSprite;
         private readonly Sprite _wallSprite;
         private readonly Sprite _destroyableWallSprite;
@@ -63,7 +63,7 @@ namespace MarkInDeDarkMono.Levels
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
             DontDraw = false;
 
-            _cellSprite = cell;
+            GroundSprite = cell;
             _wallSprite = wall;
             _angleSprite = angle;
             _dirtySprite = dirty;
@@ -240,41 +240,41 @@ namespace MarkInDeDarkMono.Levels
             if (NoDecals)
                 return;
 
-            var decalPosition = _cellDrawingInfos.Center(_cellSprite.Width, _cellSprite.Height);
+            var decalPosition = _cellDrawingInfos.Center(GroundSprite.Width, GroundSprite.Height);
             var randomDeltaFromPosition = Numbers.RandomBetween(2f, 3f);
 
             switch (cellRelativePosition)
             {
                 case CellRelativePosition.Up:
-                    decalPosition += new Vector2(0, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(0, (float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.Down:
-                    decalPosition += new Vector2(0, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(0, -(float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.Left:
-                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, 0);
+                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, 0);
                     break;
 
                 case CellRelativePosition.Right:
-                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, 0);
+                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, 0);
                     break;
 
                 case CellRelativePosition.UpLeft:
-                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, (float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.UpRight:
-                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, (float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, (float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.DownLeft:
-                    decalPosition += new Vector2((float)_cellSprite.Width / randomDeltaFromPosition, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, -(float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.DownRight:
-                    decalPosition += new Vector2(-(float)_cellSprite.Width / randomDeltaFromPosition, -(float)_cellSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, -(float)GroundSprite.Height / randomDeltaFromPosition);
                     break;
             }
 
@@ -350,7 +350,7 @@ namespace MarkInDeDarkMono.Levels
         {
             if (!IsUnwalkable)
             {
-                _spritebatch.Draw(_cellSprite, _cellDrawingInfos);
+                _spritebatch.Draw(GroundSprite, _cellDrawingInfos);
             }
             else
             {

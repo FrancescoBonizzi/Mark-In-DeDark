@@ -121,6 +121,26 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnGroundType_Ground2"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="6"
+                        ToolTip="Disegna una cella di tipo 2 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="SandyBrown" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 2" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"

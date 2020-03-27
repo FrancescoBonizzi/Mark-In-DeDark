@@ -247,6 +247,7 @@
             <key type="filename">Game/cell0.png</key>
             <key type="filename">Game/cell1.png</key>
             <key type="filename">Game/cell2.png</key>
+            <key type="filename">Game/cell2_2.png</key>
             <key type="filename">Game/cell3.png</key>
             <key type="filename">Game/cell4.png</key>
             <key type="filename">Game/cell5.png</key>

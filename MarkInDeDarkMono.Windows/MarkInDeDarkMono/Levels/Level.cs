@@ -14,7 +14,8 @@ namespace MarkInDeDarkMono.Levels
         public int? RecordUsedCandles { get; private set; }
         public TimeSpan? RecordCompletionTime { get; private set; }
 
-        public Sprite CellSprite { get; private set; }
+        public Sprite GroundSpriteType1 { get; private set; }
+        public Sprite GroundSpriteType2 { get; private set; }
         public Sprite MacerieCellSprite { get; private set; }
         public Sprite DirtySprite { get; private set; }
         public Sprite WallSprite { get; private set; }
@@ -40,7 +41,11 @@ namespace MarkInDeDarkMono.Levels
             var serializer = new GameGridDeserializerManager(levelContentRaw);
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
-            CellSprite = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            GroundSpriteType1 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+
+            if (assetsLoader.Sprites.ContainsKey($"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"))
+                GroundSpriteType2 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"];
+
             DirtySprite = assetsLoader.Sprites[$"dirty{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
             WallSprite = assetsLoader.Sprites[$"wall{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
             DestroyableWallSprite = assetsLoader.Sprites[$"wall_breakable"];

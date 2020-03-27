@@ -59,8 +59,8 @@ namespace MarkInDeDarkMono.Levels
             _position = Vector2.Zero;
             _camera = camera;
 
-            CellWidth = levelToLoad.CellSprite.Width;
-            CellHeight = levelToLoad.CellSprite.Height;
+            CellWidth = levelToLoad.GroundSpriteType1.Width;
+            CellHeight = levelToLoad.GroundSpriteType1.Height;
             _totalWidthInPixel = CellWidth * HorizontalCellsNumber;
             _totalHeightInPixel = CellHeight * VerticalCellsNumber;
 
@@ -75,7 +75,7 @@ namespace MarkInDeDarkMono.Levels
                     _cells[i, j] = new GameCell(
                         nextCellPosition,
                         assetsLoader,
-                        levelToLoad.CellSprite,
+                        levelToLoad.GroundSpriteType1,
                         levelToLoad.WallSprite,
                         levelToLoad.DestroyableWallSprite,
                         levelToLoad.AngleSprite,
@@ -91,7 +91,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this);
+            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad);
         }
 
         public void SetNullCell(int cellX, int cellY)

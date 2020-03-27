@@ -1,7 +1,6 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
-using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;

@@ -13,5 +13,7 @@
         public WallTypes Right { get; set; }
         public WallTypes Bottom { get; set; }
         public WallTypes Left { get; set; }
+
+        public int CellTextureVersion { get; set; }
     }
 }

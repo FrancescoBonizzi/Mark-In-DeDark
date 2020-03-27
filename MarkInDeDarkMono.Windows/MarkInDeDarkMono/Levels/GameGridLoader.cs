@@ -14,7 +14,8 @@ namespace MarkInDeDarkMono.Levels
             AssetsLoader assetsLoader,
             SoundManager soundManager,
             GameGridBundle levelEditorGrid,
-            GameGrid grid)
+            GameGrid grid,
+            Level level)
         {
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -44,6 +45,13 @@ namespace MarkInDeDarkMono.Levels
                             break;
 
                         case GroundTypes.Terra:
+                            gameCell.GroundSprite = level.GroundSpriteType1;
+                            break;
+
+                        case GroundTypes.Terra2:
+                            if (level.GroundSpriteType2 != null)
+                                gameCell.GroundSprite = level.GroundSpriteType2;
+                            else gameCell.GroundSprite = level.GroundSpriteType1;
                             break;
 
                         case GroundTypes.TrappolaMorteIstantanea:
