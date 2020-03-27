@@ -50,7 +50,8 @@ namespace MarkInDeDarkMono.Characters
                             torchPositionTraslationRight: new Vector2(38, -38),
                             torchPositionTraslationDown: new Vector2(35, -30),
                             assetsLoader: assetsLoader),
-                        gameConfig.PlayerSpeed))
+                        movementSpeed: gameConfig.PlayerSpeed,
+                        withShadowAnimation: true))
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
@@ -88,7 +89,7 @@ namespace MarkInDeDarkMono.Characters
 
         public void Win(Exit exit)
         {
-            _drawingInfos.Position = exit.Position;
+            _mainFigureDrawingInfos.Position = exit.Position;
             _currentPlayerState = PlayerStates.Exiting;
             _soundManager.PlayLadder();
             _winAnimation.SetPosition(Position);

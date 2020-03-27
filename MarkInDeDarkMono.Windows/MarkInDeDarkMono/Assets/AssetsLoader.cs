@@ -15,7 +15,7 @@ namespace MarkInDeDarkMono.Assets
 {
     public class AssetsLoader
     {
-        private IDictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>();
+        private readonly IDictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>();
         public IDictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
         public IDictionary<string, SoundEffect> Sounds { get; } = new Dictionary<string, SoundEffect>();
         public SpriteFont Font { get; private set; }
@@ -198,6 +198,13 @@ namespace MarkInDeDarkMono.Assets
                 LoadCharacterAnimation($"{characterName}AttackDown", $"{characterName}_front_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackLeft", $"{characterName}_side_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackRight", $"{characterName}_side_attack", true);
+
+                LoadCharacterAnimation($"{characterName}WhileWalkingUpShadow", $"{characterName}_back_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileWalkingDownShadow", $"{characterName}_front_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileWalkingSideShadow", $"{characterName}_side_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleUpShadow", $"{characterName}_back_iddle_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleDownShadow", $"{characterName}_front_iddle_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleSideShadow", $"{characterName}_side_iddle_shadow", true);
             }
 
             LoadCharacterAnimations(characterName: "player");

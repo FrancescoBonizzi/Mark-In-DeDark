@@ -43,7 +43,7 @@ namespace MarkInDeDarkMono.Characters
             NCellsCandleFindingRange = enemyConfiguration.NCellsFindingRange;
             SetRandomScreamTimer();
 
-            AnimationsManager
+            MainAnimationsAnimationManager
                 .AddAnimation(AnimationsNames.AttackUp.ToString(), enemyConfiguration.AttackUpAnimation)
                 .AddAnimation(AnimationsNames.AttackDown.ToString(), enemyConfiguration.AttackDownAnimation)
                 .AddAnimation(AnimationsNames.AttackLeft.ToString(), enemyConfiguration.AttackLeftAnimation)
@@ -70,7 +70,7 @@ namespace MarkInDeDarkMono.Characters
                 case CharacterState.GoingUp:
                 case CharacterState.IdleUp:
                     CurrentCharacterState = CharacterState.Attacking;
-                    AnimationsManager.PlayAnimation(AnimationsNames.AttackUp.ToString());
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackUp.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
                         _attackSoundIndex,
                         _screamSoundIndex,
@@ -81,7 +81,7 @@ namespace MarkInDeDarkMono.Characters
                 case CharacterState.GoingDown:
                 case CharacterState.IdleDown:
                     CurrentCharacterState = CharacterState.Attacking;
-                    AnimationsManager.PlayAnimation(AnimationsNames.AttackDown.ToString());
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackDown.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
                         _attackSoundIndex,
                         _screamSoundIndex,
@@ -92,7 +92,7 @@ namespace MarkInDeDarkMono.Characters
                 case CharacterState.GoingLeft:
                 case CharacterState.IdleLeft:
                     CurrentCharacterState = CharacterState.Attacking;
-                    AnimationsManager.PlayAnimation(AnimationsNames.AttackLeft.ToString());
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackLeft.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
                         _attackSoundIndex,
                         _screamSoundIndex,
@@ -103,7 +103,7 @@ namespace MarkInDeDarkMono.Characters
                 case CharacterState.GoingRight:
                 case CharacterState.IdleRight:
                     CurrentCharacterState = CharacterState.Attacking;
-                    AnimationsManager.PlayAnimation(AnimationsNames.AttackRight.ToString());
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackRight.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
                         _attackSoundIndex,
                         _screamSoundIndex,
@@ -175,7 +175,7 @@ namespace MarkInDeDarkMono.Characters
 
             // Rimodulo sempre il volume dell'attacco per fare il fade
             // quando il player si allontana.
-            if (AnimationsManager.CurrentAnimationName.Contains("Attack"))
+            if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
             {
                 _soundManager.ComputeIndexSoundsVolume(
                     _screamSoundIndex,

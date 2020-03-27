@@ -258,6 +258,14 @@
             <key type="filename">Game/key.png</key>
             <key type="filename">Game/light_pixel.png</key>
             <key type="filename">Game/macerie0.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_1.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_2.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_3.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_4.png</key>
+            <key type="filename">Game/player_back_walking_shadow_1.png</key>
+            <key type="filename">Game/player_back_walking_shadow_2.png</key>
+            <key type="filename">Game/player_back_walking_shadow_3.png</key>
+            <key type="filename">Game/player_back_walking_shadow_4.png</key>
             <key type="filename">Game/skeleton_front_dying_3.png</key>
             <key type="filename">Game/stairs.png</key>
             <key type="filename">Game/taurus_back_attack_1.png</key>
@@ -498,6 +506,34 @@
                 <rect>180,180,360,360</rect>
                 <key>scale9Paddings</key>
                 <rect>180,180,360,360</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/player_front_iddle_shadow_1.png</key>
+            <key type="filename">Game/player_front_iddle_shadow_2.png</key>
+            <key type="filename">Game/player_front_iddle_shadow_3.png</key>
+            <key type="filename">Game/player_front_iddle_shadow_4.png</key>
+            <key type="filename">Game/player_front_walking_shadow_1.png</key>
+            <key type="filename">Game/player_front_walking_shadow_2.png</key>
+            <key type="filename">Game/player_front_walking_shadow_3.png</key>
+            <key type="filename">Game/player_front_walking_shadow_4.png</key>
+            <key type="filename">Game/player_side_iddle_shadow_1.png</key>
+            <key type="filename">Game/player_side_iddle_shadow_2.png</key>
+            <key type="filename">Game/player_side_iddle_shadow_3.png</key>
+            <key type="filename">Game/player_side_iddle_shadow_4.png</key>
+            <key type="filename">Game/player_side_walking_shadow_1.png</key>
+            <key type="filename">Game/player_side_walking_shadow_2.png</key>
+            <key type="filename">Game/player_side_walking_shadow_3.png</key>
+            <key type="filename">Game/player_side_walking_shadow_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,32,96,64</rect>
+                <key>scale9Paddings</key>
+                <rect>48,32,96,64</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
