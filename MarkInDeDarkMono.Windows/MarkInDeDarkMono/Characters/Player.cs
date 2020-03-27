@@ -38,17 +38,19 @@ namespace MarkInDeDarkMono.Characters
                   soundManager,
                   assetsLoader,
                     new CharacterConfiguration(
-                        assetsLoader,
-                        "player",
-                        gameGrid.PlayerStartingPosition,
-                        gameConfig.PlayerLightColorRGB1,
-                        gameConfig.PlayerLightColorRGB2,
-                        gameConfig.PlayerLightSize,
-                        gameConfig.PlayerSpeed,
-                        torchPositionTraslationUp: new Vector2(-42, -38),
-                        torchPositionTraslationLeft: new Vector2(-38, -38),
-                        torchPositionTraslationRight: new Vector2(38, -38),
-                        torchPositionTraslationDown: new Vector2(35, -30)))
+                        assetsLoader: assetsLoader,
+                        characterName: "player",
+                        startingPosition: gameGrid.PlayerStartingPosition,
+                        characterTorchConfiguration: new CharacterTorchConfiguration(
+                            firstTorchColor: gameConfig.PlayerLightColorRGB1,
+                            secondTorchColor: gameConfig.PlayerLightColorRGB2,
+                            torchScale: gameConfig.PlayerLightSize,
+                            torchPositionTraslationUp: new Vector2(-42, -38),
+                            torchPositionTraslationLeft: new Vector2(-38, -38),
+                            torchPositionTraslationRight: new Vector2(38, -38),
+                            torchPositionTraslationDown: new Vector2(35, -30),
+                            assetsLoader: assetsLoader),
+                        gameConfig.PlayerSpeed))
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
@@ -60,7 +62,6 @@ namespace MarkInDeDarkMono.Characters
             _gameStartSparkleEffect.AddParticles(WorldCenter + new Vector2(16, -20));
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
-
             _winAnimation = new PlayerDescendingStairs(assetsLoader);
 
             _soundManager.PlayEnlightTorch();

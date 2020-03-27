@@ -295,38 +295,23 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/candle_spark.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9Paddings</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/dirty0.png</key>
-            <key type="filename">Game/dirty1.png</key>
-            <key type="filename">Game/dirty2.png</key>
-            <key type="filename">Game/dirty3.png</key>
-            <key type="filename">Game/dirty4.png</key>
-            <key type="filename">Game/dirty5.png</key>
-            <key type="filename">Game/dirty6.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,24,48,48</rect>
-                <key>scale9Paddings</key>
-                <rect>24,24,48,48</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
+            <key type="filename">Game/bubu_back_attack_1.png</key>
+            <key type="filename">Game/bubu_back_attack_2.png</key>
+            <key type="filename">Game/bubu_back_iddle_1.png</key>
+            <key type="filename">Game/bubu_back_walking_1.png</key>
+            <key type="filename">Game/bubu_back_walking_2.png</key>
+            <key type="filename">Game/bubu_front_attack_1.png</key>
+            <key type="filename">Game/bubu_front_attack_2.png</key>
+            <key type="filename">Game/bubu_front_dying_1.png</key>
+            <key type="filename">Game/bubu_front_dying_2.png</key>
+            <key type="filename">Game/bubu_front_iddle_1.png</key>
+            <key type="filename">Game/bubu_front_walking_1.png</key>
+            <key type="filename">Game/bubu_front_walking_2.png</key>
+            <key type="filename">Game/bubu_side_attack_1.png</key>
+            <key type="filename">Game/bubu_side_attack_2.png</key>
+            <key type="filename">Game/bubu_side_iddle_1.png</key>
+            <key type="filename">Game/bubu_side_walking_1.png</key>
+            <key type="filename">Game/bubu_side_walking_2.png</key>
             <key type="filename">Game/ghost_back_attack_1.png</key>
             <key type="filename">Game/ghost_back_attack_2.png</key>
             <key type="filename">Game/ghost_back_attack_3.png</key>
@@ -467,6 +452,38 @@
                 <rect>32,32,64,64</rect>
                 <key>scale9Paddings</key>
                 <rect>32,32,64,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/candle_spark.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9Paddings</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/dirty0.png</key>
+            <key type="filename">Game/dirty1.png</key>
+            <key type="filename">Game/dirty2.png</key>
+            <key type="filename">Game/dirty3.png</key>
+            <key type="filename">Game/dirty4.png</key>
+            <key type="filename">Game/dirty5.png</key>
+            <key type="filename">Game/dirty6.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

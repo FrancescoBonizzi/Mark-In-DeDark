@@ -12,6 +12,7 @@
         Goblin = 7,
         Taurus = 8,
         Werewolf = 9,
-        Ghost = 10
+        Ghost = 10,
+        Bubu = 11
     }
 }

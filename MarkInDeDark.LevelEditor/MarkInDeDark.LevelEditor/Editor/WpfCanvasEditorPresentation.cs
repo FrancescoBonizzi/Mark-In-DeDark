@@ -260,6 +260,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Scheletro:
                 case ObjectTypes.Taurus:
                 case ObjectTypes.Ghost:
+                case ObjectTypes.Bubu:
                 case ObjectTypes.Candele:
 
                     if (previousObjectType != null)

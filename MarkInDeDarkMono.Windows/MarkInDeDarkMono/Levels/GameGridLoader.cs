@@ -20,6 +20,7 @@ namespace MarkInDeDarkMono.Levels
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var taurusPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var ghostPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
+            var bubuPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             grid.InstantlyDieTrapCollisionRectangles = new List<Rectangle>();
             grid.BrekableTrapCollisionRectangles = new List<Rectangle>();
 
@@ -127,6 +128,30 @@ namespace MarkInDeDarkMono.Levels
                                 }
                                 break;
 
+                            case ObjectTypes.Bubu:
+
+                                {
+                                    // Bubu
+                                    // Essendo un patrol, avrò il suo percorso nel formato B-1-1 ecc
+                                    var patrolPart = levelEditorCell.ObjectTypeAdditionalData.Split('-');
+                                    var patrolNumber = Convert.ToInt32(patrolPart[1]);
+                                    var patrolWaypointNumber = Convert.ToInt32(patrolPart[2]);
+                                    var cellWithOrder = new KeyValuePair<int, GameCell>(patrolWaypointNumber, gameCell);
+
+                                    // Ogni riga di _zombies_path è uno zombie
+                                    if (bubuPaths.ContainsKey(patrolNumber))
+                                    {
+                                        bubuPaths[patrolNumber].Add(cellWithOrder);
+                                    }
+                                    else
+                                    {
+                                        bubuPaths.Add(
+                                            patrolNumber,
+                                            new List<KeyValuePair<int, GameCell>>() { cellWithOrder });
+                                    }
+                                }
+                                break;
+
                             case ObjectTypes.Scheletro:
 
                                 {
@@ -225,6 +250,16 @@ namespace MarkInDeDarkMono.Levels
             foreach (var path in ghostPaths)
             {
                 grid.GhostsPath.Add(
+                    path.Value
+                    .OrderBy(p => p.Key)
+                    .Select(p => p.Value)
+                    .ToList());
+            }
+
+            grid.BubusPath = new List<List<GameCell>>();
+            foreach (var path in bubuPaths)
+            {
+                grid.BubusPath.Add(
                     path.Value
                     .OrderBy(p => p.Key)
                     .Select(p => p.Value)

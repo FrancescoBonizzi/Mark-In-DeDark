@@ -242,12 +242,13 @@ namespace MarkInDeDark.LevelEditor
                         else if (_currentSelectedObjectType == ObjectTypes.Zombie
                             || _currentSelectedObjectType == ObjectTypes.Scheletro
                             || _currentSelectedObjectType == ObjectTypes.Taurus
-                            || _currentSelectedObjectType == ObjectTypes.Ghost)
+                            || _currentSelectedObjectType == ObjectTypes.Ghost
+                            || _currentSelectedObjectType == ObjectTypes.Bubu)
                         {
                             string pathTemplate = $"{_currentSelectedObjectType.ToString().ToUpper()[0]}-*-*";
 
                             var inputDialog = new InputDialog(
-                                $"Inserimento nuovo {_currentSelectedObjectType.ToString()}",
+                                $"Inserimento nuovo {_currentSelectedObjectType}",
                                 "Inserisci la stringa per identificare il suo path:",
                                 pathTemplate);
                             if (inputDialog.ShowDialog() == false)

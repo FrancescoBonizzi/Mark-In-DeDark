@@ -37,6 +37,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                     imagePath = "Assets/icons/ghost_back_attack_1.png";
                     break;
 
+                case ObjectTypes.Bubu:
+                    imagePath = "Assets/icons/bubu_front_walking_1.png";
+                    break;
+
                 case ObjectTypes.Scheletro:
                     imagePath = "Assets/icons/skeleton_front_iddle.png";
                     break;

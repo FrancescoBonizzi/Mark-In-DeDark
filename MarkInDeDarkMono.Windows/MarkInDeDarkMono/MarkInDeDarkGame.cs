@@ -187,6 +187,14 @@ namespace MarkInDeDarkMono
                 }
             }
 
+            if (_gameGrid.BubusPath != null)
+            {
+                foreach (var bubuPath in _gameGrid.BubusPath)
+                {
+                    _enemies.Add(new Bubu(assetsLoader, bubuPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                }
+            }
+
             if (_gameGrid.SkeletronsPath != null)
             {
                 foreach (var skeletronPath in _gameGrid.SkeletronsPath)

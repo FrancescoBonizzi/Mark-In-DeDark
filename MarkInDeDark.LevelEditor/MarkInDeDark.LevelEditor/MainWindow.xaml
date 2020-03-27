@@ -510,6 +510,26 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        x:Name="BtnObjectType_Bubu"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="11"
+                        ToolTip="Imposta la posizione del bubu">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/bubu_front_walking_1.png" />
+                            <TextBlock Padding="2,2" Text="Bubu" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
 
                 <Border

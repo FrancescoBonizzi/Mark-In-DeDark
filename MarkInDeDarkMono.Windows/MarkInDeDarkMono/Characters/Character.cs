@@ -86,12 +86,6 @@ namespace MarkInDeDarkMono.Characters
 
             _gameGrid = grid;
             _soundManager = soundManager;
-            AreLightsActive = true;
-
-            _torchPositionTraslationUp = configuration.TorchPositionTraslationUp;
-            _torchPositionTraslationLeft = configuration.TorchPositionTraslationLeft;
-            _torchPositionTraslationRight = configuration.TorchPositionTraslationRight;
-            _torchPositionTraslationDown = configuration.TorchPositionTraslationDown;
 
             _drawingInfos = new DrawingInfos()
             {
@@ -101,12 +95,7 @@ namespace MarkInDeDarkMono.Characters
             };
 
             _nextLocation = Position;
-
-            _lightMap = new Light(configuration.LightMapSprite, configuration.FirstTorchColor, configuration.SecondTorchColor, configuration.TorchScale);
-            _torch = new Light(configuration.TorchSprite, configuration.FirstTorchColor, configuration.SecondTorchColor, configuration.TorchScale);
             Speed = configuration.MovementSpeed;
-
-            _lightMap.SetPosition(_drawingInfos.Position);
 
             AnimationsManager = new AnimationsManager()
                 .AddAnimation(AnimationsNames.WalkUp.ToString(), configuration.WalkUpAnimation)
@@ -123,8 +112,28 @@ namespace MarkInDeDarkMono.Characters
 
             CurrentCharacterState = CharacterState.IdleDown;
             AnimationsManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
-            _torchPositionTraslation = _torchPositionTraslationDown;
-            SetLightPosition();
+
+            if (configuration.CharacterTorchConfiguration != null)
+            {
+                AreLightsActive = true;
+                _torchPositionTraslationUp = configuration.CharacterTorchConfiguration.TorchPositionTraslationUp;
+                _torchPositionTraslationLeft = configuration.CharacterTorchConfiguration.TorchPositionTraslationLeft;
+                _torchPositionTraslationRight = configuration.CharacterTorchConfiguration.TorchPositionTraslationRight;
+                _torchPositionTraslationDown = configuration.CharacterTorchConfiguration.TorchPositionTraslationDown;
+                _lightMap = new Light(
+                    configuration.CharacterTorchConfiguration.LightMapSprite,
+                    configuration.CharacterTorchConfiguration.FirstTorchColor,
+                    configuration.CharacterTorchConfiguration.SecondTorchColor,
+                    configuration.CharacterTorchConfiguration.TorchScale);
+                _torch = new Light(
+                    configuration.CharacterTorchConfiguration.TorchSprite,
+                    configuration.CharacterTorchConfiguration.FirstTorchColor,
+                    configuration.CharacterTorchConfiguration.SecondTorchColor,
+                    configuration.CharacterTorchConfiguration.TorchScale);
+                _lightMap.SetPosition(_drawingInfos.Position);
+                _torchPositionTraslation = _torchPositionTraslationDown;
+                SetLightPosition();
+            }
 
             _bloodEffect = new BloodParticleSystem(assetsLoader);
         }
@@ -177,7 +186,9 @@ namespace MarkInDeDarkMono.Characters
             Die();
             _drawingInfos.Position = trapPosition;
             _drawingInfos.Scale = 0.8f;
-            SetLightPosition();
+
+            if (AreLightsActive)
+                SetLightPosition();
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
@@ -419,7 +430,9 @@ namespace MarkInDeDarkMono.Characters
                         _drawingInfos.Position = _nextLocation;
 
                 }
-                SetLightPosition();
+
+                if (AreLightsActive)
+                    SetLightPosition();
             }
 
             if (IsDying)
@@ -433,8 +446,12 @@ namespace MarkInDeDarkMono.Characters
             }
 
             AnimationsManager.Update(elapsed);
-            _lightMap.Update(elapsed);
-            _torch.Update(elapsed);
+
+            if (AreLightsActive)
+            {
+                _lightMap.Update(elapsed);
+                _torch.Update(elapsed);
+            }
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)

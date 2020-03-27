@@ -207,6 +207,7 @@ namespace MarkInDeDarkMono.Assets
             LoadCharacterAnimations(characterName: "zombie");
             LoadCharacterAnimations(characterName: "taurus");
             LoadCharacterAnimations(characterName: "ghost");
+            LoadCharacterAnimations(characterName: "bubu");
 
             var candleAnimation = new List<Sprite>();
             for (int i = 1; i <= 6; ++i)

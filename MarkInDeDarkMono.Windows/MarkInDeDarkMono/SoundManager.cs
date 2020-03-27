@@ -121,6 +121,11 @@ namespace MarkInDeDarkMono
             return RegisterMonsterSound("wolf_voice", false);
         }
 
+        public int RegisterBubuScreamSound()
+        {
+            return RegisterMonsterSound("skeletron_voice", false);
+        }
+
         public int RegisterZombieAttackSound()
         {
             return RegisterMonsterSound("attack1", true);
@@ -150,6 +155,12 @@ namespace MarkInDeDarkMono
         {
             return RegisterMonsterSound("attack4", true);
         }
+
+        public  int RegisterBubuAttackSound()
+        {
+            return RegisterMonsterSound("attack1", true);
+        }
+
 
         public float ComputeIndexSoundsVolume(int screamIndex, int attackIndex, float Distance)
         {
