@@ -235,12 +235,6 @@
                 <false/>
             </struct>
             <key type="filename">Game/blood_decal.png</key>
-            <key type="filename">Game/candle1.png</key>
-            <key type="filename">Game/candle2.png</key>
-            <key type="filename">Game/candle3.png</key>
-            <key type="filename">Game/candle4.png</key>
-            <key type="filename">Game/candle5.png</key>
-            <key type="filename">Game/candle6.png</key>
             <key type="filename">Game/candle_pack_1.png</key>
             <key type="filename">Game/candle_pack_2.png</key>
             <key type="filename">Game/candle_pack_3.png</key>
@@ -321,6 +315,15 @@
             <key type="filename">Game/bubu_side_iddle_1.png</key>
             <key type="filename">Game/bubu_side_walking_1.png</key>
             <key type="filename">Game/bubu_side_walking_2.png</key>
+            <key type="filename">Game/candle_1.png</key>
+            <key type="filename">Game/candle_2.png</key>
+            <key type="filename">Game/candle_3.png</key>
+            <key type="filename">Game/candle_4.png</key>
+            <key type="filename">Game/candle_5.png</key>
+            <key type="filename">Game/candle_6.png</key>
+            <key type="filename">Game/candle_7.png</key>
+            <key type="filename">Game/candle_8.png</key>
+            <key type="filename">Game/candle_9.png</key>
             <key type="filename">Game/ghost_back_attack_1.png</key>
             <key type="filename">Game/ghost_back_attack_2.png</key>
             <key type="filename">Game/ghost_back_attack_3.png</key>
