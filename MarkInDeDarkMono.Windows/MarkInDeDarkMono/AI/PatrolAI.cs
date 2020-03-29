@@ -53,7 +53,7 @@ namespace MarkInDeDarkMono.AI
             if (_searchesCandles)
             {
                 var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
-                if (actionsToNearCandle.Key != null)
+                if (actionsToNearCandle.Key != null && actionsToNearCandle.Value.Any())
                 {
                     character.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this));
                     _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima

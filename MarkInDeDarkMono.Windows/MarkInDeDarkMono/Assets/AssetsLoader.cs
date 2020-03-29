@@ -167,9 +167,13 @@ namespace MarkInDeDarkMono.Assets
             {
                 const int _maxFramesNumber = 10;
 
-                void LoadCharacterAnimation(string animationName, string frameName, bool isAnimationLooped)
+                void LoadCharacterAnimation(
+                    string animationName,
+                    string frameName,
+                    bool isAnimationLooped)
                 {
                     var animation = new List<Sprite>();
+
                     for (int f = 1; f <= _maxFramesNumber; ++f)
                     {
                         string completeFrameName = $"{frameName}_{f}";

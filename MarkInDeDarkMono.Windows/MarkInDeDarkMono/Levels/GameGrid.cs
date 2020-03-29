@@ -504,19 +504,19 @@ namespace MarkInDeDarkMono.Levels
 
             for (int i = 0; i < Path.Count - 1; ++i)
             {
-                if (Path[i].Links[LinkDirection.NorthLink] == Path[i + 1])
+                if (Path[i].NorthCell == Path[i + 1])
                 {
                     directions.Add(CharacterActions.Up);
                 }
-                else if (Path[i].Links[LinkDirection.EastLink] == Path[i + 1])
+                else if (Path[i].EastCell == Path[i + 1])
                 {
                     directions.Add(CharacterActions.Right);
                 }
-                else if (Path[i].Links[LinkDirection.SouthLink] == Path[i + 1])
+                else if (Path[i].SouthCell == Path[i + 1])
                 {
                     directions.Add(CharacterActions.Down);
                 }
-                else if (Path[i].Links[LinkDirection.WestLink] == Path[i + 1])
+                else if (Path[i].WestCell == Path[i + 1])
                 {
                     directions.Add(CharacterActions.Left);
                 }
@@ -549,40 +549,40 @@ namespace MarkInDeDarkMono.Levels
             // Spargo il sangue anche sulle celle adiacenti
 
             // Su
-            if (cell.Links[LinkDirection.NorthLink] != null)
-                cell.Links[LinkDirection.NorthLink].ApplyBloodDecal(CellRelativePosition.Up);
+            if (cell.NorthCell != null)
+                cell.NorthCell.ApplyBloodDecal(CellRelativePosition.Up);
 
             // Su-Destra
-            if (cell.Links[LinkDirection.NorthLink] != null)
-                if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
-                    cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].ApplyBloodDecal(CellRelativePosition.UpRight);
+            if (cell.NorthCell != null)
+                if (cell.NorthCell.EastCell != null)
+                    cell.NorthCell.EastCell.ApplyBloodDecal(CellRelativePosition.UpRight);
 
             // Destra
-            if (cell.Links[LinkDirection.EastLink] != null)
-                cell.Links[LinkDirection.EastLink].ApplyBloodDecal(CellRelativePosition.Right);
+            if (cell.EastCell != null)
+                cell.EastCell.ApplyBloodDecal(CellRelativePosition.Right);
 
             // Destra-Giu
-            if (cell.Links[LinkDirection.EastLink] != null)
-                if (cell.Links[LinkDirection.EastLink].Links[LinkDirection.SouthLink] != null)
-                    cell.Links[LinkDirection.EastLink].Links[LinkDirection.SouthLink].ApplyBloodDecal(CellRelativePosition.DownRight);
+            if (cell.EastCell != null)
+                if (cell.EastCell.SouthCell != null)
+                    cell.EastCell.SouthCell.ApplyBloodDecal(CellRelativePosition.DownRight);
 
             // Sotto
-            if (cell.Links[LinkDirection.SouthLink] != null)
-                cell.Links[LinkDirection.SouthLink].ApplyBloodDecal(CellRelativePosition.Down);
+            if (cell.SouthCell != null)
+                cell.SouthCell.ApplyBloodDecal(CellRelativePosition.Down);
 
             // Sotto-Sinistra
-            if (cell.Links[LinkDirection.SouthLink] != null)
-                if (cell.Links[LinkDirection.SouthLink].Links[LinkDirection.WestLink] != null)
-                    cell.Links[LinkDirection.SouthLink].Links[LinkDirection.WestLink].ApplyBloodDecal(CellRelativePosition.DownLeft);
+            if (cell.SouthCell != null)
+                if (cell.SouthCell.WestCell != null)
+                    cell.SouthCell.WestCell.ApplyBloodDecal(CellRelativePosition.DownLeft);
 
             // Sinistra
-            if (cell.Links[LinkDirection.WestLink] != null)
-                cell.Links[LinkDirection.WestLink].ApplyBloodDecal(CellRelativePosition.Left);
+            if (cell.WestCell != null)
+                cell.WestCell.ApplyBloodDecal(CellRelativePosition.Left);
 
             // Sinistra-Su
-            if (cell.Links[LinkDirection.WestLink] != null)
-                if (cell.Links[LinkDirection.WestLink].Links[LinkDirection.NorthLink] != null)
-                    cell.Links[LinkDirection.WestLink].Links[LinkDirection.NorthLink].ApplyBloodDecal(CellRelativePosition.UpLeft);
+            if (cell.WestCell != null)
+                if (cell.WestCell.NorthCell != null)
+                    cell.WestCell.NorthCell.ApplyBloodDecal(CellRelativePosition.UpLeft);
         }
 
         public void Update(TimeSpan elapsed)
