@@ -265,12 +265,6 @@
     <Content Include="Assets\_TextureProject\Game\bubu_side_iddle_1.png" />
     <Content Include="Assets\_TextureProject\Game\bubu_side_walking_1.png" />
     <Content Include="Assets\_TextureProject\Game\bubu_side_walking_2.png" />
-    <Content Include="Assets\_TextureProject\Game\candle1.png" />
-    <Content Include="Assets\_TextureProject\Game\candle2.png" />
-    <Content Include="Assets\_TextureProject\Game\candle3.png" />
-    <Content Include="Assets\_TextureProject\Game\candle4.png" />
-    <Content Include="Assets\_TextureProject\Game\candle5.png" />
-    <Content Include="Assets\_TextureProject\Game\candle6.png" />
     <Content Include="Assets\_TextureProject\Game\candle_pack_1.png" />
     <Content Include="Assets\_TextureProject\Game\candle_pack_2.png" />
     <Content Include="Assets\_TextureProject\Game\candle_pack_3.png" />
