@@ -77,7 +77,16 @@ namespace MarkInDeDarkMono.Characters
             if (_currentPlayerState != PlayerStates.Playing)
                 return;
 
-            if (action == CharacterActions.Candle)
+            if (action == CharacterActions.DoorSwitch)
+            {
+                if (CurrentCharacterState != CharacterState.Attacking
+                    && CurrentCharacterState != CharacterState.Dead
+                    && CurrentCharacterState != CharacterState.Dying)
+                {
+                    _gameGrid.SwitchDoorIfAny(_gameGrid.GetCellAtPixel(WorldCenter));
+                }
+            }
+            else if (action == CharacterActions.Candle)
             {
                 _candlesManager.PlaceCandle(_gameGrid.GetCellAtPixel(WorldCenter).CenterPosition);
             }

@@ -7,6 +7,7 @@
         Right,
         Left,
         Idle,
-        Candle
+        Candle,
+        DoorSwitch
     }
 }

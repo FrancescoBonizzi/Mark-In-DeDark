@@ -4,6 +4,7 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Objects;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,11 +23,14 @@ namespace MarkInDeDarkMono.Levels
         private readonly Sprite _angleSprite;
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
+        private readonly Sprite _doorSprite;
 
         private readonly int _width;
         private readonly int _height;
 
         private readonly float _wallHeightOver2;
+        private readonly float _doorHeightOver2;
+        private readonly float _widthCellDoorDifferenceOver2;
 
         private readonly float _angleWidthOver2;
         private readonly float _angleHeightOver2;
@@ -39,7 +43,8 @@ namespace MarkInDeDarkMono.Levels
 
         private readonly DrawingInfos _cellDrawingInfos;
         private DrawingInfos _bloodDecalDrawingInfos;
-        public IDictionary<LinkDirection, GameCell> Links { get; }
+        public Dictionary<LinkDirection, GameCell> Links { get; }
+        public Dictionary<LinkDirection, Door> Doors { get; }
 
         public bool IsUnwalkable { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
@@ -57,6 +62,7 @@ namespace MarkInDeDarkMono.Levels
             Sprite angle,
             Sprite dirty,
             Sprite maceria,
+            Sprite door,
             double dirtyProbability,
             SoundManager soundManager)
         {
@@ -69,6 +75,7 @@ namespace MarkInDeDarkMono.Levels
             _dirtySprite = dirty;
             _maceriaSprite = maceria;
             _destroyableWallSprite = destroyableWall;
+            _doorSprite = door;
 
             IsUnwalkable = false;
             IsUnwalkableForEnemies = false;
@@ -78,6 +85,8 @@ namespace MarkInDeDarkMono.Levels
 
             // Considerando che la texture del muro parte orizzontale
             _wallHeightOver2 = _wallSprite.Height / 2f;
+            _doorHeightOver2 = _doorSprite.Height / 2f;
+            _widthCellDoorDifferenceOver2 = (_width - _doorSprite.Width) / 2f;
 
             _angleWidthOver2 = _angleSprite.Width / 2f;
             _angleHeightOver2 = _angleSprite.Height / 2f;
@@ -96,6 +105,8 @@ namespace MarkInDeDarkMono.Levels
                 [LinkDirection.SouthLink] = null,
                 [LinkDirection.WestLink] = null
             };
+
+            Doors = new Dictionary<LinkDirection, Door>();
 
             AnglesDrawingInfos = new List<DrawingInfos>();
             _dirtysDrawingInfos = new List<DrawingInfos>();
@@ -131,16 +142,16 @@ namespace MarkInDeDarkMono.Levels
         }
 
         public GameCell NorthCell
-            => Links[LinkDirection.NorthLink];
+            => !Links.ContainsKey(LinkDirection.NorthLink) ? null : Links[LinkDirection.NorthLink];
 
         public GameCell SouthCell
-            => Links[LinkDirection.SouthLink];
+            => !Links.ContainsKey(LinkDirection.SouthLink) ? null : Links[LinkDirection.SouthLink];
 
         public GameCell EastCell
-            => Links[LinkDirection.EastLink];
+            => !Links.ContainsKey(LinkDirection.EastLink) ? null : Links[LinkDirection.EastLink];
 
         public GameCell WestCell
-            => Links[LinkDirection.WestLink];
+            => !Links.ContainsKey(LinkDirection.WestLink) ? null : Links[LinkDirection.WestLink];
 
         public Vector2 TopLeftPosition
             => _cellDrawingInfos.Position;
@@ -161,21 +172,31 @@ namespace MarkInDeDarkMono.Levels
         public bool IsSouthDestroyable { get; set; }
         public bool IsWestDestroyable { get; set; }
 
+        public bool IsNorthDoor { get; set; }
+        public bool IsEastDoor { get; set; }
+        public bool IsSouthDoor { get; set; }
+        public bool IsWestDoor { get; set; }
+
+        public bool IsNorthDoorPassable => !IsNorthDoor || Doors[LinkDirection.NorthLink].IsOpen;
+        public bool IsEastDoorPassable => !IsEastDoor || Doors[LinkDirection.EastLink].IsOpen;
+        public bool IsSouthDoorPassable => !IsSouthDoor || Doors[LinkDirection.SouthLink].IsOpen;
+        public bool IsWestDoorPassable => !IsWestDoor || Doors[LinkDirection.WestLink].IsOpen;
+
         public bool IsPassableWithAction(CharacterActions action)
         {
             switch (action)
             {
                 case CharacterActions.Up:
-                    return IsNorthPassable;
+                    return IsNorthPassable && IsNorthDoorPassable;
 
                 case CharacterActions.Down:
-                    return IsSouthPassable;
+                    return IsSouthPassable && IsSouthDoorPassable;
 
                 case CharacterActions.Right:
-                    return IsEastPassable;
+                    return IsEastPassable && IsEastDoorPassable;
 
                 case CharacterActions.Left:
-                    return IsWestPassable;
+                    return IsWestPassable && IsWestDoorPassable;
             }
 
             return false;
@@ -190,6 +211,47 @@ namespace MarkInDeDarkMono.Levels
                 _soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
+            }
+        }
+
+        public void GenerateDoors()
+        {
+            var doorSize = new Vector2(_doorSprite.Width, _doorSprite.Height);
+            var northDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y);
+            var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y + _height);
+            var eastDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _width, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
+            var westDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _doorHeightOver2, _cellDrawingInfos.Position.Y);
+
+            if (IsNorthDoor)
+            {
+                Doors.Add(LinkDirection.NorthLink, new Door(
+                    northDoorPosition,
+                    LinkDirection.NorthLink,
+                    doorSize));
+            }
+
+            if (IsEastDoor)
+            {
+                Doors.Add(LinkDirection.EastLink, new Door(
+                    eastDoorPosition,
+                    LinkDirection.EastLink,
+                    doorSize));
+            }
+
+            if (IsSouthDoor)
+            {
+                Doors.Add(LinkDirection.SouthLink, new Door(
+                    southDoorPosition,
+                    LinkDirection.SouthLink,
+                    doorSize));
+            }
+
+            if (IsWestDoor)
+            {
+                Doors.Add(LinkDirection.WestLink, new Door(
+                    westDoorPosition,
+                    LinkDirection.WestLink,
+                    doorSize));
             }
         }
 
@@ -338,12 +400,38 @@ namespace MarkInDeDarkMono.Levels
                 AddSEAngle();
             if (!IsSouthPassable && !IsWestPassable)
                 AddSWAngle();
+
+            if (IsNorthDoor)
+            {
+                AddNEAngle();
+                AddNWAngle();
+            }
+
+            if (IsSouthDoor)
+            {
+                AddSEAngle();
+                AddSWAngle();
+            }
+
+            if (IsEastDoor)
+            {
+                AddNEAngle();
+                AddSEAngle();
+            }
+
+            if (IsWestDoor)
+            {
+                AddNWAngle();
+                AddSWAngle();
+            }
         }
 
         public void Update(TimeSpan elapsed)
         {
             if (_smokeParticleSystem.HasActiveParticles)
                 _smokeParticleSystem.Update(elapsed);
+            foreach (var door in Doors.Values)
+                door.Update(elapsed);
         }
 
         public void DrawCell(SpriteBatch _spritebatch)
@@ -391,6 +479,11 @@ namespace MarkInDeDarkMono.Levels
                     spritebatch.Draw(_destroyableWallSprite, wall.DrawingInfos);
                 }
             }
+
+            foreach (var door in Doors.Values)
+            {
+                spritebatch.Draw(_doorSprite, door.DrawingInfos);
+            }
         }
 
         public void DrawAngles(SpriteBatch spritebatch)
@@ -398,5 +491,6 @@ namespace MarkInDeDarkMono.Levels
             foreach (var angleDrawingInfos in AnglesDrawingInfos)
                 spritebatch.Draw(_angleSprite, angleDrawingInfos);
         }
+
     }
 }

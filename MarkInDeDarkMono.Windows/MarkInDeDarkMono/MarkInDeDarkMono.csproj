@@ -102,10 +102,12 @@
     <Compile Include="Levels\LinkDirection.cs" />
     <Compile Include="Levels\Wall.cs" />
     <Compile Include="MarkKeyboard.cs" />
+    <Compile Include="Maths\Floats.cs" />
     <Compile Include="Menu\MenuLevelButton.cs" />
     <Compile Include="MarkInDeDarkGame.cs" />
     <Compile Include="Assets\AssetsLoader.cs" />
     <Compile Include="Objects\CandlePack.cs" />
+    <Compile Include="Objects\Door.cs" />
     <Compile Include="Objects\GoblinTriggerTrap.cs" />
     <Compile Include="Objects\TimedBreakableTrap.cs" />
     <Compile Include="Objects\InstantlyDieTrap.cs" />

@@ -219,18 +219,23 @@ namespace MarkInDeDarkMono.Levels
                     }
 
                     gameCell.IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
-                    gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente;
+                    gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente || levelEditorCell.Top == WallTypes.Porta;
+                    gameCell.IsNorthDoor = levelEditorCell.Top == WallTypes.Porta;
 
                     gameCell.IsEastDestroyable = levelEditorCell.Right == WallTypes.Fragile;
-                    gameCell.IsEastPassable = levelEditorCell.Right == WallTypes.Niente;
+                    gameCell.IsEastPassable = levelEditorCell.Right == WallTypes.Niente || levelEditorCell.Right == WallTypes.Porta;
+                    gameCell.IsEastDoor = levelEditorCell.Right == WallTypes.Porta;
 
                     gameCell.IsSouthDestroyable = levelEditorCell.Bottom == WallTypes.Fragile;
-                    gameCell.IsSouthPassable = levelEditorCell.Bottom == WallTypes.Niente;
+                    gameCell.IsSouthPassable = levelEditorCell.Bottom == WallTypes.Niente || levelEditorCell.Bottom == WallTypes.Porta;
+                    gameCell.IsSouthDoor = levelEditorCell.Bottom == WallTypes.Porta;
 
                     gameCell.IsWestDestroyable = levelEditorCell.Left == WallTypes.Fragile;
-                    gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente;
+                    gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
+                    gameCell.IsWestDoor = levelEditorCell.Left == WallTypes.Porta;
 
                     gameCell.GenerateWalls();
+                    gameCell.GenerateDoors();
                 }
             }
 
@@ -305,7 +310,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var northCell = grid.GetCellByIndex(i, j - 1);
-                        if (northCell.IsUnwalkable || !northCell.IsSouthPassable)
+                        if (northCell.IsUnwalkable || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.NorthLink);
                             cell.IsNorthPassable = false;
@@ -329,7 +334,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var eastCell = grid.GetCellByIndex(i + 1, j);
-                        if (eastCell.IsUnwalkable || !eastCell.IsWestPassable)
+                        if (eastCell.IsUnwalkable || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.EastLink);
                             cell.IsEastPassable = false;
@@ -352,7 +357,7 @@ namespace MarkInDeDarkMono.Levels
                     if (cell.IsSouthPassable)
                     {
                         var southCell = grid.GetCellByIndex(i, j + 1);
-                        if (southCell.IsUnwalkable || !southCell.IsNorthPassable)
+                        if (southCell.IsUnwalkable || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.SouthLink);
                             cell.IsSouthPassable = false;
@@ -375,7 +380,7 @@ namespace MarkInDeDarkMono.Levels
                     if (cell.IsWestPassable)
                     {
                         var westCell = grid.GetCellByIndex(i - 1, j);
-                        if (westCell.IsUnwalkable || !westCell.IsEastPassable)
+                        if (westCell.IsUnwalkable || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.WestLink);
                             cell.IsWestPassable = false;
@@ -412,12 +417,13 @@ namespace MarkInDeDarkMono.Levels
                     cell.SetSimpleAngles();
 
                     // Aggiungo altri muretti. Posso farlo solo qua perchè prima non ho i link alle celle intorno!
+
                     if (!cell.IsEastPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
                                 if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
                                     cell.AddNEAngle();
-
+               
                     if (!cell.IsWestPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)
@@ -507,7 +513,7 @@ namespace MarkInDeDarkMono.Levels
                                     {
                                         for (int w = nearCell.AnglesDrawingInfos.Count - 1; w >= 0; --w)
                                         {
-                                            if (cellAngle == nearCell.AnglesDrawingInfos[w])
+                                            if (cellAngle.Position == nearCell.AnglesDrawingInfos[w].Position)
                                             {
                                                 nearCell.AnglesDrawingInfos.RemoveAt(w);
                                             }

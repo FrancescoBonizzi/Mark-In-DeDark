@@ -18,10 +18,7 @@ namespace MarkInDeDarkMono.Levels
         public const int HorizontalCellsNumber = 45;
         public const int VerticalCellsNumber = 25;
 
-        private readonly int _totalWidthInPixel;
-        private readonly int _totalHeightInPixel;
-
-        private GameCell[,] _cells;
+        private readonly GameCell[,] _cells;
 
         public int CellWidth { get; }
         public int CellHeight { get; }
@@ -61,8 +58,6 @@ namespace MarkInDeDarkMono.Levels
 
             CellWidth = levelToLoad.GroundSpriteType1.Width;
             CellHeight = levelToLoad.GroundSpriteType1.Height;
-            _totalWidthInPixel = CellWidth * HorizontalCellsNumber;
-            _totalHeightInPixel = CellHeight * VerticalCellsNumber;
 
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
 
@@ -81,6 +76,7 @@ namespace MarkInDeDarkMono.Levels
                         levelToLoad.AngleSprite,
                         levelToLoad.DirtySprite,
                         levelToLoad.MacerieCellSprite,
+                        levelToLoad.DoorSprite,
                         levelToLoad.DirtyProbability,
                         soundManager);
 
@@ -185,6 +181,197 @@ namespace MarkInDeDarkMono.Levels
                         cellAfterWall.AddLink(cell, LinkDirection.EastLink);
                         cell.IsWestPassable = true;
                         cellAfterWall.IsEastPassable = true;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+            }
+        }
+
+        public void SwitchDoorIfAny(GameCell cell)
+        {
+            var doorsToExamine = new Dictionary<LinkDirection, Door>(cell.Doors);
+
+            var thisCellIndex = GetCellIndexByPixel(cell.CenterPosition);
+            int i = (int)thisCellIndex.X;
+            int j = (int)thisCellIndex.Y;
+
+            // Devo usare questi metodi perché quelli della cella utilizzano i link,
+            // ma se la porta è chiusa non ci sono link
+            var northCell = GetCellByIndex(i, j - 1);
+            var southCell = GetCellByIndex(i, j + 1);
+            var eastCell = GetCellByIndex(i + 1, j);
+            var westCell = GetCellByIndex(i - 1, j);
+
+            // Per gestire il fatto che io possa aprire una porta che è a cavallo tra due celle
+            if (northCell != null && northCell.Doors.ContainsKey(LinkDirection.SouthLink))
+                doorsToExamine.Add(LinkDirection.NorthLink, northCell.Doors[LinkDirection.SouthLink]);
+            if (southCell != null && southCell.Doors.ContainsKey(LinkDirection.NorthLink))
+                doorsToExamine.Add(LinkDirection.SouthLink, southCell.Doors[LinkDirection.NorthLink]);
+            if (eastCell != null && eastCell.Doors.ContainsKey(LinkDirection.WestLink))
+                doorsToExamine.Add(LinkDirection.EastLink, eastCell.Doors[LinkDirection.WestLink]);
+            if (westCell != null && westCell.Doors.ContainsKey(LinkDirection.EastLink))
+                doorsToExamine.Add(LinkDirection.WestLink, westCell.Doors[LinkDirection.EastLink]);
+
+            foreach (var door in doorsToExamine)
+            {
+                if (door.Value.IsMoving)
+                    continue;
+
+                if (door.Value.IsOpen)
+                {
+                    CloseDoor(cell, door.Value, door.Key);
+                }
+                else
+                {
+                    OpenDoor(cell, door.Value, door.Key);
+                }
+            }
+        }
+
+        public void OpenDoor(GameCell cell, Door door, LinkDirection direction)
+        {
+            var thisCellIndexes = GetCellIndexByPixel(cell.TopLeftPosition);
+            Vector2 afterTheDoorCellIndexes;
+            GameCell cellAfterDoor;
+
+            switch (direction)
+            {
+                case LinkDirection.NorthLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Open(direction);
+                        cell.AddLink(cellAfterDoor, LinkDirection.NorthLink);
+                        cellAfterDoor.AddLink(cell, LinkDirection.SouthLink);
+                        cell.IsNorthPassable = true;
+                        cellAfterDoor.IsSouthPassable = true;
+                        _calculatedPathsCache.Clear();
+                    }
+
+                    break;
+
+                case LinkDirection.SouthLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Open(direction);
+                        cell.AddLink(cellAfterDoor, LinkDirection.SouthLink);
+                        cellAfterDoor.AddLink(cell, LinkDirection.NorthLink);
+                        cell.IsSouthPassable = true;
+                        cellAfterDoor.IsNorthPassable = true;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+
+                case LinkDirection.EastLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Open(direction);
+                        cell.AddLink(cellAfterDoor, LinkDirection.EastLink);
+                        cellAfterDoor.AddLink(cell, LinkDirection.WestLink);
+                        cell.IsEastPassable = true;
+                        cellAfterDoor.IsWestPassable = true;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+
+                case LinkDirection.WestLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Open(direction);
+                        cell.AddLink(cellAfterDoor, LinkDirection.WestLink);
+                        cellAfterDoor.AddLink(cell, LinkDirection.EastLink);
+                        cell.IsWestPassable = true;
+                        cellAfterDoor.IsEastPassable = true;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+            }
+        }
+
+        public void CloseDoor(GameCell cell, Door door, LinkDirection direction)
+        {
+            var thisCellIndexes = GetCellIndexByPixel(cell.TopLeftPosition);
+            Vector2 afterTheDoorCellIndexes;
+            GameCell cellAfterDoor;
+
+            switch (direction)
+            {
+                case LinkDirection.NorthLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Close();
+                        cell.Links.Remove(LinkDirection.NorthLink);
+                        cellAfterDoor.Links.Remove(LinkDirection.SouthLink);
+                        cell.IsNorthPassable = false;
+                        cellAfterDoor.IsSouthPassable = false;
+                        _calculatedPathsCache.Clear();
+                    }
+
+                    break;
+
+                case LinkDirection.SouthLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Close();
+                        cell.Links.Remove(LinkDirection.SouthLink);
+                        cellAfterDoor.Links.Remove(LinkDirection.NorthLink);
+                        cell.IsSouthPassable = false;
+                        cellAfterDoor.IsNorthPassable = false;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+
+                case LinkDirection.EastLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Close();
+                        cell.Links.Remove(LinkDirection.EastLink);
+                        cellAfterDoor.Links.Remove(LinkDirection.WestLink);
+                        cell.IsEastPassable = false;
+                        cellAfterDoor.IsWestPassable = false;
+                        _calculatedPathsCache.Clear();
+                    }
+                    break;
+
+                case LinkDirection.WestLink:
+
+                    afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
+                    cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
+
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    {
+                        door.Close();
+                        cell.Links.Remove(LinkDirection.WestLink);
+                        cellAfterDoor.Links.Remove(LinkDirection.EastLink);
+                        cell.IsWestPassable = false;
+                        cellAfterDoor.IsEastPassable = false;
                         _calculatedPathsCache.Clear();
                     }
                     break;

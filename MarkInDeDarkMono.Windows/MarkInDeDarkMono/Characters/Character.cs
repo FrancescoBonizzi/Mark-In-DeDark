@@ -326,7 +326,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellUp(GameCell currentCell)
         {
-            if (currentCell.IsNorthPassable)
+            if (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable)
             {
                 CurrentCharacterState = CharacterState.GoingUp;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
@@ -343,7 +343,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellDown(GameCell currentCell)
         {
-            if (currentCell.IsSouthPassable)
+            if (currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable)
             {
                 CurrentCharacterState = CharacterState.GoingDown;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
@@ -360,7 +360,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellRight(GameCell currentCell)
         {
-            if (currentCell.IsEastPassable)
+            if (currentCell.IsEastPassable && currentCell.IsEastDoorPassable)
             {
                 CurrentCharacterState = CharacterState.GoingRight;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
@@ -377,7 +377,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellLeft(GameCell currentCell)
         {
-            if (currentCell.IsWestPassable)
+            if (currentCell.IsWestPassable && currentCell.IsWestDoorPassable)
             {
                 CurrentCharacterState = CharacterState.GoingLeft;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());

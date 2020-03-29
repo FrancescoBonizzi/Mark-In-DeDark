@@ -47,6 +47,12 @@ namespace MarkInDeDarkMono
                 _currentAction = CharacterActions.Candle;
             }
 
+            if ((keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl))
+                || (keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl)))
+            {
+                _currentAction = CharacterActions.DoorSwitch;
+            }
+
             _lastAction = _currentAction;
             _lastState = keyState;
         }

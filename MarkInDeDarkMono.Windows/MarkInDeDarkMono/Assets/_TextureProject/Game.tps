@@ -324,6 +324,7 @@
             <key type="filename">Game/candle_7.png</key>
             <key type="filename">Game/candle_8.png</key>
             <key type="filename">Game/candle_9.png</key>
+            <key type="filename">Game/door.png</key>
             <key type="filename">Game/ghost_back_attack_1.png</key>
             <key type="filename">Game/ghost_back_attack_2.png</key>
             <key type="filename">Game/ghost_back_attack_3.png</key>

@@ -293,6 +293,26 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="3"
+                        ToolTip="Disegna una porta che potrà essere aperta e chiusa">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Blue" />
+                            <TextBlock Padding="2,2" Text="Porta" />
+                        </StackPanel>
+                    </RadioButton>
+
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
