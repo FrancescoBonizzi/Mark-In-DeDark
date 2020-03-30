@@ -30,7 +30,7 @@ namespace MarkInDeDarkMono.Objects
 
         private readonly Vector2 _startingPosition;
         private DoorStates _currentState;
-        private readonly float _rotationSpeed = 1f;
+        private readonly float _rotationSpeed = 3f;
         private TimeSpan _totalElapsed;
 
         private float _openPositionRotation;
@@ -66,7 +66,7 @@ namespace MarkInDeDarkMono.Objects
                     {
                         DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 - 11f);
                         DrawingInfos.Position = _startingPosition + new Vector2(0f, -11f);
-                        _openPositionRotation = -((float)Math.PI / 2.0f + (float)Math.PI / 6.0f);
+                        _openPositionRotation = -(float)Math.PI / 2.0f;
                         _closedPositionRotation = 0f;
                     }
 
@@ -90,7 +90,7 @@ namespace MarkInDeDarkMono.Objects
                     {
                         DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 + 11f);
                         DrawingInfos.Position = _startingPosition + new Vector2(0f, +11f);
-                        _openPositionRotation = (float)Math.PI / 2.0f + (float)Math.PI / 6.0f;
+                        _openPositionRotation = (float)Math.PI / 2.0f;
                         _closedPositionRotation = 0f;
                     }
 
