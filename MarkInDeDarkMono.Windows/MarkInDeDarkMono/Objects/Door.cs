@@ -30,7 +30,7 @@ namespace MarkInDeDarkMono.Objects
 
         private readonly Vector2 _startingPosition;
         private DoorStates _currentState;
-        private readonly float _rotationSpeed = 3f;
+        private readonly float _rotationSpeed = 4f;
         private TimeSpan _totalElapsed;
 
         private float _openPositionRotation;
