@@ -78,7 +78,7 @@ namespace MarkInDeDarkMono.Objects
                     {
                         DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 - 11f);
                         DrawingInfos.Position = _startingPosition + new Vector2(+11f, 0);
-                        _openPositionRotation = -((float)Math.PI / 6.0f);
+                        _openPositionRotation = 0f;
                         _closedPositionRotation = (float)Math.PI / 2;
                     }
 
@@ -97,12 +97,12 @@ namespace MarkInDeDarkMono.Objects
                     break;
 
                 case LinkDirection.WestLink:
-                  
+
                     if (DoorDirectionInCell == LinkDirection.WestLink || DoorDirectionInCell == LinkDirection.EastLink)
                     {
                         DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 + 11f);
                         DrawingInfos.Position = _startingPosition + new Vector2(-11f, 0);
-                        _openPositionRotation = (float)Math.PI + (float)Math.PI / 6.0f;
+                        _openPositionRotation = (float)Math.PI;
                         _closedPositionRotation = (float)Math.PI / 2;
                     }
 
