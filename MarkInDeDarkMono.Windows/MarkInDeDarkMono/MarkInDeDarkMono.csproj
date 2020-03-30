@@ -84,6 +84,7 @@
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
+    <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Assets\GameStringsLoader.cs" />
     <Compile Include="Characters\Bubu.cs" />
     <Compile Include="Characters\Character.cs" />

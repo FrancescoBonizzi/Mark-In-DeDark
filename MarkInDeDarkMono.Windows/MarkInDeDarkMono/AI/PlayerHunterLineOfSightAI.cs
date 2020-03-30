@@ -55,9 +55,9 @@ namespace MarkInDeDarkMono.AI
             TimeSpan elapsed)
         {
             var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(enemy, _candlesManager);
-            if (actionsToNearCandle.Key != null)
+            if (actionsToNearCandle != null)
             {
-                enemy.SetNewAI(new KillCandleAI(actionsToNearCandle.Key, actionsToNearCandle.Value, this));
+                enemy.SetNewAI(new KillCandleAI(actionsToNearCandle.Candle, actionsToNearCandle.ActionsToGetTheCandle, this));
                 _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
                 return enemy.CurrentAI.Update(enemy, elapsed);
             }

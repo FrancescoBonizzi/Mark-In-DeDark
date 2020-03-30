@@ -83,13 +83,20 @@ namespace MarkInDeDarkMono.AI
             return CharacterActions.Idle;
         }
 
-        public static KeyValuePair<Candle, IEnumerable<CharacterActions>> SearchForNearCandlePath(
+        public static SearchForNearCandlePathResult SearchForNearCandlePath(
             Enemy character,
             CandlesManager candlesManager)
         {
-            return candlesManager.GetNearestCandleActionsPath(
+            var pathToNearestCandle = candlesManager.GetNearestCandleActionsPath(
                 character.Position,
                 character.NCellsCandleFindingRange.Value);
+
+            if (pathToNearestCandle.Key == null || !pathToNearestCandle.Value.Any())
+                return null;
+
+            return new SearchForNearCandlePathResult(
+                pathToNearestCandle.Key,
+                pathToNearestCandle.Value);
         }
     }
 }
