@@ -217,13 +217,10 @@ namespace MarkInDeDarkMono.Levels
         public void GenerateDoors()
         {
             var doorSize = new Vector2(_doorSprite.Width, _doorSprite.Height);
-            var northDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y);
-            var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y + _height);
-            var eastDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _width, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
-            var westDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _doorHeightOver2, _cellDrawingInfos.Position.Y);
 
             if (IsNorthDoor)
             {
+                var northDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y);
                 Doors.Add(LinkDirection.NorthLink, new Door(
                     northDoorPosition,
                     LinkDirection.NorthLink,
@@ -232,6 +229,7 @@ namespace MarkInDeDarkMono.Levels
 
             if (IsEastDoor)
             {
+                var eastDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _width, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
                 Doors.Add(LinkDirection.EastLink, new Door(
                     eastDoorPosition,
                     LinkDirection.EastLink,
@@ -240,6 +238,7 @@ namespace MarkInDeDarkMono.Levels
 
             if (IsSouthDoor)
             {
+                var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y + _height);
                 Doors.Add(LinkDirection.SouthLink, new Door(
                     southDoorPosition,
                     LinkDirection.SouthLink,
@@ -248,6 +247,7 @@ namespace MarkInDeDarkMono.Levels
 
             if (IsWestDoor)
             {
+                var westDoorPosition = new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
                 Doors.Add(LinkDirection.WestLink, new Door(
                     westDoorPosition,
                     LinkDirection.WestLink,
