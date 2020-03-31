@@ -487,16 +487,16 @@ namespace MarkInDeDarkMono
             _gameGrid.DrawDirtys(spriteBatch);
             _exit.Draw(spriteBatch);
             spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
-            
-            _player.DrawShadows(spriteBatch);
-            foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
-                en.DrawShadows(spriteBatch);
 
             if (_triggerObjects != null)
             {
                 foreach (var triggerObject in _triggerObjects)
                     triggerObject.Draw(spriteBatch);
             }
+
+            _player.DrawShadows(spriteBatch);
+            foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
+                en.DrawShadows(spriteBatch);
 
             _gameGrid.DrawWalls(spriteBatch);
             _gameGrid.DrawAngles(spriteBatch);
