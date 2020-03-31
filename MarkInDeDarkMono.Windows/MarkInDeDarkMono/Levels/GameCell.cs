@@ -4,6 +4,7 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Maths;
 using MarkInDeDarkMono.Objects;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
@@ -120,8 +121,8 @@ namespace MarkInDeDarkMono.Levels
                         Position = new Vector2(
                             position.X + Numbers.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
                             position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
-                        Scale = Numbers.RandomBetween(0.5f, 1.2f),
-                        Rotation = Numbers.RandomBetween(0, 360f),
+                        Scale = 1f,
+                        Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
                         Origin = _dirtySprite.SpriteCenter
                     });
                 }
