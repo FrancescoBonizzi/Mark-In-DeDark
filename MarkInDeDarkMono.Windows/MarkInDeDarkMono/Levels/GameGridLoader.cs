@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.GameGrid;
 using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,7 +16,8 @@ namespace MarkInDeDarkMono.Levels
             SoundManager soundManager,
             GameGridBundle levelEditorGrid,
             GameGrid grid,
-            Level level)
+            Level level,
+            GameConfig gameConfig)
         {
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -93,6 +95,10 @@ namespace MarkInDeDarkMono.Levels
                             case ObjectTypes.Candele:
                                 var numberOfCandles = Convert.ToInt32(levelEditorCell.ObjectTypeAdditionalData);
                                 grid.CandlePacks.Add(new CandlePack(numberOfCandles, assetsLoader, grid.GetPixelBy_ij(i, j), soundManager));
+                                break;
+
+                            case ObjectTypes.Lucina:
+                                grid.LittleLights.Add(new LittleLight(assetsLoader, gameConfig, grid.GetPixelBy_ij(i, j)));
                                 break;
 
                             case ObjectTypes.Zombie:

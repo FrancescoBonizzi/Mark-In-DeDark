@@ -451,6 +451,25 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="12"
+                        ToolTip="Imposta una luce ambientale">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/lightobject_1.png" />
+                            <TextBlock Padding="2,2" Text="Lucina" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">

@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +28,7 @@ namespace MarkInDeDarkMono.Levels
         public Vector2 ExitPosition { get; set; }
         public Vector2 KeyPosition { get; set; }
         public List<CandlePack> CandlePacks { get; } = new List<CandlePack>();
+        public List<LittleLight> LittleLights { get; } = new List<LittleLight>();
 
         public Vector2? GoblinStartPosition { get; set; }
         public Vector2? WerewolfStartingPosition { get; set; }
@@ -51,7 +53,8 @@ namespace MarkInDeDarkMono.Levels
             Level levelToLoad,
             AssetsLoader assetsLoader,
             Camera2D camera,
-            SoundManager soundManager)
+            SoundManager soundManager,
+            GameConfig gameConfig)
         {
             _position = Vector2.Zero;
             _camera = camera;
@@ -86,7 +89,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad);
+            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
         }
 
         public void SetNullCell(int cellX, int cellY)

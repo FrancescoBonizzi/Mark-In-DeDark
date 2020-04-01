@@ -21,6 +21,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                     imagePath = "Assets/icons/key.png";
                     break;
 
+                case ObjectTypes.Lucina:
+                    imagePath = "Assets/icons/lightobject_1.png";
+                    break;
+
                 case ObjectTypes.Uscita:
                     imagePath = "Assets/icons/win_closed.png";
                     break;
