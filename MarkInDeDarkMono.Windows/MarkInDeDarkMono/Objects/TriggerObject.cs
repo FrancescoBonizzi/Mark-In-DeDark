@@ -9,7 +9,7 @@ namespace MarkInDeDarkMono.Objects
 {
     public class TriggerObject
     {
-        private Rectangle _triggerArea;
+        protected Rectangle _triggerArea;
 
         private readonly List<Character> _affectedCharacters;
         private Action<Character, TimeSpan> _onTriggerPressed;

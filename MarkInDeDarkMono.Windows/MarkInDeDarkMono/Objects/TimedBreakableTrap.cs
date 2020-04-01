@@ -34,7 +34,7 @@ namespace MarkInDeDarkMono.Objects
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters)
             : base(
-                  triggerCollisionRectangle: triggerCollisionRectangle,
+                  triggerCollisionRectangle: triggerCollisionRectangle.WithTolerance(new Rectangle(30, 30, 60, 60)),
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => { },
                   onTriggerLeft: null,

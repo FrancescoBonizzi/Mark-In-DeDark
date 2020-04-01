@@ -19,7 +19,7 @@ namespace MarkInDeDarkMono.Objects
             IEnumerable<Character> affectedCharacters,
             Rectangle collisionRectangle)
             : base(
-                  triggerCollisionRectangle: collisionRectangle.WithTolerance(100),
+                  triggerCollisionRectangle: collisionRectangle.WithTolerance(new Rectangle(70, 70, 140, 140)),
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => character.DieForTrap(collisionRectangle.Center.ToVector2()),
                   onTriggerLeft: null,
@@ -34,8 +34,6 @@ namespace MarkInDeDarkMono.Objects
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_trapSprite, _drawingInfos);
-        }
+            => spriteBatch.Draw(_trapSprite, _drawingInfos);
     }
 }

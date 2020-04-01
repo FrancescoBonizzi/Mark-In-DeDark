@@ -1,4 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Levels;
@@ -109,7 +110,7 @@ namespace MarkInDeDarkMono.Characters
             _mainFigureDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(50, 50, 50, 50),
+                HitBoxTolerance = new Rectangle(50, 50, 100, 100),
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
@@ -602,9 +603,8 @@ namespace MarkInDeDarkMono.Characters
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            
             MainAnimationsAnimationManager.Draw(spriteBatch, _mainFigureDrawingInfos);
-
+            
             if (AreLightsActive && !IsDead)
             {
                 _torch.Draw(spriteBatch);

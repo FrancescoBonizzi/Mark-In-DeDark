@@ -29,7 +29,7 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = position,
                 Origin = sprite.SpriteCenter,
-                HitBoxTolerance = new Rectangle(50, 50, 50, 50)
+                HitBoxTolerance = new Rectangle(50, 50, 100, 100)
             };
 
             _sprite = sprite;
