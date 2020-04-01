@@ -110,11 +110,14 @@
     <Compile Include="Assets\AssetsLoader.cs" />
     <Compile Include="Objects\CandlePack.cs" />
     <Compile Include="Objects\Door.cs" />
+    <Compile Include="Objects\IDrawableObject.cs" />
     <Compile Include="Objects\GoblinTriggerTrap.cs" />
     <Compile Include="Objects\LittleLight.cs" />
+    <Compile Include="Objects\PassableObject.cs" />
     <Compile Include="Objects\TimedBreakableTrap.cs" />
     <Compile Include="Objects\InstantlyDieTrap.cs" />
     <Compile Include="Objects\TriggerObject.cs" />
+    <Compile Include="Objects\UnpassableObject.cs" />
     <Compile Include="Particles\Light.cs" />
     <Compile Include="MarkInDeDarkBootstrap.cs" />
     <Compile Include="Menu\LevelsPage.cs" />

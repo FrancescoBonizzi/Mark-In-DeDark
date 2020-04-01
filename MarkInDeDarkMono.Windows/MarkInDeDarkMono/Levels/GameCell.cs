@@ -46,8 +46,9 @@ namespace MarkInDeDarkMono.Levels
         public Dictionary<LinkDirection, GameCell> Links { get; }
         public Dictionary<LinkDirection, Door> Doors { get; }
 
-        public bool IsUnwalkable { get; set; }
+        public bool IsNonLinked { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
+        public bool IsUnwalkable { get; set; }
         public bool DontDraw { get; set; }
         public bool NoDecals { get; set; }
 
@@ -77,8 +78,9 @@ namespace MarkInDeDarkMono.Levels
             _destroyableWallSprite = destroyableWall;
             _doorSprite = door;
 
-            IsUnwalkable = false;
+            IsNonLinked = false;
             IsUnwalkableForEnemies = false;
+            IsUnwalkable = false;
 
             _width = cell.Width;
             _height = cell.Height;

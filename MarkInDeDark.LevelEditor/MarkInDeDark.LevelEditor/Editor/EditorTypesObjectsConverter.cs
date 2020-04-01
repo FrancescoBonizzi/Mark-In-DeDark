@@ -56,6 +56,18 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case ObjectTypes.Taurus:
                     imagePath = "Assets/icons/taurus_front_iddle.png";
                     break;
+
+                case ObjectTypes.OggettoNonPassabile1:
+                    imagePath = "Assets/icons/object_unpassable_1.png";
+                    break;
+
+                case ObjectTypes.OggettoNonPassabile2:
+                    imagePath = "Assets/icons/object_unpassable_2.png";
+                    break;
+
+                case ObjectTypes.OggettoPassabile1:
+                    imagePath = "Assets/icons/object_passable_1.png";
+                    break;
             }
 
             var container = new Grid();

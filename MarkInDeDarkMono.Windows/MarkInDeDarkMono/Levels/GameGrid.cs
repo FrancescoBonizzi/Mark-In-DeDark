@@ -29,6 +29,7 @@ namespace MarkInDeDarkMono.Levels
         public Vector2 KeyPosition { get; set; }
         public List<CandlePack> CandlePacks { get; } = new List<CandlePack>();
         public List<LittleLight> LittleLights { get; } = new List<LittleLight>();
+        public List<IDrawableObject> DrawableObjects { get; } = new List<IDrawableObject>();
 
         public Vector2? GoblinStartPosition { get; set; }
         public Vector2? WerewolfStartingPosition { get; set; }
@@ -114,7 +115,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
                         cell.BreakWall(LinkDirection.NorthLink, breakerPosition);
                         cellAfterWall.BreakWall(LinkDirection.SouthLink, breakerPosition);
@@ -135,7 +136,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
                         cell.BreakWall(LinkDirection.SouthLink, breakerPosition);
                         cellAfterWall.BreakWall(LinkDirection.NorthLink, breakerPosition);
@@ -155,7 +156,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
                         cell.BreakWall(LinkDirection.EastLink, breakerPosition);
                         cellAfterWall.BreakWall(LinkDirection.WestLink, breakerPosition);
@@ -175,7 +176,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
                         cell.BreakWall(LinkDirection.WestLink, breakerPosition);
                         cellAfterWall.BreakWall(LinkDirection.EastLink, breakerPosition); // Potrebbe essere il muro dell'altra cella
@@ -243,7 +244,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open(direction);
                         cell.AddLink(cellAfterDoor, LinkDirection.NorthLink);
@@ -260,7 +261,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open(direction);
                         cell.AddLink(cellAfterDoor, LinkDirection.SouthLink);
@@ -276,7 +277,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open(direction);
                         cell.AddLink(cellAfterDoor, LinkDirection.EastLink);
@@ -292,7 +293,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open(direction);
                         cell.AddLink(cellAfterDoor, LinkDirection.WestLink);
@@ -318,7 +319,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.NorthLink);
@@ -335,7 +336,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.SouthLink);
@@ -351,7 +352,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.EastLink);
@@ -367,7 +368,7 @@ namespace MarkInDeDarkMono.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.WestLink);
@@ -471,7 +472,7 @@ namespace MarkInDeDarkMono.Levels
 
                 foreach (var near in c.Links.Select(a => a.Value))
                 {
-                    if (near != null && !near.IsUnwalkableForEnemies)
+                    if (near != null && !near.IsUnwalkableForEnemies && !near.IsUnwalkable)
                     {
                         if (!visited.Contains(near))
                         {

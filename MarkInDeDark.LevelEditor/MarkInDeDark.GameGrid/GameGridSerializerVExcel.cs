@@ -26,7 +26,7 @@ namespace MarkInDeDark.GameGrid
                 }
                 else if (rigaParts[1] == "MACERIE")
                 {
-                    gameGrid.SetGroundType(j, i, GroundTypes.Macerie);
+                    gameGrid.SetGroundType(j, i, GroundTypes.Terra2);
                 }
                 // Considerando che faccio il Contains, vanno SEMPRE prima i caratteri multipli
                 else if (rigaParts[1].Contains("GT"))

@@ -515,6 +515,9 @@ namespace MarkInDeDarkMono
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
 
+            foreach (var otherObject in _gameGrid.DrawableObjects)
+                otherObject.Draw(spriteBatch);
+
             foreach (var littleLight in _gameGrid.LittleLights)
             {
                 littleLight.Draw(spriteBatch);

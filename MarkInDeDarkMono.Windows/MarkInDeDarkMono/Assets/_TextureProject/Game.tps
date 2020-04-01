@@ -271,6 +271,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Objects/object_passable_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Objects/object_unpassable_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,20,16,40</rect>
+                <key>scale9Paddings</key>
+                <rect>8,20,16,40</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Objects/object_unpassable_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,20,8,40</rect>
+                <key>scale9Paddings</key>
+                <rect>4,20,8,40</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/angle0.png</key>
             <key type="filename">Game/angle1.png</key>
             <key type="filename">Game/angle2.png</key>
@@ -324,7 +363,6 @@
             <key type="filename">Game/goblin_trigger.png</key>
             <key type="filename">Game/key.png</key>
             <key type="filename">Game/light_pixel.png</key>
-            <key type="filename">Game/macerie0.png</key>
             <key type="filename">Game/player_back_iddle_shadow_1.png</key>
             <key type="filename">Game/player_back_iddle_shadow_2.png</key>
             <key type="filename">Game/player_back_iddle_shadow_3.png</key>
