@@ -10,8 +10,11 @@ namespace MarkInDeDark.LevelEditor.Editor
         {
             switch (type)
             {
-                case GroundTypes.Buio:
+                case GroundTypes.NonCella:
                     return new SolidColorBrush(Colors.Black);
+
+                case GroundTypes.Buio:
+                    return new SolidColorBrush(Colors.Gray);
 
                 case GroundTypes.Terra:
                     return new SolidColorBrush(Colors.Brown);

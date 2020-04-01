@@ -32,7 +32,7 @@
             {
                 for (int row = 0; row < Rows; ++row)
                 {
-                    emptyGrid[column, row] = new Cell() { GroundType = GroundTypes.Buio };
+                    emptyGrid[column, row] = new Cell() { GroundType = GroundTypes.NonCella };
                 }
             }
 

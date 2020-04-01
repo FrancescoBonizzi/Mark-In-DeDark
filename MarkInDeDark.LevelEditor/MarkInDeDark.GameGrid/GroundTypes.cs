@@ -2,12 +2,13 @@
 {
     public enum GroundTypes : int
     {
-        Buio = 0,
+        NonCella = 0,
         Terra = 1,
         Macerie = 2,
         TrappolaMorteIstantanea = 3,
         TrappolaTemporizzata = 4,
         TriggerGoblin = 5,
-        Terra2 = 6
+        Terra2 = 6,
+        Buio = 7
     }
 }

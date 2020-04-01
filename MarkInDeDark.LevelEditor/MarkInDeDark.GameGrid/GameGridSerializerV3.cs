@@ -71,7 +71,7 @@ namespace MarkInDeDark.GameGrid
                 {
                     var cell = gameGrid.Grid[j, i];
 
-                    if (cell.GroundType == GroundTypes.Buio)
+                    if (cell.GroundType == GroundTypes.NonCella)
                         continue;
 
                     stringBuilder

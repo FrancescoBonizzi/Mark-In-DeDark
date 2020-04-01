@@ -45,7 +45,7 @@ namespace MarkInDeDark.LevelEditor
             _settingsRepository = new FileSettingsRepository("configuration.txt");
 
             NewGrid();
-            btnBuio.IsChecked = true;
+            btnNonCella.IsChecked = true;
         }
 
         private void NewGrid()

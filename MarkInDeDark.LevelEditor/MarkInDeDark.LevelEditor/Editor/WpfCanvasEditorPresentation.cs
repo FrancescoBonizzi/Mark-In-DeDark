@@ -133,7 +133,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             var canvasCell = _canvasCell[column, row];
 
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
-            if (previousGroundType == GroundTypes.Buio || previousGroundType == GroundTypes.Macerie)
+            if (previousGroundType == GroundTypes.NonCella || previousGroundType == GroundTypes.Macerie)
             {
                 canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
             }

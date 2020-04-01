@@ -22,7 +22,7 @@ namespace MarkInDeDark.GameGrid
                 gameGrid.SetGroundType(j, i, GroundTypes.Terra);
                 if (rigaParts[0] == "NULL")
                 {
-                    gameGrid.SetGroundType(j, i, GroundTypes.Buio);
+                    gameGrid.SetGroundType(j, i, GroundTypes.NonCella);
                 }
                 else if (rigaParts[1] == "MACERIE")
                 {
