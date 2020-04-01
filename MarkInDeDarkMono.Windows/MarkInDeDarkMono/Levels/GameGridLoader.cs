@@ -34,24 +34,31 @@ namespace MarkInDeDarkMono.Levels
 
                     switch (levelEditorCell.GroundType)
                     {
-                        case GroundTypes.Buio:
+                        case GroundTypes.NonCella:
                             grid.SetNullCell(i, j);
                             gameCell.NoDecals = true;
                             continue;
 
+                        case GroundTypes.Buio:
+                            gameCell.Sprite = level.DarkSprite;
+                            gameCell.IsUnwalkable = true;
+                            gameCell.NoDecals = true;
+                            break;
+
                         case GroundTypes.Macerie:
+                            gameCell.Sprite = level.MacerieCellSprite;
                             gameCell.IsUnwalkable = true;
                             gameCell.NoDecals = true;
                             break;
 
                         case GroundTypes.Terra:
-                            gameCell.GroundSprite = level.GroundSpriteType1;
+                            gameCell.Sprite = level.GroundSpriteType1;
                             break;
 
                         case GroundTypes.Terra2:
                             if (level.GroundSpriteType2 != null)
-                                gameCell.GroundSprite = level.GroundSpriteType2;
-                            else gameCell.GroundSprite = level.GroundSpriteType1;
+                                gameCell.Sprite = level.GroundSpriteType2;
+                            else gameCell.Sprite = level.GroundSpriteType1;
                             break;
 
                         case GroundTypes.TrappolaMorteIstantanea:

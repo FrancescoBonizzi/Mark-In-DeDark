@@ -17,8 +17,7 @@ namespace MarkInDeDarkMono.Levels
 {
     public class GameCell
     {
-        public Sprite GroundSprite { get; set; }
-        private readonly Sprite _maceriaSprite;
+        public Sprite Sprite { get; set; }
         private readonly Sprite _wallSprite;
         private readonly Sprite _destroyableWallSprite;
         private readonly Sprite _angleSprite;
@@ -30,7 +29,6 @@ namespace MarkInDeDarkMono.Levels
         private readonly int _height;
 
         private readonly float _wallHeightOver2;
-        private readonly float _doorHeightOver2;
         private readonly float _widthCellDoorDifferenceOver2;
 
         private readonly float _angleWidthOver2;
@@ -62,7 +60,6 @@ namespace MarkInDeDarkMono.Levels
             Sprite destroyableWall,
             Sprite angle,
             Sprite dirty,
-            Sprite maceria,
             Sprite door,
             double dirtyProbability,
             SoundManager soundManager)
@@ -70,11 +67,10 @@ namespace MarkInDeDarkMono.Levels
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
             DontDraw = false;
 
-            GroundSprite = cell;
+            Sprite = cell;
             _wallSprite = wall;
             _angleSprite = angle;
             _dirtySprite = dirty;
-            _maceriaSprite = maceria;
             _destroyableWallSprite = destroyableWall;
             _doorSprite = door;
 
@@ -86,7 +82,6 @@ namespace MarkInDeDarkMono.Levels
 
             // Considerando che la texture del muro parte orizzontale
             _wallHeightOver2 = _wallSprite.Height / 2f;
-            _doorHeightOver2 = _doorSprite.Height / 2f;
             _widthCellDoorDifferenceOver2 = (_width - _doorSprite.Width) / 2f;
 
             _angleWidthOver2 = _angleSprite.Width / 2f;
@@ -303,41 +298,41 @@ namespace MarkInDeDarkMono.Levels
             if (NoDecals)
                 return;
 
-            var decalPosition = _cellDrawingInfos.Center(GroundSprite.Width, GroundSprite.Height);
+            var decalPosition = _cellDrawingInfos.Center(Sprite.Width, Sprite.Height);
             var randomDeltaFromPosition = Numbers.RandomBetween(2f, 3f);
 
             switch (cellRelativePosition)
             {
                 case CellRelativePosition.Up:
-                    decalPosition += new Vector2(0, (float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(0, (float)Sprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.Down:
-                    decalPosition += new Vector2(0, -(float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(0, -(float)Sprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.Left:
-                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, 0);
+                    decalPosition += new Vector2((float)Sprite.Width / randomDeltaFromPosition, 0);
                     break;
 
                 case CellRelativePosition.Right:
-                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, 0);
+                    decalPosition += new Vector2(-(float)Sprite.Width / randomDeltaFromPosition, 0);
                     break;
 
                 case CellRelativePosition.UpLeft:
-                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, (float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2((float)Sprite.Width / randomDeltaFromPosition, (float)Sprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.UpRight:
-                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, (float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(-(float)Sprite.Width / randomDeltaFromPosition, (float)Sprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.DownLeft:
-                    decalPosition += new Vector2((float)GroundSprite.Width / randomDeltaFromPosition, -(float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2((float)Sprite.Width / randomDeltaFromPosition, -(float)Sprite.Height / randomDeltaFromPosition);
                     break;
 
                 case CellRelativePosition.DownRight:
-                    decalPosition += new Vector2(-(float)GroundSprite.Width / randomDeltaFromPosition, -(float)GroundSprite.Height / randomDeltaFromPosition);
+                    decalPosition += new Vector2(-(float)Sprite.Width / randomDeltaFromPosition, -(float)Sprite.Height / randomDeltaFromPosition);
                     break;
             }
 
@@ -436,16 +431,7 @@ namespace MarkInDeDarkMono.Levels
         }
 
         public void DrawCell(SpriteBatch _spritebatch)
-        {
-            if (!IsUnwalkable)
-            {
-                _spritebatch.Draw(GroundSprite, _cellDrawingInfos);
-            }
-            else
-            {
-                _spritebatch.Draw(_maceriaSprite, _cellDrawingInfos);
-            }
-        }
+            => _spritebatch.Draw(Sprite, _cellDrawingInfos);
 
         public void DrawDirtys(SpriteBatch spriteBatch)
         {

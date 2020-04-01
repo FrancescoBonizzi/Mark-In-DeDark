@@ -247,6 +247,7 @@
             <key type="filename">Game/cell5.png</key>
             <key type="filename">Game/cell6.png</key>
             <key type="filename">Game/cell7.png</key>
+            <key type="filename">Game/celldark.png</key>
             <key type="filename">Game/goblin_front_dying_3.png</key>
             <key type="filename">Game/goblin_trigger.png</key>
             <key type="filename">Game/key.png</key>

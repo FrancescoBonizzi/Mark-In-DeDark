@@ -90,7 +90,7 @@
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="0"
-                        ToolTip="Una non cella. Non verrà disegnato nulla all'interno. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
+                        ToolTip="Una non cella. Non verrà disegnato nulla all'interno.">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle
                                 Width="10"

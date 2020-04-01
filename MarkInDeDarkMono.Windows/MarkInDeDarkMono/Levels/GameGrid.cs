@@ -75,7 +75,6 @@ namespace MarkInDeDarkMono.Levels
                         levelToLoad.DestroyableWallSprite,
                         levelToLoad.AngleSprite,
                         levelToLoad.DirtySprite,
-                        levelToLoad.MacerieCellSprite,
                         levelToLoad.DoorSprite,
                         levelToLoad.DirtyProbability,
                         soundManager);
