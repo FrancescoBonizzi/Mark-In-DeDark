@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDark.GameGrid;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Maths;
@@ -49,6 +50,8 @@ namespace MarkInDeDarkMono.Levels
         public bool IsUnwalkableForEnemies { get; set; }
         public bool DontDraw { get; set; }
         public bool NoDecals { get; set; }
+
+        public GroundTypes GroundType { get; set; }
 
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
 

@@ -231,6 +231,7 @@ namespace MarkInDeDarkMono.Levels
                         }
                     }
 
+                    gameCell.GroundType = levelEditorCell.GroundType;
                     gameCell.IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
                     gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente || levelEditorCell.Top == WallTypes.Porta;
                     gameCell.IsNorthDoor = levelEditorCell.Top == WallTypes.Porta;
@@ -418,6 +419,8 @@ namespace MarkInDeDarkMono.Levels
 
         private static void GenerateAngles(GameGrid grid)
         {
+            // TODO è tutto da rifare, bisogna farlo in base ai muri, non alle celle non passabili
+
             for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
             {
                 for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
