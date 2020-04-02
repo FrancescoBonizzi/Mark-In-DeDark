@@ -51,6 +51,7 @@ namespace MarkInDeDarkMono.Characters
                   assetsLoader)
         {
             _candlesManager = candlesManager;
+            _canGoOverWalls = true;
         }
 
         public override void Die()

@@ -81,7 +81,9 @@ namespace MarkInDeDarkMono.Levels
                         levelToLoad.DirtySprite,
                         levelToLoad.DoorSprite,
                         levelToLoad.DirtyProbability,
-                        soundManager);
+                        soundManager,
+                        i, j,
+                        this);
 
                     nextCellPosition.Y += CellHeight;
                 }
@@ -521,13 +523,10 @@ namespace MarkInDeDarkMono.Levels
                     break;
 
                 // Non considero i muri, quindi prendo direttamente le celle per index
-                var thisCellIndex = GetCellIndexByPixel(c.CenterPosition);
-                int i = (int)thisCellIndex.X;
-                int j = (int)thisCellIndex.Y;
-                var northCell = GetCellByIndex(i, j - 1);
-                var southCell = GetCellByIndex(i, j + 1);
-                var eastCell = GetCellByIndex(i + 1, j);
-                var westCell = GetCellByIndex(i - 1, j);
+                var northCell = c.NorthCellWithoutLinks;
+                var southCell = c.SouthCellWithoutLinks;
+                var eastCell = c.EastCellWithoutLinks;
+                var westCell = c.WestCellWithoutLinks;
 
                 var nearCells = new List<GameCell>();
                 if (northCell != null)
@@ -597,12 +596,39 @@ namespace MarkInDeDarkMono.Levels
             return directions;
         }
 
+        private IEnumerable<CharacterActions> PathToDirectionsWithoutWalls(List<GameCell> Path)
+        {
+            var directions = new List<CharacterActions>();
+
+            for (int i = 0; i < Path.Count - 1; ++i)
+            {
+                if (Path[i].NorthCellWithoutLinks == Path[i + 1])
+                {
+                    directions.Add(CharacterActions.Up);
+                }
+                else if (Path[i].EastCellWithoutLinks == Path[i + 1])
+                {
+                    directions.Add(CharacterActions.Right);
+                }
+                else if (Path[i].SouthCellWithoutLinks == Path[i + 1])
+                {
+                    directions.Add(CharacterActions.Down);
+                }
+                else if (Path[i].WestCellWithoutLinks == Path[i + 1])
+                {
+                    directions.Add(CharacterActions.Left);
+                }
+            }
+
+            return directions;
+        }
+
         public IEnumerable<CharacterActions> FindActionsToPathWithoutConsideringWalls(Vector2 A, Vector2 B)
         {
             var startingCell = GetCellAtPixel((int)A.X, (int)A.Y);
             var destinationCell = GetCellAtPixel((int)B.X, (int)B.Y);
             
-            return PathToDirections(FindPathWithoutConsideringWalls(
+            return PathToDirectionsWithoutWalls(FindPathWithoutConsideringWalls(
                 startingCell,
                 destinationCell));
         }

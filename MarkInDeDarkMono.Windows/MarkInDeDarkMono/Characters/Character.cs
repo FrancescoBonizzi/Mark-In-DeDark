@@ -61,6 +61,8 @@ namespace MarkInDeDarkMono.Characters
 
         public CharacterState CurrentCharacterState { get; protected set; }
 
+        protected bool _canGoOverWalls = false;
+
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
         private readonly Light _lightMap;
@@ -327,13 +329,18 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellUp(GameCell currentCell)
         {
-            if (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable)
+            if (_canGoOverWalls || (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable))
             {
+                GameCell nextCell;
+                if (_canGoOverWalls)
+                    nextCell = currentCell.NorthCellWithoutLinks;
+                else nextCell = currentCell.NorthCell;
+
                 CurrentCharacterState = CharacterState.GoingUp;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
                 _startingLocation = _mainFigureDrawingInfos.Position;
                 _mainFigureDrawingInfos.IsFlipped = false;
-                _nextLocation = currentCell.NorthCell.CenterPosition;
+                _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationUp;
@@ -344,13 +351,18 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellDown(GameCell currentCell)
         {
-            if (currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable)
+            if (_canGoOverWalls || (currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable))
             {
+                GameCell nextCell;
+                if (_canGoOverWalls)
+                    nextCell = currentCell.SouthCellWithoutLinks;
+                else nextCell = currentCell.SouthCell;
+
                 CurrentCharacterState = CharacterState.GoingDown;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
                 _startingLocation = _mainFigureDrawingInfos.Position;
                 _mainFigureDrawingInfos.IsFlipped = false;
-                _nextLocation = currentCell.SouthCell.CenterPosition;
+                _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationDown;
@@ -361,13 +373,18 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellRight(GameCell currentCell)
         {
-            if (currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable)
+            if (_canGoOverWalls || (currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable))
             {
+                GameCell nextCell;
+                if (_canGoOverWalls)
+                    nextCell = currentCell.EastCellWithoutLinks;
+                else nextCell = currentCell.EastCell;
+
                 CurrentCharacterState = CharacterState.GoingRight;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
                 _mainFigureDrawingInfos.IsFlipped = false;
                 _startingLocation = _mainFigureDrawingInfos.Position;
-                _nextLocation = currentCell.EastCell.CenterPosition;
+                _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationRight;
@@ -378,13 +395,18 @@ namespace MarkInDeDarkMono.Characters
 
         private void GoNextCellLeft(GameCell currentCell)
         {
-            if (currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable)
+            if (_canGoOverWalls || (currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable))
             {
+                GameCell nextCell;
+                if (_canGoOverWalls)
+                    nextCell = currentCell.WestCellWithoutLinks;
+                else nextCell = currentCell.WestCell;
+
                 CurrentCharacterState = CharacterState.GoingLeft;
                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
                 _mainFigureDrawingInfos.IsFlipped = true;
                 _startingLocation = _mainFigureDrawingInfos.Position;
-                _nextLocation = currentCell.WestCell.CenterPosition;
+                _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationLeft;

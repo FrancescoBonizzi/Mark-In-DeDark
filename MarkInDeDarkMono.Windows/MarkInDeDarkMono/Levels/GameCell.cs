@@ -50,11 +50,14 @@ namespace MarkInDeDarkMono.Levels
         public bool IsUnwalkableForEnemies { get; set; }
         public bool IsUnwalkable { get; set; }
         public bool DontDraw { get; set; }
+        public int IIndex { get; }
+        public int JIndex { get; }
         public bool NoDecals { get; set; }
 
         public GroundTypes GroundType { get; set; }
 
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
+        private readonly GameGrid _gameGrid;
 
         public GameCell(
             Vector2 position,
@@ -66,10 +69,16 @@ namespace MarkInDeDarkMono.Levels
             Sprite dirty,
             Sprite door,
             double dirtyProbability,
-            SoundManager soundManager)
+            SoundManager soundManager,
+            int iIndex,
+            int jIndex,
+            GameGrid gameGrid)
         {
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
             DontDraw = false;
+
+            IIndex = iIndex;
+            JIndex = jIndex;
 
             Sprite = cell;
             _wallSprite = wall;
@@ -112,6 +121,8 @@ namespace MarkInDeDarkMono.Levels
             AnglesDrawingInfos = new List<DrawingInfos>();
             _dirtysDrawingInfos = new List<DrawingInfos>();
 
+            _gameGrid = gameGrid;
+
             for (int i = 0; i < 2; ++i)
             {
                 if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
@@ -153,6 +164,18 @@ namespace MarkInDeDarkMono.Levels
 
         public GameCell WestCell
             => !Links.ContainsKey(LinkDirection.WestLink) ? null : Links[LinkDirection.WestLink];
+
+        public GameCell NorthCellWithoutLinks
+            => _gameGrid.GetCellByIndex(IIndex, JIndex - 1);
+
+        public GameCell SouthCellWithoutLinks
+            => _gameGrid.GetCellByIndex(IIndex, JIndex + 1);
+
+        public GameCell EastCellWithoutLinks
+            => _gameGrid.GetCellByIndex(IIndex + 1, JIndex);
+
+        public GameCell WestCellWithoutLinks
+            => _gameGrid.GetCellByIndex(IIndex - 1, JIndex);
 
         public Vector2 TopLeftPosition
             => _cellDrawingInfos.Position;
