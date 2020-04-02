@@ -67,6 +67,10 @@ namespace MarkInDeDarkMono.Common
         public bool IsFullScreen { get; set; }
         public float BreakableTrapBreakingTimeSeconds { get; set; }
 
+        public Color LittleLightColorRGB1 { get; set; }
+        public Color LittleLightColorRGB2 { get; set; }
+        public float LittleLightLightSize { get; set; }
+
         public Color NotEnoughCandlesStringColorRGB { get; set; }
         public Color KeyFoundStringColorRGB { get; set; }
         public Color CandlePackFoundStringColorRGB { get; set; }
@@ -148,6 +152,10 @@ namespace MarkInDeDarkMono.Common
             CandleTimeToLiveWhenAttackedSeconds = LoadFloat(gameConfigDictionary[nameof(CandleTimeToLiveWhenAttackedSeconds)]);
             IsFullScreen = LoadBoolean(gameConfigDictionary[nameof(IsFullScreen)]);
             BreakableTrapBreakingTimeSeconds = LoadFloat(gameConfigDictionary[nameof(BreakableTrapBreakingTimeSeconds)]);
+
+            LittleLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(LittleLightColorRGB1)]);
+            LittleLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(LittleLightColorRGB2)]);
+            LittleLightLightSize = LoadFloat(gameConfigDictionary[nameof(LittleLightLightSize)]);
 
             NotEnoughCandlesStringColorRGB = LoadColor(gameConfigDictionary[nameof(NotEnoughCandlesStringColorRGB)]);
             KeyFoundStringColorRGB = LoadColor(gameConfigDictionary[nameof(KeyFoundStringColorRGB)]);

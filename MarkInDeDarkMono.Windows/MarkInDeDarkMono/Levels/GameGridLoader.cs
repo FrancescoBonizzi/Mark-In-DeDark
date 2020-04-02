@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.GameGrid;
 using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,7 +16,8 @@ namespace MarkInDeDarkMono.Levels
             SoundManager soundManager,
             GameGridBundle levelEditorGrid,
             GameGrid grid,
-            Level level)
+            Level level,
+            GameConfig gameConfig)
         {
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -34,24 +36,25 @@ namespace MarkInDeDarkMono.Levels
 
                     switch (levelEditorCell.GroundType)
                     {
-                        case GroundTypes.Buio:
+                        case GroundTypes.NonCella:
                             grid.SetNullCell(i, j);
                             gameCell.NoDecals = true;
                             continue;
 
-                        case GroundTypes.Macerie:
-                            gameCell.IsUnwalkable = true;
+                        case GroundTypes.Buio:
+                            gameCell.Sprite = level.DarkSprite;
+                            gameCell.IsNonLinked = true;
                             gameCell.NoDecals = true;
                             break;
 
                         case GroundTypes.Terra:
-                            gameCell.GroundSprite = level.GroundSpriteType1;
+                            gameCell.Sprite = level.GroundSpriteType1;
                             break;
 
                         case GroundTypes.Terra2:
                             if (level.GroundSpriteType2 != null)
-                                gameCell.GroundSprite = level.GroundSpriteType2;
-                            else gameCell.GroundSprite = level.GroundSpriteType1;
+                                gameCell.Sprite = level.GroundSpriteType2;
+                            else gameCell.Sprite = level.GroundSpriteType1;
                             break;
 
                         case GroundTypes.TrappolaMorteIstantanea:
@@ -86,6 +89,22 @@ namespace MarkInDeDarkMono.Levels
                             case ObjectTypes.Candele:
                                 var numberOfCandles = Convert.ToInt32(levelEditorCell.ObjectTypeAdditionalData);
                                 grid.CandlePacks.Add(new CandlePack(numberOfCandles, assetsLoader, grid.GetPixelBy_ij(i, j), soundManager));
+                                break;
+
+                            case ObjectTypes.Lucina:
+                                grid.LittleLights.Add(new LittleLight(assetsLoader, gameConfig, grid.GetPixelBy_ij(i, j)));
+                                break;
+
+                            case ObjectTypes.OggettoNonPassabile1:
+                                grid.DrawableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_1"], gameCell));
+                                break;
+
+                            case ObjectTypes.OggettoNonPassabile2:
+                                grid.DrawableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_2"], gameCell));
+                                break;
+
+                            case ObjectTypes.OggettoPassabile1:
+                                grid.DrawableObjects.Add(new PassableObject(assetsLoader.Sprites["Objects/object_passable_1"], gameCell));
                                 break;
 
                             case ObjectTypes.Zombie:
@@ -218,6 +237,7 @@ namespace MarkInDeDarkMono.Levels
                         }
                     }
 
+                    gameCell.GroundType = levelEditorCell.GroundType;
                     gameCell.IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
                     gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente || levelEditorCell.Top == WallTypes.Porta;
                     gameCell.IsNorthDoor = levelEditorCell.Top == WallTypes.Porta;
@@ -302,7 +322,7 @@ namespace MarkInDeDarkMono.Levels
                 {
                     var cell = grid.GetCellByIndex(i, j);
 
-                    if (cell == null || cell.IsUnwalkable)
+                    if (cell == null || cell.IsNonLinked)
                         continue;
 
                     // Non può andare out of range l'indice perchè se è passable l'altra è nella griglia
@@ -310,7 +330,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var northCell = grid.GetCellByIndex(i, j - 1);
-                        if (northCell.IsUnwalkable || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
+                        if (northCell.IsNonLinked || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.NorthLink);
                             cell.IsNorthPassable = false;
@@ -334,7 +354,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var eastCell = grid.GetCellByIndex(i + 1, j);
-                        if (eastCell.IsUnwalkable || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
+                        if (eastCell.IsNonLinked || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.EastLink);
                             cell.IsEastPassable = false;
@@ -357,7 +377,7 @@ namespace MarkInDeDarkMono.Levels
                     if (cell.IsSouthPassable)
                     {
                         var southCell = grid.GetCellByIndex(i, j + 1);
-                        if (southCell.IsUnwalkable || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
+                        if (southCell.IsNonLinked || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.SouthLink);
                             cell.IsSouthPassable = false;
@@ -380,7 +400,7 @@ namespace MarkInDeDarkMono.Levels
                     if (cell.IsWestPassable)
                     {
                         var westCell = grid.GetCellByIndex(i - 1, j);
-                        if (westCell.IsUnwalkable || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
+                        if (westCell.IsNonLinked || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.WestLink);
                             cell.IsWestPassable = false;
@@ -405,13 +425,15 @@ namespace MarkInDeDarkMono.Levels
 
         private static void GenerateAngles(GameGrid grid)
         {
+            // TODO è tutto da rifare, bisogna farlo in base ai muri, non alle celle non passabili
+
             for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
             {
                 for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
                 {
                     var cell = grid.GetCellByIndex(i, j);
 
-                    if (cell == null || cell.IsUnwalkable)
+                    if (cell == null || cell.IsNonLinked)
                         continue;
 
                     cell.SetSimpleAngles();
@@ -423,7 +445,7 @@ namespace MarkInDeDarkMono.Levels
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
                                 if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
                                     cell.AddNEAngle();
-               
+
                     if (!cell.IsWestPassable)
                         if (cell.Links[LinkDirection.NorthLink] != null)
                             if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)

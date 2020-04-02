@@ -13,6 +13,11 @@
         Taurus = 8,
         Werewolf = 9,
         Ghost = 10,
-        Bubu = 11
+        Bubu = 11,
+        Lucina = 12,
+
+        OggettoNonPassabile1 = 13,
+        OggettoNonPassabile2 = 14,
+        OggettoPassabile1 = 15,
     }
 }

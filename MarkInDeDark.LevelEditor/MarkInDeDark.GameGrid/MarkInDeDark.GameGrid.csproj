@@ -45,6 +45,7 @@
     <Compile Include="Exceptions\InvalidFileException.cs" />
     <Compile Include="GameGridBundle.cs" />
     <Compile Include="GameGridSerializerManager.cs" />
+    <Compile Include="GameGridSerializerV4.cs" />
     <Compile Include="GameGridSerializerV3.cs" />
     <Compile Include="GameGridSerializerV2.cs" />
     <Compile Include="GameGridSerializerVExcel.cs" />

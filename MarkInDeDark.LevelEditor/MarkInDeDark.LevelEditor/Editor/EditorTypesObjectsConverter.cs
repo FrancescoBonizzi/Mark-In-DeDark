@@ -21,6 +21,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                     imagePath = "Assets/icons/key.png";
                     break;
 
+                case ObjectTypes.Lucina:
+                    imagePath = "Assets/icons/lightobject_1.png";
+                    break;
+
                 case ObjectTypes.Uscita:
                     imagePath = "Assets/icons/win_closed.png";
                     break;
@@ -51,6 +55,18 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case ObjectTypes.Taurus:
                     imagePath = "Assets/icons/taurus_front_iddle.png";
+                    break;
+
+                case ObjectTypes.OggettoNonPassabile1:
+                    imagePath = "Assets/icons/object_unpassable_1.png";
+                    break;
+
+                case ObjectTypes.OggettoNonPassabile2:
+                    imagePath = "Assets/icons/object_unpassable_2.png";
+                    break;
+
+                case ObjectTypes.OggettoPassabile1:
+                    imagePath = "Assets/icons/object_passable_1.png";
                     break;
             }
 

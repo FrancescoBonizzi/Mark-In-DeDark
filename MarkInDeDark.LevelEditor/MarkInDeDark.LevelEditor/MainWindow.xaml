@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Mark in DeDark - Level editor"
-    Width="1100"
+    Width="1920"
     Closing="Window_Closing"
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="CanResize"
@@ -65,7 +65,7 @@
                 <StackPanel Margin="0,5" Orientation="Horizontal">
 
                     <TextBlock
-                        Width="60"
+                        Width="100"
                         Margin="4,0"
                         VerticalAlignment="Center"
                         Text="Terreno: " />
@@ -90,7 +90,7 @@
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="0"
-                        ToolTip="Una non cella. Non verrà disegnato nulla all'interno. Cliccando di destro col mouse nella griglia si ottiene lo stesso effetto">
+                        ToolTip="Una non cella. Non verrà disegnato nulla all'interno.">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle
                                 Width="10"
@@ -168,25 +168,6 @@
                         Cursor="Hand"
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
-                        Tag="2"
-                        ToolTip="Disegna una cella sui il personaggio non può camminare">
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle
-                                Width="10"
-                                Height="10"
-                                Fill="White" />
-                            <TextBlock Padding="2,2" Text="Maceria" />
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton
-                        Width="100"
-                        Margin="10,0"
-                        Padding="5,2"
-                        Click="BtnGroundType_Click"
-                        Cursor="Hand"
-                        GroupName="PulsantiEditor"
-                        Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="3"
                         ToolTip="Imposta una trappola a morte istantanea">
                         <StackPanel Orientation="Horizontal">
@@ -241,7 +222,7 @@
                 <StackPanel Margin="0,5" Orientation="Horizontal">
 
                     <TextBlock
-                        Width="60"
+                        Width="100"
                         Margin="4,0"
                         VerticalAlignment="Center"
                         Text="Muri: " />
@@ -338,7 +319,7 @@
                 <StackPanel Margin="0,5" Orientation="Horizontal">
 
                     <TextBlock
-                        Width="60"
+                        Width="100"
                         Margin="4,0"
                         VerticalAlignment="Center"
                         Text="Oggetti: " />
@@ -451,12 +432,92 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="12"
+                        ToolTip="Imposta una luce ambientale">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/lightobject_1.png" />
+                            <TextBlock Padding="2,2" Text="Lucina" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_1"
+                        Width="25"
+                        Height="25"
+                        Margin="10,0,0,0"
+                        Background="LightCoral"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="13"
+                        ToolTip="Imposta la posizione di una colonna squadrata non valicabile">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/object_unpassable_1.png" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnObjectType_2"
+                        Width="25"
+                        Height="25"
+                        Margin="10,0,0,0"
+                        Background="LightCoral"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="14"
+                        ToolTip="Imposta la posizione di una colonna tonda non valicabile">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/object_unpassable_2.png" />
+                        </StackPanel>
+                    </RadioButton>
+
+
+                    <RadioButton
+                        x:Name="BtnObjectType_3"
+                        Width="25"
+                        Height="25"
+                        Margin="10,0,0,0"
+                        Background="LightGreen"
+                        Click="BtnObjectType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="15"
+                        ToolTip="Imposta la posizione di un vaso valicabile">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Source="Assets/icons/object_passable_1.png" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
 
                     <TextBlock
-                        Width="60"
+                        Width="100"
                         Margin="4,0"
                         VerticalAlignment="Center"
                         Text="Nemici: " />
@@ -600,7 +661,7 @@
                     <StackPanel Margin="0,5" Orientation="Horizontal">
 
                         <TextBlock
-                            Width="60"
+                            Width="100"
                             Margin="4,0"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"

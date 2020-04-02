@@ -27,7 +27,6 @@ namespace Mark.Engine
 
         private TimeSpan _timeToLive;
 
-
         public Light LightMap { get; }
         public bool IsDying { get; private set; }
         public bool AreSomeMonsterIsFollowingMe { get; set; }

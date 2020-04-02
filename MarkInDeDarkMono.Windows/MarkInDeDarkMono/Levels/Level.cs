@@ -16,7 +16,7 @@ namespace MarkInDeDarkMono.Levels
 
         public Sprite GroundSpriteType1 { get; private set; }
         public Sprite GroundSpriteType2 { get; private set; }
-        public Sprite MacerieCellSprite { get; private set; }
+        public Sprite DarkSprite { get; private set; }
         public Sprite DirtySprite { get; private set; }
         public Sprite WallSprite { get; private set; }
         public Sprite DestroyableWallSprite { get; private set; }
@@ -42,6 +42,7 @@ namespace MarkInDeDarkMono.Levels
             var serializer = new GameGridDeserializerManager(levelContentRaw);
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
+            DarkSprite = assetsLoader.Sprites["celldark"];
             GroundSpriteType1 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
 
             if (assetsLoader.Sprites.ContainsKey($"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"))
@@ -51,7 +52,6 @@ namespace MarkInDeDarkMono.Levels
             WallSprite = assetsLoader.Sprites[$"wall{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
             DestroyableWallSprite = assetsLoader.Sprites[$"wall_breakable"];
             AngleSprite = assetsLoader.Sprites[$"angle{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
-            MacerieCellSprite = assetsLoader.Sprites["macerie0"];
             DoorSprite = assetsLoader.Sprites["door"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 

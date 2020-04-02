@@ -116,7 +116,7 @@ namespace MarkInDeDarkMono
             _currentLevel = selectedLevel;
 
             _camera = new Camera2D(_matrixScaleProvider);
-            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager);
+            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager);
 
@@ -318,6 +318,11 @@ namespace MarkInDeDarkMono
                         }
                     }
 
+                    foreach(var littleLight in _gameGrid.LittleLights)
+                    {
+                        littleLight.Update(elapsed);
+                    }
+
                     for (int c = _candlePacks.Count - 1; c >= 0; --c)
                     {
                         var candlePack = _candlePacks[c];
@@ -437,7 +442,12 @@ namespace MarkInDeDarkMono
             }
 
             _exit.LightMap.Draw(spriteBatch);
+            foreach (var littleLight in _gameGrid.LittleLights)
+            {
+                littleLight.LightMap.Draw(spriteBatch);
+            }
             _candlesManager.DrawLightmap(spriteBatch);
+
 
             spriteBatch.End();
 
@@ -504,6 +514,14 @@ namespace MarkInDeDarkMono
             _key.Draw(spriteBatch);
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
+
+            foreach (var otherObject in _gameGrid.DrawableObjects)
+                otherObject.Draw(spriteBatch);
+
+            foreach (var littleLight in _gameGrid.LittleLights)
+            {
+                littleLight.Draw(spriteBatch);
+            }
 
             _candlesManager.DrawSmoke(spriteBatch);
 

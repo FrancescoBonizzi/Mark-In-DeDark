@@ -41,7 +41,7 @@ namespace MarkInDeDarkMono.Particles
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
 
-            _originalMinScale = scale - 0.2f;
+            _originalMinScale = MathHelper.Clamp(scale - 0.2f, 0.1f, 1f);
             _originalMaxScale = scale;
             _originalScalingSpeed = 2.5f;
             _scalingObject = new ScalingObject(_originalMinScale, _originalMaxScale, _originalScalingSpeed);

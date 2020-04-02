@@ -42,6 +42,9 @@ TaurusChargeColorRGB:0-0-255
 CandleColorRGB1:255-195-163
 CandleColorRGB2:255-247-207
 CandleLightSize:0.5
+LittleLightColorRGB1:148-251-255
+LittleLightColorRGB2:201-253-255
+LittleLightLightSize:0.7
 ExitLightSize:1.0
 CameraOffsetFromPlayer:720-576
 DoMonstersAttackTheSameCandle:1

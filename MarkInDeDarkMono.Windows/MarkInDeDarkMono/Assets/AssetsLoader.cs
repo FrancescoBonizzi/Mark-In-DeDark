@@ -224,6 +224,15 @@ namespace MarkInDeDarkMono.Assets
             for (int i = 1; i <= 9; ++i)
                 candleAnimation.Add(Sprites[$"candle_{i}"]);
             _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
+
+            var littleLightAnimation = new List<Sprite>();
+            for (int i = 1; i <= 60; ++i)
+            {
+                if (Sprites.ContainsKey($"LightObject/lightobject_{i}"))
+                    littleLightAnimation.Add(Sprites[$"LightObject/lightobject_{i}"]);
+                else break;
+            }
+            _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
         }
 
         private void LoadOtherResources()
