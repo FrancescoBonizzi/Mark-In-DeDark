@@ -498,6 +498,75 @@ namespace MarkInDeDarkMono.Levels
             return path;
         }
 
+        private List<GameCell> FindPathWithoutConsideringWalls(GameCell A, GameCell B)
+        {
+            var parent = new Dictionary<GameCell, GameCell>();
+
+            Queue<GameCell> queue = new Queue<GameCell>();
+            List<GameCell> visited = new List<GameCell>();
+
+            queue.Enqueue(A);
+            parent.Add(A, null);
+
+            while (queue.Count != 0)
+            {
+                GameCell c = queue.Dequeue();
+
+                visited.Add(c);
+
+                if (c == B)
+                    break;
+
+                // Non considero i muri, quindi prendo direttamente le celle per index
+                var thisCellIndex = GetCellIndexByPixel(c.CenterPosition);
+                int i = (int)thisCellIndex.X;
+                int j = (int)thisCellIndex.Y;
+                var northCell = GetCellByIndex(i, j - 1);
+                var southCell = GetCellByIndex(i, j + 1);
+                var eastCell = GetCellByIndex(i + 1, j);
+                var westCell = GetCellByIndex(i - 1, j);
+
+                var nearCells = new List<GameCell>();
+                if (northCell != null)
+                    nearCells.Add(northCell);
+                if (southCell != null)
+                    nearCells.Add(southCell);
+                if (eastCell != null)
+                    nearCells.Add(eastCell);
+                if (westCell != null)
+                    nearCells.Add(westCell);
+
+                foreach (var near in nearCells)
+                {
+                    if (near != null)
+                    {
+                        if (!visited.Contains(near))
+                        {
+                            parent.Add(near, c);
+                            visited.Add(near);
+                            queue.Enqueue(near);
+                        }
+                    }
+                }
+            }
+
+            var path = new List<GameCell>();
+
+            if (parent.ContainsKey(B))
+            {
+                GameCell backTrack = B;
+                do
+                {
+                    path.Add(backTrack);
+                    backTrack = parent[backTrack];
+                }
+                while (backTrack != null);
+                path.Reverse();
+            }
+
+            return path;
+        }
+
         private IEnumerable<CharacterActions> PathToDirections(List<GameCell> Path)
         {
             var directions = new List<CharacterActions>();
@@ -523,6 +592,16 @@ namespace MarkInDeDarkMono.Levels
             }
 
             return directions;
+        }
+
+        public IEnumerable<CharacterActions> FindActionsToPathWithoutConsideringWalls(Vector2 A, Vector2 B)
+        {
+            var startingCell = GetCellAtPixel((int)A.X, (int)A.Y);
+            var destinationCell = GetCellAtPixel((int)B.X, (int)B.Y);
+            
+            return PathToDirections(FindPathWithoutConsideringWalls(
+                startingCell,
+                destinationCell));
         }
 
         public IEnumerable<CharacterActions> FindActionsToPath(Vector2 A, Vector2 B)

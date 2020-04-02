@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarkInDeDarkMono.Characters
 {
@@ -47,7 +45,7 @@ namespace MarkInDeDarkMono.Characters
                       attackSoundIndex: soundManager.RegisterGhostAttackSound(),
                       screamSoundIndex: soundManager.RegisterGhostScreamSound(),
                       nCellsFindingRange: null,
-                      startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, false)),
+                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager)),
                   soundManager,
                   player,
                   assetsLoader)
