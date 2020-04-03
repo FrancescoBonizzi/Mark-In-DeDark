@@ -14,6 +14,6 @@
         public WallTypes Bottom { get; set; }
         public WallTypes Left { get; set; }
 
-        public int CellTextureVersion { get; set; }
+        public string Text { get; set; }
     }
 }

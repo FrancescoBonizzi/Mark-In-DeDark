@@ -1,4 +1,5 @@
 ﻿using MarkInDeDark.GameGrid;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,7 +13,7 @@ namespace MarkInDeDark.LevelEditor.Editor
         private readonly MainWindow _window;
 
         private readonly int _cellSize;
-        private Border[,] _canvasCell;
+        private Border[,] _canvasCells;
         private (int Column, int Row)? _lastHoveredCell;
 
         public WpfCanvasEditorPresentation(
@@ -42,7 +43,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvas.Children.Clear();
             _canvas.Width = _gameGrid.Columns * _cellSize;
             _canvas.Height = _gameGrid.Rows * _cellSize;
-            _canvasCell = new Border[_gameGrid.Columns, _gameGrid.Rows];
+            _canvasCells = new Border[_gameGrid.Columns, _gameGrid.Rows];
 
             for (int column = 0; column < _gameGrid.Columns; ++column)
             {
@@ -50,11 +51,14 @@ namespace MarkInDeDark.LevelEditor.Editor
                 {
                     var editorCell = _gameGrid.Grid[column, row];
 
-                    UIElement cellContent = new TextBlock();
+                    _canvasCells[column, row] = new Border();
+                    var canvasCell = _canvasCells[column, row];
+                    canvasCell.Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0);
+                    canvasCell.Width = _cellSize;
+                    canvasCell.Height = _cellSize;
+                    
                     if (editorCell.ObjectType != null)
                     {
-                        cellContent = EditorTypesObjectsConverter.Convert(editorCell.ObjectType.Value, editorCell.ObjectTypeAdditionalData);
-
                         switch (editorCell.ObjectType.Value)
                         {
                             case ObjectTypes.Giocatore:
@@ -75,17 +79,13 @@ namespace MarkInDeDark.LevelEditor.Editor
                         }
                     }
 
-                    var cellBorder = new Border()
-                    {
-                        Child = cellContent,
-                        Background = EditorTypesColorConverter.Convert(editorCell.GroundType),
-                        Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0),
-                        Width = _cellSize,
-                        Height = _cellSize
-                    };
+                    EditorTypesObjectsConverter.ManageObjectType(
+                        canvasCell,
+                        editorCell.ObjectType,
+                        editorCell.GroundType,
+                        editorCell.ObjectTypeAdditionalData);
 
-                    _canvasCell[column, row] = cellBorder;
-                    _canvas.Children.Add(cellBorder);
+                    _canvas.Children.Add(canvasCell);
 
                     if (editorCell.Top != WallTypes.Niente)
                         SetWallType(editorCell.Top, WallPositions.Top, row, column);
@@ -111,7 +111,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
 
             _gameGrid.SetGroundType(row, column, type);
-            _canvasCell[column, row].Background = EditorTypesColorConverter.Convert(type);
+            _canvasCells[column, row].Background = EditorTypesColorConverter.Convert(type);
         }
 
         public void SetObjectType(Point where, ObjectTypes type, string quantityInfo)
@@ -130,15 +130,17 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             _gameGrid.SetObjectType(row, column, type, quantityInfo);
 
-            var canvasCell = _canvasCell[column, row];
+            var canvasCell = _canvasCells[column, row];
 
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
             if (previousGroundType == GroundTypes.NonCella)
             {
-                canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+                previousGroundType = GroundTypes.Terra;
             }
 
-            canvasCell.Child = EditorTypesObjectsConverter.Convert(type, quantityInfo);
+            EditorTypesObjectsConverter.ManageObjectType(canvasCell, type, previousGroundType, quantityInfo);
+            EditorCellTextConverer.ManageCellText(canvasCell, null);
+            _gameGrid.Grid[column, row].Text = null;
 
             // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
             // una volta inserto l'oggetto
@@ -293,13 +295,50 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
         }
 
+        public string GetTextOrEmpty(Point where)
+        {
+            int column = (int)where.X / _cellSize;
+            int row = (int)where.Y / _cellSize;
+
+            if (column < 0 || column >= _gameGrid.Columns
+                || row < 0 || row >= _gameGrid.Rows)
+            {
+                return string.Empty;
+            }
+
+            return _gameGrid.Grid[column, row].Text ?? string.Empty;
+        }
+
+        public void SetText(Point where, string text)
+        {
+            int column = (int)where.X / _cellSize;
+            int row = (int)where.Y / _cellSize;
+
+            if (column < 0 || column >= _gameGrid.Columns
+                || row < 0 || row >= _gameGrid.Rows)
+            {
+                return;
+            }
+
+            var canvasCell = _canvasCells[column, row];
+            var previousGroundType = _gameGrid.Grid[column, row].GroundType;
+            // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
+            if (previousGroundType == GroundTypes.NonCella)
+            {
+                canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+            }
+
+            _gameGrid.Grid[column, row].Text = text;
+            EditorCellTextConverer.ManageCellText(canvasCell, text);
+        }
+
         public void ClearHover()
         {
             // ...e rimozione dell'hover
             if (_lastHoveredCell != null)
             {
                 var lastHoveredCellGroundType = _gameGrid.Grid[_lastHoveredCell.Value.Column, _lastHoveredCell.Value.Row].GroundType;
-                _canvasCell[_lastHoveredCell.Value.Column, _lastHoveredCell.Value.Row].Background =
+                _canvasCells[_lastHoveredCell.Value.Column, _lastHoveredCell.Value.Row].Background =
                     EditorTypesColorConverter.Convert(lastHoveredCellGroundType);
             }
         }
@@ -318,8 +357,8 @@ namespace MarkInDeDark.LevelEditor.Editor
             // Gestione hover...
             if (_lastHoveredCell != (column, row))
             {
-                var thisCellBackground = _canvasCell[column, row].Background as SolidColorBrush;
-                _canvasCell[column, row].Background = new SolidColorBrush(thisCellBackground.Color.Lighter());
+                var thisCellBackground = _canvasCells[column, row].Background as SolidColorBrush;
+                _canvasCells[column, row].Background = new SolidColorBrush(thisCellBackground.Color.Lighter());
 
                 // ...e rimozione dell'hover
                 ClearHover();
@@ -349,10 +388,10 @@ namespace MarkInDeDark.LevelEditor.Editor
         {
             _gameGrid.SetWallType(row, column, type, wallPosition);
 
-            var currentBorderThickness = _canvasCell[column, row].BorderThickness;
+            var currentBorderThickness = _canvasCells[column, row].BorderThickness;
             int strokeWidth = type == WallTypes.Niente ? 0 : 4;
 
-            _canvasCell[column, row].BorderThickness = new Thickness(
+            _canvasCells[column, row].BorderThickness = new Thickness(
                 left: wallPosition == WallPositions.Left ? strokeWidth : currentBorderThickness.Left,
                 top: wallPosition == WallPositions.Top ? strokeWidth : currentBorderThickness.Top,
                 right: wallPosition == WallPositions.Right ? strokeWidth : currentBorderThickness.Right,
@@ -360,7 +399,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             if (type != WallTypes.Niente)
             {
-                _canvasCell[column, row].BorderBrush = EditorTypesColorConverter.Convert(type);
+                _canvasCells[column, row].BorderBrush = EditorTypesColorConverter.Convert(type);
             }
         }
     }

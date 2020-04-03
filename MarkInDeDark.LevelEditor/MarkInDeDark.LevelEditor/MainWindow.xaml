@@ -452,6 +452,30 @@
                     </RadioButton>
 
                     <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnText_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        ToolTip="Imposta una scritta che appare all'arrivo del giocatore sulla cella">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Times New Roman"
+                                FontSize="14"
+                                FontStyle="Italic"
+                                FontWeight="Bold"
+                                Text="A" />
+                            <TextBlock Padding="2,2" Text="Testo" />
+                        </StackPanel>
+                    </RadioButton>
+
+
+                    <RadioButton
                         x:Name="BtnObjectType_1"
                         Width="25"
                         Height="25"

@@ -150,6 +150,7 @@
     <Compile Include="Converters\XnaColorToWindowsColor.cs" />
     <Compile Include="Converters\XnaVector2ToX.cs" />
     <Compile Include="Converters\XnaVector2ToY.cs" />
+    <Compile Include="Editor\EditorCellTextConverer.cs" />
     <Compile Include="GameConfigEditorWindow.xaml.cs">
       <DependentUpon>GameConfigEditorWindow.xaml</DependentUpon>
     </Compile>

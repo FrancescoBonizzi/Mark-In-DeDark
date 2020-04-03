@@ -197,6 +197,12 @@ namespace MarkInDeDark.LevelEditor
             _presentation.ClearHover();
         }
 
+        private void BtnText_Click(object sender, RoutedEventArgs e)
+        {
+            _currentEditorAction = EditorActions.Text;
+            _presentation.ClearHover();
+        }
+
         private void LevelEditorCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
@@ -209,15 +215,30 @@ namespace MarkInDeDark.LevelEditor
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                var mousePosition = e.GetPosition(levelEditorCanvas);
+
                 switch (_currentEditorAction)
                 {
+                    case EditorActions.Text:
+                        {
+                            var cellText = _presentation.GetTextOrEmpty(mousePosition);
+                            var inputDialog = new InputDialog(
+                                $"Inserimento testo",
+                                "Inserisci il testo che vuoi mostrare alla pressione della cella:",
+                                cellText);
+                            if (inputDialog.ShowDialog() == false)
+                            {
+                                return;
+                            }
+                            _presentation.SetText(mousePosition, inputDialog.InputString);
+                        }
+                        break;
+
                     case EditorActions.Ground:
-                        _presentation.SetGroundType(e.GetPosition(levelEditorCanvas), _currentSelectedCellType);
+                        _presentation.SetGroundType(mousePosition, _currentSelectedCellType);
                         break;
 
                     case EditorActions.Object:
-
-                        var mousePosition = e.GetPosition(levelEditorCanvas);
 
                         string quantityInfo = null;
                         if (_currentSelectedObjectType == ObjectTypes.Candele)

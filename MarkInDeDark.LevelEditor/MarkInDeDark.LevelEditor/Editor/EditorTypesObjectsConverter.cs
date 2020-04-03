@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.GameGrid;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,7 +9,106 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public static class EditorTypesObjectsConverter
     {
-        public static Grid Convert(ObjectTypes type, string quantityInfo)
+        public static void ManageObjectType(
+            Border canvasCell,
+            ObjectTypes? type,
+            GroundTypes groundType,
+            string quantityInfo)
+        {
+            if (!(canvasCell.Child is Grid container))
+            {
+                container = new Grid();
+                canvasCell.Child = container;
+            }
+
+            canvasCell.Background = EditorTypesColorConverter.Convert(groundType);
+
+            if (quantityInfo != null)
+            {
+                // Per convenzione le textblock sono per il numero di candele ecc
+                TextBlock textBlock = null;
+                foreach (var c in container.Children)
+                {
+                    if (c is TextBlock thisGridTextLabel)
+                    {
+                        textBlock = thisGridTextLabel;
+                        break;
+                    }
+                }
+
+                if (textBlock == null)
+                {
+                    container.Children.Add(new TextBlock()
+                    {
+                        Text = quantityInfo,
+                        FontFamily = new FontFamily("SEGOE UI"),
+                        FontWeight = FontWeights.SemiBold,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        Margin = new Thickness(0),
+                        Padding = new Thickness(0),
+                        FontSize = 10
+                    });
+                }
+                else
+                {
+                    textBlock.Text = quantityInfo;
+                }
+            }
+
+            Image image = null;
+            foreach(var i in container.Children)
+            {
+                if (i is Image thisImage)
+                {
+                    image = thisImage;
+                    break;
+                }
+            }
+
+            if (image == null)
+            {
+                if (type != null)
+                    container.Children.Add(GetImage(type.Value));
+            }
+            else
+            {
+                container.Children.Remove(image);
+
+                if (type != null)
+                    container.Children.Add(GetImage(type.Value));
+            }
+
+            ReorderControls(container);
+        }
+
+        public static void ReorderControls(Grid grid)
+        {
+            Image image = null;
+            TextBlock textBlock = null;
+            Label label = null;
+
+            foreach(var control in grid.Children)
+            {
+                if (control is Image)
+                    image = (Image)control;
+                else if (control is TextBlock)
+                    textBlock = (TextBlock)control;
+                else if (control is Label)
+                    label = (Label)control;
+            }
+
+            grid.Children.Clear();
+            if (image != null)
+                grid.Children.Add(image);
+            if (label != null)
+                grid.Children.Add(label);
+            if (textBlock != null)
+                grid.Children.Add(textBlock);
+        }
+
+        public static Image GetImage(ObjectTypes type)
         {
             string imagePath = string.Empty;
             switch (type)
@@ -70,31 +170,12 @@ namespace MarkInDeDark.LevelEditor.Editor
                     break;
             }
 
-            var container = new Grid();
-
-            container.Children.Add(new Image()
+            return new Image()
             {
                 Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
-                Margin = new System.Windows.Thickness(2)
-            });
-
-            if (quantityInfo != null)
-            {
-                container.Children.Add(new TextBlock()
-                {
-                    Text = quantityInfo,
-                    FontFamily = new FontFamily("SEGOE UI"),
-                    FontWeight = System.Windows.FontWeights.SemiBold,
-                    Foreground = new SolidColorBrush(Colors.White),
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
-                    VerticalAlignment = System.Windows.VerticalAlignment.Bottom,
-                    Margin = new System.Windows.Thickness(0),
-                    Padding = new System.Windows.Thickness(0),
-                    FontSize = 10
-                });
-            }
-
-            return container;
+                Margin = new Thickness(2)
+            };
         }
+
     }
 }
