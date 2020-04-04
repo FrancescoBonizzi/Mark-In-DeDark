@@ -467,6 +467,11 @@
             <key type="filename">Game/ghost_side_attack_1.png</key>
             <key type="filename">Game/ghost_side_attack_2.png</key>
             <key type="filename">Game/ghost_side_attack_3.png</key>
+            <key type="filename">Game/ghost_side_attack_4.png</key>
+            <key type="filename">Game/ghost_side_attack_5.png</key>
+            <key type="filename">Game/ghost_side_attack_6.png</key>
+            <key type="filename">Game/ghost_side_attack_7.png</key>
+            <key type="filename">Game/ghost_side_attack_8.png</key>
             <key type="filename">Game/ghost_side_iddle_1.png</key>
             <key type="filename">Game/ghost_side_walking_1.png</key>
             <key type="filename">Game/ghost_side_walking_2.png</key>
