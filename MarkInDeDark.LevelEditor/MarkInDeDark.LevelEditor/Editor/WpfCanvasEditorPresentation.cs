@@ -343,7 +343,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
         }
 
-        public void SetHover(Point where)
+        public void SetHoverEffect(Point where)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;

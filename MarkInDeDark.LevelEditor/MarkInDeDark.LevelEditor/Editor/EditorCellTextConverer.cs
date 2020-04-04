@@ -40,8 +40,13 @@ namespace MarkInDeDark.LevelEditor.Editor
                         VerticalAlignment = System.Windows.VerticalAlignment.Top,
                         Margin = new System.Windows.Thickness(4),
                         Padding = new System.Windows.Thickness(0),
-                        FontSize = 10
+                        FontSize = 10,
+                        ToolTip = text
                     });
+                }
+                else
+                {
+                    label.ToolTip = text;
                 }
             }
             else if (label != null)

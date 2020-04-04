@@ -297,10 +297,14 @@ namespace MarkInDeDark.LevelEditor
                         break;
                 }
             }
-            else if (_currentEditorAction == EditorActions.Wall)
+            else // E' un hover
             {
-                // Effetto hover
-                _presentation.SetHover(e.GetPosition(levelEditorCanvas));
+                // L'effetto hover lo faccio solo con i muri perché ti serve capire in quale cella sei
+                if (_currentEditorAction == EditorActions.Wall)
+                {
+                    // Effetto hover
+                    _presentation.SetHoverEffect(e.GetPosition(levelEditorCanvas));
+                }
             }
         }
 
