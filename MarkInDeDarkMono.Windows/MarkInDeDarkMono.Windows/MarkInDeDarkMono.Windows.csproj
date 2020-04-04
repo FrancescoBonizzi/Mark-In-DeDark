@@ -136,6 +136,10 @@
       <Link>Content\GameConfig.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\Translations.txt">
+      <Link>Content\Translations.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -150,6 +150,7 @@
     <Compile Include="Converters\XnaColorToWindowsColor.cs" />
     <Compile Include="Converters\XnaVector2ToX.cs" />
     <Compile Include="Converters\XnaVector2ToY.cs" />
+    <Compile Include="Domain\TraslatedStringValue.cs" />
     <Compile Include="Editor\EditorCellTextConverer.cs" />
     <Compile Include="GameConfigEditorWindow.xaml.cs">
       <DependentUpon>GameConfigEditorWindow.xaml</DependentUpon>
@@ -157,6 +158,9 @@
     <Compile Include="Settings\FileSettingsRepository.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\SettingsKeys.cs" />
+    <Compile Include="TraslationsWindow.xaml.cs">
+      <DependentUpon>TraslationsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="BusyIndicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +193,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TraslationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

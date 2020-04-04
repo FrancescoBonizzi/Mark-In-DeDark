@@ -51,6 +51,23 @@
                     x:Name="btnCambiaSettingsGioco"
                     Click="BtnCambiaSettingsGioco_Click"
                     Header="Cambia impostazioni di gioco" />
+                <MenuItem x:Name="btnTraduzioni" Click="btnTraduzioni_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Times New Roman"
+                                FontSize="14"
+                                FontStyle="Italic"
+                                FontWeight="Bold"
+                                Text="A" />
+                            <TextBlock Margin="5,0,0,0" Text="Gestione testi" />
+                        </StackPanel>
+                    </MenuItem.Header>
+
+                </MenuItem>
             </MenuItem>
 
         </Menu>

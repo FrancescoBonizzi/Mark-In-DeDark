@@ -241,6 +241,7 @@
     <Content Include="Assets\ContentBuilder\Spritesheet-1.png" />
     <Content Include="Assets\ContentBuilder\Spritesheet-1.txt" />
     <Content Include="Assets\GameConfig.txt" />
+    <Content Include="Assets\Translations.txt" />
     <Content Include="Assets\_TextureProject\Backgrounds\background1.jpg" />
     <Content Include="Assets\_TextureProject\Backgrounds\background2.jpg" />
     <Content Include="Assets\_TextureProject\Backgrounds\background3.jpg" />

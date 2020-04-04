@@ -1,0 +1,10 @@
+{
+  "Traslations": {
+    "English": {
+      "AKey": "Hi!"
+    },
+    "Italian": {
+      "AKey": "Ciao!"
+    }
+  }
+}

@@ -44,6 +44,7 @@ namespace MarkInDeDark.LevelEditor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
         }
 

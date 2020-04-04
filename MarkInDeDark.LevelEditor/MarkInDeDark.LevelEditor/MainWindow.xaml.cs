@@ -428,5 +428,11 @@ namespace MarkInDeDark.LevelEditor
                 _settingsRepository.SetValue(SettingsKeys.GameExecutablePath, openFileDialog.FileName);
             }
         }
+
+        private void btnTraduzioni_Click(object sender, RoutedEventArgs e)
+        {
+            var t = new TraslationsWindow();
+            t.ShowDialog();
+        }
     }
 }
