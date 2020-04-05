@@ -50,6 +50,11 @@
             Grid[column, row].ObjectTypeAdditionalData = additionalData;
         }
 
+        public void SetStringCode(int row, int column, string stringCode)
+        {
+            Grid[column, row].StringCode = stringCode;
+        }
+
         public void SetWallType(int row, int column, WallTypes type, WallPositions wallPosition)
         {
             switch (wallPosition)

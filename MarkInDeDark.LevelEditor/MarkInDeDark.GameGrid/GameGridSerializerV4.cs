@@ -50,6 +50,9 @@ namespace MarkInDeDark.GameGrid
                 gameGrid.SetWallType(i, j, right, WallPositions.Right);
                 gameGrid.SetWallType(i, j, bottom, WallPositions.Bottom);
                 gameGrid.SetWallType(i, j, left, WallPositions.Left);
+
+                if (splitted.Length > 9)
+                    gameGrid.SetStringCode(i, j, splitted[9]);
             }
 
             return gameGrid;
@@ -95,6 +98,8 @@ namespace MarkInDeDark.GameGrid
                         .Append((int)cell.Bottom) // 7
                         .Append(_separator)
                         .Append((int)cell.Left) // 8
+                        .Append(_separator)
+                        .Append(cell.StringCode) // 9
                         .AppendLine();
                 }
             }

@@ -157,9 +157,9 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                     // Cancello il testo
                     EditorCellTextConverer.ManageCellText(canvasCell, null);
-                    _traslatedStrings.RemoveStringForAllLanguages(_gameGrid.Grid[column, row].Text);
+                    _traslatedStrings.RemoveStringForAllLanguages(_gameGrid.Grid[column, row].StringCode);
                     _traslatedStrings.Save();
-                    _gameGrid.Grid[column, row].Text = null;
+                    _gameGrid.Grid[column, row].StringCode = null;
 
                     if (previousObjectType != null)
                     {
@@ -319,7 +319,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return string.Empty;
             }
 
-            var cellText = _gameGrid.Grid[column, row].Text;
+            var cellText = _gameGrid.Grid[column, row].StringCode;
             if (string.IsNullOrEmpty(cellText))
                 return string.Empty;
 
@@ -349,7 +349,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             // Devo generare un codice per la stringa, salvare la stringa, e
             var key = _traslatedStrings.SetAutomaticKeyStringOnAllLanguages(text);
             // ...e mettere nella cella solo il codice
-            _gameGrid.Grid[column, row].Text = key;
+            _gameGrid.Grid[column, row].StringCode = key;
             // Però mostro sempre il testo all'hover
             EditorCellTextConverer.ManageCellText(canvasCell, text);
         }

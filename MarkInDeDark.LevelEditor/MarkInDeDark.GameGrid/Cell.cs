@@ -14,6 +14,6 @@
         public WallTypes Bottom { get; set; }
         public WallTypes Left { get; set; }
 
-        public string Text { get; set; }
+        public string StringCode { get; set; }
     }
 }
