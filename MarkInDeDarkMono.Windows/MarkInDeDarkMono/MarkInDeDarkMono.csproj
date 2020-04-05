@@ -115,6 +115,7 @@
     <Compile Include="Objects\GoblinTriggerTrap.cs" />
     <Compile Include="Objects\LittleLight.cs" />
     <Compile Include="Objects\PassableObject.cs" />
+    <Compile Include="Objects\ShowTextTriggerObject.cs" />
     <Compile Include="Objects\TimedBreakableTrap.cs" />
     <Compile Include="Objects\InstantlyDieTrap.cs" />
     <Compile Include="Objects\TriggerObject.cs" />

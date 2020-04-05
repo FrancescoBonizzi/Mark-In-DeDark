@@ -132,6 +132,10 @@ namespace MarkInDeDarkMono
             _enemies = new List<Enemy>();
             _triggerObjects = new List<TriggerObject>();
 
+            _candlePacks = _gameGrid.CandlePacks;
+            ElapsedGameTime = TimeSpan.Zero;
+            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
+
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
             if (_gameGrid.GoblinTriggerRectangle != null && _gameGrid.GoblinStartPosition != null)
             {
@@ -233,9 +237,17 @@ namespace MarkInDeDarkMono
                 }
             }
 
-            _candlePacks = _gameGrid.CandlePacks;
-            ElapsedGameTime = TimeSpan.Zero;
-            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
+            if (_gameGrid.CellTriggerText != null)
+            {
+                foreach(var cellTriggerText in _gameGrid.CellTriggerText)
+                {
+                    _triggerObjects.Add(new ShowTextTriggerObject(
+                        _localizedStringsRepository.Get(cellTriggerText.Value), 
+                        _gameHud, 
+                        cellTriggerText.Key, 
+                        _player));
+                }
+            }
         }
 
         public void HandleInput(CharacterActions action)

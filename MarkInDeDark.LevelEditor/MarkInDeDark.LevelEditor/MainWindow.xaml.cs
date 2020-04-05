@@ -170,7 +170,7 @@ namespace MarkInDeDark.LevelEditor
         {
             _gameGrid.DirtyProbabilityPercentage = numDirtyProbability.Value ?? 0;
             _gameGrid.EnvironmentTexturePackId = cmbTexturePack.SelectedIndex;
-            var serializedLevel = new GameGridSerializerV3().SerializeLevel(_gameGrid);
+            var serializedLevel = new GameGridSerializerV4().SerializeLevel(_gameGrid);
             File.WriteAllText(filePath, serializedLevel);
         }
 
@@ -473,8 +473,10 @@ namespace MarkInDeDark.LevelEditor
 
             var saveFullPath = Path.GetFullPath(traslationsFilePath);
             var rawTranslations = File.ReadAllText(saveFullPath);
-            _traslationManager = new TextFileStringsManager(rawTranslations);
-            _traslationManager.DefaultPathForSave = saveFullPath;
+            _traslationManager = new TextFileStringsManager(rawTranslations)
+            {
+                DefaultPathForSave = saveFullPath
+            };
 
             NewGrid();
             btnNonCella.IsChecked = true;

@@ -26,6 +26,7 @@ namespace MarkInDeDarkMono.Levels
             var bubuPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             grid.InstantlyDieTrapCollisionRectangles = new List<Rectangle>();
             grid.BrekableTrapCollisionRectangles = new List<Rectangle>();
+            grid.CellTriggerText = new List<KeyValuePair<Rectangle, string>>();
 
             for (int j = 0; j < levelEditorGrid.Rows; ++j)
             {
@@ -68,6 +69,13 @@ namespace MarkInDeDarkMono.Levels
                         case GroundTypes.TriggerGoblin:
                             grid.GoblinTriggerRectangle = gameCell.CollisionRectangle;
                             break;
+                    }
+
+                    if (!string.IsNullOrEmpty(levelEditorCell.StringCode))
+                    {
+                        grid.CellTriggerText.Add(new KeyValuePair<Rectangle, string>(
+                            gameCell.CollisionRectangle,
+                            levelEditorCell.StringCode));
                     }
 
                     if (levelEditorCell.ObjectType != null)

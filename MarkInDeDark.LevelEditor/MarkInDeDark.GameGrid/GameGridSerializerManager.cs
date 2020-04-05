@@ -21,10 +21,13 @@ namespace MarkInDeDark.GameGrid
 
             var serializerV2 = new GameGridSerializerV2();
             var serializerV3 = new GameGridSerializerV3();
+            var serializerV4 = new GameGridSerializerV4();
             if (serializerV2.WasTheFileSerializedWithThisClass(_lines[0]))
                 _thisFileSerializer = serializerV2;
             else if (serializerV3.WasTheFileSerializedWithThisClass(_lines[0]))
                 _thisFileSerializer = serializerV3;
+            else if (serializerV4.WasTheFileSerializedWithThisClass(_lines[0]))
+                _thisFileSerializer = serializerV4;
             else
                 _thisFileSerializer = new GameGridSerializerVExcel();
         }

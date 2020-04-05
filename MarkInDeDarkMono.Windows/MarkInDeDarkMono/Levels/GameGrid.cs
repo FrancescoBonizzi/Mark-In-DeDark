@@ -40,6 +40,7 @@ namespace MarkInDeDarkMono.Levels
         public List<List<GameCell>> BubusPath { get; set; }
         public List<Rectangle> InstantlyDieTrapCollisionRectangles { get; set; }
         public List<Rectangle> BrekableTrapCollisionRectangles { get; set; }
+        public List<KeyValuePair<Rectangle, string>> CellTriggerText { get; set; }
 
         public Rectangle? GoblinTriggerRectangle { get; set; }
 
