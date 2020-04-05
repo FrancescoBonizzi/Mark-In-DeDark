@@ -3,27 +3,49 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MarkInDeDark.LevelEditor"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Traduzioni"
-    Width="800"
+    Width="850"
     Height="450"
     Closing="Window_Closing"
     mc:Ignorable="d">
 
     <DockPanel Background="AliceBlue">
 
-        <Menu DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top">
 
-            <MenuItem
-                x:Name="btnSalvaTutto"
-                Click="btnSalvaTutto_Click"
-                Header="Salva tutto" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-        </Menu>
+            <Menu Grid.Row="0">
 
+                <MenuItem
+                    x:Name="btnSalvaTutto"
+                    Click="btnSalvaTutto_Click"
+                    Header="Salva sul gioco corrente" />
 
-        <TabControl x:Name="tabControl" Margin="5" ItemsSource="{Binding TraslatedStrings}">
+                <MenuItem
+                    x:Name="btnSalvaAltroFile"
+                    Click="btnSalvaAltroFile_Click"
+                    Header="Salva in un altro file" />
+
+            </Menu>
+
+            <TextBlock
+                Grid.Row="1"
+                Padding="6"
+                FontWeight="SemiBold"
+                Foreground="Red"
+                Text="Attenzione! TUTTE le volte che finisci un livello devi salvare il file delle traduzioni in un altro file, altrimenti al prossimo update del gioco li perdi!" />
+
+        </Grid>
+
+        <TabControl
+            x:Name="tabControl"
+            Margin="5"
+            ItemsSource="{Binding TraslatedStrings}">
 
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
@@ -40,15 +62,14 @@
 
                             <GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Puoi modificare solo il valore">
 
-                                <GridViewColumn
-                                    Width="100"
-                                    DisplayMemberBinding="{Binding Key}"
-                                    Header="Chiave" />
+                                <GridViewColumn DisplayMemberBinding="{Binding Key}" Header="Chiave" />
 
-                                <GridViewColumn Header="Valore" Width="600">
+                                <GridViewColumn Width="600" Header="Valore">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Value.Text}" Width="500" />
+                                            <TextBox
+                                                Width="500"
+                                                Text="{Binding Value.Text}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

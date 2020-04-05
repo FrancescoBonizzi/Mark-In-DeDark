@@ -1,0 +1,62 @@
+{
+  "Traslations": {
+    "English": {
+      "PlayButtonString": {
+        "Text": "Play"
+      },
+      "CandlePackFoundString": {
+        "Text": "{0} candles found"
+      },
+      "ClosedDoorString": {
+        "Text": "It's locked..."
+      },
+      "ShopString": {
+        "Text": "Shop"
+      },
+      "LevelsPageTitleString": {
+        "Text": "Levels"
+      },
+      "NotEnoughCandlesString": {
+        "Text": "You don't have candles"
+      },
+      "GameOverString": {
+        "Text": "Game Over!"
+      },
+      "KeyFoundString": {
+        "Text": "You found a key..."
+      },
+      "LevelCompletedString": {
+        "Text": "Level completed!"
+      }
+    },
+    "Italian": {
+      "PlayButtonString": {
+        "Text": "Gioca"
+      },
+      "CandlePackFoundString": {
+        "Text": "Hai trovato {0} candele"
+      },
+      "ClosedDoorString": {
+        "Text": "Tutto chiuso..."
+      },
+      "ShopString": {
+        "Text": "Negozio"
+      },
+      "LevelsPageTitleString": {
+        "Text": "Livelli"
+      },
+      "NotEnoughCandlesString": {
+        "Text": "Non hai candele"
+      },
+      "GameOverString": {
+        "Text": "Game Over!"
+      },
+      "KeyFoundString": {
+        "Text": "Hai trovato una chiave..."
+      },
+      "LevelCompletedString": {
+        "Text": "Livello completato!"
+      }
+    }
+  }
+}

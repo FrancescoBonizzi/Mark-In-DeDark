@@ -7,6 +7,7 @@
     xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Mark in DeDark - Level editor"
     Width="1920"
+    Loaded="Window_Loaded"
     Closing="Window_Closing"
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="CanResize"

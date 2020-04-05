@@ -21,23 +21,8 @@ namespace MarkInDeDark.LevelEditor
             {
                 _settingsRepository = new FileSettingsRepository("configuration.txt");
                 var gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
-                if (gameExecutablePath == null)
-                {
-                    MessageBox.Show("Devi prima selezionare l'eseguibile del gioco!", "Attenzione");
-                    Close();
-                    return;
-                }
-
                 var gameExecutableDirectory = Path.GetDirectoryName(gameExecutablePath);
                 _gameConfigFilePath = Path.Combine(gameExecutableDirectory, "Content", "GameConfig.txt");
-
-                if (!File.Exists(_gameConfigFilePath))
-                {
-                    MessageBox.Show($"Il file di configurazione al path {_gameConfigFilePath} non esiste", "Attenzione");
-                    Close();
-                    return;
-                }
-
                 var gameConfigRaw = File.ReadAllText(_gameConfigFilePath);
                 propertyGrid.SelectedObject = new GameConfig(gameConfigRaw);
             }

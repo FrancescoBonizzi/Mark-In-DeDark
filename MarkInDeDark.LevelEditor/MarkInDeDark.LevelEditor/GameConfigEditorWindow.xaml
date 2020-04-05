@@ -9,7 +9,7 @@
     xmlns:xnaClasses="clr-namespace:Microsoft.Xna.Framework;assembly=MonoGame.Framework"
     xmlns:myClasses="clr-namespace:MarkInDeDark.Common;assembly=MarkInDeDark.Common"
     Title="Configurazione del gioco"
-    Width="600"
+    Width="700"
     Height="750"
     mc:Ignorable="d">
 

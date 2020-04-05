@@ -1,4 +1,5 @@
-﻿using MarkInDeDark.GameGrid;
+﻿using MarkInDeDark.Common;
+using MarkInDeDark.GameGrid;
 using MarkInDeDark.LevelEditor.Domain;
 using MarkInDeDark.LevelEditor.Editor;
 using MarkInDeDark.LevelEditor.Settings;
@@ -21,6 +22,7 @@ namespace MarkInDeDark.LevelEditor
         private GameGridBundle _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
         private BusyIndicator _busyIndicator;
+        private TextFileStringsManager _traslationManager;
 
         private EditorActions _currentEditorAction;
         private GroundTypes _currentSelectedCellType;
@@ -43,9 +45,6 @@ namespace MarkInDeDark.LevelEditor
             WindowState = WindowState.Maximized;
 
             _settingsRepository = new FileSettingsRepository("configuration.txt");
-
-            NewGrid();
-            btnNonCella.IsChecked = true;
         }
 
         private void NewGrid()
@@ -55,7 +54,8 @@ namespace MarkInDeDark.LevelEditor
                 this,
                 _gameGrid,
                 levelEditorCanvas,
-                _cellSize);
+                _cellSize,
+                _traslationManager);
             Title = $"{_baseWindowTitle} - Nuovo";
         }
 
@@ -123,7 +123,8 @@ namespace MarkInDeDark.LevelEditor
                         this,
                         _gameGrid,
                         levelEditorCanvas,
-                        _cellSize);
+                        _cellSize,
+                        _traslationManager);
 
                     Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
                 }
@@ -231,6 +232,8 @@ namespace MarkInDeDark.LevelEditor
                                 return;
                             }
                             _presentation.SetText(mousePosition, inputDialog.InputString);
+                            MessageBox.Show("Ricordati di andare a tradurre nelle altre lingue il testo!", "Traduzione", MessageBoxButton.OK, MessageBoxImage.Information);
+                            _traslationManager.Save();
                         }
                         break;
 
@@ -280,7 +283,7 @@ namespace MarkInDeDark.LevelEditor
                             quantityInfo = inputDialog.InputString;
                         }
 
-                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo);
+                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo, _traslationManager);
 
                         // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
                         // una volta inserto l'oggetto
@@ -431,8 +434,44 @@ namespace MarkInDeDark.LevelEditor
 
         private void btnTraduzioni_Click(object sender, RoutedEventArgs e)
         {
-            var t = new TraslationsWindow();
+            var t = new TraslationsWindow(_traslationManager);
             t.ShowDialog();
+            // Non devo fare il refresh delle stringhe nella mappa perché
+            // non gli faccio modificare quelle autogenerate
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Non ti faccio usare niente se non selezionare il path del gioco,
+            // perchè da quello dipendono le traduzioni e il config
+            string gameExecutablePath;
+            do
+            {
+                gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
+                if (gameExecutablePath == null)
+                {
+                    var openFileDialog = new OpenFileDialog
+                    {
+                        Multiselect = false,
+                        Filter = "Mark in DeDark game (*.exe)|*.exe",
+                        RestoreDirectory = true,
+                        Title = "Percorso del gioco",
+                        CheckFileExists = true
+                    };
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        _settingsRepository.SetValue(SettingsKeys.GameExecutablePath, openFileDialog.FileName);
+                    }
+                }
+            } while (gameExecutablePath == null);
+
+            var gameExecutableDirectory = Path.GetDirectoryName(gameExecutablePath);
+            var traslationsFilePath = Path.Combine(gameExecutableDirectory, "Content", "Translations.json");
+            _traslationManager = new TextFileStringsManager(traslationsFilePath);
+
+            NewGrid();
+            btnNonCella.IsChecked = true;
         }
     }
 }

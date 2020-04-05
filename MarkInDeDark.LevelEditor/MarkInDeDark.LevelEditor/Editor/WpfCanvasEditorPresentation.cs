@@ -1,4 +1,5 @@
-﻿using MarkInDeDark.GameGrid;
+﻿using MarkInDeDark.Common;
+using MarkInDeDark.GameGrid;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ namespace MarkInDeDark.LevelEditor.Editor
         private readonly GameGridBundle _gameGrid;
         private readonly Canvas _canvas;
         private readonly MainWindow _window;
+        private readonly TextFileStringsManager _traslatedStrings;
 
         private readonly int _cellSize;
         private Border[,] _canvasCells;
@@ -20,7 +22,8 @@ namespace MarkInDeDark.LevelEditor.Editor
             MainWindow window,
             GameGridBundle gameGrid,
             Canvas canvas,
-            int cellSize)
+            int cellSize,
+            TextFileStringsManager traslatedStrings)
         {
             _gameGrid = gameGrid;
             _cellSize = cellSize;
@@ -34,6 +37,8 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             _window.cmbTexturePack.SelectedIndex = 0;
             _window.numDirtyProbability.Value = 10;
+
+            _traslatedStrings = traslatedStrings;
 
             DrawAll();
         }
@@ -56,7 +61,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     canvasCell.Margin = new Thickness(column * _cellSize, row * _cellSize, 0, 0);
                     canvasCell.Width = _cellSize;
                     canvasCell.Height = _cellSize;
-                    
+
                     if (editorCell.ObjectType != null)
                     {
                         switch (editorCell.ObjectType.Value)
@@ -114,7 +119,11 @@ namespace MarkInDeDark.LevelEditor.Editor
             _canvasCells[column, row].Background = EditorTypesColorConverter.Convert(type);
         }
 
-        public void SetObjectType(Point where, ObjectTypes type, string quantityInfo)
+        public void SetObjectType(
+            Point where,
+            ObjectTypes type,
+            string quantityInfo,
+            TextFileStringsManager textFileStringsManager)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;
@@ -139,14 +148,18 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
 
             EditorTypesObjectsConverter.ManageObjectType(canvasCell, type, previousGroundType, quantityInfo);
-            EditorCellTextConverer.ManageCellText(canvasCell, null);
-            _gameGrid.Grid[column, row].Text = null;
-
+       
             // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
             // una volta inserto l'oggetto
             switch (type)
             {
                 case ObjectTypes.Cancella:
+
+                    // Cancello il testo
+                    EditorCellTextConverer.ManageCellText(canvasCell, null);
+                    _traslatedStrings.RemoveStringForAllLanguages(_gameGrid.Grid[column, row].Text);
+                    _traslatedStrings.Save();
+                    _gameGrid.Grid[column, row].Text = null;
 
                     if (previousObjectType != null)
                     {
@@ -306,7 +319,12 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return string.Empty;
             }
 
-            return _gameGrid.Grid[column, row].Text ?? string.Empty;
+            var cellText = _gameGrid.Grid[column, row].Text;
+            if (string.IsNullOrEmpty(cellText))
+                return string.Empty;
+
+            // In questo caso avrò un codice stringa, non una stringa, ma devo ritornare il suo valore
+            return _traslatedStrings.GetString(StringsTraslationLanguages.Italian, cellText);
         }
 
         public void SetText(Point where, string text)
@@ -328,7 +346,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                 canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
             }
 
-            _gameGrid.Grid[column, row].Text = text;
+            // Devo generare un codice per la stringa, salvare la stringa, e
+            var key = _traslatedStrings.SetAutomaticKeyStringOnAllLanguages(text);
+            // ...e mettere nella cella solo il codice
+            _gameGrid.Grid[column, row].Text = key;
+            // Però mostro sempre il testo all'hover
             EditorCellTextConverer.ManageCellText(canvasCell, text);
         }
 

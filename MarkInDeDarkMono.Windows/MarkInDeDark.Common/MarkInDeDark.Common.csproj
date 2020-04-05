@@ -54,6 +54,7 @@
     <Compile Include="StringsTraslationLanguages.cs" />
     <Compile Include="TraslatedStrings.cs" />
     <Compile Include="TextFileStringsManager.cs" />
+    <Compile Include="TraslatedStringValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NuGetReferenceHintPathRewrite.targets" />
