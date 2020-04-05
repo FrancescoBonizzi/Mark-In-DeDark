@@ -243,7 +243,7 @@ namespace MarkInDeDarkMono
             if (action == CharacterActions.Candle && _candlesManager.LeftCandles == 0)
             {
                 _gameHud.ShowMessage(
-                    _localizedStringsRepository.Get(GameStringsLoader.NotEnoughCandlesString),
+                    _localizedStringsRepository.Get("NotEnoughCandlesString"),
                     _gameConfig.NotEnoughCandlesStringColorRGB);
             }
 
@@ -272,7 +272,7 @@ namespace MarkInDeDarkMono
                     if (_player.IsDying)
                     {
                         _gameHud.ShowMessage(
-                             string.Format(_localizedStringsRepository.Get(GameStringsLoader.GameOverString)),
+                             string.Format(_localizedStringsRepository.Get("GameOverString")),
                              _gameConfig.GameOverStringColorRGB,
                              true);
 
@@ -285,7 +285,7 @@ namespace MarkInDeDarkMono
                         {
                             _key.Collect();
                             _gameHud.ShowMessage(
-                                string.Format(_localizedStringsRepository.Get(GameStringsLoader.KeyFoundString)),
+                                string.Format(_localizedStringsRepository.Get("KeyFoundString")),
                                 _gameConfig.KeyFoundStringColorRGB);
                             _exit.SetOpen();
                         }
@@ -297,7 +297,7 @@ namespace MarkInDeDarkMono
                         {
                             _player.Win(_exit);
                             _gameHud.ShowMessage(
-                               string.Format(_localizedStringsRepository.Get(GameStringsLoader.LevelCompletedString)),
+                               string.Format(_localizedStringsRepository.Get("LevelCompletedString")),
                                _gameConfig.LevelCompletedStringColorRGB,
                                true);
                             _currentGameState = GameStates.Finishing;
@@ -305,7 +305,7 @@ namespace MarkInDeDarkMono
                         else
                         {
                             _gameHud.ShowMessage(
-                                string.Format(_localizedStringsRepository.Get(GameStringsLoader.ClosedDoorString)),
+                                string.Format(_localizedStringsRepository.Get("ClosedDoorString")),
                                 _gameConfig.ClosedDoorStringColorRGB);
                         }
                     }
@@ -334,7 +334,7 @@ namespace MarkInDeDarkMono
                                 candlePack.Collect();
                                 _candlesManager.AddCandlesToInventory(candlePack.NCandlesInThisPack);
                                 _gameHud.ShowMessage(
-                                    string.Format(_localizedStringsRepository.Get(GameStringsLoader.CandlePackFoundString), candlePack.NCandlesInThisPack),
+                                    string.Format(_localizedStringsRepository.Get("CandlePackFoundString"), candlePack.NCandlesInThisPack),
                                     _gameConfig.CandlePackFoundStringColorRGB);
                             }
                         }

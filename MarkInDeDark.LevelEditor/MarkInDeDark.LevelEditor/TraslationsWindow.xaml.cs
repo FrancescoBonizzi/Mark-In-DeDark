@@ -74,7 +74,7 @@ namespace MarkInDeDark.LevelEditor
                 if (saveFileDialog.ShowDialog() == false)
                     return;
 
-                _traslationManager.SaveInAnotherFile(saveFileDialog.FileName);
+                _traslationManager.Save(saveFileDialog.FileName);
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

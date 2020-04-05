@@ -54,7 +54,7 @@ namespace MarkInDeDarkMono.Menu
                 OverlayColor = new Color(138, 7, 7)
             };
 
-            _playText = localizedStringsRepository.Get(GameStringsLoader.PlayButtonString);
+            _playText = localizedStringsRepository.Get("PlayButtonString");
             _playScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _playDrawingInfos = new DrawingInfos()
             {
@@ -64,7 +64,7 @@ namespace MarkInDeDarkMono.Menu
             };
             _playTextSize = _font.MeasureString(_playText);
 
-            _shopText = localizedStringsRepository.Get(GameStringsLoader.ShopString);
+            _shopText = localizedStringsRepository.Get("ShopString");
             _shopScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
             _shopDrawingInfos = new DrawingInfos()
             {

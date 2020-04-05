@@ -6,6 +6,7 @@ using FbonizziMonoGame.Input.Abstractions;
 using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
+using MarkInDeDark.Common;
 using MarkInDeDarkMono.Assets;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
@@ -109,7 +110,10 @@ namespace MarkInDeDarkMono
 
         private void LoadGameAssets()
         {
-            new GameStringsLoader(_localizedStringsRepository, _gameCulture);
+            new GameStringsLoader(
+                _localizedStringsRepository, 
+                _gameCulture, 
+                new TextFileStringsManager(_textFileAssetsLoader.LoadFile(@"Content/Translations.json")));
 
             _assetsLoader = new AssetsLoader(
                 Content,
@@ -241,10 +245,10 @@ namespace MarkInDeDarkMono
                 "Backgrounds/splashscreen");
             _splashScreenAssetsLoader.Load();
 
-            _splashScreenAssetsLoader.Completed += _splashScreenAssetsLoader_Completed;
+            _splashScreenAssetsLoader.Completed += SplashScreenAssetsLoader_Completed;
         }
 
-        private void _splashScreenAssetsLoader_Completed(object sender, EventArgs e)
+        private void SplashScreenAssetsLoader_Completed(object sender, EventArgs e)
         {
             _splashScreenAssetsLoader = null;
             _orchestrator.Start();

@@ -22,7 +22,7 @@ namespace MarkInDeDarkMono.Menu
         private readonly DrawingInfos _titleDrawingInfos;
         private readonly string _titleText;
         
-        private List<MenuLevelButton> _levelsUi;
+        private readonly List<MenuLevelButton> _levelsUi;
         private Vector2 _startingPosition;
 
         public LevelsPage(
@@ -34,7 +34,7 @@ namespace MarkInDeDarkMono.Menu
 
             _screenTransformationMatrixProvider = screenTransformationMatrixProvider;
 
-            _titleText = localizedStringsRepository.Get(GameStringsLoader.LevelsPageTitleString);
+            _titleText = localizedStringsRepository.Get("LevelsPageTitleString");
             _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
