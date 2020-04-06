@@ -163,6 +163,7 @@ namespace MarkInDeDarkMono
                             gameConfig);
                         _enemies.Add(newGoblin);
                         _soundManager.PlayBreakWallSound();
+                        StartCameraShake(4);
 
                         // Aggiungo il goblin al controllo delle trappole
                         foreach (var trap in _triggerObjects.Where(t => t is InstantlyDieTrap || t is TimedBreakableTrap))
