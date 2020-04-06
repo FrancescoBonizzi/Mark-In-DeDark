@@ -230,7 +230,13 @@ namespace MarkInDeDarkMono.Levels
             return false;
         }
 
-        public void BreakWall(LinkDirection direction, Vector2 breakerPosition)
+        /// <summary>
+        /// Ritorna true se effettivamente rompe il muro
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="breakerPosition"></param>
+        /// <returns></returns>
+        public bool BreakWall(LinkDirection direction, Vector2 breakerPosition)
         {
             var wallToRemove = Walls.FirstOrDefault(w => w.Direction == direction);
             if (wallToRemove != null)
@@ -239,8 +245,10 @@ namespace MarkInDeDarkMono.Levels
                 _soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
-                _game.StartCameraShake(10);
+                return true;
             }
+
+            return false;
         }
 
         public void GenerateDoors()

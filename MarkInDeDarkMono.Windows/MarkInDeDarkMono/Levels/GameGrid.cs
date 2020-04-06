@@ -50,6 +50,7 @@ namespace MarkInDeDarkMono.Levels
         private int _currentViewportMaxCellY = 0;
 
         private readonly IDictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>> _calculatedPathsCache;
+        private readonly MarkInDeDarkGame _game;
 
         public GameGrid(
             Level levelToLoad,
@@ -96,6 +97,7 @@ namespace MarkInDeDarkMono.Levels
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
             GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig, game);
+            _game = game;
         }
 
         public void SetNullCell(int cellX, int cellY)
@@ -110,20 +112,22 @@ namespace MarkInDeDarkMono.Levels
             Vector2 afterTheWallCellIndexes;
             GameCell cellAfterWall;
 
+            bool effectivelyBrokeTheWall = false;
+
             switch (direction)
             {
                 case CharacterActions.Up:
 
                     if (!cell.IsNorthDestroyable)
-                        return;
+                        break;
 
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
                     if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
-                        cell.BreakWall(LinkDirection.NorthLink, breakerPosition);
-                        cellAfterWall.BreakWall(LinkDirection.SouthLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.NorthLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.SouthLink, breakerPosition);
                         cell.AddLink(cellAfterWall, LinkDirection.NorthLink);
                         cellAfterWall.AddLink(cell, LinkDirection.SouthLink);
                         cell.IsNorthPassable = true;
@@ -136,15 +140,15 @@ namespace MarkInDeDarkMono.Levels
                 case CharacterActions.Down:
 
                     if (!cell.IsSouthDestroyable)
-                        return;
+                        break;
 
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
                     if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
-                        cell.BreakWall(LinkDirection.SouthLink, breakerPosition);
-                        cellAfterWall.BreakWall(LinkDirection.NorthLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.SouthLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.NorthLink, breakerPosition);
                         cell.AddLink(cellAfterWall, LinkDirection.SouthLink);
                         cellAfterWall.AddLink(cell, LinkDirection.NorthLink);
                         cell.IsSouthPassable = true;
@@ -156,15 +160,15 @@ namespace MarkInDeDarkMono.Levels
                 case CharacterActions.Right:
 
                     if (!cell.IsEastDestroyable)
-                        return;
+                        break;
 
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
                     if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
-                        cell.BreakWall(LinkDirection.EastLink, breakerPosition);
-                        cellAfterWall.BreakWall(LinkDirection.WestLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.EastLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.WestLink, breakerPosition);
                         cell.AddLink(cellAfterWall, LinkDirection.EastLink);
                         cellAfterWall.AddLink(cell, LinkDirection.WestLink);
                         cell.IsEastPassable = true;
@@ -176,15 +180,15 @@ namespace MarkInDeDarkMono.Levels
                 case CharacterActions.Left:
 
                     if (!cell.IsWestDestroyable)
-                        return;
+                        break;
 
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
                     if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
                     {
-                        cell.BreakWall(LinkDirection.WestLink, breakerPosition);
-                        cellAfterWall.BreakWall(LinkDirection.EastLink, breakerPosition); // Potrebbe essere il muro dell'altra cella
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.WestLink, breakerPosition);
+                        effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.EastLink, breakerPosition); // Potrebbe essere il muro dell'altra cella
                         cell.AddLink(cellAfterWall, LinkDirection.WestLink);
                         cellAfterWall.AddLink(cell, LinkDirection.EastLink);
                         cell.IsWestPassable = true;
@@ -193,6 +197,10 @@ namespace MarkInDeDarkMono.Levels
                     }
                     break;
             }
+
+            if (effectivelyBrokeTheWall)
+                _game.StartCameraShake(10);
+            else _game.StartCameraShake(5);
         }
 
         public void SwitchDoorIfAny(GameCell cell)
