@@ -23,19 +23,19 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             canvasCell.Background = EditorTypesColorConverter.Convert(groundType);
 
+            // Per convenzione le textblock sono per il numero di candele ecc
+            TextBlock textBlock = null;
+            foreach (var c in container.Children)
+            {
+                if (c is TextBlock thisGridTextLabel)
+                {
+                    textBlock = thisGridTextLabel;
+                    break;
+                }
+            }
+
             if (quantityInfo != null)
             {
-                // Per convenzione le textblock sono per il numero di candele ecc
-                TextBlock textBlock = null;
-                foreach (var c in container.Children)
-                {
-                    if (c is TextBlock thisGridTextLabel)
-                    {
-                        textBlock = thisGridTextLabel;
-                        break;
-                    }
-                }
-
                 if (textBlock == null)
                 {
                     container.Children.Add(new TextBlock()
@@ -55,6 +55,10 @@ namespace MarkInDeDark.LevelEditor.Editor
                 {
                     textBlock.Text = quantityInfo;
                 }
+            }
+            else
+            {
+                container.Children.Remove(textBlock);
             }
 
             Image image = null;
