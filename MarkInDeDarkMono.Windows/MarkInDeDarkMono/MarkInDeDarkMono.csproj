@@ -203,6 +203,7 @@
     <None Include="Assets\Levels\M_T2.mark" />
     <None Include="Assets\Levels\M_ZK1.mark" />
     <None Include="Assets\_TextureProject\Game.tps" />
+    <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -584,4 +585,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets'))" />
   </Target>
+  <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>
