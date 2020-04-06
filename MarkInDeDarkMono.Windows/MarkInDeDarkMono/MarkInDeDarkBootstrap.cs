@@ -70,7 +70,7 @@ namespace MarkInDeDarkMono
             _settingsRepository = settingsRepository;
             _levelsNames = levelPaths;
             _gameCulture = gameCulture;
-            _gameConfig = new GameConfig(textFileAssetsLoader.LoadFile(@"Content/GameConfig.txt"));
+            _gameConfig = GameConfigSerializerV2.Deserialize(textFileAssetsLoader.LoadFile(@"Content/GameConfig.json"));
             
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {

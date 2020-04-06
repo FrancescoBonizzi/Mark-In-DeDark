@@ -132,10 +132,6 @@
       <Link>Content\Spritesheet-1.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\GameConfig.txt">
-      <Link>Content\GameConfig.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -351,6 +347,10 @@
     </Content>
     <Content Include="..\MarkInDeDarkMono\Assets\Translations.json">
       <Link>Content\Translations.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\MarkInDeDarkMono\Assets\GameConfig.json">
+      <Link>Content\GameConfig.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />

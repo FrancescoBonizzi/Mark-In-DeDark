@@ -22,9 +22,9 @@ namespace MarkInDeDark.LevelEditor
                 _settingsRepository = new FileSettingsRepository("configuration.txt");
                 var gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
                 var gameExecutableDirectory = Path.GetDirectoryName(gameExecutablePath);
-                _gameConfigFilePath = Path.Combine(gameExecutableDirectory, "Content", "GameConfig.txt");
+                _gameConfigFilePath = Path.Combine(gameExecutableDirectory, "Content", "GameConfig.json");
                 var gameConfigRaw = File.ReadAllText(_gameConfigFilePath);
-                propertyGrid.SelectedObject = new GameConfig(gameConfigRaw);
+                propertyGrid.SelectedObject = GameConfigSerializerV2.Deserialize(gameConfigRaw);
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace MarkInDeDark.LevelEditor
             try
             {
                 var gameConfig = propertyGrid.SelectedObject as GameConfig;
-                var serializedGameConfig = GameConfigSerializer.Serialize(gameConfig);
+                var serializedGameConfig = GameConfigSerializerV2.Serialize(gameConfig);
                 File.WriteAllText(_gameConfigFilePath, serializedGameConfig);
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -62,7 +62,7 @@ namespace MarkInDeDark.LevelEditor
                     return;
 
                 var gameConfig = propertyGrid.SelectedObject as GameConfig;
-                var serializedGameConfig = GameConfigSerializer.Serialize(gameConfig);
+                var serializedGameConfig = GameConfigSerializerV2.Serialize(gameConfig);
                 File.WriteAllText(saveFileDialog.FileName, serializedGameConfig);
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }

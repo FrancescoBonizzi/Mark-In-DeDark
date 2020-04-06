@@ -175,6 +175,7 @@
     <None Include="Assets\ContentBuilder\bin\Spritesheet.xnb" />
     <None Include="Assets\ContentBuilder\ContentBuilder.mgcb" />
     <None Include="Assets\ContentBuilder\font.spritefont" />
+    <None Include="Assets\GameConfig.json" />
     <None Include="Assets\Levels\1 TUTORIAL.mark" />
     <None Include="Assets\Levels\10 G TUTORIAL.mark" />
     <None Include="Assets\Levels\11 G.mark" />
@@ -243,7 +244,6 @@
     <Content Include="Assets\ContentBuilder\Spritesheet-0.txt" />
     <Content Include="Assets\ContentBuilder\Spritesheet-1.png" />
     <Content Include="Assets\ContentBuilder\Spritesheet-1.txt" />
-    <Content Include="Assets\GameConfig.txt" />
     <None Include="Assets\Translations.json" />
     <Content Include="Assets\_TextureProject\Backgrounds\background1.jpg" />
     <Content Include="Assets\_TextureProject\Backgrounds\background2.jpg" />
