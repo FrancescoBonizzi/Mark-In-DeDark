@@ -21,15 +21,31 @@
 
             <Menu Grid.Row="0">
 
-                <MenuItem
-                    x:Name="btnSalvaTutto"
-                    Click="btnSalvaTutto_Click"
-                    Header="Salva sul gioco corrente" />
+                <MenuItem Header="File">
 
-                <MenuItem
-                    x:Name="btnSalvaAltroFile"
-                    Click="btnSalvaAltroFile_Click"
-                    Header="Salva in un altro file" />
+                    <MenuItem
+                        x:Name="btnSalvaTutto"
+                        Click="btnSalvaTutto_Click"
+                        Header="Salva sul gioco corrente">
+
+                        <MenuItem.Icon>
+                            <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE105;" />
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem
+                        x:Name="btnSalvaAltroFile"
+                        Click="btnSalvaAltroFile_Click"
+                        Header="Salva in un altro file">
+
+                        <MenuItem.Icon>
+                            <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE159;" />
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                </MenuItem>
 
             </Menu>
 
@@ -67,9 +83,7 @@
                                 <GridViewColumn Width="600" Header="Valore">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox
-                                                Width="500"
-                                                Text="{Binding Value.Text}" />
+                                            <TextBox Width="500" Text="{Binding Value.Text}" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

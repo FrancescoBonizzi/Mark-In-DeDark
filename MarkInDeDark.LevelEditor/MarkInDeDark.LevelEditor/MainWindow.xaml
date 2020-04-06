@@ -7,8 +7,8 @@
     xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Mark in DeDark - Level editor"
     Width="1920"
-    Loaded="Window_Loaded"
     Closing="Window_Closing"
+    Loaded="Window_Loaded"
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
     ResizeMode="CanResize"
     mc:Ignorable="d">
@@ -21,52 +21,96 @@
                 <MenuItem
                     x:Name="btnNuovo"
                     Click="BtnNuovo_Click"
-                    Header="Nuovo" />
+                    Header="Nuovo">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE17C;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
                 <Separator />
                 <MenuItem
                     x:Name="btnApri"
                     Click="BtnApri_Click"
-                    Header="Apri" />
+                    Header="Apri">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE1A5;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
                 <Separator />
                 <MenuItem
                     x:Name="btnSalva"
                     Click="BtnSalva_Click"
-                    Header="Salva" />
+                    Header="Salva">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE105;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
                 <MenuItem
                     x:Name="btnSalvaCopia"
                     Click="BtnSalvaCopia_Click"
-                    Header="Salva una copia" />
+                    Header="Salva una copia">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE159;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
                 <Separator />
                 <MenuItem
                     x:Name="btnImpostaPathGioco"
                     Click="BtnImpostaPathGioco_Click"
-                    Header="Imposta percorso del gioco" />
+                    Header="Imposta percorso del gioco">
+
+                    <MenuItem.Icon>
+                        <Image Width="15" Source="Assets/icons/player_front_iddle.png" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="Strumenti">
                 <MenuItem
                     x:Name="btnProvaInGame"
                     Click="BtnProvaInGame_Click"
-                    Header="Prova in game" />
+                    Header="Prova in game">
+
+                    <MenuItem.Icon>
+                        <Image Width="15" Source="Assets/icons/player_front_iddle.png" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
+
                 <MenuItem
                     x:Name="btnCambiaSettingsGioco"
                     Click="BtnCambiaSettingsGioco_Click"
-                    Header="Cambia impostazioni di gioco" />
-                <MenuItem x:Name="btnTraduzioni" Click="btnTraduzioni_Click">
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="Times New Roman"
-                                FontSize="14"
-                                FontStyle="Italic"
-                                FontWeight="Bold"
-                                Text="A" />
-                            <TextBlock Margin="5,0,0,0" Text="Gestione testi" />
-                        </StackPanel>
-                    </MenuItem.Header>
+                    Header="Cambia impostazioni di gioco">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE115;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
+
+                <MenuItem
+                    x:Name="btnTraduzioni"
+                    Click="btnTraduzioni_Click"
+                    Header="Gestione testi">
+
+                    <MenuItem.Icon>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Times New Roman"
+                            FontSize="14"
+                            FontStyle="Italic"
+                            FontWeight="Bold"
+                            Text="A" />
+                    </MenuItem.Icon>
 
                 </MenuItem>
             </MenuItem>

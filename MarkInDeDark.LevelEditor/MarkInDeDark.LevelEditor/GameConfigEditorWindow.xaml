@@ -30,16 +30,34 @@
 
             <Menu Grid.Row="0">
 
-                <MenuItem
-                    x:Name="btnSalva"
-                    Click="btnSalva_Click"
-                    Header="Salva sul gioco corrente"
-                    ToolTip="Lo salva direttamente nella configurazione del gioco che hai installato al momento. Si sovrascrive quando aggiorni il gioco!" />
+                <MenuItem Header="File">
 
-                <MenuItem
-                    x:Name="btnSalvaInAltroFile"
-                    Click="btnSalvaInAltroFile_Click"
-                    Header="Salva in un altro file" />
+
+                    <MenuItem
+                        x:Name="btnSalva"
+                        Click="btnSalva_Click"
+                        Header="Salva sul gioco corrente"
+                        ToolTip="Lo salva direttamente nella configurazione del gioco che hai installato al momento. Si sovrascrive quando aggiorni il gioco!">
+
+                        <MenuItem.Icon>
+                            <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE105;" />
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+                    <MenuItem
+                        x:Name="btnSalvaInAltroFile"
+                        Click="btnSalvaInAltroFile_Click"
+                        Header="Salva in un altro file">
+
+                        <MenuItem.Icon>
+                            <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE159;" />
+                        </MenuItem.Icon>
+
+                    </MenuItem>
+
+
+                </MenuItem>
 
             </Menu>
 
