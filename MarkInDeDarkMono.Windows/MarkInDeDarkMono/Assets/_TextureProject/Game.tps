@@ -570,21 +570,33 @@
             <key type="filename">Game/werewolf_side_walking_2.png</key>
             <key type="filename">Game/zombie_back_attack_1.png</key>
             <key type="filename">Game/zombie_back_attack_2.png</key>
+            <key type="filename">Game/zombie_back_attack_3.png</key>
+            <key type="filename">Game/zombie_back_attack_4.png</key>
             <key type="filename">Game/zombie_back_iddle_1.png</key>
             <key type="filename">Game/zombie_back_walking_1.png</key>
             <key type="filename">Game/zombie_back_walking_2.png</key>
+            <key type="filename">Game/zombie_back_walking_3.png</key>
+            <key type="filename">Game/zombie_back_walking_4.png</key>
             <key type="filename">Game/zombie_front_attack_1.png</key>
             <key type="filename">Game/zombie_front_attack_2.png</key>
+            <key type="filename">Game/zombie_front_attack_3.png</key>
+            <key type="filename">Game/zombie_front_attack_4.png</key>
             <key type="filename">Game/zombie_front_dying_1.png</key>
             <key type="filename">Game/zombie_front_dying_2.png</key>
             <key type="filename">Game/zombie_front_iddle_1.png</key>
             <key type="filename">Game/zombie_front_walking_1.png</key>
             <key type="filename">Game/zombie_front_walking_2.png</key>
+            <key type="filename">Game/zombie_front_walking_3.png</key>
+            <key type="filename">Game/zombie_front_walking_4.png</key>
             <key type="filename">Game/zombie_side_attack_1.png</key>
             <key type="filename">Game/zombie_side_attack_2.png</key>
+            <key type="filename">Game/zombie_side_attack_3.png</key>
+            <key type="filename">Game/zombie_side_attack_4.png</key>
             <key type="filename">Game/zombie_side_iddle_1.png</key>
             <key type="filename">Game/zombie_side_walking_1.png</key>
             <key type="filename">Game/zombie_side_walking_2.png</key>
+            <key type="filename">Game/zombie_side_walking_3.png</key>
+            <key type="filename">Game/zombie_side_walking_4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
