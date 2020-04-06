@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame.Sprites;
-using MarkInDeDarkMono.Assets;
+
 using Microsoft.Xna.Framework;
 
 namespace MarkInDeDarkMono.Characters

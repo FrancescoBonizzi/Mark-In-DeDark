@@ -2,8 +2,8 @@
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.TransformationObjects;
-using Mark.Engine;
-using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

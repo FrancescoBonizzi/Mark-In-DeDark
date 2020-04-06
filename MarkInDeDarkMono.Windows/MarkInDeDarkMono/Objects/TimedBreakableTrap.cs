@@ -1,7 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-using MarkInDeDarkMono.Assets;
+
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using Microsoft.Xna.Framework;

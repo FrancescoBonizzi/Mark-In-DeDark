@@ -3,7 +3,7 @@ using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGrid;
-using MarkInDeDarkMono.Assets;
+
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Maths;
 using MarkInDeDarkMono.Objects;

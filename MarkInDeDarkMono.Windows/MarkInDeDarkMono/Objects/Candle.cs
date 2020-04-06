@@ -3,14 +3,14 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
-using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace Mark.Engine
+namespace MarkInDeDarkMono
 {
     public class Candle
     {

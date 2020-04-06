@@ -1,6 +1,6 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDarkMono.AI;
-using MarkInDeDarkMono.Assets;
+
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
 using System;

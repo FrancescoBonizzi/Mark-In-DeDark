@@ -1,14 +1,14 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace Mark.Engine
+namespace MarkInDeDarkMono
 {
     public class Exit
     {

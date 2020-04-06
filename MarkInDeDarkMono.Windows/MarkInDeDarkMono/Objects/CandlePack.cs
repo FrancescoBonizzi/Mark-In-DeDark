@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame;
-using MarkInDeDarkMono.Assets;
+
 using Microsoft.Xna.Framework;
 
 namespace MarkInDeDarkMono.Objects

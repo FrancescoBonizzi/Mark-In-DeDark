@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
-using MarkInDeDarkMono.Assets;
+
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Objects;

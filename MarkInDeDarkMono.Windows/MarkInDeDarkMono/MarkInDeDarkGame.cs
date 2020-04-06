@@ -4,8 +4,8 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-using Mark.Engine;
-using MarkInDeDarkMono.Assets;
+using MarkInDeDarkMono;
+
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;

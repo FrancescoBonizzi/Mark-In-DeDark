@@ -2,7 +2,7 @@
 using MarkInDeDark.Common;
 using System.Globalization;
 
-namespace MarkInDeDarkMono.Assets
+namespace MarkInDeDarkMono
 {
     public class GameStringsLoader
     {

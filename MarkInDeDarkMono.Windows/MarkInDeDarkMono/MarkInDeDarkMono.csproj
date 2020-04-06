@@ -86,7 +86,7 @@
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
-    <Compile Include="Assets\GameStringsLoader.cs" />
+    <Compile Include="GameStringsLoader.cs" />
     <Compile Include="Characters\Bubu.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\CharacterConfiguration.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Maths\Utilities.cs" />
     <Compile Include="Menu\MenuLevelButton.cs" />
     <Compile Include="MarkInDeDarkGame.cs" />
-    <Compile Include="Assets\AssetsLoader.cs" />
+    <Compile Include="AssetsLoader.cs" />
     <Compile Include="Objects\CandlePack.cs" />
     <Compile Include="Objects\Door.cs" />
     <Compile Include="Objects\IDrawableObject.cs" />

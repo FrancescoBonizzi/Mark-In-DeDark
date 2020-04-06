@@ -1,7 +1,7 @@
 ﻿using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGrid;
-using MarkInDeDarkMono.Assets;
+
 using System;
 
 namespace MarkInDeDarkMono.Levels
