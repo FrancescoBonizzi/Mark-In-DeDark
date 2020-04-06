@@ -95,6 +95,8 @@ namespace MarkInDeDarkMono.AI
             // Altrimenti ritorno allo stato originale
             enemy.ResetNormalColor();
             enemy.Speed = _originalSpeed;
+            if (_nextAI is PatrolAI)
+                ((PatrolAI)_nextAI).ClearActions();
             return enemy.SetNewAI(_nextAI);
         }
     }
