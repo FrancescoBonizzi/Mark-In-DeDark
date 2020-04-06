@@ -44,6 +44,9 @@ namespace MarkInDeDark.Common
 
         public void RemoveStringForAllLanguages(string key)
         {
+            if (key == null)
+                return;
+
             foreach (var language in _traslatedStrings.Traslations.Values)
                 if (language.ContainsKey(key))
                     language.Remove(key);
