@@ -34,8 +34,6 @@ namespace MarkInDeDarkMono
         private readonly CultureInfo _gameCulture;
         private readonly GameConfig _gameConfig;
 
-        public event EventHandler ExitGameRequested;
-
         private readonly ILocalizedStringsRepository _localizedStringsRepository;
 
         private GameOrchestrator _orchestrator;
@@ -71,7 +69,7 @@ namespace MarkInDeDarkMono
             _levelsNames = levelPaths;
             _gameCulture = gameCulture;
             _gameConfig = GameConfigSerializerV2.Deserialize(textFileAssetsLoader.LoadFile(@"Content/GameConfig.json"));
-            
+
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {
                 SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,
@@ -111,8 +109,8 @@ namespace MarkInDeDarkMono
         private void LoadGameAssets()
         {
             new GameStringsLoader(
-                _localizedStringsRepository, 
-                _gameCulture, 
+                _localizedStringsRepository,
+                _gameCulture,
                 new TextFileStringsManager(_textFileAssetsLoader.LoadFile(@"Content/Translations.json")));
 
             _assetsLoader = new AssetsLoader(
@@ -145,8 +143,8 @@ namespace MarkInDeDarkMono
 
             var levelsPageFactory = new Func<LevelsPage>(
                 () => new LevelsPage(
-                    _matrixScaleProvider, 
-                    _localizedStringsRepository, 
+                    _matrixScaleProvider,
+                    _localizedStringsRepository,
                     _assetsLoader));
 
             _orchestrator = new GameOrchestrator(
@@ -172,13 +170,9 @@ namespace MarkInDeDarkMono
             }
             else
             {
-                var touchListener = new TouchListener(_matrixScaleProvider);
-                touchListener.TouchStarted += TouchListener_TouchEnded;
-
                 var gamepadListener = new GamePadListener();
                 gamepadListener.ButtonDown += GamepadListener_ButtonDown;
 
-                _inputListeners.Add(touchListener);
                 _inputListeners.Add(gamepadListener);
             }
         }
@@ -190,49 +184,25 @@ namespace MarkInDeDarkMono
                 _orchestrator.Back();
                 if (_orchestrator.ShouldEndApplication)
                 {
-                    if (ExitGameRequested != null)
-                        ExitGameRequested(this, EventArgs.Empty); // Se ho un handler specifico, uso quello
-                    else
-                        Exit(); // Devono ancora fixare il problema dell'uscita da Android
+                    Exit();
                 }
             }
         }
 
         private void KeyboardListener_KeyPressed(object sender, KeyboardEventArgs e)
         {
-            if (e.Key == Keys.P)
-            {
-                _orchestrator.TogglePause();
-            }
-            else if (e.Key == Keys.Escape)
+            if (e.Key == Keys.Escape)
             {
                 _orchestrator.Back();
                 if (_orchestrator.ShouldEndApplication)
                 {
-                    if (ExitGameRequested != null)
-                        ExitGameRequested(this, EventArgs.Empty); // Se ho un handler specifico, uso quello
-                    else
-                        Exit(); // Devono ancora fixare il problema dell'uscita da Android
-                }
-            }
-            else if (e.Key == Keys.Back) // L'indietro di Android viene triggerato qui!
-            {
-                _orchestrator.Back();
-                if (_orchestrator.ShouldEndApplication)
-                {
-                    if (ExitGameRequested != null)
-                        ExitGameRequested(this, EventArgs.Empty); // Se ho un handler specifico, uso quello
-                    else
-                        Exit(); // Devono ancora fixare il problema dell'uscita da Android
+                    Exit();
                 }
             }
         }
 
-        private void TouchListener_TouchEnded(object sender, TouchEventArgs e)
-           => _orchestrator.HandleTouchInput(e.Position);
-
         private void MouseListener_MouseClicked(object sender, MouseEventArgs e)
-            => _orchestrator.HandleTouchInput(e.Position);
+            => _orchestrator.HandleMouseInput(e.Position);
 
         protected override void LoadContent()
         {

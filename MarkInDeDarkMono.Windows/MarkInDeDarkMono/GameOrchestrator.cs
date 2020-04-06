@@ -172,8 +172,11 @@ namespace MarkInDeDarkMono
                 });
         }
 
-        public void HandleTouchInput(Vector2? touchLocation = null)
+        public void HandleMouseInput(Vector2? touchLocation = null)
         {
+            if (IsPaused)
+                return;
+
             if (touchLocation == null)
                 return;
 
@@ -184,7 +187,6 @@ namespace MarkInDeDarkMono
                     break;
 
                 case GameStates.Playing:
-                    // TODO trasformare la posizione del touch in una action
                     break;
 
                 case GameStates.Levels:
@@ -195,6 +197,9 @@ namespace MarkInDeDarkMono
 
         public void HandleKeyboardPressed(CharacterActions action)
         {
+            if (IsPaused)
+                return;
+
             switch (_currentState)
             {
                 case GameStates.Menu:
