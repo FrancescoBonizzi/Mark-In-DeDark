@@ -100,10 +100,10 @@ namespace MarkInDeDarkMono
         protected override void Initialize()
         {
             _matrixScaleProvider = new DynamicScalingMatrixProvider(
-                new GameWindowScreenSizeChangedNotifier(Window),
-                GraphicsDeviceManager.GraphicsDevice,
-                1920, 1080,
-                true);
+                window: new GameWindowScreenSizeChangedNotifier(Window),
+                graphicsDevice: GraphicsDeviceManager.GraphicsDevice,
+                virtualWidth: 1920, virtualHeight: 1080,
+                mantainProportions: true);
 
             base.Initialize();
         }

@@ -115,7 +115,10 @@ namespace MarkInDeDarkMono
 
             _currentLevel = selectedLevel;
 
-            _camera = new Camera2D(_matrixScaleProvider);
+            _camera = new Camera2D(_matrixScaleProvider)
+            {
+                Zoom = 0.8f
+            };
             _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager);
