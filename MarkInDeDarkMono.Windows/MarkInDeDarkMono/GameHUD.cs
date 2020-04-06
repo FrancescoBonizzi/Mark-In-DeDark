@@ -55,8 +55,8 @@ namespace MarkInDeDarkMono
             _remainingCandlesDrawingInfos = new DrawingInfos()
             {
                 Position = new Vector2(
-                    scaleMatrixProvider.VirtualWidth - 120f,
-                    scaleMatrixProvider.VirtualHeight - 96f),
+                    scaleMatrixProvider.RealScreenWidth - 120f,
+                    scaleMatrixProvider.RealScreenHeight - 96f),
                 Scale = 0.4f,
                 OverlayColor = Color.Brown
             };
