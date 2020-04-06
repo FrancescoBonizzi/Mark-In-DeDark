@@ -26,11 +26,6 @@ namespace MarkInDeDarkMono.Menu
         private readonly string _playText;
         private readonly Vector2 _playTextSize;
 
-        private readonly ScalingObject _shopScalingObject;
-        private readonly DrawingInfos _shopDrawingInfos;
-        private readonly string _shopText;
-        private readonly Vector2 _shopTextSize;
-
         private readonly SoundManager _soundManager;
 
         public MainMenuPage(
@@ -64,16 +59,6 @@ namespace MarkInDeDarkMono.Menu
             };
             _playTextSize = _font.MeasureString(_playText);
 
-            _shopText = localizedStringsRepository.Get("ShopString");
-            _shopScalingObject = new ScalingObject(0.7f, 1.0f, 0.8f);
-            _shopDrawingInfos = new DrawingInfos()
-            {
-                Position = new Vector2(336f, 768f),
-                Origin = _font.GetTextCenter(_shopText),
-                OverlayColor = Color.Black
-            };
-            _shopTextSize = _font.MeasureString(_shopText);
-
             // Background menu music play
             // TODO About
         }
@@ -93,11 +78,6 @@ namespace MarkInDeDarkMono.Menu
                 _soundManager.StopSounds();
                 orchestrator.SetLevelState();
             }
-            else if (_shopDrawingInfos.HitBox((int)_shopTextSize.X, (int)_shopTextSize.Y)
-                .Contains(touchPoint))
-            {
-                // TODO
-            }
         }
 
         public void Update(TimeSpan elapsed)
@@ -107,9 +87,6 @@ namespace MarkInDeDarkMono.Menu
 
             _playScalingObject.Update(elapsed);
             _playDrawingInfos.Scale = _playScalingObject.Scale;
-
-            _shopScalingObject.Update(elapsed);
-            _shopDrawingInfos.Scale = _shopScalingObject.Scale;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -120,7 +97,6 @@ namespace MarkInDeDarkMono.Menu
 
             spriteBatch.DrawString(_font, _titleText, _titleDrawingInfos);
             spriteBatch.DrawString(_font, _playText, _playDrawingInfos);
-            spriteBatch.DrawString(_font, _shopText, _shopDrawingInfos);
 
             spriteBatch.End();
         }

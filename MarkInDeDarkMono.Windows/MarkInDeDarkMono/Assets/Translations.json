@@ -10,9 +10,6 @@
       "ClosedDoorString": {
         "Text": "It's locked..."
       },
-      "ShopString": {
-        "Text": "Shop"
-      },
       "LevelsPageTitleString": {
         "Text": "Levels"
       },
@@ -38,9 +35,6 @@
       },
       "ClosedDoorString": {
         "Text": "Tutto chiuso..."
-      },
-      "ShopString": {
-        "Text": "Negozio"
       },
       "LevelsPageTitleString": {
         "Text": "Livelli"
