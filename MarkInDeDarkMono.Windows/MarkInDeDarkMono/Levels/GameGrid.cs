@@ -56,7 +56,8 @@ namespace MarkInDeDarkMono.Levels
             AssetsLoader assetsLoader,
             Camera2D camera,
             SoundManager soundManager,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
         {
             _position = Vector2.Zero;
             _camera = camera;
@@ -93,7 +94,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
+            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig, game);
         }
 
         public void SetNullCell(int cellX, int cellY)

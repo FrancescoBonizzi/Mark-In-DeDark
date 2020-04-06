@@ -31,6 +31,7 @@ namespace MarkInDeDarkMono.Objects
         private readonly Vector2 _startingPosition;
         private DoorStates _currentState;
         private readonly float _rotationSpeed = 4f;
+        private readonly Action _onClose;
         private TimeSpan _totalElapsed;
 
         private float _openPositionRotation;
@@ -39,7 +40,8 @@ namespace MarkInDeDarkMono.Objects
         public Door(
             Vector2 position,
             LinkDirection linkDirection,
-            Vector2 size)
+            Vector2 size,
+            Action onClose = null)
         {
             Size = size;
             DoorDirectionInCell = linkDirection;
@@ -54,6 +56,8 @@ namespace MarkInDeDarkMono.Objects
 
             _currentState = DoorStates.Closed;
             SetNewPinPointToOpen(linkDirection);
+
+            _onClose = onClose;
         }
 
         private void SetNewPinPointToOpen(LinkDirection openingDirection)
@@ -137,6 +141,8 @@ namespace MarkInDeDarkMono.Objects
                     if (DrawingInfos.Rotation.IsEqualToInRange(_closedPositionRotation))
                     {
                         _currentState = DoorStates.Closed;
+                        if (_onClose != null)
+                            _onClose();
                     }
                     else
                     {

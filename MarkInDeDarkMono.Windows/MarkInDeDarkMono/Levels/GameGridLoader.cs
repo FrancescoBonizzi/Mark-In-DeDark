@@ -17,7 +17,8 @@ namespace MarkInDeDarkMono.Levels
             GameGridBundle levelEditorGrid,
             GameGrid grid,
             Level level,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
         {
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -263,7 +264,7 @@ namespace MarkInDeDarkMono.Levels
                     gameCell.IsWestDoor = levelEditorCell.Left == WallTypes.Porta;
 
                     gameCell.GenerateWalls();
-                    gameCell.GenerateDoors();
+                    gameCell.GenerateDoors(game);
                 }
             }
 

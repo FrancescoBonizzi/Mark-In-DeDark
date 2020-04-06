@@ -1,4 +1,5 @@
-﻿using FbonizziMonoGame.Drawing;
+﻿using FbonizziMonoGame;
+using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
@@ -58,6 +59,7 @@ namespace MarkInDeDarkMono
         private Vector2 _playerCameraOffset;
 
         private bool? _runGameOverScene;
+        private bool _shakeViewport;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -69,6 +71,9 @@ namespace MarkInDeDarkMono
         }
 
         private GameStates _currentGameState;
+        private double _shakeStartAngle;
+        private double _shakeIntensity;
+        private TimeSpan _shakeStart;
         private readonly ILocalizedStringsRepository _localizedStringsRepository;
 
         public MarkInDeDarkGame(
@@ -119,16 +124,16 @@ namespace MarkInDeDarkMono
             {
                 Zoom = 0.8f
             };
-            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig);
+            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager);
 
             _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
             _key = new CollectableObject(assetsLoader.Sprites["key"], _gameGrid.KeyPosition, _soundManager);
             _playerStartingPointTexture = assetsLoader.Sprites["stairs"];
-            _playerStartingPointDrawingInfos = new DrawingInfos() 
-            { 
-                Position = _gameGrid.PlayerStartingPosition, 
+            _playerStartingPointDrawingInfos = new DrawingInfos()
+            {
+                Position = _gameGrid.PlayerStartingPosition,
                 Origin = _playerStartingPointTexture.SpriteCenter
             };
 
@@ -242,12 +247,12 @@ namespace MarkInDeDarkMono
 
             if (_gameGrid.CellTriggerText != null)
             {
-                foreach(var cellTriggerText in _gameGrid.CellTriggerText)
+                foreach (var cellTriggerText in _gameGrid.CellTriggerText)
                 {
                     _triggerObjects.Add(new ShowTextTriggerObject(
-                        _localizedStringsRepository.Get(cellTriggerText.Value), 
-                        _gameHud, 
-                        cellTriggerText.Key, 
+                        _localizedStringsRepository.Get(cellTriggerText.Value),
+                        _gameHud,
+                        cellTriggerText.Key,
                         _player));
                 }
             }
@@ -282,7 +287,23 @@ namespace MarkInDeDarkMono
             {
                 case GameStates.Playing:
                     ElapsedGameTime += elapsed;
+
                     RepositionCamera();
+
+                    // Effetto shake della viewport
+                    if (_shakeViewport)
+                    {
+                        _shakeStart += elapsed;
+                        var offset = new Vector2((float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
+                        _shakeIntensity -= 0.25f;
+                        _shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
+                        if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > 2 || _shakeIntensity <= 0)
+                        {
+                            _shakeViewport = false;
+                        }
+
+                        _camera.Position += offset;
+                    }
 
                     if (_player.IsDying)
                     {
@@ -333,7 +354,7 @@ namespace MarkInDeDarkMono
                         }
                     }
 
-                    foreach(var littleLight in _gameGrid.LittleLights)
+                    foreach (var littleLight in _gameGrid.LittleLights)
                     {
                         littleLight.Update(elapsed);
                     }
@@ -370,7 +391,7 @@ namespace MarkInDeDarkMono
                         if (_runGameOverScene == null)
                         {
                             _runGameOverScene = !_player.HasWon;
-                            if (_runGameOverScene == true) 
+                            if (_runGameOverScene == true)
                             {
                                 _gameOverFadeObject = new FadeObject(TimeSpan.FromSeconds(2), Color.White);
                                 _gameOverFadeObject.FadeOut();
@@ -440,6 +461,14 @@ namespace MarkInDeDarkMono
         public void StopMusic()
             => _soundManager.StopSounds();
 
+        public void StartCameraShake(int intensity)
+        {
+            _shakeIntensity = intensity;
+            _shakeStartAngle = Math.PI;
+            _shakeStart = TimeSpan.Zero;
+            _shakeViewport = true;
+        }
+
         private void DrawLightMap(
             SpriteBatch spriteBatch,
             RenderTarget2D virtualDrawTarget,
@@ -501,7 +530,7 @@ namespace MarkInDeDarkMono
         }
 
         public void DrawPlayingScene(
-            SpriteBatch spriteBatch, 
+            SpriteBatch spriteBatch,
             RenderTarget2D virtualDrawTarget)
         {
             var viewMatrix = _camera.GetViewMatrix();

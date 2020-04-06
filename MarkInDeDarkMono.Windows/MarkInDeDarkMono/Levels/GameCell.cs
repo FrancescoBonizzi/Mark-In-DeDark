@@ -238,9 +238,10 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void GenerateDoors()
+        public void GenerateDoors(MarkInDeDarkGame game)
         {
             var doorSize = new Vector2(_doorSprite.Width, _doorSprite.Height);
+            int shakeIntensity = 3;
 
             if (IsNorthDoor)
             {
@@ -248,7 +249,8 @@ namespace MarkInDeDarkMono.Levels
                 Doors.Add(LinkDirection.NorthLink, new Door(
                     northDoorPosition,
                     LinkDirection.NorthLink,
-                    doorSize));
+                    doorSize,
+                    () => game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsEastDoor)
@@ -257,7 +259,8 @@ namespace MarkInDeDarkMono.Levels
                 Doors.Add(LinkDirection.EastLink, new Door(
                     eastDoorPosition,
                     LinkDirection.EastLink,
-                    doorSize));
+                    doorSize,
+                    () => game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsSouthDoor)
@@ -266,7 +269,8 @@ namespace MarkInDeDarkMono.Levels
                 Doors.Add(LinkDirection.SouthLink, new Door(
                     southDoorPosition,
                     LinkDirection.SouthLink,
-                    doorSize));
+                    doorSize,
+                    () => game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsWestDoor)
@@ -275,7 +279,8 @@ namespace MarkInDeDarkMono.Levels
                 Doors.Add(LinkDirection.WestLink, new Door(
                     westDoorPosition,
                     LinkDirection.WestLink,
-                    doorSize));
+                    doorSize,
+                    () => game.StartCameraShake(shakeIntensity)));
             }
         }
 
