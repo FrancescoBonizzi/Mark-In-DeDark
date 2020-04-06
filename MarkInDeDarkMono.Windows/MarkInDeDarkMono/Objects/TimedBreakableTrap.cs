@@ -27,12 +27,14 @@ namespace MarkInDeDarkMono.Objects
         private TrapStates _currentTrapState;
 
         private readonly TimeSpan _trapTimeToBreak;
+        private readonly Action _onGoingToBreakTrapAction;
 
         public TimedBreakableTrap(
             AssetsLoader assetsLoader,
             GameConfig gameConfig,
             Rectangle triggerCollisionRectangle,
-            IEnumerable<Character> affectedCharacters)
+            IEnumerable<Character> affectedCharacters,
+            Action onGoingToBreakTrapAction)
             : base(
                   triggerCollisionRectangle: triggerCollisionRectangle.WithTolerance(new Rectangle(30, 30, 60, 60)),
                   affectedCharacters: affectedCharacters,
@@ -41,6 +43,7 @@ namespace MarkInDeDarkMono.Objects
                   shouldFireOnce: false)
         {
             _trapTimeToBreak = TimeSpan.FromSeconds(gameConfig.BreakableTrapBreakingTimeSeconds);
+            _onGoingToBreakTrapAction = onGoingToBreakTrapAction;
 
             SetOnTriggerPressed(
                 (character, elapsed) => 
@@ -107,6 +110,8 @@ namespace MarkInDeDarkMono.Objects
                 case TrapStates.GoingToBreak:
 
                     base.Update(elapsed);
+
+                    _onGoingToBreakTrapAction();
                     // Il tempo è incrementato nel trigger
                     if (_elapsedSinceTrigger >= _trapTimeToBreak)
                     {

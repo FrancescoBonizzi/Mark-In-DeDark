@@ -242,7 +242,8 @@ namespace MarkInDeDarkMono
                         assetsLoader,
                         _gameConfig,
                         breakableTrapRectangle,
-                        (new List<Character> { _player }).Concat(_enemies)));
+                        (new List<Character> { _player }).Concat(_enemies),
+                        () => StartCameraShake(1)));
                 }
             }
 
@@ -464,6 +465,9 @@ namespace MarkInDeDarkMono
 
         public void StartCameraShake(int intensity)
         {
+            if (_shakeViewport)
+                return;
+
             _shakeIntensity = intensity;
             _shakeStartAngle = Math.PI;
             _shakeStart = TimeSpan.Zero;
