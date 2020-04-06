@@ -58,6 +58,7 @@ namespace MarkInDeDarkMono.Levels
 
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
         private readonly GameGrid _gameGrid;
+        private readonly MarkInDeDarkGame _game;
 
         public GameCell(
             Vector2 position,
@@ -72,7 +73,8 @@ namespace MarkInDeDarkMono.Levels
             SoundManager soundManager,
             int iIndex,
             int jIndex,
-            GameGrid gameGrid)
+            GameGrid gameGrid,
+            MarkInDeDarkGame game)
         {
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
             DontDraw = false;
@@ -107,6 +109,8 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = position
             };
+
+            _game = game;
 
             Links = new Dictionary<LinkDirection, GameCell>()
             {
@@ -235,10 +239,11 @@ namespace MarkInDeDarkMono.Levels
                 _soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
+                _game.StartCameraShake(10);
             }
         }
 
-        public void GenerateDoors(MarkInDeDarkGame game)
+        public void GenerateDoors()
         {
             var doorSize = new Vector2(_doorSprite.Width, _doorSprite.Height);
             int shakeIntensity = 3;
@@ -250,7 +255,7 @@ namespace MarkInDeDarkMono.Levels
                     northDoorPosition,
                     LinkDirection.NorthLink,
                     doorSize,
-                    () => game.StartCameraShake(shakeIntensity)));
+                    () => _game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsEastDoor)
@@ -260,7 +265,7 @@ namespace MarkInDeDarkMono.Levels
                     eastDoorPosition,
                     LinkDirection.EastLink,
                     doorSize,
-                    () => game.StartCameraShake(shakeIntensity)));
+                    () => _game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsSouthDoor)
@@ -270,7 +275,7 @@ namespace MarkInDeDarkMono.Levels
                     southDoorPosition,
                     LinkDirection.SouthLink,
                     doorSize,
-                    () => game.StartCameraShake(shakeIntensity)));
+                    () => _game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsWestDoor)
@@ -280,7 +285,7 @@ namespace MarkInDeDarkMono.Levels
                     westDoorPosition,
                     LinkDirection.WestLink,
                     doorSize,
-                    () => game.StartCameraShake(shakeIntensity)));
+                    () => _game.StartCameraShake(shakeIntensity)));
             }
         }
 

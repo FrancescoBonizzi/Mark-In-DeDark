@@ -74,18 +74,19 @@ namespace MarkInDeDarkMono.Levels
                 for (int j = 0; j < VerticalCellsNumber; ++j)
                 {
                     _cells[i, j] = new GameCell(
-                        nextCellPosition,
-                        assetsLoader,
-                        levelToLoad.GroundSpriteType1,
-                        levelToLoad.WallSprite,
-                        levelToLoad.DestroyableWallSprite,
-                        levelToLoad.AngleSprite,
-                        levelToLoad.DirtySprite,
-                        levelToLoad.DoorSprite,
-                        levelToLoad.DirtyProbability,
-                        soundManager,
-                        i, j,
-                        this);
+                        position: nextCellPosition,
+                        assetsLoader: assetsLoader,
+                        cell: levelToLoad.GroundSpriteType1,
+                        wall: levelToLoad.WallSprite,
+                        destroyableWall: levelToLoad.DestroyableWallSprite,
+                        angle: levelToLoad.AngleSprite,
+                        dirty: levelToLoad.DirtySprite,
+                        door: levelToLoad.DoorSprite,
+                        dirtyProbability: levelToLoad.DirtyProbability,
+                        soundManager: soundManager,
+                        iIndex: i, jIndex: j,
+                        gameGrid: this,
+                        game: game);
 
                     nextCellPosition.Y += CellHeight;
                 }

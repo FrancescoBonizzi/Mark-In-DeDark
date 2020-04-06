@@ -264,7 +264,7 @@ namespace MarkInDeDarkMono.Levels
                     gameCell.IsWestDoor = levelEditorCell.Left == WallTypes.Porta;
 
                     gameCell.GenerateWalls();
-                    gameCell.GenerateDoors(game);
+                    gameCell.GenerateDoors();
                 }
             }
 
