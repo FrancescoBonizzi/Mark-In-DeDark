@@ -73,6 +73,8 @@ namespace MarkInDeDarkMono.Characters
         public bool IsMoving => _movementLerpAmount < 1f && !IsDead && !IsDying;
         public float Speed { get; set; }
 
+        protected bool _stopMovement = false;
+
         protected DrawingInfos _mainFigureDrawingInfos;
         protected DrawingInfos _shadowsDrawingInfos;
 
@@ -560,7 +562,7 @@ namespace MarkInDeDarkMono.Characters
             {
                 HandleBufferedInput();
 
-                if (IsMoving)
+                if (IsMoving && !_stopMovement)
                 {
                     _movementLerpAmount = MathHelper.Clamp(
                         _movementLerpAmount + Speed * (float)elapsed.TotalSeconds,

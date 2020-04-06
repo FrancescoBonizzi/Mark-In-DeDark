@@ -199,6 +199,7 @@ namespace MarkInDeDarkMono.Characters
                 HitPlayer();
                 _player.Die();
                 CurrentAI = new IdleAI();
+                _stopMovement = true;
             }
 
             if (!IsMoving)
