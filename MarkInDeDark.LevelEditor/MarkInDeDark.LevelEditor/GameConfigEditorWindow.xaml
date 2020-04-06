@@ -5,9 +5,9 @@
     xmlns:converters="clr-namespace:MarkInDeDark.LevelEditor.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:myClasses="clr-namespace:MarkInDeDark.Common;assembly=MarkInDeDark.Common"
     xmlns:otherControls="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:xnaClasses="clr-namespace:Microsoft.Xna.Framework;assembly=MonoGame.Framework"
-    xmlns:myClasses="clr-namespace:MarkInDeDark.Common;assembly=MarkInDeDark.Common"
     Title="Configurazione del gioco"
     Width="700"
     Height="750"
@@ -19,12 +19,38 @@
         <converters:XnaVector2ToY x:Key="XnaVector2ToY" />
     </Window.Resources>
 
-    <Grid>
+    <DockPanel Background="AliceBlue">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+        <Grid DockPanel.Dock="Top">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Menu Grid.Row="0">
+
+                <MenuItem
+                    x:Name="btnSalva"
+                    Click="btnSalva_Click"
+                    Header="Salva sul gioco corrente"
+                    ToolTip="Lo salva direttamente nella configurazione del gioco che hai installato al momento. Si sovrascrive quando aggiorni il gioco!" />
+
+                <MenuItem
+                    x:Name="btnSalvaInAltroFile"
+                    Click="btnSalvaInAltroFile_Click"
+                    Header="Salva in un altro file" />
+
+            </Menu>
+
+            <TextBlock
+                Grid.Row="1"
+                Padding="6"
+                FontWeight="SemiBold"
+                Foreground="Red"
+                Text="Attenzione! Al prossimo update del gioco perdi queste modifiche se non le salvi in un altro file!" />
+
+        </Grid>
 
         <otherControls:PropertyGrid
             x:Name="propertyGrid"
@@ -55,12 +81,20 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="X" VerticalAlignment="Center" />
-                                    <TextBox Width="100" DataContext="{Binding Value}" Text="{Binding X}" VerticalAlignment="Center" />
+                                    <Label VerticalAlignment="Center" Content="X" />
+                                    <TextBox
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        DataContext="{Binding Value}"
+                                        Text="{Binding X}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="Y" VerticalAlignment="Center" />
-                                    <TextBox Width="100" DataContext="{Binding Value}" Text="{Binding Y}" VerticalAlignment="Center" />
+                                    <Label VerticalAlignment="Center" Content="Y" />
+                                    <TextBox
+                                        Width="100"
+                                        VerticalAlignment="Center"
+                                        DataContext="{Binding Value}"
+                                        Text="{Binding Y}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
@@ -72,38 +106,6 @@
 
         </otherControls:PropertyGrid>
 
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button
-                x:Name="btnSalvaInAltroFile"
-                Width="150"
-                Margin="5"
-                Padding="0,5"
-                ToolTip="Ti servirà per passarmi il file"
-                Click="btnSalvaInAltroFile_Click"
-                Content="Salva con nome" />
-            <Button
-                x:Name="btnSalva"
-                Width="150"
-                Margin="5"
-                Padding="0,5"
-                ToolTip="Lo salva direttamente nella configurazione del gioco che hai installato al momento. Si sovrascrive quando aggiorni il gioco!"
-                Click="btnSalva_Click"
-                Content="Salva sul gioco corrente" />
-
-            <Rectangle Width="1" Margin="5" Fill="Gray" />
-
-            <Button
-                x:Name="btnAnnulla"
-                Width="150"
-                Margin="5"
-                Padding="0,5"
-                Click="btnAnnulla_Click"
-                Content="Esci" />
-        </StackPanel>
-
-    </Grid>
+    </DockPanel>
 
 </Window>

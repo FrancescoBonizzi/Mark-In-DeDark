@@ -33,11 +33,6 @@ namespace MarkInDeDark.LevelEditor
             }
         }
 
-        private void btnAnnulla_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void btnSalva_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -46,7 +41,6 @@ namespace MarkInDeDark.LevelEditor
                 var serializedGameConfig = GameConfigSerializer.Serialize(gameConfig);
                 File.WriteAllText(_gameConfigFilePath, serializedGameConfig);
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
             }
             catch (Exception ex)
             {
