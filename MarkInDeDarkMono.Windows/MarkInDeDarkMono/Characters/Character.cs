@@ -658,7 +658,7 @@ namespace MarkInDeDarkMono.Characters
 
         public virtual void DrawLightMap(SpriteBatch spriteBatch)
         {
-            if (AreLightsActive)
+            if (AreLightsActive && !IsDead)
             {
                 _lightMap.Draw(spriteBatch);
             }
