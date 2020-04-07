@@ -17,8 +17,7 @@ namespace MarkInDeDarkMono.Levels
             GameGridBundle levelEditorGrid,
             GameGrid grid,
             Level level,
-            GameConfig gameConfig,
-            MarkInDeDarkGame game)
+            GameConfig gameConfig)
         {
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();

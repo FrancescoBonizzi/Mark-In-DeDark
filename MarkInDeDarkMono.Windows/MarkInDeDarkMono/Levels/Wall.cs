@@ -1,27 +1,36 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MarkInDeDarkMono.Levels
 {
     public class Wall
     {
-        public DrawingInfos DrawingInfos { get; }
         public LinkDirection Direction { get; }
         public bool IsDestroyable { get; }
+
+        public DrawingInfos DrawingInfos { get; }
+        private readonly Sprite _sprite;
 
         public Wall(
             LinkDirection direction,
             Vector2 position,
-            float rotation,
-            bool isDestroyable)
+            bool isDestroyable,
+            Sprite sprite)
         {
             Direction = direction;
             DrawingInfos = new DrawingInfos()
             {
-                Position = position,
-                Rotation = rotation
+                Position = position
             };
+
             IsDestroyable = isDestroyable;
+            _sprite = sprite;
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_sprite, DrawingInfos);
     }
 }

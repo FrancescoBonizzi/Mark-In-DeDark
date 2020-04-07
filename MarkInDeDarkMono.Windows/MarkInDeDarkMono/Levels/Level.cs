@@ -18,7 +18,8 @@ namespace MarkInDeDarkMono.Levels
         public Sprite GroundSpriteType2 { get; private set; }
         public Sprite DarkSprite { get; private set; }
         public Sprite DirtySprite { get; private set; }
-        public Sprite WallSprite { get; private set; }
+        public Sprite HorizontalWallSprite { get; private set; }
+        public Sprite VerticalWallSprite { get; private set; }
         public Sprite DestroyableWallSprite { get; private set; }
         public Sprite AngleSprite { get; private set; }
         public Sprite DoorSprite { get; private set; }
@@ -48,10 +49,12 @@ namespace MarkInDeDarkMono.Levels
             if (assetsLoader.Sprites.ContainsKey($"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"))
                 GroundSpriteType2 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"];
 
+            // TODO MOMENTANEO PER TEST SU MURI TOPDOWN
             DirtySprite = assetsLoader.Sprites[$"dirty{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
-            WallSprite = assetsLoader.Sprites[$"wall{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            HorizontalWallSprite = assetsLoader.Sprites[$"Walls/wall_topdown_1"];
+            VerticalWallSprite = assetsLoader.Sprites[$"wall3"];
             DestroyableWallSprite = assetsLoader.Sprites[$"wall_breakable"];
-            AngleSprite = assetsLoader.Sprites[$"angle{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            AngleSprite = assetsLoader.Sprites[$"Walls/pillar_topdown_1"];
             DoorSprite = assetsLoader.Sprites["door"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 

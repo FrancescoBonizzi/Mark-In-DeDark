@@ -19,7 +19,8 @@ namespace MarkInDeDarkMono.Levels
     public class GameCell
     {
         public Sprite Sprite { get; set; }
-        private readonly Sprite _wallSprite;
+        private readonly Sprite _horizontalWallSprite;
+        private readonly Sprite _verticalWallSprite;
         private readonly Sprite _destroyableWallSprite;
         private readonly Sprite _angleSprite;
         private readonly Sprite _dirtySprite;
@@ -29,7 +30,6 @@ namespace MarkInDeDarkMono.Levels
         private readonly int _width;
         private readonly int _height;
 
-        private readonly float _wallHeightOver2;
         private readonly float _widthCellDoorDifferenceOver2;
 
         private readonly float _angleWidthOver2;
@@ -64,7 +64,8 @@ namespace MarkInDeDarkMono.Levels
             Vector2 position,
             AssetsLoader assetsLoader,
             Sprite cell,
-            Sprite wall,
+            Sprite horizontalWall,
+            Sprite verticalWall,
             Sprite destroyableWall,
             Sprite angle,
             Sprite dirty,
@@ -83,7 +84,8 @@ namespace MarkInDeDarkMono.Levels
             JIndex = jIndex;
 
             Sprite = cell;
-            _wallSprite = wall;
+            _horizontalWallSprite = horizontalWall;
+            _verticalWallSprite = verticalWall;
             _angleSprite = angle;
             _dirtySprite = dirty;
             _destroyableWallSprite = destroyableWall;
@@ -97,7 +99,6 @@ namespace MarkInDeDarkMono.Levels
             _height = cell.Height;
 
             // Considerando che la texture del muro parte orizzontale
-            _wallHeightOver2 = _wallSprite.Height / 2f;
             _widthCellDoorDifferenceOver2 = (_width - _doorSprite.Width) / 2f;
 
             _angleWidthOver2 = _angleSprite.Width / 2f;
@@ -303,36 +304,36 @@ namespace MarkInDeDarkMono.Levels
             {
                 Walls.Add(new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _wallHeightOver2),
-                    0.0f,
-                    IsNorthDestroyable));
-            }
-
-            if (!IsEastPassable)
-            {
-                Walls.Add(new Wall(
-                    LinkDirection.EastLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _width + _wallHeightOver2, _cellDrawingInfos.Position.Y),
-                    MathHelper.PiOver2,
-                    IsEastDestroyable));
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _verticalWallSprite.Height),
+                    IsNorthDestroyable,
+                    IsNorthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
             }
 
             if (!IsSouthPassable)
             {
                 Walls.Add(new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _width - _wallHeightOver2),
-                    0.0f,
-                    IsSouthDestroyable));
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _width - _verticalWallSprite.Height),
+                    IsSouthDestroyable,
+                    IsSouthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
+            }
+
+            if (!IsEastPassable)
+            {
+                Walls.Add(new Wall(
+                    LinkDirection.EastLink,
+                    new Vector2(_cellDrawingInfos.Position.X + _width + _horizontalWallSprite.Height / 2f, _cellDrawingInfos.Position.Y),
+                    IsEastDestroyable,
+                    IsEastDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
 
             if (!IsWestPassable)
             {
                 Walls.Add(new Wall(
                     LinkDirection.WestLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _wallHeightOver2, _cellDrawingInfos.Position.Y),
-                    MathHelper.PiOver2,
-                    IsWestDestroyable));
+                    new Vector2(_cellDrawingInfos.Position.X + _horizontalWallSprite.Height / 2f, _cellDrawingInfos.Position.Y),
+                    IsWestDestroyable,
+                    IsWestDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
         }
 
@@ -502,16 +503,7 @@ namespace MarkInDeDarkMono.Levels
         public void DrawWalls(SpriteBatch spritebatch)
         {
             foreach (var wall in Walls)
-            {
-                if (!wall.IsDestroyable)
-                {
-                    spritebatch.Draw(_wallSprite, wall.DrawingInfos);
-                }
-                else
-                {
-                    spritebatch.Draw(_destroyableWallSprite, wall.DrawingInfos);
-                }
-            }
+                wall.Draw(spritebatch);
 
             foreach (var door in Doors.Values)
             {

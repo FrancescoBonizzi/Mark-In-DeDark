@@ -78,7 +78,8 @@ namespace MarkInDeDarkMono.Levels
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
                         cell: levelToLoad.GroundSpriteType1,
-                        wall: levelToLoad.WallSprite,
+                        horizontalWall: levelToLoad.HorizontalWallSprite,
+                        verticalWall: levelToLoad.VerticalWallSprite,
                         destroyableWall: levelToLoad.DestroyableWallSprite,
                         angle: levelToLoad.AngleSprite,
                         dirty: levelToLoad.DirtySprite,
@@ -96,7 +97,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig, game);
+            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
             _game = game;
         }
 
