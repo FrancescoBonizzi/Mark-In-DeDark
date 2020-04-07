@@ -310,41 +310,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/angle0.png</key>
-            <key type="filename">Game/angle1.png</key>
-            <key type="filename">Game/angle2.png</key>
-            <key type="filename">Game/angle3.png</key>
-            <key type="filename">Game/angle4.png</key>
-            <key type="filename">Game/angle5.png</key>
-            <key type="filename">Game/angle6.png</key>
+            <key type="filename">Game/Walls/pillar_topdown_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>30,30,60,60</rect>
+                <rect>32,48,64,96</rect>
                 <key>scale9Paddings</key>
-                <rect>30,30,60,60</rect>
+                <rect>32,48,64,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/blood.png</key>
-            <key type="filename">Game/scintilla.png</key>
-            <key type="filename">Game/scintilla_lightmap.png</key>
-            <key type="filename">Game/smoke.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
+            <key type="filename">Game/Walls/wall_topdown_1.png</key>
             <key type="filename">Game/blood_decal.png</key>
             <key type="filename">Game/candle_pack_1.png</key>
             <key type="filename">Game/candle_pack_2.png</key>
@@ -406,6 +385,41 @@
                 <rect>48,48,96,96</rect>
                 <key>scale9Paddings</key>
                 <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/angle0.png</key>
+            <key type="filename">Game/angle1.png</key>
+            <key type="filename">Game/angle2.png</key>
+            <key type="filename">Game/angle3.png</key>
+            <key type="filename">Game/angle4.png</key>
+            <key type="filename">Game/angle5.png</key>
+            <key type="filename">Game/angle6.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9Paddings</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/blood.png</key>
+            <key type="filename">Game/scintilla.png</key>
+            <key type="filename">Game/scintilla_lightmap.png</key>
+            <key type="filename">Game/smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,24,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
