@@ -388,6 +388,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Walls/wall_topdown_vertical_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,48,44,96</rect>
+                <key>scale9Paddings</key>
+                <rect>22,48,44,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/angle0.png</key>
             <key type="filename">Game/angle1.png</key>
             <key type="filename">Game/angle2.png</key>
