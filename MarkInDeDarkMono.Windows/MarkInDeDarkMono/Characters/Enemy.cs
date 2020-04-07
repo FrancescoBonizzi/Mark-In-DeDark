@@ -161,6 +161,8 @@ namespace MarkInDeDarkMono.Characters
         {
             StopAttackSound();
             base.Die();
+            // Così quando muoiono in tanti sembrano più sparpagliati
+            _mainFigureDrawingInfos.Rotation = Numbers.RandomBetween(-1f, 1f);
         }
 
         public virtual bool CustomConditionToAttackPlayer()

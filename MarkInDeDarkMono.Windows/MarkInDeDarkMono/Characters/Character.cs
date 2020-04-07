@@ -221,12 +221,12 @@ namespace MarkInDeDarkMono.Characters
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.Die.ToString());
         }
 
-        public void DieForTrap(Vector2 trapPosition)
+        public void DieForTrap(Vector2 trapCenter)
         {
             Die();
-            _mainFigureDrawingInfos.Position = trapPosition;
-            _mainFigureDrawingInfos.Scale = 0.8f;
-
+            _mainFigureDrawingInfos.Position = trapCenter + new Vector2(0f, 30f);
+            _mainFigureDrawingInfos.Scale = 0.6f;
+            
             if (AreLightsActive)
                 SetLightPosition();
         }
