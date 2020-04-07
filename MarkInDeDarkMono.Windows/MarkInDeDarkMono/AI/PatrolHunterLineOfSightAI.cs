@@ -1,5 +1,4 @@
-﻿using MarkInDeDarkMono;
-using MarkInDeDarkMono.Characters;
+﻿using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
@@ -34,7 +33,6 @@ namespace MarkInDeDarkMono.AI
             var enemyCellIndex = gameGrid.GetCellIndexByPixel(enemy.Position);
 
             // Se il player ha i piedi in due celle bisogna valutarle entrambe
-
             bool areInTheSameVertical = playerCellIndex.X == enemyCellIndex.X;
             bool areInTheSameHorizontal = playerCellIndex.Y == enemyCellIndex.Y;
 

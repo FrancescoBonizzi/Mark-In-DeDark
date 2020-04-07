@@ -425,6 +425,22 @@ namespace MarkInDeDarkMono.Characters
             {
                 switch (_nextActionToProcess)
                 {
+                    case CharacterActions.IdleLeft:
+                        SetDirectionAnimation(CharacterActions.Left);
+                        break;
+
+                    case CharacterActions.IdleRight:
+                        SetDirectionAnimation(CharacterActions.Right);
+                        break;
+
+                    case CharacterActions.IdleUp:
+                        SetDirectionAnimation(CharacterActions.Up);
+                        break;
+
+                    case CharacterActions.IdleDown:
+                        SetDirectionAnimation(CharacterActions.Down);
+                        break;
+
                     case CharacterActions.Up:
                         GoNextCellUp(currentCell);
                         break;
