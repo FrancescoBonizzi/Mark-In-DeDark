@@ -52,6 +52,9 @@ namespace MarkInDeDarkMono.Characters
         {
             _candlesManager = candlesManager;
             _thisAI = CurrentAI as PatrolAI;
+            
+            // Ha gli occhi, non una cosa in mano, quindi non serve il glow
+            _torch = null;
         }
 
         public override void Update(TimeSpan elapsed)

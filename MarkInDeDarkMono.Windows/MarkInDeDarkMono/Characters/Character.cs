@@ -66,7 +66,7 @@ namespace MarkInDeDarkMono.Characters
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
         private readonly Light _lightMap;
-        private readonly Light _torch;
+        protected Light _torch;
 
         public bool AreLightsActive { get; set; }
 
@@ -181,13 +181,13 @@ namespace MarkInDeDarkMono.Characters
         public void SetTemporaryColor(Color color)
         {
             _lightMap.SetTemporaryColorForAnimation(color);
-            _torch.SetTemporaryColorForAnimation(color);
+            _torch?.SetTemporaryColorForAnimation(color);
         }
 
         public void ResetNormalColor()
         {
             _lightMap.ResetColor();
-            _torch.ResetColor();
+            _torch?.ResetColor();
         }
 
         public Vector2 TorchPosition
@@ -614,7 +614,7 @@ namespace MarkInDeDarkMono.Characters
             if (AreLightsActive)
             {
                 _lightMap.Update(elapsed);
-                _torch.Update(elapsed);
+                _torch?.Update(elapsed);
             }
         }
 
@@ -622,7 +622,7 @@ namespace MarkInDeDarkMono.Characters
         {
             var newLightPosition = WorldCenter + _torchPositionTraslation;
             _lightMap.SetPosition(Vector2.Lerp(_lightMap.Position, newLightPosition, lerpAmount));
-            _torch.SetPosition(newLightPosition);
+            _torch?.SetPosition(newLightPosition);
         }
 
         protected void SetShadowPosition()
@@ -647,7 +647,7 @@ namespace MarkInDeDarkMono.Characters
             
             if (AreLightsActive && !IsDead)
             {
-                _torch.Draw(spriteBatch);
+                _torch?.Draw(spriteBatch);
             }
 
             if (CurrentCharacterState == CharacterState.Dying)
