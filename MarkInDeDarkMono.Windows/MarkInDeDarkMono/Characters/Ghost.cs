@@ -52,6 +52,9 @@ namespace MarkInDeDarkMono.Characters
         {
             _candlesManager = candlesManager;
             _canGoOverWalls = true;
+
+            // E' lui stesso il glow
+            _torch = null;
         }
 
         public override void Die()
