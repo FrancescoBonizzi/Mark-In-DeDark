@@ -519,14 +519,17 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawTopDownWalls(SpriteBatch spritebatch)
+        public void DrawTopWalls(SpriteBatch spritebatch)
         {
             if (Walls.ContainsKey(LinkDirection.NorthLink))
                 Walls[LinkDirection.NorthLink].Draw(spritebatch);
 
             if (Doors.ContainsKey(LinkDirection.NorthLink))
                 spritebatch.Draw(_doorSprite, Doors[LinkDirection.NorthLink].DrawingInfos);
+        }
 
+        public void DrawDownWalls(SpriteBatch spritebatch)
+        {
             if (Angles.ContainsKey(AnglePositions.NW))
                 spritebatch.Draw(_angleSprite, Angles[AnglePositions.NW]);
 
