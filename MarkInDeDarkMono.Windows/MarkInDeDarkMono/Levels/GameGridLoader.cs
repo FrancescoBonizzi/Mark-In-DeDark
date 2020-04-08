@@ -518,9 +518,17 @@ namespace MarkInDeDarkMono.Levels
                     if (cell == null)
                         continue;
 
+                    var nearCells = new List<GameCell>()
+                    {
+                        cell.NorthCellWithoutLinks,
+                        cell.SouthCellWithoutLinks,
+                        cell.EastCellWithoutLinks,
+                        cell.WestCellWithoutLinks
+                    };
+
                     foreach (var wall in cell.Walls)
                     {
-                        foreach (var nearCell in cell.Links.Select(a => a.Value))
+                        foreach (var nearCell in nearCells)
                         {
                             if (nearCell != null)
                             {
@@ -542,7 +550,7 @@ namespace MarkInDeDarkMono.Levels
 
                         foreach (var cellAngle in cell.Angles)
                         {
-                            foreach (var nearCell in cell.Links.Select(a => a.Value))
+                            foreach (var nearCell in nearCells)
                             {
                                 if (nearCell != null)
                                 {
