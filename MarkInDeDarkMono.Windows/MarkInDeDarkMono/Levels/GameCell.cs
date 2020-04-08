@@ -311,7 +311,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     IsNorthDestroyable,
                     IsNorthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
             }
@@ -320,7 +320,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     IsSouthDestroyable,
                     IsSouthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
             }
@@ -329,7 +329,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Walls.Add(LinkDirection.EastLink, new Wall(
                     LinkDirection.EastLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y),
+                    new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsEastDestroyable,
                     IsEastDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
@@ -338,7 +338,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Walls.Add(LinkDirection.WestLink, new Wall(
                     LinkDirection.WestLink,
-                    new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y),
+                    new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsWestDestroyable,
                     IsWestDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
@@ -409,7 +409,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70)
+                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60)
             });
         }
 
@@ -422,7 +422,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = new Vector2(
                       _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70)
+                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60)
             });
         }
 
@@ -435,7 +435,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70)
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60)
             });
         }
 
@@ -448,7 +448,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70)
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60)
             });
         }
 
