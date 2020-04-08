@@ -501,7 +501,6 @@ namespace MarkInDeDarkMono.Levels
                             if (cell.Links[LinkDirection.SouthLink].IsWestPassable || cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
                                 if (!cell.IsWestDestroyable || !cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
                                     cell.AddSWAngle();
-
                 }
             }
         }
