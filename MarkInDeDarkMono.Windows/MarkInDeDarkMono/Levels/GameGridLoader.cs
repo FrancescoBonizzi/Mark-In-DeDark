@@ -485,16 +485,23 @@ namespace MarkInDeDarkMono.Levels
                                     cell.AddNWAngle();
 
                     if (!cell.IsEastPassable)
+                        if (cell.Links[LinkDirection.NorthLink] != null)
+                            if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                                    cell.AddNEAngle();
+
+                    if (!cell.IsEastPassable)
                         if (cell.Links[LinkDirection.SouthLink] != null)
                             if (cell.Links[LinkDirection.SouthLink].IsEastPassable || cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
                                 if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
                                     cell.AddSEAngle();
 
-                    if (!cell.IsEastPassable)
-                        if (cell.Links[LinkDirection.NorthLink] != null)
-                            if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
-                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
-                                    cell.AddNEAngle();
+                    if (!cell.IsWestPassable)
+                        if (cell.Links[LinkDirection.SouthLink] != null)
+                            if (cell.Links[LinkDirection.SouthLink].IsWestPassable || cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
+                                if (!cell.IsWestDestroyable || !cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
+                                    cell.AddSWAngle();
+
                 }
             }
         }
