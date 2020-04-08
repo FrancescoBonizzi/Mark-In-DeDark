@@ -710,10 +710,10 @@ namespace MarkInDeDarkMono.Levels
         {
             // Mi segno le celle che l'utente vede, per Update e Draw
             var cameraBoundingRectangle = _camera.BoundingRectangle;
-            _currentViewportMinCellX = GetCellByPixelX((int)_camera.Position.X);
-            _currentViewportMaxCellX = GetCellByPixelX(cameraBoundingRectangle.Right);
-            _currentViewportMinCellY = GetCellByPixelY((int)_camera.Position.Y);
-            _currentViewportMaxCellY = GetCellByPixelY(cameraBoundingRectangle.Bottom);
+            _currentViewportMinCellX = GetCellByPixelX((int)(_camera.Position.X - _camera.Position.X * _camera.Zoom));
+            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right  + cameraBoundingRectangle.Right * _camera.Zoom));
+            _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
+            _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
 
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
