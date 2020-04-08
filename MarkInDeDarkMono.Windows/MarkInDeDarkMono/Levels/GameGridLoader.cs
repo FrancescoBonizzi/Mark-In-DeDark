@@ -1,6 +1,7 @@
 ﻿using MarkInDeDark.GameGrid;
 
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -523,7 +524,11 @@ namespace MarkInDeDarkMono.Levels
                         cell.NorthCellWithoutLinks,
                         cell.SouthCellWithoutLinks,
                         cell.EastCellWithoutLinks,
-                        cell.WestCellWithoutLinks
+                        cell.WestCellWithoutLinks,
+                        cell.NorthCellWithoutLinks?.EastCellWithoutLinks,
+                        cell.NorthCellWithoutLinks?.WestCellWithoutLinks,
+                        cell.SouthCellWithoutLinks?.EastCellWithoutLinks,
+                        cell.SouthCellWithoutLinks?.WestCellWithoutLinks,
                     };
 
                     foreach (var wall in cell.Walls)
@@ -537,7 +542,7 @@ namespace MarkInDeDarkMono.Levels
                                     for (int w = nearCell.Walls.Count - 1; w >= 0; --w)
                                     {
                                         var nearCellWall = nearCell.Walls.ElementAt(w);
-                                        if (wall.Value.DrawingInfos.Position == nearCellWall.Value.DrawingInfos.Position)
+                                        if (wall.Value.DrawingInfos.Position.IsEqualsConvertedToInt(nearCellWall.Value.DrawingInfos.Position))
                                         {
                                             // Fix balordo per evitare di perdere l'info sulla rompibilità
                                             if (!nearCellWall.Value.IsDestroyable)
@@ -559,7 +564,7 @@ namespace MarkInDeDarkMono.Levels
                                         for (int w = nearCell.Angles.Count - 1; w >= 0; --w)
                                         {
                                             var nearCellAngle = nearCell.Angles.ElementAt(w);
-                                            if (cellAngle.Value.Position == nearCellAngle.Value.Position)
+                                            if (cellAngle.Value.Position.IsEqualsConvertedToInt(nearCellAngle.Value.Position))
                                             {
                                                 nearCell.Angles.Remove(nearCellAngle.Key);
                                             }

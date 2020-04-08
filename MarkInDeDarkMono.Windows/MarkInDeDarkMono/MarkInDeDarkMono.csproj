@@ -87,6 +87,7 @@
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
+    <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="GameStringsLoader.cs" />
     <Compile Include="Characters\Bubu.cs" />
     <Compile Include="Characters\Character.cs" />
