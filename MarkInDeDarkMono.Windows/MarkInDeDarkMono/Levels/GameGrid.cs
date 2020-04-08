@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace MarkInDeDarkMono.Levels
 {
@@ -639,7 +640,7 @@ namespace MarkInDeDarkMono.Levels
         {
             var startingCell = GetCellAtPixel((int)A.X, (int)A.Y);
             var destinationCell = GetCellAtPixel((int)B.X, (int)B.Y);
-            
+
             return PathToDirectionsWithoutWalls(FindPathWithoutConsideringWalls(
                 startingCell,
                 destinationCell));
@@ -759,9 +760,9 @@ namespace MarkInDeDarkMono.Levels
 
         public void DrawWallsTopDown(SpriteBatch spriteBatch)
         {
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
             {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
+                for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
                 {
                     if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
                     {
