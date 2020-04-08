@@ -44,7 +44,7 @@ namespace MarkInDeDarkMono.Levels
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
             DarkSprite = assetsLoader.Sprites["celldark"];
-            GroundSpriteType1 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
+            GroundSpriteType1 = assetsLoader.Sprites[$"cell2"];
 
             if (assetsLoader.Sprites.ContainsKey($"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"))
                 GroundSpriteType2 = assetsLoader.Sprites[$"cell{LevelEditorDeserializedGrid.EnvironmentTexturePackId}_2"];
@@ -52,7 +52,7 @@ namespace MarkInDeDarkMono.Levels
             // TODO MOMENTANEO PER TEST SU MURI TOPDOWN
             DirtySprite = assetsLoader.Sprites[$"dirty{LevelEditorDeserializedGrid.EnvironmentTexturePackId}"];
             HorizontalWallSprite = assetsLoader.Sprites[$"Walls/wall_topdown_1"];
-            VerticalWallSprite = assetsLoader.Sprites[$"wall3"];
+            VerticalWallSprite = assetsLoader.Sprites[$"Walls/wall_topdown_vertical_1"];
             DestroyableWallSprite = assetsLoader.Sprites[$"wall_breakable"];
             AngleSprite = assetsLoader.Sprites[$"Walls/pillar_topdown_1"];
             DoorSprite = assetsLoader.Sprites["door"];

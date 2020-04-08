@@ -37,9 +37,9 @@ namespace MarkInDeDarkMono.Levels
 
         private readonly SoundManager _soundManager;
 
-        public List<DrawingInfos> AnglesDrawingInfos { get; }
         private readonly List<DrawingInfos> _dirtysDrawingInfos;
-        public List<Wall> Walls { get; }
+        public Dictionary<AnglePositions, DrawingInfos> Angles { get; }
+        public Dictionary<LinkDirection, Wall> Walls { get; }
 
         private readonly DrawingInfos _cellDrawingInfos;
         private DrawingInfos _bloodDecalDrawingInfos;
@@ -59,6 +59,14 @@ namespace MarkInDeDarkMono.Levels
         private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
+
+        public enum AnglePositions
+        {
+            NE,
+            NW,
+            SE,
+            SW
+        }
 
         public GameCell(
             Vector2 position,
@@ -123,7 +131,7 @@ namespace MarkInDeDarkMono.Levels
 
             Doors = new Dictionary<LinkDirection, Door>();
 
-            AnglesDrawingInfos = new List<DrawingInfos>();
+            Angles = new Dictionary<AnglePositions, DrawingInfos>();
             _dirtysDrawingInfos = new List<DrawingInfos>();
 
             _gameGrid = gameGrid;
@@ -145,7 +153,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader);
-            Walls = new List<Wall>();
+            Walls = new Dictionary<LinkDirection, Wall>();
 
             IsNorthPassable = true;
             IsEastPassable = true;
@@ -239,10 +247,9 @@ namespace MarkInDeDarkMono.Levels
         /// <returns></returns>
         public bool BreakWall(LinkDirection direction, Vector2 breakerPosition)
         {
-            var wallToRemove = Walls.FirstOrDefault(w => w.Direction == direction);
-            if (wallToRemove != null)
-            {
-                Walls.Remove(wallToRemove);
+            if (Walls.ContainsKey(direction))
+            { 
+                Walls.Remove(direction);
                 _soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
@@ -302,36 +309,36 @@ namespace MarkInDeDarkMono.Levels
         {
             if (!IsNorthPassable)
             {
-                Walls.Add(new Wall(
+                Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _verticalWallSprite.Height),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30),
                     IsNorthDestroyable,
                     IsNorthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
             }
 
             if (!IsSouthPassable)
             {
-                Walls.Add(new Wall(
+                Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _width - _verticalWallSprite.Height),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30),
                     IsSouthDestroyable,
                     IsSouthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
             }
 
             if (!IsEastPassable)
             {
-                Walls.Add(new Wall(
+                Walls.Add(LinkDirection.EastLink, new Wall(
                     LinkDirection.EastLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _width + _horizontalWallSprite.Height / 2f, _cellDrawingInfos.Position.Y),
+                    new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y),
                     IsEastDestroyable,
                     IsEastDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
 
             if (!IsWestPassable)
             {
-                Walls.Add(new Wall(
+                Walls.Add(LinkDirection.WestLink, new Wall(
                     LinkDirection.WestLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _horizontalWallSprite.Height / 2f, _cellDrawingInfos.Position.Y),
+                    new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y),
                     IsWestDestroyable,
                     IsWestDestroyable ? _destroyableWallSprite : _verticalWallSprite));
             }
@@ -395,41 +402,53 @@ namespace MarkInDeDarkMono.Levels
 
         public void AddNWAngle()
         {
-            AnglesDrawingInfos.Add(new DrawingInfos()
+            if (Angles.ContainsKey(AnglePositions.NW))
+                return;
+
+            Angles.Add(AnglePositions.NW, new DrawingInfos()
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y - _angleHeightOver2)
+                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70)
             });
         }
 
         public void AddNEAngle()
         {
-            AnglesDrawingInfos.Add(new DrawingInfos()
+            if (Angles.ContainsKey(AnglePositions.NE))
+                return;
+
+            Angles.Add(AnglePositions.NE, new DrawingInfos()
             {
                 Position = new Vector2(
                       _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                      _cellDrawingInfos.Position.Y - _angleHeightOver2)
+                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70)
             });
         }
 
         public void AddSWAngle()
         {
-            AnglesDrawingInfos.Add(new DrawingInfos()
+            if (Angles.ContainsKey(AnglePositions.SW))
+                return;
+
+            Angles.Add(AnglePositions.SW, new DrawingInfos()
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2)
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70)
             });
         }
 
         public void AddSEAngle()
         {
-            AnglesDrawingInfos.Add(new DrawingInfos()
+            if (Angles.ContainsKey(AnglePositions.SE))
+                return;
+
+            Angles.Add(AnglePositions.SE, new DrawingInfos()
             {
                 Position = new Vector2(
                     _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2)
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70)
             });
         }
 
@@ -500,22 +519,46 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawWalls(SpriteBatch spritebatch)
+        public void DrawTopDownWalls(SpriteBatch spritebatch)
         {
-            foreach (var wall in Walls)
-                wall.Draw(spritebatch);
+            if (Walls.ContainsKey(LinkDirection.NorthLink))
+                Walls[LinkDirection.NorthLink].Draw(spritebatch);
 
-            foreach (var door in Doors.Values)
-            {
-                spritebatch.Draw(_doorSprite, door.DrawingInfos);
-            }
+            if (Doors.ContainsKey(LinkDirection.NorthLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.NorthLink].DrawingInfos);
+
+            if (Angles.ContainsKey(AnglePositions.NW))
+                spritebatch.Draw(_angleSprite, Angles[AnglePositions.NW]);
+
+            if (Angles.ContainsKey(AnglePositions.NE))
+                spritebatch.Draw(_angleSprite, Angles[AnglePositions.NE]);
+
+            if (Walls.ContainsKey(LinkDirection.EastLink))
+                Walls[LinkDirection.EastLink].Draw(spritebatch);
+
+            if (Doors.ContainsKey(LinkDirection.EastLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.EastLink].DrawingInfos);
+
+            if (Walls.ContainsKey(LinkDirection.WestLink))
+                Walls[LinkDirection.WestLink].Draw(spritebatch);
+
+            if (Doors.ContainsKey(LinkDirection.WestLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.WestLink].DrawingInfos);
+
+            if (Doors.ContainsKey(LinkDirection.WestLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.WestLink].DrawingInfos);
+
+            if (Walls.ContainsKey(LinkDirection.SouthLink))
+                Walls[LinkDirection.SouthLink].Draw(spritebatch);
+
+            if (Doors.ContainsKey(LinkDirection.SouthLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.SouthLink].DrawingInfos);
+
+            if (Angles.ContainsKey(AnglePositions.SW))
+                spritebatch.Draw(_angleSprite, Angles[AnglePositions.SW]);
+
+            if (Angles.ContainsKey(AnglePositions.SE))
+                spritebatch.Draw(_angleSprite, Angles[AnglePositions.SE]);
         }
-
-        public void DrawAngles(SpriteBatch spritebatch)
-        {
-            foreach (var angleDrawingInfos in AnglesDrawingInfos)
-                spritebatch.Draw(_angleSprite, angleDrawingInfos);
-        }
-
     }
 }

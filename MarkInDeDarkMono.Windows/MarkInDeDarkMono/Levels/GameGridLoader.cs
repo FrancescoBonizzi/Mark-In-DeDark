@@ -522,30 +522,32 @@ namespace MarkInDeDarkMono.Levels
                                 {
                                     for (int w = nearCell.Walls.Count - 1; w >= 0; --w)
                                     {
-                                        if (wall.DrawingInfos.Position == nearCell.Walls[w].DrawingInfos.Position)
+                                        var nearCellWall = nearCell.Walls.ElementAt(w);
+                                        if (wall.Value.DrawingInfos.Position == nearCellWall.Value.DrawingInfos.Position)
                                         {
                                             // Fix balordo per evitare di perdere l'info sulla rompibilità
-                                            if (!nearCell.Walls[w].IsDestroyable)
-                                                nearCell.Walls.RemoveAt(w);
+                                            if (!nearCellWall.Value.IsDestroyable)
+                                                nearCell.Walls.Remove(nearCellWall.Key);
                                         }
                                     }
                                 }
                             }
                         }
 
-                        foreach (var cellAngle in cell.AnglesDrawingInfos)
+                        foreach (var cellAngle in cell.Angles)
                         {
                             foreach (var nearCell in cell.Links.Select(a => a.Value))
                             {
                                 if (nearCell != null)
                                 {
-                                    if (nearCell.AnglesDrawingInfos.Count != 0)
+                                    if (nearCell.Angles.Count != 0)
                                     {
-                                        for (int w = nearCell.AnglesDrawingInfos.Count - 1; w >= 0; --w)
+                                        for (int w = nearCell.Angles.Count - 1; w >= 0; --w)
                                         {
-                                            if (cellAngle.Position == nearCell.AnglesDrawingInfos[w].Position)
+                                            var nearCellAngle = nearCell.Angles.ElementAt(w);
+                                            if (cellAngle.Value.Position == nearCellAngle.Value.Position)
                                             {
-                                                nearCell.AnglesDrawingInfos.RemoveAt(w);
+                                                nearCell.Angles.Remove(nearCellAngle.Key);
                                             }
                                         }
                                     }

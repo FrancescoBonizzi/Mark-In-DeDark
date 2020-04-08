@@ -757,7 +757,7 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawWalls(SpriteBatch spriteBatch)
+        public void DrawWallsTopDown(SpriteBatch spriteBatch)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -766,22 +766,9 @@ namespace MarkInDeDarkMono.Levels
                     if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
                     {
                         if (_cells[x, y] != null)
-                            _cells[x, y].DrawWalls(spriteBatch);
-                    }
-                }
-            }
-        }
-
-        public void DrawAngles(SpriteBatch spriteBatch)
-        {
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-            {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                            _cells[x, y].DrawAngles(spriteBatch);
+                        {
+                            _cells[x, y].DrawTopDownWalls(spriteBatch);
+                        }
                     }
                 }
             }

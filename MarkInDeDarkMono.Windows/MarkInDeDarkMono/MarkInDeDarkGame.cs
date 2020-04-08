@@ -557,9 +557,6 @@ namespace MarkInDeDarkMono
             foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
                 en.DrawShadows(spriteBatch);
 
-            _gameGrid.DrawWalls(spriteBatch);
-            _gameGrid.DrawAngles(spriteBatch);
-
             _key.Draw(spriteBatch);
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
@@ -586,6 +583,8 @@ namespace MarkInDeDarkMono
             // I nemici vivi vengono disegnati sopra al player
             foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
                 en.Draw(spriteBatch);
+
+            _gameGrid.DrawWallsTopDown(spriteBatch);
 
             spriteBatch.End();
 
