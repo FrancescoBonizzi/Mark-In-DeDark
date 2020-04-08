@@ -779,14 +779,8 @@
                                 Cursor="Hand"
                                 ToolTip="Indica il pacco di texture da utilizzare in questo livello">
 
-                                <ComboBoxItem>Texture 1</ComboBoxItem>
-                                <ComboBoxItem>Texture 2</ComboBoxItem>
-                                <ComboBoxItem>Texture 3</ComboBoxItem>
-                                <ComboBoxItem>Texture 4</ComboBoxItem>
-                                <ComboBoxItem>Texture 5</ComboBoxItem>
-                                <ComboBoxItem>Texture 6</ComboBoxItem>
-                                <ComboBoxItem>Texture 7</ComboBoxItem>
-
+                                <ComboBoxItem>Texture 0</ComboBoxItem>
+                              
                             </ComboBox>
 
                         </StackPanel>

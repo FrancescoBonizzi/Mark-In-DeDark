@@ -199,6 +199,103 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">Game/Grounds/Type0/cell.png</key>
+            <key type="filename">Game/Grounds/Type0/cell_2.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
+            <key type="filename">Game/blood_decal.png</key>
+            <key type="filename">Game/candle_pack_1.png</key>
+            <key type="filename">Game/candle_pack_2.png</key>
+            <key type="filename">Game/candle_pack_3.png</key>
+            <key type="filename">Game/celldark.png</key>
+            <key type="filename">Game/goblin_front_dying_3.png</key>
+            <key type="filename">Game/goblin_trigger.png</key>
+            <key type="filename">Game/key.png</key>
+            <key type="filename">Game/light_pixel.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_1.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_2.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_3.png</key>
+            <key type="filename">Game/player_back_iddle_shadow_4.png</key>
+            <key type="filename">Game/player_back_walking_shadow_1.png</key>
+            <key type="filename">Game/player_back_walking_shadow_2.png</key>
+            <key type="filename">Game/player_back_walking_shadow_3.png</key>
+            <key type="filename">Game/player_back_walking_shadow_4.png</key>
+            <key type="filename">Game/skeleton_front_dying_3.png</key>
+            <key type="filename">Game/stairs.png</key>
+            <key type="filename">Game/taurus_back_attack_1.png</key>
+            <key type="filename">Game/taurus_back_attack_2.png</key>
+            <key type="filename">Game/taurus_back_iddle_1.png</key>
+            <key type="filename">Game/taurus_back_walking_1.png</key>
+            <key type="filename">Game/taurus_back_walking_2.png</key>
+            <key type="filename">Game/taurus_front_attack_1.png</key>
+            <key type="filename">Game/taurus_front_attack_2.png</key>
+            <key type="filename">Game/taurus_front_dying_1.png</key>
+            <key type="filename">Game/taurus_front_dying_2.png</key>
+            <key type="filename">Game/taurus_front_dying_3.png</key>
+            <key type="filename">Game/taurus_front_iddle_1.png</key>
+            <key type="filename">Game/taurus_front_walking_1.png</key>
+            <key type="filename">Game/taurus_front_walking_2.png</key>
+            <key type="filename">Game/taurus_side_attack_1.png</key>
+            <key type="filename">Game/taurus_side_attack_2.png</key>
+            <key type="filename">Game/taurus_side_iddle_1.png</key>
+            <key type="filename">Game/taurus_side_walking_1.png</key>
+            <key type="filename">Game/taurus_side_walking_2.png</key>
+            <key type="filename">Game/trap_breakable.png</key>
+            <key type="filename">Game/trap_instantly_die.png</key>
+            <key type="filename">Game/werewolf_front_dying_3.png</key>
+            <key type="filename">Game/win.png</key>
+            <key type="filename">Game/win_closed.png</key>
+            <key type="filename">Game/zombie_front_dying_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/dirty.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/pillar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,48,64,96</rect>
+                <key>scale9Paddings</key>
+                <rect>32,48,64,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/wall_vertical.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,48,44,96</rect>
+                <key>scale9Paddings</key>
+                <rect>22,48,44,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/LightObject/lightobject_1.png</key>
             <key type="filename">Game/LightObject/lightobject_10.png</key>
             <key type="filename">Game/LightObject/lightobject_11.png</key>
@@ -307,116 +404,6 @@
                 <rect>4,20,8,40</rect>
                 <key>scale9Paddings</key>
                 <rect>4,20,8,40</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Walls/pillar_topdown_1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,48,64,96</rect>
-                <key>scale9Paddings</key>
-                <rect>32,48,64,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Walls/wall_topdown_1.png</key>
-            <key type="filename">Game/blood_decal.png</key>
-            <key type="filename">Game/candle_pack_1.png</key>
-            <key type="filename">Game/candle_pack_2.png</key>
-            <key type="filename">Game/candle_pack_3.png</key>
-            <key type="filename">Game/cell0.png</key>
-            <key type="filename">Game/cell1.png</key>
-            <key type="filename">Game/cell2.png</key>
-            <key type="filename">Game/cell2_2.png</key>
-            <key type="filename">Game/cell3.png</key>
-            <key type="filename">Game/cell4.png</key>
-            <key type="filename">Game/cell5.png</key>
-            <key type="filename">Game/cell6.png</key>
-            <key type="filename">Game/cell7.png</key>
-            <key type="filename">Game/celldark.png</key>
-            <key type="filename">Game/goblin_front_dying_3.png</key>
-            <key type="filename">Game/goblin_trigger.png</key>
-            <key type="filename">Game/key.png</key>
-            <key type="filename">Game/light_pixel.png</key>
-            <key type="filename">Game/player_back_iddle_shadow_1.png</key>
-            <key type="filename">Game/player_back_iddle_shadow_2.png</key>
-            <key type="filename">Game/player_back_iddle_shadow_3.png</key>
-            <key type="filename">Game/player_back_iddle_shadow_4.png</key>
-            <key type="filename">Game/player_back_walking_shadow_1.png</key>
-            <key type="filename">Game/player_back_walking_shadow_2.png</key>
-            <key type="filename">Game/player_back_walking_shadow_3.png</key>
-            <key type="filename">Game/player_back_walking_shadow_4.png</key>
-            <key type="filename">Game/skeleton_front_dying_3.png</key>
-            <key type="filename">Game/stairs.png</key>
-            <key type="filename">Game/taurus_back_attack_1.png</key>
-            <key type="filename">Game/taurus_back_attack_2.png</key>
-            <key type="filename">Game/taurus_back_iddle_1.png</key>
-            <key type="filename">Game/taurus_back_walking_1.png</key>
-            <key type="filename">Game/taurus_back_walking_2.png</key>
-            <key type="filename">Game/taurus_front_attack_1.png</key>
-            <key type="filename">Game/taurus_front_attack_2.png</key>
-            <key type="filename">Game/taurus_front_dying_1.png</key>
-            <key type="filename">Game/taurus_front_dying_2.png</key>
-            <key type="filename">Game/taurus_front_dying_3.png</key>
-            <key type="filename">Game/taurus_front_iddle_1.png</key>
-            <key type="filename">Game/taurus_front_walking_1.png</key>
-            <key type="filename">Game/taurus_front_walking_2.png</key>
-            <key type="filename">Game/taurus_side_attack_1.png</key>
-            <key type="filename">Game/taurus_side_attack_2.png</key>
-            <key type="filename">Game/taurus_side_iddle_1.png</key>
-            <key type="filename">Game/taurus_side_walking_1.png</key>
-            <key type="filename">Game/taurus_side_walking_2.png</key>
-            <key type="filename">Game/trap_breakable.png</key>
-            <key type="filename">Game/trap_instantly_die.png</key>
-            <key type="filename">Game/werewolf_front_dying_3.png</key>
-            <key type="filename">Game/win.png</key>
-            <key type="filename">Game/win_closed.png</key>
-            <key type="filename">Game/zombie_front_dying_3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9Paddings</key>
-                <rect>48,48,96,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Walls/wall_topdown_vertical_1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,48,44,96</rect>
-                <key>scale9Paddings</key>
-                <rect>22,48,44,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/angle0.png</key>
-            <key type="filename">Game/angle1.png</key>
-            <key type="filename">Game/angle2.png</key>
-            <key type="filename">Game/angle3.png</key>
-            <key type="filename">Game/angle4.png</key>
-            <key type="filename">Game/angle5.png</key>
-            <key type="filename">Game/angle6.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,30,60,60</rect>
-                <key>scale9Paddings</key>
-                <rect>30,30,60,60</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -650,25 +637,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/dirty0.png</key>
-            <key type="filename">Game/dirty1.png</key>
-            <key type="filename">Game/dirty2.png</key>
-            <key type="filename">Game/dirty3.png</key>
-            <key type="filename">Game/dirty4.png</key>
-            <key type="filename">Game/dirty5.png</key>
-            <key type="filename">Game/dirty6.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,24,48,48</rect>
-                <key>scale9Paddings</key>
-                <rect>24,24,48,48</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/light_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -707,26 +675,6 @@
                 <rect>48,32,96,64</rect>
                 <key>scale9Paddings</key>
                 <rect>48,32,96,64</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/wall0.png</key>
-            <key type="filename">Game/wall1.png</key>
-            <key type="filename">Game/wall2.png</key>
-            <key type="filename">Game/wall3.png</key>
-            <key type="filename">Game/wall4.png</key>
-            <key type="filename">Game/wall5.png</key>
-            <key type="filename">Game/wall6.png</key>
-            <key type="filename">Game/wall7.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,23,96,46</rect>
-                <key>scale9Paddings</key>
-                <rect>48,23,96,46</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
