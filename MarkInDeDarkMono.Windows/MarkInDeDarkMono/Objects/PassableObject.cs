@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,7 +21,8 @@ namespace MarkInDeDarkMono.Objects
             _drawingInfos = new DrawingInfos()
             {
                 Position = gameCell.CenterPosition,
-                Origin = _sprite.SpriteCenter
+                Origin = _sprite.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(gameCell.CenterPosition + _sprite.SpriteCenter)
             };
         }
 

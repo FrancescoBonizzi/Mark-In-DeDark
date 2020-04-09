@@ -19,20 +19,40 @@ namespace MarkInDeDarkMono.Levels
         public static Cell WestCell(Cell[,] grid, int i, int j)
             => grid[i - 1, j];
 
-        public static void SetAlwaysSouthWall(GameGridBundle levelEditorGrid)
+        public static void CleanUpGameGridBundle(GameGridBundle levelEditorGrid)
         {
-            // Parto dalla prima riga perché non ha di sicuro la cella sopra
-            for (int j = 1; j < levelEditorGrid.Rows; ++j)
+            // Salto l'ultima riga perché non ha di sicuro la cella sotto
+            for (int j = 0; j < levelEditorGrid.Rows - 1; ++j)
             {
                 for (int i = 0; i < levelEditorGrid.Columns; ++i)
                 {
                     var cell = levelEditorGrid.Grid[i, j];
-                    var topCell = NorthCell(levelEditorGrid.Grid, i, j);
-
-                    if (cell.Top == WallTypes.Occludente || cell.Top == WallTypes.Fragile)
+                    var southCell = SouthCell(levelEditorGrid.Grid, i, j);
+                    if (southCell.GroundType != GroundTypes.NonCella)
                     {
-                        topCell.Bottom = cell.Top;
-                        cell.Top = WallTypes.Niente;
+                        if (cell.Bottom == WallTypes.Occludente || cell.Bottom == WallTypes.Fragile || cell.Bottom == WallTypes.Porta)
+                        {
+                            southCell.Top = cell.Bottom;
+                            cell.Bottom = WallTypes.Niente;
+                        }
+                    }
+                }
+            }
+
+            // Salto l'ultima colonna perché non ha di sicuro la cella a destra
+            for (int i = 0; i < levelEditorGrid.Columns - 1; ++i)
+            {
+                for (int j = 0; j < levelEditorGrid.Rows; ++j)
+                {
+                    var cell = levelEditorGrid.Grid[i, j];
+                    var eastCell = EastCell(levelEditorGrid.Grid, i, j);
+                    if (eastCell.GroundType != GroundTypes.NonCella)
+                    {
+                        if (cell.Right == WallTypes.Occludente || cell.Right == WallTypes.Fragile || cell.Right == WallTypes.Porta)
+                        {
+                            eastCell.Left = cell.Right;
+                            cell.Right = WallTypes.Niente;
+                        }
                     }
                 }
             }
@@ -85,20 +105,20 @@ namespace MarkInDeDarkMono.Levels
                             }
                         }
 
-                        foreach (var cellAngle in cell.Angles)
+                        foreach (var cellAngle in cell.Pillars)
                         {
                             foreach (var nearCell in nearCells)
                             {
                                 if (nearCell != null)
                                 {
-                                    if (nearCell.Angles.Count != 0)
+                                    if (nearCell.Pillars.Count != 0)
                                     {
-                                        for (int w = nearCell.Angles.Count - 1; w >= 0; --w)
+                                        for (int w = nearCell.Pillars.Count - 1; w >= 0; --w)
                                         {
-                                            var nearCellAngle = nearCell.Angles.ElementAt(w);
-                                            if (cellAngle.Value.Position.IsEqualsConvertedToInt(nearCellAngle.Value.Position))
+                                            var nearCellAngle = nearCell.Pillars.ElementAt(w);
+                                            if (cellAngle.Value.DrawingInfos.Position.IsEqualsConvertedToInt(nearCellAngle.Value.DrawingInfos.Position))
                                             {
-                                                nearCell.Angles.Remove(nearCellAngle.Key);
+                                                nearCell.Pillars.Remove(nearCellAngle.Key);
                                             }
                                         }
                                     }

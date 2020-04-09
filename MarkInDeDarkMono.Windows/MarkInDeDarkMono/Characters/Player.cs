@@ -67,6 +67,8 @@ namespace MarkInDeDarkMono.Characters
 
             _soundManager.PlayEnlightTorch();
             AreLightsActive = false;
+
+            _zIndexDelta = 0.0005f;
         }
 
         public bool HasWon
@@ -168,16 +170,33 @@ namespace MarkInDeDarkMono.Characters
             switch (_currentPlayerState)
             {
                 case PlayerStates.LevelIntro:
-                    _gameStartSparkleEffect.Draw(spriteBatch);
                     break;
 
                 case PlayerStates.Playing:
                     base.Draw(spriteBatch);
-                    _playerCandleFireParticleSystem.Draw(spriteBatch);
                     break;
 
                 case PlayerStates.Exiting:
                     _winAnimation.Draw(spriteBatch);
+                    break;
+            }
+        }
+
+        public override void DrawEffects(SpriteBatch spriteBatch)
+        {
+            base.DrawEffects(spriteBatch);
+
+            switch (_currentPlayerState)
+            {
+                case PlayerStates.LevelIntro:
+                    _gameStartSparkleEffect.Draw(spriteBatch);
+                    break;
+
+                case PlayerStates.Playing:
+                    _playerCandleFireParticleSystem.Draw(spriteBatch);
+                    break;
+
+                case PlayerStates.Exiting:
                     break;
             }
         }

@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FbonizziMonoGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FbonizziMonoGame.1.0.1\lib\net45\FbonizziMonoGame.dll</HintPath>
+      <HintPath>..\packages\FbonizziMonoGame.1.1.0\lib\net45\FbonizziMonoGame.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
@@ -88,6 +88,7 @@
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
+    <Compile Include="Extensions\ZIndexCalculator.cs" />
     <Compile Include="GameStringsLoader.cs" />
     <Compile Include="Characters\Bubu.cs" />
     <Compile Include="Characters\Character.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Levels\GameGridLoader.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LinkDirection.cs" />
+    <Compile Include="Levels\Pillar.cs" />
     <Compile Include="Levels\Wall.cs" />
     <Compile Include="MarkKeyboard.cs" />
     <Compile Include="Maths\Floats.cs" />

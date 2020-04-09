@@ -1,8 +1,11 @@
 ﻿using FbonizziMonoGame;
 using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Maths;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace MarkInDeDarkMono.Objects
@@ -37,10 +40,13 @@ namespace MarkInDeDarkMono.Objects
         private float _openPositionRotation;
         private float _closedPositionRotation;
 
+        private readonly Sprite _sprite;
+
         public Door(
             Vector2 position,
             LinkDirection linkDirection,
             Vector2 size,
+            Sprite sprite,
             Action onClose = null)
         {
             Size = size;
@@ -53,6 +59,7 @@ namespace MarkInDeDarkMono.Objects
             };
 
             _startingPosition = position;
+            _sprite = sprite;
 
             _currentState = DoorStates.Closed;
             SetNewPinPointToOpen(linkDirection);
@@ -130,6 +137,9 @@ namespace MarkInDeDarkMono.Objects
             _currentState = DoorStates.Closing;
             _totalElapsed = TimeSpan.Zero;
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_sprite, DrawingInfos);
 
         public void Update(TimeSpan elapsed)
         {

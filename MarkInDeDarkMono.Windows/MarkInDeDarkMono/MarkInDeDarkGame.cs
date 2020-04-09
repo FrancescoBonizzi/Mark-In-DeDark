@@ -5,10 +5,10 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-using MarkInDeDarkMono;
 
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
@@ -134,7 +134,8 @@ namespace MarkInDeDarkMono
             _playerStartingPointDrawingInfos = new DrawingInfos()
             {
                 Position = _gameGrid.PlayerStartingPosition,
-                Origin = _playerStartingPointTexture.SpriteCenter
+                Origin = _playerStartingPointTexture.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(_gameGrid.PlayerStartingPosition - _playerStartingPointTexture.SpriteCenter)
             };
 
             _enemies = new List<Enemy>();
@@ -540,12 +541,18 @@ namespace MarkInDeDarkMono
         {
             var viewMatrix = _camera.GetViewMatrix();
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
-            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            
+            // Avvio il disegno con l'opzione per lo Z-Index
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix, 
+                samplerState: SamplerState.PointClamp, 
+                sortMode: SpriteSortMode.FrontToBack);
 
-            _gameGrid.DrawCells(spriteBatch);
-            _gameGrid.DrawDirtys(spriteBatch);
+            // Disegno tutto il pavimento (che non ha ZIndex perché sta sempre sotto)
+            _gameGrid.Draw(spriteBatch);
+
+            // Disegno di tutti gli oggetti
             _exit.Draw(spriteBatch);
-
             spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
 
             if (_triggerObjects != null)
@@ -554,43 +561,43 @@ namespace MarkInDeDarkMono
                     triggerObject.Draw(spriteBatch);
             }
 
-            _player.DrawShadows(spriteBatch);
-            foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
-                en.DrawShadows(spriteBatch);
-
             _key.Draw(spriteBatch);
 
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
-
+            
             foreach (var otherObject in _gameGrid.DrawableObjects)
                 otherObject.Draw(spriteBatch);
-
+            
             foreach (var littleLight in _gameGrid.LittleLights)
                 littleLight.Draw(spriteBatch);
 
-            _candlesManager.DrawSmoke(spriteBatch);
-
-            _gameGrid.DrawWallsTop(spriteBatch);
-            
-            // I nemici morti vengono disegnati sotto il player
-            foreach (Enemy en in _enemies.Where(enemy => enemy.IsDead))
-                en.Draw(spriteBatch);
+            _gameGrid.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
             _player.Draw(spriteBatch);
 
-            // I nemici vivi vengono disegnati sopra al player
-            foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
+            foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
-
-            _gameGrid.DrawWallsDown(spriteBatch);
 
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
             spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
+
+
+            // Disegno gli effetti in un layer separato sopra a tutto per semplicità
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            _candlesManager.DrawEffects(spriteBatch);
+            _player.DrawEffects(spriteBatch);
+            foreach (Enemy en in _enemies)
+                en.DrawEffects(spriteBatch);
+            foreach (var littleLight in _gameGrid.LittleLights)
+                littleLight.DrawEffects(spriteBatch);
+            _gameGrid.DrawEffects(spriteBatch);
+            spriteBatch.End();
+                
 
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);

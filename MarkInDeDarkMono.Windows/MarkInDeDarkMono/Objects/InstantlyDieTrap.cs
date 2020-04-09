@@ -3,6 +3,7 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -29,7 +30,8 @@ namespace MarkInDeDarkMono.Objects
             _drawingInfos = new DrawingInfos()
             {
                 Position = collisionRectangle.Center.ToVector2(),
-                Origin = _trapSprite.SpriteCenter
+                Origin = _trapSprite.SpriteCenter,
+                LayerDepth = 0.00001f // Sono parte del pavimento!
             };
         }
 

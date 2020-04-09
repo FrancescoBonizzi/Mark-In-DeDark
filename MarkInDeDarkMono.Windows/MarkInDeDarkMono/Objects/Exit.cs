@@ -3,6 +3,7 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDarkMono;
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +30,8 @@ namespace MarkInDeDarkMono
             {
                 Position = position,
                 HitBoxTolerance = new Rectangle(60, 60, 120, 120),
-                Origin = _sprite.SpriteCenter
+                Origin = _sprite.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(position - _sprite.SpriteCenter)
             };
         }
 

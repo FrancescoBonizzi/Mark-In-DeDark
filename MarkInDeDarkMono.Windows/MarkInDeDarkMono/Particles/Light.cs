@@ -11,7 +11,7 @@ namespace MarkInDeDarkMono.Particles
     public class Light
     {
         private readonly Sprite _sprite;
-        private readonly DrawingInfos _drawingInfos;
+        public DrawingInfos DrawingInfos { get; }
 
         private ScalingObject _scalingObject;
         private readonly float _originalMinScale;
@@ -33,7 +33,7 @@ namespace MarkInDeDarkMono.Particles
         {
             _sprite = sprite;
 
-            _drawingInfos = new DrawingInfos()
+            DrawingInfos = new DrawingInfos()
             {
                 Origin = sprite.SpriteCenter
             };
@@ -76,10 +76,10 @@ namespace MarkInDeDarkMono.Particles
         }
 
         public void SetPosition(Vector2 newPosition)
-            => _drawingInfos.Position = newPosition;
+            => DrawingInfos.Position = newPosition;
 
         public Vector2 Position
-            => _drawingInfos.Position;
+            => DrawingInfos.Position;
 
         public void Update(TimeSpan elapsed)
         {
@@ -87,19 +87,19 @@ namespace MarkInDeDarkMono.Particles
             {
                 // Cambiamento di colore
                 _colorChangingObject.Update(elapsed);
-                _drawingInfos.OverlayColor = _colorChangingObject.Color;
+                DrawingInfos.OverlayColor = _colorChangingObject.Color;
             }
             else
             {
-                _drawingInfos.OverlayColor = _forcedColor.Value;
+                DrawingInfos.OverlayColor = _forcedColor.Value;
             }
 
             // Cambiamento di scala
             _scalingObject.Update(elapsed);
-            _drawingInfos.Scale = _scalingObject.Scale;
+            DrawingInfos.Scale = _scalingObject.Scale;
         }
 
         public void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_sprite, _drawingInfos);
+            => spriteBatch.Draw(_sprite, DrawingInfos);
     }
 }
