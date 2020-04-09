@@ -41,7 +41,7 @@ namespace MarkInDeDarkMono.AI
         }
 
         public void ClearActions()
-            => _currentActions.Clear();
+            => _currentActions?.Clear();
 
         private bool HasActionsToDo
             => _currentActions != null && _currentActions.Any();
