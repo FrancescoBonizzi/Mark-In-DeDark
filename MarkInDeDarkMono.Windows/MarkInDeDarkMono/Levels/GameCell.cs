@@ -21,7 +21,8 @@ namespace MarkInDeDarkMono.Levels
         public Sprite Sprite { get; set; }
         private readonly Sprite _horizontalWallSprite;
         private readonly Sprite _verticalWallSprite;
-        private readonly Sprite _destroyableWallSprite;
+        private readonly Sprite _horizontalDestroyableWallSprite;
+        private readonly Sprite _verticalDestroyableWallSprite;
         private readonly Sprite _pillarSprite;
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
@@ -74,8 +75,9 @@ namespace MarkInDeDarkMono.Levels
             Sprite cell,
             Sprite horizontalWall,
             Sprite verticalWall,
-            Sprite destroyableWall,
-            Sprite angle,
+            Sprite horizontalDestroyableWall,
+            Sprite verticalDestroyableWall,
+            Sprite pillar,
             Sprite dirty,
             Sprite door,
             double dirtyProbability,
@@ -94,9 +96,10 @@ namespace MarkInDeDarkMono.Levels
             Sprite = cell;
             _horizontalWallSprite = horizontalWall;
             _verticalWallSprite = verticalWall;
-            _pillarSprite = angle;
+            _pillarSprite = pillar;
             _dirtySprite = dirty;
-            _destroyableWallSprite = destroyableWall;
+            _horizontalDestroyableWallSprite = horizontalDestroyableWall;
+            _verticalDestroyableWallSprite = verticalDestroyableWall;
             _doorSprite = door;
 
             IsNonLinked = false;
@@ -319,7 +322,7 @@ namespace MarkInDeDarkMono.Levels
                     LinkDirection.NorthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     IsNorthDestroyable,
-                    IsNorthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
+                    IsNorthDestroyable ? _horizontalDestroyableWallSprite : _horizontalWallSprite));
             }
 
             if (!IsSouthPassable)
@@ -328,7 +331,7 @@ namespace MarkInDeDarkMono.Levels
                     LinkDirection.SouthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     IsSouthDestroyable,
-                    IsSouthDestroyable ? _destroyableWallSprite : _horizontalWallSprite));
+                    IsSouthDestroyable ? _horizontalDestroyableWallSprite : _horizontalWallSprite));
             }
 
             if (!IsEastPassable)
@@ -337,7 +340,7 @@ namespace MarkInDeDarkMono.Levels
                     LinkDirection.EastLink,
                     new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsEastDestroyable,
-                    IsEastDestroyable ? _destroyableWallSprite : _verticalWallSprite));
+                    IsEastDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite));
             }
 
             if (!IsWestPassable)
@@ -346,7 +349,7 @@ namespace MarkInDeDarkMono.Levels
                     LinkDirection.WestLink,
                     new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsWestDestroyable,
-                    IsWestDestroyable ? _destroyableWallSprite : _verticalWallSprite));
+                    IsWestDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite));
             }
         }
 
