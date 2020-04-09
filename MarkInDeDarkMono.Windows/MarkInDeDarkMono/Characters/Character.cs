@@ -665,6 +665,11 @@ namespace MarkInDeDarkMono.Characters
                 _torch?.Draw(spriteBatch);
             }
 
+
+        }
+
+        public virtual void DrawEffects(SpriteBatch spriteBatch)
+        {
             if (CurrentCharacterState == CharacterState.Dying)
             {
                 _bloodEffect.Draw(spriteBatch);

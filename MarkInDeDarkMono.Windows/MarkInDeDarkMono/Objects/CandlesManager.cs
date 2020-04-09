@@ -153,6 +153,13 @@ namespace MarkInDeDarkMono
             foreach (Candle c in Candles)
             {
                 c.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawEffects(SpriteBatch spriteBatch)
+        {
+            foreach (Candle c in Candles)
+            {
                 c.DrawSmoke(spriteBatch);
             }
         }

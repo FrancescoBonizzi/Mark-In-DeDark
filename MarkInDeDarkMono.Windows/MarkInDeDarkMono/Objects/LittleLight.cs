@@ -53,6 +53,10 @@ namespace MarkInDeDarkMono.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
+        }
+
+        public void DrawEffects(SpriteBatch spriteBatch)
+        {
             _playerCandleFireParticleSystem.Draw(spriteBatch);
         }
 

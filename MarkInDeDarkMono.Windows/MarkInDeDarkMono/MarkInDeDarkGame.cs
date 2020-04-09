@@ -586,6 +586,19 @@ namespace MarkInDeDarkMono
             spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
+
+            // Disegno gli effetti in un layer separato sopra a tutto per semplicità
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            _candlesManager.DrawEffects(spriteBatch);
+            _player.DrawEffects(spriteBatch);
+            foreach (Enemy en in _enemies)
+                en.DrawEffects(spriteBatch);
+            foreach (var littleLight in _gameGrid.LittleLights)
+                littleLight.DrawEffects(spriteBatch);
+            _gameGrid.DrawEffects(spriteBatch);
+            spriteBatch.End();
+                
+
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);
             spriteBatch.End();

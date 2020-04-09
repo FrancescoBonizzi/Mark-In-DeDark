@@ -514,8 +514,10 @@ namespace MarkInDeDarkMono.Levels
                     spriteBatch.Draw(_bloodDecal, _bloodDecalDrawingInfos);
                 }
             }
+        }
 
-            // Lo metto qua perché è già sopra le celle
+        public void DrawEffects(SpriteBatch spriteBatch)
+        {
             if (_smokeParticleSystem != null)
             {
                 _smokeParticleSystem.Draw(spriteBatch);
