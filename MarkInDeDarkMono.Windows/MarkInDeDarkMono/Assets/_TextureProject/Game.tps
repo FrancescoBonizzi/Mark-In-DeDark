@@ -202,6 +202,7 @@
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
             <key type="filename">Game/blood_decal.png</key>
             <key type="filename">Game/candle_pack_1.png</key>
             <key type="filename">Game/candle_pack_2.png</key>
@@ -284,6 +285,7 @@
                 <false/>
             </struct>
             <key type="filename">Game/Grounds/Type0/wall_vertical.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_vertical_breakable.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -675,19 +677,6 @@
                 <rect>48,32,96,64</rect>
                 <key>scale9Paddings</key>
                 <rect>48,32,96,64</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/wall_breakable.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,23,96,45</rect>
-                <key>scale9Paddings</key>
-                <rect>48,23,96,45</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
