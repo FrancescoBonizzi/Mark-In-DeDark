@@ -48,7 +48,7 @@ namespace MarkInDeDarkMono.Characters
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
 
-            _zIndexDelta = 0.0051f;
+            _zIndexDelta = 0.00051f;
         }
     }
 }

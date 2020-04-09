@@ -46,7 +46,7 @@ namespace MarkInDeDarkMono.Characters
             player,
             assetsLoader)
         {
-            _zIndexDelta = 0.0053f;
+            _zIndexDelta = 0.00053f;
         }
     }
 }

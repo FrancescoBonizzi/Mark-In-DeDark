@@ -60,7 +60,7 @@ namespace MarkInDeDarkMono.Characters
             TaurusTimeStunnedSeconds = gameConfig.TaurusTimeStunnedSeconds;
             TaurusChargeColorRGB = gameConfig.TaurusChargeColorRGB;
             _enemies = enemies.Where(e => !(e is Taurus));
-            _zIndexDelta = 0.0054f;
+            _zIndexDelta = 0.00054f;
         }
 
         public override void Update(TimeSpan elapsed)

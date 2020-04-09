@@ -630,9 +630,9 @@ namespace MarkInDeDarkMono.Characters
 
             // L'ombra potrà andare sopra i muri orizzontali perché i muri orizzontali sono sopra l'ombra
             if (_shadowsDrawingInfos != null)
-                _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.001f;
+                _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.00001f;
             if (_torch != null)
-                _torch.DrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth + 0.001f;
+                _torch.DrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth + 0.00001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
