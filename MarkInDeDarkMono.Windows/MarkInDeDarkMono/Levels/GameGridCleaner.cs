@@ -105,20 +105,20 @@ namespace MarkInDeDarkMono.Levels
                             }
                         }
 
-                        foreach (var cellAngle in cell.Angles)
+                        foreach (var cellAngle in cell.Pillars)
                         {
                             foreach (var nearCell in nearCells)
                             {
                                 if (nearCell != null)
                                 {
-                                    if (nearCell.Angles.Count != 0)
+                                    if (nearCell.Pillars.Count != 0)
                                     {
-                                        for (int w = nearCell.Angles.Count - 1; w >= 0; --w)
+                                        for (int w = nearCell.Pillars.Count - 1; w >= 0; --w)
                                         {
-                                            var nearCellAngle = nearCell.Angles.ElementAt(w);
-                                            if (cellAngle.Value.Position.IsEqualsConvertedToInt(nearCellAngle.Value.Position))
+                                            var nearCellAngle = nearCell.Pillars.ElementAt(w);
+                                            if (cellAngle.Value.DrawingInfos.Position.IsEqualsConvertedToInt(nearCellAngle.Value.DrawingInfos.Position))
                                             {
-                                                nearCell.Angles.Remove(nearCellAngle.Key);
+                                                nearCell.Pillars.Remove(nearCellAngle.Key);
                                             }
                                         }
                                     }

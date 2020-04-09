@@ -22,7 +22,7 @@ namespace MarkInDeDarkMono.Levels
         private readonly Sprite _horizontalWallSprite;
         private readonly Sprite _verticalWallSprite;
         private readonly Sprite _destroyableWallSprite;
-        private readonly Sprite _angleSprite;
+        private readonly Sprite _pillarSprite;
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
         private readonly Sprite _doorSprite;
@@ -38,7 +38,7 @@ namespace MarkInDeDarkMono.Levels
         private readonly SoundManager _soundManager;
 
         private readonly List<DrawingInfos> _dirtysDrawingInfos;
-        public Dictionary<AnglePositions, DrawingInfos> Angles { get; }
+        public Dictionary<PillarPositions, Pillar> Pillars { get; }
         public Dictionary<LinkDirection, Wall> Walls { get; }
 
         private readonly DrawingInfos _cellDrawingInfos;
@@ -60,7 +60,7 @@ namespace MarkInDeDarkMono.Levels
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
 
-        public enum AnglePositions
+        public enum PillarPositions
         {
             NE,
             NW,
@@ -94,7 +94,7 @@ namespace MarkInDeDarkMono.Levels
             Sprite = cell;
             _horizontalWallSprite = horizontalWall;
             _verticalWallSprite = verticalWall;
-            _angleSprite = angle;
+            _pillarSprite = angle;
             _dirtySprite = dirty;
             _destroyableWallSprite = destroyableWall;
             _doorSprite = door;
@@ -109,8 +109,8 @@ namespace MarkInDeDarkMono.Levels
             // Considerando che la texture del muro parte orizzontale
             _widthCellDoorDifferenceOver2 = (_width - _doorSprite.Width) / 2f;
 
-            _angleWidthOver2 = _angleSprite.Width / 2f;
-            _angleHeightOver2 = _angleSprite.Height / 2f;
+            _angleWidthOver2 = _pillarSprite.Width / 2f;
+            _angleHeightOver2 = _pillarSprite.Height / 2f;
 
             _soundManager = soundManager;
 
@@ -131,7 +131,7 @@ namespace MarkInDeDarkMono.Levels
 
             Doors = new Dictionary<LinkDirection, Door>();
 
-            Angles = new Dictionary<AnglePositions, DrawingInfos>();
+            Pillars = new Dictionary<PillarPositions, Pillar>();
             _dirtysDrawingInfos = new List<DrawingInfos>();
 
             _gameGrid = gameGrid;
@@ -271,6 +271,7 @@ namespace MarkInDeDarkMono.Levels
                     northDoorPosition,
                     LinkDirection.NorthLink,
                     doorSize,
+                    _doorSprite,
                     () => _game.StartCameraShake(shakeIntensity)));
             }
 
@@ -281,6 +282,7 @@ namespace MarkInDeDarkMono.Levels
                     eastDoorPosition,
                     LinkDirection.EastLink,
                     doorSize,
+                    _doorSprite,
                     () => _game.StartCameraShake(shakeIntensity)));
             }
 
@@ -291,6 +293,7 @@ namespace MarkInDeDarkMono.Levels
                     southDoorPosition,
                     LinkDirection.SouthLink,
                     doorSize,
+                    _doorSprite,
                     () => _game.StartCameraShake(shakeIntensity)));
             }
 
@@ -301,6 +304,7 @@ namespace MarkInDeDarkMono.Levels
                     westDoorPosition,
                     LinkDirection.WestLink,
                     doorSize,
+                    _doorSprite,
                     () => _game.StartCameraShake(shakeIntensity)));
             }
         }
@@ -400,91 +404,87 @@ namespace MarkInDeDarkMono.Levels
 
         }
 
-        public void AddNWAngle()
+        public void AddNWPillar()
         {
-            if (Angles.ContainsKey(AnglePositions.NW))
+            if (Pillars.ContainsKey(PillarPositions.NW))
                 return;
 
-            Angles.Add(AnglePositions.NW, new DrawingInfos()
-            {
-                Position = new Vector2(
+            Pillars.Add(PillarPositions.NW, new Pillar(
+                new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60)
-            });
+                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60),
+                _pillarSprite));
         }
 
-        public void AddNEAngle()
+        public void AddNEPillar()
         {
-            if (Angles.ContainsKey(AnglePositions.NE))
+            if (Pillars.ContainsKey(PillarPositions.NE))
                 return;
 
-            Angles.Add(AnglePositions.NE, new DrawingInfos()
-            {
-                Position = new Vector2(
+            Pillars.Add(PillarPositions.NE, new Pillar(
+                new Vector2(
                       _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60)
-            });
+                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60),
+                _pillarSprite));
         }
 
-        public void AddSWAngle()
+        public void AddSWPillar()
         {
-            if (Angles.ContainsKey(AnglePositions.SW))
+            if (Pillars.ContainsKey(PillarPositions.SW))
                 return;
 
-            Angles.Add(AnglePositions.SW, new DrawingInfos()
-            {
-                Position = new Vector2(
+            Pillars.Add(PillarPositions.SW, new Pillar(
+                new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60)
-            });
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60),
+                _pillarSprite));
         }
 
-        public void AddSEAngle()
+        public void AddSEPillar()
         {
-            if (Angles.ContainsKey(AnglePositions.SE))
+            if (Pillars.ContainsKey(PillarPositions.SE))
                 return;
 
-            Angles.Add(AnglePositions.SE, new DrawingInfos()
-            {
-                Position = new Vector2(
+            Pillars.Add(PillarPositions.SE, new Pillar(
+                new Vector2(
                     _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60)
-            });
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60),
+                _pillarSprite));
         }
 
-        public void SetSimpleAngles()
+        public void SetSimplePillars()
         {
             if (!IsNorthPassable && !IsEastPassable)
-                AddNEAngle();
+                AddNEPillar();
             if (!IsNorthPassable && !IsWestPassable)
-                AddNWAngle();
+                AddNWPillar();
             if (!IsSouthPassable && !IsEastPassable)
-                AddSEAngle();
+                AddSEPillar();
             if (!IsSouthPassable && !IsWestPassable)
-                AddSWAngle();
+                AddSWPillar();
 
             if (IsNorthDoor)
             {
-                AddNEAngle();
-                AddNWAngle();
+                AddNEPillar();
+                AddNWPillar();
             }
 
             if (IsSouthDoor)
             {
-                AddSEAngle();
-                AddSWAngle();
+                AddSEPillar();
+                AddSWPillar();
             }
 
             if (IsEastDoor)
             {
-                AddNEAngle();
-                AddSEAngle();
+                AddNEPillar();
+                AddSEPillar();
             }
 
             if (IsWestDoor)
             {
-                AddNWAngle();
-                AddSWAngle();
+                AddNWPillar();
+                AddSWPillar();
             }
         }
 
@@ -519,50 +519,14 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawBeforePlayerWalls(SpriteBatch spritebatch)
+        public void DrawWalls(SpriteBatch spritebatch)
         {
-            if (Walls.ContainsKey(LinkDirection.SouthLink))
-                Walls[LinkDirection.SouthLink].Draw(spritebatch);
-
-            if (Doors.ContainsKey(LinkDirection.SouthLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.SouthLink].DrawingInfos);
-
-        }
-
-        public void DrawAfterWalls(SpriteBatch spritebatch)
-        {
-            if (Walls.ContainsKey(LinkDirection.NorthLink))
-                Walls[LinkDirection.NorthLink].Draw(spritebatch);
-
-            if (Doors.ContainsKey(LinkDirection.NorthLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.NorthLink].DrawingInfos);
-
-            if (Angles.ContainsKey(AnglePositions.NW))
-                spritebatch.Draw(_angleSprite, Angles[AnglePositions.NW]);
-
-            if (Angles.ContainsKey(AnglePositions.NE))
-                spritebatch.Draw(_angleSprite, Angles[AnglePositions.NE]);
-
-            if (Walls.ContainsKey(LinkDirection.EastLink))
-                Walls[LinkDirection.EastLink].Draw(spritebatch);
-
-            if (Doors.ContainsKey(LinkDirection.EastLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.EastLink].DrawingInfos);
-
-            if (Walls.ContainsKey(LinkDirection.WestLink))
-                Walls[LinkDirection.WestLink].Draw(spritebatch);
-
-            if (Doors.ContainsKey(LinkDirection.WestLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.WestLink].DrawingInfos);
-
-            if (Doors.ContainsKey(LinkDirection.WestLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.WestLink].DrawingInfos);
-
-            if (Angles.ContainsKey(AnglePositions.SW))
-                spritebatch.Draw(_angleSprite, Angles[AnglePositions.SW]);
-
-            if (Angles.ContainsKey(AnglePositions.SE))
-                spritebatch.Draw(_angleSprite, Angles[AnglePositions.SE]);
+            foreach (var w in Walls)
+                w.Value.Draw(spritebatch);
+            foreach (var d in Doors)
+                d.Value.Draw(spritebatch);
+            foreach (var a in Pillars)
+                a.Value.Draw(spritebatch);
         }
     }
 }

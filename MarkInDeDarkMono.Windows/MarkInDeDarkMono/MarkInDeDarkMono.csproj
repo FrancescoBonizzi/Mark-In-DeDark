@@ -105,6 +105,7 @@
     <Compile Include="Levels\GameGridLoader.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LinkDirection.cs" />
+    <Compile Include="Levels\Pillar.cs" />
     <Compile Include="Levels\Wall.cs" />
     <Compile Include="MarkKeyboard.cs" />
     <Compile Include="Maths\Floats.cs" />
