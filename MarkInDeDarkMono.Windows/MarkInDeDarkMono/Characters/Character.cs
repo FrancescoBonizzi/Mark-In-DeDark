@@ -624,7 +624,7 @@ namespace MarkInDeDarkMono.Characters
 
         private void RecalculateZIndex()
         {
-            // +0.005f perché voglio che a parità di oggetti, lui sia sopra
+            // _zIndexDelta perché per stabilire un ordine rispetto agli altri personaggi
             _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.Calculate(
                 Position + MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter) + _zIndexDelta;
 
@@ -647,7 +647,6 @@ namespace MarkInDeDarkMono.Characters
             if (_shadowsDrawingInfos != null)
             {
                 _shadowsDrawingInfos.Position = WorldCenter + _shadowPositionTraslation;
-
             }
         }
 
@@ -664,8 +663,6 @@ namespace MarkInDeDarkMono.Characters
             {
                 _torch?.Draw(spriteBatch);
             }
-
-
         }
 
         public virtual void DrawEffects(SpriteBatch spriteBatch)
