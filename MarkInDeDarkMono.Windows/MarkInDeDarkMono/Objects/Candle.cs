@@ -5,6 +5,7 @@ using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono;
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +44,8 @@ namespace MarkInDeDarkMono
             _drawingInfos = new DrawingInfos()
             {
                 Position = position,
-                Origin = _animation.FirstFrameSprite.SpriteCenter
+                Origin = _animation.FirstFrameSprite.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(position + _animation.FirstFrameSprite.SpriteCenter)
             };
 
             LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);

@@ -53,6 +53,8 @@ namespace MarkInDeDarkMono.Levels
         private readonly MarkInDeDarkGame _game;
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
+        private float _bloodZIndexDelta = 0.0001f;
+        private const float _bloodZIndexDeltaStep = 0.0001f;
 
         public GameGrid(
             Level levelToLoad,
@@ -666,45 +668,45 @@ namespace MarkInDeDarkMono.Levels
         {
             var cell = GetCellAtPixel(where);
 
-            cell.ApplyBloodDecal(CellRelativePosition.Center);
+            cell.ApplyBloodDecal(CellRelativePosition.Center, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Spargo il sangue anche sulle celle adiacenti
 
             // Su
             if (cell.NorthCell != null)
-                cell.NorthCell.ApplyBloodDecal(CellRelativePosition.Up);
+                cell.NorthCell.ApplyBloodDecal(CellRelativePosition.Up, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Su-Destra
             if (cell.NorthCell != null)
                 if (cell.NorthCell.EastCell != null)
-                    cell.NorthCell.EastCell.ApplyBloodDecal(CellRelativePosition.UpRight);
+                    cell.NorthCell.EastCell.ApplyBloodDecal(CellRelativePosition.UpRight, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Destra
             if (cell.EastCell != null)
-                cell.EastCell.ApplyBloodDecal(CellRelativePosition.Right);
+                cell.EastCell.ApplyBloodDecal(CellRelativePosition.Right, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Destra-Giu
             if (cell.EastCell != null)
                 if (cell.EastCell.SouthCell != null)
-                    cell.EastCell.SouthCell.ApplyBloodDecal(CellRelativePosition.DownRight);
+                    cell.EastCell.SouthCell.ApplyBloodDecal(CellRelativePosition.DownRight, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Sotto
             if (cell.SouthCell != null)
-                cell.SouthCell.ApplyBloodDecal(CellRelativePosition.Down);
+                cell.SouthCell.ApplyBloodDecal(CellRelativePosition.Down, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Sotto-Sinistra
             if (cell.SouthCell != null)
                 if (cell.SouthCell.WestCell != null)
-                    cell.SouthCell.WestCell.ApplyBloodDecal(CellRelativePosition.DownLeft);
+                    cell.SouthCell.WestCell.ApplyBloodDecal(CellRelativePosition.DownLeft, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Sinistra
             if (cell.WestCell != null)
-                cell.WestCell.ApplyBloodDecal(CellRelativePosition.Left);
+                cell.WestCell.ApplyBloodDecal(CellRelativePosition.Left, _bloodZIndexDelta += _bloodZIndexDeltaStep);
 
             // Sinistra-Su
             if (cell.WestCell != null)
                 if (cell.WestCell.NorthCell != null)
-                    cell.WestCell.NorthCell.ApplyBloodDecal(CellRelativePosition.UpLeft);
+                    cell.WestCell.NorthCell.ApplyBloodDecal(CellRelativePosition.UpLeft, _bloodZIndexDelta += _bloodZIndexDeltaStep);
         }
 
         public void Update(TimeSpan elapsed)

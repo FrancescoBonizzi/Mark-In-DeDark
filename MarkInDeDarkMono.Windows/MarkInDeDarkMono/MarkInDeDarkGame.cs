@@ -8,6 +8,7 @@ using FbonizziMonoGame.TransformationObjects;
 
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Objects;
 using Microsoft.Xna.Framework;
@@ -133,7 +134,8 @@ namespace MarkInDeDarkMono
             _playerStartingPointDrawingInfos = new DrawingInfos()
             {
                 Position = _gameGrid.PlayerStartingPosition,
-                Origin = _playerStartingPointTexture.SpriteCenter
+                Origin = _playerStartingPointTexture.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(_gameGrid.PlayerStartingPosition - _playerStartingPointTexture.SpriteCenter)
             };
 
             _enemies = new List<Enemy>();
@@ -549,47 +551,34 @@ namespace MarkInDeDarkMono
             // Disegno tutto il pavimento (che non ha ZIndex perché sta sempre sotto)
             _gameGrid.Draw(spriteBatch);
 
+            // Disegno di tutti gli oggetti
+            _exit.Draw(spriteBatch);
+            spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
 
-            // TODO Agli oggetti ci penso dopo
+            if (_triggerObjects != null)
+            {
+                foreach (var triggerObject in _triggerObjects)
+                    triggerObject.Draw(spriteBatch);
+            }
+
+            _key.Draw(spriteBatch);
+
+            foreach (var candlePack in _candlePacks)
+                candlePack.Draw(spriteBatch);
             
-            // _exit.Draw(spriteBatch);
-            // spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
-
-            //if (_triggerObjects != null)
-            //{
-            //    foreach (var triggerObject in _triggerObjects)
-            //        triggerObject.Draw(spriteBatch);
-            //}
-
-            //_player.DrawShadows(spriteBatch);
-            //foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
-            //    en.DrawShadows(spriteBatch);
-
-            //_key.Draw(spriteBatch);
-
-            //foreach (var candlePack in _candlePacks)
-            //    candlePack.Draw(spriteBatch);
-            //
-            //foreach (var otherObject in _gameGrid.DrawableObjects)
-            //    otherObject.Draw(spriteBatch);
-            //
-            //foreach (var littleLight in _gameGrid.LittleLights)
-            //    littleLight.Draw(spriteBatch);
-
-            //_candlesManager.DrawSmoke(spriteBatch);
+            foreach (var otherObject in _gameGrid.DrawableObjects)
+                otherObject.Draw(spriteBatch);
+            
+            foreach (var littleLight in _gameGrid.LittleLights)
+                littleLight.Draw(spriteBatch);
 
             _gameGrid.Draw(spriteBatch);
-            
-            // I nemici morti vengono disegnati sotto il player
-            //foreach (Enemy en in _enemies.Where(enemy => enemy.IsDead))
-            //    en.Draw(spriteBatch);
 
-            //_candlesManager.Draw(spriteBatch);
-    //        _player.Draw(spriteBatch);
+            _candlesManager.Draw(spriteBatch);
+            _player.Draw(spriteBatch);
 
-            // I nemici vivi vengono disegnati sopra al player
-            //foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
-            //    en.Draw(spriteBatch);
+            foreach (Enemy en in _enemies)
+                en.Draw(spriteBatch);
 
             spriteBatch.End();
 

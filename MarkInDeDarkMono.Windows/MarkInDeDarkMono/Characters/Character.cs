@@ -1,7 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
@@ -12,6 +12,8 @@ namespace MarkInDeDarkMono.Characters
 {
     public abstract class Character
     {
+        protected float _zIndexDelta;
+
         public enum CharacterState
         {
             GoingUp,
@@ -226,7 +228,7 @@ namespace MarkInDeDarkMono.Characters
             Die();
             _mainFigureDrawingInfos.Position = trapCenter + new Vector2(0f, 30f);
             _mainFigureDrawingInfos.Scale = 0.6f;
-            
+
             if (AreLightsActive)
                 SetLightPosition();
         }
@@ -616,6 +618,21 @@ namespace MarkInDeDarkMono.Characters
                 _lightMap.Update(elapsed);
                 _torch?.Update(elapsed);
             }
+
+            RecalculateZIndex();
+        }
+
+        private void RecalculateZIndex()
+        {
+            // +0.005f perché voglio che a parità di oggetti, lui sia sopra
+            _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.Calculate(
+                Position + MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter) + _zIndexDelta;
+
+            // L'ombra potrà andare sopra i muri orizzontali perché i muri orizzontali sono sopra l'ombra
+            if (_shadowsDrawingInfos != null)
+                _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.001f;
+            if (_torch != null)
+                _torch.DrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth + 0.001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -630,21 +647,19 @@ namespace MarkInDeDarkMono.Characters
             if (_shadowsDrawingInfos != null)
             {
                 _shadowsDrawingInfos.Position = WorldCenter + _shadowPositionTraslation;
-            }
-        }
 
-        public void DrawShadows(SpriteBatch spriteBatch)
-        {
-            if (!IsDead && !IsDying)
-            {
-                ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
             }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if (!IsDead && !IsDying)
+            {
+                ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+            }
+
             MainAnimationsAnimationManager.Draw(spriteBatch, _mainFigureDrawingInfos);
-            
+
             if (AreLightsActive && !IsDead)
             {
                 _torch?.Draw(spriteBatch);

@@ -67,6 +67,8 @@ namespace MarkInDeDarkMono.Characters
 
             _soundManager.PlayEnlightTorch();
             AreLightsActive = false;
+
+            _zIndexDelta = 0.005f;
         }
 
         public bool HasWon

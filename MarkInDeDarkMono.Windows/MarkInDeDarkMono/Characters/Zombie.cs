@@ -55,6 +55,7 @@ namespace MarkInDeDarkMono.Characters
             
             // Ha gli occhi, non una cosa in mano, quindi non serve il glow
             _torch = null;
+            _zIndexDelta = 0.0056f;
         }
 
         public override void Update(TimeSpan elapsed)

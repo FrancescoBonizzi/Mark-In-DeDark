@@ -66,8 +66,7 @@ namespace MarkInDeDarkMono.Objects
 
             if (_hasFired && !someOneOnTheTrigger)
             {
-                if (_onTriggerLeft != null)
-                    _onTriggerLeft();
+                _onTriggerLeft?.Invoke();
             }
         }
 

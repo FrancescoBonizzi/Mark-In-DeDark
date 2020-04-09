@@ -25,7 +25,7 @@ namespace MarkInDeDarkMono.Levels
             DrawingInfos = new DrawingInfos()
             {
                 Position = position,
-                LayerDepth = ZIndexCalculator.Calculate(position)
+                LayerDepth = ZIndexCalculator.Calculate(position + sprite.SpriteCenter)
             };
 
             IsDestroyable = isDestroyable;

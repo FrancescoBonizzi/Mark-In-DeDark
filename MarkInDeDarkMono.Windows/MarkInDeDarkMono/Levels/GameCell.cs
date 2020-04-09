@@ -5,6 +5,7 @@ using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGrid;
 
 using MarkInDeDarkMono.Characters;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Maths;
 using MarkInDeDarkMono.Objects;
 using MarkInDeDarkMono.Particles;
@@ -352,7 +353,7 @@ namespace MarkInDeDarkMono.Levels
         public void AddLink(GameCell destionationCell, LinkDirection direction)
             => Links[direction] = destionationCell;
 
-        public void ApplyBloodDecal(CellRelativePosition cellRelativePosition)
+        public void ApplyBloodDecal(CellRelativePosition cellRelativePosition, float zIndexDelta)
         {
             if (NoDecals)
                 return;
@@ -400,7 +401,8 @@ namespace MarkInDeDarkMono.Levels
                 Position = decalPosition,
                 Rotation = Numbers.RandomBetween(0f, 20f),
                 Scale = Numbers.RandomBetween(0.3f, 1f),
-                Origin = _bloodDecal.SpriteCenter
+                Origin = _bloodDecal.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(decalPosition - _bloodDecal.SpriteCenter) + zIndexDelta
             };
 
         }

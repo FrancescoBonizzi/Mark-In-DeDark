@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,7 +30,8 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = position,
                 Origin = sprite.SpriteCenter,
-                HitBoxTolerance = new Rectangle(50, 50, 100, 100)
+                HitBoxTolerance = new Rectangle(50, 50, 100, 100),
+                LayerDepth = ZIndexCalculator.Calculate(position - sprite.SpriteCenter)
             };
 
             _sprite = sprite;

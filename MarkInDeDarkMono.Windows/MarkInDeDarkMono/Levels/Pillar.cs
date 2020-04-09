@@ -20,7 +20,7 @@ namespace MarkInDeDarkMono.Levels
             {
                 Position = position,
                 // I pilastri devono sempre stare sopra ai muri, anche se hanno la stessa Y
-                LayerDepth = ZIndexCalculator.Calculate(position) + 0.001f
+                LayerDepth = ZIndexCalculator.Calculate(position + sprite.SpriteCenter) + 0.001f
             };
             _sprite = sprite;
         }

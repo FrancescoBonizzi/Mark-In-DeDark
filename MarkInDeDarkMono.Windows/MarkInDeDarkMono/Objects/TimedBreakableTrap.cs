@@ -4,6 +4,7 @@ using FbonizziMonoGame.Sprites;
 
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -89,7 +90,8 @@ namespace MarkInDeDarkMono.Objects
             _drawingInfos = new DrawingInfos()
             {
                 Position = triggerCollisionRectangle.Center.ToVector2(),
-                Origin = _breakableTrapSprite.SpriteCenter
+                Origin = _breakableTrapSprite.SpriteCenter,
+                LayerDepth = ZIndexCalculator.Calculate(triggerCollisionRectangle.Center.ToVector2() - _breakableTrapSprite.SpriteCenter)
             };
         }
 
