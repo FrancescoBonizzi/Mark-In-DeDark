@@ -768,7 +768,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         if (_cells[x, y] != null)
                         {
-                            _cells[x, y].DrawTopWalls(spriteBatch);
+                            _cells[x, y].DrawBeforePlayerWalls(spriteBatch);
                         }
                     }
                 }
@@ -785,7 +785,7 @@ namespace MarkInDeDarkMono.Levels
                     {
                         if (_cells[x, y] != null)
                         {
-                            _cells[x, y].DrawDownWalls(spriteBatch);
+                            _cells[x, y].DrawAfterWalls(spriteBatch);
                         }
                     }
                 }

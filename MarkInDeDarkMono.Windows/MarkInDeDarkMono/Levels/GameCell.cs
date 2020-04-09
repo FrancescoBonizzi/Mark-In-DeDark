@@ -519,17 +519,24 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawTopWalls(SpriteBatch spritebatch)
+        public void DrawBeforePlayerWalls(SpriteBatch spritebatch)
+        {
+            if (Walls.ContainsKey(LinkDirection.SouthLink))
+                Walls[LinkDirection.SouthLink].Draw(spritebatch);
+
+            if (Doors.ContainsKey(LinkDirection.SouthLink))
+                spritebatch.Draw(_doorSprite, Doors[LinkDirection.SouthLink].DrawingInfos);
+
+        }
+
+        public void DrawAfterWalls(SpriteBatch spritebatch)
         {
             if (Walls.ContainsKey(LinkDirection.NorthLink))
                 Walls[LinkDirection.NorthLink].Draw(spritebatch);
 
             if (Doors.ContainsKey(LinkDirection.NorthLink))
                 spritebatch.Draw(_doorSprite, Doors[LinkDirection.NorthLink].DrawingInfos);
-        }
 
-        public void DrawDownWalls(SpriteBatch spritebatch)
-        {
             if (Angles.ContainsKey(AnglePositions.NW))
                 spritebatch.Draw(_angleSprite, Angles[AnglePositions.NW]);
 
@@ -550,12 +557,6 @@ namespace MarkInDeDarkMono.Levels
 
             if (Doors.ContainsKey(LinkDirection.WestLink))
                 spritebatch.Draw(_doorSprite, Doors[LinkDirection.WestLink].DrawingInfos);
-
-            if (Walls.ContainsKey(LinkDirection.SouthLink))
-                Walls[LinkDirection.SouthLink].Draw(spritebatch);
-
-            if (Doors.ContainsKey(LinkDirection.SouthLink))
-                spritebatch.Draw(_doorSprite, Doors[LinkDirection.SouthLink].DrawingInfos);
 
             if (Angles.ContainsKey(AnglePositions.SW))
                 spritebatch.Draw(_angleSprite, Angles[AnglePositions.SW]);

@@ -20,7 +20,7 @@ namespace MarkInDeDarkMono.Levels
             Level level,
             GameConfig gameConfig)
         {
-            GameGridCleaner.SetAlwaysSouthWall(levelEditorGrid);
+            GameGridCleaner.CleanUpGameGridBundle(levelEditorGrid);
 
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
