@@ -626,7 +626,7 @@ namespace MarkInDeDarkMono.Characters
         {
             // _zIndexDelta perché per stabilire un ordine rispetto agli altri personaggi
             _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.Calculate(
-                Position + MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter) + _zIndexDelta;
+                Position - MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter) + _zIndexDelta;
 
             // L'ombra potrà andare sopra i muri orizzontali perché i muri orizzontali sono sopra l'ombra
             if (_shadowsDrawingInfos != null)
