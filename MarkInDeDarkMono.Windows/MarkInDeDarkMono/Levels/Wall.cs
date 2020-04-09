@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -23,7 +24,8 @@ namespace MarkInDeDarkMono.Levels
             Direction = direction;
             DrawingInfos = new DrawingInfos()
             {
-                Position = position
+                Position = position,
+                LayerDepth = ZIndexCalculator.Calculate(position)
             };
 
             IsDestroyable = isDestroyable;

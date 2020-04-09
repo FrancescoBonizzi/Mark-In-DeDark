@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,7 +18,9 @@ namespace MarkInDeDarkMono.Levels
         {
             DrawingInfos = new DrawingInfos()
             {
-                Position = position
+                Position = position,
+                // I pilastri devono sempre stare sopra ai muri, anche se hanno la stessa Y
+                LayerDepth = ZIndexCalculator.Calculate(position) + 0.001f
             };
             _sprite = sprite;
         }

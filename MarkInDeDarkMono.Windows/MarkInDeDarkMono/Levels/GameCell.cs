@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MarkInDeDarkMono.Levels
 {
@@ -116,7 +115,8 @@ namespace MarkInDeDarkMono.Levels
 
             _cellDrawingInfos = new DrawingInfos()
             {
-                Position = position
+                Position = position,
+                LayerDepth = 0
             };
 
             _game = game;
@@ -147,7 +147,8 @@ namespace MarkInDeDarkMono.Levels
                             position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
                         Scale = 1f,
                         Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
-                        Origin = _dirtySprite.SpriteCenter
+                        Origin = _dirtySprite.SpriteCenter,
+                        LayerDepth = 0.001f
                     });
                 }
             }
@@ -496,10 +497,10 @@ namespace MarkInDeDarkMono.Levels
                 door.Update(elapsed);
         }
 
-        public void DrawCell(SpriteBatch _spritebatch)
+        public void DrawGround(SpriteBatch _spritebatch)
             => _spritebatch.Draw(Sprite, _cellDrawingInfos);
 
-        public void DrawDirtys(SpriteBatch spriteBatch)
+        public void DrawDirty(SpriteBatch spriteBatch)
         {
             if (!NoDecals)
             {

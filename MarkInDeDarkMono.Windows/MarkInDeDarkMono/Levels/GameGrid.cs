@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace MarkInDeDarkMono.Levels
 {
@@ -52,6 +51,8 @@ namespace MarkInDeDarkMono.Levels
 
         private readonly IDictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>> _calculatedPathsCache;
         private readonly MarkInDeDarkGame _game;
+
+        public const float GridMaxHeight = VerticalCellsNumber * 192;
 
         public GameGrid(
             Level levelToLoad,
@@ -728,7 +729,7 @@ namespace MarkInDeDarkMono.Levels
             }
         }
 
-        public void DrawGround(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -738,24 +739,8 @@ namespace MarkInDeDarkMono.Levels
                     {
                         if (_cells[x, y] != null)
                         {
-                            _cells[x, y].DrawCell(spriteBatch);
-                            _cells[x, y].DrawDirtys(spriteBatch);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void DrawWalls(SpriteBatch spriteBatch)
-        {
-            for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-            {
-                for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                        {
+                            _cells[x, y].DrawGround(spriteBatch);
+                            _cells[x, y].DrawDirty(spriteBatch);
                             _cells[x, y].DrawWalls(spriteBatch);
                         }
                     }

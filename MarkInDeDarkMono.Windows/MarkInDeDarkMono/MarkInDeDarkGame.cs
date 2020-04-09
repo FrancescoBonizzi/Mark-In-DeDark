@@ -5,7 +5,6 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-using MarkInDeDarkMono;
 
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Common;
@@ -548,7 +547,7 @@ namespace MarkInDeDarkMono
                 sortMode: SpriteSortMode.FrontToBack);
 
             // Disegno tutto il pavimento (che non ha ZIndex perché sta sempre sotto)
-            _gameGrid.DrawGround(spriteBatch);
+            _gameGrid.Draw(spriteBatch);
 
 
             // TODO Agli oggetti ci penso dopo
@@ -579,14 +578,14 @@ namespace MarkInDeDarkMono
 
             //_candlesManager.DrawSmoke(spriteBatch);
 
-            _gameGrid.DrawWalls(spriteBatch);
+            _gameGrid.Draw(spriteBatch);
             
             // I nemici morti vengono disegnati sotto il player
             //foreach (Enemy en in _enemies.Where(enemy => enemy.IsDead))
             //    en.Draw(spriteBatch);
 
             //_candlesManager.Draw(spriteBatch);
-            _player.Draw(spriteBatch);
+    //        _player.Draw(spriteBatch);
 
             // I nemici vivi vengono disegnati sopra al player
             //foreach (Enemy en in _enemies.Where(enemy => !enemy.IsDead))
