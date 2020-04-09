@@ -101,6 +101,7 @@
     <Compile Include="Levels\CellRelativePosition.cs" />
     <Compile Include="Levels\GameCell.cs" />
     <Compile Include="Levels\GameGrid.cs" />
+    <Compile Include="Levels\GameGridCleaner.cs" />
     <Compile Include="Levels\GameGridLoader.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LinkDirection.cs" />
