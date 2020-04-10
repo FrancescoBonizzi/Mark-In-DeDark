@@ -12,8 +12,6 @@ namespace MarkInDeDarkMono.Characters
 {
     public abstract class Character
     {
-        protected float _zIndexDelta;
-
         public enum CharacterState
         {
             GoingUp,
@@ -624,11 +622,10 @@ namespace MarkInDeDarkMono.Characters
 
         private void RecalculateZIndex()
         {
-            // _zIndexDelta perché per stabilire un ordine rispetto agli altri personaggi
-            _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.Calculate(
-                Position - MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter) + _zIndexDelta;
+            _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
+                this,
+                Position);
 
-            // L'ombra potrà andare sopra i muri orizzontali perché i muri orizzontali sono sopra l'ombra
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.00001f;
             if (_torch != null)
@@ -675,7 +672,7 @@ namespace MarkInDeDarkMono.Characters
 
         public virtual void DrawLightMap(SpriteBatch spriteBatch)
         {
-            if (AreLightsActive && !IsDead)
+            if (AreLightsActive && (!IsDead || this is Player))
             {
                 _lightMap.Draw(spriteBatch);
             }

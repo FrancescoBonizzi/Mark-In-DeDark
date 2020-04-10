@@ -47,8 +47,6 @@ namespace MarkInDeDarkMono.Characters
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
-
-            _zIndexDelta = 0.00051f;
         }
     }
 }

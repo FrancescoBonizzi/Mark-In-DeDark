@@ -45,7 +45,7 @@ namespace MarkInDeDarkMono
             {
                 Position = position,
                 Origin = _animation.FirstFrameSprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(position + _animation.FirstFrameSprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForCandle(position)
             };
 
             LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
@@ -58,6 +58,9 @@ namespace MarkInDeDarkMono
             AreSomeMonsterIsFollowingMe = false;
 
             _timeToLive = TimeSpan.FromSeconds(gameConfig.CandleTimeToLiveWhenAttackedSeconds);
+
+            if (_torch != null)
+                _torch.DrawingInfos.LayerDepth = _drawingInfos.LayerDepth + 0.00001f;
 
             _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader);
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
@@ -136,11 +139,12 @@ namespace MarkInDeDarkMono
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
             _torch.Draw(spriteBatch);
-            _playerCandleFireParticleSystem.Draw(spriteBatch);
         }
 
-        public void DrawSmoke(SpriteBatch spriteBatch)
+        public void DrawEffects(SpriteBatch spriteBatch)
         {
+            _playerCandleFireParticleSystem.Draw(spriteBatch);
+
             if (IsDying)
             {
                 _smokeEffect.Draw(spriteBatch);

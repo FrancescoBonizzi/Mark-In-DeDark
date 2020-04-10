@@ -135,7 +135,7 @@ namespace MarkInDeDarkMono
             {
                 Position = _gameGrid.PlayerStartingPosition,
                 Origin = _playerStartingPointTexture.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(_gameGrid.PlayerStartingPosition - _playerStartingPointTexture.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForGroundObjects
             };
 
             _enemies = new List<Enemy>();

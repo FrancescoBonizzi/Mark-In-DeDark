@@ -1,7 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
+using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -25,7 +25,7 @@ namespace MarkInDeDarkMono.Characters
             _walkUpAnimation = assetsLoader.GetAnimation("playerWalkUp");
             _drawingInfos = new DrawingInfos()
             {
-                Origin = _walkUpAnimation.FirstFrameSprite.SpriteCenter,
+                Origin = _walkUpAnimation.FirstFrameSprite.SpriteCenter
             };
         }
 
@@ -36,6 +36,9 @@ namespace MarkInDeDarkMono.Characters
 
         public void Update(TimeSpan elapsed)
         {
+            _drawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(
+                _drawingInfos.Position - _walkUpAnimation.CurrentFrame.SpriteCenter);
+
             _animationDuration -= elapsed;
 
             if (_animationDuration <= TimeSpan.Zero)

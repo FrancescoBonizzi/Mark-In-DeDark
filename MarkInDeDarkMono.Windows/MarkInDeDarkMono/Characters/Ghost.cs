@@ -55,7 +55,6 @@ namespace MarkInDeDarkMono.Characters
 
             // E' lui stesso il glow
             _torch = null;
-            _zIndexDelta = 0.00052f;
         }
 
         public override void Die()

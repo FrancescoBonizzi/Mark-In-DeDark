@@ -22,7 +22,7 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = gameCell.CenterPosition,
                 Origin = _sprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(gameCell.CenterPosition + _sprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForGenericObject(gameCell.CenterPosition)
             };
         }
 

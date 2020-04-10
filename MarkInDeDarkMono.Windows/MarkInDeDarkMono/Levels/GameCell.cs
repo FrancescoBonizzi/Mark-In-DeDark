@@ -120,7 +120,7 @@ namespace MarkInDeDarkMono.Levels
             _cellDrawingInfos = new DrawingInfos()
             {
                 Position = position,
-                LayerDepth = 0
+                LayerDepth = ZIndexCalculator.GroundLayerDepth
             };
 
             _game = game;
@@ -152,7 +152,7 @@ namespace MarkInDeDarkMono.Levels
                         Scale = 1f,
                         Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
                         Origin = _dirtySprite.SpriteCenter,
-                        LayerDepth = 0.001f
+                        LayerDepth = ZIndexCalculator.ForGroundDirty
                     });
                 }
             }
@@ -356,7 +356,7 @@ namespace MarkInDeDarkMono.Levels
         public void AddLink(GameCell destionationCell, LinkDirection direction)
             => Links[direction] = destionationCell;
 
-        public void ApplyBloodDecal(CellRelativePosition cellRelativePosition, float zIndexDelta)
+        public void ApplyBloodDecal(CellRelativePosition cellRelativePosition)
         {
             if (NoDecals)
                 return;
@@ -405,7 +405,7 @@ namespace MarkInDeDarkMono.Levels
                 Rotation = Numbers.RandomBetween(0f, 20f),
                 Scale = Numbers.RandomBetween(0.3f, 1f),
                 Origin = _bloodDecal.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(decalPosition - _bloodDecal.SpriteCenter) + zIndexDelta
+                LayerDepth = ZIndexCalculator.ForGroundBlood
             };
 
         }

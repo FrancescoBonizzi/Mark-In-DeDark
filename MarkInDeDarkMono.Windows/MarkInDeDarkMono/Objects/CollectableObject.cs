@@ -31,7 +31,7 @@ namespace MarkInDeDarkMono.Objects
                 Position = position,
                 Origin = sprite.SpriteCenter,
                 HitBoxTolerance = new Rectangle(50, 50, 100, 100),
-                LayerDepth = ZIndexCalculator.Calculate(position - sprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
             _sprite = sprite;

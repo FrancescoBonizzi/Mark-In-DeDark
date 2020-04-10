@@ -160,7 +160,7 @@ namespace MarkInDeDarkMono
         {
             foreach (Candle c in Candles)
             {
-                c.DrawSmoke(spriteBatch);
+                c.DrawEffects(spriteBatch);
             }
         }
 

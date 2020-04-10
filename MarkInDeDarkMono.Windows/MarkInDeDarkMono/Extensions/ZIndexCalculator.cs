@@ -1,6 +1,8 @@
 ﻿using FbonizziMonoGame;
+using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace MarkInDeDarkMono.Extensions
 {
@@ -11,7 +13,91 @@ namespace MarkInDeDarkMono.Extensions
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static float Calculate(Vector2 position)
-            => Numbers.MapValueFromIntervalToInterval(position.Y, 0, GameGrid.GridMaxHeight, 0f, 1f);
+        private static float CalculateDependingOnHeight(float y)
+            => Numbers.MapValueFromIntervalToInterval(y, 0, GameGrid.GridMaxHeight, 0f, 1f);
+
+        public const float GroundLayerDepth = 0f;
+
+        private static float _groundDirtyLayerDepth = 0.0000001f;
+        public static float ForGroundDirty
+        {
+            // Funzione perché si possono sovrapporre
+            get => ForceMax1(_groundDirtyLayerDepth += 0.0000001f);
+        }
+
+        private static float _groundBloodLayerDepth = 0.000001f;
+        public static float ForGroundBlood
+        {
+            // Funzione perché si possono sovrapporre
+            get => ForceMax1(_groundBloodLayerDepth += 0.000001f);
+        }
+
+        // Non si possono sovrapporre
+        public static float ForGroundObjects => 0.00001f;
+
+        public static float ForWall(Vector2 position)
+            => ForceMax1(CalculateDependingOnHeight(position.Y));
+
+        // I pilastri devono sempre stare sopra ai muri, anche se hanno la stessa Y
+        public static float ForPillars(Vector2 position)
+            => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.001f);
+
+        public static float ForGenericObject(Vector2 position)
+            => ForceMax1(CalculateDependingOnHeight(position.Y));
+
+        // Le candele devono stare sopra agli altri oggetti
+        public static float ForCandle(Vector2 position)
+            => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.0001f);
+
+        public static float ForCharacter(Character character, Vector2 position)
+        {
+            if (character.IsDead || character.IsDying)
+                return ForGroundBlood; // Appena sopra al sangue, se è morto
+
+            var startingZIndex = CalculateDependingOnHeight(position.Y);
+
+            switch(character)
+            {
+                case Player _:
+                    startingZIndex += 0.00050f;
+                    break;
+
+                case Zombie _:
+                    startingZIndex += 0.00051f;
+                    break;
+
+                case Ghost _:
+                    startingZIndex += 0.00052f;
+                    break;
+
+                case Skeletron _:
+                    startingZIndex += 0.00053f;
+                    break;
+
+                case Goblin _:
+                    startingZIndex += 0.00054f;
+                    break;
+
+                case Bubu _:
+                    startingZIndex += 0.00055f;
+                    break;
+
+                case Taurus _:
+                    startingZIndex += 0.00056f;
+                    break;
+
+                case Werewolf _:
+                    startingZIndex += 0.00057f;
+                    break;
+
+                default:
+                    throw new NotImplementedException($"Impostare un layer depth per questo personaggio: {character.GetType().Name}");
+            }
+
+            return ForceMax1(startingZIndex);
+        }
+
+        private static float ForceMax1(float value)
+            => value > 1f ? 1f : value;
     }
 }

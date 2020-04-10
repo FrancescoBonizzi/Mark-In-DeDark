@@ -31,7 +31,7 @@ namespace MarkInDeDarkMono
                 Position = position,
                 HitBoxTolerance = new Rectangle(60, 60, 120, 120),
                 Origin = _sprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(position - _sprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForGroundObjects
             };
         }
 
