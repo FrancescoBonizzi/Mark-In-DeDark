@@ -75,6 +75,25 @@
                     Grid[column, row].Bottom = type;
                     break;
             }
+
+            if (type != WallTypes.Niente)
+            {
+                // Dato che non posso avere colori diversi per bordi della stessa cella, 
+                // devo per forza sceglierne uno, altrimenti chi fa il livello si confonde
+                // e devo imporlo anche agli altri.
+                // (Può succedere che tu veda tutti verdi, ma in realtà sotto uno sia rosso)
+                if (Grid[column, row].Top != WallTypes.Niente)
+                    Grid[column, row].Top = type;
+
+                if (Grid[column, row].Right != WallTypes.Niente)
+                    Grid[column, row].Right = type;
+
+                if (Grid[column, row].Left != WallTypes.Niente)
+                    Grid[column, row].Left = type;
+
+                if (Grid[column, row].Bottom != WallTypes.Niente)
+                    Grid[column, row].Bottom = type;
+            }
         }
 
     }
