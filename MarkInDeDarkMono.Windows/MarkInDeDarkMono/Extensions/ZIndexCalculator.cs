@@ -6,6 +6,9 @@ using System;
 
 namespace MarkInDeDarkMono.Extensions
 {
+    // TODO Un altro modo furbo per risolvere tutti questi problemi è di creare 
+    // dei veri e propri layer di disegno con gli oggetti statici. 
+    // Così all'interno del layer disegno Deferred e poi do una depth a tutto il layer e ciao
     public static class ZIndexCalculator
     {
         /// <summary>
@@ -41,6 +44,10 @@ namespace MarkInDeDarkMono.Extensions
         // I pilastri devono sempre stare sopra ai muri, anche se hanno la stessa Y
         public static float ForPillars(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.001f);
+
+        // Sopra a tutti i personaggi, ma sotto i pilastri
+        public static float ForDoorArc(Vector2 position)
+            => 1f;
 
         public static float ForGenericObject(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y));

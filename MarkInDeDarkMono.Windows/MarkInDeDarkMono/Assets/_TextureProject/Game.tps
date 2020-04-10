@@ -199,8 +199,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">Game/Door/door_0.png</key>
+            <key type="filename">Game/Door/door_1.png</key>
+            <key type="filename">Game/Door/door_2.png</key>
+            <key type="filename">Game/Door/door_3.png</key>
+            <key type="filename">Game/Door/door_4.png</key>
+            <key type="filename">Game/Door/door_5.png</key>
+            <key type="filename">Game/Door/door_6.png</key>
+            <key type="filename">Game/Door/door_7.png</key>
+            <key type="filename">Game/Door/door_8.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell_2.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_door.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
             <key type="filename">Game/blood_decal.png</key>

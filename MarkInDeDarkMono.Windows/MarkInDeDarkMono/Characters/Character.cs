@@ -624,7 +624,7 @@ namespace MarkInDeDarkMono.Characters
         {
             _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
                 this,
-                Position);
+                Position - MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter);
 
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.00001f;

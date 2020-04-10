@@ -408,6 +408,13 @@ namespace MarkInDeDark.LevelEditor.Editor
             int row,
             int column)
         {
+            if ((wallPosition == WallPositions.Left || wallPosition == WallPositions.Right)
+                && type == WallTypes.Porta)
+            {
+                // Non sono ammesse porte su muri verticali
+                return;
+            }
+
             _gameGrid.SetWallType(row, column, type, wallPosition);
 
             var currentBorderThickness = _canvasCells[column, row].BorderThickness;

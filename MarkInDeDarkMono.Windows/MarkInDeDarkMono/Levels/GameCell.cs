@@ -19,6 +19,7 @@ namespace MarkInDeDarkMono.Levels
     public class GameCell
     {
         public Sprite Sprite { get; set; }
+
         private readonly Sprite _horizontalWallSprite;
         private readonly Sprite _verticalWallSprite;
         private readonly Sprite _horizontalDestroyableWallSprite;
@@ -26,12 +27,13 @@ namespace MarkInDeDarkMono.Levels
         private readonly Sprite _pillarSprite;
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
-        private readonly Sprite _doorSprite;
+        private readonly Sprite _wallDoorUp;
+        private readonly Sprite _wallDoorDown;
+
+        private readonly AssetsLoader _assetsLoader;
 
         private readonly int _width;
         private readonly int _height;
-
-        private readonly float _widthCellDoorDifferenceOver2;
 
         private readonly float _angleWidthOver2;
         private readonly float _angleHeightOver2;
@@ -79,7 +81,8 @@ namespace MarkInDeDarkMono.Levels
             Sprite verticalDestroyableWall,
             Sprite pillar,
             Sprite dirty,
-            Sprite door,
+            Sprite wallDoorUp,
+            Sprite wallDoorDown,
             double dirtyProbability,
             SoundManager soundManager,
             int iIndex,
@@ -87,6 +90,7 @@ namespace MarkInDeDarkMono.Levels
             GameGrid gameGrid,
             MarkInDeDarkGame game)
         {
+            _assetsLoader = assetsLoader;
             _bloodDecal = assetsLoader.Sprites["blood_decal"];
             DontDraw = false;
 
@@ -100,7 +104,9 @@ namespace MarkInDeDarkMono.Levels
             _dirtySprite = dirty;
             _horizontalDestroyableWallSprite = horizontalDestroyableWall;
             _verticalDestroyableWallSprite = verticalDestroyableWall;
-            _doorSprite = door;
+
+            _wallDoorDown = wallDoorDown;
+            _wallDoorUp = wallDoorUp;
 
             IsNonLinked = false;
             IsUnwalkableForEnemies = false;
@@ -108,9 +114,6 @@ namespace MarkInDeDarkMono.Levels
 
             _width = cell.Width;
             _height = cell.Height;
-
-            // Considerando che la texture del muro parte orizzontale
-            _widthCellDoorDifferenceOver2 = (_width - _doorSprite.Width) / 2f;
 
             _angleWidthOver2 = _pillarSprite.Width / 2f;
             _angleHeightOver2 = _pillarSprite.Height / 2f;
@@ -215,9 +218,9 @@ namespace MarkInDeDarkMono.Levels
         public bool IsWestDestroyable { get; set; }
 
         public bool IsNorthDoor { get; set; }
-        public bool IsEastDoor { get; set; }
+        public bool IsEastDoor => false; // Non esistono
         public bool IsSouthDoor { get; set; }
-        public bool IsWestDoor { get; set; }
+        public bool IsWestDoor => false; // Non esistono
 
         public bool IsNorthDoorPassable => !IsNorthDoor || Doors[LinkDirection.NorthLink].IsOpen;
         public bool IsEastDoorPassable => !IsEastDoor || Doors[LinkDirection.EastLink].IsOpen;
@@ -266,51 +269,29 @@ namespace MarkInDeDarkMono.Levels
 
         public void GenerateDoors()
         {
-            var doorSize = new Vector2(_doorSprite.Width, _doorSprite.Height);
             int shakeIntensity = 3;
 
             if (IsNorthDoor)
             {
-                var northDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y);
                 Doors.Add(LinkDirection.NorthLink, new Door(
-                    northDoorPosition,
-                    LinkDirection.NorthLink,
-                    doorSize,
-                    _doorSprite,
-                    () => _game.StartCameraShake(shakeIntensity)));
-            }
-
-            if (IsEastDoor)
-            {
-                var eastDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _width, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
-                Doors.Add(LinkDirection.EastLink, new Door(
-                    eastDoorPosition,
-                    LinkDirection.EastLink,
-                    doorSize,
-                    _doorSprite,
-                    () => _game.StartCameraShake(shakeIntensity)));
+                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
+                    linkDirection: LinkDirection.NorthLink,
+                    assetsLoader: _assetsLoader,
+                    wallDoorUp: _wallDoorUp,
+                    wallDoorDown: _wallDoorDown,
+                    onClose: () => _game.StartCameraShake(shakeIntensity)));
             }
 
             if (IsSouthDoor)
             {
-                var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + _widthCellDoorDifferenceOver2, _cellDrawingInfos.Position.Y + _height);
+                var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + 96, _cellDrawingInfos.Position.Y + _height);
                 Doors.Add(LinkDirection.SouthLink, new Door(
-                    southDoorPosition,
-                    LinkDirection.SouthLink,
-                    doorSize,
-                    _doorSprite,
-                    () => _game.StartCameraShake(shakeIntensity)));
-            }
-
-            if (IsWestDoor)
-            {
-                var westDoorPosition = new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _widthCellDoorDifferenceOver2);
-                Doors.Add(LinkDirection.WestLink, new Door(
-                    westDoorPosition,
-                    LinkDirection.WestLink,
-                    doorSize,
-                    _doorSprite,
-                    () => _game.StartCameraShake(shakeIntensity)));
+                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
+                    linkDirection: LinkDirection.SouthLink,
+                    assetsLoader: _assetsLoader,
+                    wallDoorUp: _wallDoorUp,
+                    wallDoorDown: _wallDoorDown,
+                    onClose: () => _game.StartCameraShake(shakeIntensity)));
             }
         }
 
@@ -407,7 +388,6 @@ namespace MarkInDeDarkMono.Levels
                 Origin = _bloodDecal.SpriteCenter,
                 LayerDepth = ZIndexCalculator.ForGroundBlood
             };
-
         }
 
         public void AddNWPillar()

@@ -1,7 +1,7 @@
-﻿using FbonizziMonoGame;
-using FbonizziMonoGame.Drawing;
+﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDarkMono.Extensions;
 using MarkInDeDarkMono.Levels;
 using MarkInDeDarkMono.Maths;
 using Microsoft.Xna.Framework;
@@ -27,156 +27,105 @@ namespace MarkInDeDarkMono.Objects
         public bool IsMoving => _currentState == DoorStates.Closing || _currentState == DoorStates.Opening;
         public bool IsOpen => _currentState == DoorStates.Open;
 
-        public Vector2 Size { get; }
         public LinkDirection DoorDirectionInCell { get; }
-        public DrawingInfos DrawingInfos { get; private set; }
+        public DrawingInfos _wallDoorDownDrawingInfos;
+        public DrawingInfos _wallDoorUpDrawingInfos;
+        public DrawingInfos DoorAnimationDrawingInfos;
 
-        private readonly Vector2 _startingPosition;
+        private readonly Sprite _wallDoorUpSprite;
+        private readonly Sprite _wallDoorDownSprite;
+
         private DoorStates _currentState;
-        private readonly float _rotationSpeed = 4f;
         private readonly Action _onClose;
-        private TimeSpan _totalElapsed;
 
-        private float _openPositionRotation;
-        private float _closedPositionRotation;
-
-        private readonly Sprite _sprite;
+        private readonly SpriteAnimation _doorOpenAnimation;
+        private readonly SpriteAnimation _doorCloseAnimation;
+        private SpriteAnimation _currentAnimation;
 
         public Door(
-            Vector2 position,
+            Vector2 doorPosition,
             LinkDirection linkDirection,
-            Vector2 size,
-            Sprite sprite,
-            Action onClose = null)
+            AssetsLoader assetsLoader,
+            Sprite wallDoorUp,
+            Sprite wallDoorDown,
+            Action onClose)
         {
-            Size = size;
+            _wallDoorUpSprite = wallDoorUp;
+            _wallDoorDownSprite = wallDoorDown;
+
             DoorDirectionInCell = linkDirection;
 
-            DrawingInfos = new DrawingInfos()
+            _wallDoorDownDrawingInfos = new DrawingInfos()
             {
-                Position = position,
-                Rotation = _closedPositionRotation
+                Position = doorPosition,
+                LayerDepth = ZIndexCalculator.ForWall(doorPosition)
             };
 
-            _startingPosition = position;
-            _sprite = sprite;
+            _wallDoorUpDrawingInfos = new DrawingInfos()
+            {
+                Position = doorPosition,
+                LayerDepth = ZIndexCalculator.ForDoorArc(doorPosition)
+            };
 
+            DoorAnimationDrawingInfos = new DrawingInfos()
+            {
+                Position = doorPosition,
+                LayerDepth = ZIndexCalculator.ForWall(doorPosition)
+            };
+
+            _doorOpenAnimation = assetsLoader.GetAnimation("DoorOpen");
+            _doorCloseAnimation = assetsLoader.GetAnimation("DoorClose");
+            
+            _currentAnimation = _doorCloseAnimation;
             _currentState = DoorStates.Closed;
-            SetNewPinPointToOpen(linkDirection);
 
             _onClose = onClose;
         }
 
-        private void SetNewPinPointToOpen(LinkDirection openingDirection)
+        public void Open()
         {
-            switch (openingDirection)
-            {
-                case LinkDirection.NorthLink:
-
-                    if (DoorDirectionInCell == LinkDirection.NorthLink || DoorDirectionInCell == LinkDirection.SouthLink)
-                    {
-                        DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 - 11f);
-                        DrawingInfos.Position = _startingPosition + new Vector2(0f, -11f);
-                        _openPositionRotation = -(float)Math.PI / 2.0f;
-                        _closedPositionRotation = 0f;
-                    }
-
-                    break;
-
-                case LinkDirection.SouthLink:
-
-                    if (DoorDirectionInCell == LinkDirection.NorthLink || DoorDirectionInCell == LinkDirection.SouthLink)
-                    {
-                        DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 + 11f);
-                        DrawingInfos.Position = _startingPosition + new Vector2(0f, +11f);
-                        _openPositionRotation = (float)Math.PI / 2.0f;
-                        _closedPositionRotation = 0f;
-                    }
-
-                    break;
-
-                case LinkDirection.EastLink:
-
-                    if (DoorDirectionInCell == LinkDirection.WestLink || DoorDirectionInCell == LinkDirection.EastLink)
-                    {
-                        DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 - 11f);
-                        DrawingInfos.Position = _startingPosition + new Vector2(+11f, 0);
-                        _openPositionRotation = 0f;
-                        _closedPositionRotation = (float)Math.PI / 2;
-                    }
-
-                    break;
-
-                case LinkDirection.WestLink:
-
-                    if (DoorDirectionInCell == LinkDirection.WestLink || DoorDirectionInCell == LinkDirection.EastLink)
-                    {
-                        DrawingInfos.Origin = new Vector2(0f, Size.Y / 2 + 11f);
-                        DrawingInfos.Position = _startingPosition + new Vector2(-11f, 0);
-                        _openPositionRotation = (float)Math.PI;
-                        _closedPositionRotation = (float)Math.PI / 2;
-                    }
-
-                    break;
-            }
-
-            // Per levare le approssimazioni del Lerp, che fanno scattare subito l'equals in range
-            // Devo aprire, quindi impongo la posizione da chiuso
-            DrawingInfos.Rotation = _closedPositionRotation;
-        }
-
-        public void Open(LinkDirection openingDirection)
-        {
-            SetNewPinPointToOpen(openingDirection);
             _currentState = DoorStates.Opening;
-            _totalElapsed = TimeSpan.Zero;
+            _currentAnimation = _doorOpenAnimation;
+            _currentAnimation.Stop();
+            _currentAnimation.Play();
         }
 
         public void Close()
         {
             _currentState = DoorStates.Closing;
-            _totalElapsed = TimeSpan.Zero;
+            _currentAnimation = _doorCloseAnimation;
+            _currentAnimation.Stop();
+            _currentAnimation.Play();
         }
 
         public void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_sprite, DrawingInfos);
+        {
+            spriteBatch.Draw(_wallDoorDownSprite, _wallDoorDownDrawingInfos);
+            spriteBatch.Draw(_wallDoorUpSprite, _wallDoorUpDrawingInfos);
+            spriteBatch.Draw(_currentAnimation.CurrentFrame, DoorAnimationDrawingInfos);
+        }
 
         public void Update(TimeSpan elapsed)
         {
+            _currentAnimation.Update(elapsed);
+            
             switch (_currentState)
             {
                 case DoorStates.Closing:
-                    _totalElapsed += elapsed;
 
-                    if (DrawingInfos.Rotation.IsEqualToInRange(_closedPositionRotation))
+                    if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Closed;
-                        if (_onClose != null)
-                            _onClose();
-                    }
-                    else
-                    {
-                        DrawingInfos.Rotation = MathHelper.Lerp(
-                            _openPositionRotation,
-                            _closedPositionRotation,
-                            (float)(_totalElapsed.TotalSeconds * _rotationSpeed));
+                        _onClose?.Invoke();
                     }
 
                     break;
 
                 case DoorStates.Opening:
-                    _totalElapsed += elapsed;
 
-                    if (DrawingInfos.Rotation.IsEqualToInRange(_openPositionRotation))
+                    if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Open;
-                    }
-                    else
-                    {
-                        DrawingInfos.Rotation = MathHelper.Lerp(
-                            _closedPositionRotation,
-                            _openPositionRotation,
-                            (float)(_totalElapsed.TotalSeconds * _rotationSpeed));
                     }
 
                     break;

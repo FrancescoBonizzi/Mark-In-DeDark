@@ -23,7 +23,8 @@ namespace MarkInDeDarkMono.Levels
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
         public Sprite AngleSprite { get; private set; }
-        public Sprite DoorSprite { get; private set; }
+        public Sprite WallDoorDownSprite { get; private set; }
+        public Sprite WallDoorUpSprite { get; private set; }
         public double DirtyProbability { get; private set; }
 
         public GameGridBundle LevelEditorDeserializedGrid { get; }
@@ -55,7 +56,8 @@ namespace MarkInDeDarkMono.Levels
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
             AngleSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];
-            DoorSprite = assetsLoader.Sprites["door"];
+            WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
+            WallDoorUpSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;

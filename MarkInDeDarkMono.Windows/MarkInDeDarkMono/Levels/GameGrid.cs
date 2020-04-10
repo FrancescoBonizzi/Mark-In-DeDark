@@ -86,7 +86,8 @@ namespace MarkInDeDarkMono.Levels
                         verticalDestroyableWall: levelToLoad.VerticalDestroyableWallSprite,
                         pillar: levelToLoad.AngleSprite,
                         dirty: levelToLoad.DirtySprite,
-                        door: levelToLoad.DoorSprite,
+                        wallDoorDown: levelToLoad.WallDoorDownSprite,
+                        wallDoorUp: levelToLoad.WallDoorUpSprite,
                         dirtyProbability: levelToLoad.DirtyProbability,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
@@ -263,7 +264,7 @@ namespace MarkInDeDarkMono.Levels
 
                     if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
-                        door.Open(direction);
+                        door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.NorthLink);
                         cellAfterDoor.AddLink(cell, LinkDirection.SouthLink);
                         cell.IsNorthPassable = true;
@@ -280,7 +281,7 @@ namespace MarkInDeDarkMono.Levels
 
                     if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
-                        door.Open(direction);
+                        door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.SouthLink);
                         cellAfterDoor.AddLink(cell, LinkDirection.NorthLink);
                         cell.IsSouthPassable = true;
@@ -296,7 +297,7 @@ namespace MarkInDeDarkMono.Levels
 
                     if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
-                        door.Open(direction);
+                        door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.EastLink);
                         cellAfterDoor.AddLink(cell, LinkDirection.WestLink);
                         cell.IsEastPassable = true;
@@ -312,7 +313,7 @@ namespace MarkInDeDarkMono.Levels
 
                     if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
                     {
-                        door.Open(direction);
+                        door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.WestLink);
                         cellAfterDoor.AddLink(cell, LinkDirection.EastLink);
                         cell.IsWestPassable = true;

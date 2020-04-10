@@ -257,7 +257,6 @@ namespace MarkInDeDarkMono.Levels
 
                     gameCell.IsEastDestroyable = levelEditorCell.Right == WallTypes.Fragile;
                     gameCell.IsEastPassable = levelEditorCell.Right == WallTypes.Niente || levelEditorCell.Right == WallTypes.Porta;
-                    gameCell.IsEastDoor = levelEditorCell.Right == WallTypes.Porta;
 
                     gameCell.IsSouthDestroyable = levelEditorCell.Bottom == WallTypes.Fragile;
                     gameCell.IsSouthPassable = levelEditorCell.Bottom == WallTypes.Niente || levelEditorCell.Bottom == WallTypes.Porta;
@@ -265,7 +264,6 @@ namespace MarkInDeDarkMono.Levels
 
                     gameCell.IsWestDestroyable = levelEditorCell.Left == WallTypes.Fragile;
                     gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
-                    gameCell.IsWestDoor = levelEditorCell.Left == WallTypes.Porta;
 
                     gameCell.GenerateWalls();
                     gameCell.GenerateDoors();
