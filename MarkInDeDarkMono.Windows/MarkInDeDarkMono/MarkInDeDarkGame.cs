@@ -230,7 +230,7 @@ namespace MarkInDeDarkMono
                 {
                     _triggerObjects.Add(new InstantlyDieTrap(
                         assetsLoader,
-                        (new List<Character> { _player }).Concat(_enemies),
+                        (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
                         instantlyDieTrapRectangle));
                 }
             }
@@ -243,7 +243,7 @@ namespace MarkInDeDarkMono
                         assetsLoader,
                         _gameConfig,
                         breakableTrapRectangle,
-                        (new List<Character> { _player }).Concat(_enemies),
+                        (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
                         () => StartCameraShake(1)));
                 }
             }
