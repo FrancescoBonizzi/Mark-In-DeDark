@@ -63,10 +63,12 @@ namespace MarkInDeDarkMono.Levels
 
                         case GroundTypes.TrappolaMorteIstantanea:
                             grid.InstantlyDieTrapCollisionRectangles.Add(gameCell.CollisionRectangle);
+                            gameCell.NoDecals = true;
                             break;
 
                         case GroundTypes.TrappolaTemporizzata:
                             grid.BrekableTrapCollisionRectangles.Add(gameCell.CollisionRectangle);
+                            gameCell.NoDecals = true;
                             break;
 
                         case GroundTypes.TriggerGoblin:
