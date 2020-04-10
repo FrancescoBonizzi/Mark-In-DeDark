@@ -33,7 +33,7 @@ namespace MarkInDeDarkMono.Objects
             {
                 Position = triggerCollisionRectangle.Center.ToVector2(),
                 Origin = _trapSprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.Calculate(triggerCollisionRectangle.Center.ToVector2() - _trapSprite.SpriteCenter)
+                LayerDepth = 0.00001f // Sono parte del pavimento!
             };
         }
 
