@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/Users/Francesco/Source/Repos/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
+        <string>C:/Users/Francesco/Source/repos/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -507,21 +507,30 @@
             <key type="filename">Game/ghost_side_walking_5.png</key>
             <key type="filename">Game/goblin_back_attack_1.png</key>
             <key type="filename">Game/goblin_back_attack_2.png</key>
+            <key type="filename">Game/goblin_back_attack_3.png</key>
             <key type="filename">Game/goblin_back_iddle_1.png</key>
             <key type="filename">Game/goblin_back_walking_1.png</key>
             <key type="filename">Game/goblin_back_walking_2.png</key>
+            <key type="filename">Game/goblin_back_walking_3.png</key>
+            <key type="filename">Game/goblin_back_walking_4.png</key>
             <key type="filename">Game/goblin_front_attack_1.png</key>
             <key type="filename">Game/goblin_front_attack_2.png</key>
+            <key type="filename">Game/goblin_front_attack_3.png</key>
             <key type="filename">Game/goblin_front_dying_1.png</key>
             <key type="filename">Game/goblin_front_dying_2.png</key>
             <key type="filename">Game/goblin_front_iddle_1.png</key>
             <key type="filename">Game/goblin_front_walking_1.png</key>
             <key type="filename">Game/goblin_front_walking_2.png</key>
+            <key type="filename">Game/goblin_front_walking_3.png</key>
+            <key type="filename">Game/goblin_front_walking_4.png</key>
             <key type="filename">Game/goblin_side_attack_1.png</key>
             <key type="filename">Game/goblin_side_attack_2.png</key>
+            <key type="filename">Game/goblin_side_attack_3.png</key>
             <key type="filename">Game/goblin_side_iddle_1.png</key>
             <key type="filename">Game/goblin_side_walking_1.png</key>
             <key type="filename">Game/goblin_side_walking_2.png</key>
+            <key type="filename">Game/goblin_side_walking_3.png</key>
+            <key type="filename">Game/goblin_side_walking_4.png</key>
             <key type="filename">Game/player_back_iddle_1.png</key>
             <key type="filename">Game/player_back_iddle_2.png</key>
             <key type="filename">Game/player_back_iddle_3.png</key>
