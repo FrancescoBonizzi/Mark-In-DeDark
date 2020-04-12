@@ -55,6 +55,8 @@ namespace MarkInDeDarkMono.Characters
 
             // E' lui stesso il glow
             _torch = null;
+            var deltaPosition = new Vector2(0, -15f);
+            _mainFigureDrawingInfos.Origin -= deltaPosition;
         }
 
         public override void Die()
