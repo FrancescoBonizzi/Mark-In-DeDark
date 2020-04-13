@@ -12,7 +12,7 @@ namespace MarkInDeDarkMono.Characters
 {
     public class Goblin : Enemy
     {
-        private readonly GoblinLightParticleSystem _playerCandleFireParticleSystem;
+        private readonly GoblinLightParticleSystem _goblinLightParticleSystem;
 
         public Goblin(
             AssetsLoader assetsLoader,
@@ -53,16 +53,16 @@ namespace MarkInDeDarkMono.Characters
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
 
-            _playerCandleFireParticleSystem = new GoblinLightParticleSystem(assetsLoader);
+            _goblinLightParticleSystem = new GoblinLightParticleSystem(assetsLoader);
         }
 
         public override void Update(TimeSpan elapsed)
         {
-            _playerCandleFireParticleSystem.Update(elapsed);
+            _goblinLightParticleSystem.Update(elapsed);
 
             if (!IsDead)
             {
-                _playerCandleFireParticleSystem.AddParticles(TorchPosition);
+                _goblinLightParticleSystem.AddParticles(TorchPosition);
             }
 
             base.Update(elapsed);
@@ -70,7 +70,7 @@ namespace MarkInDeDarkMono.Characters
 
         public override void DrawEffects(SpriteBatch spriteBatch)
         {
-            _playerCandleFireParticleSystem.Draw(spriteBatch);
+            _goblinLightParticleSystem.Draw(spriteBatch);
             base.DrawEffects(spriteBatch);
         }
     }

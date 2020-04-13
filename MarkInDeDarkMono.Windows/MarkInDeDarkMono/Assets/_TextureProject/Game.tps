@@ -656,6 +656,7 @@
             <key type="filename">Game/candle_spark.png</key>
             <key type="filename">Game/goblin_light_spark.png</key>
             <key type="filename">Game/littlelight_spark.png</key>
+            <key type="filename">Game/skeleton_light_spark.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

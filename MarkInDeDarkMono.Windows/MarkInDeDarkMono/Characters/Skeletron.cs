@@ -3,7 +3,10 @@ using MarkInDeDarkMono.AI;
 
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
+using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +14,8 @@ namespace MarkInDeDarkMono.Characters
 {
     public class Skeletron : Enemy
     {
+        private readonly SkeletonLightParticleSystem _skeletonLightParticleSystem;
+
         public Skeletron(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -29,10 +34,10 @@ namespace MarkInDeDarkMono.Characters
                     firstTorchColor: gameConfig.SkeletronLightColorRGB1,
                     secondTorchColor: gameConfig.SkeletronLightColorRGB2,
                     torchScale: gameConfig.SkeletronLightSize,
-                    torchPositionTraslationUp: new Vector2(-20, -15),
-                    torchPositionTraslationLeft: new Vector2(-20, -5),
-                    torchPositionTraslationRight: new Vector2(20, -5),
-                    torchPositionTraslationDown: new Vector2(20, 0),
+                    torchPositionTraslationUp: new Vector2(-45, -15),
+                    torchPositionTraslationLeft: new Vector2(-30, -5),
+                    torchPositionTraslationRight: new Vector2(30, -5),
+                    torchPositionTraslationDown: new Vector2(35, 0),
                     assetsLoader: assetsLoader),
                 movementSpeed: gameConfig.SkeletronSpeed),
             new EnemyConfiguration(
@@ -46,6 +51,25 @@ namespace MarkInDeDarkMono.Characters
             player,
             assetsLoader)
         {
+            _skeletonLightParticleSystem = new SkeletonLightParticleSystem(assetsLoader);
+        }
+
+        public override void Update(TimeSpan elapsed)
+        {
+            _skeletonLightParticleSystem.Update(elapsed);
+
+            if (!IsDead)
+            {
+                _skeletonLightParticleSystem.AddParticles(TorchPosition);
+            }
+
+            base.Update(elapsed);
+        }
+
+        public override void DrawEffects(SpriteBatch spriteBatch)
+        {
+            _skeletonLightParticleSystem.Draw(spriteBatch);
+            base.DrawEffects(spriteBatch);
         }
     }
 }
