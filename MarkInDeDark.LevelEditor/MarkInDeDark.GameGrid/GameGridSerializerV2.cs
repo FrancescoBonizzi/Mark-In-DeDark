@@ -37,6 +37,9 @@ namespace MarkInDeDark.GameGrid
                 WallTypes bottom = (WallTypes)Convert.ToInt32(splitted[7]);
                 WallTypes left = (WallTypes)Convert.ToInt32(splitted[8]);
 
+                if (groundType == GroundTypes.Macerie)
+                    groundType = GroundTypes.Terra2;
+
                 gameGrid.SetGroundType(i, j, groundType);
                 if (objectType != null)
                     gameGrid.SetObjectType(i, j, objectType.Value, objectTypeAdditionalData);
