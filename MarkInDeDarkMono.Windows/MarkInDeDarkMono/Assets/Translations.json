@@ -4,6 +4,12 @@
       "PlayButtonString": {
         "Text": "Play"
       },
+      "InputTypeKeyboardString": {
+        "Text": "Keyboard"
+      },
+      "InputTypeGamePadString": {
+        "Text": "GamePad"
+      },
       "CandlePackFoundString": {
         "Text": "{0} candles found"
       },
@@ -29,6 +35,12 @@
     "Italian": {
       "PlayButtonString": {
         "Text": "Gioca"
+      },
+      "InputTypeKeyboardString": {
+        "Text": "Tastiera"
+      },
+      "InputTypeGamePadString": {
+        "Text": "GamePad"
       },
       "CandlePackFoundString": {
         "Text": "Hai trovato {0} candele"

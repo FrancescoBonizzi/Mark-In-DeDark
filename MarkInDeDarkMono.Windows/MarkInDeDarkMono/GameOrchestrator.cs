@@ -1,5 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
+using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Levels;
@@ -37,6 +39,8 @@ namespace MarkInDeDarkMono
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
 
         private readonly GraphicsDevice _graphicsDevice;
+        private readonly ILocalizedStringsRepository _localizedStringsRepository;
+        private readonly SpriteFont _font;
 
         public bool ShouldEndApplication { get; private set; }
         public bool IsPaused { get; private set; } = false;
@@ -44,17 +48,27 @@ namespace MarkInDeDarkMono
         private readonly TimeSpan _fadeDuration = TimeSpan.FromMilliseconds(800);
         private readonly Uri _aboutUri = new Uri("https://www.fbonizzi.it");
 
+        private DrawingInfos _inputTypeDrawingInfos = new DrawingInfos();
+        private string _inputTypeText = string.Empty;
+        private readonly MarkJoypad _markJoypad;
+
         public GameOrchestrator(
           Func<Level, MarkInDeDarkGame> gameFactory,
           Func<MainMenuPage> menuFactory,
           Func<LevelsPage> levelsPageFactory,
           GraphicsDevice graphicsDevice,
-          IScreenTransformationMatrixProvider matrixScaleProvider)
+          IScreenTransformationMatrixProvider matrixScaleProvider,
+          ILocalizedStringsRepository localizedStringsRepository,
+          SpriteFont font,
+          MarkJoypad markJoypad)
         {
             _gameFactory = gameFactory ?? throw new ArgumentNullException(nameof(gameFactory));
             _menuFactory = menuFactory ?? throw new ArgumentNullException(nameof(menuFactory));
             _levelsPageFactory = levelsPageFactory ?? throw new ArgumentNullException(nameof(levelsPageFactory));
             _graphicsDevice = graphicsDevice ?? throw new ArgumentNullException(nameof(graphicsDevice));
+            _localizedStringsRepository = localizedStringsRepository ?? throw new ArgumentNullException(nameof(localizedStringsRepository));
+            _font = font;
+            _markJoypad = markJoypad;
 
             _matrixScaleProvider = matrixScaleProvider ?? throw new ArgumentNullException(nameof(matrixScaleProvider));
             if (_matrixScaleProvider is DynamicScalingMatrixProvider)
@@ -214,8 +228,31 @@ namespace MarkInDeDarkMono
             }
         }
 
+        private void UpdateInputType()
+        {
+            if (_markJoypad.IsConnected)
+            {
+                _inputTypeText = _localizedStringsRepository.Get("InputTypeGamePadString");
+            }
+            else
+            {
+                _inputTypeText = _localizedStringsRepository.Get("InputTypeKeyboardString");
+            }
+
+            var inputTypeSize = _font.MeasureString(_inputTypeText);
+            _inputTypeDrawingInfos = new DrawingInfos()
+            {
+                Position = new Vector2(_matrixScaleProvider.VirtualWidth - 20f, 20f),
+                OverlayColor = Color.White,
+                Scale = 0.3f,
+                Origin = new Vector2(inputTypeSize.X, 0)
+            };
+        }
+
         public void Update(TimeSpan elapsed)
         {
+            UpdateInputType();
+
             if (IsPaused)
                 return;
 
@@ -300,6 +337,9 @@ namespace MarkInDeDarkMono
             {
                 case GameStates.Menu:
                     _menu.Draw(spriteBatch);
+                    spriteBatch.Begin(transformMatrix: _matrixScaleProvider.ScaleMatrix);
+                    spriteBatch.DrawString(_font, _inputTypeText, _inputTypeDrawingInfos);
+                    spriteBatch.End();
                     break;
 
                 case GameStates.Playing:
@@ -308,6 +348,9 @@ namespace MarkInDeDarkMono
 
                 case GameStates.Levels:
                     _levels.Draw(spriteBatch);
+                    spriteBatch.Begin(transformMatrix: _matrixScaleProvider.ScaleMatrix);
+                    spriteBatch.DrawString(_font, _inputTypeText, _inputTypeDrawingInfos);
+                    spriteBatch.End();
                     break;
             }
 

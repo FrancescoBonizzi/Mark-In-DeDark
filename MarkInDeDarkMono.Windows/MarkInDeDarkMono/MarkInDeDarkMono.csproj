@@ -108,6 +108,7 @@
     <Compile Include="Levels\LinkDirection.cs" />
     <Compile Include="Levels\Pillar.cs" />
     <Compile Include="Levels\Wall.cs" />
+    <Compile Include="MarkJoypad.cs" />
     <Compile Include="MarkKeyboard.cs" />
     <Compile Include="Maths\Floats.cs" />
     <Compile Include="Maths\Utilities.cs" />

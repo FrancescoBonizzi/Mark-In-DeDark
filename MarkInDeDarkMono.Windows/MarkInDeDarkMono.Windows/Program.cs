@@ -38,7 +38,6 @@ namespace MarkInDeDarkMono.Windows
                     textFileAssetsLoader: new WindowsTextFileImporter(),
                     settingsRepository: new TransientWindowsSettingsRepository(),
                     gameCulture: CultureInfo.CurrentCulture,
-                    isPc: true,
                     levelPaths: levelsToLoad,
                     windowWidth: width,
                     windowHeight: height))

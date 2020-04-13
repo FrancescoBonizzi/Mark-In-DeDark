@@ -6,7 +6,6 @@ namespace MarkInDeDarkMono
     public class MarkKeyboard
     {
         private CharacterActions _currentAction;
-        private CharacterActions _lastAction;
 
         private KeyboardState _lastState;
 
@@ -24,7 +23,7 @@ namespace MarkInDeDarkMono
         public void Update()
         {
             var keyState = Keyboard.GetState();
-
+            
             if (keyState.IsKeyDown(Keys.Up))
             {
                 _currentAction = CharacterActions.Up;
@@ -48,12 +47,11 @@ namespace MarkInDeDarkMono
             }
 
             if ((keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl))
-                || (keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl)))
+                || (keyState.IsKeyDown(Keys.RightControl) && _lastState.IsKeyUp(Keys.RightControl)))
             {
                 _currentAction = CharacterActions.DoorSwitch;
             }
 
-            _lastAction = _currentAction;
             _lastState = keyState;
         }
     }

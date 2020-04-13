@@ -41,28 +41,25 @@ namespace MarkInDeDarkMono
         private IScreenTransformationMatrixProvider _matrixScaleProvider;
 
         private readonly IEnumerable<string> _levelsNames;
-        private readonly bool _isPc;
+
 
         // private Sprite _mousePointer;
         private string _forcedLevelPath;
 
         private SoundManager _soundManager;
+
         private MarkKeyboard _markKeyboard;
+        private MarkJoypad _markJoypad;
 
         public MarkInDeDarkBootstrap(
             ITextFileLoader textFileAssetsLoader,
             ISettingsRepository settingsRepository,
             CultureInfo gameCulture,
-            bool isPc,
             IEnumerable<string> levelPaths,
             int windowWidth,
             int windowHeight)
         {
-            if (isPc)
-            {
-                IsMouseVisible = true;
-                _isPc = isPc;
-            }
+            IsMouseVisible = true;
 
             _textFileAssetsLoader = textFileAssetsLoader;
             _settingsRepository = settingsRepository;
@@ -147,46 +144,32 @@ namespace MarkInDeDarkMono
                     _localizedStringsRepository,
                     _assetsLoader));
 
+
+            _inputListeners = new List<IInputListener>();
+
+            // Mouse
+            var mouseListener = new MouseListener(_matrixScaleProvider);
+            mouseListener.MouseDown += MouseListener_MouseClicked;
+            _inputListeners.Add(mouseListener);
+
+            // Tastiera
+            var keyboardListener = new KeyboardListener();
+            keyboardListener.KeyPressed += KeyboardListener_KeyPressed;
+            _inputListeners.Add(keyboardListener);
+            _markKeyboard = new MarkKeyboard();
+
+            // Gamepad
+            _markJoypad = new MarkJoypad();
+
             _orchestrator = new GameOrchestrator(
                 gameFactory,
                 menuFactory,
                 levelsPageFactory,
                 _spriteBatch.GraphicsDevice,
-                _matrixScaleProvider);
-
-            _inputListeners = new List<IInputListener>();
-            if (_isPc)
-            {
-                var mouseListener = new MouseListener(_matrixScaleProvider);
-                mouseListener.MouseDown += MouseListener_MouseClicked;
-
-                var keyboardListener = new KeyboardListener();
-                keyboardListener.KeyPressed += KeyboardListener_KeyPressed;
-
-                _inputListeners.Add(mouseListener);
-                _inputListeners.Add(keyboardListener);
-
-                _markKeyboard = new MarkKeyboard();
-            }
-            else
-            {
-                var gamepadListener = new GamePadListener();
-                gamepadListener.ButtonDown += GamepadListener_ButtonDown;
-
-                _inputListeners.Add(gamepadListener);
-            }
-        }
-
-        private void GamepadListener_ButtonDown(object sender, GamePadEventArgs e)
-        {
-            if (e.Button == Buttons.Back)
-            {
-                _orchestrator.Back();
-                if (_orchestrator.ShouldEndApplication)
-                {
-                    Exit();
-                }
-            }
+                _matrixScaleProvider,
+                _localizedStringsRepository,
+                _assetsLoader.Font,
+                _markJoypad);
         }
 
         private void KeyboardListener_KeyPressed(object sender, KeyboardEventArgs e)
@@ -248,7 +231,12 @@ namespace MarkInDeDarkMono
             foreach (var listener in _inputListeners)
                 listener.Update(gameTime);
 
-            if (_isPc)
+            if (_markJoypad.IsConnected)
+            {
+                _markJoypad.Update();
+                _orchestrator.HandleKeyboardPressed(_markJoypad.CurrentInputAction);
+            }
+            else
             {
                 _markKeyboard.Update();
                 _orchestrator.HandleKeyboardPressed(_markKeyboard.CurrentInputAction);
