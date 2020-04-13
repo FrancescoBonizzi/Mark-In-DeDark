@@ -3,12 +3,17 @@ using MarkInDeDarkMono.AI;
 
 using MarkInDeDarkMono.Common;
 using MarkInDeDarkMono.Levels;
+using MarkInDeDarkMono.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MarkInDeDarkMono.Characters
 {
     public class Goblin : Enemy
     {
+        private readonly GoblinLightParticleSystem _playerCandleFireParticleSystem;
+
         public Goblin(
             AssetsLoader assetsLoader,
             Vector2 startingPosition,
@@ -27,10 +32,10 @@ namespace MarkInDeDarkMono.Characters
                           gameConfig.GoblinLightColorRGB1,
                           gameConfig.GoblinLightColorRGB2,
                           gameConfig.GoblinLightSize,
-                          torchPositionTraslationUp: new Vector2(20, -15),
+                          torchPositionTraslationUp: new Vector2(30, -15),
                           torchPositionTraslationLeft: new Vector2(5, 5),
                           torchPositionTraslationRight: new Vector2(-5, 5),
-                          torchPositionTraslationDown: new Vector2(-20, 5),
+                          torchPositionTraslationDown: new Vector2(-33, 5),
                           assetsLoader: assetsLoader),
                       gameConfig.GoblinSpeed),
                   new EnemyConfiguration(
@@ -47,6 +52,26 @@ namespace MarkInDeDarkMono.Characters
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
+
+            _playerCandleFireParticleSystem = new GoblinLightParticleSystem(assetsLoader);
+        }
+
+        public override void Update(TimeSpan elapsed)
+        {
+            _playerCandleFireParticleSystem.Update(elapsed);
+
+            if (!IsDead)
+            {
+                _playerCandleFireParticleSystem.AddParticles(TorchPosition);
+            }
+
+            base.Update(elapsed);
+        }
+
+        public override void DrawEffects(SpriteBatch spriteBatch)
+        {
+            _playerCandleFireParticleSystem.Draw(spriteBatch);
+            base.DrawEffects(spriteBatch);
         }
     }
 }

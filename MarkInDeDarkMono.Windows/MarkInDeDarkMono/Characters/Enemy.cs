@@ -173,7 +173,10 @@ namespace MarkInDeDarkMono.Characters
         public override void Update(TimeSpan elapsed)
         {
             if (_gameFinished)
+            {
+                base.Update(elapsed);
                 return;
+            }
 
             // Rimodulo sempre il volume dell'attacco per fare il fade
             // quando il player si allontana.
@@ -202,6 +205,10 @@ namespace MarkInDeDarkMono.Characters
                 _player.Die();
                 CurrentAI = new IdleAI();
                 _stopMovement = true;
+                //SetDirectionAnimation(CharacterActions.IdleDown);
+
+                //if (AreLightsActive)
+                //    SetLightPosition();
             }
 
             if (!IsMoving)
