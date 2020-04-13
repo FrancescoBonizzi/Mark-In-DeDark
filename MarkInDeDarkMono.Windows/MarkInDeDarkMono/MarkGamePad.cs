@@ -1,20 +1,23 @@
-﻿using MarkInDeDarkMono.Characters;
+﻿using FbonizziMonoGame;
+using MarkInDeDarkMono.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace MarkInDeDarkMono
 {
-    public class MarkJoypad
+    public class MarkGamePad
     {
         private CharacterActions _currentAction;
 
         private GamePadState _lastState;
-        private PlayerIndex[] _possibleGamePads;
+        private readonly PlayerIndex[] _possibleGamePads;
 
         private GamePadState? _currentState;
+        private readonly TimeSpan _shakeDuration = TimeSpan.FromMilliseconds(300);
+        private TimeSpan? _currentShakeElapsed;
 
-        public MarkJoypad()
+        public MarkGamePad()
         {
             _possibleGamePads = (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex));
         }
@@ -30,13 +33,31 @@ namespace MarkInDeDarkMono
             }
         }
 
+        public void Shake(int intensity)
+        {
+            var playerIndex = GetFirstConnectedPlayerIndex();
+            if (playerIndex == null)
+                return;
 
-        //public void Shake(int intensity)
-        //{
-        //    GamePad.SetVibration(
-        //        PlayerIndex.One, 
-        //        Intensity);
-        //}
+            _currentShakeElapsed = TimeSpan.Zero;
+            GamePad.SetVibration(
+                playerIndex.Value,
+                Numbers.MapValueFromIntervalToInterval(intensity, 0, 10, 0f, 1f),
+                0f);
+        }
+
+        public void StopShake()
+        {
+            var playerIndex = GetFirstConnectedPlayerIndex();
+            if (playerIndex == null)
+                return;
+
+            _currentShakeElapsed = null;
+            GamePad.SetVibration(
+                playerIndex.Value,
+                0f,
+                0f);
+        }
 
         public bool IsConnected
             => GetFirstConnectedGamePadState() != null;
@@ -53,13 +74,32 @@ namespace MarkInDeDarkMono
             return null;
         }
 
-        public void Update()
+        private PlayerIndex? GetFirstConnectedPlayerIndex()
+        {
+            foreach (var gamePad in _possibleGamePads)
+            {
+                var capabilities = GamePad.GetCapabilities(gamePad);
+                if (capabilities.IsConnected && capabilities.GamePadType == GamePadType.GamePad)
+                    return gamePad;
+            }
+
+            return null;
+        }
+
+        public void Update(TimeSpan elapsed)
         {
             _currentState = GetFirstConnectedGamePadState();
             if (_currentState == null)
                 return;
 
             var gamePadState = _currentState.Value;
+
+            if (_currentShakeElapsed != null)
+            {
+                _currentShakeElapsed += elapsed;
+                if (_currentShakeElapsed >= _shakeDuration)
+                    StopShake();
+            }
 
             if (gamePadState.ThumbSticks.Left.Y < -0.5f || gamePadState.DPad.Down == ButtonState.Pressed)
             {

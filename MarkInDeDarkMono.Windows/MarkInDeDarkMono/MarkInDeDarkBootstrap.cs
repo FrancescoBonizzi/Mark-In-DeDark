@@ -49,7 +49,7 @@ namespace MarkInDeDarkMono
         private SoundManager _soundManager;
 
         private MarkKeyboard _markKeyboard;
-        private MarkJoypad _markJoypad;
+        private MarkGamePad _markGamePad;
 
         public MarkInDeDarkBootstrap(
             ITextFileLoader textFileAssetsLoader,
@@ -110,6 +110,22 @@ namespace MarkInDeDarkMono
                 _gameCulture,
                 new TextFileStringsManager(_textFileAssetsLoader.LoadFile(@"Content/Translations.json")));
 
+            _inputListeners = new List<IInputListener>();
+
+            // Mouse
+            var mouseListener = new MouseListener(_matrixScaleProvider);
+            mouseListener.MouseDown += MouseListener_MouseClicked;
+            _inputListeners.Add(mouseListener);
+
+            // Tastiera
+            var keyboardListener = new KeyboardListener();
+            keyboardListener.KeyPressed += KeyboardListener_KeyPressed;
+            _inputListeners.Add(keyboardListener);
+            _markKeyboard = new MarkKeyboard();
+
+            // Gamepad
+            _markGamePad = new MarkGamePad();
+
             _assetsLoader = new AssetsLoader(
                 Content,
                 _textFileAssetsLoader,
@@ -129,7 +145,8 @@ namespace MarkInDeDarkMono
                     _gameConfig,
                     _matrixScaleProvider,
                     _soundManager,
-                    _localizedStringsRepository));
+                    _localizedStringsRepository,
+                    _markGamePad));
 
             var menuFactory = new Func<MainMenuPage>(
                 () => new MainMenuPage(
@@ -144,23 +161,6 @@ namespace MarkInDeDarkMono
                     _localizedStringsRepository,
                     _assetsLoader));
 
-
-            _inputListeners = new List<IInputListener>();
-
-            // Mouse
-            var mouseListener = new MouseListener(_matrixScaleProvider);
-            mouseListener.MouseDown += MouseListener_MouseClicked;
-            _inputListeners.Add(mouseListener);
-
-            // Tastiera
-            var keyboardListener = new KeyboardListener();
-            keyboardListener.KeyPressed += KeyboardListener_KeyPressed;
-            _inputListeners.Add(keyboardListener);
-            _markKeyboard = new MarkKeyboard();
-
-            // Gamepad
-            _markJoypad = new MarkJoypad();
-
             _orchestrator = new GameOrchestrator(
                 gameFactory,
                 menuFactory,
@@ -169,7 +169,8 @@ namespace MarkInDeDarkMono
                 _matrixScaleProvider,
                 _localizedStringsRepository,
                 _assetsLoader.Font,
-                _markJoypad);
+                _markGamePad);
+
         }
 
         private void KeyboardListener_KeyPressed(object sender, KeyboardEventArgs e)
@@ -231,10 +232,10 @@ namespace MarkInDeDarkMono
             foreach (var listener in _inputListeners)
                 listener.Update(gameTime);
 
-            if (_markJoypad.IsConnected)
+            if (_markGamePad.IsConnected)
             {
-                _markJoypad.Update();
-                _orchestrator.HandleKeyboardPressed(_markJoypad.CurrentInputAction);
+                _markGamePad.Update(elapsed);
+                _orchestrator.HandleKeyboardPressed(_markGamePad.CurrentInputAction);
             }
             else
             {

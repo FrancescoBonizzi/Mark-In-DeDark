@@ -52,6 +52,7 @@ namespace MarkInDeDarkMono
         private readonly SoundManager _soundManager;
         private readonly GameConfig _gameConfig;
         private readonly Level _currentLevel;
+        private readonly MarkGamePad _markGamePad;
         private readonly Color _backgroundColorForLightMask;
 
         private readonly Camera2D _camera;
@@ -84,7 +85,8 @@ namespace MarkInDeDarkMono
             GameConfig gameConfig,
             IScreenTransformationMatrixProvider matrixScaleProvider,
             SoundManager soundManager,
-            ILocalizedStringsRepository localizedStringsRepository)
+            ILocalizedStringsRepository localizedStringsRepository,
+            MarkGamePad markGamePad)
         {
             _graphicsDevice = graphicsDevice;
             _currentGameState = GameStates.Playing;
@@ -119,6 +121,7 @@ namespace MarkInDeDarkMono
             };
 
             _currentLevel = selectedLevel;
+            _markGamePad = markGamePad;
 
             _camera = new Camera2D(_matrixScaleProvider)
             {
@@ -315,6 +318,8 @@ namespace MarkInDeDarkMono
                              _gameConfig.GameOverStringColorRGB,
                              true);
 
+                        _markGamePad.Shake(6);
+
                         _currentGameState = GameStates.Finishing;
                     }
 
@@ -464,6 +469,10 @@ namespace MarkInDeDarkMono
         public void StopMusic()
             => _soundManager.StopSounds();
 
+        /// <summary>
+        /// Scala da 1 a 10
+        /// </summary>
+        /// <param name="intensity"></param>
         public void StartCameraShake(int intensity)
         {
             if (_shakeViewport)
@@ -473,6 +482,8 @@ namespace MarkInDeDarkMono
             _shakeStartAngle = Math.PI;
             _shakeStart = TimeSpan.Zero;
             _shakeViewport = true;
+
+            _markGamePad.Shake(intensity);
         }
 
         private void DrawLightMap(

@@ -50,7 +50,7 @@ namespace MarkInDeDarkMono
 
         private DrawingInfos _inputTypeDrawingInfos = new DrawingInfos();
         private string _inputTypeText = string.Empty;
-        private readonly MarkJoypad _markJoypad;
+        private readonly MarkGamePad _markJoypad;
 
         public GameOrchestrator(
           Func<Level, MarkInDeDarkGame> gameFactory,
@@ -60,7 +60,7 @@ namespace MarkInDeDarkMono
           IScreenTransformationMatrixProvider matrixScaleProvider,
           ILocalizedStringsRepository localizedStringsRepository,
           SpriteFont font,
-          MarkJoypad markJoypad)
+          MarkGamePad markJoypad)
         {
             _gameFactory = gameFactory ?? throw new ArgumentNullException(nameof(gameFactory));
             _menuFactory = menuFactory ?? throw new ArgumentNullException(nameof(menuFactory));
