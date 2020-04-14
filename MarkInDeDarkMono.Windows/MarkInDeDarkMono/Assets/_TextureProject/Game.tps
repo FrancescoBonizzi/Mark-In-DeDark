@@ -348,10 +348,13 @@
             <key type="filename">Game/Skeleton/skeleton_side_walking_2.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_3.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_4.png</key>
+            <key type="filename">Game/Taurus/taurus_back_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_back_attack_2.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_2.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_3.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_4.png</key>
+            <key type="filename">Game/Taurus/taurus_back_iddle_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_2.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_3.png</key>
@@ -363,10 +366,13 @@
             <key type="filename">Game/Taurus/taurus_back_walking_4.png</key>
             <key type="filename">Game/Taurus/taurus_back_walking_5.png</key>
             <key type="filename">Game/Taurus/taurus_back_walking_6.png</key>
+            <key type="filename">Game/Taurus/taurus_front_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_front_attack_2.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_2.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_3.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_4.png</key>
+            <key type="filename">Game/Taurus/taurus_front_iddle_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_2.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_3.png</key>
@@ -378,6 +384,8 @@
             <key type="filename">Game/Taurus/taurus_front_walking_4.png</key>
             <key type="filename">Game/Taurus/taurus_front_walking_5.png</key>
             <key type="filename">Game/Taurus/taurus_front_walking_6.png</key>
+            <key type="filename">Game/Taurus/taurus_side_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_side_attack_2.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_2.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_3.png</key>
