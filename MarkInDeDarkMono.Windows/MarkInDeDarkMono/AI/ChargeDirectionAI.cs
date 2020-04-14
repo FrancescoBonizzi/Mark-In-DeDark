@@ -11,6 +11,7 @@ namespace MarkInDeDarkMono.AI
         private readonly CharacterActions _direction;
         private readonly float _normalSpeed;
         private readonly IEnemyAI _nextAI;
+        private readonly Taurus _taurus;
         private readonly CandlesManager _candlesManager;
         private readonly MarkInDeDarkGame _game;
         private TimeSpan _chargeTimeToStartSeconds;
@@ -49,6 +50,15 @@ namespace MarkInDeDarkMono.AI
             _stunTimeSeconds = TimeSpan.FromSeconds(taurus.TaurusTimeStunnedSeconds);
             taurus.SetTemporaryColor(taurus.TaurusChargeColorRGB);
             _nextAI = nextAI;
+            _taurus = taurus;
+            _taurus.DontPlayDefaultAnimations = true;
+
+            if (direction == CharacterActions.Up)
+                _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeBack");
+            else if (direction == CharacterActions.Right || direction == CharacterActions.Left)
+                _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeSide");
+            else if (direction == CharacterActions.Down)
+                _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeFront");
         }
 
         public CharacterActions Update(
@@ -69,6 +79,13 @@ namespace MarkInDeDarkMono.AI
                     {
                         _elapsedTime = TimeSpan.Zero;
                         _currentChargeStatus = ChargeStatus.Charge;
+
+                        if (_direction == CharacterActions.Up)
+                            _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunBack");
+                        else if (_direction == CharacterActions.Right || _direction == CharacterActions.Left)
+                            _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunSide");
+                        else if (_direction == CharacterActions.Down)
+                            _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunFront");
                     }
 
                     break;
@@ -116,6 +133,7 @@ namespace MarkInDeDarkMono.AI
                             breakWallEffectLocation);
 
                         _currentChargeStatus = ChargeStatus.Stunned;
+                        _taurus.DontPlayDefaultAnimations = false;
                     }
 
                     break;

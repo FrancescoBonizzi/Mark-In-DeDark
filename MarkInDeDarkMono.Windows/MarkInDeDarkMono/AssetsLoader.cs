@@ -163,34 +163,35 @@ namespace MarkInDeDarkMono
 
         private void LoadAnimations()
         {
-            void LoadCharacterAnimations(string characterName)
+            void LoadCharacterAnimation(
+                string animationName,
+                string frameName,
+                bool isAnimationLooped)
             {
                 const int _maxFramesNumber = 10;
 
-                void LoadCharacterAnimation(
-                    string animationName,
-                    string frameName,
-                    bool isAnimationLooped)
+                var animation = new List<Sprite>();
+
+                for (int f = 1; f <= _maxFramesNumber; ++f)
                 {
-                    var animation = new List<Sprite>();
-
-                    for (int f = 1; f <= _maxFramesNumber; ++f)
-                    {
-                        string completeFrameName = $"{frameName}_{f}";
-                        if (Sprites.ContainsKey(completeFrameName))
-                            animation.Add(Sprites[completeFrameName]);
-                        else break;
-                    }
-
-                    if (animation.Count > 0)
-                    {
-                        _animations[animationName] = new SpriteAnimation(
-                            animation,
-                            TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames),
-                            isAnimationLooped);
-                    }
+                    string completeFrameName = $"{frameName}_{f}";
+                    if (Sprites.ContainsKey(completeFrameName))
+                        animation.Add(Sprites[completeFrameName]);
+                    else break;
                 }
 
+                if (animation.Count > 0)
+                {
+                    _animations[animationName] = new SpriteAnimation(
+                        animation,
+                        TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames),
+                        isAnimationLooped);
+                }
+            }
+
+            void LoadCharacterAnimations(string characterName)
+            {
+                
                 var folderName = char.ToUpper(characterName[0]) + characterName.Substring(1);
                 LoadCharacterAnimation($"{characterName}WalkUp", $"{folderName}/{characterName}_back_walking", true);
                 LoadCharacterAnimation($"{characterName}WalkDown", $"{folderName}/{characterName}_front_walking", true);
@@ -221,11 +222,20 @@ namespace MarkInDeDarkMono
             LoadCharacterAnimations(characterName: "ghost");
             LoadCharacterAnimations(characterName: "bubu");
 
+            LoadCharacterAnimation("TaurusRunSide", "Taurus/taurus_side_run", true);
+            LoadCharacterAnimation("TaurusRunFront", "Taurus/taurus_front_run", true);
+            LoadCharacterAnimation("TaurusRunBack", "Taurus/taurus_back_run", true);
+            LoadCharacterAnimation("TaurusChargeSide", "Taurus/taurus_side_charge", true);
+            LoadCharacterAnimation("TaurusChargeFront", "Taurus/taurus_front_charge", true);
+            LoadCharacterAnimation("TaurusChargeBack", "Taurus/taurus_back_charge", true);
+
+            // Candle
             var candleAnimation = new List<Sprite>();
             for (int i = 1; i <= 9; ++i)
                 candleAnimation.Add(Sprites[$"candle_{i}"]);
             _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
 
+            // Little Light
             var littleLightAnimation = new List<Sprite>();
             for (int i = 1; i <= 60; ++i)
             {
@@ -235,6 +245,7 @@ namespace MarkInDeDarkMono
             }
             _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
 
+            // Door
             var doorOpeningAnimation = new List<Sprite>();
             for (int i = 0; i <= 8; ++i)
                 doorOpeningAnimation.Add(Sprites[$"Door/door_{i}"]);

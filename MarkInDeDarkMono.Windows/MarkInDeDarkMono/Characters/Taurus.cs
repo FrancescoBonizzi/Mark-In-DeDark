@@ -62,6 +62,14 @@ namespace MarkInDeDarkMono.Characters
             TaurusTimeStunnedSeconds = gameConfig.TaurusTimeStunnedSeconds;
             TaurusChargeColorRGB = gameConfig.TaurusChargeColorRGB;
             _enemies = enemies.Where(e => !(e is Taurus));
+            _torch = null;
+
+            MainAnimationsAnimationManager.AddAnimation("TaurusRunSide", assetsLoader.GetAnimation("TaurusRunSide"));
+            MainAnimationsAnimationManager.AddAnimation("TaurusRunFront", assetsLoader.GetAnimation("TaurusRunFront"));
+            MainAnimationsAnimationManager.AddAnimation("TaurusRunBack", assetsLoader.GetAnimation("TaurusRunBack"));
+            MainAnimationsAnimationManager.AddAnimation("TaurusChargeSide", assetsLoader.GetAnimation("TaurusChargeSide"));
+            MainAnimationsAnimationManager.AddAnimation("TaurusChargeFront", assetsLoader.GetAnimation("TaurusChargeFront"));
+            MainAnimationsAnimationManager.AddAnimation("TaurusChargeBack", assetsLoader.GetAnimation("TaurusChargeBack"));
         }
 
         public override void Update(TimeSpan elapsed)
