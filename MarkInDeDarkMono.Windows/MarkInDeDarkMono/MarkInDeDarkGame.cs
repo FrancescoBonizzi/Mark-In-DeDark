@@ -75,6 +75,7 @@ namespace MarkInDeDarkMono
         private double _shakeStartAngle;
         private double _shakeIntensity;
         private TimeSpan _shakeStart;
+        private TimeSpan _shakeDuration;
         private readonly ILocalizedStringsRepository _localizedStringsRepository;
 
         public MarkInDeDarkGame(
@@ -223,7 +224,7 @@ namespace MarkInDeDarkMono
             {
                 foreach (var taurusPath in _gameGrid.TaurusPath)
                 {
-                    _enemies.Add(new Taurus(assetsLoader, taurusPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, _enemies));
+                    _enemies.Add(new Taurus(assetsLoader, taurusPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, _enemies, this));
                 }
             }
 
@@ -303,7 +304,7 @@ namespace MarkInDeDarkMono
                         var offset = new Vector2((float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
                         _shakeIntensity -= 0.25f;
                         _shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
-                        if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > 2 || _shakeIntensity <= 0)
+                        if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > _shakeDuration.TotalSeconds || _shakeIntensity <= 0)
                         {
                             _shakeViewport = false;
                         }
@@ -318,8 +319,7 @@ namespace MarkInDeDarkMono
                              _gameConfig.GameOverStringColorRGB,
                              true);
 
-                        _markGamePad.Shake(6);
-
+                        _markGamePad.Shake(6, TimeSpan.FromSeconds(2));
                         _currentGameState = GameStates.Finishing;
                     }
 
@@ -473,17 +473,19 @@ namespace MarkInDeDarkMono
         /// Scala da 1 a 10
         /// </summary>
         /// <param name="intensity"></param>
-        public void StartCameraShake(int intensity)
+        public void StartCameraShake(int intensity, TimeSpan? duration = null)
         {
-            if (_shakeViewport)
-                return;
+            if (duration == null)
+                _shakeDuration = TimeSpan.FromSeconds(2f);
+            else
+                _shakeDuration = duration.Value;
 
             _shakeIntensity = intensity;
             _shakeStartAngle = Math.PI;
             _shakeStart = TimeSpan.Zero;
             _shakeViewport = true;
 
-            _markGamePad.Shake(intensity);
+            _markGamePad.Shake(intensity, _shakeDuration);
         }
 
         private void DrawLightMap(

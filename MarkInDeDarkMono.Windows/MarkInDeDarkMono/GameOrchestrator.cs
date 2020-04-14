@@ -101,6 +101,13 @@ namespace MarkInDeDarkMono
             _stateTransition.FadeIn();
         }
 
+        public void StartWithForcedLevel(Level levelToLoad)
+        {
+            _currentState = GameStates.Playing;
+            _game = _gameFactory(levelToLoad);
+            _stateTransition.FadeIn();
+        }
+
         private void _stateTransition_FadeOutCompleted(object sender, EventArgs e)
             => _afterTransitionAction();
 
@@ -129,13 +136,6 @@ namespace MarkInDeDarkMono
                 () =>
                 {
                     _stateTransition.FadeIn();
-
-                    //if (_currentState == GameStates.Playing && _game.IsGameOver)
-                    //{
-                    //    // Significa che sono uscito dal gioco
-                    //    // perché ho perso
-                    //    GameOver?.Invoke(this, EventArgs.Empty);
-                    //}
 
                     _currentState = GameStates.Menu;
                     _game = null;

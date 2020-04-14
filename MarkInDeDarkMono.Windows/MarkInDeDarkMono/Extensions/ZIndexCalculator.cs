@@ -3,6 +3,7 @@ using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Levels;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDarkMono.Extensions
 {
@@ -20,23 +21,19 @@ namespace MarkInDeDarkMono.Extensions
             => Numbers.MapValueFromIntervalToInterval(y, 0, GameGrid.GridMaxHeight, 0f, 1f);
 
         public const float GroundLayerDepth = 0f;
+        
+        // Non si possono sovrapporre
+        public static float ForGroundDirty => 0.0000001f;
 
-        private static float _groundDirtyLayerDepth = 0.0000001f;
-        public static float ForGroundDirty
+        private static float _groundBloodLayerDepth = 0.0000001f;
+        public static float ForGroundBlood // Ce ne stanno 9
         {
             // Funzione perché si possono sovrapporre
-            get => ForceMax1(_groundDirtyLayerDepth += 0.0000001f);
-        }
-
-        private static float _groundBloodLayerDepth = 0.000001f;
-        public static float ForGroundBlood
-        {
-            // Funzione perché si possono sovrapporre
-            get => ForceMax1(_groundBloodLayerDepth += 0.000001f);
+            get => ForceMax1(_groundBloodLayerDepth += 0.0000001f);
         }
 
         // Non si possono sovrapporre
-        public static float ForGroundObjects => 0.00001f;
+        public static float ForGroundObjects => 0.000002f;
 
         public static float ForWall(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y));

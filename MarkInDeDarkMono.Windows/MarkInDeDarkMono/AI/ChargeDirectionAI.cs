@@ -12,7 +12,7 @@ namespace MarkInDeDarkMono.AI
         private readonly float _normalSpeed;
         private readonly IEnemyAI _nextAI;
         private readonly CandlesManager _candlesManager;
-
+        private readonly MarkInDeDarkGame _game;
         private TimeSpan _chargeTimeToStartSeconds;
         private TimeSpan _stunTimeSeconds;
         private TimeSpan _elapsedTime = TimeSpan.Zero;
@@ -32,7 +32,8 @@ namespace MarkInDeDarkMono.AI
             Taurus taurus,
             SoundManager soundManager,
             CandlesManager candlesManager,
-            IEnemyAI nextAI)
+            IEnemyAI nextAI,
+            MarkInDeDarkGame game)
         {
             _gameGrid = gameGrid;
             _direction = direction;
@@ -40,6 +41,7 @@ namespace MarkInDeDarkMono.AI
             taurus.Speed = taurus.TaurusChargeSpeed;
             _currentChargeStatus = ChargeStatus.Starting;
             _candlesManager = candlesManager;
+            _game = game;
 
             soundManager.PlayTaurusStargingCharge();
 
@@ -85,6 +87,7 @@ namespace MarkInDeDarkMono.AI
                     // Se posso andare avanti vado avanti caricando
                     if (currentCell.IsPassableWithAction(_direction))
                     {
+                        _game.StartCameraShake(5, TimeSpan.FromSeconds(1));
                         return _direction;
                     }
                     else

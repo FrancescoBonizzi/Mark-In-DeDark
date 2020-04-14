@@ -18,7 +18,7 @@ namespace MarkInDeDarkMono.Characters
         public Color TaurusChargeColorRGB { get; }
 
         private readonly IEnumerable<Enemy> _enemies;
-
+        
         public Taurus(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -27,7 +27,8 @@ namespace MarkInDeDarkMono.Characters
             SoundManager soundManager,
             Player player,
             GameConfig gameConfig,
-            IEnumerable<Enemy> enemies)
+            IEnumerable<Enemy> enemies,
+            MarkInDeDarkGame game)
             : base(
                   gameGrid,
                   new CharacterConfiguration(
@@ -50,7 +51,7 @@ namespace MarkInDeDarkMono.Characters
                       soundManager.RegisterTaurusAttackSound(),
                       soundManager.RegisterTaurusScreamSound(),
                       gameConfig.TaurusMaxCellsForNearCandle,
-                      new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager)),
+                      new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager, game)),
                   soundManager,
                   player,
                   assetsLoader)

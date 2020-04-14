@@ -8,18 +8,18 @@ using System;
 
 namespace MarkInDeDarkMono.Characters
 {
-    public class PlayerDescendingStairs
+    public class PlayerDescendingStairsAnimation
     {
-        private TimeSpan default_interval_ = TimeSpan.FromMilliseconds(35);
-        private TimeSpan _animationDuration = TimeSpan.FromMilliseconds(35);
-        private float _opacityDelta = -0.009f;
-        private float _scaleDelta = -0.02f;
+        private TimeSpan _currentAnimationDuration = TimeSpan.FromMilliseconds(35);
+        private TimeSpan _defaultInterval = TimeSpan.FromMilliseconds(35);
+        private readonly float _opacityDelta = -0.009f;
+        private readonly float _scaleDelta = -0.02f;
         private float _opacity = 1.0f;
 
         private readonly SpriteAnimation _walkUpAnimation;
         private readonly DrawingInfos _drawingInfos;
 
-        public PlayerDescendingStairs(
+        public PlayerDescendingStairsAnimation(
             AssetsLoader assetsLoader)
         {
             _walkUpAnimation = assetsLoader.GetAnimation("playerWalkUp");
@@ -39,11 +39,11 @@ namespace MarkInDeDarkMono.Characters
             _drawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(
                 _drawingInfos.Position - _walkUpAnimation.CurrentFrame.SpriteCenter);
 
-            _animationDuration -= elapsed;
+            _currentAnimationDuration -= elapsed;
 
-            if (_animationDuration <= TimeSpan.Zero)
+            if (_currentAnimationDuration <= TimeSpan.Zero)
             {
-                _animationDuration = default_interval_;
+                _currentAnimationDuration = _defaultInterval;
 
                 _opacity += _opacityDelta;
                 _drawingInfos.Scale += _scaleDelta;
