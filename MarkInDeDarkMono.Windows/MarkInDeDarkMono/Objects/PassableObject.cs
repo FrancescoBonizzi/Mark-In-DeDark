@@ -27,6 +27,6 @@ namespace MarkInDeDarkMono.Objects
         }
 
         public void Draw(SpriteBatch spriteBatch)
-           => spriteBatch.Draw(_sprite, _drawingInfos);
+            => spriteBatch.Draw(_sprite, _drawingInfos);
     }
 }

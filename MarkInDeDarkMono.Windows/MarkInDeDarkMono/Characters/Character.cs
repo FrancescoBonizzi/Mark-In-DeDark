@@ -624,10 +624,10 @@ namespace MarkInDeDarkMono.Characters
         {
             _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
                 this,
-                Position - MainAnimationsAnimationManager.CurrentAnimation.CurrentFrame.SpriteCenter);
+                Position);
 
             if (_shadowsDrawingInfos != null)
-                _shadowsDrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth - 0.00001f;
+                _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
             if (_torch != null)
                 _torch.DrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth + 0.00001f;
         }

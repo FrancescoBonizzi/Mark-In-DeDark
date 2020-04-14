@@ -143,21 +143,18 @@ namespace MarkInDeDarkMono.Levels
 
             _gameGrid = gameGrid;
 
-            for (int i = 0; i < 2; ++i)
+            if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
             {
-                if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
+                _dirtysDrawingInfos.Add(new DrawingInfos()
                 {
-                    _dirtysDrawingInfos.Add(new DrawingInfos()
-                    {
-                        Position = new Vector2(
-                            position.X + Numbers.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
-                            position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
-                        Scale = 1f,
-                        Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
-                        Origin = _dirtySprite.SpriteCenter,
-                        LayerDepth = ZIndexCalculator.ForGroundDirty
-                    });
-                }
+                    Position = new Vector2(
+                        position.X + Numbers.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
+                        position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
+                    Scale = 1f,
+                    Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
+                    Origin = _dirtySprite.SpriteCenter,
+                    LayerDepth = ZIndexCalculator.ForGroundDirty
+                });
             }
 
             _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader);
@@ -256,7 +253,7 @@ namespace MarkInDeDarkMono.Levels
         public bool BreakWall(LinkDirection direction, Vector2 breakerPosition)
         {
             if (Walls.ContainsKey(direction))
-            { 
+            {
                 Walls.Remove(direction);
                 _soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);

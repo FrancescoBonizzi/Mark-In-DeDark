@@ -32,7 +32,7 @@ namespace MarkInDeDarkMono.Objects
                 Position = position,
                 Origin = _animation.FirstFrameSprite.SpriteCenter,
                 Scale = 3.0f,
-                LayerDepth = ZIndexCalculator.ForGenericObject(position - _animation.FirstFrameSprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
             LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
