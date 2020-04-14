@@ -9,15 +9,18 @@ namespace MarkInDeDarkMono.AI
 {
     public class PatrolChargeAI : PatrolAI
     {
+        private readonly MarkInDeDarkGame _game;
+
         public PatrolChargeAI(
             List<GameCell> patrolWaypoints,
             GameGrid gameGrid,
             CandlesManager candlesManager,
             Player player,
-            SoundManager soundManager)
+            SoundManager soundManager,
+            MarkInDeDarkGame game)
             : base(patrolWaypoints, gameGrid, candlesManager, player, soundManager, true)
         {
-
+            _game = game;
         }
 
         public override CharacterActions Update(
@@ -47,7 +50,14 @@ namespace MarkInDeDarkMono.AI
             if (straightDirectionToPosition != null)
             {
                 return enemy.SetNewAI(
-                    new ChargeDirectionAI(straightDirectionToPosition.Value, _gameGrid, enemy as Taurus, _soundManager, _candlesManager, this));
+                    new ChargeDirectionAI(
+                        straightDirectionToPosition.Value,
+                        _gameGrid,
+                        enemy as Taurus,
+                        _soundManager,
+                        _candlesManager,
+                        this,
+                        _game));
             }
 
             return base.Update(enemy, elapsed);

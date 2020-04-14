@@ -14,7 +14,7 @@ namespace MarkInDeDarkMono
         private readonly PlayerIndex[] _possibleGamePads;
 
         private GamePadState? _currentState;
-        private readonly TimeSpan _shakeDuration = TimeSpan.FromMilliseconds(300);
+        private TimeSpan _shakeDuration = TimeSpan.FromMilliseconds(300);
         private TimeSpan? _currentShakeElapsed;
 
         public MarkGamePad()
@@ -33,8 +33,10 @@ namespace MarkInDeDarkMono
             }
         }
 
-        public void Shake(int intensity)
+        public void Shake(int intensity, TimeSpan duration)
         {
+            _shakeDuration = duration;
+
             var playerIndex = GetFirstConnectedPlayerIndex();
             if (playerIndex == null)
                 return;
