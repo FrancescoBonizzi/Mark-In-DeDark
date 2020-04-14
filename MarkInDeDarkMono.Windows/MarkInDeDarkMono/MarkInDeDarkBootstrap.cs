@@ -205,11 +205,14 @@ namespace MarkInDeDarkMono
         private void SplashScreenAssetsLoader_Completed(object sender, EventArgs e)
         {
             _splashScreenAssetsLoader = null;
-            _orchestrator.Start();
             if (_forcedLevelPath != null)
             {
                 _assetsLoader.ForceLoadLevel(_forcedLevelPath);
-                _orchestrator.SetGameState(_assetsLoader.Levels[0], true);
+                _orchestrator.StartWithForcedLevel(_assetsLoader.Levels[0]);
+            }
+            else
+            {
+                _orchestrator.Start();
             }
         }
 
