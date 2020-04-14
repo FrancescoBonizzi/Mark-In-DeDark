@@ -59,7 +59,7 @@ namespace MarkInDeDarkMono.Characters
             WhileDead
         }
 
-        public CharacterState CurrentCharacterState { get; protected set; }
+        public CharacterState CurrentCharacterState { get; set; }
 
         protected bool _canGoOverWalls = false;
 
@@ -98,6 +98,10 @@ namespace MarkInDeDarkMono.Characters
 
         public AnimationsManager MainAnimationsAnimationManager { get; }
         public AnimationsManager ShadowsAnimationManager { get; }
+
+        private CharacterFallingInTrapAnimation _characterFallingATrapAnimation;
+
+        public float CurrentZIndex => _mainFigureDrawingInfos.LayerDepth;
 
         public Character(
             GameGrid grid,
@@ -223,9 +227,12 @@ namespace MarkInDeDarkMono.Characters
 
         public void DieForTrap(Vector2 trapCenter)
         {
-            Die();
-            _mainFigureDrawingInfos.Position = trapCenter + new Vector2(0f, 30f);
-            _mainFigureDrawingInfos.Scale = 0.6f;
+            _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
+                MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
+                trapCenter,
+                this);
+
+            CurrentCharacterState = CharacterState.Dying;
 
             if (AreLightsActive)
                 SetLightPosition();
@@ -600,11 +607,18 @@ namespace MarkInDeDarkMono.Characters
 
             if (IsDying)
             {
-                _bloodEffect.Update(elapsed);
-
-                if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying || !_bloodEffect.HasActiveParticles)
+                if (_characterFallingATrapAnimation != null)
                 {
-                    CurrentCharacterState = CharacterState.Dead;
+                    _characterFallingATrapAnimation.Update(elapsed);
+                }
+                else
+                {
+                    _bloodEffect.Update(elapsed);
+
+                    if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying || !_bloodEffect.HasActiveParticles)
+                    {
+                        CurrentCharacterState = CharacterState.Dead;
+                    }
                 }
             }
 
@@ -617,7 +631,8 @@ namespace MarkInDeDarkMono.Characters
                 _torch?.Update(elapsed);
             }
 
-            RecalculateZIndex();
+            if (_characterFallingATrapAnimation == null)
+                RecalculateZIndex();
         }
 
         private void RecalculateZIndex()
@@ -649,6 +664,12 @@ namespace MarkInDeDarkMono.Characters
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if (_characterFallingATrapAnimation != null)
+            {
+                _characterFallingATrapAnimation.Draw(spriteBatch);
+                return;
+            }
+
             if (!IsDead && !IsDying)
             {
                 ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);

@@ -87,6 +87,7 @@
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
+    <Compile Include="Characters\CharacterFallingInTrapAnimation.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\ZIndexCalculator.cs" />
     <Compile Include="GameStringsLoader.cs" />
@@ -151,7 +152,7 @@
     <Compile Include="Particles\LittleLightParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundManager.cs" />
-    <Compile Include="Characters\PlayerDescendingStairs.cs" />
+    <Compile Include="Characters\PlayerDescendingStairsAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -11,7 +11,7 @@ namespace MarkInDeDarkMono.Characters
 {
     public class Player : Character
     {
-        private readonly PlayerDescendingStairs _winAnimation;
+        private readonly PlayerDescendingStairsAnimation _winAnimation;
         private readonly GameStartSparkleParticleSystem _gameStartSparkleEffect;
         private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
 
@@ -63,7 +63,7 @@ namespace MarkInDeDarkMono.Characters
             _gameStartSparkleEffect.AddParticles(WorldCenter + new Vector2(16, -20));
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
-            _winAnimation = new PlayerDescendingStairs(assetsLoader);
+            _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);
 
             _soundManager.PlayEnlightTorch();
             AreLightsActive = false;
