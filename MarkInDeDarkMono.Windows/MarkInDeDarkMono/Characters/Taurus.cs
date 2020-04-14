@@ -44,7 +44,8 @@ namespace MarkInDeDarkMono.Characters
                         torchPositionTraslationRight: new Vector2(0, 25),
                         torchPositionTraslationDown: new Vector2(-25, 10),
                         assetsLoader: assetsLoader),
-                      gameConfig.TaurusSpeed),
+                      gameConfig.TaurusSpeed,
+                      withDieAnimation: false),
                   new EnemyConfiguration(
                       assetsLoader,
                       "taurus",

@@ -77,7 +77,7 @@ namespace MarkInDeDark.GameGrid
 
                     if (cell.GroundType == GroundTypes.NonCella)
                         continue;
-                    Debug.WriteLine(cell.GroundType);
+
                     stringBuilder
                         .Append(i) // 0
                         .Append(_separator)
