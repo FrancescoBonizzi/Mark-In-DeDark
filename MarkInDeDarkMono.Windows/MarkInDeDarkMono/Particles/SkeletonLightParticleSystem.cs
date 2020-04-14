@@ -8,7 +8,7 @@ namespace MarkInDeDarkMono.Particles
     {
         public SkeletonLightParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["skeleton_light_spark"],
+                  assetsLoader.Sprites["Skeleton/skeleton_light_spark"],
                   density: 1,
                   minNumParticles: 5,
                   maxNumParticles: 6,

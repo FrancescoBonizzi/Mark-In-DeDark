@@ -191,24 +191,25 @@ namespace MarkInDeDarkMono
                     }
                 }
 
-                LoadCharacterAnimation($"{characterName}WalkUp", $"{characterName}_back_walking", true);
-                LoadCharacterAnimation($"{characterName}WalkDown", $"{characterName}_front_walking", true);
-                LoadCharacterAnimation($"{characterName}WalkSide", $"{characterName}_side_walking", true);
-                LoadCharacterAnimation($"{characterName}IdleUp", $"{characterName}_back_iddle", true);
-                LoadCharacterAnimation($"{characterName}IdleDown", $"{characterName}_front_iddle", true);
-                LoadCharacterAnimation($"{characterName}IdleSide", $"{characterName}_side_iddle", true);
-                LoadCharacterAnimation($"{characterName}Dying", $"{characterName}_front_dying", false);
-                LoadCharacterAnimation($"{characterName}AttackUp", $"{characterName}_back_attack", true);
-                LoadCharacterAnimation($"{characterName}AttackDown", $"{characterName}_front_attack", true);
-                LoadCharacterAnimation($"{characterName}AttackLeft", $"{characterName}_side_attack", true);
-                LoadCharacterAnimation($"{characterName}AttackRight", $"{characterName}_side_attack", true);
+                var folderName = char.ToUpper(characterName[0]) + characterName.Substring(1);
+                LoadCharacterAnimation($"{characterName}WalkUp", $"{folderName}/{characterName}_back_walking", true);
+                LoadCharacterAnimation($"{characterName}WalkDown", $"{folderName}/{characterName}_front_walking", true);
+                LoadCharacterAnimation($"{characterName}WalkSide", $"{folderName}/{characterName}_side_walking", true);
+                LoadCharacterAnimation($"{characterName}IdleUp", $"{folderName}/{characterName}_back_iddle", true);
+                LoadCharacterAnimation($"{characterName}IdleDown", $"{folderName}/{characterName}_front_iddle", true);
+                LoadCharacterAnimation($"{characterName}IdleSide", $"{folderName}/{characterName}_side_iddle", true);
+                LoadCharacterAnimation($"{characterName}Dying", $"{folderName}/{characterName}_front_dying", false);
+                LoadCharacterAnimation($"{characterName}AttackUp", $"{folderName}/{characterName}_back_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackDown", $"{folderName}/{characterName}_front_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackLeft", $"{folderName}/{characterName}_side_attack", true);
+                LoadCharacterAnimation($"{characterName}AttackRight", $"{folderName}/{characterName}_side_attack", true);
 
-                LoadCharacterAnimation($"{characterName}WhileWalkingUpShadow", $"{characterName}_back_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileWalkingDownShadow", $"{characterName}_front_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileWalkingSideShadow", $"{characterName}_side_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleUpShadow", $"{characterName}_back_iddle_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleDownShadow", $"{characterName}_front_iddle_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleSideShadow", $"{characterName}_side_iddle_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileWalkingUpShadow", $"{folderName}/{characterName}_back_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileWalkingDownShadow", $"{folderName}/{characterName}_front_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileWalkingSideShadow", $"{folderName}/{characterName}_side_walking_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleUpShadow", $"{folderName}/{characterName}_back_iddle_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleDownShadow", $"{folderName}/{characterName}_front_iddle_shadow", true);
+                LoadCharacterAnimation($"{characterName}WhileIdleSideShadow", $"{folderName}/{characterName}_side_iddle_shadow", true);
             }
 
             LoadCharacterAnimations(characterName: "player");

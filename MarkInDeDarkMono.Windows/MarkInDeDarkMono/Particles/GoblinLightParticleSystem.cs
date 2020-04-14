@@ -8,7 +8,7 @@ namespace MarkInDeDarkMono.Particles
     {
         public GoblinLightParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["goblin_light_spark"],
+                  assetsLoader.Sprites["Goblin/goblin_light_spark"],
                   density: 1,
                   minNumParticles: 5,
                   maxNumParticles: 6,
