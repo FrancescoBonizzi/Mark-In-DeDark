@@ -75,7 +75,7 @@ namespace MarkInDeDark.Library.Characters
 
         protected bool _stopMovement = false;
 
-        protected DrawingInfos _mainFigureDrawingInfos;
+        public DrawingInfos MainFigureDrawingInfos { get; set; }
         protected DrawingInfos _shadowsDrawingInfos;
 
         protected readonly GameGrid _gameGrid;
@@ -101,7 +101,7 @@ namespace MarkInDeDark.Library.Characters
 
         private CharacterFallingInTrapAnimation _characterFallingATrapAnimation;
 
-        public float CurrentZIndex => _mainFigureDrawingInfos.LayerDepth;
+        public float CurrentZIndex => MainFigureDrawingInfos.LayerDepth;
 
         public bool DontPlayDefaultAnimations { get; set; } = false;
 
@@ -117,7 +117,7 @@ namespace MarkInDeDark.Library.Characters
             _gameGrid = grid;
             _soundManager = soundManager;
 
-            _mainFigureDrawingInfos = new DrawingInfos()
+            MainFigureDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
                 HitBoxTolerance = new Rectangle(50, 50, 100, 100),
@@ -176,7 +176,7 @@ namespace MarkInDeDark.Library.Characters
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
                     configuration.CharacterTorchConfiguration.TorchScale);
-                _lightMap.SetPosition(_mainFigureDrawingInfos.Position);
+                _lightMap.SetPosition(MainFigureDrawingInfos.Position);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
             }
@@ -200,15 +200,15 @@ namespace MarkInDeDark.Library.Characters
             => _torch.Position;
 
         public Vector2 WorldCenter
-            => _mainFigureDrawingInfos.Center(
+            => MainFigureDrawingInfos.Center(
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
 
         public Vector2 Position
-            => _mainFigureDrawingInfos.Position;
+            => MainFigureDrawingInfos.Position;
 
         public Rectangle CollisionRectangle
-            => _mainFigureDrawingInfos.HitBox(
+            => MainFigureDrawingInfos.HitBox(
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth);
 
@@ -245,7 +245,7 @@ namespace MarkInDeDark.Library.Characters
             switch (direction)
             {
                 case CharacterActions.Up:
-                    _mainFigureDrawingInfos.IsFlipped = false;
+                    MainFigureDrawingInfos.IsFlipped = false;
                     if (!DontPlayDefaultAnimations)
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString());
@@ -254,7 +254,7 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case CharacterActions.Down:
-                    _mainFigureDrawingInfos.IsFlipped = false;
+                    MainFigureDrawingInfos.IsFlipped = false;
                     if (!DontPlayDefaultAnimations)
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
@@ -263,7 +263,7 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case CharacterActions.Right:
-                    _mainFigureDrawingInfos.IsFlipped = false;
+                    MainFigureDrawingInfos.IsFlipped = false;
                     if (!DontPlayDefaultAnimations)
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString());
@@ -272,7 +272,7 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case CharacterActions.Left:
-                    _mainFigureDrawingInfos.IsFlipped = true;
+                    MainFigureDrawingInfos.IsFlipped = true;
                     if (!DontPlayDefaultAnimations)
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString());
@@ -359,8 +359,8 @@ namespace MarkInDeDark.Library.Characters
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
 
-                _startingLocation = _mainFigureDrawingInfos.Position;
-                _mainFigureDrawingInfos.IsFlipped = false;
+                _startingLocation = MainFigureDrawingInfos.Position;
+                MainFigureDrawingInfos.IsFlipped = false;
                 _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
@@ -387,8 +387,8 @@ namespace MarkInDeDark.Library.Characters
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
                 
-                _startingLocation = _mainFigureDrawingInfos.Position;
-                _mainFigureDrawingInfos.IsFlipped = false;
+                _startingLocation = MainFigureDrawingInfos.Position;
+                MainFigureDrawingInfos.IsFlipped = false;
                 _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
@@ -415,8 +415,8 @@ namespace MarkInDeDark.Library.Characters
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
                 
-                _mainFigureDrawingInfos.IsFlipped = false;
-                _startingLocation = _mainFigureDrawingInfos.Position;
+                MainFigureDrawingInfos.IsFlipped = false;
+                _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
@@ -443,8 +443,8 @@ namespace MarkInDeDark.Library.Characters
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
                 
-                _mainFigureDrawingInfos.IsFlipped = true;
-                _startingLocation = _mainFigureDrawingInfos.Position;
+                MainFigureDrawingInfos.IsFlipped = true;
+                _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
                 _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
@@ -456,7 +456,7 @@ namespace MarkInDeDark.Library.Characters
 
         private void HandleBufferedInput()
         {
-            var currentCell = _gameGrid.GetCellAtPixel(_mainFigureDrawingInfos.Position);
+            var currentCell = _gameGrid.GetCellAtPixel(MainFigureDrawingInfos.Position);
 
             if (!IsMoving)
             {
@@ -575,7 +575,7 @@ namespace MarkInDeDark.Library.Characters
                         {
                             CurrentCharacterState = CharacterState.GoingRight;
                             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
-                            _mainFigureDrawingInfos.IsFlipped = false;
+                            MainFigureDrawingInfos.IsFlipped = false;
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
@@ -592,7 +592,7 @@ namespace MarkInDeDark.Library.Characters
                         {
                             CurrentCharacterState = CharacterState.GoingLeft;
                             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
-                            _mainFigureDrawingInfos.IsFlipped = true;
+                            MainFigureDrawingInfos.IsFlipped = true;
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
@@ -626,14 +626,11 @@ namespace MarkInDeDark.Library.Characters
                         _startingLerpAmount,
                         1f);
 
-                    _mainFigureDrawingInfos.Position = Vector2.Lerp(_startingLocation, _nextLocation, _movementLerpAmount);
+                    MainFigureDrawingInfos.Position = Vector2.Lerp(_startingLocation, _nextLocation, _movementLerpAmount);
 
                     if (_movementLerpAmount >= 1f)
-                        _mainFigureDrawingInfos.Position = _nextLocation;
+                        MainFigureDrawingInfos.Position = _nextLocation;
                 }
-
-                if (AreLightsActive)
-                    SetLightPosition();
 
                 SetShadowPosition();
             }
@@ -660,6 +657,7 @@ namespace MarkInDeDark.Library.Characters
 
             if (AreLightsActive)
             {
+                SetLightPosition();
                 _lightMap.Update(elapsed);
                 _torch?.Update(elapsed);
             }
@@ -670,14 +668,14 @@ namespace MarkInDeDark.Library.Characters
 
         private void RecalculateZIndex()
         {
-            _mainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
+            MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
                 this,
                 Position);
 
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
             if (_torch != null)
-                _torch.DrawingInfos.LayerDepth = _mainFigureDrawingInfos.LayerDepth + 0.00001f;
+                _torch.DrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -708,7 +706,7 @@ namespace MarkInDeDark.Library.Characters
                 ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
             }
 
-            MainAnimationsAnimationManager.Draw(spriteBatch, _mainFigureDrawingInfos);
+            MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
 
             if (AreLightsActive && !IsDead)
             {

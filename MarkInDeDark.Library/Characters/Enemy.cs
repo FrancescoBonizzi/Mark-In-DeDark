@@ -162,7 +162,7 @@ namespace MarkInDeDark.Library.Characters
             StopAttackSound();
             base.Die();
             // Così quando muoiono in tanti sembrano più sparpagliati
-            _mainFigureDrawingInfos.Rotation = Numbers.RandomBetween(-1f, 1f);
+            MainFigureDrawingInfos.Rotation = Numbers.RandomBetween(-1f, 1f);
         }
 
         public virtual bool CustomConditionToAttackPlayer()

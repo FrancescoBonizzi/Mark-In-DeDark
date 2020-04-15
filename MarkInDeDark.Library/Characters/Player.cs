@@ -98,7 +98,7 @@ namespace MarkInDeDark.Library.Characters
 
         public void Win(Exit exit)
         {
-            _mainFigureDrawingInfos.Position = exit.Position;
+            MainFigureDrawingInfos.Position = exit.Position;
             _currentPlayerState = PlayerStates.Exiting;
             _soundManager.PlayLadder();
             _winAnimation.SetPosition(Position);

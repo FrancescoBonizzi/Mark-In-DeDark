@@ -70,6 +70,9 @@ namespace MarkInDeDark.Library.Characters
                 _drawingInfos.Position = new Vector2(
                     _drawingInfos.Position.X, 
                     _drawingInfos.Position.Y + _deltaYPosition);
+                
+                // Lo faccio per far muovere con lui la luce
+                _character.MainFigureDrawingInfos.Position = _drawingInfos.Position;
             }
 
         }
