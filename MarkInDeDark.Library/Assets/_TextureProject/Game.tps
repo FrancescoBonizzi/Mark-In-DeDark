@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/Users/Francesco/Source/Repos/Mark-In-DeDark/MarkInDeDark.Windows/MarkInDeDark.Library/Assets/_TextureProject/Game.tps</string>
+        <string>C:/Users/Francesco/Source/repos/Mark-In-DeDark/MarkInDeDark.Library/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -533,6 +533,7 @@
             <key type="filename">Game/Goblin/goblin_light_spark.png</key>
             <key type="filename">Game/Skeleton/skeleton_light_spark.png</key>
             <key type="filename">Game/candle_spark.png</key>
+            <key type="filename">Game/generic_spark.png</key>
             <key type="filename">Game/littlelight_spark.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -726,8 +727,6 @@
                 <false/>
             </struct>
             <key type="filename">Game/blood.png</key>
-            <key type="filename">Game/scintilla.png</key>
-            <key type="filename">Game/scintilla_lightmap.png</key>
             <key type="filename">Game/smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

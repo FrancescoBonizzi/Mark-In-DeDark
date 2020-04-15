@@ -12,7 +12,6 @@ namespace MarkInDeDark.Library.Characters
     public class Player : Character
     {
         private readonly PlayerDescendingStairsAnimation _winAnimation;
-        private readonly GameStartSparkleParticleSystem _gameStartSparkleEffect;
         private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
 
         private readonly SoundManager _soundManager;
@@ -21,7 +20,6 @@ namespace MarkInDeDark.Library.Characters
 
         private enum PlayerStates
         {
-            LevelIntro,
             Playing,
             Exiting
         }
@@ -59,10 +57,7 @@ namespace MarkInDeDark.Library.Characters
             _candlesManager = candlesManager;
             _doesntDie = gameConfig.GodModePlayerDoesntDie;
 
-            _currentPlayerState = PlayerStates.LevelIntro;
-
-            _gameStartSparkleEffect = new GameStartSparkleParticleSystem(assetsLoader);
-            _gameStartSparkleEffect.AddParticles(WorldCenter + new Vector2(16, -20));
+            _currentPlayerState = PlayerStates.Playing;
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);
@@ -110,19 +105,6 @@ namespace MarkInDeDark.Library.Characters
         {
             switch (_currentPlayerState)
             {
-                case PlayerStates.LevelIntro:
-
-                    _gameStartSparkleEffect.Update(elapsed);
-                    if (!_gameStartSparkleEffect.HasActiveParticles)
-                    {
-                        _currentPlayerState = PlayerStates.Playing;
-                        AreLightsActive = true;
-                        _soundManager.PlayPlayerTorch();
-                        SetLightPosition(0.5f);
-                    }
-
-                    break;
-
                 case PlayerStates.Playing:
 
                     if (IsMoving)
@@ -157,11 +139,6 @@ namespace MarkInDeDark.Library.Characters
 
         public override void DrawLightMap(SpriteBatch spriteBatch)
         {
-            if (_currentPlayerState == PlayerStates.LevelIntro)
-            {
-                _gameStartSparkleEffect.Draw(spriteBatch);
-            }
-
             base.DrawLightMap(spriteBatch);
         }
 
@@ -169,9 +146,6 @@ namespace MarkInDeDark.Library.Characters
         {
             switch (_currentPlayerState)
             {
-                case PlayerStates.LevelIntro:
-                    break;
-
                 case PlayerStates.Playing:
                     base.Draw(spriteBatch);
                     break;
@@ -188,10 +162,6 @@ namespace MarkInDeDark.Library.Characters
 
             switch (_currentPlayerState)
             {
-                case PlayerStates.LevelIntro:
-                    _gameStartSparkleEffect.Draw(spriteBatch);
-                    break;
-
                 case PlayerStates.Playing:
                     _playerCandleFireParticleSystem.Draw(spriteBatch);
                     break;
