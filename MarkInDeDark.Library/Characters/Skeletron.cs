@@ -71,6 +71,12 @@ namespace MarkInDeDark.Library.Characters
             base.Update(elapsed);
         }
 
+        public override void UpdateAfterDeath(TimeSpan elapsed)
+        {
+            _skeletonLightParticleSystem.Update(elapsed);
+            base.UpdateAfterDeath(elapsed);
+        }
+
         public override void DrawEffects(SpriteBatch spriteBatch)
         {
             _skeletonLightParticleSystem.Draw(spriteBatch);

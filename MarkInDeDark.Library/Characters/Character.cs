@@ -677,9 +677,8 @@ namespace MarkInDeDark.Library.Characters
                 RecalculateZIndex();
         }
 
-        public void UpdateAfterDeath(TimeSpan elapsed)
+        public virtual void UpdateAfterDeath(TimeSpan elapsed)
         {
-            _torch?.Update(elapsed);
             _dieTorchEffect?.AddParticles(_deadPosition ?? WorldCenter);
             _dieTorchEffect?.Update(elapsed);
         }

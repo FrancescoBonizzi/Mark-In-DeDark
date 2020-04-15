@@ -72,6 +72,12 @@ namespace MarkInDeDark.Library.Characters
             base.Update(elapsed);
         }
 
+        public override void UpdateAfterDeath(TimeSpan elapsed)
+        {
+            _goblinLightParticleSystem.Update(elapsed);
+            base.UpdateAfterDeath(elapsed);
+        }
+
         public override void DrawEffects(SpriteBatch spriteBatch)
         {
             _goblinLightParticleSystem.Draw(spriteBatch);
