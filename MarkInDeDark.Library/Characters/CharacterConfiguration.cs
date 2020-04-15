@@ -50,12 +50,16 @@ namespace MarkInDeDark.Library.Characters
 
             if (withShadowAnimation)
             {
-                ShadowWhileWalkingUpAnimation = assetsLoader.GetAnimation($"{characterName}WhileWalkingUpShadow");
-                ShadowWhileWalkingDownAnimation = assetsLoader.GetAnimation($"{characterName}WhileWalkingDownShadow");
-                ShadowWhileWalkingSideAnimation = assetsLoader.GetAnimation($"{characterName}WhileWalkingSideShadow");
-                ShadowWhileIdleUpAnimation = assetsLoader.GetAnimation($"{characterName}WhileIdleUpShadow");
-                ShadowWhileIdleDownAnimation = assetsLoader.GetAnimation($"{characterName}WhileIdleDownShadow");
-                ShadowWhileIdleSideAnimation = assetsLoader.GetAnimation($"{characterName}WhileIdleSideShadow");
+                var shadowName = characterName;
+                if (characterName == "goblin" || characterName == "skeleton")
+                    shadowName = "player";
+
+                ShadowWhileWalkingUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingUpShadow");
+                ShadowWhileWalkingDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingDownShadow");
+                ShadowWhileWalkingSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingSideShadow");
+                ShadowWhileIdleUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleUpShadow");
+                ShadowWhileIdleDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleDownShadow");
+                ShadowWhileIdleSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleSideShadow");
             }
 
             StartingPosition = startingPosition;
