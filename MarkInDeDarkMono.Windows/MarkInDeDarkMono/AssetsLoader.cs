@@ -230,30 +230,44 @@ namespace MarkInDeDarkMono
             LoadCharacterAnimation("TaurusChargeBack", "Taurus/taurus_back_charge", true);
 
             // Candle
-            var candleAnimation = new List<Sprite>();
-            for (int i = 1; i <= 9; ++i)
-                candleAnimation.Add(Sprites[$"candle_{i}"]);
-            _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
+            {
+                var candleAnimation = new List<Sprite>();
+                for (int i = 1; i <= 9; ++i)
+                    candleAnimation.Add(Sprites[$"candle_{i}"]);
+                _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
+            }
+
+            // Instantly die trap
+            {
+                var istantlyDieTrapAnimation = new List<Sprite>();
+                for (int i = 1; i <= 10; ++i)
+                    istantlyDieTrapAnimation.Add(Sprites[$"TrapIstant/{i}"]);
+                _animations["TrapIstant"] = new SpriteAnimation(istantlyDieTrapAnimation, TimeSpan.FromMilliseconds(100), false);
+            }
 
             // Little Light
-            var littleLightAnimation = new List<Sprite>();
-            for (int i = 1; i <= 60; ++i)
             {
-                if (Sprites.ContainsKey($"LightObject/lightobject_{i}"))
-                    littleLightAnimation.Add(Sprites[$"LightObject/lightobject_{i}"]);
-                else break;
+                var littleLightAnimation = new List<Sprite>();
+                for (int i = 1; i <= 60; ++i)
+                {
+                    if (Sprites.ContainsKey($"LightObject/lightobject_{i}"))
+                        littleLightAnimation.Add(Sprites[$"LightObject/lightobject_{i}"]);
+                    else break;
+                }
+                _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
             }
-            _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
 
             // Door
-            var doorOpeningAnimation = new List<Sprite>();
-            for (int i = 0; i <= 8; ++i)
-                doorOpeningAnimation.Add(Sprites[$"Door/door_{i}"]);
-            _animations["DoorOpen"] = new SpriteAnimation(doorOpeningAnimation, TimeSpan.FromMilliseconds(20), false);
+            {
+                var doorOpeningAnimation = new List<Sprite>();
+                for (int i = 0; i <= 8; ++i)
+                    doorOpeningAnimation.Add(Sprites[$"Door/door_{i}"]);
+                _animations["DoorOpen"] = new SpriteAnimation(doorOpeningAnimation, TimeSpan.FromMilliseconds(20), false);
 
-            var doorClosingAnimation = new List<Sprite>(doorOpeningAnimation);
-            doorClosingAnimation.Reverse();
-            _animations["DoorClose"] = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
+                var doorClosingAnimation = new List<Sprite>(doorOpeningAnimation);
+                doorClosingAnimation.Reverse();
+                _animations["DoorClose"] = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
+            }
         }
 
         private void LoadOtherResources()

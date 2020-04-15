@@ -6,13 +6,14 @@ using MarkInDeDarkMono.Characters;
 using MarkInDeDarkMono.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace MarkInDeDarkMono.Objects
 {
     public class InstantlyDieTrap : TriggerObject
     {
-        private readonly Sprite _trapSprite;
+        private readonly SpriteAnimation _animation;
         private readonly DrawingInfos _drawingInfos;
 
         public InstantlyDieTrap(
@@ -22,20 +23,33 @@ namespace MarkInDeDarkMono.Objects
             : base(
                   triggerCollisionRectangle: collisionRectangle.WithTolerance(new Rectangle(70, 70, 140, 140)),
                   affectedCharacters: affectedCharacters,
-                  onTriggerPressed: (character, elapsed) => character.DieForTrap(collisionRectangle.Center.ToVector2()),
+                  onTriggerPressed: (character, elapsed) => { },
                   onTriggerLeft: null,
                   shouldFireOnce: false)
         {
-            _trapSprite = assetsLoader.Sprites["trap_instantly_die"];
+            _animation = assetsLoader.GetAnimation("TrapIstant");
             _drawingInfos = new DrawingInfos()
             {
                 Position = collisionRectangle.Center.ToVector2(),
-                Origin = _trapSprite.SpriteCenter,
+                Origin = _animation.FirstFrameSprite.SpriteCenter,
                 LayerDepth = ZIndexCalculator.ForGroundObjects
             };
+
+            SetOnTriggerPressed(
+                (character, elapsed) =>
+                {
+                    character.DieForTrap(collisionRectangle.Center.ToVector2());
+                    _animation.Play();
+                });
+        }
+
+        public override void Update(TimeSpan elapsed)
+        {
+            _animation.Update(elapsed);
+            base.Update(elapsed);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_trapSprite, _drawingInfos);
+            => spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
     }
 }
