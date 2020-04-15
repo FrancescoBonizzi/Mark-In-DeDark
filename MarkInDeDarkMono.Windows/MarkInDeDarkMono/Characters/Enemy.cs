@@ -178,37 +178,46 @@ namespace MarkInDeDarkMono.Characters
                 return;
             }
 
-            // Rimodulo sempre il volume dell'attacco per fare il fade
-            // quando il player si allontana.
-            if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
+            if (!_stopMovement)
             {
-                _soundManager.ComputeIndexSoundsVolume(
-                    _screamSoundIndex,
-                    _attackSoundIndex,
-                    Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-            }
+                if (_player.IsDead || _player.IsDying)
+                {
+                    _stopMovement = true;
+                    DontPlayDefaultAnimations = false;
+                    SetDirectionAnimation(CharacterActions.Down);
+                    if (AreLightsActive)
+                        SetLightPosition();
+                    CurrentAI = new IdleAI();
+                }
+                else
+                {
+                    // Rimodulo sempre il volume dell'attacco per fare il fade
+                    // quando il player si allontana.
+                    if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
+                    {
+                        _soundManager.ComputeIndexSoundsVolume(
+                            _screamSoundIndex,
+                            _attackSoundIndex,
+                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+                    }
 
-            _screamTimer -= elapsed;
-            if (_screamTimer <= TimeSpan.Zero)
-            {
-                PlayMyVoice();
-                SetRandomScreamTimer();
-            }
+                    _screamTimer -= elapsed;
+                    if (_screamTimer <= TimeSpan.Zero)
+                    {
+                        PlayMyVoice();
+                        SetRandomScreamTimer();
+                    }
 
-            if (!(_player.IsDead || _player.IsDying)
-                && !_player.HasWon
-                && CustomConditionToAttackPlayer()
-                && CollisionRectangle.Intersects(_player.CollisionRectangle))
-            {
-                Attack();
-                HitPlayer();
-                _player.Die();
-                CurrentAI = new IdleAI();
-                _stopMovement = true;
-                //SetDirectionAnimation(CharacterActions.IdleDown);
-
-                //if (AreLightsActive)
-                //    SetLightPosition();
+                    if (!(_player.IsDead || _player.IsDying)
+                        && !_player.HasWon
+                        && CustomConditionToAttackPlayer()
+                        && CollisionRectangle.Intersects(_player.CollisionRectangle))
+                    {
+                        Attack();
+                        HitPlayer();
+                        _player.Die();
+                    }
+                }
             }
 
             if (!IsMoving)

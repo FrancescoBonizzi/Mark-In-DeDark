@@ -351,6 +351,9 @@ namespace MarkInDeDarkMono.Characters
                     nextCell = currentCell.NorthCellWithoutLinks;
                 else nextCell = currentCell.NorthCell;
 
+                if (nextCell == null)
+                    return;
+
                 CurrentCharacterState = CharacterState.GoingUp;
 
                 if (!DontPlayDefaultAnimations)
@@ -375,6 +378,9 @@ namespace MarkInDeDarkMono.Characters
                 if (_canGoOverWalls)
                     nextCell = currentCell.SouthCellWithoutLinks;
                 else nextCell = currentCell.SouthCell;
+
+                if (nextCell == null)
+                    return;
 
                 CurrentCharacterState = CharacterState.GoingDown;
 
@@ -401,6 +407,9 @@ namespace MarkInDeDarkMono.Characters
                     nextCell = currentCell.EastCellWithoutLinks;
                 else nextCell = currentCell.EastCell;
 
+                if (nextCell == null)
+                    return;
+
                 CurrentCharacterState = CharacterState.GoingRight;
 
                 if (!DontPlayDefaultAnimations)
@@ -425,6 +434,9 @@ namespace MarkInDeDarkMono.Characters
                 if (_canGoOverWalls)
                     nextCell = currentCell.WestCellWithoutLinks;
                 else nextCell = currentCell.WestCell;
+
+                if (nextCell == null)
+                    return;
 
                 CurrentCharacterState = CharacterState.GoingLeft;
 
@@ -618,7 +630,6 @@ namespace MarkInDeDarkMono.Characters
 
                     if (_movementLerpAmount >= 1f)
                         _mainFigureDrawingInfos.Position = _nextLocation;
-
                 }
 
                 if (AreLightsActive)
