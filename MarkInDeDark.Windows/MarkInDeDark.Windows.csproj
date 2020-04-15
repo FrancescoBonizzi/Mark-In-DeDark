@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FbonizziMonoGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FbonizziMonoGame.1.2.0\lib\net45\FbonizziMonoGame.dll</HintPath>
+      <HintPath>..\packages\FbonizziMonoGame.1.3.0\lib\net45\FbonizziMonoGame.dll</HintPath>
     </Reference>
     <Reference Include="FbonizziMonoGameWindowsDesktop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FbonizziMonoGame.WindowsDesktop.1.0.0\lib\net462\FbonizziMonoGameWindowsDesktop.dll</HintPath>

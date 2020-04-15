@@ -456,7 +456,6 @@
             <key type="filename">Game/candle_7.png</key>
             <key type="filename">Game/candle_8.png</key>
             <key type="filename">Game/candle_9.png</key>
-            <key type="filename">Game/door.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -532,9 +531,7 @@
             </struct>
             <key type="filename">Game/Goblin/goblin_light_spark.png</key>
             <key type="filename">Game/Skeleton/skeleton_light_spark.png</key>
-            <key type="filename">Game/candle_spark.png</key>
             <key type="filename">Game/generic_spark.png</key>
-            <key type="filename">Game/littlelight_spark.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

@@ -1,5 +1,4 @@
-﻿using MarkInDeDark.Library;
-
+﻿
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
@@ -72,7 +71,9 @@ namespace MarkInDeDark.Library.Characters
         public override void HandleInput(CharacterActions action)
         {
             if (_currentPlayerState != PlayerStates.Playing)
+            {
                 return;
+            }
 
             if (action == CharacterActions.DoorSwitch)
             {
@@ -108,9 +109,13 @@ namespace MarkInDeDark.Library.Characters
                 case PlayerStates.Playing:
 
                     if (IsMoving)
+                    {
                         _soundManager.PlayPlayerWalking();
+                    }
                     else
+                    {
                         _soundManager.StopPlayerWalking();
+                    }
 
                     _playerCandleFireParticleSystem.Update(elapsed);
 
@@ -132,7 +137,9 @@ namespace MarkInDeDark.Library.Characters
         public override void Die()
         {
             if (_doesntDie)
+            {
                 return;
+            }
 
             base.Die();
         }

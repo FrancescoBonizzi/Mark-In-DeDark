@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame.Particles;
-
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MarkInDeDark.Library.Particles
@@ -8,7 +8,7 @@ namespace MarkInDeDark.Library.Particles
     {
         public LittleLightParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["littlelight_spark"],
+                  assetsLoader.Sprites["generic_spark"],
                   density: 1,
                   minNumParticles: 9,
                   maxNumParticles: 10,
@@ -25,7 +25,7 @@ namespace MarkInDeDark.Library.Particles
                   minSpawnAngle: -264f,
                   maxSpawnAngle: -300f)
         {
-        
+            ParticleOverlayColor = new Color(0, 234, 255);
         }
     }
 }
