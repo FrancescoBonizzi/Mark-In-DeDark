@@ -315,7 +315,7 @@ namespace MarkInDeDark.Library.Characters
 
                 case ShadowsAnimationsNames.WhileWalkingDown:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpRight;
+                    _shadowPositionTraslation = new Vector2(-8, 0);
                     break;
 
                 case ShadowsAnimationsNames.WhileWalkingLeft:
