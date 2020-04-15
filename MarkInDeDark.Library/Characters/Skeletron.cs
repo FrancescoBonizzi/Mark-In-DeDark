@@ -14,7 +14,7 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Skeletron : Enemy
     {
-        private readonly SkeletonLightParticleSystem _skeletonLightParticleSystem;
+        private readonly CharacterTorchParticleSystem _skeletonLightParticleSystem;
 
         public Skeletron(
             AssetsLoader assetsLoader,
@@ -53,7 +53,7 @@ namespace MarkInDeDark.Library.Characters
             assetsLoader,
             game)
         {
-            _skeletonLightParticleSystem = new SkeletonLightParticleSystem(assetsLoader);
+            _skeletonLightParticleSystem = new CharacterTorchParticleSystem(assetsLoader, gameConfig.SkeletronLightColorRGB1);
         }
 
         public override void Update(TimeSpan elapsed)

@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame.Particles;
-
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MarkInDeDark.Library.Particles
@@ -8,7 +8,7 @@ namespace MarkInDeDark.Library.Particles
     {
         public CandleFireParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["candle_spark"],
+                  assetsLoader.Sprites["generic_spark"],
                   density: 1,
                   minNumParticles: 5,
                   maxNumParticles: 6,
@@ -24,6 +24,8 @@ namespace MarkInDeDark.Library.Particles
                   maxScale: 0.4f,
                   minSpawnAngle: -264f,
                   maxSpawnAngle: -300f)
-            { }
+        {
+            ParticleOverlayColor = new Color(255, 204, 0);
+        }
     }
 }

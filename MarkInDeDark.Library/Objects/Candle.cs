@@ -64,7 +64,7 @@ namespace MarkInDeDark.Library
 
             _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader);
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
-            _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 42.0f);
+            _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 30.0f);
         }
 
         public void Die()

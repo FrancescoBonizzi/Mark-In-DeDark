@@ -1,14 +1,16 @@
 ﻿using FbonizziMonoGame.Particles;
-
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MarkInDeDark.Library.Particles
 {
-    public class GoblinLightParticleSystem : ParticleGenerator
+    public class CharacterTorchParticleSystem : ParticleGenerator
     {
-        public GoblinLightParticleSystem(AssetsLoader assetsLoader)
+        public CharacterTorchParticleSystem(
+            AssetsLoader assetsLoader,
+            Color color)
             : base(
-                  assetsLoader.Sprites["Goblin/goblin_light_spark"],
+                  assetsLoader.Sprites["generic_spark"],
                   density: 1,
                   minNumParticles: 5,
                   maxNumParticles: 6,
@@ -24,6 +26,8 @@ namespace MarkInDeDark.Library.Particles
                   maxScale: 0.4f,
                   minSpawnAngle: -264f,
                   maxSpawnAngle: -300f)
-            { }
+        {
+            ParticleOverlayColor = color;
+        }
     }
 }

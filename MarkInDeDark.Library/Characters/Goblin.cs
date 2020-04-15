@@ -1,5 +1,4 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.AI;
+﻿using MarkInDeDark.Library.AI;
 
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
@@ -12,7 +11,7 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Goblin : Enemy
     {
-        private readonly GoblinLightParticleSystem _goblinLightParticleSystem;
+        private readonly CharacterTorchParticleSystem _goblinLightParticleSystem;
 
         public Goblin(
             AssetsLoader assetsLoader,
@@ -55,7 +54,7 @@ namespace MarkInDeDark.Library.Characters
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
 
-            _goblinLightParticleSystem = new GoblinLightParticleSystem(assetsLoader);
+            _goblinLightParticleSystem = new CharacterTorchParticleSystem(assetsLoader, gameConfig.GoblinLightColorRGB1);
         }
 
         public override void Update(TimeSpan elapsed)

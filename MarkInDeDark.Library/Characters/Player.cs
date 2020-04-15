@@ -61,8 +61,9 @@ namespace MarkInDeDark.Library.Characters
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);
 
-            _soundManager.PlayEnlightTorch();
-            AreLightsActive = false;
+            AreLightsActive = true;
+            _soundManager.PlayPlayerTorch();
+            SetLightPosition(0.5f);
         }
 
         public bool HasWon
