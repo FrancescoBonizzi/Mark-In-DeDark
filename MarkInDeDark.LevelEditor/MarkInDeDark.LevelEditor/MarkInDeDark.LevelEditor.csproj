@@ -145,9 +145,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BusyIndicator.xaml.cs">
-      <DependentUpon>BusyIndicator.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\XnaColorToWindowsColor.cs" />
     <Compile Include="Converters\XnaVector2ToX.cs" />
     <Compile Include="Converters\XnaVector2ToY.cs" />
@@ -161,10 +158,6 @@
     <Compile Include="TraslationsWindow.xaml.cs">
       <DependentUpon>TraslationsWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="BusyIndicator.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GameConfigEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

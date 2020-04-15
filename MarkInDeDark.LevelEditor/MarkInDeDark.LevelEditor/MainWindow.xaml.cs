@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,7 +22,6 @@ namespace MarkInDeDark.LevelEditor
 
         private GameGridBundle _gameGrid;
         private WpfCanvasEditorPresentation _presentation;
-        private BusyIndicator _busyIndicator;
         private TextFileStringsManager _traslationManager;
 
         private EditorActions _currentEditorAction;
@@ -92,18 +92,18 @@ namespace MarkInDeDark.LevelEditor
 
         private void StartWaiting()
         {
-            Opacity = 0.5;
-            Effect = new BlurEffect();
-            _busyIndicator = new BusyIndicator();
-            _busyIndicator.Show();
+            Dispatcher.Invoke(() =>
+            {
+                Effect = new BlurEffect();
+            }, DispatcherPriority.Render);
         }
 
         private void StopWaiting()
         {
-            Opacity = 1;
-            Effect = null;
-            _busyIndicator.Close();
-            _busyIndicator = null;
+            Dispatcher.Invoke(() =>
+            {
+                Effect = null;
+            }, DispatcherPriority.Render);
         }
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
@@ -127,12 +127,11 @@ namespace MarkInDeDark.LevelEditor
             {
                 try
                 {
+                    Thread.Sleep(3000);
                     var levelContent = File.ReadAllText(openFileDialog.FileName);
                     var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
                     _gameGrid = gameGridSerializerManager.DeserializeLevel();
                     
-                   
-
                     _presentation = new WpfCanvasEditorPresentation(
                         this,
                         _gameGrid,
