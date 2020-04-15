@@ -470,7 +470,7 @@ namespace MarkInDeDarkMono
             => _soundManager.StopSounds();
 
         /// <summary>
-        /// Scala da 1 a 10
+        /// Scala da 1 a 15
         /// </summary>
         /// <param name="intensity"></param>
         public void StartCameraShake(int intensity, TimeSpan? duration = null)

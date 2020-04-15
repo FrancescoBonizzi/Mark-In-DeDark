@@ -204,7 +204,7 @@ namespace MarkInDeDarkMono.Levels
             }
 
             if (effectivelyBrokeTheWall)
-                _game.StartCameraShake(10);
+                _game.StartCameraShake(15);
             else _game.StartCameraShake(5);
         }
 

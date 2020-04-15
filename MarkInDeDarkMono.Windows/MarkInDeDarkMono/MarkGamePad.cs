@@ -44,7 +44,7 @@ namespace MarkInDeDarkMono
             _currentShakeElapsed = TimeSpan.Zero;
             GamePad.SetVibration(
                 playerIndex.Value,
-                Numbers.MapValueFromIntervalToInterval(intensity, 0, 10, 0f, 1f),
+                Numbers.MapValueFromIntervalToInterval(intensity, 0, 15, 0f, 1f),
                 0f);
         }
 
