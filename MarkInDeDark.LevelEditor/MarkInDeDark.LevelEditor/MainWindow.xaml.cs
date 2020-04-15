@@ -37,6 +37,8 @@ namespace MarkInDeDark.LevelEditor
 
         private readonly ISettingsRepository _settingsRepository;
 
+        private string _currentLevelSerializedLastSave;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,17 +59,35 @@ namespace MarkInDeDark.LevelEditor
                 _cellSize,
                 _traslationManager);
             Title = $"{_baseWindowTitle} - Nuovo";
+            _currentLevelSerializedLastSave = null;
         }
 
         private void BtnNuovo_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(
-                messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
-                caption: "Proseguire?",
-                button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (CanOverwriteCurrentMap())
             {
                 NewGrid();
             }
+        }
+
+        public bool CanOverwriteCurrentMap()
+        {
+            if (_gameGrid.IsEmpty)
+                return true;
+
+            var currentLevelSerialized = SerializeLevel();
+            if (_currentLevelSerializedLastSave != currentLevelSerialized)
+            {
+                if (MessageBox.Show(
+                      messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
+                      caption: "Proseguire?",
+                      button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void StartWaiting()
@@ -88,14 +108,9 @@ namespace MarkInDeDark.LevelEditor
 
         private void BtnApri_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(
-                  messageBoxText: "Se prosegui senza aver salvato perderai le modifiche fatte al file corrente. Proseguire?",
-                  caption: "Proseguire?",
-                  button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
-            {
+            if (!CanOverwriteCurrentMap())
                 return;
-            }
-
+               
             var openFileDialog = new OpenFileDialog
             {
                 Multiselect = false,
@@ -115,9 +130,8 @@ namespace MarkInDeDark.LevelEditor
                     var levelContent = File.ReadAllText(openFileDialog.FileName);
                     var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
                     _gameGrid = gameGridSerializerManager.DeserializeLevel();
-
-                    numDirtyProbability.Value = _gameGrid.DirtyProbabilityPercentage;
-                    cmbTexturePack.SelectedIndex = _gameGrid.EnvironmentTexturePackId;
+                    
+                   
 
                     _presentation = new WpfCanvasEditorPresentation(
                         this,
@@ -127,6 +141,9 @@ namespace MarkInDeDark.LevelEditor
                         _traslationManager);
 
                     Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
+                    
+                    // Lo riserializzo così se c'è un cambio di versione del serializzatore l'utente non se ne accorge
+                    _currentLevelSerializedLastSave = SerializeLevel();
                 }
                 finally
                 {
@@ -145,7 +162,8 @@ namespace MarkInDeDark.LevelEditor
                 return;
             }
 
-            SerializeAndSave(_currentLevelFilePath);
+            var serializedLevel = SerializeLevel();
+            SaveLevel(_currentLevelFilePath, serializedLevel);
             MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -159,19 +177,22 @@ namespace MarkInDeDark.LevelEditor
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                SerializeAndSave(saveFileDialog.FileName);
+                SaveLevel(saveFileDialog.FileName, SerializeLevel());
                 _currentLevelFilePath = saveFileDialog.FileName;
                 Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}";
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        private void SerializeAndSave(string filePath)
+        private string SerializeLevel()
+            => new GameGridSerializerV4().SerializeLevel(_gameGrid);
+
+        private void SaveLevel(string filePath, string serializedLevel)
         {
             _gameGrid.DirtyProbabilityPercentage = numDirtyProbability.Value ?? 0;
             _gameGrid.EnvironmentTexturePackId = cmbTexturePack.SelectedIndex;
-            var serializedLevel = new GameGridSerializerV4().SerializeLevel(_gameGrid);
             File.WriteAllText(filePath, serializedLevel);
+            _currentLevelSerializedLastSave = serializedLevel;
         }
 
         private void BtnGroundType_Click(object sender, RoutedEventArgs e)
@@ -376,7 +397,7 @@ namespace MarkInDeDark.LevelEditor
             }
 
             string randomFilePath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".mark";
-            SerializeAndSave(randomFilePath);
+            SaveLevel(randomFilePath, SerializeLevel());
 
             using (var process = new Process())
             {

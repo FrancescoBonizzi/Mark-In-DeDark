@@ -780,7 +780,7 @@
                                 ToolTip="Indica il pacco di texture da utilizzare in questo livello">
 
                                 <ComboBoxItem>Texture 0</ComboBoxItem>
-                              
+
                             </ComboBox>
 
                         </StackPanel>

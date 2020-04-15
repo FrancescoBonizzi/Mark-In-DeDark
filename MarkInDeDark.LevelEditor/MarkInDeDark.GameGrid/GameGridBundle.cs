@@ -24,6 +24,26 @@
             Rows = grid.GetLength(1);
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                for (int column = 0; column < Columns; ++column)
+                {
+                    for (int row = 0; row < Rows; ++row)
+                    {
+                        if (Grid[column, row].GroundType != GroundTypes.NonCella
+                            || Grid[column, row].ObjectType != null)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
+
         public void ClearGrid()
         {
             var emptyGrid = new Cell[Columns, Rows];
