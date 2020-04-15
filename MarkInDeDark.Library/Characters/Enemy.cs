@@ -174,51 +174,35 @@ namespace MarkInDeDark.Library.Characters
         public override void Update(TimeSpan elapsed)
         {
             if (_gameFinished)
-            {
-                base.Update(elapsed);
                 return;
+
+            // Rimodulo sempre il volume dell'attacco per fare il fade
+            // quando il player si allontana.
+            if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
+            {
+                _soundManager.ComputeIndexSoundsVolume(
+                    _screamSoundIndex,
+                    _attackSoundIndex,
+                    Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
             }
 
-            if (!_stopMovement)
+            _screamTimer -= elapsed;
+            if (_screamTimer <= TimeSpan.Zero)
             {
-                if (_player.IsDead || _player.IsDying)
-                {
-                    _stopMovement = true;
-                    DontPlayDefaultAnimations = false;
-                    SetDirectionAnimation(CharacterActions.Down);
-                    if (AreLightsActive)
-                        SetLightPosition();
-                    CurrentAI = new IdleAI();
-                }
-                else
-                {
-                    // Rimodulo sempre il volume dell'attacco per fare il fade
-                    // quando il player si allontana.
-                    if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
-                    {
-                        _soundManager.ComputeIndexSoundsVolume(
-                            _screamSoundIndex,
-                            _attackSoundIndex,
-                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-                    }
+                PlayMyVoice();
+                SetRandomScreamTimer();
+            }
 
-                    _screamTimer -= elapsed;
-                    if (_screamTimer <= TimeSpan.Zero)
-                    {
-                        PlayMyVoice();
-                        SetRandomScreamTimer();
-                    }
-
-                    if (!(_player.IsDead || _player.IsDying)
-                        && !_player.HasWon
-                        && CustomConditionToAttackPlayer()
-                        && CollisionRectangle.Intersects(_player.CollisionRectangle))
-                    {
-                        Attack();
-                        HitPlayer();
-                        _player.Die();
-                    }
-                }
+            if (!(_player.IsDead || _player.IsDying)
+                && !_player.HasWon
+                && CustomConditionToAttackPlayer()
+                && CollisionRectangle.Intersects(_player.CollisionRectangle))
+            {
+                Attack();
+                HitPlayer();
+                _player.Die();
+                CurrentAI = new IdleAI();
+                _stopMovement = true;
             }
 
             if (!IsMoving)
