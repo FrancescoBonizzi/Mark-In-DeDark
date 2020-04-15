@@ -124,11 +124,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\Spritesheet-0.txt">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\Spritesheet-0.txt">
       <Link>Content\Spritesheet-0.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\Spritesheet-1.txt">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\Spritesheet-1.txt">
       <Link>Content\Spritesheet-1.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -137,219 +137,219 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\font.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\font.xnb">
       <Link>Content\font.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\accendi_fiamma.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\accendi_fiamma.xnb">
       <Link>Content\Soundtrack\accendi_fiamma.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\attack1.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\attack1.xnb">
       <Link>Content\Soundtrack\attack1.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\attack2.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\attack2.xnb">
       <Link>Content\Soundtrack\attack2.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\attack3.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\attack3.xnb">
       <Link>Content\Soundtrack\attack3.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\attack4.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\attack4.xnb">
       <Link>Content\Soundtrack\attack4.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\blood.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\blood.xnb">
       <Link>Content\Soundtrack\blood.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\candela.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\candela.xnb">
       <Link>Content\Soundtrack\candela.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\fuoco.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\fuoco.xnb">
       <Link>Content\Soundtrack\fuoco.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\goblin_voice.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\goblin_voice.xnb">
       <Link>Content\Soundtrack\goblin_voice.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\key.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\key.xnb">
       <Link>Content\Soundtrack\key.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\player_walk.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\player_walk.xnb">
       <Link>Content\Soundtrack\player_walk.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\skeletron_voice.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\skeletron_voice.xnb">
       <Link>Content\Soundtrack\skeletron_voice.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\wolf_voice.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\wolf_voice.xnb">
       <Link>Content\Soundtrack\wolf_voice.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\zombie_voice.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\zombie_voice.xnb">
       <Link>Content\Soundtrack\zombie_voice.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\fall.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\fall.xnb">
       <Link>Content\Soundtrack\fall.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\ladder.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\ladder.xnb">
       <Link>Content\Soundtrack\ladder.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\taurus_starting_charge.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\taurus_starting_charge.xnb">
       <Link>Content\Soundtrack\taurus_starting_charge.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\break_wall.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\break_wall.xnb">
       <Link>Content\Soundtrack\break_wall.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Soundtrack\patrol_seen_you.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Soundtrack\patrol_seen_you.xnb">
       <Link>Content\Soundtrack\patrol_seen_you.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Backgrounds\levels.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Backgrounds\levels.xnb">
       <Link>Content\Backgrounds\levels.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Backgrounds\menu.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Backgrounds\menu.xnb">
       <Link>Content\Backgrounds\menu.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Backgrounds\splashscreen.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Backgrounds\splashscreen.xnb">
       <Link>Content\Backgrounds\splashscreen.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\1 TUTORIAL.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\1 TUTORIAL.mark">
       <Link>Content\Levels\1 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\10 G TUTORIAL.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\10 G TUTORIAL.mark">
       <Link>Content\Levels\10 G TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\11 G.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\11 G.mark">
       <Link>Content\Levels\11 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\12 G.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\12 G.mark">
       <Link>Content\Levels\12 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\13 G.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\13 G.mark">
       <Link>Content\Levels\13 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\14 G.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\14 G.mark">
       <Link>Content\Levels\14 G.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\2 TUTORIAL.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\2 TUTORIAL.mark">
       <Link>Content\Levels\2 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\3 TUTORIAL.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\3 TUTORIAL.mark">
       <Link>Content\Levels\3 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\4 TUTORIAL.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\4 TUTORIAL.mark">
       <Link>Content\Levels\4 TUTORIAL.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\5.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\5.mark">
       <Link>Content\Levels\5.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\6.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\6.mark">
       <Link>Content\Levels\6.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\7.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\7.mark">
       <Link>Content\Levels\7.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\8.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\8.mark">
       <Link>Content\Levels\8.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\9.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\9.mark">
       <Link>Content\Levels\9.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\Boh1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\Boh1.mark">
       <Link>Content\Levels\Boh1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\Boh2.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\Boh2.mark">
       <Link>Content\Levels\Boh2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_G1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\F_G1.mark">
       <Link>Content\Levels\F_G1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_K1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\F_K1.mark">
       <Link>Content\Levels\F_K1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\F_ZK1.mark">
       <Link>Content\Levels\F_ZK1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F_ZK2.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\F_ZK2.mark">
       <Link>Content\Levels\F_ZK2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\F__1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\F__1.mark">
       <Link>Content\Levels\F__1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M S_4.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M S_4.mark">
       <Link>Content\Levels\M S_4.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_K2.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M_K2.mark">
       <Link>Content\Levels\M_K2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_S1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M_S1.mark">
       <Link>Content\Levels\M_S1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_T1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M_T1.mark">
       <Link>Content\Levels\M_T1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_T2.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M_T2.mark">
       <Link>Content\Levels\M_T2.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Levels\M_ZK1.mark">
+    <Content Include="..\MarkInDeDark.Library\Assets\Levels\M_ZK1.mark">
       <Link>Content\Levels\M_ZK1.mark</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Spritesheet-0.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Spritesheet-0.xnb">
       <Link>Content\Spritesheet-0.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\ContentBuilder\bin\Spritesheet-1.xnb">
+    <Content Include="..\MarkInDeDark.Library\Assets\ContentBuilder\bin\Spritesheet-1.xnb">
       <Link>Content\Spritesheet-1.xnb</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\Translations.json">
+    <Content Include="..\MarkInDeDark.Library\Assets\Translations.json">
       <Link>Content\Translations.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\MarkInDeDarkMono\Assets\GameConfig.json">
+    <Content Include="..\MarkInDeDark.Library\Assets\GameConfig.json">
       <Link>Content\GameConfig.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -358,9 +358,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MarkInDeDarkMono\MarkInDeDarkMono.csproj">
+    <ProjectReference Include="..\MarkInDeDark.Library\MarkInDeDark.Library.csproj">
       <Project>{f30f12e0-6054-4a35-98a4-5a96ec8fa90d}</Project>
-      <Name>MarkInDeDarkMono</Name>
+      <Name>MarkInDeDark.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

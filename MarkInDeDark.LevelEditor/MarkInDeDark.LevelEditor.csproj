@@ -244,9 +244,9 @@
       <Project>{53c00a5f-9ee4-489d-b0e7-5473a170da79}</Project>
       <Name>MarkInDeDark.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
+    <ProjectReference Include="..\MarkInDeDark.GameGridCommon\MarkInDeDark.GameGridCommon.csproj">
       <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
-      <Name>MarkInDeDark.GameGrid</Name>
+      <Name>MarkInDeDark.GameGridCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

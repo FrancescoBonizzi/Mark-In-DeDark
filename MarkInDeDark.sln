@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDarkMono", "MarkInDeDarkMono\MarkInDeDarkMono.csproj", "{F30F12E0-6054-4A35-98A4-5A96EC8FA90D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.Library", "MarkInDeDark.Library\MarkInDeDark.Library.csproj", "{F30F12E0-6054-4A35-98A4-5A96EC8FA90D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.Common", "MarkInDeDark.Common\MarkInDeDark.Common.csproj", "{53C00A5F-9EE4-489D-B0E7-5473A170DA79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.GameGrid", "MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj", "{BF5A4651-BA4A-4B7F-87BA-4AD2035F0E94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.GameGridCommon", "MarkInDeDark.GameGridCommon\MarkInDeDark.GameGridCommon.csproj", "{BF5A4651-BA4A-4B7F-87BA-4AD2035F0E94}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.LevelEditor", "MarkInDeDark.LevelEditor\MarkInDeDark.LevelEditor.csproj", "{2772D3BB-B000-4C4D-AD46-ADD30293CCE3}"
 EndProject

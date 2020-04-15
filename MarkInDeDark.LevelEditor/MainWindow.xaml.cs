@@ -1,5 +1,5 @@
 ﻿using MarkInDeDark.Common;
-using MarkInDeDark.GameGrid;
+using MarkInDeDark.GameGridCommon;
 using MarkInDeDark.LevelEditor.Domain;
 using MarkInDeDark.LevelEditor.Editor;
 using MarkInDeDark.LevelEditor.Settings;

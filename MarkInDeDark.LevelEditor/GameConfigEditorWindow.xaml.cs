@@ -1,6 +1,6 @@
 ﻿using MarkInDeDark.Common;
 using MarkInDeDark.LevelEditor.Settings;
-using MarkInDeDarkMono.Common;
+using MarkInDeDark.Library.Common;
 using Microsoft.Win32;
 using System;
 using System.IO;

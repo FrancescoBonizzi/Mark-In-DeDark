@@ -1,7 +1,7 @@
 ﻿using MarkInDeDark.Common;
 using Microsoft.Xna.Framework;
 
-namespace MarkInDeDarkMono.Common
+namespace MarkInDeDark.Library.Common
 {
     public class GameConfig
     {

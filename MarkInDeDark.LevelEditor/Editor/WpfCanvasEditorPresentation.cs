@@ -1,5 +1,5 @@
 ﻿using MarkInDeDark.Common;
-using MarkInDeDark.GameGrid;
+using MarkInDeDark.GameGridCommon;
 using System;
 using System.Windows;
 using System.Windows.Controls;

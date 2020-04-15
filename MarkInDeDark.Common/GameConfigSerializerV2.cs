@@ -1,4 +1,4 @@
-﻿using MarkInDeDarkMono.Common;
+﻿using MarkInDeDark.Library.Common;
 using Newtonsoft.Json;
 
 namespace MarkInDeDark.Common

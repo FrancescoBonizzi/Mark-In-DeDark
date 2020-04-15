@@ -1,4 +1,4 @@
-﻿using MarkInDeDark.GameGrid;
+﻿using MarkInDeDark.GameGridCommon;
 using System;
 using System.Windows.Media;
 
