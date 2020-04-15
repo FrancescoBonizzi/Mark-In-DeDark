@@ -35,8 +35,9 @@ namespace MarkInDeDark.Library.Characters
             EnemyConfiguration enemyConfiguration,
             SoundManager soundManager,
             Player player,
-            AssetsLoader assetsLoader)
-            : base(grid, soundManager, assetsLoader, characterBasicConfiguration)
+            AssetsLoader assetsLoader,
+            MarkInDeDarkGame game)
+            : base(grid, soundManager, assetsLoader, characterBasicConfiguration, game)
         {
             _soundManager = soundManager;
             _player = player;

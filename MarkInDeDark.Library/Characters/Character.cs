@@ -81,6 +81,7 @@ namespace MarkInDeDark.Library.Characters
         protected readonly GameGrid _gameGrid;
         private readonly SoundManager _soundManager;
         private float _movementLerpAmount;
+        private readonly MarkInDeDarkGame _game;
         private float _startingLerpAmount;
         private Vector2 _nextLocation;
         private Vector2 _startingLocation;
@@ -109,8 +110,10 @@ namespace MarkInDeDark.Library.Characters
             GameGrid grid,
             SoundManager soundManager,
             AssetsLoader assetsLoader,
-            CharacterConfiguration configuration)
+            CharacterConfiguration configuration,
+            MarkInDeDarkGame game)
         {
+            _game = game;
             _startingLerpAmount = 0f;
             _movementLerpAmount = 1.0f;
 
@@ -232,7 +235,8 @@ namespace MarkInDeDark.Library.Characters
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
-                this);
+                this,
+                _game);
 
             CurrentCharacterState = CharacterState.Dying;
 

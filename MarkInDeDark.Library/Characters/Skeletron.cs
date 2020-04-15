@@ -23,7 +23,8 @@ namespace MarkInDeDark.Library.Characters
             CandlesManager candlesManager,
             SoundManager soundManager,
             Player player,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
         : base(
             gameGrid,
             new CharacterConfiguration(
@@ -49,7 +50,8 @@ namespace MarkInDeDark.Library.Characters
                 startingAI: new PatrolHunterLineOfSightAI(patrolPath, gameGrid, candlesManager, player, soundManager, gameConfig)),
             soundManager,
             player,
-            assetsLoader)
+            assetsLoader,
+            game)
         {
             _skeletonLightParticleSystem = new SkeletonLightParticleSystem(assetsLoader);
         }

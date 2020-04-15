@@ -55,7 +55,8 @@ namespace MarkInDeDark.Library.Characters
                       new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager, game)),
                   soundManager,
                   player,
-                  assetsLoader)
+                  assetsLoader,
+                  game)
         {
             TaurusChargeSpeed = gameConfig.TaurusChargeSpeed;
             TaurusTimeToStartSeconds = gameConfig.TaurusTimeToStartSeconds;

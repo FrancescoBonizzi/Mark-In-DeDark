@@ -24,11 +24,13 @@ namespace MarkInDeDark.Library.Characters
         private readonly Sprite _frontIdleSprite;
         private readonly DrawingInfos _drawingInfos;
         private readonly Character _character;
+        private readonly MarkInDeDarkGame _game;
 
         public CharacterFallingInTrapAnimation(
             Sprite idleSprite,
             Vector2 trapCenter,
-            Character character)
+            Character character,
+            MarkInDeDarkGame game)
         {
             _frontIdleSprite = idleSprite;
             _drawingInfos = new DrawingInfos()
@@ -39,17 +41,14 @@ namespace MarkInDeDark.Library.Characters
             };
 
             _character = character;
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            _drawingInfos.Position = position;
+            _game = game;
         }
 
         public void Update(TimeSpan elapsed)
         {
             if (_currentAnimationDuration > _allAnimationDuration)
             {
+                _game.StartCameraShake(10);
                 _character.CurrentCharacterState = Character.CharacterState.Dead;
                 return;
             }

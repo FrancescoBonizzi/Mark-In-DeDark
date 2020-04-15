@@ -33,7 +33,8 @@ namespace MarkInDeDark.Library.Characters
             GameGrid gameGrid,
             GameConfig gameConfig,
             CandlesManager candlesManager,
-            SoundManager soundManager)
+            SoundManager soundManager,
+            MarkInDeDarkGame game)
             : base(gameGrid,
                   soundManager,
                   assetsLoader,
@@ -51,7 +52,8 @@ namespace MarkInDeDark.Library.Characters
                             torchPositionTraslationDown: new Vector2(35, -30),
                             assetsLoader: assetsLoader),
                         movementSpeed: gameConfig.PlayerSpeed,
-                        withShadowAnimation: true))
+                        withShadowAnimation: true),
+                    game)
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;

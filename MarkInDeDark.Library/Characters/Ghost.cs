@@ -21,7 +21,8 @@ namespace MarkInDeDark.Library.Characters
             CandlesManager candlesManager,
             SoundManager soundManager,
             Player player,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
             : base(
                   gameGrid,
                   new CharacterConfiguration(
@@ -48,7 +49,8 @@ namespace MarkInDeDark.Library.Characters
                       startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager)),
                   soundManager,
                   player,
-                  assetsLoader)
+                  assetsLoader,
+                  game)
         {
             _candlesManager = candlesManager;
             _canGoOverWalls = true;

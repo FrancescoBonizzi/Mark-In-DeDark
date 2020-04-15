@@ -21,7 +21,8 @@ namespace MarkInDeDark.Library.Characters
             CandlesManager candlesManager,
             SoundManager soundManager,
             Player player,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
             : base(
                   gameGrid,
                   new CharacterConfiguration(
@@ -47,7 +48,8 @@ namespace MarkInDeDark.Library.Characters
                       new PlayerHunterAI(player, gameGrid, candlesManager)),
                   soundManager,
                   player,
-                  assetsLoader)
+                  assetsLoader,
+                  game)
         {
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=

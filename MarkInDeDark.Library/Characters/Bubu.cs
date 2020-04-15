@@ -17,7 +17,8 @@ namespace MarkInDeDark.Library.Characters
             CandlesManager candlesManager,
             SoundManager soundManager,
             Player player,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            MarkInDeDarkGame game)
                 : base(
                     gameGrid,
                     new CharacterConfiguration(
@@ -35,7 +36,8 @@ namespace MarkInDeDark.Library.Characters
                         startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: true)),
                     soundManager,
                     player,
-                    assetsLoader)
+                    assetsLoader,
+                    game)
         {
         }
     }

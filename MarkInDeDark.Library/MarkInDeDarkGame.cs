@@ -130,7 +130,7 @@ namespace MarkInDeDark.Library
             };
             _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
-            _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager);
+            _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
 
             _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
             _key = new CollectableObject(assetsLoader.Sprites["key"], _gameGrid.KeyPosition, _soundManager);
@@ -165,7 +165,8 @@ namespace MarkInDeDark.Library
                             _candlesManager,
                             _soundManager,
                             _player,
-                            gameConfig);
+                            gameConfig,
+                            this);
                         _enemies.Add(newGoblin);
                         _soundManager.PlayBreakWallSound();
                         StartCameraShake(4);
@@ -180,19 +181,19 @@ namespace MarkInDeDark.Library
             // Se non metto il trigger, lo spawno subito
             else if (_gameGrid.GoblinStartPosition != null)
             {
-                _enemies.Add(new Goblin(assetsLoader, _gameGrid.GoblinStartPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                _enemies.Add(new Goblin(assetsLoader, _gameGrid.GoblinStartPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
             }
 
             if (_gameGrid.WerewolfStartingPosition != null)
             {
-                _enemies.Add(new Werewolf(assetsLoader, _gameGrid.WerewolfStartingPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                _enemies.Add(new Werewolf(assetsLoader, _gameGrid.WerewolfStartingPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
             }
 
             if (_gameGrid.ZombiesPath != null)
             {
                 foreach (var zombiePath in _gameGrid.ZombiesPath)
                 {
-                    _enemies.Add(new Zombie(assetsLoader, zombiePath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Zombie(assetsLoader, zombiePath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
                 }
             }
 
@@ -200,7 +201,7 @@ namespace MarkInDeDark.Library
             {
                 foreach (var ghostPath in _gameGrid.GhostsPath)
                 {
-                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
                 }
             }
 
@@ -208,7 +209,7 @@ namespace MarkInDeDark.Library
             {
                 foreach (var bubuPath in _gameGrid.BubusPath)
                 {
-                    _enemies.Add(new Bubu(assetsLoader, bubuPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Bubu(assetsLoader, bubuPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
                 }
             }
 
@@ -216,7 +217,7 @@ namespace MarkInDeDark.Library
             {
                 foreach (var skeletronPath in _gameGrid.SkeletronsPath)
                 {
-                    _enemies.Add(new Skeletron(assetsLoader, skeletronPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig));
+                    _enemies.Add(new Skeletron(assetsLoader, skeletronPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
                 }
             }
 
@@ -296,21 +297,6 @@ namespace MarkInDeDark.Library
                     ElapsedGameTime += elapsed;
 
                     RepositionCamera();
-
-                    // Effetto shake della viewport
-                    if (_shakeViewport)
-                    {
-                        _shakeStart += elapsed;
-                        var offset = new Vector2((float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
-                        _shakeIntensity -= 0.25f;
-                        _shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
-                        if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > _shakeDuration.TotalSeconds || _shakeIntensity <= 0)
-                        {
-                            _shakeViewport = false;
-                        }
-
-                        _camera.Position += offset;
-                    }
 
                     if (_player.IsDying)
                     {
@@ -424,6 +410,22 @@ namespace MarkInDeDark.Library
                 case GameStates.Finished:
                     _gameOrchestrator.SetAfterGameState();
                     return;
+            }
+
+
+            // Effetto shake della viewport
+            if (_shakeViewport)
+            {
+                _shakeStart += elapsed;
+                var offset = new Vector2((float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
+                _shakeIntensity -= 0.25f;
+                _shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
+                if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > _shakeDuration.TotalSeconds || _shakeIntensity <= 0)
+                {
+                    _shakeViewport = false;
+                }
+
+                _camera.Position += offset;
             }
 
             if (_triggerObjects != null)
