@@ -189,13 +189,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MarkInDeDark.LevelEditor\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
-      <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
-      <Name>MarkInDeDark.GameGrid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MarkInDeDark.Common\MarkInDeDark.Common.csproj">
       <Project>{53c00a5f-9ee4-489d-b0e7-5473a170da79}</Project>
       <Name>MarkInDeDark.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkInDeDark.GameGrid\MarkInDeDark.GameGrid.csproj">
+      <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
+      <Name>MarkInDeDark.GameGrid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

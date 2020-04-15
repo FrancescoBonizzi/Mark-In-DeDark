@@ -240,7 +240,7 @@
     <Resource Include="Assets\icons\trap_instantly_die.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MarkInDeDarkMono.Windows\MarkInDeDark.Common\MarkInDeDark.Common.csproj">
+    <ProjectReference Include="..\MarkInDeDark.Common\MarkInDeDark.Common.csproj">
       <Project>{53c00a5f-9ee4-489d-b0e7-5473a170da79}</Project>
       <Name>MarkInDeDark.Common</Name>
     </ProjectReference>
