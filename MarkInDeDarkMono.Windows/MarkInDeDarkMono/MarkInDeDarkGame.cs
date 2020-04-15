@@ -354,19 +354,6 @@ namespace MarkInDeDarkMono
                         }
                     }
 
-                    if (_triggerObjects != null)
-                    {
-                        foreach (var triggerObject in _triggerObjects)
-                        {
-                            triggerObject.Update(elapsed);
-                        }
-                    }
-
-                    foreach (var littleLight in _gameGrid.LittleLights)
-                    {
-                        littleLight.Update(elapsed);
-                    }
-
                     for (int c = _candlePacks.Count - 1; c >= 0; --c)
                     {
                         var candlePack = _candlePacks[c];
@@ -437,6 +424,19 @@ namespace MarkInDeDarkMono
                 case GameStates.Finished:
                     _gameOrchestrator.SetAfterGameState();
                     return;
+            }
+
+            if (_triggerObjects != null)
+            {
+                foreach (var triggerObject in _triggerObjects)
+                {
+                    triggerObject.Update(elapsed);
+                }
+            }
+
+            foreach (var littleLight in _gameGrid.LittleLights)
+            {
+                littleLight.Update(elapsed);
             }
 
             _gameGrid.Update(elapsed);

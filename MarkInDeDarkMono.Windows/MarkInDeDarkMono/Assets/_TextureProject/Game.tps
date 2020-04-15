@@ -494,6 +494,16 @@
             <key type="filename">Game/Player/player_back_walking_shadow_3.png</key>
             <key type="filename">Game/Player/player_back_walking_shadow_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_dying_3.png</key>
+            <key type="filename">Game/TrapIstant/1.png</key>
+            <key type="filename">Game/TrapIstant/10.png</key>
+            <key type="filename">Game/TrapIstant/2.png</key>
+            <key type="filename">Game/TrapIstant/3.png</key>
+            <key type="filename">Game/TrapIstant/4.png</key>
+            <key type="filename">Game/TrapIstant/5.png</key>
+            <key type="filename">Game/TrapIstant/6.png</key>
+            <key type="filename">Game/TrapIstant/7.png</key>
+            <key type="filename">Game/TrapIstant/8.png</key>
+            <key type="filename">Game/TrapIstant/9.png</key>
             <key type="filename">Game/Werewolf/werewolf_front_dying_3.png</key>
             <key type="filename">Game/Zombie/zombie_front_dying_3.png</key>
             <key type="filename">Game/blood_decal.png</key>
@@ -506,7 +516,6 @@
             <key type="filename">Game/light_pixel.png</key>
             <key type="filename">Game/stairs.png</key>
             <key type="filename">Game/trap_breakable.png</key>
-            <key type="filename">Game/trap_instantly_die.png</key>
             <key type="filename">Game/win.png</key>
             <key type="filename">Game/win_closed.png</key>
             <struct type="IndividualSpriteSettings">

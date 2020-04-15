@@ -16,8 +16,9 @@ namespace MarkInDeDarkMono.Characters
         private TimeSpan _currentAnimationDuration = TimeSpan.Zero;
 
         private readonly float _opacityDelta = -0.009f;
-        private readonly float _scaleDelta = -0.03f;
+        private readonly float _scaleDelta = -0.07f;
         private readonly float _rotationDelta = 0.02f;
+        private readonly float _deltaYPosition = 5f;
         private float _opacity = 1.0f;
 
         private readonly Sprite _frontIdleSprite;
@@ -61,8 +62,14 @@ namespace MarkInDeDarkMono.Characters
                 _currentStepDuration = _intervalBetweenSteps;
                 _opacity += _opacityDelta;
                 _drawingInfos.Scale += _scaleDelta;
+                if (_drawingInfos.Scale <= 0)
+                    _drawingInfos.Scale = 0.08f;
                 _drawingInfos.OverlayColor *= _opacity;
                 _drawingInfos.Rotation += _rotationDelta;
+
+                _drawingInfos.Position = new Vector2(
+                    _drawingInfos.Position.X, 
+                    _drawingInfos.Position.Y + _deltaYPosition);
             }
 
         }

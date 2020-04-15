@@ -35,6 +35,8 @@ namespace MarkInDeDarkMono.Objects
                 LayerDepth = ZIndexCalculator.ForGroundObjects
             };
 
+            _animation.Stop();
+
             SetOnTriggerPressed(
                 (character, elapsed) =>
                 {
