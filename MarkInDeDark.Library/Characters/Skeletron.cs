@@ -30,7 +30,7 @@ namespace MarkInDeDark.Library.Characters
             new CharacterConfiguration(
                 assetsLoader: assetsLoader,
                 characterName: "skeleton",
-                startingPosition: patrolPath.First().TopLeftPosition,
+                startingPosition: patrolPath.First().CenterPosition,
                 characterTorchConfiguration: new CharacterTorchConfiguration(
                     firstTorchColor: gameConfig.SkeletronLightColorRGB1,
                     secondTorchColor: gameConfig.SkeletronLightColorRGB2,
