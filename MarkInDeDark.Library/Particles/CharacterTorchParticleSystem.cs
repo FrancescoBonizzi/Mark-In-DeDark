@@ -8,7 +8,8 @@ namespace MarkInDeDark.Library.Particles
     {
         public CharacterTorchParticleSystem(
             AssetsLoader assetsLoader,
-            Color color)
+            Color primaryColor,
+            Color secondaryColor)
             : base(
                   assetsLoader.Sprites["generic_spark"],
                   density: 1,
@@ -27,7 +28,8 @@ namespace MarkInDeDark.Library.Particles
                   minSpawnAngle: -264f,
                   maxSpawnAngle: -300f)
         {
-            ParticleOverlayColor = color;
+            PrimaryParticleOverlayColor = primaryColor;
+            SecondaryParticleOverlayColor = secondaryColor;
         }
     }
 }

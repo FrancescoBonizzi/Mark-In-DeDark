@@ -25,7 +25,8 @@ namespace MarkInDeDark.Library.Particles
                   minSpawnAngle: -264f,
                   maxSpawnAngle: -300f)
         {
-            ParticleOverlayColor = new Color(255, 204, 0);
+            PrimaryParticleOverlayColor = new Color(255, 204, 0);
+            SecondaryParticleOverlayColor = new Color(255, 84, 0);
         }
     }
 }

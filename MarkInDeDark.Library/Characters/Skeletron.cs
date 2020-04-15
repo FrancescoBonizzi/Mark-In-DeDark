@@ -53,7 +53,10 @@ namespace MarkInDeDark.Library.Characters
             assetsLoader,
             game)
         {
-            _skeletonLightParticleSystem = new CharacterTorchParticleSystem(assetsLoader, gameConfig.SkeletronLightColorRGB1);
+            _skeletonLightParticleSystem = new CharacterTorchParticleSystem(
+                assetsLoader, 
+                gameConfig.SkeletronLightColorRGB1,
+                gameConfig.SkeletronLightColorRGB2);
         }
 
         public override void Update(TimeSpan elapsed)

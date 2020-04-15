@@ -450,9 +450,9 @@ namespace MarkInDeDark.Library
             foreach (var enemy in _enemies)
             {
                 if (!enemy.IsDead)
-                {
                     enemy.Update(elapsed);
-                }
+                else
+                    enemy.UpdateAfterDeath(elapsed);
             }
         }
 

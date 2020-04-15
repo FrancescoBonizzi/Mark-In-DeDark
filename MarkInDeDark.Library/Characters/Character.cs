@@ -1,5 +1,4 @@
 ﻿using FbonizziMonoGame.Drawing;
-using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
@@ -101,10 +100,13 @@ namespace MarkInDeDark.Library.Characters
         public AnimationsManager ShadowsAnimationManager { get; }
 
         private CharacterFallingInTrapAnimation _characterFallingATrapAnimation;
+        private Vector2? _deadPosition;
 
         public float CurrentZIndex => MainFigureDrawingInfos.LayerDepth;
 
         public bool DontPlayDefaultAnimations { get; set; } = false;
+
+        private readonly CharacterTorchParticleSystem _dieTorchEffect;
 
         public Character(
             GameGrid grid,
@@ -182,6 +184,10 @@ namespace MarkInDeDark.Library.Characters
                 _lightMap.SetPosition(MainFigureDrawingInfos.Position);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
+                _dieTorchEffect = new CharacterTorchParticleSystem(
+                    assetsLoader, 
+                    configuration.CharacterTorchConfiguration.FirstTorchColor,
+                    configuration.CharacterTorchConfiguration.SecondTorchColor);
             }
 
             _bloodEffect = new BloodParticleSystem(assetsLoader);
@@ -232,6 +238,7 @@ namespace MarkInDeDark.Library.Characters
 
         public void DieForTrap(Vector2 trapCenter)
         {
+            _deadPosition = trapCenter;
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
@@ -670,6 +677,13 @@ namespace MarkInDeDark.Library.Characters
                 RecalculateZIndex();
         }
 
+        public void UpdateAfterDeath(TimeSpan elapsed)
+        {
+            _torch?.Update(elapsed);
+            _dieTorchEffect?.AddParticles(_deadPosition ?? WorldCenter);
+            _dieTorchEffect?.Update(elapsed);
+        }
+
         private void RecalculateZIndex()
         {
             MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
@@ -723,6 +737,10 @@ namespace MarkInDeDark.Library.Characters
             if (CurrentCharacterState == CharacterState.Dying)
             {
                 _bloodEffect.Draw(spriteBatch);
+            }
+            else if (CurrentCharacterState == CharacterState.Dead)
+            {
+                _dieTorchEffect?.Draw(spriteBatch);
             }
         }
 

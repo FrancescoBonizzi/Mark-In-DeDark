@@ -54,7 +54,10 @@ namespace MarkInDeDark.Library.Characters
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
 
-            _goblinLightParticleSystem = new CharacterTorchParticleSystem(assetsLoader, gameConfig.GoblinLightColorRGB1);
+            _goblinLightParticleSystem = new CharacterTorchParticleSystem(
+                assetsLoader, 
+                gameConfig.GoblinLightColorRGB1,
+                gameConfig.GoblinLightColorRGB2);
         }
 
         public override void Update(TimeSpan elapsed)
