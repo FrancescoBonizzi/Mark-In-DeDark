@@ -197,6 +197,7 @@ namespace MarkInDeDarkMono
                 LoadGameAssets,
                 Content,
                 "Backgrounds/splashscreen");
+            _splashScreenAssetsLoader.MininumSplashScreenDuration = TimeSpan.FromSeconds(2);
             _splashScreenAssetsLoader.Load();
 
             _splashScreenAssetsLoader.Completed += SplashScreenAssetsLoader_Completed;

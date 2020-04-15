@@ -9,8 +9,8 @@
     <ProjectGuid>{2B05F429-AD01-4B14-94A5-EF3F03133454}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MarkInDeDarkMono.Windows</RootNamespace>
-    <AssemblyName>MarkInDeDarkMono.Windows</AssemblyName>
+    <RootNamespace>MarkInDeDark.Windows</RootNamespace>
+    <AssemblyName>MarkInDeDark.Windows</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -67,7 +67,7 @@
     <ManifestCertificateThumbprint>F56EAD3C1DDBDE284BCC564CC00BA7608482762C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>MarkInDeDarkMono.Windows_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>MarkInDeDark.Windows_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -354,7 +354,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <None Include="MarkInDeDarkMono.Windows_TemporaryKey.pfx" />
+    <None Include="MarkInDeDark.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/Users/Francesco/Source/Repos/Mark-In-DeDark/MarkInDeDarkMono.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
+        <string>C:/Users/Francesco/Source/Repos/Mark-In-DeDark/MarkInDeDark.Windows/MarkInDeDarkMono/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">

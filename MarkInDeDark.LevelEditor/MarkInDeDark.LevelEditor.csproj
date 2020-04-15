@@ -62,7 +62,7 @@
     <ManifestCertificateThumbprint>F56EAD3C1DDBDE284BCC564CC00BA7608482762C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>MarkInDeDarkMono.Windows_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>MarkInDeDark.Windows_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -209,7 +209,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="MarkInDeDarkMono.Windows_TemporaryKey.pfx" />
+    <None Include="MarkInDeDark.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
