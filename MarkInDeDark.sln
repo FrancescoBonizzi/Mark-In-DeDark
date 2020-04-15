@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.GameGrid", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.LevelEditor", "MarkInDeDark.LevelEditor\MarkInDeDark.LevelEditor.csproj", "{2772D3BB-B000-4C4D-AD46-ADD30293CCE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDarkMono.Windows", "MarkInDeDark.Windows\MarkInDeDarkMono.Windows.csproj", "{2B05F429-AD01-4B14-94A5-EF3F03133454}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.Windows", "MarkInDeDark.Windows\MarkInDeDark.Windows.csproj", "{2B05F429-AD01-4B14-94A5-EF3F03133454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
