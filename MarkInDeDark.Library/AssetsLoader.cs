@@ -272,12 +272,12 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"TorchCharacterWhileIdleDownShadow", $"Shadows/TorchCharacter/shadow_front_iddle", true);
                 LoadCharacterAnimation($"TorchCharacterWhileIdleSideShadow", $"Shadows/TorchCharacter/shadow_side_iddle", true);
 
-                LoadCharacterAnimation($"GenericCharacterWhileWalkingUpShadow", $"Shadows/TorchCharacter/shadow", true);
-                LoadCharacterAnimation($"GenericCharacterWhileWalkingDownShadow", $"Shadows/TorchCharacter/shadow", true);
-                LoadCharacterAnimation($"GenericCharacterWhileWalkingSideShadow", $"Shadows/TorchCharacter/shadow", true);
-                LoadCharacterAnimation($"GenericCharacterWhileIdleUpShadow", $"Shadows/TorchCharacter/shadow", true);
-                LoadCharacterAnimation($"GenericCharacterWhileIdleDownShadow", $"Shadows/TorchCharacter/shadow", true);
-                LoadCharacterAnimation($"GenericCharacterWhileIdleSideShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingUpShadow", $"Shadows/Generic/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingDownShadow", $"Shadows/Generic/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingSideShadow", $"Shadows/Generic/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleUpShadow", $"Shadows/Generic/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleDownShadow", $"Shadows/Generic/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleSideShadow", $"Shadows/Generic/shadow", true);
             }
         }
 

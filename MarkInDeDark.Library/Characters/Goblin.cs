@@ -37,8 +37,7 @@ namespace MarkInDeDark.Library.Characters
                           torchPositionTraslationRight: new Vector2(-5, 5),
                           torchPositionTraslationDown: new Vector2(-33, 5),
                           assetsLoader: assetsLoader),
-                      gameConfig.GoblinSpeed,
-                      withShadowAnimation: true),
+                      gameConfig.GoblinSpeed),
                   new EnemyConfiguration(
                       assetsLoader,
                       "goblin",

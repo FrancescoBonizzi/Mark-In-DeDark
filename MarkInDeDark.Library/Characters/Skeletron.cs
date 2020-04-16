@@ -40,8 +40,7 @@ namespace MarkInDeDark.Library.Characters
                     torchPositionTraslationRight: new Vector2(30, -5),
                     torchPositionTraslationDown: new Vector2(35, 0),
                     assetsLoader: assetsLoader),
-                movementSpeed: gameConfig.SkeletronSpeed,
-                withShadowAnimation: true),
+                movementSpeed: gameConfig.SkeletronSpeed),
             new EnemyConfiguration(
                 assetsLoader: assetsLoader,
                 enemyName: "skeleton",

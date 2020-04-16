@@ -33,8 +33,7 @@ namespace MarkInDeDark.Library.Characters
             Vector2 startingPosition,
             CharacterTorchConfiguration characterTorchConfiguration,
             float movementSpeed,
-            bool withDieAnimation = true,
-            bool withShadowAnimation = false)
+            bool withDieAnimation = true)
         {
             if (withDieAnimation)
             {
@@ -48,19 +47,16 @@ namespace MarkInDeDark.Library.Characters
             WalkSideAnimation = assetsLoader.GetAnimation($"{characterName}WalkSide");
             WalkUpAnimation = assetsLoader.GetAnimation($"{characterName}WalkUp");
 
-            if (withShadowAnimation)
-            {
-                var shadowName = "GenericCharacter";
-                if (characterName == "goblin" || characterName == "skeleton" || characterName == "player")
-                    shadowName = "TorchCharacter";
+            var shadowName = "GenericCharacter";
+            if (characterName == "goblin" || characterName == "skeleton" || characterName == "player")
+                shadowName = "TorchCharacter";
 
-                ShadowWhileWalkingUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingUpShadow");
-                ShadowWhileWalkingDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingDownShadow");
-                ShadowWhileWalkingSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingSideShadow");
-                ShadowWhileIdleUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleUpShadow");
-                ShadowWhileIdleDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleDownShadow");
-                ShadowWhileIdleSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleSideShadow");
-            }
+            ShadowWhileWalkingUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingUpShadow");
+            ShadowWhileWalkingDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingDownShadow");
+            ShadowWhileWalkingSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingSideShadow");
+            ShadowWhileIdleUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleUpShadow");
+            ShadowWhileIdleDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleDownShadow");
+            ShadowWhileIdleSideAnimation = assetsLoader.GetAnimation($"{shadowName}WhileIdleSideShadow");
 
             StartingPosition = startingPosition;
             MovementSpeed = movementSpeed;

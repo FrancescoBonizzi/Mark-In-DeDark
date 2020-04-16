@@ -48,8 +48,7 @@ namespace MarkInDeDark.Library.Characters
                             torchPositionTraslationRight: new Vector2(38, -38),
                             torchPositionTraslationDown: new Vector2(35, -30),
                             assetsLoader: assetsLoader),
-                        movementSpeed: gameConfig.PlayerSpeed,
-                        withShadowAnimation: true),
+                        movementSpeed: gameConfig.PlayerSpeed),
                     game)
         {
             _soundManager = soundManager;
