@@ -110,7 +110,7 @@ namespace MarkInDeDark.LevelEditor
         {
             if (!CanOverwriteCurrentMap())
                 return;
-               
+
             var openFileDialog = new OpenFileDialog
             {
                 Multiselect = false,
@@ -131,7 +131,7 @@ namespace MarkInDeDark.LevelEditor
                     var levelContent = File.ReadAllText(openFileDialog.FileName);
                     var gameGridSerializerManager = new GameGridDeserializerManager(levelContent);
                     _gameGrid = gameGridSerializerManager.DeserializeLevel();
-                    
+
                     _presentation = new WpfCanvasEditorPresentation(
                         this,
                         _gameGrid,
@@ -140,7 +140,7 @@ namespace MarkInDeDark.LevelEditor
                         _traslationManager);
 
                     Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
-                    
+
                     // Lo riserializzo così se c'è un cambio di versione del serializzatore l'utente non se ne accorge
                     _currentLevelSerializedLastSave = SerializeLevel();
                 }
@@ -426,10 +426,7 @@ namespace MarkInDeDark.LevelEditor
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MessageBox.Show(
-               messageBoxText: "Se non hai salvato, perderai le modifiche. Chiudere comunque?",
-               caption: "Chiusura applicazione",
-               button: MessageBoxButton.YesNo, icon: MessageBoxImage.Question) == MessageBoxResult.No)
+            if (CanOverwriteCurrentMap())
             {
                 e.Cancel = true;
             }
