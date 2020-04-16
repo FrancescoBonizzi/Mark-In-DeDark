@@ -13,11 +13,8 @@ namespace MarkInDeDark.Library.AI
     {
         private readonly IEnemyAI _previousAI;
         private readonly CharacterActions[] _possibleActions;
-        private readonly GameGrid _gameGrid;
 
-        public RandomMovementAI(
-            IEnemyAI previousAI,
-            GameGrid gameGrid)
+        public RandomMovementAI(IEnemyAI previousAI)
         {
             _previousAI = previousAI;
             _possibleActions = new CharacterActions[]
@@ -27,7 +24,6 @@ namespace MarkInDeDark.Library.AI
                 CharacterActions.Left,
                 CharacterActions.Right
             };
-            _gameGrid = gameGrid;
         }
 
         public CharacterActions Update(Enemy character, TimeSpan elapsed)

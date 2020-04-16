@@ -50,9 +50,9 @@ namespace MarkInDeDark.Library.Characters
 
             if (withShadowAnimation)
             {
-                var shadowName = characterName;
-                if (characterName == "goblin" || characterName == "skeleton")
-                    shadowName = "player";
+                var shadowName = "GenericCharacter";
+                if (characterName == "goblin" || characterName == "skeleton" || characterName == "player")
+                    shadowName = "TorchCharacter";
 
                 ShadowWhileWalkingUpAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingUpShadow");
                 ShadowWhileWalkingDownAnimation = assetsLoader.GetAnimation($"{shadowName}WhileWalkingDownShadow");

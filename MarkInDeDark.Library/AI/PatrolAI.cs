@@ -82,7 +82,7 @@ namespace MarkInDeDark.Library.AI
             // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
             if (!(character.CurrentAI is RandomMovementAI))
             {
-                character.SetNewAI(new RandomMovementAI(this, _gameGrid));
+                character.SetNewAI(new RandomMovementAI(this));
                 return character.CurrentAI.Update(character, elapsed);
             }
 

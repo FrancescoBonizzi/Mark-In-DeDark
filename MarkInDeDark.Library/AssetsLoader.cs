@@ -191,7 +191,6 @@ namespace MarkInDeDark.Library
 
             void LoadCharacterAnimations(string characterName)
             {
-                
                 var folderName = char.ToUpper(characterName[0]) + characterName.Substring(1);
                 LoadCharacterAnimation($"{characterName}WalkUp", $"{folderName}/{characterName}_back_walking", true);
                 LoadCharacterAnimation($"{characterName}WalkDown", $"{folderName}/{characterName}_front_walking", true);
@@ -204,13 +203,6 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"{characterName}AttackDown", $"{folderName}/{characterName}_front_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackLeft", $"{folderName}/{characterName}_side_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackRight", $"{folderName}/{characterName}_side_attack", true);
-
-                LoadCharacterAnimation($"{characterName}WhileWalkingUpShadow", $"{folderName}/{characterName}_back_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileWalkingDownShadow", $"{folderName}/{characterName}_front_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileWalkingSideShadow", $"{folderName}/{characterName}_side_walking_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleUpShadow", $"{folderName}/{characterName}_back_iddle_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleDownShadow", $"{folderName}/{characterName}_front_iddle_shadow", true);
-                LoadCharacterAnimation($"{characterName}WhileIdleSideShadow", $"{folderName}/{characterName}_side_iddle_shadow", true);
             }
 
             LoadCharacterAnimations(characterName: "player");
@@ -228,6 +220,8 @@ namespace MarkInDeDark.Library
             LoadCharacterAnimation("TaurusChargeSide", "Taurus/taurus_side_charge", true);
             LoadCharacterAnimation("TaurusChargeFront", "Taurus/taurus_front_charge", true);
             LoadCharacterAnimation("TaurusChargeBack", "Taurus/taurus_back_charge", true);
+
+            // TODO: tutte queste diventano LoadCharacterAnimation, basta passare poi anche i MS
 
             // Candle
             {
@@ -267,6 +261,23 @@ namespace MarkInDeDark.Library
                 var doorClosingAnimation = new List<Sprite>(doorOpeningAnimation);
                 doorClosingAnimation.Reverse();
                 _animations["DoorClose"] = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
+            }
+
+            // Shadows
+            {
+                LoadCharacterAnimation($"TorchCharacterWhileWalkingUpShadow", $"Shadows/TorchCharacter/shadow_back_walking", true);
+                LoadCharacterAnimation($"TorchCharacterWhileWalkingDownShadow", $"Shadows/TorchCharacter/shadow_front_walking", true);
+                LoadCharacterAnimation($"TorchCharacterWhileWalkingSideShadow", $"Shadows/TorchCharacter/shadow_side_walking", true);
+                LoadCharacterAnimation($"TorchCharacterWhileIdleUpShadow", $"Shadows/TorchCharacter/shadow_back_iddle", true);
+                LoadCharacterAnimation($"TorchCharacterWhileIdleDownShadow", $"Shadows/TorchCharacter/shadow_front_iddle", true);
+                LoadCharacterAnimation($"TorchCharacterWhileIdleSideShadow", $"Shadows/TorchCharacter/shadow_side_iddle", true);
+
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingUpShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingDownShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileWalkingSideShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleUpShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleDownShadow", $"Shadows/TorchCharacter/shadow", true);
+                LoadCharacterAnimation($"GenericCharacterWhileIdleSideShadow", $"Shadows/TorchCharacter/shadow", true);
             }
         }
 
