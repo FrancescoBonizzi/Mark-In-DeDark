@@ -462,6 +462,7 @@
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_1.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_2.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_3.png</key>
