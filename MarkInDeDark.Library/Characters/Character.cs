@@ -92,6 +92,11 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _torchPositionTraslationDown;
 
         private Vector2 _shadowPositionTraslation;
+        private Vector2 _shadowPositionTraslationUp;
+        private Vector2 _shadowPositionTraslationLeft;
+        private Vector2 _shadowPositionTraslationRight;
+        private Vector2 _shadowPositionTraslationDown;
+        private Vector2 _shadowPositionTraslationDownIdle;
 
         private CharacterActions? _nextActionToProcess;
         private readonly BloodParticleSystem _bloodEffect;
@@ -148,17 +153,23 @@ namespace MarkInDeDark.Library.Characters
             CurrentCharacterState = CharacterState.IdleDown;
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
 
-            if (configuration.ShadowWhileWalkingDownAnimation != null)
+            if (configuration.CharacterShadowConfiguration != null)
             {
                 ShadowsAnimationManager = new AnimationsManager()
-                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingUp.ToString(), configuration.ShadowWhileWalkingUpAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingDown.ToString(), configuration.ShadowWhileWalkingDownAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingRight.ToString(), configuration.ShadowWhileWalkingSideAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingLeft.ToString(), configuration.ShadowWhileWalkingSideAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString(), configuration.ShadowWhileIdleUpAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString(), configuration.ShadowWhileIdleDownAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString(), configuration.ShadowWhileIdleSideAnimation)
-                    .AddAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString(), configuration.ShadowWhileIdleSideAnimation);
+                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingUp.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileWalkingUpAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingDown.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileWalkingDownAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingRight.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileWalkingSideAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileWalkingLeft.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileWalkingSideAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileIdleUpAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileIdleDownAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileIdleSideAnimation)
+                    .AddAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString(), configuration.CharacterShadowConfiguration.ShadowWhileIdleSideAnimation);
+
+                _shadowPositionTraslationDown = configuration.CharacterShadowConfiguration.ShadowPositionTraslationDown;
+                _shadowPositionTraslationLeft = configuration.CharacterShadowConfiguration.ShadowPositionTraslationLeft;
+                _shadowPositionTraslationRight = configuration.CharacterShadowConfiguration.ShadowPositionTraslationRight;
+                _shadowPositionTraslationUp = configuration.CharacterShadowConfiguration.ShadowPositionTraslationUp;
+                _shadowPositionTraslationDownIdle = configuration.CharacterShadowConfiguration.ShadowPositionTraslationDownIdle;
 
                 _shadowsDrawingInfos = new DrawingInfos();
                 PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
@@ -299,53 +310,48 @@ namespace MarkInDeDark.Library.Characters
                 return;
 
             ShadowsAnimationManager.PlayAnimation(shadowsAnimationName.ToString());
-
-            var traslationUpRight = new Vector2(-32, 0);
-            var traslationUpRightFlipped = new Vector2(32, 0);
-            var traslationUpLeft = new Vector2(32, 32);
-
             _shadowsDrawingInfos.Origin = ShadowsAnimationManager.CurrentAnimation.FirstFrameSprite.SpriteCenter;
 
             switch (shadowsAnimationName)
             {
                 case ShadowsAnimationsNames.WhileWalkingUp:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpLeft;
+                    _shadowPositionTraslation = _shadowPositionTraslationUp;
                     break;
 
                 case ShadowsAnimationsNames.WhileWalkingDown:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = new Vector2(-8, 0);
+                    _shadowPositionTraslation = _shadowPositionTraslationDown;
                     break;
 
                 case ShadowsAnimationsNames.WhileWalkingLeft:
                     _shadowsDrawingInfos.IsFlipped = true;
-                    _shadowPositionTraslation = traslationUpRightFlipped;
+                    _shadowPositionTraslation = _shadowPositionTraslationLeft;
                     break;
 
                 case ShadowsAnimationsNames.WhileWalkingRight:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpRight;
+                    _shadowPositionTraslation = _shadowPositionTraslationRight;
                     break;
 
                 case ShadowsAnimationsNames.WhileIdleUp:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpLeft;
+                    _shadowPositionTraslation = _shadowPositionTraslationUp;
                     break;
 
                 case ShadowsAnimationsNames.WhileIdleDown:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpRight;
+                    _shadowPositionTraslation = _shadowPositionTraslationDownIdle;
                     break;
 
                 case ShadowsAnimationsNames.WhileIdleLeft:
                     _shadowsDrawingInfos.IsFlipped = true;
-                    _shadowPositionTraslation = traslationUpRightFlipped;
+                    _shadowPositionTraslation = _shadowPositionTraslationLeft;
                     break;
 
                 case ShadowsAnimationsNames.WhileIdleRight:
                     _shadowsDrawingInfos.IsFlipped = false;
-                    _shadowPositionTraslation = traslationUpRight;
+                    _shadowPositionTraslation = _shadowPositionTraslationRight;
                     break;
 
                 case ShadowsAnimationsNames.WhileDead:
