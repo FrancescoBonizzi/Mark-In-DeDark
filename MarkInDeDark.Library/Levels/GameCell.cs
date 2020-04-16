@@ -49,9 +49,10 @@ namespace MarkInDeDark.Library.Levels
         public Dictionary<LinkDirection, GameCell> Links { get; }
         public Dictionary<LinkDirection, Door> Doors { get; }
 
-        public bool IsNonLinked { get; set; }
+        public bool IsUnLinked { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
         public bool IsUnwalkable { get; set; }
+        public bool IsSpecialWallCell { get; set; }
         public bool DontDraw { get; set; }
         public int IIndex { get; }
         public int JIndex { get; }
@@ -108,7 +109,7 @@ namespace MarkInDeDark.Library.Levels
             _wallDoorDown = wallDoorDown;
             _wallDoorUp = wallDoorUp;
 
-            IsNonLinked = false;
+            IsUnLinked = false;
             IsUnwalkableForEnemies = false;
             IsUnwalkable = false;
 
@@ -169,6 +170,15 @@ namespace MarkInDeDark.Library.Levels
             IsEastDestroyable = false;
             IsSouthDestroyable = false;
             IsWestDestroyable = false;
+        }
+
+        public void SetSpecialWallCell()
+        {
+            IsSpecialWallCell = true;
+            _cellDrawingInfos.LayerDepth = ZIndexCalculator.ForSpecialExternalWall(
+                _cellDrawingInfos.Position);
+            _cellDrawingInfos.Origin += new Vector2(0f, +28);
+            IsUnLinked = true;
         }
 
         public GameCell NorthCell
@@ -336,6 +346,9 @@ namespace MarkInDeDark.Library.Levels
 
         public void ApplyBloodDecal(CellRelativePosition cellRelativePosition)
         {
+            if (IsSpecialWallCell)
+                return;
+
             if (NoDecals)
                 return;
 

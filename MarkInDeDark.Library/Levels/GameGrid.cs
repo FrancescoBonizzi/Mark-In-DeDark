@@ -129,7 +129,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsUnLinked && !cellAfterWall.IsUnwalkable)
                     {
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.NorthLink, breakerPosition);
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.SouthLink, breakerPosition);
@@ -150,7 +150,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsUnLinked && !cellAfterWall.IsUnwalkable)
                     {
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.SouthLink, breakerPosition);
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.NorthLink, breakerPosition);
@@ -170,7 +170,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsUnLinked && !cellAfterWall.IsUnwalkable)
                     {
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.EastLink, breakerPosition);
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.WestLink, breakerPosition);
@@ -190,7 +190,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheWallCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterWall = GetCellByIndex((int)afterTheWallCellIndexes.X, (int)afterTheWallCellIndexes.Y);
 
-                    if (cellAfterWall != null && !cellAfterWall.IsNonLinked && !cellAfterWall.IsUnwalkable)
+                    if (cellAfterWall != null && !cellAfterWall.IsUnLinked && !cellAfterWall.IsUnwalkable)
                     {
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cell.BreakWall(LinkDirection.WestLink, breakerPosition);
                         effectivelyBrokeTheWall = effectivelyBrokeTheWall || cellAfterWall.BreakWall(LinkDirection.EastLink, breakerPosition); // Potrebbe essere il muro dell'altra cella
@@ -262,7 +262,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.NorthLink);
@@ -279,7 +279,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.SouthLink);
@@ -295,7 +295,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.EastLink);
@@ -311,7 +311,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Open();
                         cell.AddLink(cellAfterDoor, LinkDirection.WestLink);
@@ -337,7 +337,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y - 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.NorthLink);
@@ -354,7 +354,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X, thisCellIndexes.Y + 1);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.SouthLink);
@@ -370,7 +370,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X + 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.EastLink);
@@ -386,7 +386,7 @@ namespace MarkInDeDark.Library.Levels
                     afterTheDoorCellIndexes = new Vector2(thisCellIndexes.X - 1, thisCellIndexes.Y);
                     cellAfterDoor = GetCellByIndex((int)afterTheDoorCellIndexes.X, (int)afterTheDoorCellIndexes.Y);
 
-                    if (cellAfterDoor != null && !cellAfterDoor.IsNonLinked && !cellAfterDoor.IsUnwalkable)
+                    if (cellAfterDoor != null && !cellAfterDoor.IsUnLinked && !cellAfterDoor.IsUnwalkable)
                     {
                         door.Close();
                         cell.Links.Remove(LinkDirection.WestLink);

@@ -14,6 +14,7 @@ namespace MarkInDeDark.GameGridCommon
         TrappolaTemporizzata = 4,
         TriggerGoblin = 5,
         Terra2 = 6,
-        Buio = 7
+        Buio = 7,
+        CellaMuroSpeciale = 8
     }
 }

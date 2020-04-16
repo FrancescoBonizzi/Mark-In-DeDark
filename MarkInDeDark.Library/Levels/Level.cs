@@ -25,6 +25,7 @@ namespace MarkInDeDark.Library.Levels
         public Sprite AngleSprite { get; private set; }
         public Sprite WallDoorDownSprite { get; private set; }
         public Sprite WallDoorUpSprite { get; private set; }
+        public Sprite SpecialWallSprite { get; private set; }
         public double DirtyProbability { get; private set; }
 
         public GameGridBundle LevelEditorDeserializedGrid { get; }
@@ -58,6 +59,7 @@ namespace MarkInDeDark.Library.Levels
             AngleSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];
             WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorUpSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
+            SpecialWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;

@@ -224,6 +224,26 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnGroundType_Ground8"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="8"
+                        ToolTip="Disegna una cella con un muro speciale esterno">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="Navy" />
+                            <TextBlock Padding="2,2" Text="Muro speciale" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"

@@ -46,6 +46,9 @@ namespace MarkInDeDark.Library.Extensions
         public static float ForDoorArc(Vector2 position)
             => 1f;
 
+        public static float ForSpecialExternalWall(Vector2 position)
+            => CalculateDependingOnHeight(position.Y) + 0.00099f;
+
         public static float ForGenericObject(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y));
 

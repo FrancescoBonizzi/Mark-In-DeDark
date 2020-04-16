@@ -22,6 +22,9 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case GroundTypes.Terra2:
                     return new SolidColorBrush(Colors.SandyBrown);
 
+                case GroundTypes.CellaMuroSpeciale:
+                    return new SolidColorBrush(Colors.Navy);
+
                 case GroundTypes.TrappolaMorteIstantanea:
                     return new SolidColorBrush(Colors.Fuchsia);
 

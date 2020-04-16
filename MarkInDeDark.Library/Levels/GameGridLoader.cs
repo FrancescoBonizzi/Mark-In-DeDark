@@ -20,7 +20,7 @@ namespace MarkInDeDark.Library.Levels
             Level level,
             GameConfig gameConfig)
         {
-            GameGridCleaner.CleanUpGameGridBundle(levelEditorGrid);
+           // GameGridCleaner.CleanUpGameGridBundle(levelEditorGrid);
 
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -47,7 +47,7 @@ namespace MarkInDeDark.Library.Levels
 
                         case GroundTypes.Buio:
                             gameCell.Sprite = level.DarkSprite;
-                            gameCell.IsNonLinked = true;
+                            gameCell.IsUnLinked = true;
                             gameCell.NoDecals = true;
                             break;
 
@@ -56,9 +56,12 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.Terra2:
-                            if (level.GroundSpriteType2 != null)
-                                gameCell.Sprite = level.GroundSpriteType2;
-                            else gameCell.Sprite = level.GroundSpriteType1;
+                            gameCell.Sprite = level.GroundSpriteType1;
+                            break;
+
+                        case GroundTypes.CellaMuroSpeciale:
+                            gameCell.Sprite = level.SpecialWallSprite;
+                            gameCell.SetSpecialWallCell();
                             break;
 
                         case GroundTypes.TrappolaMorteIstantanea:
@@ -333,7 +336,7 @@ namespace MarkInDeDark.Library.Levels
                 {
                     var cell = grid.GetCellByIndex(i, j);
 
-                    if (cell == null || cell.IsNonLinked)
+                    if (cell == null || cell.IsUnLinked)
                         continue;
 
                     // Non può andare out of range l'indice perchè se è passable l'altra è nella griglia
@@ -341,7 +344,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var northCell = grid.GetCellByIndex(i, j - 1);
-                        if (northCell.IsNonLinked || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
+                        if (northCell.IsUnLinked || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.NorthLink);
                             cell.IsNorthPassable = false;
@@ -365,7 +368,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var eastCell = grid.GetCellByIndex(i + 1, j);
-                        if (eastCell.IsNonLinked || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
+                        if (eastCell.IsUnLinked || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.EastLink);
                             cell.IsEastPassable = false;
@@ -388,7 +391,7 @@ namespace MarkInDeDark.Library.Levels
                     if (cell.IsSouthPassable)
                     {
                         var southCell = grid.GetCellByIndex(i, j + 1);
-                        if (southCell.IsNonLinked || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
+                        if (southCell.IsUnLinked || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.SouthLink);
                             cell.IsSouthPassable = false;
@@ -411,7 +414,7 @@ namespace MarkInDeDark.Library.Levels
                     if (cell.IsWestPassable)
                     {
                         var westCell = grid.GetCellByIndex(i - 1, j);
-                        if (westCell.IsNonLinked || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
+                        if (westCell.IsUnLinked || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.WestLink);
                             cell.IsWestPassable = false;
@@ -436,15 +439,13 @@ namespace MarkInDeDark.Library.Levels
 
         private static void GenerateAngles(GameGrid grid)
         {
-            // TODO è tutto da rifare, bisogna farlo in base ai muri, non alle celle non passabili
-
             for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
             {
                 for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
                 {
                     var cell = grid.GetCellByIndex(i, j);
 
-                    if (cell == null || cell.IsNonLinked)
+                    if (cell == null || cell.IsUnLinked)
                         continue;
 
                     cell.SetSimplePillars();
