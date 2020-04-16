@@ -78,6 +78,14 @@ namespace MarkInDeDark.Library.AI
                 return _currentActions.Dequeue();
             }
 
+            // Se non ci sono azioni, e non sono già in modalità RandomMovementAI 
+            // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
+            if (!(character.CurrentAI is RandomMovementAI))
+            {
+                character.SetNewAI(new RandomMovementAI(this, _gameGrid));
+                return character.CurrentAI.Update(character, elapsed);
+            }
+
             return CharacterActions.Idle;
         }
 

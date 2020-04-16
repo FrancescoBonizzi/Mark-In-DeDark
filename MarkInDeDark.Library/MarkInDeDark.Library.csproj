@@ -86,6 +86,7 @@
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
+    <Compile Include="AI\RandomMovementAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Characters\CharacterFallingInTrapAnimation.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />

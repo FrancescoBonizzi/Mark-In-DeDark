@@ -27,7 +27,7 @@ namespace MarkInDeDark.Library.AI
         }
 
         public virtual CharacterActions Update(
-            Enemy character, 
+            Enemy character,
             TimeSpan elapsed)
         {
             var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
@@ -39,12 +39,12 @@ namespace MarkInDeDark.Library.AI
             }
 
             var destination = _gameGrid.GetCellAtPixel(_player.Position);
-            
+
             if (_oldDestionation != destination || _currentActions == null || !_currentActions.Any())
             {
                 _oldDestionation = destination;
                 _currentActions = _gameGrid.FindActionsToPath(
-                    character.Position, 
+                    character.Position,
                     destination.TopLeftPosition).ToList();
             }
 
@@ -56,6 +56,14 @@ namespace MarkInDeDark.Library.AI
                     _currentActions.RemoveAt(0);
                     return nextAction;
                 }
+            }
+
+            // Se non ci sono azioni, e non sono già in modalità RandomMovementAI 
+            // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
+            if (!(character.CurrentAI is RandomMovementAI))
+            {
+                character.SetNewAI(new RandomMovementAI(this, _gameGrid));
+                return character.CurrentAI.Update(character, elapsed);
             }
 
             return CharacterActions.Idle;
