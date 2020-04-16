@@ -302,6 +302,10 @@
             <key type="filename">Game/Player/player_side_walking_2.png</key>
             <key type="filename">Game/Player/player_side_walking_3.png</key>
             <key type="filename">Game/Player/player_side_walking_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_walking_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_walking_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_walking_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_walking_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_attack_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_attack_2.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_iddle.png</key>
@@ -458,14 +462,18 @@
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Player/player_back_iddle_shadow_1.png</key>
-            <key type="filename">Game/Player/player_back_iddle_shadow_2.png</key>
-            <key type="filename">Game/Player/player_back_iddle_shadow_3.png</key>
-            <key type="filename">Game/Player/player_back_iddle_shadow_4.png</key>
-            <key type="filename">Game/Player/player_back_walking_shadow_1.png</key>
-            <key type="filename">Game/Player/player_back_walking_shadow_2.png</key>
-            <key type="filename">Game/Player/player_back_walking_shadow_3.png</key>
-            <key type="filename">Game/Player/player_back_walking_shadow_4.png</key>
+            <key type="filename">Game/Shadows/Generic/shadow_1.png</key>
+            <key type="filename">Game/Shadows/Generic/shadow_2.png</key>
+            <key type="filename">Game/Shadows/Generic/shadow_3.png</key>
+            <key type="filename">Game/Shadows/Generic/shadow_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_iddle_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_iddle_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_iddle_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_iddle_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_dying_3.png</key>
             <key type="filename">Game/TrapIstant/1.png</key>
             <key type="filename">Game/TrapIstant/10.png</key>
@@ -669,22 +677,18 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Player/player_front_iddle_shadow_1.png</key>
-            <key type="filename">Game/Player/player_front_iddle_shadow_2.png</key>
-            <key type="filename">Game/Player/player_front_iddle_shadow_3.png</key>
-            <key type="filename">Game/Player/player_front_iddle_shadow_4.png</key>
-            <key type="filename">Game/Player/player_front_walking_shadow_1.png</key>
-            <key type="filename">Game/Player/player_front_walking_shadow_2.png</key>
-            <key type="filename">Game/Player/player_front_walking_shadow_3.png</key>
-            <key type="filename">Game/Player/player_front_walking_shadow_4.png</key>
-            <key type="filename">Game/Player/player_side_iddle_shadow_1.png</key>
-            <key type="filename">Game/Player/player_side_iddle_shadow_2.png</key>
-            <key type="filename">Game/Player/player_side_iddle_shadow_3.png</key>
-            <key type="filename">Game/Player/player_side_iddle_shadow_4.png</key>
-            <key type="filename">Game/Player/player_side_walking_shadow_1.png</key>
-            <key type="filename">Game/Player/player_side_walking_shadow_2.png</key>
-            <key type="filename">Game/Player/player_side_walking_shadow_3.png</key>
-            <key type="filename">Game/Player/player_side_walking_shadow_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_iddle_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_iddle_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_iddle_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_iddle_4.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_walking_1.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_walking_2.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_walking_3.png</key>
+            <key type="filename">Game/Shadows/TorchCharacter/shadow_side_walking_4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
