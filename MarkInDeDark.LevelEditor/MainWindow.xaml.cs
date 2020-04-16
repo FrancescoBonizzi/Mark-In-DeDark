@@ -426,7 +426,7 @@ namespace MarkInDeDark.LevelEditor
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (CanOverwriteCurrentMap())
+            if (!CanOverwriteCurrentMap())
             {
                 e.Cancel = true;
             }
