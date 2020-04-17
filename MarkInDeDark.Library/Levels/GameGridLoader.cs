@@ -246,10 +246,6 @@ namespace MarkInDeDark.Library.Levels
                                     }
                                 }
                                 break;
-
-                            case ObjectTypes.Werewolf:
-                                grid.WerewolfStartingPosition = grid.GetPixelBy_ij(i, j);
-                                break;
                         }
                     }
 

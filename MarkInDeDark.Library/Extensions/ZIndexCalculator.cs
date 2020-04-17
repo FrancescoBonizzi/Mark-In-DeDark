@@ -93,10 +93,6 @@ namespace MarkInDeDark.Library.Extensions
                     startingZIndex += 0.00056f;
                     break;
 
-                case Werewolf _:
-                    startingZIndex += 0.00057f;
-                    break;
-
                 default:
                     throw new NotImplementedException($"Impostare un layer depth per questo personaggio: {character.GetType().Name}");
             }

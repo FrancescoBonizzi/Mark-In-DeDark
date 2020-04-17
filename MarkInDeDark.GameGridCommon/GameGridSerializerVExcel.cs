@@ -49,10 +49,6 @@ namespace MarkInDeDark.GameGridCommon
                 {
                     gameGrid.SetObjectType(j, i, ObjectTypes.Uscita);
                 }
-                else if (rigaParts[1].Contains("W"))
-                {
-                    gameGrid.SetObjectType(j, i, ObjectTypes.Werewolf);
-                }
                 else if (rigaParts[1].Contains("Z"))
                 {
                     gameGrid.SetObjectType(j, i, ObjectTypes.Zombie, rigaParts[1]);

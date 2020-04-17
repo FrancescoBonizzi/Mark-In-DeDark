@@ -207,7 +207,6 @@ namespace MarkInDeDark.Library
 
             LoadCharacterAnimations(characterName: "player");
             LoadCharacterAnimations(characterName: "goblin");
-            LoadCharacterAnimations(characterName: "werewolf");
             LoadCharacterAnimations(characterName: "skeleton");
             LoadCharacterAnimations(characterName: "zombie");
             LoadCharacterAnimations(characterName: "taurus");

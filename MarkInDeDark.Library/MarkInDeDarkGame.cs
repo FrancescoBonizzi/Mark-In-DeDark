@@ -184,11 +184,6 @@ namespace MarkInDeDark.Library
                 _enemies.Add(new Goblin(assetsLoader, _gameGrid.GoblinStartPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
             }
 
-            if (_gameGrid.WerewolfStartingPosition != null)
-            {
-                _enemies.Add(new Werewolf(assetsLoader, _gameGrid.WerewolfStartingPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
-            }
-
             if (_gameGrid.ZombiesPath != null)
             {
                 foreach (var zombiePath in _gameGrid.ZombiesPath)

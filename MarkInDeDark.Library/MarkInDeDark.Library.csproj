@@ -137,7 +137,6 @@
     <Compile Include="Characters\Enemy.cs" />
     <Compile Include="Characters\Goblin.cs" />
     <Compile Include="Characters\Skeletron.cs" />
-    <Compile Include="Characters\Werewolf.cs" />
     <Compile Include="Characters\Taurus.cs" />
     <Compile Include="Characters\Zombie.cs" />
     <Compile Include="Objects\Candle.cs" />
