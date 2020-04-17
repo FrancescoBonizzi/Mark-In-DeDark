@@ -13,126 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Soundtrack/accendi_fiamma.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/accendi_fiamma.wav
-
-#begin Soundtrack/attack1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/attack1.wav
-
-#begin Soundtrack/attack2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/attack2.wav
-
-#begin Soundtrack/attack3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/attack3.wav
-
-#begin Soundtrack/attack4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/attack4.wav
-
-#begin Soundtrack/blood.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/blood.wav
-
-#begin Soundtrack/candela.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/candela.wav
-
-#begin Soundtrack/fuoco.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/fuoco.wav
-
-#begin Soundtrack/goblin_voice.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/goblin_voice.wav
-
-#begin Soundtrack/key.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/key.wav
-
-#begin Soundtrack/player_walk.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/player_walk.wav
-
-#begin Soundtrack/skeletron_voice.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/skeletron_voice.wav
-
-#begin Soundtrack/wolf_voice.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/wolf_voice.wav
-
-#begin Soundtrack/zombie_voice.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/zombie_voice.wav
-
 #begin font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:font.spritefont
-
-#begin Soundtrack/ladder.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/ladder.wav
-
-#begin Soundtrack/fall.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/fall.wav
-
-#begin Soundtrack/taurus_starting_charge.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/taurus_starting_charge.wav
-
-#begin Soundtrack/break_wall.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/break_wall.wav
-
-#begin Soundtrack/patrol_seen_you.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Soundtrack/patrol_seen_you.wav
 
 #begin Backgrounds/levels.png
 /importer:TextureImporter

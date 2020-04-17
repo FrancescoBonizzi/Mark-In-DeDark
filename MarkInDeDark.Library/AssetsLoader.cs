@@ -128,25 +128,25 @@ namespace MarkInDeDark.Library
 
         private void LoadSounds()
         {
-            Sounds.Add("attack1", _contentManager.Load<SoundEffect>("Soundtrack/attack1"));
-            Sounds.Add("attack2", _contentManager.Load<SoundEffect>("Soundtrack/attack2"));
-            Sounds.Add("attack3", _contentManager.Load<SoundEffect>("Soundtrack/attack3"));
-            Sounds.Add("attack4", _contentManager.Load<SoundEffect>("Soundtrack/attack4"));
-            Sounds.Add("accendi_fiamma", _contentManager.Load<SoundEffect>("Soundtrack/accendi_fiamma"));
-            Sounds.Add("fuoco", _contentManager.Load<SoundEffect>("Soundtrack/fuoco"));
-            Sounds.Add("player_walk", _contentManager.Load<SoundEffect>("Soundtrack/player_walk"));
-            Sounds.Add("key", _contentManager.Load<SoundEffect>("Soundtrack/key"));
-            Sounds.Add("blood", _contentManager.Load<SoundEffect>("Soundtrack/blood"));
-            Sounds.Add("fall", _contentManager.Load<SoundEffect>("Soundtrack/fall"));
-            Sounds.Add("ladder", _contentManager.Load<SoundEffect>("Soundtrack/ladder"));
-            Sounds.Add("candela", _contentManager.Load<SoundEffect>("Soundtrack/candela"));
-            Sounds.Add("zombie_voice", _contentManager.Load<SoundEffect>("Soundtrack/zombie_voice"));
-            Sounds.Add("goblin_voice", _contentManager.Load<SoundEffect>("Soundtrack/goblin_voice"));
-            Sounds.Add("skeletron_voice", _contentManager.Load<SoundEffect>("Soundtrack/skeletron_voice"));
-            Sounds.Add("wolf_voice", _contentManager.Load<SoundEffect>("Soundtrack/wolf_voice"));
-            Sounds.Add("taurus_starting_charge", _contentManager.Load<SoundEffect>("Soundtrack/taurus_starting_charge"));
-            Sounds.Add("break_wall", _contentManager.Load<SoundEffect>("Soundtrack/break_wall"));
-            Sounds.Add("patrol_seen_you", _contentManager.Load<SoundEffect>("Soundtrack/patrol_seen_you"));
+            //Sounds.Add("attack1", _contentManager.Load<SoundEffect>("Soundtrack/attack1"));
+            //Sounds.Add("attack2", _contentManager.Load<SoundEffect>("Soundtrack/attack2"));
+            //Sounds.Add("attack3", _contentManager.Load<SoundEffect>("Soundtrack/attack3"));
+            //Sounds.Add("attack4", _contentManager.Load<SoundEffect>("Soundtrack/attack4"));
+            //Sounds.Add("accendi_fiamma", _contentManager.Load<SoundEffect>("Soundtrack/accendi_fiamma"));
+            //Sounds.Add("fuoco", _contentManager.Load<SoundEffect>("Soundtrack/fuoco"));
+            //Sounds.Add("player_walk", _contentManager.Load<SoundEffect>("Soundtrack/player_walk"));
+            //Sounds.Add("key", _contentManager.Load<SoundEffect>("Soundtrack/key"));
+            //Sounds.Add("blood", _contentManager.Load<SoundEffect>("Soundtrack/blood"));
+            //Sounds.Add("fall", _contentManager.Load<SoundEffect>("Soundtrack/fall"));
+            //Sounds.Add("ladder", _contentManager.Load<SoundEffect>("Soundtrack/ladder"));
+            //Sounds.Add("candela", _contentManager.Load<SoundEffect>("Soundtrack/candela"));
+            //Sounds.Add("zombie_voice", _contentManager.Load<SoundEffect>("Soundtrack/zombie_voice"));
+            //Sounds.Add("goblin_voice", _contentManager.Load<SoundEffect>("Soundtrack/goblin_voice"));
+            //Sounds.Add("skeletron_voice", _contentManager.Load<SoundEffect>("Soundtrack/skeletron_voice"));
+            //Sounds.Add("wolf_voice", _contentManager.Load<SoundEffect>("Soundtrack/wolf_voice"));
+            //Sounds.Add("taurus_starting_charge", _contentManager.Load<SoundEffect>("Soundtrack/taurus_starting_charge"));
+            //Sounds.Add("break_wall", _contentManager.Load<SoundEffect>("Soundtrack/break_wall"));
+            //Sounds.Add("patrol_seen_you", _contentManager.Load<SoundEffect>("Soundtrack/patrol_seen_you"));
         }
 
         private void AddSpritesFromDictionary(
