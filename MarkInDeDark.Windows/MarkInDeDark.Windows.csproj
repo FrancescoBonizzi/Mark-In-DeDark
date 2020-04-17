@@ -33,7 +33,7 @@
     <PublisherName>Francesco Bonizzi</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>67</ApplicationRevision>
+    <ApplicationRevision>68</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -124,54 +124,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Spritesheet-0.txt">
+    <Content Include="Assets\Spritesheet-0.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Spritesheet-1.txt">
+    </Content>
+    <Content Include="Assets\Spritesheet-1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Assets\font.xnb">
+    <Content Include="Assets\font.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\GameConfig.json">
+    </Content>
+    <Content Include="Assets\GameConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\levels.xnb">
+    </Content>
+    <Content Include="Assets\levels.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Levels\1 TUTORIAL.mark">
+    </Content>
+    <Content Include="Assets\Levels\1 TUTORIAL.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Levels\2 TUTORIAL.mark">
+    </Content>
+    <Content Include="Assets\Levels\2 TUTORIAL.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Levels\3 TUTORIAL.mark">
+    </Content>
+    <Content Include="Assets\Levels\3 TUTORIAL.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Levels\4 TUTORIAL.mark">
+    </Content>
+    <Content Include="Assets\Levels\4 TUTORIAL.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\menu.xnb">
+    </Content>
+    <Content Include="Assets\menu.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\splashscreen.xnb">
+    </Content>
+    <Content Include="Assets\splashscreen.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Spritesheet-0.xnb">
+    </Content>
+    <Content Include="Assets\Spritesheet-0.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Spritesheet-1.xnb">
+    </Content>
+    <Content Include="Assets\Spritesheet-1.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Translations.json">
+    </Content>
+    <Content Include="Assets\Translations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
