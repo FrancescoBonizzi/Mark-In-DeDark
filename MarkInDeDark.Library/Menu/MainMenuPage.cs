@@ -55,7 +55,7 @@ namespace MarkInDeDark.Library.Menu
             {
                 Position = new Vector2(336f, 600f),
                 Origin = _font.GetTextCenter(_playText),
-                OverlayColor = Color.Black
+                OverlayColor = Color.White
             };
             _playTextSize = _font.MeasureString(_playText);
 
