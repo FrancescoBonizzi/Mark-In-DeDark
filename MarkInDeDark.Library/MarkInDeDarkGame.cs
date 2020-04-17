@@ -590,15 +590,6 @@ namespace MarkInDeDark.Library
             foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
 
-            spriteBatch.End();
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
-            spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
-
-
-            // Disegno gli effetti in un layer separato sopra a tutto per semplicità
-            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             _candlesManager.DrawEffects(spriteBatch);
             _player.DrawEffects(spriteBatch);
             foreach (Enemy en in _enemies)
@@ -606,6 +597,16 @@ namespace MarkInDeDark.Library
             foreach (var littleLight in _gameGrid.LittleLights)
                 littleLight.DrawEffects(spriteBatch);
             _gameGrid.DrawEffects(spriteBatch);
+
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
+            spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            foreach (Enemy en in _enemies)
+                en.DrawEffectsOverDark(spriteBatch);
             spriteBatch.End();
                 
 

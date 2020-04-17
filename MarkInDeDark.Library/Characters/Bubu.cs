@@ -104,9 +104,9 @@ namespace MarkInDeDark.Library.Characters
             _rightEye.Update(elapsed);
         }
 
-        public override void DrawEffects(SpriteBatch spriteBatch)
+        public override void DrawEffectsOverDark(SpriteBatch spriteBatch)
         {
-            base.DrawEffects(spriteBatch);
+            base.DrawEffectsOverDark(spriteBatch);
             _leftEye.Draw(spriteBatch);
             _rightEye.Draw(spriteBatch);
         }

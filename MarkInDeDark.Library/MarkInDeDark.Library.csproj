@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FbonizziMonoGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FbonizziMonoGame.1.4.1\lib\net45\FbonizziMonoGame.dll</HintPath>
+      <HintPath>..\packages\FbonizziMonoGame.1.5.0\lib\net45\FbonizziMonoGame.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
@@ -144,7 +144,6 @@
     <Compile Include="Objects\CandlesManager.cs" />
     <Compile Include="Objects\CollectableObject.cs" />
     <Compile Include="Objects\Exit.cs" />
-    <Compile Include="Particles\BloodParticleSystem.cs" />
     <Compile Include="Particles\BrokenWallSmokeParticleSystem.cs" />
     <Compile Include="Particles\CandleSmokeParticleSystem.cs" />
     <Compile Include="Characters\Player.cs" />

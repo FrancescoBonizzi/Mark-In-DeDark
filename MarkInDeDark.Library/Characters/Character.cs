@@ -99,7 +99,6 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _shadowPositionTraslationDownIdle;
 
         private CharacterActions? _nextActionToProcess;
-        private readonly BloodParticleSystem _bloodEffect;
 
         public AnimationsManager MainAnimationsAnimationManager { get; }
         public AnimationsManager ShadowsAnimationManager { get; }
@@ -111,7 +110,7 @@ namespace MarkInDeDark.Library.Characters
 
         public bool DontPlayDefaultAnimations { get; set; } = false;
 
-        private readonly CharacterTorchParticleSystem _dieTorchEffect;
+        private readonly CharacterTorchParticleSystem _dieMarkEffect;
 
         public Character(
             GameGrid grid,
@@ -195,13 +194,11 @@ namespace MarkInDeDark.Library.Characters
                 _lightMap.SetPosition(MainFigureDrawingInfos.Position);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
-                _dieTorchEffect = new CharacterTorchParticleSystem(
+                _dieMarkEffect = new CharacterTorchParticleSystem(
                     assetsLoader, 
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor);
             }
-
-            _bloodEffect = new BloodParticleSystem(assetsLoader);
         }
 
         public void SetTemporaryColor(Color color)
@@ -247,7 +244,6 @@ namespace MarkInDeDark.Library.Characters
         {
             _gameGrid.ApplyBloodDecal(WorldCenter);
             //_soundManager.PlayBlood();
-            _bloodEffect.AddParticles(WorldCenter);
             CurrentCharacterState = CharacterState.Dying;
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.Die.ToString());
         }
@@ -671,9 +667,7 @@ namespace MarkInDeDark.Library.Characters
                 }
                 else
                 {
-                    _bloodEffect.Update(elapsed);
-
-                    if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying || !_bloodEffect.HasActiveParticles)
+                    if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying)
                     {
                         CurrentCharacterState = CharacterState.Dead;
                     }
@@ -696,11 +690,11 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void UpdateAfterDeath(TimeSpan elapsed)
         {
-            _dieTorchEffect?.AddParticles(_deadPosition ?? WorldCenter);
-            _dieTorchEffect?.Update(elapsed);
+            _dieMarkEffect?.AddParticles(_deadPosition ?? WorldCenter);
+            _dieMarkEffect?.Update(elapsed);
         }
 
-        private void RecalculateZIndex()
+        protected virtual void RecalculateZIndex()
         {
             MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
                 this,
@@ -750,13 +744,14 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void DrawEffects(SpriteBatch spriteBatch)
         {
-            if (CurrentCharacterState == CharacterState.Dying)
+
+        }
+
+        public virtual void DrawEffectsOverDark(SpriteBatch spriteBatch)
+        {
+            if (CurrentCharacterState == CharacterState.Dead)
             {
-                _bloodEffect.Draw(spriteBatch);
-            }
-            else if (CurrentCharacterState == CharacterState.Dead)
-            {
-                _dieTorchEffect?.Draw(spriteBatch);
+                _dieMarkEffect?.Draw(spriteBatch);
             }
         }
 

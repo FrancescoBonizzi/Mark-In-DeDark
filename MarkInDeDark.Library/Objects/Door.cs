@@ -64,7 +64,7 @@ namespace MarkInDeDark.Library.Objects
             _wallDoorUpDrawingInfos = new DrawingInfos()
             {
                 Position = doorPosition,
-                LayerDepth = ZIndexCalculator.DoorArcLayerDepth
+                LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
 
             DoorAnimationDrawingInfos = new DrawingInfos()

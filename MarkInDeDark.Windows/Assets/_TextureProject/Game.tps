@@ -684,20 +684,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/blood.png</key>
-            <key type="filename">Game/smoke.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/light_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -708,6 +694,19 @@
                 <rect>180,180,360,360</rect>
                 <key>scale9Paddings</key>
                 <rect>180,180,360,360</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,24,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

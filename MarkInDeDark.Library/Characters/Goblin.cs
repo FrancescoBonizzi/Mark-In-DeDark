@@ -60,6 +60,12 @@ namespace MarkInDeDark.Library.Characters
                 gameConfig.GoblinLightColorRGB2);
         }
 
+        protected override void RecalculateZIndex()
+        {
+            base.RecalculateZIndex();
+            _goblinLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             _goblinLightParticleSystem.Update(elapsed);

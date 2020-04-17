@@ -158,7 +158,11 @@ namespace MarkInDeDark.Library.Levels
                 });
             }
 
-            _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader);
+            _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader)
+            {
+                LayerDepth = ZIndexCalculator.OverAllLayerDepth
+            };
+
             Walls = new Dictionary<LinkDirection, Wall>();
 
             IsNorthPassable = true;

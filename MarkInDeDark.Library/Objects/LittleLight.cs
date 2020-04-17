@@ -37,7 +37,11 @@ namespace MarkInDeDark.Library.Objects
 
             LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
             LightMap.SetPosition(WorldCenter);
-            _playerCandleFireParticleSystem = new LittleLightParticleSystem(assetsLoader);
+            _playerCandleFireParticleSystem = new LittleLightParticleSystem(assetsLoader)
+            {
+                LayerDepth = _drawingInfos.LayerDepth + 0.00001f
+            };
+
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
         }
 

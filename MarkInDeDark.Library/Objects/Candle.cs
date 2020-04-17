@@ -19,7 +19,7 @@ namespace MarkInDeDark.Library
 
         private ParticleGeneratorTimedEffect _smokeEffect;
 
-        private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
+        private readonly CandleFireParticleSystem _candleFireParticleSystem;
         private readonly CandleSmokeParticleSystem _smokeEffectParticleSystem;
 
         private readonly Vector2 _fireEffectGenerationCenter;
@@ -62,8 +62,16 @@ namespace MarkInDeDark.Library
             if (_torch != null)
                 _torch.DrawingInfos.LayerDepth = _drawingInfos.LayerDepth + 0.00001f;
 
-            _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader);
-            _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
+            _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader)
+            {
+                LayerDepth = _torch.DrawingInfos.LayerDepth + 0.00001f
+            };
+
+            _candleFireParticleSystem = new CandleFireParticleSystem(assetsLoader)
+            {
+                LayerDepth = _torch.DrawingInfos.LayerDepth + 0.00002f
+            };
+
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 30.0f);
         }
 
@@ -126,10 +134,10 @@ namespace MarkInDeDark.Library
             }
             else
             {
-                _playerCandleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
+                _candleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
             }
 
-            _playerCandleFireParticleSystem.Update(elapsed);
+            _candleFireParticleSystem.Update(elapsed);
             _animation.Update(elapsed);
             LightMap.Update(elapsed);
             _torch.Update(elapsed);
@@ -143,7 +151,7 @@ namespace MarkInDeDark.Library
 
         public void DrawEffects(SpriteBatch spriteBatch)
         {
-            _playerCandleFireParticleSystem.Draw(spriteBatch);
+            _candleFireParticleSystem.Draw(spriteBatch);
 
             if (IsDying)
             {

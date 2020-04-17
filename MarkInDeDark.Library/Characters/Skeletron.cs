@@ -59,6 +59,12 @@ namespace MarkInDeDark.Library.Characters
                 gameConfig.SkeletronLightColorRGB2);
         }
 
+        protected override void RecalculateZIndex()
+        {
+            base.RecalculateZIndex();
+            _skeletonLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             _skeletonLightParticleSystem.Update(elapsed);

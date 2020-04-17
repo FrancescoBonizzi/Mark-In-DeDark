@@ -12,7 +12,7 @@ namespace MarkInDeDark.Library.Extensions
         public const float GroundDirtyLayerDepth = 0.0000001f;
         public const float GroundBloodLayerDepth = 0.0000002f;
         public const float GroundObjectsLayerDepth = 0.0000003f;
-        public const float DoorArcLayerDepth = 1f;
+        public const float OverAllLayerDepth = 1f;
 
         /// <summary>
         /// Le cose più in alto sono disegnate prima

@@ -119,12 +119,12 @@ namespace MarkInDeDark.Library.Characters
 
                     _playerCandleFireParticleSystem.Update(elapsed);
 
+                    base.Update(elapsed);
+
                     if (!IsDead)
                     {
                         _playerCandleFireParticleSystem.AddParticles(TorchPosition);
                     }
-
-                    base.Update(elapsed);
 
                     break;
 
@@ -132,6 +132,12 @@ namespace MarkInDeDark.Library.Characters
                     _winAnimation.Update(elapsed);
                     break;
             }
+        }
+
+        protected override void RecalculateZIndex()
+        {
+            base.RecalculateZIndex();
+            _playerCandleFireParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
         }
 
         public override void Die()
