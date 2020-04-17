@@ -249,7 +249,7 @@ namespace MarkInDeDark.Library.Characters
 
         public void DieForTrap(Vector2 trapCenter)
         {
-            _deadPosition = trapCenter;
+            _deadPosition = trapCenter + new Vector2(0, 35f);
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
