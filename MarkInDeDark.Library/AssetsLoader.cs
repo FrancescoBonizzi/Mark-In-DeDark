@@ -198,7 +198,6 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"{characterName}IdleUp", $"{folderName}/{characterName}_back_iddle", true);
                 LoadCharacterAnimation($"{characterName}IdleDown", $"{folderName}/{characterName}_front_iddle", true);
                 LoadCharacterAnimation($"{characterName}IdleSide", $"{folderName}/{characterName}_side_iddle", true);
-                LoadCharacterAnimation($"{characterName}Dying", $"{folderName}/{characterName}_front_dying", false);
                 LoadCharacterAnimation($"{characterName}AttackUp", $"{folderName}/{characterName}_back_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackDown", $"{folderName}/{characterName}_front_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackLeft", $"{folderName}/{characterName}_side_attack", true);

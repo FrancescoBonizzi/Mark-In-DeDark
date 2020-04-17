@@ -63,6 +63,9 @@ namespace MarkInDeDark.Library.Characters
             AreLightsActive = true;
             //_soundManager.PlayPlayerTorch();
             SetLightPosition(0.5f);
+            _deadBodyPartLifetime = TimeSpan.FromSeconds(8f);
+            _dieMarkEffect = null;
+            _deadBodyEffectWithFading = false;
         }
 
         public bool HasWon
@@ -161,7 +164,10 @@ namespace MarkInDeDark.Library.Characters
             {
                 case PlayerStates.Playing:
                     base.Draw(spriteBatch);
-                    _playerCandleFireParticleSystem.Draw(spriteBatch);
+
+                    if (!IsDead && !IsDying)
+                        _playerCandleFireParticleSystem.Draw(spriteBatch);
+
                     break;
 
                 case PlayerStates.Exiting:

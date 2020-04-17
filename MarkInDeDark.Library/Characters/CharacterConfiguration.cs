@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Sprites;
 
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -19,8 +20,9 @@ namespace MarkInDeDark.Library.Characters
         public SpriteAnimation IdleUpAnimation { get; }
         public SpriteAnimation IdleDownAnimation { get; }
         public SpriteAnimation IdleSideAnimation { get; }
-        public SpriteAnimation DieAnimation { get; }
 
+        public List<Sprite> BodyParts { get; }
+        
         public CharacterConfiguration(
             AssetsLoader assetsLoader,
             string characterName,
@@ -31,7 +33,17 @@ namespace MarkInDeDark.Library.Characters
         {
             if (withDieAnimation)
             {
-                DieAnimation = assetsLoader.GetAnimation($"{characterName}Dying");
+                var folderName = char.ToUpper(characterName[0]) + characterName.Substring(1);
+                BodyParts = new List<Sprite>
+                {
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_armL"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_armR"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_guts"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_head"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_legL"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_legR"],
+                    assetsLoader.Sprites[$"{folderName}/{characterName}_torso"]
+                };
             }
 
             IdleDownAnimation = assetsLoader.GetAnimation($"{characterName}IdleDown");

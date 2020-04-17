@@ -38,9 +38,7 @@ namespace MarkInDeDark.Library.Characters
             IdleUp,
             IdleDown,
             IdleLeft,
-            IdleRight,
-
-            Die
+            IdleRight
         }
 
         private enum ShadowsAnimationsNames
@@ -76,7 +74,7 @@ namespace MarkInDeDark.Library.Characters
 
         public DrawingInfos MainFigureDrawingInfos { get; set; }
         protected DrawingInfos _shadowsDrawingInfos;
-        
+
         protected readonly GameGrid _gameGrid;
         private readonly SoundManager _soundManager;
         private float _movementLerpAmount;
@@ -110,7 +108,11 @@ namespace MarkInDeDark.Library.Characters
 
         public bool DontPlayDefaultAnimations { get; set; } = false;
 
-        private readonly CharacterTorchParticleSystem _dieMarkEffect;
+        protected TimeSpan _deadBodyPartLifetime = TimeSpan.FromSeconds(3);
+        protected bool _deadBodyEffectWithFading = true;
+
+        protected CharacterTorchParticleSystem _dieMarkEffect;
+        private readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
 
         public Character(
             GameGrid grid,
@@ -136,6 +138,11 @@ namespace MarkInDeDark.Library.Characters
             _nextLocation = Position;
             Speed = configuration.MovementSpeed;
 
+            if (configuration.BodyParts != null)
+            {
+                _characterDieExplosionParticleSystem = new CharacterExplosionParticleSystem(configuration);
+            }
+
             MainAnimationsAnimationManager = new AnimationsManager()
                 .AddAnimation(AnimationsNames.WalkUp.ToString(), configuration.WalkUpAnimation)
                 .AddAnimation(AnimationsNames.WalkDown.ToString(), configuration.WalkDownAnimation)
@@ -145,9 +152,6 @@ namespace MarkInDeDark.Library.Characters
                 .AddAnimation(AnimationsNames.IdleDown.ToString(), configuration.IdleDownAnimation)
                 .AddAnimation(AnimationsNames.IdleLeft.ToString(), configuration.IdleSideAnimation)
                 .AddAnimation(AnimationsNames.IdleRight.ToString(), configuration.IdleSideAnimation);
-
-            if (configuration.DieAnimation != null)
-                MainAnimationsAnimationManager.AddAnimation(AnimationsNames.Die.ToString(), configuration.DieAnimation);
 
             CurrentCharacterState = CharacterState.IdleDown;
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
@@ -195,7 +199,7 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
                 _dieMarkEffect = new CharacterTorchParticleSystem(
-                    assetsLoader, 
+                    assetsLoader,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor);
             }
@@ -245,7 +249,15 @@ namespace MarkInDeDark.Library.Characters
             _gameGrid.ApplyBloodDecal(WorldCenter);
             //_soundManager.PlayBlood();
             CurrentCharacterState = CharacterState.Dying;
-            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.Die.ToString());
+            _characterDieExplosionParticleSystem.Explode(
+                WorldCenter, 
+                ZIndexCalculator.OverAllLayerDepth,
+                _deadBodyPartLifetime,
+                _deadBodyEffectWithFading);
+
+
+            if (_dieMarkEffect != null)
+                _dieMarkEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public void DieForTrap(Vector2 trapCenter)
@@ -375,7 +387,7 @@ namespace MarkInDeDark.Library.Characters
                     return;
 
                 CurrentCharacterState = CharacterState.GoingUp;
-                
+
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
 
@@ -407,7 +419,7 @@ namespace MarkInDeDark.Library.Characters
 
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
-                
+
                 _startingLocation = MainFigureDrawingInfos.Position;
                 MainFigureDrawingInfos.IsFlipped = false;
                 _nextLocation = nextCell.CenterPosition;
@@ -436,7 +448,7 @@ namespace MarkInDeDark.Library.Characters
 
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
-                
+
                 MainFigureDrawingInfos.IsFlipped = false;
                 _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
@@ -465,7 +477,7 @@ namespace MarkInDeDark.Library.Characters
 
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
-                
+
                 MainFigureDrawingInfos.IsFlipped = true;
                 _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
@@ -667,15 +679,25 @@ namespace MarkInDeDark.Library.Characters
                 }
                 else
                 {
-                    if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying)
+                    if (_characterDieExplosionParticleSystem != null)
+                    {
+                        _characterDieExplosionParticleSystem.Update(elapsed);
+                        if (_characterDieExplosionParticleSystem.HasFinished)
+                            CurrentCharacterState = CharacterState.Dead;
+                    }
+                    else
                     {
                         CurrentCharacterState = CharacterState.Dead;
                     }
                 }
             }
 
-            MainAnimationsAnimationManager.Update(elapsed);
-            ShadowsAnimationManager?.Update(elapsed);
+            if (_characterDieExplosionParticleSystem == null
+                || !_characterDieExplosionParticleSystem.HasStarted)
+            {
+                MainAnimationsAnimationManager.Update(elapsed);
+                ShadowsAnimationManager?.Update(elapsed);
+            }
 
             if (AreLightsActive)
             {
@@ -732,22 +754,31 @@ namespace MarkInDeDark.Library.Characters
             if (!IsDead && !IsDying)
             {
                 ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+
+                if (AreLightsActive)
+                {
+                    _torch?.Draw(spriteBatch);
+                }
             }
 
-            MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+            if (_characterDieExplosionParticleSystem != null)
+                _characterDieExplosionParticleSystem.Draw(spriteBatch);
 
-            if (AreLightsActive && !IsDead)
+            if (_characterDieExplosionParticleSystem == null
+                || !_characterDieExplosionParticleSystem.HasStarted)
             {
-                _torch?.Draw(spriteBatch);
+                MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+            }
+
+            if (CurrentCharacterState == CharacterState.Dead)
+            {
+                _dieMarkEffect?.Draw(spriteBatch);
             }
         }
 
         public virtual void DrawEffectsOverDark(SpriteBatch spriteBatch)
         {
-            if (CurrentCharacterState == CharacterState.Dead)
-            {
-                _dieMarkEffect?.Draw(spriteBatch);
-            }
+
         }
 
         public virtual void DrawLightMap(SpriteBatch spriteBatch)

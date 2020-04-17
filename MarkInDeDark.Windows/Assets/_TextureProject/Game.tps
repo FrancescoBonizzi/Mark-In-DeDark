@@ -199,6 +199,22 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">Game/Bubu/bubu_armL.png</key>
+            <key type="filename">Game/Bubu/bubu_armR.png</key>
+            <key type="filename">Game/Bubu/bubu_gut.png</key>
+            <key type="filename">Game/Bubu/bubu_legR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,12,14,24</rect>
+                <key>scale9Paddings</key>
+                <rect>7,12,14,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Bubu/bubu_back_attack_1.png</key>
             <key type="filename">Game/Bubu/bubu_back_attack_2.png</key>
             <key type="filename">Game/Bubu/bubu_back_iddle_1.png</key>
@@ -209,8 +225,6 @@
             <key type="filename">Game/Bubu/bubu_front_attack_1.png</key>
             <key type="filename">Game/Bubu/bubu_front_attack_2.png</key>
             <key type="filename">Game/Bubu/bubu_front_attack_3.png</key>
-            <key type="filename">Game/Bubu/bubu_front_dying_1.png</key>
-            <key type="filename">Game/Bubu/bubu_front_dying_2.png</key>
             <key type="filename">Game/Bubu/bubu_front_iddle_1.png</key>
             <key type="filename">Game/Bubu/bubu_front_walking_1.png</key>
             <key type="filename">Game/Bubu/bubu_front_walking_2.png</key>
@@ -261,8 +275,6 @@
             <key type="filename">Game/Goblin/goblin_back_walking_4.png</key>
             <key type="filename">Game/Goblin/goblin_front_attack_1.png</key>
             <key type="filename">Game/Goblin/goblin_front_attack_2.png</key>
-            <key type="filename">Game/Goblin/goblin_front_dying_1.png</key>
-            <key type="filename">Game/Goblin/goblin_front_dying_2.png</key>
             <key type="filename">Game/Goblin/goblin_front_iddle_1.png</key>
             <key type="filename">Game/Goblin/goblin_front_walking_1.png</key>
             <key type="filename">Game/Goblin/goblin_front_walking_2.png</key>
@@ -283,9 +295,6 @@
             <key type="filename">Game/Player/player_back_walking_2.png</key>
             <key type="filename">Game/Player/player_back_walking_3.png</key>
             <key type="filename">Game/Player/player_back_walking_4.png</key>
-            <key type="filename">Game/Player/player_front_dying_1.png</key>
-            <key type="filename">Game/Player/player_front_dying_2.png</key>
-            <key type="filename">Game/Player/player_front_dying_3.png</key>
             <key type="filename">Game/Player/player_front_iddle_1.png</key>
             <key type="filename">Game/Player/player_front_iddle_2.png</key>
             <key type="filename">Game/Player/player_front_iddle_3.png</key>
@@ -316,8 +325,6 @@
             <key type="filename">Game/Skeleton/skeleton_back_walking_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_attack_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_attack_2.png</key>
-            <key type="filename">Game/Skeleton/skeleton_front_dying_1.png</key>
-            <key type="filename">Game/Skeleton/skeleton_front_dying_2.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_iddle.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_iddle_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_walking_1.png</key>
@@ -394,8 +401,6 @@
             <key type="filename">Game/Zombie/zombie_back_walking_4.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_1.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_2.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_1.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_2.png</key>
             <key type="filename">Game/Zombie/zombie_front_iddle_1.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_1.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_2.png</key>
@@ -429,6 +434,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Bubu/bubu_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,11,28,22</rect>
+                <key>scale9Paddings</key>
+                <rect>14,11,28,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Bubu/bubu_legL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,9,26,18</rect>
+                <key>scale9Paddings</key>
+                <rect>13,9,26,18</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Bubu/bubu_torso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,21,34,42</rect>
+                <key>scale9Paddings</key>
+                <rect>17,21,34,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Door/door_0.png</key>
             <key type="filename">Game/Door/door_1.png</key>
             <key type="filename">Game/Door/door_2.png</key>
@@ -438,7 +482,6 @@
             <key type="filename">Game/Door/door_6.png</key>
             <key type="filename">Game/Door/door_7.png</key>
             <key type="filename">Game/Door/door_8.png</key>
-            <key type="filename">Game/Goblin/goblin_front_dying_3.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
@@ -458,7 +501,6 @@
             <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_2.png</key>
             <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_3.png</key>
             <key type="filename">Game/Shadows/TorchCharacter/shadow_back_walking_4.png</key>
-            <key type="filename">Game/Skeleton/skeleton_front_dying_3.png</key>
             <key type="filename">Game/TrapIstant/1.png</key>
             <key type="filename">Game/TrapIstant/10.png</key>
             <key type="filename">Game/TrapIstant/2.png</key>
@@ -469,7 +511,6 @@
             <key type="filename">Game/TrapIstant/7.png</key>
             <key type="filename">Game/TrapIstant/8.png</key>
             <key type="filename">Game/TrapIstant/9.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_3.png</key>
             <key type="filename">Game/blood_decal.png</key>
             <key type="filename">Game/candle_pack_1.png</key>
             <key type="filename">Game/candle_pack_2.png</key>
@@ -494,6 +535,86 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Goblin/goblin_armL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>9,18,18,36</rect>
+                <key>scale9Paddings</key>
+                <rect>9,18,18,36</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_armR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,14,20,28</rect>
+                <key>scale9Paddings</key>
+                <rect>10,14,20,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_guts.png</key>
+            <key type="filename">Game/Player/player_guts.png</key>
+            <key type="filename">Game/Zombie/zombie_guts.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,9,22,18</rect>
+                <key>scale9Paddings</key>
+                <rect>11,9,22,18</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,20,48,40</rect>
+                <key>scale9Paddings</key>
+                <rect>24,20,48,40</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_legL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,11,10,22</rect>
+                <key>scale9Paddings</key>
+                <rect>5,11,10,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_legR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,12,8,24</rect>
+                <key>scale9Paddings</key>
+                <rect>4,12,8,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Goblin/goblin_light_spark.png</key>
             <key type="filename">Game/Skeleton/skeleton_light_spark.png</key>
             <key type="filename">Game/generic_spark.png</key>
@@ -506,6 +627,19 @@
                 <rect>5,5,10,10</rect>
                 <key>scale9Paddings</key>
                 <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Goblin/goblin_torso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,14,34,28</rect>
+                <key>scale9Paddings</key>
+                <rect>17,14,34,28</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -660,6 +794,72 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Player/player_armL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,10,14,20</rect>
+                <key>scale9Paddings</key>
+                <rect>7,10,14,20</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Player/player_armR.png</key>
+            <key type="filename">Game/Player/player_legR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,13,14,26</rect>
+                <key>scale9Paddings</key>
+                <rect>7,13,14,26</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Player/player_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,17,32,34</rect>
+                <key>scale9Paddings</key>
+                <rect>16,17,32,34</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Player/player_legL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,12,12,24</rect>
+                <key>scale9Paddings</key>
+                <rect>6,12,12,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Player/player_torso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,13,40,26</rect>
+                <key>scale9Paddings</key>
+                <rect>20,13,40,26</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_1.png</key>
             <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_2.png</key>
             <key type="filename">Game/Shadows/TorchCharacter/shadow_front_iddle_3.png</key>
@@ -681,6 +881,163 @@
                 <rect>48,32,96,64</rect>
                 <key>scale9Paddings</key>
                 <rect>48,32,96,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_armL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,11,24,22</rect>
+                <key>scale9Paddings</key>
+                <rect>12,11,24,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_armR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,15,14,30</rect>
+                <key>scale9Paddings</key>
+                <rect>7,15,14,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_guts.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,3,14,6</rect>
+                <key>scale9Paddings</key>
+                <rect>7,3,14,6</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,14,26,28</rect>
+                <key>scale9Paddings</key>
+                <rect>13,14,26,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_legL.png</key>
+            <key type="filename">Game/Skeleton/skeleton_legR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,11,8,22</rect>
+                <key>scale9Paddings</key>
+                <rect>4,11,8,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Skeleton/skeleton_torso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,12,30,24</rect>
+                <key>scale9Paddings</key>
+                <rect>15,12,30,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_armL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,12,22,24</rect>
+                <key>scale9Paddings</key>
+                <rect>11,12,22,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_armR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,11,22,22</rect>
+                <key>scale9Paddings</key>
+                <rect>11,11,22,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,20,26,40</rect>
+                <key>scale9Paddings</key>
+                <rect>13,20,26,40</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_legL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,18,14,36</rect>
+                <key>scale9Paddings</key>
+                <rect>7,18,14,36</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_legR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,15,12,30</rect>
+                <key>scale9Paddings</key>
+                <rect>6,15,12,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Zombie/zombie_torso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,18,40,36</rect>
+                <key>scale9Paddings</key>
+                <rect>20,18,40,36</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
