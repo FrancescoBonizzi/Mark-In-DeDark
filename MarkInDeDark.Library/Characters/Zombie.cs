@@ -43,8 +43,8 @@ namespace MarkInDeDark.Library.Characters
                   new EnemyConfiguration(
                       assetsLoader: assetsLoader,
                       enemyName: "zombie",
-                      attackSoundIndex: soundManager.RegisterZombieAttackSound(),
-                      screamSoundIndex: soundManager.RegisterZombieScreamSound(),
+                      attackSoundIndex: 0,//soundManager.RegisterZombieAttackSound(),
+                      screamSoundIndex: 0,//soundManager.RegisterZombieScreamSound(),
                       nCellsFindingRange: null,
                       startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: false)),
                   soundManager,

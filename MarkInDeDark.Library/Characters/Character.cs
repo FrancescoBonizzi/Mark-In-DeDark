@@ -241,7 +241,7 @@ namespace MarkInDeDark.Library.Characters
         public virtual void Die()
         {
             _gameGrid.ApplyBloodDecal(WorldCenter);
-            _soundManager.PlayBlood();
+            //_soundManager.PlayBlood();
             _bloodEffect.AddParticles(WorldCenter);
             CurrentCharacterState = CharacterState.Dying;
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.Die.ToString());

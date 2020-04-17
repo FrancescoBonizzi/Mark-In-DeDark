@@ -41,8 +41,8 @@ namespace MarkInDeDark.Library.Characters
                   new EnemyConfiguration(
                       assetsLoader,
                       "goblin",
-                      soundManager.RegisterGoblinAttackSound(),
-                      soundManager.RegisterGoblinScreamSound(),
+                      0,//soundManager.RegisterGoblinAttackSound(),
+                      0,//soundManager.RegisterGoblinScreamSound(),
                       gameConfig.GoblinMaxCellsForNearCandle,
                       new PlayerHunterAI(player, gameGrid, candlesManager)),
                   soundManager,

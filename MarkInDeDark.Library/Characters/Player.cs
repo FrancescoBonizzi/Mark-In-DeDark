@@ -61,7 +61,7 @@ namespace MarkInDeDark.Library.Characters
             _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);
 
             AreLightsActive = true;
-            _soundManager.PlayPlayerTorch();
+            //_soundManager.PlayPlayerTorch();
             SetLightPosition(0.5f);
         }
 
@@ -98,7 +98,7 @@ namespace MarkInDeDark.Library.Characters
         {
             MainFigureDrawingInfos.Position = exit.Position;
             _currentPlayerState = PlayerStates.Exiting;
-            _soundManager.PlayLadder();
+            //_soundManager.PlayLadder();
             _winAnimation.SetPosition(Position);
         }
 
@@ -108,14 +108,14 @@ namespace MarkInDeDark.Library.Characters
             {
                 case PlayerStates.Playing:
 
-                    if (IsMoving)
-                    {
-                        _soundManager.PlayPlayerWalking();
-                    }
-                    else
-                    {
-                        _soundManager.StopPlayerWalking();
-                    }
+                    //if (IsMoving)
+                    //{
+                    //    _soundManager.PlayPlayerWalking();
+                    //}
+                    //else
+                    //{
+                    //    _soundManager.StopPlayerWalking();
+                    //}
 
                     _playerCandleFireParticleSystem.Update(elapsed);
 

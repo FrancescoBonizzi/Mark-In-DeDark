@@ -43,8 +43,8 @@ namespace MarkInDeDark.Library.Characters
                   new EnemyConfiguration(
                       assetsLoader: assetsLoader,
                       enemyName: "ghost",
-                      attackSoundIndex: soundManager.RegisterGhostAttackSound(),
-                      screamSoundIndex: soundManager.RegisterGhostScreamSound(),
+                      attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
+                      screamSoundIndex: 0, //soundManager.RegisterGhostScreamSound(),
                       nCellsFindingRange: null,
                       startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager)),
                   soundManager,

@@ -76,7 +76,7 @@ namespace MarkInDeDark.Library.Characters
                         _attackSoundIndex,
                         _screamSoundIndex,
                         Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-                    PlayAttackSound();
+                    //PlayAttackSound();
                     break;
 
                 case CharacterState.GoingDown:
@@ -87,7 +87,7 @@ namespace MarkInDeDark.Library.Characters
                         _attackSoundIndex,
                         _screamSoundIndex,
                         Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-                    PlayAttackSound();
+                    //PlayAttackSound();
                     break;
 
                 case CharacterState.GoingLeft:
@@ -98,7 +98,7 @@ namespace MarkInDeDark.Library.Characters
                         _attackSoundIndex,
                         _screamSoundIndex,
                         Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-                    PlayAttackSound();
+                    //PlayAttackSound();
                     break;
 
                 case CharacterState.GoingRight:
@@ -124,43 +124,43 @@ namespace MarkInDeDark.Library.Characters
         {
             if (CurrentCharacterState != CharacterState.Dying && CurrentCharacterState != CharacterState.Dead)
             {
-                StopAttackSound();
+                //StopAttackSound();
                 SetDirectionAnimation(CharacterActions.Down);
             }
         }
 
-        private void PlayMyVoice()
-        {
-            if (_soundManager.ComputeIndexSoundsVolume(
-                _screamSoundIndex,
-                _attackSoundIndex,
-                Vector2.DistanceSquared(_player.WorldCenter, WorldCenter)) >= 0.1f)
-            {
-                _soundManager.PlayIndexedSound(_screamSoundIndex);
-            }
-        }
+        //private void PlayMyVoice()
+        //{
+        //    if (_soundManager.ComputeIndexSoundsVolume(
+        //        _screamSoundIndex,
+        //        _attackSoundIndex,
+        //        Vector2.DistanceSquared(_player.WorldCenter, WorldCenter)) >= 0.1f)
+        //    {
+        //        _soundManager.PlayIndexedSound(_screamSoundIndex);
+        //    }
+        //}
 
-        private void StopMyVoice()
-        {
-            _soundManager.StopIndexedSound(_screamSoundIndex);
-        }
+        //private void StopMyVoice()
+        //{
+        //    _soundManager.StopIndexedSound(_screamSoundIndex);
+        //}
 
-        private void StopAttackSound()
-        {
-            _soundManager.StopIndexedSound(_attackSoundIndex);
-        }
+        //private void StopAttackSound()
+        //{
+        //    _soundManager.StopIndexedSound(_attackSoundIndex);
+        //}
 
-        private void PlayAttackSound()
-        {
-            _soundManager.PlayIndexedSound(_attackSoundIndex);
-        }
+        //private void PlayAttackSound()
+        //{
+        //    _soundManager.PlayIndexedSound(_attackSoundIndex);
+        //}
 
         public void HitPlayer()
             => CurrentAI = new IdleAI();
 
         public override void Die()
         {
-            StopAttackSound();
+            //StopAttackSound();
             base.Die();
             // Così quando muoiono in tanti sembrano più sparpagliati
             MainFigureDrawingInfos.Rotation = Numbers.RandomBetween(-1f, 1f);
@@ -189,7 +189,7 @@ namespace MarkInDeDark.Library.Characters
             _screamTimer -= elapsed;
             if (_screamTimer <= TimeSpan.Zero)
             {
-                PlayMyVoice();
+                //PlayMyVoice();
                 SetRandomScreamTimer();
             }
 

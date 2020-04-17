@@ -265,7 +265,7 @@ namespace MarkInDeDark.Library.Levels
             if (Walls.ContainsKey(direction))
             {
                 Walls.Remove(direction);
-                _soundManager.PlayBreakWallSound();
+                //_soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 return true;

@@ -168,7 +168,7 @@ namespace MarkInDeDark.Library
                             gameConfig,
                             this);
                         _enemies.Add(newGoblin);
-                        _soundManager.PlayBreakWallSound();
+                        //_soundManager.PlayBreakWallSound();
                         StartCameraShake(4);
 
                         // Aggiungo il goblin al controllo delle trappole

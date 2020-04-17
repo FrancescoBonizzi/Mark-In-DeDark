@@ -30,8 +30,8 @@ namespace MarkInDeDark.Library.Characters
                     new EnemyConfiguration(
                         assetsLoader: assetsLoader,
                         enemyName: "bubu",
-                        attackSoundIndex: soundManager.RegisterBubuAttackSound(),
-                        screamSoundIndex: soundManager.RegisterBubuScreamSound(),
+                        attackSoundIndex: 0,//soundManager.RegisterBubuAttackSound(),
+                        screamSoundIndex: 0,//soundManager.RegisterBubuScreamSound(),
                         nCellsFindingRange: gameConfig.BubuMaxCellsForNearCandle,
                         startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: true)),
                     soundManager,

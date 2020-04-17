@@ -49,8 +49,8 @@ namespace MarkInDeDark.Library.Characters
                   new EnemyConfiguration(
                       assetsLoader,
                       "taurus",
-                      soundManager.RegisterTaurusAttackSound(),
-                      soundManager.RegisterTaurusScreamSound(),
+                      0,//soundManager.RegisterTaurusAttackSound(),
+                      0,//soundManager.RegisterTaurusScreamSound(),
                       gameConfig.TaurusMaxCellsForNearCandle,
                       new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager, game)),
                   soundManager,

@@ -44,8 +44,8 @@ namespace MarkInDeDark.Library.Characters
             new EnemyConfiguration(
                 assetsLoader: assetsLoader,
                 enemyName: "skeleton",
-                attackSoundIndex: soundManager.RegisterSkeletronAttackSound(),
-                screamSoundIndex: soundManager.RegisterSkeletronScreamSound(),
+                attackSoundIndex: 0,//soundManager.RegisterSkeletronAttackSound(),
+                screamSoundIndex: 0,//soundManager.RegisterSkeletronScreamSound(),
                 nCellsFindingRange: gameConfig.SkeletronMaxCellsForNearCandle,
                 startingAI: new PatrolHunterLineOfSightAI(patrolPath, gameGrid, candlesManager, player, soundManager, gameConfig)),
             soundManager,

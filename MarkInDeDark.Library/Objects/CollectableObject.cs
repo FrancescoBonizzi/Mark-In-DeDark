@@ -55,7 +55,7 @@ namespace MarkInDeDark.Library.Objects
             if (!IsCollected)
             {
                 IsCollected = true;
-                _soundManager.PlayCollectObject();
+                //_soundManager.PlayCollectObject();
                 _fadeObject.FadeOut();
             }
         }

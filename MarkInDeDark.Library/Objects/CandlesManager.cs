@@ -133,7 +133,7 @@ namespace MarkInDeDark.Library
                 Candles.Add(new Candle(_assetsLoader, _gameConfig, where));
                 ++PlayerUsedCandles;
                 _avaibleCandlesNumber -= 1;
-                _soundManager.PlayPutCandle();
+                //_soundManager.PlayPutCandle();
                 PlayerUsedACandle?.Invoke(null, EventArgs.Empty);
             }
         }
