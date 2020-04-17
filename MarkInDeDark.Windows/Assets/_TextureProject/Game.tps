@@ -201,7 +201,7 @@
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">Game/Bubu/bubu_armL.png</key>
             <key type="filename">Game/Bubu/bubu_armR.png</key>
-            <key type="filename">Game/Bubu/bubu_gut.png</key>
+            <key type="filename">Game/Bubu/bubu_guts.png</key>
             <key type="filename">Game/Bubu/bubu_legR.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

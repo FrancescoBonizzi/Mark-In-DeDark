@@ -12,7 +12,7 @@ Bubu/bubu_front_attack_1|1489|713|128|128
 Bubu/bubu_front_attack_2|1385|843|128|128
 Bubu/bubu_front_iddle_1|1619|713|128|128
 Bubu/bubu_front_walking_1|1515|843|128|128
-Bubu/bubu_gut|1061|1297|28|48
+Bubu/bubu_guts|1061|1297|28|48
 Bubu/bubu_head|1945|1055|56|44
 Bubu/bubu_legL|1971|1195|52|36
 Bubu/bubu_legR|1061|1297|28|48
