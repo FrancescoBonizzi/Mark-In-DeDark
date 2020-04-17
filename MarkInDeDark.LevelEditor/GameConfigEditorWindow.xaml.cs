@@ -22,7 +22,7 @@ namespace MarkInDeDark.LevelEditor
                 _settingsRepository = new FileSettingsRepository("configuration.txt");
                 var gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
                 var gameExecutableDirectory = Path.GetDirectoryName(gameExecutablePath);
-                _gameConfigFilePath = Path.Combine(gameExecutableDirectory, "Content", "GameConfig.json");
+                _gameConfigFilePath = Path.Combine(gameExecutableDirectory, "Assets", "GameConfig.json");
                 var gameConfigRaw = File.ReadAllText(_gameConfigFilePath);
                 propertyGrid.SelectedObject = GameConfigSerializerV2.Deserialize(gameConfigRaw);
             }

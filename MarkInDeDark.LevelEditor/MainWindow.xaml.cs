@@ -484,7 +484,7 @@ namespace MarkInDeDark.LevelEditor
             } while (gameExecutablePath == null);
 
             var gameExecutableDirectory = Path.GetDirectoryName(gameExecutablePath);
-            var traslationsFilePath = Path.Combine(gameExecutableDirectory, "Content", "Translations.json");
+            var traslationsFilePath = Path.Combine(gameExecutableDirectory, "Assets", "Translations.json");
             if (!File.Exists(traslationsFilePath))
                 throw new ArgumentException($"Il file delle traduzioni al path {traslationsFilePath} non esiste", "Attenzione");
 

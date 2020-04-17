@@ -155,35 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Assets\GameConfig.json" />
-    <None Include="Assets\Levels\1 TUTORIAL.mark" />
-    <None Include="Assets\Levels\10 G TUTORIAL.mark" />
-    <None Include="Assets\Levels\11 G.mark" />
-    <None Include="Assets\Levels\12 G.mark" />
-    <None Include="Assets\Levels\13 G.mark" />
-    <None Include="Assets\Levels\14 G.mark" />
-    <None Include="Assets\Levels\2 TUTORIAL.mark" />
-    <None Include="Assets\Levels\3 TUTORIAL.mark" />
-    <None Include="Assets\Levels\4 TUTORIAL.mark" />
-    <None Include="Assets\Levels\5.mark" />
-    <None Include="Assets\Levels\6.mark" />
-    <None Include="Assets\Levels\7.mark" />
-    <None Include="Assets\Levels\8.mark" />
-    <None Include="Assets\Levels\9.mark" />
-    <None Include="Assets\Levels\Boh1.mark" />
-    <None Include="Assets\Levels\Boh2.mark" />
-    <None Include="Assets\Levels\F_G1.mark" />
-    <None Include="Assets\Levels\F_K1.mark" />
-    <None Include="Assets\Levels\F_ZK1.mark" />
-    <None Include="Assets\Levels\F_ZK2.mark" />
-    <None Include="Assets\Levels\F__1.mark" />
-    <None Include="Assets\Levels\M S_4.mark" />
-    <None Include="Assets\Levels\M_K2.mark" />
-    <None Include="Assets\Levels\M_S1.mark" />
-    <None Include="Assets\Levels\M_T1.mark" />
-    <None Include="Assets\Levels\M_T2.mark" />
-    <None Include="Assets\Levels\M_ZK1.mark" />
-    <None Include="Assets\_TextureProject\Game.tps" />
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -196,9 +167,6 @@
       <Project>{bf5a4651-ba4a-4b7f-87ba-4ad2035f0e94}</Project>
       <Name>MarkInDeDark.GameGridCommon</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Translations.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />

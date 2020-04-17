@@ -31,7 +31,7 @@ namespace MarkInDeDark.Windows
                 }
 
                 List<string> levelsToLoad = forcedLevelPath == null 
-                    ? Directory.GetFiles("Content/Levels", "*.mark").ToList()
+                    ? Directory.GetFiles("Assets/Levels", "*.mark").ToList()
                     : new List<string>() { forcedLevelPath };
 
                 using (_game = new MarkInDeDarkBootstrap(
@@ -47,6 +47,8 @@ namespace MarkInDeDark.Windows
                         _game.ForceStartLevel(args[0]);
                     }
 
+                    _game.Window.Title = "Mark in DeDark";
+                    _game.Window.AllowUserResizing = false;
                     _game.Deactivated += Game_Deactivated;
                     _game.Activated += Game_Activated;
                     _game.Run();

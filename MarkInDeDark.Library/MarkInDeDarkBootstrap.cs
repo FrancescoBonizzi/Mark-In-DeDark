@@ -65,7 +65,7 @@ namespace MarkInDeDark.Library
             _settingsRepository = settingsRepository;
             _levelsNames = levelPaths;
             _gameCulture = gameCulture;
-            _gameConfig = GameConfigSerializerV2.Deserialize(textFileAssetsLoader.LoadFile(@"Content/GameConfig.json"));
+            _gameConfig = GameConfigSerializerV2.Deserialize(textFileAssetsLoader.LoadFile(@"Assets/GameConfig.json"));
 
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {
@@ -108,7 +108,7 @@ namespace MarkInDeDark.Library
             new GameStringsLoader(
                 _localizedStringsRepository,
                 _gameCulture,
-                new TextFileStringsManager(_textFileAssetsLoader.LoadFile(@"Content/Translations.json")));
+                new TextFileStringsManager(_textFileAssetsLoader.LoadFile(@"Assets/Translations.json")));
 
             _inputListeners = new List<IInputListener>();
 
@@ -190,14 +190,16 @@ namespace MarkInDeDark.Library
 
         protected override void LoadContent()
         {
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Assets";
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _splashScreenAssetsLoader = new SplashScreenLoader(
                 LoadGameAssets,
                 Content,
-                "Backgrounds/splashscreen");
-            _splashScreenAssetsLoader.MininumSplashScreenDuration = TimeSpan.FromSeconds(2);
+                "splashscreen")
+            {
+                MininumSplashScreenDuration = TimeSpan.FromSeconds(2)
+            };
             _splashScreenAssetsLoader.Load();
 
             _splashScreenAssetsLoader.Completed += SplashScreenAssetsLoader_Completed;

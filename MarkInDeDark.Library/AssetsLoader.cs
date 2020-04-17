@@ -95,11 +95,11 @@ namespace MarkInDeDark.Library
             for (int i = 0; i < 2; ++i)
             {
                 var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
-                var gameSpritesDescriptions = _textureImporter.Import($"Content/{gameSpriteSheetName}-{i}.txt");
+                var gameSpritesDescriptions = _textureImporter.Import($"Assets/{gameSpriteSheetName}-{i}.txt");
                 AddSpritesFromDictionary(gameSpritesDescriptions, gameSpriteSheet);
             }
 
-            var menuTexture = _contentManager.Load<Texture2D>("Backgrounds/menu");
+            var menuTexture = _contentManager.Load<Texture2D>("menu");
             var menuSprite = new Sprite(
                 new SpriteDescription()
                 {
@@ -112,7 +112,7 @@ namespace MarkInDeDark.Library
                 menuTexture);
             Sprites.Add("menu", menuSprite);
 
-            var levelsTexture = _contentManager.Load<Texture2D>("Backgrounds/levels");
+            var levelsTexture = _contentManager.Load<Texture2D>("levels");
             var levelsBackgroundSprite = new Sprite(
                 new SpriteDescription()
                 {

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.2</string>
         <key>fileName</key>
-        <string>C:/Users/Francesco/Source/repos/Mark-In-DeDark/MarkInDeDark.Library/Assets/_TextureProject/Game.tps</string>
+        <string>C:/Users/Francesco/Source/repos/Mark-In-DeDark/MarkInDeDark.Windows/Assets/_TextureProject/Game.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -150,7 +150,7 @@
             <key>FlowosoftGamesExporter</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../ContentBuilder/Spritesheet-{n}.txt</filename>
+                <filename>../Spritesheet-{n}.txt</filename>
             </struct>
         </map>
         <key>multiPack</key>
