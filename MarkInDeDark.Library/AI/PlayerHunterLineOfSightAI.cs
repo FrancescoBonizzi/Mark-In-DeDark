@@ -57,8 +57,6 @@ namespace MarkInDeDark.Library.AI
 
             _currentActions = new Queue<CharacterActions>(firstPathToPlayer);
             _currentStatus = HuntingStatus.Following;
-
-
         }
 
         private bool HasActionsToDo

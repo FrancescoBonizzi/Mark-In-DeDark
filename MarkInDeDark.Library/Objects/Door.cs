@@ -76,8 +76,8 @@ namespace MarkInDeDark.Library.Objects
             _doorOpenAnimation = assetsLoader.GetAnimation("DoorOpen");
             _doorCloseAnimation = assetsLoader.GetAnimation("DoorClose");
             
-            _currentAnimation = _doorCloseAnimation;
-            _currentState = DoorStates.Closed;
+            _currentAnimation = _doorOpenAnimation;
+            _currentState = DoorStates.Open;
 
             _onClose = onClose;
         }

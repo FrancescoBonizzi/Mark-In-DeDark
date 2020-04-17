@@ -109,7 +109,9 @@ namespace MarkInDeDark.Library.AI
                 _gameGrid);
 
             if (pathToPlayerIfFacingAndSameDirection == null)
+            {
                 return base.Update(character, elapsed);
+            }
 
             return character.SetNewAI(new PlayerHunterLineOfSightAI(
                 character, this, _gameGrid, _candlesManager, _player, _soundManager, _gameConfig, pathToPlayerIfFacingAndSameDirection));

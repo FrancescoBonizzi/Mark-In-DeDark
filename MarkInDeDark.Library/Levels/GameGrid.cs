@@ -490,7 +490,9 @@ namespace MarkInDeDark.Library.Levels
 
                 foreach (var near in c.Links.Select(a => a.Value))
                 {
-                    if (near != null && !near.IsUnwalkableForEnemies && !near.IsUnwalkable)
+                    if (near != null 
+                        && !near.IsUnwalkableForEnemies 
+                        && !near.IsUnwalkable)
                     {
                         if (!visited.Contains(near))
                         {
@@ -588,7 +590,6 @@ namespace MarkInDeDark.Library.Levels
         private IEnumerable<CharacterActions> PathToDirections(List<GameCell> Path)
         {
             var directions = new List<CharacterActions>();
-
             for (int i = 0; i < Path.Count - 1; ++i)
             {
                 if (Path[i].NorthCell == Path[i + 1])

@@ -322,6 +322,27 @@ namespace MarkInDeDark.Library.Levels
             GridAsGraph(grid);
             GenerateAngles(grid);
             GameGridCleaner.CleanAnglesAndWallsGrid(grid);
+
+            // Serve per impostare correttamente i link relativi alle porte, 
+            // altrimenti in alcuni casi il link non è corretto.
+            // Di default iniziano tutte aperte
+            CloseAllDoors(grid);
+        }
+
+        private static void CloseAllDoors(GameGrid grid)
+        {
+            for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
+            {
+                for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
+                {
+                    var cell = grid.GetCellByIndex(i, j);
+
+                    if (cell == null || cell.IsUnLinked)
+                        continue;
+
+                    grid.SwitchDoorIfAny(cell);
+                }
+            }
         }
 
         private static void GridAsGraph(GameGrid grid)
