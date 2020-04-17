@@ -129,6 +129,7 @@
     <Compile Include="Objects\InstantlyDieTrap.cs" />
     <Compile Include="Objects\TriggerObject.cs" />
     <Compile Include="Objects\UnpassableObject.cs" />
+    <Compile Include="Particles\EnemyEyeParticleSystem.cs" />
     <Compile Include="Particles\CharacterTorchParticleSystem.cs" />
     <Compile Include="Particles\Light.cs" />
     <Compile Include="MarkInDeDarkBootstrap.cs" />

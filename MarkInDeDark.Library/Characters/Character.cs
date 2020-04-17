@@ -76,7 +76,7 @@ namespace MarkInDeDark.Library.Characters
 
         public DrawingInfos MainFigureDrawingInfos { get; set; }
         protected DrawingInfos _shadowsDrawingInfos;
-
+        
         protected readonly GameGrid _gameGrid;
         private readonly SoundManager _soundManager;
         private float _movementLerpAmount;
@@ -210,6 +210,11 @@ namespace MarkInDeDark.Library.Characters
             _torch?.SetTemporaryColorForAnimation(color);
         }
 
+        protected virtual void OnChangeDirection(CharacterState characterState)
+        {
+
+        }
+
         public void ResetNormalColor()
         {
             _lightMap.ResetColor();
@@ -272,7 +277,7 @@ namespace MarkInDeDark.Library.Characters
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString());
                     _torchPositionTraslation = _torchPositionTraslationUp;
-
+                    OnChangeDirection(CharacterState.IdleUp);
                     break;
 
                 case CharacterActions.Down:
@@ -281,7 +286,7 @@ namespace MarkInDeDark.Library.Characters
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
                     _torchPositionTraslation = _torchPositionTraslationDown;
-
+                    OnChangeDirection(CharacterState.IdleDown);
                     break;
 
                 case CharacterActions.Right:
@@ -290,7 +295,7 @@ namespace MarkInDeDark.Library.Characters
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString());
                     _torchPositionTraslation = _torchPositionTraslationRight;
-
+                    OnChangeDirection(CharacterState.IdleRight);
                     break;
 
                 case CharacterActions.Left:
@@ -299,9 +304,11 @@ namespace MarkInDeDark.Library.Characters
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
                     ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString());
                     _torchPositionTraslation = _torchPositionTraslationLeft;
+                    OnChangeDirection(CharacterState.IdleLeft);
 
                     break;
             }
+
         }
 
         private void PlayShadowFor(ShadowsAnimationsNames shadowsAnimationName)
@@ -372,7 +379,7 @@ namespace MarkInDeDark.Library.Characters
                     return;
 
                 CurrentCharacterState = CharacterState.GoingUp;
-
+                
                 if (!DontPlayDefaultAnimations)
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
 
@@ -384,6 +391,7 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationUp;
 
                 PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
+                OnChangeDirection(CurrentCharacterState);
             }
         }
 
@@ -412,6 +420,7 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationDown;
 
                 PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
+                OnChangeDirection(CurrentCharacterState);
             }
         }
 
@@ -440,6 +449,7 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationRight;
 
                 PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
+                OnChangeDirection(CurrentCharacterState);
             }
         }
 
@@ -468,6 +478,7 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationLeft;
 
                 PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
+                OnChangeDirection(CurrentCharacterState);
             }
         }
 
