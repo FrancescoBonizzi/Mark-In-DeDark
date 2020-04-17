@@ -139,7 +139,7 @@ namespace MarkInDeDark.Library
             {
                 Position = _gameGrid.PlayerStartingPosition,
                 Origin = _playerStartingPointTexture.SpriteCenter,
-                LayerDepth = ZIndexCalculator.ForGroundObjects
+                LayerDepth = ZIndexCalculator.GroundObjectsLayerDepth
             };
 
             _enemies = new List<Enemy>();

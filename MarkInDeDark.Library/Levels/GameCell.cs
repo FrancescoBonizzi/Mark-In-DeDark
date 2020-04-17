@@ -154,7 +154,7 @@ namespace MarkInDeDark.Library.Levels
                     Scale = 1f,
                     Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
                     Origin = _dirtySprite.SpriteCenter,
-                    LayerDepth = ZIndexCalculator.ForGroundDirty
+                    LayerDepth = ZIndexCalculator.GroundDirtyLayerDepth
                 });
             }
 
@@ -396,7 +396,7 @@ namespace MarkInDeDark.Library.Levels
                 Rotation = Numbers.RandomBetween(0f, 20f),
                 Scale = Numbers.RandomBetween(0.3f, 1f),
                 Origin = _bloodDecal.SpriteCenter,
-                LayerDepth = ZIndexCalculator.ForGroundBlood
+                LayerDepth = ZIndexCalculator.GroundBloodLayerDepth
             };
         }
 

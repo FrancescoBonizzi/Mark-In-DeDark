@@ -92,7 +92,7 @@ namespace MarkInDeDark.Library.Objects
             {
                 Position = triggerCollisionRectangle.Center.ToVector2(),
                 Origin = _breakableTrapSprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.ForGroundObjects
+                LayerDepth = ZIndexCalculator.GroundObjectsLayerDepth
             };
         }
 

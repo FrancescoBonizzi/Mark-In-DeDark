@@ -32,7 +32,7 @@ namespace MarkInDeDark.Library.Objects
             {
                 Position = collisionRectangle.Center.ToVector2(),
                 Origin = _animation.FirstFrameSprite.SpriteCenter,
-                LayerDepth = ZIndexCalculator.ForGroundObjects
+                LayerDepth = ZIndexCalculator.GroundObjectsLayerDepth
             };
 
             _animation.Stop();

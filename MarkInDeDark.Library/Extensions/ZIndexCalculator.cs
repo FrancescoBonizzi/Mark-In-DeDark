@@ -3,15 +3,17 @@ using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Extensions
 {
-    // TODO Un altro modo furbo per risolvere tutti questi problemi è di creare 
-    // dei veri e propri layer di disegno con gli oggetti statici. 
-    // Così all'interno del layer disegno Deferred e poi do una depth a tutto il layer e ciao
     public static class ZIndexCalculator
     {
+        public const float GroundLayerDepth = 0f;
+        public const float GroundDirtyLayerDepth = 0.0000001f;
+        public const float GroundBloodLayerDepth = 0.0000002f;
+        public const float GroundObjectsLayerDepth = 0.0000003f;
+        public const float DoorArcLayerDepth = 1f;
+
         /// <summary>
         /// Le cose più in alto sono disegnate prima
         /// </summary>
@@ -20,31 +22,12 @@ namespace MarkInDeDark.Library.Extensions
         private static float CalculateDependingOnHeight(float y)
             => Numbers.MapValueFromIntervalToInterval(y, 0, GameGrid.GridMaxHeight, 0f, 1f);
 
-        public const float GroundLayerDepth = 0f;
-        
-        // Non si possono sovrapporre
-        public static float ForGroundDirty => 0.0000001f;
-
-        private static float _groundBloodLayerDepth = 0.0000001f;
-        public static float ForGroundBlood // Ce ne stanno 9
-        {
-            // Funzione perché si possono sovrapporre
-            get => ForceMax1(_groundBloodLayerDepth += 0.0000001f);
-        }
-
-        // Non si possono sovrapporre
-        public static float ForGroundObjects => 0.000002f;
-
         public static float ForWall(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y));
 
         // I pilastri devono sempre stare sopra ai muri, anche se hanno la stessa Y
         public static float ForPillars(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.001f);
-
-        // Sopra a tutti i personaggi, ma sotto i pilastri
-        public static float ForDoorArc(Vector2 position)
-            => 1f;
 
         public static float ForSpecialExternalWall(Vector2 position)
             => CalculateDependingOnHeight(position.Y) + 0.00099f;
@@ -59,7 +42,7 @@ namespace MarkInDeDark.Library.Extensions
         public static float ForCharacter(Character character, Vector2 position)
         {
             if (character.IsDead || character.IsDying)
-                return ForGroundBlood; // Appena sopra al sangue, se è morto
+                return GroundBloodLayerDepth; // Appena sopra al sangue, se è morto
 
             var startingZIndex = CalculateDependingOnHeight(position.Y);
 
