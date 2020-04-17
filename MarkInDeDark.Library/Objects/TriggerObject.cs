@@ -17,6 +17,8 @@ namespace MarkInDeDark.Library.Objects
         private readonly bool _shouldFireOnce;
         protected bool _hasFired = false;
 
+        protected Character _currentTriggeringCharacter;
+
         public TriggerObject(
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters,
@@ -55,6 +57,7 @@ namespace MarkInDeDark.Library.Objects
                     {
                         someOneOnTheTrigger = true;
                         _onTriggerPressed(_affectedCharacters[i], elapsed);
+                        _currentTriggeringCharacter = _affectedCharacters[i];
                         _hasFired = true;
 
                         if (_affectedCharacters[i].IsDead || _affectedCharacters[i].IsDying)
@@ -63,6 +66,9 @@ namespace MarkInDeDark.Library.Objects
 
                 }
             }
+
+            if (!someOneOnTheTrigger)
+                _currentTriggeringCharacter = null;
 
             if (_hasFired && !someOneOnTheTrigger)
             {

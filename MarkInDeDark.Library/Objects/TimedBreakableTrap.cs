@@ -30,6 +30,8 @@ namespace MarkInDeDark.Library.Objects
         private readonly TimeSpan _trapTimeToBreak;
         private readonly Action _onGoingToBreakTrapAction;
 
+        private TimeSpan _elapsedLastShake = TimeSpan.Zero;
+
         public TimedBreakableTrap(
             AssetsLoader assetsLoader,
             GameConfig gameConfig,
@@ -57,7 +59,6 @@ namespace MarkInDeDark.Library.Objects
 
                         case TrapStates.GoingToBreak:
                             _elapsedSinceTrigger += elapsed;
-
                             break;
 
                         case TrapStates.Broken:
@@ -113,7 +114,16 @@ namespace MarkInDeDark.Library.Objects
 
                     base.Update(elapsed);
 
-                    _onGoingToBreakTrapAction();
+                    if (_currentTriggeringCharacter is Player)
+                    {
+                        _elapsedLastShake += elapsed;
+                        if (_elapsedLastShake >= TimeSpan.FromMilliseconds(25))
+                        {
+                            _onGoingToBreakTrapAction();
+                            _elapsedLastShake = TimeSpan.Zero;
+                        }
+                    }
+
                     // Il tempo è incrementato nel trigger
                     if (_elapsedSinceTrigger >= _trapTimeToBreak)
                     {
