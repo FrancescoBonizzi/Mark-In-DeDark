@@ -590,26 +590,20 @@ namespace MarkInDeDark.Library
             foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
 
-            _candlesManager.DrawEffects(spriteBatch);
-            _player.DrawEffects(spriteBatch);
-            foreach (Enemy en in _enemies)
-                en.DrawEffects(spriteBatch);
-            foreach (var littleLight in _gameGrid.LittleLights)
-                littleLight.DrawEffects(spriteBatch);
-            _gameGrid.DrawEffects(spriteBatch);
-
             spriteBatch.End();
 
+            // LightMask
             spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
             spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
+            // Effect over the dark
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
             spriteBatch.End();
-                
-
+            
+            // HUD
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);
             spriteBatch.End();

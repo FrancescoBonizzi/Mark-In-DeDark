@@ -57,13 +57,8 @@ namespace MarkInDeDark.Library.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-        }
-
-        public void DrawEffects(SpriteBatch spriteBatch)
-        {
             _playerCandleFireParticleSystem.Draw(spriteBatch);
         }
-
 
         public Vector2 WorldCenter
             => _drawingInfos.Center(_animation.CurrentFrameWidth, _animation.CurrentFrameHeight);

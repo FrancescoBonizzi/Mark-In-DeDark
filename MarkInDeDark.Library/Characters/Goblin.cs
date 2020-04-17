@@ -63,7 +63,7 @@ namespace MarkInDeDark.Library.Characters
         protected override void RecalculateZIndex()
         {
             base.RecalculateZIndex();
-            _goblinLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
+            _goblinLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00004f;
         }
 
         public override void Update(TimeSpan elapsed)
@@ -84,10 +84,10 @@ namespace MarkInDeDark.Library.Characters
             base.UpdateAfterDeath(elapsed);
         }
 
-        public override void DrawEffects(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
             _goblinLightParticleSystem.Draw(spriteBatch);
-            base.DrawEffects(spriteBatch);
         }
     }
 }

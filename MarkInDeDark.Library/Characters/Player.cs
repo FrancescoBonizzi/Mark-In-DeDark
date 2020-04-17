@@ -137,7 +137,7 @@ namespace MarkInDeDark.Library.Characters
         protected override void RecalculateZIndex()
         {
             base.RecalculateZIndex();
-            _playerCandleFireParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
+            _playerCandleFireParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00004f;
         }
 
         public override void Die()
@@ -161,25 +161,11 @@ namespace MarkInDeDark.Library.Characters
             {
                 case PlayerStates.Playing:
                     base.Draw(spriteBatch);
-                    break;
-
-                case PlayerStates.Exiting:
-                    _winAnimation.Draw(spriteBatch);
-                    break;
-            }
-        }
-
-        public override void DrawEffects(SpriteBatch spriteBatch)
-        {
-            base.DrawEffects(spriteBatch);
-
-            switch (_currentPlayerState)
-            {
-                case PlayerStates.Playing:
                     _playerCandleFireParticleSystem.Draw(spriteBatch);
                     break;
 
                 case PlayerStates.Exiting:
+                    _winAnimation.Draw(spriteBatch);
                     break;
             }
         }

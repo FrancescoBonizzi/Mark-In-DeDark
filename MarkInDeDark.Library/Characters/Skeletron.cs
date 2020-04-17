@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library.Characters
@@ -62,7 +63,7 @@ namespace MarkInDeDark.Library.Characters
         protected override void RecalculateZIndex()
         {
             base.RecalculateZIndex();
-            _skeletonLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00003f;
+            _skeletonLightParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00004f;
         }
 
         public override void Update(TimeSpan elapsed)
@@ -83,10 +84,10 @@ namespace MarkInDeDark.Library.Characters
             base.UpdateAfterDeath(elapsed);
         }
 
-        public override void DrawEffects(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
             _skeletonLightParticleSystem.Draw(spriteBatch);
-            base.DrawEffects(spriteBatch);
         }
     }
 }

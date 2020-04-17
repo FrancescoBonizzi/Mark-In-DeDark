@@ -742,11 +742,6 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
-        public virtual void DrawEffects(SpriteBatch spriteBatch)
-        {
-
-        }
-
         public virtual void DrawEffectsOverDark(SpriteBatch spriteBatch)
         {
             if (CurrentCharacterState == CharacterState.Dead)
