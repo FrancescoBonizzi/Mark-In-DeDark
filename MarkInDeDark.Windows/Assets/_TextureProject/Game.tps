@@ -482,6 +482,7 @@
             <key type="filename">Game/Door/door_6.png</key>
             <key type="filename">Game/Door/door_7.png</key>
             <key type="filename">Game/Door/door_8.png</key>
+            <key type="filename">Game/Door/door_9.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
