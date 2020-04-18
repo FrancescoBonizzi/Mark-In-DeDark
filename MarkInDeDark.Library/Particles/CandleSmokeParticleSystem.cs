@@ -10,7 +10,7 @@ namespace MarkInDeDark.Library.Particles
         public CandleSmokeParticleSystem(
             AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["smoke"],
+                  assetsLoader.Sprites["Effects/smoke"],
                   density: 5,
                   minNumParticles: 5,
                   maxNumParticles: 8,

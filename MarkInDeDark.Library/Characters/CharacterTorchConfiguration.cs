@@ -26,8 +26,8 @@ namespace MarkInDeDark.Library.Characters
             Vector2 torchPositionTraslationDown,
             AssetsLoader assetsLoader)
         {
-            LightMapSprite = assetsLoader.Sprites["light_1"];
-            TorchSprite = assetsLoader.Sprites["light_pixel"];
+            LightMapSprite = assetsLoader.Sprites["Effects/light_1"];
+            TorchSprite = assetsLoader.Sprites["Effects/light_pixel"];
             FirstTorchColor = firstTorchColor;
             SecondTorchColor = secondTorchColor;
             TorchScale = torchScale;

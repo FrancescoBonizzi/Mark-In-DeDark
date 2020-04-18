@@ -35,7 +35,7 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
-            LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
+            LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
             LightMap.SetPosition(WorldCenter);
             _playerCandleFireParticleSystem = new LittleLightParticleSystem(assetsLoader)
             {

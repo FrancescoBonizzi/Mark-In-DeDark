@@ -23,7 +23,7 @@ namespace MarkInDeDark.Library
             GameConfig gameConfig,
             Vector2 position)
         {
-            LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.ExitLightSize);
+            LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.ExitLightSize);
             _sprite = assetsLoader.Sprites["win_closed"];
             _openSprite = assetsLoader.Sprites["win"];
             _drawingInfos = new DrawingInfos()

@@ -130,7 +130,7 @@ namespace MarkInDeDark.Library
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
 
             _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
-            _key = new CollectableObject(assetsLoader.Sprites["key"], _gameGrid.KeyPosition, _soundManager);
+            _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
 
             _enemies = new List<Enemy>();
             _triggerObjects = new List<TriggerObject>();

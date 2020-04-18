@@ -287,6 +287,15 @@
             <key type="filename">Game/Goblin/goblin_side_walking_2.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_3.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_4.png</key>
+            <key type="filename">Game/Objects/Candle/candle_1.png</key>
+            <key type="filename">Game/Objects/Candle/candle_2.png</key>
+            <key type="filename">Game/Objects/Candle/candle_3.png</key>
+            <key type="filename">Game/Objects/Candle/candle_4.png</key>
+            <key type="filename">Game/Objects/Candle/candle_5.png</key>
+            <key type="filename">Game/Objects/Candle/candle_6.png</key>
+            <key type="filename">Game/Objects/Candle/candle_7.png</key>
+            <key type="filename">Game/Objects/Candle/candle_8.png</key>
+            <key type="filename">Game/Objects/Candle/candle_9.png</key>
             <key type="filename">Game/Player/player_back_iddle_1.png</key>
             <key type="filename">Game/Player/player_back_iddle_2.png</key>
             <key type="filename">Game/Player/player_back_iddle_3.png</key>
@@ -413,15 +422,6 @@
             <key type="filename">Game/Zombie/zombie_side_walking_2.png</key>
             <key type="filename">Game/Zombie/zombie_side_walking_3.png</key>
             <key type="filename">Game/Zombie/zombie_side_walking_4.png</key>
-            <key type="filename">Game/candle_1.png</key>
-            <key type="filename">Game/candle_2.png</key>
-            <key type="filename">Game/candle_3.png</key>
-            <key type="filename">Game/candle_4.png</key>
-            <key type="filename">Game/candle_5.png</key>
-            <key type="filename">Game/candle_6.png</key>
-            <key type="filename">Game/candle_7.png</key>
-            <key type="filename">Game/candle_8.png</key>
-            <key type="filename">Game/candle_9.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -483,6 +483,8 @@
             <key type="filename">Game/Door/door_7.png</key>
             <key type="filename">Game/Door/door_8.png</key>
             <key type="filename">Game/Door/door_9.png</key>
+            <key type="filename">Game/Effects/blood_decal.png</key>
+            <key type="filename">Game/Effects/light_pixel.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
@@ -490,6 +492,13 @@
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
             <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
+            <key type="filename">Game/Grounds/celldark.png</key>
+            <key type="filename">Game/Grounds/goblin_trigger.png</key>
+            <key type="filename">Game/Grounds/trap_breakable.png</key>
+            <key type="filename">Game/Objects/Candle/candle_pack_1.png</key>
+            <key type="filename">Game/Objects/Candle/candle_pack_2.png</key>
+            <key type="filename">Game/Objects/Candle/candle_pack_3.png</key>
+            <key type="filename">Game/Objects/key.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_1.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_2.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_3.png</key>
@@ -512,15 +521,6 @@
             <key type="filename">Game/TrapIstant/7.png</key>
             <key type="filename">Game/TrapIstant/8.png</key>
             <key type="filename">Game/TrapIstant/9.png</key>
-            <key type="filename">Game/blood_decal.png</key>
-            <key type="filename">Game/candle_pack_1.png</key>
-            <key type="filename">Game/candle_pack_2.png</key>
-            <key type="filename">Game/candle_pack_3.png</key>
-            <key type="filename">Game/celldark.png</key>
-            <key type="filename">Game/goblin_trigger.png</key>
-            <key type="filename">Game/key.png</key>
-            <key type="filename">Game/light_pixel.png</key>
-            <key type="filename">Game/trap_breakable.png</key>
             <key type="filename">Game/win.png</key>
             <key type="filename">Game/win_closed.png</key>
             <struct type="IndividualSpriteSettings">
@@ -532,6 +532,47 @@
                 <rect>48,48,96,96</rect>
                 <key>scale9Paddings</key>
                 <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Effects/generic_spark.png</key>
+            <key type="filename">Game/Goblin/goblin_light_spark.png</key>
+            <key type="filename">Game/Skeleton/skeleton_light_spark.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9Paddings</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Effects/light_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>180,180,360,360</rect>
+                <key>scale9Paddings</key>
+                <rect>180,180,360,360</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Effects/smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,24,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -612,21 +653,6 @@
                 <rect>4,12,8,24</rect>
                 <key>scale9Paddings</key>
                 <rect>4,12,8,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Goblin/goblin_light_spark.png</key>
-            <key type="filename">Game/Skeleton/skeleton_light_spark.png</key>
-            <key type="filename">Game/generic_spark.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9Paddings</key>
-                <rect>5,5,10,10</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -1038,32 +1064,6 @@
                 <rect>20,18,40,36</rect>
                 <key>scale9Paddings</key>
                 <rect>20,18,40,36</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/light_1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>180,180,360,360</rect>
-                <key>scale9Paddings</key>
-                <rect>180,180,360,360</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/smoke.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

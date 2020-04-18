@@ -225,7 +225,7 @@ namespace MarkInDeDark.Library
             {
                 var candleAnimation = new List<Sprite>();
                 for (int i = 1; i <= 9; ++i)
-                    candleAnimation.Add(Sprites[$"candle_{i}"]);
+                    candleAnimation.Add(Sprites[$"Objects/Candle/candle_{i}"]);
                 _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
             }
 

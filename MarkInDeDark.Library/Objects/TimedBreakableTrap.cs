@@ -87,7 +87,7 @@ namespace MarkInDeDark.Library.Objects
                 triggerCollisionRectangle);
 
             _elapsedSinceTrigger = TimeSpan.Zero;
-            _breakableTrapSprite = assetsLoader.Sprites["trap_breakable"];
+            _breakableTrapSprite = assetsLoader.Sprites["Grounds/trap_breakable"];
             _drawingInfos = new DrawingInfos()
             {
                 Position = triggerCollisionRectangle.Center.ToVector2(),

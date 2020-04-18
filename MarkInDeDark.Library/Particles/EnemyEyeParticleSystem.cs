@@ -11,7 +11,7 @@ namespace MarkInDeDark.Library.Particles
             Color primaryColor,
             Color secondaryColor)
             : base(
-                  assetsLoader.Sprites["generic_spark"],
+                  assetsLoader.Sprites["Effects/generic_spark"],
                   density: 4,
                   minNumParticles: 3,
                   maxNumParticles: 4,

@@ -48,8 +48,8 @@ namespace MarkInDeDark.Library
                 LayerDepth = ZIndexCalculator.ForCandle(position)
             };
 
-            LightMap = new Light(assetsLoader.Sprites["light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
-            _torch = new Light(assetsLoader.Sprites["light_pixel"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
+            LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
+            _torch = new Light(assetsLoader.Sprites["Effects/light_pixel"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
             _torch.SetPosition(new Vector2(WorldCenter.X, WorldCenter.Y - 15));
 
             LightMap.SetPosition(WorldCenter);

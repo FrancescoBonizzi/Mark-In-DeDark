@@ -28,7 +28,7 @@ namespace MarkInDeDark.Library.Objects
                 onTriggerLeft: null,
                 shouldFireOnce: true)
         {
-            _trapSprite = assetsLoader.Sprites["goblin_trigger"];
+            _trapSprite = assetsLoader.Sprites["Grounds/goblin_trigger"];
             _drawingInfos = new DrawingInfos()
             {
                 Position = triggerCollisionRectangle.Center.ToVector2(),

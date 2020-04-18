@@ -46,7 +46,7 @@ namespace MarkInDeDark.Library.Levels
             var serializer = new GameGridDeserializerManager(levelContentRaw);
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
-            DarkSprite = assetsLoader.Sprites["celldark"];
+            DarkSprite = assetsLoader.Sprites["Grounds/celldark"];
 
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];

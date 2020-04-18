@@ -14,9 +14,9 @@ namespace MarkInDeDark.Library.Objects
             Vector2 position, 
             SoundManager soundManager) 
             : base(
-                  nCandles == 1 ? assetsLoader.Sprites["candle_pack_1"] 
-                  : nCandles == 2 ? assetsLoader.Sprites["candle_pack_2"] 
-                  : assetsLoader.Sprites["candle_pack_3"], position, soundManager)
+                  nCandles == 1 ? assetsLoader.Sprites["Objects/Candle/candle_pack_1"] 
+                  : nCandles == 2 ? assetsLoader.Sprites["Objects/Candle/candle_pack_2"] 
+                  : assetsLoader.Sprites["Objects/Candle/candle_pack_3"], position, soundManager)
         {
             NCandlesInThisPack = nCandles;
         }

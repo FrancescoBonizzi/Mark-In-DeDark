@@ -92,7 +92,7 @@ namespace MarkInDeDark.Library.Levels
             MarkInDeDarkGame game)
         {
             _assetsLoader = assetsLoader;
-            _bloodDecal = assetsLoader.Sprites["blood_decal"];
+            _bloodDecal = assetsLoader.Sprites["Effects/blood_decal"];
             DontDraw = false;
 
             IIndex = iIndex;
