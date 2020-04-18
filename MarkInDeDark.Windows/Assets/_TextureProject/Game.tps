@@ -520,7 +520,6 @@
             <key type="filename">Game/goblin_trigger.png</key>
             <key type="filename">Game/key.png</key>
             <key type="filename">Game/light_pixel.png</key>
-            <key type="filename">Game/stairs.png</key>
             <key type="filename">Game/trap_breakable.png</key>
             <key type="filename">Game/win.png</key>
             <key type="filename">Game/win_closed.png</key>

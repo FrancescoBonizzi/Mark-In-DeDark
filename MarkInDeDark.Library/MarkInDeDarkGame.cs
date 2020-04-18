@@ -29,9 +29,6 @@ namespace MarkInDeDark.Library
         private readonly CandlesManager _candlesManager;
         private readonly CollectableObject _key;
 
-        private readonly Sprite _playerStartingPointTexture;
-        private readonly DrawingInfos _playerStartingPointDrawingInfos;
-
         public bool IsPaused { get; private set; }
 
         private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(4);
@@ -134,13 +131,6 @@ namespace MarkInDeDark.Library
 
             _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
             _key = new CollectableObject(assetsLoader.Sprites["key"], _gameGrid.KeyPosition, _soundManager);
-            _playerStartingPointTexture = assetsLoader.Sprites["stairs"];
-            _playerStartingPointDrawingInfos = new DrawingInfos()
-            {
-                Position = _gameGrid.PlayerStartingPosition,
-                Origin = _playerStartingPointTexture.SpriteCenter,
-                LayerDepth = ZIndexCalculator.GroundObjectsLayerDepth
-            };
 
             _enemies = new List<Enemy>();
             _triggerObjects = new List<TriggerObject>();
@@ -563,7 +553,6 @@ namespace MarkInDeDark.Library
 
             // Disegno di tutti gli oggetti
             _exit.Draw(spriteBatch);
-            spriteBatch.Draw(_playerStartingPointTexture, _playerStartingPointDrawingInfos);
 
             if (_triggerObjects != null)
             {
