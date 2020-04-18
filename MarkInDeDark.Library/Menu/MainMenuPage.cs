@@ -65,7 +65,7 @@ namespace MarkInDeDark.Library.Menu
 
         public void StopMusic()
         {
-            _soundManager.StopSounds();
+            _soundManager.StopAll();
         }
 
         public void HandleInput(
@@ -75,7 +75,7 @@ namespace MarkInDeDark.Library.Menu
             if (_playDrawingInfos.HitBox((int)_playTextSize.X, (int)_playTextSize.Y)
                 .Contains(touchPoint))
             {
-                _soundManager.StopSounds();
+                _soundManager.StopAll();
                 orchestrator.SetLevelState();
             }
         }

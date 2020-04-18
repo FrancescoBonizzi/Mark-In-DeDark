@@ -53,7 +53,7 @@ namespace MarkInDeDark.Library.AI
 
             skeletron.SetTemporaryColor(gameConfig.SkeletronRageColorRGB);
             skeletron.Speed = gameConfig.SkeletronHuntingSpeed;
-            //soundManager.PlayPatrolSeenYou();
+            soundManager.Play("PatrolSeenYou");
 
             _currentActions = new Queue<CharacterActions>(firstPathToPlayer);
             _currentStatus = HuntingStatus.Following;

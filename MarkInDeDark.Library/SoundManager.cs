@@ -6,10 +6,15 @@ namespace MarkInDeDark.Library
     public class SoundManager
     {
         private readonly AssetsLoader _assetsLoader;
+        private readonly Dictionary<string, SoundEffectInstance> _sounds;
 
         public SoundManager(AssetsLoader assetsLoader)
         {
             _assetsLoader = assetsLoader;
+
+            _sounds = new Dictionary<string, SoundEffectInstance>();
+            _sounds.Add("TaurusStartingCharge", assetsLoader.Sounds["TaurusStartingCharge"].CreateInstance());
+            _sounds.Add("PatrolSeenYou", assetsLoader.Sounds["PatrolSeenYou"].CreateInstance());
         }
 
         private int RegisterMonsterSound(
@@ -57,30 +62,34 @@ namespace MarkInDeDark.Library
         //    return distance > 102400 ? 0 : ((distance / -102400) + 1);
         //}
 
-        public void StopSounds()
+        public void Play(string name)
+            => _sounds[name].Play();
+
+        public void StopAll()
         {
-            //foreach (SoundEffectInstance s in _all_sounds)
-            //{
-            //    s.Stop();
-            //}
+            foreach (var s in _sounds.Values)
+            {
+                if (s.State != SoundState.Stopped)
+                    s.Stop();
+            }
         }
 
         public void PauseAll()
         {
-            //foreach (SoundEffectInstance s in _all_sounds)
-            //{
-            //    if (s.State == SoundState.Playing)
-            //        s.Pause();
-            //}
+            foreach (var s in _sounds.Values)
+            {
+                if (s.State == SoundState.Playing)
+                    s.Pause();
+            }
         }
 
         public void ResumeAll()
         {
-            //foreach (SoundEffectInstance s in _all_sounds)
-            //{
-            //    if (s.State == SoundState.Paused)
-            //        s.Play();
-            //}
+            foreach (var s in _sounds.Values)
+            {
+                if (s.State == SoundState.Paused)
+                    s.Play();
+            }
         }
     }
 }

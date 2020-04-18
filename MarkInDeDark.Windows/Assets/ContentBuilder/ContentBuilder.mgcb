@@ -80,3 +80,15 @@
 /processorParam:TextureFormat=Color
 /build:splashscreen.png
 
+#begin Soundtrack/PatrolSeenYou.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Soundtrack/PatrolSeenYou.wav
+
+#begin Soundtrack/TaurusStartingCharge.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Soundtrack/TaurusStartingCharge.wav
+

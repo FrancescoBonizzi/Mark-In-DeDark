@@ -44,7 +44,7 @@ namespace MarkInDeDark.Library.AI
             _candlesManager = candlesManager;
             _game = game;
 
-            //soundManager.PlayTaurusStargingCharge();
+            soundManager.Play("TaurusStartingCharge");
 
             _chargeTimeToStartSeconds = TimeSpan.FromSeconds(taurus.TaurusTimeToStartSeconds);
             _stunTimeSeconds = TimeSpan.FromSeconds(taurus.TaurusTimeStunnedSeconds);

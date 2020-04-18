@@ -454,7 +454,7 @@ namespace MarkInDeDark.Library
         }
 
         public void StopMusic()
-            => _soundManager.StopSounds();
+            => _soundManager.StopAll();
 
         /// <summary>
         /// Scala da 1 a 15
