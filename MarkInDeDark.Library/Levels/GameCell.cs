@@ -212,6 +212,12 @@ namespace MarkInDeDark.Library.Levels
         public Vector2 TopLeftPosition
             => _cellDrawingInfos.Position;
 
+        public Vector2 TopRightPosition
+            => _cellDrawingInfos.Position + new Vector2(_width, 0f);
+
+        public Vector2 BottomLeftPosition
+            => _cellDrawingInfos.Position + new Vector2(0f, _height);
+
         public Vector2 CenterPosition
             => _cellDrawingInfos.Center(_width, _height);
 

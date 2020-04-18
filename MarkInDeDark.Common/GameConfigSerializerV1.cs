@@ -53,12 +53,6 @@ namespace MarkInDeDark.Common
             gameConfig.GoblinMaxCellsForNearCandle = LoadInt(gameConfigDictionary[nameof(gameConfig.GoblinMaxCellsForNearCandle)]);
             gameConfig.SpeedIncrementForEachCandleTaken = LoadFloat(gameConfigDictionary[nameof(gameConfig.SpeedIncrementForEachCandleTaken)]);
 
-            gameConfig.WerewolfLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(gameConfig.WerewolfLightColorRGB1)]);
-            gameConfig.WerewolfLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(gameConfig.WerewolfLightColorRGB2)]);
-            gameConfig.WerewolfLightSize = LoadFloat(gameConfigDictionary[nameof(gameConfig.WerewolfLightSize)]);
-            gameConfig.WerewolfSpeed = LoadFloat(gameConfigDictionary[nameof(gameConfig.WerewolfSpeed)]);
-            gameConfig.WerewolfMaxCellsForNearCandle = LoadInt(gameConfigDictionary[nameof(gameConfig.WerewolfMaxCellsForNearCandle)]);
-
             gameConfig.TaurusLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(gameConfig.TaurusLightColorRGB1)]);
             gameConfig.TaurusLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(gameConfig.TaurusLightColorRGB2)]);
             gameConfig.TaurusLightSize = LoadFloat(gameConfigDictionary[nameof(gameConfig.TaurusLightSize)]);

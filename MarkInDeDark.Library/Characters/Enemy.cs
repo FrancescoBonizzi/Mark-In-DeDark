@@ -70,10 +70,9 @@ namespace MarkInDeDark.Library.Characters
 
         public void Attack()
         {
-            switch (CurrentCharacterState)
+            switch (CurrentAction)
             {
-                case CharacterState.GoingUp:
-                case CharacterState.IdleUp:
+                case CharacterActions.Up:
                     CurrentCharacterState = CharacterState.Attacking;
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackUp.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
@@ -83,8 +82,7 @@ namespace MarkInDeDark.Library.Characters
                     //PlayAttackSound();
                     break;
 
-                case CharacterState.GoingDown:
-                case CharacterState.IdleDown:
+                case CharacterActions.Down:
                     CurrentCharacterState = CharacterState.Attacking;
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackDown.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
@@ -94,8 +92,7 @@ namespace MarkInDeDark.Library.Characters
                     //PlayAttackSound();
                     break;
 
-                case CharacterState.GoingLeft:
-                case CharacterState.IdleLeft:
+                case CharacterActions.Left:
                     CurrentCharacterState = CharacterState.Attacking;
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackLeft.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
@@ -105,8 +102,7 @@ namespace MarkInDeDark.Library.Characters
                     //PlayAttackSound();
                     break;
 
-                case CharacterState.GoingRight:
-                case CharacterState.IdleRight:
+                case CharacterActions.Right:
                     CurrentCharacterState = CharacterState.Attacking;
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackRight.ToString());
                     _soundManager.ComputeIndexSoundsVolume(
@@ -130,6 +126,7 @@ namespace MarkInDeDark.Library.Characters
             {
                 //StopAttackSound();
                 SetDirectionAnimation(CharacterActions.Down);
+                SetDirectionAnimation(CharacterActions.Idle);
             }
         }
 

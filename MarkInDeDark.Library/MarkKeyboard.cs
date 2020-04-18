@@ -23,7 +23,7 @@ namespace MarkInDeDark.Library
         public void Update()
         {
             var keyState = Keyboard.GetState();
-            
+
             if (keyState.IsKeyDown(Keys.Up))
             {
                 _currentAction = CharacterActions.Up;

@@ -46,12 +46,10 @@ namespace MarkInDeDark.Library.AI
             if (areInTheSameVertical)
             {
                 if (
-                        ((enemy.CurrentCharacterState == Character.CharacterState.GoingUp
-                        || enemy.CurrentCharacterState == Character.CharacterState.IdleUp)
+                        (enemy.CurrentAction == CharacterActions.Up
                         && enemyCellIndex.Y < playerCellIndex.Y)
 
-                        || ((enemy.CurrentCharacterState == Character.CharacterState.GoingDown
-                        || enemy.CurrentCharacterState == Character.CharacterState.IdleDown)
+                        || (enemy.CurrentAction == CharacterActions.Down
                         && enemyCellIndex.Y > playerCellIndex.Y)
                    )
                 {
@@ -61,12 +59,10 @@ namespace MarkInDeDark.Library.AI
             else if (areInTheSameHorizontal)
             {
                 if (
-                        ((enemy.CurrentCharacterState == Character.CharacterState.GoingLeft
-                        || enemy.CurrentCharacterState == Character.CharacterState.IdleLeft)
+                        (enemy.CurrentAction == CharacterActions.Left
                         && enemyCellIndex.X < playerCellIndex.X)
 
-                        || ((enemy.CurrentCharacterState == Character.CharacterState.GoingRight
-                        || enemy.CurrentCharacterState == Character.CharacterState.IdleRight)
+                        || (enemy.CurrentAction == CharacterActions.Right
                         && enemyCellIndex.X > playerCellIndex.X)
                     )
                 {

@@ -60,41 +60,37 @@ namespace MarkInDeDark.Library.Characters
                 new Color(225, 206, 172));
         }
 
-        protected override void OnChangeDirection(CharacterState characterState)
+        private void ComputeEyeEffectDirection()
         {
-            switch (characterState)
+            switch (CurrentAction)
             {
-                case CharacterState.GoingUp:
-                case CharacterState.IdleUp:
+                case CharacterActions.Up:
                     _leftEyeTraslation = null; //new Vector2(-10f, -33f);
                     _rightEyeTraslation = null;//new Vector2(6f, -33f);
                     break;
 
-                case CharacterState.GoingDown:
-                case CharacterState.IdleDown:
+                case CharacterActions.Down:
                     _leftEyeTraslation = new Vector2(-10f, -33f);
                     _rightEyeTraslation = new Vector2(6f, -33f);
                     break;
 
-                case CharacterState.GoingLeft:
-                case CharacterState.IdleLeft:
+                case CharacterActions.Left:
                     _leftEyeTraslation = new Vector2(-20f, -41f);
                     _rightEyeTraslation = new Vector2(-15f, -41f);
                     break;
 
-                case CharacterState.GoingRight:
-                case CharacterState.IdleRight:
+                case CharacterActions.Right:
                     _leftEyeTraslation = new Vector2(15f, -41f);
                     _rightEyeTraslation = new Vector2(20f, -41f);
                     break;
             }
 
-            base.OnChangeDirection(characterState);
         }
 
         public override void Update(TimeSpan elapsed)
         {
             base.Update(elapsed);
+            ComputeEyeEffectDirection();
 
             if (_leftEyeTraslation!= null)
             _leftEye.AddParticles(MainFigureDrawingInfos.Position + _leftEyeTraslation.Value);

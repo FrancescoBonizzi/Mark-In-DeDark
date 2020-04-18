@@ -38,12 +38,6 @@ namespace MarkInDeDark.Library.Common
         public int GoblinMaxCellsForNearCandle { get; set; }
         public float SpeedIncrementForEachCandleTaken { get; set; }
 
-        public Color WerewolfLightColorRGB1 { get; set; }
-        public Color WerewolfLightColorRGB2 { get; set; }
-        public float WerewolfLightSize { get; set; }
-        public float WerewolfSpeed { get; set; }
-        public int WerewolfMaxCellsForNearCandle { get; set; }
-
         public Color TaurusLightColorRGB1 { get; set; }
         public Color TaurusLightColorRGB2 { get; set; }
         public float TaurusLightSize { get; set; }

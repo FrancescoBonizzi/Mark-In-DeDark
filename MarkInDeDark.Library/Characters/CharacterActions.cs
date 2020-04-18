@@ -6,11 +6,7 @@
         Down,
         Right,
         Left,
-        Idle, // In base all'animazione corrente
-        IdleLeft,
-        IdleRight,
-        IdleUp,
-        IdleDown,
+        Idle,
         Candle,
         DoorSwitch
     }

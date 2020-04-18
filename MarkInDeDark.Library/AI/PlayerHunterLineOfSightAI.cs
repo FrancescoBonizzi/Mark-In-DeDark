@@ -126,17 +126,17 @@ namespace MarkInDeDark.Library.AI
                     }
 
                     if (_currentIncredulityPhase == 0)
-                        return CharacterActions.IdleLeft;
+                        return CharacterActions.Left;
                     else if (_currentIncredulityPhase == 1)
-                        return CharacterActions.IdleRight;
+                        return CharacterActions.Right;
                     if (_currentIncredulityPhase == 2)
-                        return CharacterActions.IdleLeft;
+                        return CharacterActions.Left;
                     else if (_currentIncredulityPhase == 3)
-                        return CharacterActions.IdleRight;
+                        return CharacterActions.Right;
                     else if (_currentIncredulityPhase == 4)
-                        return CharacterActions.IdleLeft;
+                        return CharacterActions.Left;
                     else if (_currentIncredulityPhase == 5)
-                        return CharacterActions.IdleRight;
+                        return CharacterActions.Right;
 
                     _elapsedTime = TimeSpan.Zero;
                     _currentStatus = HuntingStatus.Lost;

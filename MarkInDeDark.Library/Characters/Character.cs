@@ -13,16 +13,8 @@ namespace MarkInDeDark.Library.Characters
     {
         public enum CharacterState
         {
-            GoingUp,
-            GoingDown,
-            GoingLeft,
-            GoingRight,
-
-            IdleUp,
-            IdleDown,
-            IdleLeft,
-            IdleRight,
-
+            Idle,
+            Moving,
             Attacking,
             Dying,
             Dead
@@ -67,7 +59,7 @@ namespace MarkInDeDark.Library.Characters
 
         public bool AreLightsActive { get; set; }
 
-        public bool IsMoving => _movementLerpAmount < 1f && !IsDead && !IsDying;
+        public bool IsMoving => CurrentCharacterState == CharacterState.Moving;
         public float Speed { get; set; }
 
         protected bool _stopMovement = false;
@@ -77,11 +69,7 @@ namespace MarkInDeDark.Library.Characters
 
         protected readonly GameGrid _gameGrid;
         private readonly SoundManager _soundManager;
-        private float _movementLerpAmount;
         private readonly MarkInDeDarkGame _game;
-        private float _startingLerpAmount;
-        private Vector2 _nextLocation;
-        private Vector2 _startingLocation;
 
         private Vector2 _torchPositionTraslation;
         private Vector2 _torchPositionTraslationUp;
@@ -95,8 +83,9 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _shadowPositionTraslationRight;
         private Vector2 _shadowPositionTraslationDown;
         private Vector2 _shadowPositionTraslationDownIdle;
+        private CharacterActions _previousAction;
 
-        private CharacterActions? _nextActionToProcess;
+        public CharacterActions CurrentAction { get; private set; }
 
         public AnimationsManager MainAnimationsAnimationManager { get; }
         public AnimationsManager ShadowsAnimationManager { get; }
@@ -122,8 +111,6 @@ namespace MarkInDeDark.Library.Characters
             MarkInDeDarkGame game)
         {
             _game = game;
-            _startingLerpAmount = 0f;
-            _movementLerpAmount = 1.0f;
 
             _gameGrid = grid;
             _soundManager = soundManager;
@@ -135,7 +122,6 @@ namespace MarkInDeDark.Library.Characters
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
-            _nextLocation = Position;
             Speed = configuration.MovementSpeed;
 
             if (configuration.BodyParts != null)
@@ -153,7 +139,7 @@ namespace MarkInDeDark.Library.Characters
                 .AddAnimation(AnimationsNames.IdleLeft.ToString(), configuration.IdleSideAnimation)
                 .AddAnimation(AnimationsNames.IdleRight.ToString(), configuration.IdleSideAnimation);
 
-            CurrentCharacterState = CharacterState.IdleDown;
+            CurrentCharacterState = CharacterState.Idle;
             MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
 
             if (configuration.CharacterShadowConfiguration != null)
@@ -211,11 +197,7 @@ namespace MarkInDeDark.Library.Characters
             _torch?.SetTemporaryColorForAnimation(color);
         }
 
-        protected virtual void OnChangeDirection(CharacterState characterState)
-        {
-
-        }
-
+        // TODO Si può mettere nell'enemy
         public void ResetNormalColor()
         {
             _lightMap.ResetColor();
@@ -250,14 +232,16 @@ namespace MarkInDeDark.Library.Characters
             //_soundManager.PlayBlood();
             CurrentCharacterState = CharacterState.Dying;
             _characterDieExplosionParticleSystem.Explode(
-                WorldCenter, 
+                WorldCenter,
                 ZIndexCalculator.OverAllLayerDepth,
                 _deadBodyPartLifetime,
                 _deadBodyEffectWithFading);
 
 
             if (_dieMarkEffect != null)
+            {
                 _dieMarkEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
+            }
         }
 
         public void DieForTrap(Vector2 trapCenter)
@@ -272,48 +256,98 @@ namespace MarkInDeDark.Library.Characters
             CurrentCharacterState = CharacterState.Dying;
 
             if (AreLightsActive)
+            {
                 SetLightPosition();
+            }
+        }
+
+        private void SetThingsWhenFacing(CharacterActions characterAction)
+        {
+            switch (characterAction)
+            {
+                case CharacterActions.Up:
+                    MainFigureDrawingInfos.IsFlipped = false;
+                    _torchPositionTraslation = _torchPositionTraslationUp;
+                    break;
+
+                case CharacterActions.Down:
+                    MainFigureDrawingInfos.IsFlipped = false;
+                    _torchPositionTraslation = _torchPositionTraslationDown;
+                    break;
+
+                case CharacterActions.Right:
+                    MainFigureDrawingInfos.IsFlipped = false;
+                    _torchPositionTraslation = _torchPositionTraslationRight;
+                    break;
+
+                case CharacterActions.Left:
+                    MainFigureDrawingInfos.IsFlipped = true;
+                    _torchPositionTraslation = _torchPositionTraslationLeft;
+                    break;
+            }
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
         {
             switch (direction)
             {
+                case CharacterActions.Idle:
+
+                    switch (_previousAction)
+                    {
+                        case CharacterActions.Up:
+                            if (!DontPlayDefaultAnimations)
+                                MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
+
+                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString());
+                            break;
+
+                        case CharacterActions.Down:
+                            if (!DontPlayDefaultAnimations)
+                                MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
+
+                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
+                            break;
+
+                        case CharacterActions.Right:
+                            if (!DontPlayDefaultAnimations)
+                                MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
+
+                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString());
+                            break;
+
+                        case CharacterActions.Left:
+                            if (!DontPlayDefaultAnimations)
+                                MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
+
+                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString());
+                            break;
+                    }
+
+                    break;
+
                 case CharacterActions.Up:
-                    MainFigureDrawingInfos.IsFlipped = false;
-                    if (!DontPlayDefaultAnimations)
-                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
-                    ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString());
-                    _torchPositionTraslation = _torchPositionTraslationUp;
-                    OnChangeDirection(CharacterState.IdleUp);
+                    SetThingsWhenFacing(direction);
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
+                    PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
                     break;
 
                 case CharacterActions.Down:
-                    MainFigureDrawingInfos.IsFlipped = false;
-                    if (!DontPlayDefaultAnimations)
-                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
-                    ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
-                    _torchPositionTraslation = _torchPositionTraslationDown;
-                    OnChangeDirection(CharacterState.IdleDown);
-                    break;
-
-                case CharacterActions.Right:
-                    MainFigureDrawingInfos.IsFlipped = false;
-                    if (!DontPlayDefaultAnimations)
-                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
-                    ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString());
-                    _torchPositionTraslation = _torchPositionTraslationRight;
-                    OnChangeDirection(CharacterState.IdleRight);
+                    SetThingsWhenFacing(direction);
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
+                    PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
                     break;
 
                 case CharacterActions.Left:
-                    MainFigureDrawingInfos.IsFlipped = true;
-                    if (!DontPlayDefaultAnimations)
-                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
-                    ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString());
-                    _torchPositionTraslation = _torchPositionTraslationLeft;
-                    OnChangeDirection(CharacterState.IdleLeft);
+                    SetThingsWhenFacing(direction);
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
+                    PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
+                    break;
 
+                case CharacterActions.Right:
+                    SetThingsWhenFacing(direction);
+                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
+                    PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
                     break;
             }
 
@@ -322,7 +356,9 @@ namespace MarkInDeDark.Library.Characters
         private void PlayShadowFor(ShadowsAnimationsNames shadowsAnimationName)
         {
             if (ShadowsAnimationManager == null)
+            {
                 return;
+            }
 
             ShadowsAnimationManager.PlayAnimation(shadowsAnimationName.ToString());
             _shadowsDrawingInfos.Origin = ShadowsAnimationManager.CurrentAnimation.FirstFrameSprite.SpriteCenter;
@@ -374,300 +410,81 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
-        private void GoNextCellUp(GameCell currentCell)
-        {
-            if (_canGoOverWalls || (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable))
-            {
-                GameCell nextCell;
-                if (_canGoOverWalls)
-                    nextCell = currentCell.NorthCellWithoutLinks;
-                else nextCell = currentCell.NorthCell;
-
-                if (nextCell == null)
-                    return;
-
-                CurrentCharacterState = CharacterState.GoingUp;
-
-                if (!DontPlayDefaultAnimations)
-                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
-
-                _startingLocation = MainFigureDrawingInfos.Position;
-                MainFigureDrawingInfos.IsFlipped = false;
-                _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
-                _movementLerpAmount = 0f;
-                _torchPositionTraslation = _torchPositionTraslationUp;
-
-                PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
-                OnChangeDirection(CurrentCharacterState);
-            }
-        }
-
-        private void GoNextCellDown(GameCell currentCell)
-        {
-            if (_canGoOverWalls || (currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable))
-            {
-                GameCell nextCell;
-                if (_canGoOverWalls)
-                    nextCell = currentCell.SouthCellWithoutLinks;
-                else nextCell = currentCell.SouthCell;
-
-                if (nextCell == null)
-                    return;
-
-                CurrentCharacterState = CharacterState.GoingDown;
-
-                if (!DontPlayDefaultAnimations)
-                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
-
-                _startingLocation = MainFigureDrawingInfos.Position;
-                MainFigureDrawingInfos.IsFlipped = false;
-                _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
-                _movementLerpAmount = 0f;
-                _torchPositionTraslation = _torchPositionTraslationDown;
-
-                PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
-                OnChangeDirection(CurrentCharacterState);
-            }
-        }
-
-        private void GoNextCellRight(GameCell currentCell)
-        {
-            if (_canGoOverWalls || (currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable))
-            {
-                GameCell nextCell;
-                if (_canGoOverWalls)
-                    nextCell = currentCell.EastCellWithoutLinks;
-                else nextCell = currentCell.EastCell;
-
-                if (nextCell == null)
-                    return;
-
-                CurrentCharacterState = CharacterState.GoingRight;
-
-                if (!DontPlayDefaultAnimations)
-                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
-
-                MainFigureDrawingInfos.IsFlipped = false;
-                _startingLocation = MainFigureDrawingInfos.Position;
-                _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
-                _movementLerpAmount = 0f;
-                _torchPositionTraslation = _torchPositionTraslationRight;
-
-                PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
-                OnChangeDirection(CurrentCharacterState);
-            }
-        }
-
-        private void GoNextCellLeft(GameCell currentCell)
-        {
-            if (_canGoOverWalls || (currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable))
-            {
-                GameCell nextCell;
-                if (_canGoOverWalls)
-                    nextCell = currentCell.WestCellWithoutLinks;
-                else nextCell = currentCell.WestCell;
-
-                if (nextCell == null)
-                    return;
-
-                CurrentCharacterState = CharacterState.GoingLeft;
-
-                if (!DontPlayDefaultAnimations)
-                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
-
-                MainFigureDrawingInfos.IsFlipped = true;
-                _startingLocation = MainFigureDrawingInfos.Position;
-                _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
-                _movementLerpAmount = 0f;
-                _torchPositionTraslation = _torchPositionTraslationLeft;
-
-                PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
-                OnChangeDirection(CurrentCharacterState);
-            }
-        }
-
-        private void HandleBufferedInput()
-        {
-            var currentCell = _gameGrid.GetCellAtPixel(MainFigureDrawingInfos.Position);
-
-            if (!IsMoving)
-            {
-                switch (_nextActionToProcess)
-                {
-                    case CharacterActions.IdleLeft:
-                        SetDirectionAnimation(CharacterActions.Left);
-                        break;
-
-                    case CharacterActions.IdleRight:
-                        SetDirectionAnimation(CharacterActions.Right);
-                        break;
-
-                    case CharacterActions.IdleUp:
-                        SetDirectionAnimation(CharacterActions.Up);
-                        break;
-
-                    case CharacterActions.IdleDown:
-                        SetDirectionAnimation(CharacterActions.Down);
-                        break;
-
-                    case CharacterActions.Up:
-                        GoNextCellUp(currentCell);
-                        break;
-
-                    case CharacterActions.Down:
-                        GoNextCellDown(currentCell);
-                        break;
-
-                    case CharacterActions.Left:
-                        GoNextCellLeft(currentCell);
-                        break;
-
-                    case CharacterActions.Right:
-                        GoNextCellRight(currentCell);
-                        break;
-
-                    default:
-
-                        switch (CurrentCharacterState)
-                        {
-                            case CharacterState.Attacking:
-                                // Semplicemente impedisco di cambiare lo stato perché sta attaccando
-                                break;
-
-                            case CharacterState.GoingUp:
-                                CurrentCharacterState = CharacterState.IdleUp;
-                                if (!DontPlayDefaultAnimations)
-                                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
-                                PlayShadowFor(ShadowsAnimationsNames.WhileIdleUp);
-                                break;
-
-                            case CharacterState.GoingDown:
-                                CurrentCharacterState = CharacterState.IdleDown;
-                                if (!DontPlayDefaultAnimations)
-                                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
-                                ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
-                                PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
-                                break;
-
-                            case CharacterState.GoingLeft:
-                                CurrentCharacterState = CharacterState.IdleLeft;
-                                if (!DontPlayDefaultAnimations)
-                                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
-                                PlayShadowFor(ShadowsAnimationsNames.WhileIdleLeft);
-                                break;
-
-                            case CharacterState.GoingRight:
-                                CurrentCharacterState = CharacterState.IdleLeft;
-                                if (!DontPlayDefaultAnimations)
-                                    MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
-                                PlayShadowFor(ShadowsAnimationsNames.WhileIdleRight);
-                                break;
-                        }
-                        break;
-                }
-            }
-            else // Reverse del movimento
-            {
-                switch (CurrentCharacterState)
-                {
-                    case CharacterState.GoingUp:
-                        if (_nextActionToProcess == CharacterActions.Down)
-                        {
-                            CurrentCharacterState = CharacterState.GoingDown;
-                            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
-                            Vector2 tmp = _nextLocation;
-                            _nextLocation = _startingLocation;
-                            _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
-                            _torchPositionTraslation = _torchPositionTraslationDown;
-
-                            PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
-                        }
-                        break;
-
-                    case CharacterState.GoingDown:
-                        if (_nextActionToProcess == CharacterActions.Up)
-                        {
-                            CurrentCharacterState = CharacterState.GoingUp;
-                            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
-                            Vector2 tmp = _nextLocation;
-                            _nextLocation = _startingLocation;
-                            _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
-                            _torchPositionTraslation = _torchPositionTraslationUp;
-
-                            PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
-                        }
-                        break;
-
-                    case CharacterState.GoingLeft:
-                        if (_nextActionToProcess == CharacterActions.Right)
-                        {
-                            CurrentCharacterState = CharacterState.GoingRight;
-                            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
-                            MainFigureDrawingInfos.IsFlipped = false;
-                            Vector2 tmp = _nextLocation;
-                            _nextLocation = _startingLocation;
-                            _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
-                            _torchPositionTraslation = _torchPositionTraslationRight;
-
-                            PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
-                        }
-                        break;
-
-                    case CharacterState.GoingRight:
-                        if (_nextActionToProcess == CharacterActions.Left)
-                        {
-                            CurrentCharacterState = CharacterState.GoingLeft;
-                            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
-                            MainFigureDrawingInfos.IsFlipped = true;
-                            Vector2 tmp = _nextLocation;
-                            _nextLocation = _startingLocation;
-                            _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
-                            _torchPositionTraslation = _torchPositionTraslationLeft;
-
-                            PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
-                        }
-                        break;
-
-                }
-            }
-        }
-
         public virtual void HandleInput(CharacterActions action)
         {
-            _nextActionToProcess = action;
+            _previousAction = CurrentAction;
+            CurrentAction = action;
+        }
+
+        public bool CanMove()
+        {
+            var currentCell = _gameGrid.GetCellAtPixel(WorldCenter);
+            var characterWorldCenter = WorldCenter;
+            const float verticalMovementMargin = 50f;
+            const float horizontalMovementMargin = 80f;
+
+            switch (CurrentAction)
+            {
+                case CharacterActions.Up:
+                    {
+                        bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
+                        if (isOnCellBorder)
+                            return (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable);
+                        else return true;
+                    }
+
+                case CharacterActions.Down:
+                    {
+                        bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
+                        if (isOnCellBorder)
+                            return currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
+                        else return true;
+                    }
+
+                case CharacterActions.Right:
+                    {
+                        bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
+                        if (isOnCellBorder)
+                            return currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
+                        else return true;
+                    }
+
+                case CharacterActions.Left:
+                    {
+                        bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
+                        if (isOnCellBorder)
+                            return currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
+                        else return true;
+                    }
+            }
+
+            return false;
         }
 
         public virtual void Update(TimeSpan elapsed)
         {
-            if (!IsDying && !IsDead)
+            // TODO Un bello switch con i possibili stati
+
+            if (!IsDying && !IsDead && !_stopMovement)
             {
-                HandleBufferedInput();
-
-                if (IsMoving && !_stopMovement)
+                if (CurrentAction == CharacterActions.Up && CanMove())
                 {
-                    _movementLerpAmount = MathHelper.Clamp(
-                        _movementLerpAmount + Speed * (float)elapsed.TotalSeconds,
-                        _startingLerpAmount,
-                        1f);
-
-                    MainFigureDrawingInfos.Position = Vector2.Lerp(_startingLocation, _nextLocation, _movementLerpAmount);
-
-                    if (_movementLerpAmount >= 1f)
-                        MainFigureDrawingInfos.Position = _nextLocation;
+                    MainFigureDrawingInfos.Position += new Vector2(0, -Speed * (float)elapsed.TotalSeconds);
+                }
+                else if (CurrentAction == CharacterActions.Down && CanMove())
+                {
+                    MainFigureDrawingInfos.Position += new Vector2(0, +Speed * (float)elapsed.TotalSeconds);
+                }
+                else if (CurrentAction == CharacterActions.Right && CanMove())
+                {
+                    MainFigureDrawingInfos.Position += new Vector2(Speed * (float)elapsed.TotalSeconds, 0);
+                }
+                else if (CurrentAction == CharacterActions.Left && CanMove())
+                {
+                    MainFigureDrawingInfos.Position += new Vector2(-Speed * (float)elapsed.TotalSeconds, 0);
                 }
 
+                SetDirectionAnimation(CurrentAction);
                 SetShadowPosition();
             }
 
@@ -683,7 +500,9 @@ namespace MarkInDeDark.Library.Characters
                     {
                         _characterDieExplosionParticleSystem.Update(elapsed);
                         if (_characterDieExplosionParticleSystem.HasFinished)
+                        {
                             CurrentCharacterState = CharacterState.Dead;
+                        }
                     }
                     else
                     {
@@ -707,7 +526,9 @@ namespace MarkInDeDark.Library.Characters
             }
 
             if (_characterFallingATrapAnimation == null)
+            {
                 RecalculateZIndex();
+            }
         }
 
         public virtual void UpdateAfterDeath(TimeSpan elapsed)
@@ -723,9 +544,14 @@ namespace MarkInDeDark.Library.Characters
                 Position);
 
             if (_shadowsDrawingInfos != null)
+            {
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
+            }
+
             if (_torch != null)
+            {
                 _torch.DrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
+            }
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -762,7 +588,9 @@ namespace MarkInDeDark.Library.Characters
             }
 
             if (_characterDieExplosionParticleSystem != null)
+            {
                 _characterDieExplosionParticleSystem.Draw(spriteBatch);
+            }
 
             if (_characterDieExplosionParticleSystem == null
                 || !_characterDieExplosionParticleSystem.HasStarted)
