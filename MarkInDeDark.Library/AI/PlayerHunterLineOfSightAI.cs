@@ -14,12 +14,12 @@ namespace MarkInDeDark.Library.AI
         private readonly Player _player;
 
         private readonly IEnemyAI _nextAI;
-        private Queue<CharacterActions> _currentActions;
+        private Queue<AIMovementAction> _currentActions;
 
         private readonly GameGrid _gameGrid;
         private GameCell _oldDestionation;
 
-        private CharacterActions? _lastAction;
+        private AIMovementAction _lastAction;
         private readonly float _originalSpeed;
 
         private TimeSpan _incredulityPhaseDuration = TimeSpan.FromMilliseconds(500);
@@ -43,7 +43,7 @@ namespace MarkInDeDark.Library.AI
             Player player,
             SoundManager soundManager,
             GameConfig gameConfig,
-            IEnumerable<CharacterActions> firstPathToPlayer)
+            IEnumerable<AIMovementAction> firstPathToPlayer)
         {
             _nextAI = nextAI;
             _player = player;
@@ -55,7 +55,7 @@ namespace MarkInDeDark.Library.AI
             skeletron.Speed = gameConfig.SkeletronHuntingSpeed;
             soundManager.Play("PatrolSeenYou");
 
-            _currentActions = new Queue<CharacterActions>(firstPathToPlayer);
+            _currentActions = new Queue<AIMovementAction>(firstPathToPlayer);
             _currentStatus = HuntingStatus.Following;
         }
 
@@ -84,8 +84,8 @@ namespace MarkInDeDark.Library.AI
                     // Se sono sulla stessa cella deve continuare a seguirlo
                     if (destinationCell == enemyCell && _lastAction != null)
                     {
-                        _currentActions = new Queue<CharacterActions>();
-                        _currentActions.Enqueue(_lastAction.Value);
+                        _currentActions = new Queue<AIMovementAction>();
+                        _currentActions.Enqueue(_lastAction);
                     }
                     // Se il player si è spostato rispetto a prima o se ho finito le azioni da fare...
                     else if (_oldDestionation != destinationCell || !HasActionsToDo)
@@ -97,7 +97,7 @@ namespace MarkInDeDark.Library.AI
                         if (pathToPlayerIfFacingAndSameDirection != null)
                         {
                             _oldDestionation = destinationCell;
-                            _currentActions = new Queue<CharacterActions>(pathToPlayerIfFacingAndSameDirection);
+                            _currentActions = new Queue<AIMovementAction>(pathToPlayerIfFacingAndSameDirection);
                         }
                     }
 
@@ -105,7 +105,7 @@ namespace MarkInDeDark.Library.AI
                     if (HasActionsToDo)
                     {
                         _lastAction = _currentActions.Dequeue();
-                        return _lastAction.Value;
+                        return _lastAction.Action;
                     }
                     else
                     {

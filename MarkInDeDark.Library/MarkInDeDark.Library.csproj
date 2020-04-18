@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AIMovementAction.cs" />
     <Compile Include="AI\IEnemyAI.cs" />
     <Compile Include="AI\KillCandleAI.cs" />
     <Compile Include="AI\ChargeDirectionAI.cs" />

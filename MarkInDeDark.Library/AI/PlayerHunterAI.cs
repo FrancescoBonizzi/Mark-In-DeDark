@@ -10,7 +10,7 @@ namespace MarkInDeDark.Library.AI
     public class PlayerHunterAI : IEnemyAI
     {
         private GameCell _oldDestionation;
-        private List<CharacterActions> _currentActions;
+        private List<AIMovementAction> _currentActions;
         protected readonly Player _player;
         protected readonly GameGrid _gameGrid;
         protected readonly CandlesManager _candlesManager;
@@ -54,7 +54,7 @@ namespace MarkInDeDark.Library.AI
                 {
                     var nextAction = _currentActions.First();
                     _currentActions.RemoveAt(0);
-                    return nextAction;
+                    return nextAction.Action;
                 }
             }
 

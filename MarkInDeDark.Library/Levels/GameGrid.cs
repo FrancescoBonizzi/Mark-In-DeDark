@@ -1,5 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
-
+using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Objects;
@@ -49,7 +49,7 @@ namespace MarkInDeDark.Library.Levels
         private int _currentViewportMinCellY = 0;
         private int _currentViewportMaxCellY = 0;
 
-        private readonly IDictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>> _calculatedPathsCache;
+        private readonly IDictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<AIMovementAction>> _calculatedPathsCache;
         private readonly MarkInDeDarkGame _game;
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
@@ -100,7 +100,7 @@ namespace MarkInDeDark.Library.Levels
                 nextCellPosition.Y = _position.Y;
             }
 
-            _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
+            _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<AIMovementAction>>();
             GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
             _game = game;
         }
@@ -521,6 +521,58 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
+        private List<Vector2> FindPathV2(GameCell A, GameCell B)
+        {
+            var parent = new Dictionary<GameCell, GameCell>();
+
+            Queue<GameCell> queue = new Queue<GameCell>();
+            List<GameCell> visited = new List<GameCell>();
+
+            queue.Enqueue(A);
+            parent.Add(A, null);
+
+            while (queue.Count != 0)
+            {
+                GameCell c = queue.Dequeue();
+
+                visited.Add(c);
+
+                if (c == B)
+                    break;
+
+                foreach (var near in c.Links.Select(a => a.Value))
+                {
+                    if (near != null
+                        && !near.IsUnwalkableForEnemies
+                        && !near.IsUnwalkable)
+                    {
+                        if (!visited.Contains(near))
+                        {
+                            parent.Add(near, c);
+                            visited.Add(near);
+                            queue.Enqueue(near);
+                        }
+                    }
+                }
+            }
+
+            var path = new List<Vector2>();
+
+            if (parent.ContainsKey(B))
+            {
+                GameCell backTrack = B;
+                do
+                {
+                    path.Add(backTrack.CenterPosition);
+                    backTrack = parent[backTrack];
+                }
+                while (backTrack != null);
+                path.Reverse();
+            }
+
+            return path;
+        }
+
         private List<GameCell> FindPathWithoutConsideringWalls(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();
@@ -587,26 +639,42 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        private IEnumerable<CharacterActions> PathToDirections(List<GameCell> Path)
+        public static CharacterActions GetActionToPosition(Vector2 from, Vector2 to)
         {
-            var directions = new List<CharacterActions>();
+            var difference = (to - from);
+            difference.Normalize();
+            if (difference.X > 0)
+                return CharacterActions.Right;
+            else if (difference.X < 0)
+                return CharacterActions.Left;
+            else if (difference.Y > 0)
+                return CharacterActions.Up;
+            else if (difference.Y < 0)
+                return CharacterActions.Down;
+
+            return CharacterActions.Idle;
+        }
+
+        private IEnumerable<AIMovementAction> PathToDirections(List<GameCell> Path)
+        {
+            var directions = new List<AIMovementAction>();
             for (int i = 0; i < Path.Count - 1; ++i)
             {
                 if (Path[i].NorthCell == Path[i + 1])
                 {
-                    directions.Add(CharacterActions.Up);
+                    directions.Add(new AIMovementAction(CharacterActions.Up, Path[i]));
                 }
                 else if (Path[i].EastCell == Path[i + 1])
                 {
-                    directions.Add(CharacterActions.Right);
+                    directions.Add(new AIMovementAction(CharacterActions.Right, Path[i]));
                 }
                 else if (Path[i].SouthCell == Path[i + 1])
                 {
-                    directions.Add(CharacterActions.Down);
+                    directions.Add(new AIMovementAction(CharacterActions.Down, Path[i]));
                 }
                 else if (Path[i].WestCell == Path[i + 1])
                 {
-                    directions.Add(CharacterActions.Left);
+                    directions.Add(new AIMovementAction(CharacterActions.Left, Path[i]));
                 }
             }
 
@@ -650,7 +718,20 @@ namespace MarkInDeDark.Library.Levels
                 destinationCell));
         }
 
-        public IEnumerable<CharacterActions> FindActionsToPath(Vector2 A, Vector2 B)
+        public List<Vector2> FindPathV2(Vector2 A, Vector2 B)
+        {
+            //var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
+            //if (_calculatedPathsCache.ContainsKey(pathKey))
+            //    return _calculatedPathsCache[pathKey];
+
+            return FindPathV2(
+                    GetCellAtPixel((int)A.X, (int)A.Y),
+                    GetCellAtPixel((int)B.X, (int)B.Y));
+
+            //_calculatedPathsCache.Add(pathKey, actionsToPath);
+        }
+
+        public IEnumerable<AIMovementAction> FindActionsToPath(Vector2 A, Vector2 B)
         {
             var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
             if (_calculatedPathsCache.ContainsKey(pathKey))

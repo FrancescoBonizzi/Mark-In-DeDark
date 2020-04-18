@@ -1,5 +1,5 @@
 ﻿using MarkInDeDark.Library;
-
+using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
@@ -61,7 +61,7 @@ namespace MarkInDeDark.Library
             return Candles.FirstOrDefault(c => _gameGrid.GetCellAtPixel(c.Position) == where);
         }
 
-        public KeyValuePair<Candle, IEnumerable<CharacterActions>> GetNearestCandleActionsPath(
+        public KeyValuePair<Candle, IEnumerable<AIMovementAction>> GetNearestCandleActionsPath(
             Vector2 searchingStartPosition,
             int maxActionsToFindCandle)
         {
@@ -74,7 +74,7 @@ namespace MarkInDeDark.Library
             // quindi non puoi evitarlo. Inoltre quelli lontani si farebbero il giro di tutta la mappa solo
             // per la candela
 
-            var pathToFollow = new KeyValuePair<Candle, IEnumerable<CharacterActions>>();
+            var pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>();
 
             foreach (var candle in Candles)
             {
@@ -95,7 +95,7 @@ namespace MarkInDeDark.Library
 
                 if (pathToFollow.Key == null)
                 {
-                    pathToFollow = new KeyValuePair<Candle, IEnumerable<CharacterActions>>(
+                    pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(
                         candle,
                         actionsToCandle);
                 }
@@ -104,7 +104,7 @@ namespace MarkInDeDark.Library
                     // Prendo la candela più vicina
                     if (numberOfActionsToCandle < pathToFollow.Value.Count())
                     {
-                        pathToFollow = new KeyValuePair<Candle, IEnumerable<CharacterActions>>(
+                        pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(
                            candle,
                            actionsToCandle);
                     }
@@ -115,7 +115,7 @@ namespace MarkInDeDark.Library
             }
 
             if (pathToFollow.Key == null)
-                return new KeyValuePair<Candle, IEnumerable<CharacterActions>>(null, null);
+                return new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(null, null);
 
             return pathToFollow;
         }

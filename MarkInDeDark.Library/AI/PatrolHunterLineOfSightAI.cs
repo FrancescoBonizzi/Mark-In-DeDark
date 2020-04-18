@@ -24,7 +24,7 @@ namespace MarkInDeDark.Library.AI
             _gameConfig = gameConfig;
         }
 
-        public static IEnumerable<CharacterActions> PathToPositionIfFacingAndSameDirection(
+        public static IEnumerable<AIMovementAction> PathToPositionIfFacingAndSameDirection(
             Enemy enemy,
             Vector2 playerPosition,
             GameGrid gameGrid)

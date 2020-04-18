@@ -6,13 +6,13 @@ namespace MarkInDeDark.Library.AI
 {
     public class SearchForNearCandlePathResult
     {
-        public SearchForNearCandlePathResult(Candle candle, IEnumerable<CharacterActions> actionsToGetTheCandle)
+        public SearchForNearCandlePathResult(Candle candle, IEnumerable<AIMovementAction> actionsToGetTheCandle)
         {
             Candle = candle;
             ActionsToGetTheCandle = actionsToGetTheCandle;
         }
 
         public Candle Candle { get; }
-        public IEnumerable<CharacterActions> ActionsToGetTheCandle { get; }
+        public IEnumerable<AIMovementAction> ActionsToGetTheCandle { get; }
     }
 }

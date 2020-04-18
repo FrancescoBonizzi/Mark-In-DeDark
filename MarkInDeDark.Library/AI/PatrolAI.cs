@@ -1,6 +1,6 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.Characters;
+﻿using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +13,12 @@ namespace MarkInDeDark.Library.AI
         protected readonly Player _player;
 
         private readonly List<GameCell> _waypoints;
-        private Queue<CharacterActions> _currentActions;
+        private Queue<Vector2> _pathToCurrentWaypoint;
 
         private int _currentWaypointIndex;
         protected GameGrid _gameGrid;
         protected SoundManager _soundManager;
-
+        private Vector2? _currentDestination;
         private readonly bool _searchesCandles;
 
         public PatrolAI(
@@ -38,47 +38,69 @@ namespace MarkInDeDark.Library.AI
 
             // 0 è la sua posizione di partenza
             _currentWaypointIndex = 1;
+            _pathToCurrentWaypoint = new Queue<Vector2>();
         }
 
         public void ClearActions()
-            => _currentActions?.Clear();
+            => _pathToCurrentWaypoint?.Clear();
 
-        private bool HasActionsToDo
-            => _currentActions != null && _currentActions.Any();
-
-        public virtual CharacterActions Update(
-            Enemy character,
-            TimeSpan elapsed)
+        private Vector2? GetNextDestination(Character character)
         {
-            if (_searchesCandles)
+            // Se non ho più azioni per il waypoint, le calcolo per il prossimo
+            if (_pathToCurrentWaypoint == null || !_pathToCurrentWaypoint.Any())
             {
-                var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
-                if (actionsToNearCandle != null)
-                {
-                    character.SetNewAI(new KillCandleAI(actionsToNearCandle.Candle, actionsToNearCandle.ActionsToGetTheCandle, this));
-                    _currentActions = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
-                    return character.CurrentAI.Update(character, elapsed);
-                }
-            }
-
-            // Se non ho niente da fare, cerco la posizione per il prossimo waypoint
-            if (!HasActionsToDo)
-            {
-                _currentActions = new Queue<CharacterActions>(_gameGrid.FindActionsToPath(
-                    character.Position,
-                    _waypoints[_currentWaypointIndex].TopLeftPosition));
+                _pathToCurrentWaypoint = new Queue<Vector2>(_gameGrid.FindPathV2(
+                    character.WorldCenter,
+                    _waypoints[_currentWaypointIndex].CenterPosition));
 
                 // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
             }
 
-            // Se devo ancora terminare la lista di azioni, eseguo la prossima
-            if (HasActionsToDo)
+            // Se non ho un'azione corrente da eseguire, ma ho la lista pronta, ne scodo una
+            if (_pathToCurrentWaypoint.Any())
             {
-                return _currentActions.Dequeue();
+                return _pathToCurrentWaypoint.Dequeue();
             }
 
-            // Se non ci sono azioni, e non sono già in modalità RandomMovementAI 
+            return null;
+        }
+
+        private bool ReachedDestination(Character character)
+        {
+            return Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 2f;
+        }
+
+        public virtual CharacterActions Update(
+            Enemy character,
+            TimeSpan elapsed)
+        {
+            // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
+            if (_currentDestination == null || ReachedDestination(character))
+            {
+                _currentDestination = GetNextDestination(character);
+            }
+
+            // Se deve valutare se prendere le candele, lo valuto
+            //if (_searchesCandles)
+            //{
+            //    var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
+            //    if (actionsToNearCandle != null)
+            //    {
+            //        // Passo all'AI di ricerca candele
+            //        character.SetNewAI(new KillCandleAI(actionsToNearCandle.Candle, actionsToNearCandle.ActionsToGetTheCandle, this));
+            //        _actionsToCurrentWaypoint = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
+            //        return character.CurrentAI.Update(character, elapsed);
+            //    }
+            //}
+
+            // Se ho un'azione da compiere, la eseguo
+            if (_currentDestination != null)
+            {
+                return GameGrid.GetActionToPosition(character.WorldCenter, _currentDestination.Value);
+            }
+
+            // Se non ho niente da fare, e non sono già in modalità RandomMovementAI 
             // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
             if (!(character.CurrentAI is RandomMovementAI))
             {

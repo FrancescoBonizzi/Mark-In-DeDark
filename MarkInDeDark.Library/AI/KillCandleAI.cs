@@ -10,7 +10,7 @@ namespace MarkInDeDark.Library.AI
 {
     public class KillCandleAI : IEnemyAI
     {
-        private readonly Queue<CharacterActions> _actionsToCandle;
+        private readonly Queue<AIMovementAction> _actionsToCandle;
         private readonly IEnemyAI _nextAI;
         private readonly Candle _targetCandle;
 
@@ -25,12 +25,12 @@ namespace MarkInDeDark.Library.AI
 
         public KillCandleAI(
             Candle targetCandle,
-            IEnumerable<CharacterActions> actionsToCandle,
+            IEnumerable<AIMovementAction> actionsToCandle,
             IEnemyAI nextAI)
         {
             _targetCandle = targetCandle;
             targetCandle.AreSomeMonsterIsFollowingMe = true;
-            _actionsToCandle = new Queue<CharacterActions>(actionsToCandle);
+            _actionsToCandle = new Queue<AIMovementAction>(actionsToCandle);
             _nextAI = nextAI;
 
             _currentKillCandleStatus = KillCandleStatus.WalkingToCandle;
@@ -50,7 +50,7 @@ namespace MarkInDeDark.Library.AI
                     // torno indietro
                     if (anyPathToFollow && _targetCandle.IsActive)
                     {
-                        return _actionsToCandle.Dequeue();
+                        return _actionsToCandle.Dequeue().Action;
                     }
                     else if (!_targetCandle.IsActive)
                     {

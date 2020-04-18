@@ -28,7 +28,7 @@ namespace MarkInDeDark.Library.AI
             TimeSpan elapsed)
         {
             // 1. Il patrol identifica il path per caricare il player
-            CharacterActions? straightDirectionToPosition = PatrolHunterLineOfSightAI.PathToPositionIfFacingAndSameDirection(
+            AIMovementAction straightDirectionToPosition = PatrolHunterLineOfSightAI.PathToPositionIfFacingAndSameDirection(
                 enemy, _player.Position, _gameGrid)?.FirstOrDefault();
 
             // ...se il player non è caricabile
@@ -51,7 +51,7 @@ namespace MarkInDeDark.Library.AI
             {
                 return enemy.SetNewAI(
                     new ChargeDirectionAI(
-                        straightDirectionToPosition.Value,
+                        straightDirectionToPosition.Action,
                         _gameGrid,
                         enemy as Taurus,
                         _soundManager,
