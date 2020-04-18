@@ -27,7 +27,7 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _pillarSprite;
         private readonly Sprite _dirtySprite;
         private readonly Sprite _bloodDecal;
-        private readonly Sprite _wallDoorUp;
+        private readonly Sprite _wallDoorArc;
         private readonly Sprite _wallDoorDown;
 
         private readonly AssetsLoader _assetsLoader;
@@ -82,7 +82,7 @@ namespace MarkInDeDark.Library.Levels
             Sprite verticalDestroyableWall,
             Sprite pillar,
             Sprite dirty,
-            Sprite wallDoorUp,
+            Sprite wallDoorArc,
             Sprite wallDoorDown,
             double dirtyProbability,
             SoundManager soundManager,
@@ -107,7 +107,7 @@ namespace MarkInDeDark.Library.Levels
             _verticalDestroyableWallSprite = verticalDestroyableWall;
 
             _wallDoorDown = wallDoorDown;
-            _wallDoorUp = wallDoorUp;
+            _wallDoorArc = wallDoorArc;
 
             IsUnLinked = false;
             IsUnwalkableForEnemies = false;
@@ -288,7 +288,7 @@ namespace MarkInDeDark.Library.Levels
                     doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     linkDirection: LinkDirection.NorthLink,
                     assetsLoader: _assetsLoader,
-                    wallDoorUp: _wallDoorUp,
+                    wallDoorArc: _wallDoorArc,
                     wallDoorDown: _wallDoorDown,
                     onClose: () => _game.StartCameraShake(shakeIntensity)));
             }
@@ -300,7 +300,7 @@ namespace MarkInDeDark.Library.Levels
                     doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     linkDirection: LinkDirection.SouthLink,
                     assetsLoader: _assetsLoader,
-                    wallDoorUp: _wallDoorUp,
+                    wallDoorArc: _wallDoorArc,
                     wallDoorDown: _wallDoorDown,
                     onClose: () => _game.StartCameraShake(shakeIntensity)));
             }

@@ -87,7 +87,7 @@ namespace MarkInDeDark.Library.Levels
                         pillar: levelToLoad.AngleSprite,
                         dirty: levelToLoad.DirtySprite,
                         wallDoorDown: levelToLoad.WallDoorDownSprite,
-                        wallDoorUp: levelToLoad.WallDoorUpSprite,
+                        wallDoorArc: levelToLoad.WallDoorArcSprite,
                         dirtyProbability: levelToLoad.DirtyProbability,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,

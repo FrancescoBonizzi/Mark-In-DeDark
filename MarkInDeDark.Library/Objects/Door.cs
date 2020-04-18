@@ -29,7 +29,7 @@ namespace MarkInDeDark.Library.Objects
 
         public LinkDirection DoorDirectionInCell { get; }
         public DrawingInfos _wallDoorDownDrawingInfos;
-        public DrawingInfos _wallDoorUpDrawingInfos;
+        public DrawingInfos _wallDoorArcDrawingInfos;
         public DrawingInfos DoorAnimationDrawingInfos;
 
         private readonly Sprite _wallDoorUpSprite;
@@ -46,11 +46,11 @@ namespace MarkInDeDark.Library.Objects
             Vector2 doorPosition,
             LinkDirection linkDirection,
             AssetsLoader assetsLoader,
-            Sprite wallDoorUp,
+            Sprite wallDoorArc,
             Sprite wallDoorDown,
             Action onClose)
         {
-            _wallDoorUpSprite = wallDoorUp;
+            _wallDoorUpSprite = wallDoorArc;
             _wallDoorDownSprite = wallDoorDown;
 
             DoorDirectionInCell = linkDirection;
@@ -58,10 +58,10 @@ namespace MarkInDeDark.Library.Objects
             _wallDoorDownDrawingInfos = new DrawingInfos()
             {
                 Position = doorPosition,
-                LayerDepth = ZIndexCalculator.ForWall(doorPosition)
+                LayerDepth = ZIndexCalculator.ForWall(doorPosition + _wallDoorDownSprite.SpriteCenter)
             };
 
-            _wallDoorUpDrawingInfos = new DrawingInfos()
+            _wallDoorArcDrawingInfos = new DrawingInfos()
             {
                 Position = doorPosition,
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
@@ -101,7 +101,7 @@ namespace MarkInDeDark.Library.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_wallDoorDownSprite, _wallDoorDownDrawingInfos);
-            spriteBatch.Draw(_wallDoorUpSprite, _wallDoorUpDrawingInfos);
+            spriteBatch.Draw(_wallDoorUpSprite, _wallDoorArcDrawingInfos);
             spriteBatch.Draw(_currentAnimation.CurrentFrame, DoorAnimationDrawingInfos);
         }
 
