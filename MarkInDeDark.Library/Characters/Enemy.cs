@@ -1,6 +1,5 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.AI;
-
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,6 +10,7 @@ namespace MarkInDeDark.Library.Characters
     {
         public IEnemyAI CurrentAI { get; private set; }
 
+        private readonly bool _killsCandlesIfCollidesWithThem;
         private TimeSpan _screamTimer;
         private bool _gameFinished;
         private readonly int _screamSoundIndex;
@@ -18,6 +18,7 @@ namespace MarkInDeDark.Library.Characters
 
         private readonly SoundManager _soundManager;
         protected readonly Player _player;
+        protected readonly CandlesManager _candlesManager;
 
         public int? NCellsCandleFindingRange { get; }
 
@@ -36,9 +37,11 @@ namespace MarkInDeDark.Library.Characters
             SoundManager soundManager,
             Player player,
             AssetsLoader assetsLoader,
-            MarkInDeDarkGame game)
+            MarkInDeDarkGame game,
+            CandlesManager candlesManager)
             : base(grid, soundManager, assetsLoader, characterBasicConfiguration, game)
         {
+            _candlesManager = candlesManager;
             _soundManager = soundManager;
             _player = player;
             NCellsCandleFindingRange = enemyConfiguration.NCellsFindingRange;
@@ -53,6 +56,7 @@ namespace MarkInDeDark.Library.Characters
             _attackSoundIndex = enemyConfiguration.AttackSoundIndex;
             _screamSoundIndex = enemyConfiguration.ScreamSoundIndex;
             CurrentAI = enemyConfiguration.StartingAI;
+            _killsCandlesIfCollidesWithThem = enemyConfiguration.KillsCandlesIfCollidesWithThem;
         }
 
         public void SetRandomScreamTimer()
@@ -171,10 +175,30 @@ namespace MarkInDeDark.Library.Characters
             return true;
         }
 
+        protected virtual void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
+        {
+            SetNewAI(new KillCandleAI(possibleCandle, Array.Empty<CharacterActions>(), CurrentAI));
+            CurrentAI.Update(this, elapsed);
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             if (_gameFinished)
                 return;
+
+            // Se incontra una candela, la spegne all'istante
+            if (_killsCandlesIfCollidesWithThem)
+            {
+                if (!(CurrentAI is KillCandleAI))
+                {
+                    var currentCell = _gameGrid.GetCellAtPixel(Position);
+                    var possibleCandle = _candlesManager.IsThereACandle(currentCell);
+                    if (possibleCandle != null)
+                    {
+                        KillCandleLogic(possibleCandle, elapsed);
+                    }
+                }
+            }
 
             // Rimodulo sempre il volume dell'attacco per fare il fade
             // quando il player si allontana.

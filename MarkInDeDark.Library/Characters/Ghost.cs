@@ -12,8 +12,6 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Ghost : Enemy
     {
-        private readonly CandlesManager _candlesManager;
-
         public Ghost(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -46,13 +44,14 @@ namespace MarkInDeDark.Library.Characters
                       attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
                       screamSoundIndex: 0, //soundManager.RegisterGhostScreamSound(),
                       nCellsFindingRange: null,
-                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager)),
+                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
+                      killsCandlesIfCollidesWithThem: true),
                   soundManager,
                   player,
                   assetsLoader,
-                  game)
+                  game,
+                  candlesManager)
         {
-            _candlesManager = candlesManager;
             _canGoOverWalls = true;
 
             // E' lui stesso il glow
@@ -67,17 +66,9 @@ namespace MarkInDeDark.Library.Characters
             return;
         }
 
-        public override void Update(TimeSpan elapsed)
+        protected override void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
         {
-            // Se incontra una candela, la spegne all'istante
-            var currentCell = _gameGrid.GetCellAtPixel(Position);
-            var possibleCandle = _candlesManager.IsThereACandle(currentCell);
-            if (possibleCandle != null)
-            {
-                possibleCandle.DieFast();
-            }
-
-            base.Update(elapsed);
+            possibleCandle.DieFast();
         }
 
         public override bool CustomConditionToAttackPlayer()

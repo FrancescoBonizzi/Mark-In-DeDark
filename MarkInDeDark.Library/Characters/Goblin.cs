@@ -44,11 +44,13 @@ namespace MarkInDeDark.Library.Characters
                       0,//soundManager.RegisterGoblinAttackSound(),
                       0,//soundManager.RegisterGoblinScreamSound(),
                       gameConfig.GoblinMaxCellsForNearCandle,
-                      new PlayerHunterAI(player, gameGrid, candlesManager)),
+                      new PlayerHunterAI(player, gameGrid, candlesManager),
+                      true),
                   soundManager,
                   player,
                   assetsLoader,
-                  game)
+                  game,
+                  candlesManager)
         {
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=

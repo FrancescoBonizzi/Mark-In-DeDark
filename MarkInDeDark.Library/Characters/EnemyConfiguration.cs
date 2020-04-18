@@ -12,7 +12,8 @@ namespace MarkInDeDark.Library.Characters
             int attackSoundIndex,
             int screamSoundIndex,
             int? nCellsFindingRange,
-            IEnemyAI startingAI)
+            IEnemyAI startingAI,
+            bool killsCandlesIfCollidesWithThem)
         {
             AttackDownAnimation = assetsLoader.GetAnimation($"{enemyName}AttackDown");
             AttackUpAnimation = assetsLoader.GetAnimation($"{enemyName}AttackUp");
@@ -23,6 +24,7 @@ namespace MarkInDeDark.Library.Characters
             ScreamSoundIndex = screamSoundIndex;
             NCellsFindingRange = nCellsFindingRange;
             StartingAI = startingAI;
+            KillsCandlesIfCollidesWithThem = killsCandlesIfCollidesWithThem;
         }
 
         public SpriteAnimation AttackUpAnimation { get; }
@@ -35,5 +37,6 @@ namespace MarkInDeDark.Library.Characters
         public int? NCellsFindingRange { get; }
 
         public IEnemyAI StartingAI { get; }
+        public bool KillsCandlesIfCollidesWithThem { get; }
     }
 }
