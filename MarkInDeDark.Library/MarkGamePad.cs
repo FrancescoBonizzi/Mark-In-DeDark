@@ -3,12 +3,13 @@ using MarkInDeDark.Library.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library
 {
     public class MarkGamePad
     {
-        private CharacterActions _currentAction;
+        private readonly HashSet<CharacterActions> _actions;
 
         private GamePadState _lastState;
         private readonly PlayerIndex[] _possibleGamePads;
@@ -20,17 +21,7 @@ namespace MarkInDeDark.Library
         public MarkGamePad()
         {
             _possibleGamePads = (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex));
-        }
-
-        public CharacterActions CurrentInputAction
-        {
-            get
-            {
-                var toReturn = _currentAction;
-                _currentAction = CharacterActions.Idle;
-
-                return toReturn;
-            }
+            _actions = new HashSet<CharacterActions>();
         }
 
         public void Shake(int intensity, TimeSpan duration)
@@ -88,11 +79,13 @@ namespace MarkInDeDark.Library
             return null;
         }
 
-        public void Update(TimeSpan elapsed)
+        public HashSet<CharacterActions> Update(TimeSpan elapsed)
         {
             _currentState = GetFirstConnectedGamePadState();
+            _actions.Clear();
+
             if (_currentState == null)
-                return;
+                return null;
 
             var gamePadState = _currentState.Value;
 
@@ -105,32 +98,39 @@ namespace MarkInDeDark.Library
 
             if (gamePadState.ThumbSticks.Left.Y < -0.5f || gamePadState.DPad.Down == ButtonState.Pressed)
             {
-                _currentAction = CharacterActions.Down;
+                _actions.Add(CharacterActions.Down);
             }
-            else if (gamePadState.ThumbSticks.Left.Y > 0.5f || gamePadState.DPad.Up == ButtonState.Pressed)
+            
+            if (gamePadState.ThumbSticks.Left.Y > 0.5f || gamePadState.DPad.Up == ButtonState.Pressed)
             {
-                _currentAction = CharacterActions.Up;
+                _actions.Add(CharacterActions.Up);
             }
-            else if (gamePadState.ThumbSticks.Left.X < -0.5f || gamePadState.DPad.Left == ButtonState.Pressed)
+            
+            if (gamePadState.ThumbSticks.Left.X < -0.5f || gamePadState.DPad.Left == ButtonState.Pressed)
             {
-                _currentAction = CharacterActions.Left;
+                _actions.Add(CharacterActions.Left);
             }
-            else if (gamePadState.ThumbSticks.Left.X > 0.5f || gamePadState.DPad.Right == ButtonState.Pressed)
+            
+            if (gamePadState.ThumbSticks.Left.X > 0.5f || gamePadState.DPad.Right == ButtonState.Pressed)
             {
-                _currentAction = CharacterActions.Right;
+                _actions.Add(CharacterActions.Right);
             }
 
             if (gamePadState.Buttons.A == ButtonState.Pressed && _lastState.Buttons.A == ButtonState.Released)
             {
-                _currentAction = CharacterActions.Candle;
+                _actions.Add(CharacterActions.Candle);
             }
 
             if (gamePadState.Buttons.B == ButtonState.Pressed && _lastState.Buttons.B == ButtonState.Released)
             {
-                _currentAction = CharacterActions.DoorSwitch;
+                _actions.Add(CharacterActions.DoorSwitch);
             }
 
+            if (_actions.Count == 0)
+                _actions.Add(CharacterActions.Idle);
+
             _lastState = gamePadState;
+            return _actions;
         }
     }
 }

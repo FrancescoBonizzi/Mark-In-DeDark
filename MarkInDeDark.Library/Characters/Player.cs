@@ -5,6 +5,7 @@ using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -71,14 +72,14 @@ namespace MarkInDeDark.Library.Characters
         public bool HasWon
             => _currentPlayerState == PlayerStates.Exiting;
 
-        public override void HandleInput(CharacterActions action)
+        public void HandleInput(HashSet<CharacterActions> actions)
         {
             if (_currentPlayerState != PlayerStates.Playing)
             {
                 return;
             }
 
-            if (action == CharacterActions.DoorSwitch)
+            if (actions.Contains(CharacterActions.DoorSwitch))
             {
                 if (CurrentCharacterState != CharacterState.Attacking
                     && CurrentCharacterState != CharacterState.Dead
@@ -87,13 +88,9 @@ namespace MarkInDeDark.Library.Characters
                     _gameGrid.SwitchDoorIfAny(_gameGrid.GetCellAtPixel(WorldCenter));
                 }
             }
-            else if (action == CharacterActions.Candle)
+            else if (actions.Contains(CharacterActions.Candle))
             {
                 _candlesManager.PlaceCandle(_gameGrid.GetCellAtPixel(WorldCenter).CenterPosition);
-            }
-            else
-            {
-                base.HandleInput(action);
             }
         }
 
@@ -105,7 +102,25 @@ namespace MarkInDeDark.Library.Characters
             _winAnimation.SetPosition(Position);
         }
 
-        public override void Update(TimeSpan elapsed)
+        public void Update(TimeSpan elapsed, HashSet<CharacterActions> inputs)
+        {
+            var deltaPosition = Vector2.Zero;
+            foreach (var i in inputs)
+            {
+                if (i == CharacterActions.Up)
+                    deltaPosition.Y -= 1;
+                if (i == CharacterActions.Down)
+                    deltaPosition.Y += 1;
+                if (i == CharacterActions.Right)
+                    deltaPosition.X += 1;
+                if (i == CharacterActions.Left)
+                    deltaPosition.X -= 1;
+            }
+
+            Update(elapsed, deltaPosition);
+        }
+
+        public override void Update(TimeSpan elapsed, Vector2 direction)
         {
             switch (_currentPlayerState)
             {
@@ -122,7 +137,7 @@ namespace MarkInDeDark.Library.Characters
 
                     _playerCandleFireParticleSystem.Update(elapsed);
 
-                    base.Update(elapsed);
+                    base.Update(elapsed, direction);
 
                     if (!IsDead)
                     {

@@ -410,10 +410,32 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
-        public virtual void HandleInput(CharacterActions action)
+        public static Vector2 GetDirectionToPosition(Vector2 from, Vector2 to)
         {
-            _previousAction = CurrentAction;
-            CurrentAction = action;
+            var difference = (to - from);
+            
+            // Altrimenti ritorna NaN
+            if (difference == Vector2.Zero)
+                return difference;
+
+            difference.Normalize();
+            return difference;
+        }
+
+        public static CharacterActions GetActionForMovement(Vector2 movement)
+        {
+            movement.Normalize();
+
+            if (movement.X > 0)
+                return CharacterActions.Right;
+            else if (movement.X < 0)
+                return CharacterActions.Left;
+            else if (movement.Y < 0)
+                return CharacterActions.Up;
+            else if (movement.Y > 0)
+                return CharacterActions.Down;
+
+            return CharacterActions.Idle;
         }
 
         public bool CanMove()
@@ -461,29 +483,24 @@ namespace MarkInDeDark.Library.Characters
             return false;
         }
 
-        public virtual void Update(TimeSpan elapsed)
+        public virtual void Update(TimeSpan elapsed, Vector2 direction)
         {
             // TODO Un bello switch con i possibili stati
 
             if (!IsDying && !IsDead && !_stopMovement)
             {
-                if (CurrentAction == CharacterActions.Up && CanMove())
+                // Già normalizzato!
+                // direction.Normalize();
+
+                if (CanMove())
                 {
-                    MainFigureDrawingInfos.Position += new Vector2(0, -Speed * (float)elapsed.TotalSeconds);
-                }
-                else if (CurrentAction == CharacterActions.Down && CanMove())
-                {
-                    MainFigureDrawingInfos.Position += new Vector2(0, +Speed * (float)elapsed.TotalSeconds);
-                }
-                else if (CurrentAction == CharacterActions.Right && CanMove())
-                {
-                    MainFigureDrawingInfos.Position += new Vector2(Speed * (float)elapsed.TotalSeconds, 0);
-                }
-                else if (CurrentAction == CharacterActions.Left && CanMove())
-                {
-                    MainFigureDrawingInfos.Position += new Vector2(-Speed * (float)elapsed.TotalSeconds, 0);
+                    MainFigureDrawingInfos.Position += new Vector2(
+                        Speed * (float)elapsed.TotalSeconds * direction.X,
+                        Speed * (float)elapsed.TotalSeconds * direction.Y);
                 }
 
+                _previousAction = CurrentAction;
+                CurrentAction = GetActionForMovement(direction);
                 SetDirectionAnimation(CurrentAction);
                 SetShadowPosition();
             }

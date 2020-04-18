@@ -98,5 +98,10 @@ namespace MarkInDeDark.Library.AI
                 pathToNearestCandle.Key,
                 pathToNearestCandle.Value);
         }
+
+        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

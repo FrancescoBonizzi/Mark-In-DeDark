@@ -639,22 +639,6 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        public static CharacterActions GetActionToPosition(Vector2 from, Vector2 to)
-        {
-            var difference = (to - from);
-            difference.Normalize();
-            if (difference.X > 0)
-                return CharacterActions.Right;
-            else if (difference.X < 0)
-                return CharacterActions.Left;
-            else if (difference.Y > 0)
-                return CharacterActions.Up;
-            else if (difference.Y < 0)
-                return CharacterActions.Down;
-
-            return CharacterActions.Idle;
-        }
-
         private IEnumerable<AIMovementAction> PathToDirections(List<GameCell> Path)
         {
             var directions = new List<AIMovementAction>();

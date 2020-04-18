@@ -1,6 +1,7 @@
 ﻿using MarkInDeDark.Library;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MarkInDeDark.Library.AI
@@ -159,6 +160,11 @@ namespace MarkInDeDark.Library.AI
             }
 
             return _direction;
+        }
+
+        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        {
+            throw new NotImplementedException();
         }
     }
 }

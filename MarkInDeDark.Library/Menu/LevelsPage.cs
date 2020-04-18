@@ -4,7 +4,7 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-
+using MarkInDeDark.Library.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -65,8 +65,10 @@ namespace MarkInDeDark.Library.Menu
             }
         }
 
-        public void Update(TimeSpan elapsed)
+        public void Update(TimeSpan elapsed, HashSet<CharacterActions> inputs)
         {
+            // TODO per il gamepad 
+
             _titleScalingObject.Update(elapsed);
             _titleDrawingInfos.Scale = _titleScalingObject.Scale;
         }

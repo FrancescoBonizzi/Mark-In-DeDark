@@ -175,10 +175,10 @@ namespace MarkInDeDark.Library.Characters
         protected virtual void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
         {
             SetNewAI(new KillCandleAI(possibleCandle, Array.Empty<AIMovementAction>(), CurrentAI));
-            CurrentAI.Update(this, elapsed);
+            CurrentAI.GetNextDirection(this, elapsed);
         }
 
-        public override void Update(TimeSpan elapsed)
+        public virtual void Update(TimeSpan elapsed)
         {
             if (_gameFinished)
                 return;
@@ -226,8 +226,7 @@ namespace MarkInDeDark.Library.Characters
                 _stopMovement = true;
             }
 
-            base.HandleInput(CurrentAI.Update(this, elapsed));
-            base.Update(elapsed);
+            base.Update(elapsed, CurrentAI.GetNextDirection(this, elapsed));
         }
     }
 }

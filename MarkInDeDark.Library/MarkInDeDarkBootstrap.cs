@@ -7,7 +7,7 @@ using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using MarkInDeDark.Common;
-
+using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Menu;
@@ -238,18 +238,17 @@ namespace MarkInDeDark.Library
             foreach (var listener in _inputListeners)
                 listener.Update(gameTime);
 
+            HashSet<CharacterActions> characterActions;
             if (_markGamePad.IsConnected)
             {
-                _markGamePad.Update(elapsed);
-                _orchestrator.HandleKeyboardPressed(_markGamePad.CurrentInputAction);
+                characterActions = _markGamePad.Update(elapsed);
             }
             else
             {
-                _markKeyboard.Update();
-                _orchestrator.HandleKeyboardPressed(_markKeyboard.CurrentInputAction);
+                characterActions = _markKeyboard.Update();
             }
 
-            _orchestrator.Update(elapsed);
+            _orchestrator.Update(elapsed, characterActions);
             base.Update(gameTime);
         }
 

@@ -95,23 +95,23 @@ namespace MarkInDeDark.Library.AI
             return actionsToPlayer;
         }
 
-        public override CharacterActions Update(
-            Enemy character,
-            TimeSpan elapsed)
-        {
-            var pathToPlayerIfFacingAndSameDirection = PathToPositionIfFacingAndSameDirection(
-                character,
-                _player.Position,
-                _gameGrid);
+        //public override CharacterActions Update(
+        //    Enemy character,
+        //    TimeSpan elapsed)
+        //{
+        //    var pathToPlayerIfFacingAndSameDirection = PathToPositionIfFacingAndSameDirection(
+        //        character,
+        //        _player.Position,
+        //        _gameGrid);
 
-            if (pathToPlayerIfFacingAndSameDirection == null)
-            {
-                return base.Update(character, elapsed);
-            }
+        //    if (pathToPlayerIfFacingAndSameDirection == null)
+        //    {
+        //        return base.Update(character, elapsed);
+        //    }
 
-            return character.SetNewAI(new PlayerHunterLineOfSightAI(
-                character, this, _gameGrid, _candlesManager, _player, _soundManager, _gameConfig, pathToPlayerIfFacingAndSameDirection));
-        }
+        //    return character.SetNewAI(new PlayerHunterLineOfSightAI(
+        //        character, this, _gameGrid, _candlesManager, _player, _soundManager, _gameConfig, pathToPlayerIfFacingAndSameDirection));
+        //}
 
     }
 }

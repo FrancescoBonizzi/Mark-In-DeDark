@@ -9,6 +9,7 @@ using MarkInDeDark.Library.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library
 {
@@ -209,25 +210,6 @@ namespace MarkInDeDark.Library
             }
         }
 
-        public void HandleKeyboardPressed(CharacterActions action)
-        {
-            if (IsPaused)
-                return;
-
-            switch (_currentState)
-            {
-                case GameStates.Menu:
-                    break;
-
-                case GameStates.Playing:
-                    _game.HandleInput(action);
-                    break;
-
-                case GameStates.Levels:
-                    break;
-            }
-        }
-
         private void UpdateInputType()
         {
             if (_markJoypad.IsConnected)
@@ -249,7 +231,7 @@ namespace MarkInDeDark.Library
             };
         }
 
-        public void Update(TimeSpan elapsed)
+        public void Update(TimeSpan elapsed, HashSet<CharacterActions> inputs)
         {
             UpdateInputType();
 
@@ -264,15 +246,15 @@ namespace MarkInDeDark.Library
             switch (_currentState)
             {
                 case GameStates.Menu:
-                    _menu.Update(elapsed);
+                    _menu.Update(elapsed, inputs);
                     break;
 
                 case GameStates.Playing:
-                    _game.Update(elapsed);
+                    _game.Update(elapsed, inputs);
                     break;
 
                 case GameStates.Levels:
-                    _levels.Update(elapsed);
+                    _levels.Update(elapsed, inputs);
                     break;
             }
 

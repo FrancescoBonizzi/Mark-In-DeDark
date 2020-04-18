@@ -11,13 +11,12 @@ namespace MarkInDeDark.Library.AI
     {
         protected readonly CandlesManager _candlesManager;
         protected readonly Player _player;
+        protected GameGrid _gameGrid;
+        protected SoundManager _soundManager;
 
         private readonly List<GameCell> _waypoints;
         private Queue<Vector2> _pathToCurrentWaypoint;
-
         private int _currentWaypointIndex;
-        protected GameGrid _gameGrid;
-        protected SoundManager _soundManager;
         private Vector2? _currentDestination;
         private readonly bool _searchesCandles;
 
@@ -71,16 +70,10 @@ namespace MarkInDeDark.Library.AI
             return Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 2f;
         }
 
-        public virtual CharacterActions Update(
+        public virtual Vector2 GetNextDirection(
             Enemy character,
             TimeSpan elapsed)
         {
-            // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
-            if (_currentDestination == null || ReachedDestination(character))
-            {
-                _currentDestination = GetNextDestination(character);
-            }
-
             // Se deve valutare se prendere le candele, lo valuto
             //if (_searchesCandles)
             //{
@@ -94,21 +87,27 @@ namespace MarkInDeDark.Library.AI
             //    }
             //}
 
+            // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
+            if (_currentDestination == null || ReachedDestination(character))
+            {
+                _currentDestination = GetNextDestination(character);
+            }
+
             // Se ho un'azione da compiere, la eseguo
             if (_currentDestination != null)
             {
-                return GameGrid.GetActionToPosition(character.WorldCenter, _currentDestination.Value);
+                return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
             }
 
             // Se non ho niente da fare, e non sono già in modalità RandomMovementAI 
             // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
             if (!(character.CurrentAI is RandomMovementAI))
             {
-                character.SetNewAI(new RandomMovementAI(this));
-                return character.CurrentAI.Update(character, elapsed);
+                character.SetNewAI(new RandomMovementAI(this, _gameGrid));
+                return character.CurrentAI.GetNextDirection(character, elapsed);
             }
 
-            return CharacterActions.Idle;
+            return Vector2.Zero;
         }
 
     }

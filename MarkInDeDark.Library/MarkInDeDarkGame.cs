@@ -251,16 +251,16 @@ namespace MarkInDeDark.Library
             }
         }
 
-        public void HandleInput(CharacterActions action)
+        public void HandleActionsInput(HashSet<CharacterActions> actions)
         {
-            if (action == CharacterActions.Candle && _candlesManager.LeftCandles == 0)
+            if (actions.Contains(CharacterActions.Candle) && _candlesManager.LeftCandles == 0)
             {
                 _gameHud.ShowMessage(
                     _localizedStringsRepository.Get("NotEnoughCandlesString"),
                     _gameConfig.NotEnoughCandlesStringColorRGB);
             }
 
-            _player.HandleInput(action);
+            _player.HandleInput(actions);
         }
 
         private void RepositionCamera()
@@ -271,10 +271,12 @@ namespace MarkInDeDark.Library
                 MathHelper.Lerp(_camera.Position.Y, newCameraPosition.Y, 0.1f));
         }
 
-        public void Update(TimeSpan elapsed)
+        public void Update(TimeSpan elapsed, HashSet<CharacterActions> inputs)
         {
             if (IsPaused)
                 return;
+
+            HandleActionsInput(inputs);
 
             switch (_currentGameState)
             {
@@ -427,7 +429,7 @@ namespace MarkInDeDark.Library
             }
 
             _gameGrid.Update(elapsed);
-            _player.Update(elapsed);
+            _player.Update(elapsed, inputs);
             _candlesManager.Update(elapsed);
             _key.Update(elapsed);
             _exit.Update(elapsed);

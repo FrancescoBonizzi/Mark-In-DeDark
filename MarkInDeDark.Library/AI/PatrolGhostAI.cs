@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,29 +39,33 @@ namespace MarkInDeDark.Library.AI
         private bool HasActionsToDo
             => _currentActions != null && _currentActions.Any();
 
-        public virtual CharacterActions Update(
-            Enemy character,
-            TimeSpan elapsed)
+        //public virtual CharacterActions Update(
+        //    Enemy character,
+        //    TimeSpan elapsed)
+        //{
+        //    // Se non ho niente da fare, cerco la posizione per il prossimo waypoint
+        //    if (!HasActionsToDo)
+        //    {
+        //        _currentActions = new Queue<CharacterActions>(_gameGrid.FindActionsToPathWithoutConsideringWalls(
+        //            character.Position,
+        //            _waypoints[_currentWaypointIndex].TopLeftPosition));
+
+        //        // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
+        //        _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
+        //    }
+
+        //    // Se devo ancora terminare la lista di azioni, eseguo la prossima
+        //    if (HasActionsToDo)
+        //    {
+        //        return _currentActions.Dequeue();
+        //    }
+
+        //    return CharacterActions.Idle;
+        //}
+
+        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
         {
-            // Se non ho niente da fare, cerco la posizione per il prossimo waypoint
-            if (!HasActionsToDo)
-            {
-                _currentActions = new Queue<CharacterActions>(_gameGrid.FindActionsToPathWithoutConsideringWalls(
-                    character.Position,
-                    _waypoints[_currentWaypointIndex].TopLeftPosition));
-
-                // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
-                _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
-            }
-
-            // Se devo ancora terminare la lista di azioni, eseguo la prossima
-            if (HasActionsToDo)
-            {
-                return _currentActions.Dequeue();
-            }
-
-            return CharacterActions.Idle;
+            throw new NotImplementedException();
         }
-
     }
 }
