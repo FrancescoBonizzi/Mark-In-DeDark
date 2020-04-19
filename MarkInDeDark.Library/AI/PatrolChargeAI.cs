@@ -18,7 +18,7 @@ namespace MarkInDeDark.Library.AI
             Player player,
             SoundManager soundManager,
             MarkInDeDarkGame game)
-            : base(patrolWaypoints, gameGrid, candlesManager, player, true)
+            : base(patrolWaypoints, gameGrid, candlesManager, true)
         {
             _game = game;
         }

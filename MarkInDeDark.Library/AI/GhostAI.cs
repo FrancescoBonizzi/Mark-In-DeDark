@@ -5,13 +5,12 @@ using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class PatrolGhostAI : PatrolAI
+    public class GhostAI : PatrolAI
     {
-        public PatrolGhostAI(
+        public GhostAI(
             List<GameCell> patrolWaypoints,
-            GameGrid gameGrid,
-            Player player)
-            : base(patrolWaypoints, gameGrid, null, player, false)
+            GameGrid gameGrid)
+            : base(patrolWaypoints, gameGrid, null, false)
         {
 
         }

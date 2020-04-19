@@ -3,7 +3,6 @@ using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library.AI
@@ -11,16 +10,15 @@ namespace MarkInDeDark.Library.AI
     public class PatrolAI : IEnemyAI
     {
         protected readonly CandlesManager _candlesManager;
-        protected readonly Player _player;
         protected GameGrid _gameGrid;
 
-        private readonly List<GameCell> _waypoints;
-        private Queue<Vector2> _pathToCurrentWaypoint;
-        private int _currentWaypointIndex;
+        protected readonly List<GameCell> _waypoints;
+        protected Queue<Vector2> _pathToCurrentWaypoint;
+        protected int _currentWaypointIndex;
 
-        private Vector2? _currentDestination;
-        private float _currentDestinationStartingDistance;
-        private Vector2 _currentDestinationStart;
+        protected Vector2? _currentDestination;
+        protected float _currentDestinationStartingDistance;
+        protected Vector2 _currentDestinationStart;
 
         private readonly bool _searchesCandles;
 
@@ -28,12 +26,10 @@ namespace MarkInDeDark.Library.AI
             List<GameCell> patrolWaypoints,
             GameGrid gameGrid,
             CandlesManager candlesManager,
-            Player player,
             bool searchesCandles)
         {
             _candlesManager = candlesManager;
             _waypoints = patrolWaypoints;
-            _player = player;
             _gameGrid = gameGrid;
             _searchesCandles = searchesCandles;
 
@@ -70,7 +66,7 @@ namespace MarkInDeDark.Library.AI
         protected virtual Queue<Vector2> FindPath(Vector2 from, Vector2 to)
             => new Queue<Vector2>(_gameGrid.FindPathV2(from, to));
 
-        private bool ReachedDestination(Character character)
+        protected virtual bool ReachedDestination(Character character)
             => Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
 
         public virtual bool IsBlocked(Character character)

@@ -81,9 +81,9 @@
     <Compile Include="AI\KillCandleAI.cs" />
     <Compile Include="AI\ChargeDirectionAI.cs" />
     <Compile Include="AI\PatrolChargeAI.cs" />
-    <Compile Include="AI\PatrolGhostAI.cs" />
+    <Compile Include="AI\GhostAI.cs" />
     <Compile Include="AI\PatrolHunterLineOfSightAI.cs" />
-    <Compile Include="AI\PlayerHunterAI.cs" />
+    <Compile Include="AI\GoblinAI.cs" />
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
     <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
