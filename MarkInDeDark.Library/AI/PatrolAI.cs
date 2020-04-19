@@ -39,7 +39,11 @@ namespace MarkInDeDark.Library.AI
         }
 
         public void ClearActions()
-            => _pathToCurrentWaypoint?.Clear();
+        {
+            _pathToCurrentWaypoint?.Clear();
+            _currentWaypointIndex = 0;
+            _currentDestination = null;
+        }
 
         protected Vector2? GetNextDestination(Character character)
         {

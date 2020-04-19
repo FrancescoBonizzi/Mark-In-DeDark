@@ -64,7 +64,7 @@
         "R": 255,
         "A": 255
     },
-    "SkeletronHuntingSpeed": 220,
+    "SkeletronHuntingSpeed": 300,
     "GoblinLightColorRGB1": {
         "B": 118,
         "G": 240,

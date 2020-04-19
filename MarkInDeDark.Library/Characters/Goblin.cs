@@ -44,7 +44,7 @@ namespace MarkInDeDark.Library.Characters
                       0,//soundManager.RegisterGoblinAttackSound(),
                       0,//soundManager.RegisterGoblinScreamSound(),
                       gameConfig.GoblinMaxCellsForNearCandle,
-                      new GoblinAI(gameGrid, player, candlesManager),
+                      new HuntPlayerAI(gameGrid, player, candlesManager),
                       true),
                   soundManager,
                   player,

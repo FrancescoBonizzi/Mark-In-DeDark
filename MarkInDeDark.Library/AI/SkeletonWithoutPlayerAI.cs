@@ -8,11 +8,13 @@ using System.Linq;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class PatrolHunterLineOfSightAI : PatrolAI
+    public class SkeletonWithoutPlayerAI : PatrolAI
     {
         private readonly GameConfig _gameConfig;
+        private readonly Player _player;
+        private readonly SoundManager _soundManager;
 
-        public PatrolHunterLineOfSightAI(
+        public SkeletonWithoutPlayerAI(
             List<GameCell> patrolWaypoints,
             GameGrid gameGrid,
             CandlesManager candlesManager,
@@ -22,9 +24,11 @@ namespace MarkInDeDark.Library.AI
             : base(patrolWaypoints, gameGrid, candlesManager, true)
         {
             _gameConfig = gameConfig;
+            _player = player;
+            _soundManager = soundManager;
         }
 
-        public static IEnumerable<AIMovementAction> PathToPositionIfFacingAndSameDirection(
+        public static List<CharacterActions> PathToPositionIfFacingAndSameDirection(
             Enemy enemy,
             Vector2 playerPosition,
             GameGrid gameGrid)
@@ -36,7 +40,7 @@ namespace MarkInDeDark.Library.AI
             bool areInTheSameVertical = playerCellIndex.X == enemyCellIndex.X;
             bool areInTheSameHorizontal = playerCellIndex.Y == enemyCellIndex.Y;
 
-            // Prima euristica: devono essere sulla stessa retta
+            // Prima euristica: devono essere sulla stessa colonna o riga di celle
             if (!areInTheSameVertical && !areInTheSameHorizontal)
             {
                 return null;
@@ -95,23 +99,28 @@ namespace MarkInDeDark.Library.AI
             return actionsToPlayer;
         }
 
-        //public override CharacterActions Update(
-        //    Enemy character,
-        //    TimeSpan elapsed)
-        //{
-        //    var pathToPlayerIfFacingAndSameDirection = PathToPositionIfFacingAndSameDirection(
-        //        character,
-        //        _player.Position,
-        //        _gameGrid);
+        public override Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        {
+            var pathToPlayerIfFacingAndSameDirection = PathToPositionIfFacingAndSameDirection(
+              character,
+              _player.Position,
+              _gameGrid);
 
-        //    if (pathToPlayerIfFacingAndSameDirection == null)
-        //    {
-        //        return base.Update(character, elapsed);
-        //    }
+            if (pathToPlayerIfFacingAndSameDirection == null)
+            {
+                return base.GetNextDirection(character, elapsed);
+            }
 
-        //    return character.SetNewAI(new PlayerHunterLineOfSightAI(
-        //        character, this, _gameGrid, _candlesManager, _player, _soundManager, _gameConfig, pathToPlayerIfFacingAndSameDirection));
-        //}
+            character.SetNewAI(new SkeletonWithPlayerAI(
+                character as Skeletron, 
+                this, 
+                _gameGrid, 
+                _candlesManager, 
+                _player, 
+                _soundManager, 
+                _gameConfig));
 
+            return Vector2.Zero;
+        }
     }
 }

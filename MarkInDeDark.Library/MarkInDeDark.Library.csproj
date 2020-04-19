@@ -76,17 +76,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\AIMovementAction.cs" />
     <Compile Include="AI\IEnemyAI.cs" />
     <Compile Include="AI\KillCandleAI.cs" />
     <Compile Include="AI\ChargeDirectionAI.cs" />
     <Compile Include="AI\PatrolChargeAI.cs" />
     <Compile Include="AI\GhostAI.cs" />
-    <Compile Include="AI\PatrolHunterLineOfSightAI.cs" />
-    <Compile Include="AI\GoblinAI.cs" />
+    <Compile Include="AI\SkeletonWithoutPlayerAI.cs" />
+    <Compile Include="AI\HuntPlayerAI.cs" />
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
-    <Compile Include="AI\PlayerHunterLineOfSightAI.cs" />
+    <Compile Include="AI\SkeletonWithPlayerAI.cs" />
     <Compile Include="AI\CrazyAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Characters\CharacterFallingInTrapAnimation.cs" />

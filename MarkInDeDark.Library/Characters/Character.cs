@@ -159,9 +159,8 @@ namespace MarkInDeDark.Library.Characters
                 _shadowsDrawingInfos = new DrawingInfos();
             }
 
-            CurrentAction = CharacterActions.Idle;
-            _previousAction = CharacterActions.Down;
-            SetDirectionAnimation(CharacterActions.Idle);
+            SetAction(CharacterActions.Down);
+            SetAction(CharacterActions.Idle);
 
             if (configuration.CharacterTorchConfiguration != null)
             {
@@ -286,9 +285,11 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
-        public void SetDirectionAnimation(CharacterActions direction)
+        public void SetAction(CharacterActions action)
         {
-            switch (direction)
+            _previousAction = CurrentAction;
+
+            switch (action)
             {
                 case CharacterActions.Idle:
 
@@ -346,7 +347,8 @@ namespace MarkInDeDark.Library.Characters
                     break;
             }
 
-            SetThingsWhenFacing(direction);
+            CurrentAction = action;
+            SetThingsWhenFacing(action);
             SetShadowPosition();
         }
 
@@ -502,23 +504,15 @@ namespace MarkInDeDark.Library.Characters
                 {
                     MainFigureDrawingInfos.Position += Speed * (float)elapsed.TotalSeconds * direction;
                     CurrentCharacterState = CharacterState.Moving;
+                    SetAction(GetActionForDirection(direction));
                 }
-                else
-                {
-                    CurrentCharacterState = CharacterState.Idle;
-                }
-
-                _previousAction = CurrentAction;
-                CurrentAction = GetActionForDirection(direction);
-                SetDirectionAnimation(CurrentAction);
             }
 
-            if (!IsDead && !IsDying && direction == Vector2.Zero && CurrentCharacterState != CharacterState.Attacking)
+            if (!IsDead && !IsDying 
+                && direction == Vector2.Zero 
+                && CurrentCharacterState != CharacterState.Attacking)
             {
-                _previousAction = CurrentAction;
-                CurrentAction = CharacterActions.Idle;
-                CurrentCharacterState = CharacterState.Idle;
-                SetDirectionAnimation(CurrentAction);
+                SetAction(CharacterActions.Idle);
             }
 
             if (IsDying)

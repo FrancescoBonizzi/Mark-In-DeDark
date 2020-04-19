@@ -73,7 +73,7 @@ namespace MarkInDeDark.Library.AI
                     if (_elapsedTime < _chargeTimeToStartSeconds)
                     {
                         _elapsedTime += elapsed;
-                        character.SetDirectionAnimation(_direction);
+                        character.SetAction(_direction);
                         return CharacterActions.Idle;
                     }
                     else

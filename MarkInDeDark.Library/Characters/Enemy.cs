@@ -125,8 +125,8 @@ namespace MarkInDeDark.Library.Characters
             {
                 //StopAttackSound();
                 CurrentCharacterState = CharacterState.Idle;
-                SetDirectionAnimation(CharacterActions.Down);
-                SetDirectionAnimation(CharacterActions.Idle);
+                SetAction(CharacterActions.Down);
+                SetAction(CharacterActions.Idle);
             }
         }
 

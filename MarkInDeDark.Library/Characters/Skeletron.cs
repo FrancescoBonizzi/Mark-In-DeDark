@@ -48,7 +48,7 @@ namespace MarkInDeDark.Library.Characters
                 attackSoundIndex: 0,//soundManager.RegisterSkeletronAttackSound(),
                 screamSoundIndex: 0,//soundManager.RegisterSkeletronScreamSound(),
                 nCellsFindingRange: gameConfig.SkeletronMaxCellsForNearCandle,
-                startingAI: new PatrolHunterLineOfSightAI(patrolPath, gameGrid, candlesManager, player, soundManager, gameConfig),
+                startingAI: new SkeletonWithoutPlayerAI(patrolPath, gameGrid, candlesManager, player, soundManager, gameConfig),
                 true),
             soundManager,
             player,

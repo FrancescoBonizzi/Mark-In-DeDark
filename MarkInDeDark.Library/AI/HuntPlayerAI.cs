@@ -5,15 +5,13 @@ using System;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class GoblinAI : IEnemyAI
+    public class HuntPlayerAI : IEnemyAI
     {
-        private readonly Player _player;
-        private readonly CandlesManager _candlesManager;
-        private readonly GameGrid _gameGrid;
+        protected readonly Player _player;
+        protected readonly CandlesManager _candlesManager;
+        protected readonly GameGrid _gameGrid;
 
-        private bool _isBlocked;
-
-        public GoblinAI(
+        public HuntPlayerAI(
             GameGrid gameGrid,
             Player player,
             CandlesManager candlesManager)
@@ -40,7 +38,7 @@ namespace MarkInDeDark.Library.AI
             return _player.WorldCenter;
         }
 
-        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        public virtual Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
         {
             // Ricerca candele...
             var pathToTheNearestCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
