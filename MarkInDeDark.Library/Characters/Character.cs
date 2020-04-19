@@ -60,7 +60,6 @@ namespace MarkInDeDark.Library.Characters
 
         public bool AreLightsActive { get; set; }
 
-        public bool IsMoving => CurrentCharacterState == CharacterState.Moving;
         public float Speed { get; set; }
 
         protected bool _stopMovement = false;
@@ -493,7 +492,6 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
         {
-            // TODO Un bello switch con i possibili stati
             if (!IsDying && !IsDead
                 && !_stopMovement
                 && CurrentCharacterState != CharacterState.Attacking
@@ -505,7 +503,11 @@ namespace MarkInDeDark.Library.Characters
                 if (CanMove(direction))
                 {
                     MainFigureDrawingInfos.Position += Speed * (float)elapsed.TotalSeconds * direction;
-                    //CurrentCharacterState = CharacterState.Moving;
+                    CurrentCharacterState = CharacterState.Moving;
+                }
+                else
+                {
+                    CurrentCharacterState = CharacterState.Idle;
                 }
 
                 _previousAction = CurrentAction;

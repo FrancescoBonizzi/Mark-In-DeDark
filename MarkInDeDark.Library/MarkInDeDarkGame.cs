@@ -2,13 +2,11 @@
 using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
-using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
 
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
-using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;

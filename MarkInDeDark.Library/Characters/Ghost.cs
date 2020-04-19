@@ -74,7 +74,7 @@ namespace MarkInDeDark.Library.Characters
         public override bool CustomConditionToAttackPlayer()
         {
             // Attacca il player solo se si muove
-            return _player.IsMoving;
+            return _player.CurrentCharacterState == CharacterState.Moving;
         }
 
     }
