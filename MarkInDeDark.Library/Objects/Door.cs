@@ -70,7 +70,7 @@ namespace MarkInDeDark.Library.Objects
             DoorAnimationDrawingInfos = new DrawingInfos()
             {
                 Position = doorPosition,
-                LayerDepth = ZIndexCalculator.ForWall(doorPosition)
+                LayerDepth = ZIndexCalculator.ForWall(doorPosition + _wallDoorDownSprite.SpriteCenter)
             };
 
             _doorOpenAnimation = assetsLoader.GetAnimation("DoorOpen");
