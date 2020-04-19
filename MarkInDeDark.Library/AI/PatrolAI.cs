@@ -75,6 +75,21 @@ namespace MarkInDeDark.Library.AI
             return Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
         }
 
+        public bool IsBlocked(Character character)
+        {
+            foreach(var w in _waypoints)
+            {
+                var pathToThisWaypoint = _gameGrid.FindPathV2(
+                    character.WorldCenter,
+                    w.CenterPosition);
+
+                if (pathToThisWaypoint.Count == 0)
+                    return true;
+            }
+
+            return false;
+        }
+
         public virtual Vector2 GetNextDirection(
             Enemy character,
             TimeSpan elapsed)

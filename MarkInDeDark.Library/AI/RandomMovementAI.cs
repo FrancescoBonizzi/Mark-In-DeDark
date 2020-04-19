@@ -14,7 +14,7 @@ namespace MarkInDeDark.Library.AI
     public class RandomMovementAI : IEnemyAI
     {
         private readonly IEnemyAI _previousAI;
-        
+
         private Vector2? _currentDestination;
         private readonly GameGrid _gameGrid;
 
@@ -56,13 +56,11 @@ namespace MarkInDeDark.Library.AI
         {
             if (_currentDestination == null || ReachedDestination(character))
             {
-                var previousAIDirection = _previousAI.GetNextDirection(character, elapsed);
-
                 // Se può tornare a fare quello che faceva prima, lo fa
-                if (previousAIDirection != Vector2.Zero)
+                if (!_previousAI.IsBlocked(character))
                 {
                     character.SetNewAI(_previousAI);
-                    return previousAIDirection;
+                    return Vector2.Zero;
                 }
 
                 // Altrimenti si muove in destinazioni casuali
@@ -74,6 +72,9 @@ namespace MarkInDeDark.Library.AI
 
             return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
         }
+
+        public bool IsBlocked(Character character)
+            => false;
     }
 
 }

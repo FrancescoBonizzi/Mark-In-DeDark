@@ -7,5 +7,6 @@ namespace MarkInDeDark.Library.AI
     public interface IEnemyAI
     {
         Vector2 GetNextDirection(Enemy character, TimeSpan elapsed);
+        bool IsBlocked(Character character);
     }
 }

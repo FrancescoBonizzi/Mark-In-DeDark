@@ -159,5 +159,10 @@ namespace MarkInDeDark.Library.AI
         {
             throw new NotImplementedException();
         }
+
+        public bool IsBlocked(Character character)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

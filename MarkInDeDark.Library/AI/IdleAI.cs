@@ -8,5 +8,8 @@ namespace MarkInDeDark.Library.AI
     {
         public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
             => Vector2.Zero;
+
+        public bool IsBlocked(Character character)
+            => false;
     }
 }
