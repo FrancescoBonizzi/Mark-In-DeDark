@@ -413,7 +413,7 @@ namespace MarkInDeDark.Library.Characters
         public static Vector2 GetDirectionToPosition(Vector2 from, Vector2 to)
         {
             var difference = (to - from);
-            
+
             // Altrimenti Normalize ritorna NaN
             if (difference == Vector2.Zero)
                 return difference;
@@ -439,69 +439,85 @@ namespace MarkInDeDark.Library.Characters
             return CharacterActions.Idle;
         }
 
-        public bool CanMove()
+        public bool CanMove(Vector2 direction)
         {
+            if (_canGoOverWalls)
+                return true;
+
+            // TODO In base alla direzione devo anche capire 
+            // se dove sto andando c'è un muro in mezzo alle celle
             var currentCell = _gameGrid.GetCellAtPixel(WorldCenter);
+
+            if (currentCell == null)
+                return false;
+
             var characterWorldCenter = WorldCenter;
             const float verticalMovementMargin = 50f;
             const float horizontalMovementMargin = 80f;
 
-            switch (CurrentAction)
+            bool canMove = true;
+
+            if (direction.Y < 0)
             {
-                case CharacterActions.Up:
-                    {
-                        bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
-                        if (isOnCellBorder)
-                            return currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
-                        else return true;
-                    }
-
-                case CharacterActions.Down:
-                    {
-                        bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
-                        if (isOnCellBorder)
-                            return currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
-                        else return true;
-                    }
-
-                case CharacterActions.Right:
-                    {
-                        bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
-                        if (isOnCellBorder)
-                            return currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
-                        else return true;
-                    }
-
-                case CharacterActions.Left:
-                    {
-                        bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
-                        if (isOnCellBorder)
-                            return currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
-                        else return true;
-                    }
+                bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
+                if (isOnCellBorder)
+                    canMove = canMove && currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
             }
 
-            return false;
+            if (direction.Y > 0)
+            {
+                bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
+                if (isOnCellBorder)
+                    canMove = canMove && currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
+            }
+
+            if (direction.X > 0)
+            {
+                bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
+                if (isOnCellBorder)
+                    canMove = canMove && currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
+                else return true;
+            }
+
+            if (direction.X < 0)
+            {
+                bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
+                if (isOnCellBorder)
+                    canMove = canMove && currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
+            }
+
+            return canMove;
         }
 
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
         {
             // TODO Un bello switch con i possibili stati
 
-            if (!IsDying && !IsDead && !_stopMovement && CurrentCharacterState != CharacterState.Attacking)
+            if (!IsDying && !IsDead 
+                && !_stopMovement 
+                && CurrentCharacterState != CharacterState.Attacking 
+                && direction != Vector2.Zero)
             {
                 // Già normalizzato!
                 // direction.Normalize();
 
-                if (CanMove())
+                if (CanMove(direction))
                 {
                     MainFigureDrawingInfos.Position += Speed * (float)elapsed.TotalSeconds * direction;
+                    //CurrentCharacterState = CharacterState.Moving;
                 }
 
                 _previousAction = CurrentAction;
                 CurrentAction = GetActionForDirection(direction);
                 SetDirectionAnimation(CurrentAction);
                 SetShadowPosition();
+            }
+
+            if (direction == Vector2.Zero)
+            {
+                _previousAction = CurrentAction;
+                CurrentAction = CharacterActions.Idle;
+                SetDirectionAnimation(CurrentAction);
             }
 
             if (IsDying)

@@ -490,8 +490,8 @@ namespace MarkInDeDark.Library.Levels
 
                 foreach (var near in c.Links.Select(a => a.Value))
                 {
-                    if (near != null 
-                        && !near.IsUnwalkableForEnemies 
+                    if (near != null
+                        && !near.IsUnwalkableForEnemies
                         && !near.IsUnwalkable)
                     {
                         if (!visited.Contains(near))
@@ -573,7 +573,16 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        private List<GameCell> FindPathWithoutConsideringWalls(GameCell A, GameCell B)
+        public List<Vector2> FindPathWithoutConsideringWalls(Vector2 A, Vector2 B)
+        {
+#warning TODO Cache
+
+            return FindPathWithoutConsideringWalls(
+                GetCellAtPixel((int)A.X, (int)A.Y),
+                GetCellAtPixel((int)B.X, (int)B.Y));
+        }
+
+        public List<Vector2> FindPathWithoutConsideringWalls(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();
 
@@ -622,14 +631,14 @@ namespace MarkInDeDark.Library.Levels
                 }
             }
 
-            var path = new List<GameCell>();
+            var path = new List<Vector2>();
 
             if (parent.ContainsKey(B))
             {
                 GameCell backTrack = B;
                 do
                 {
-                    path.Add(backTrack);
+                    path.Add(backTrack.CenterPosition);
                     backTrack = parent[backTrack];
                 }
                 while (backTrack != null);
@@ -690,16 +699,6 @@ namespace MarkInDeDark.Library.Levels
             }
 
             return directions;
-        }
-
-        public IEnumerable<CharacterActions> FindActionsToPathWithoutConsideringWalls(Vector2 A, Vector2 B)
-        {
-            var startingCell = GetCellAtPixel((int)A.X, (int)A.Y);
-            var destinationCell = GetCellAtPixel((int)B.X, (int)B.Y);
-
-            return PathToDirectionsWithoutWalls(FindPathWithoutConsideringWalls(
-                startingCell,
-                destinationCell));
         }
 
         public List<Vector2> FindPathV2(Vector2 A, Vector2 B)
@@ -781,7 +780,7 @@ namespace MarkInDeDark.Library.Levels
             // Mi segno le celle che l'utente vede, per Update e Draw
             var cameraBoundingRectangle = _camera.BoundingRectangle;
             _currentViewportMinCellX = GetCellByPixelX((int)(_camera.Position.X - _camera.Position.X * _camera.Zoom));
-            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right  + cameraBoundingRectangle.Right * _camera.Zoom));
+            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right + cameraBoundingRectangle.Right * _camera.Zoom));
             _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
 

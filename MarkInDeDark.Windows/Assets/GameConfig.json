@@ -42,7 +42,7 @@
         "A": 255
     },
     "GhostLightSize": 0.5,
-    "GhostSpeed": 1.5,
+    "GhostSpeed": 300,
     "SkeletronLightColorRGB1": {
         "B": 240,
         "G": 118,

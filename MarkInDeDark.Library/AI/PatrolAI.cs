@@ -122,9 +122,9 @@ namespace MarkInDeDark.Library.AI
                     _currentDestinationStartingDistance = Vector2.Distance(character.WorldCenter, _currentDestination.Value);
                 }
             }
-
+            
             // Se ho un'azione da compiere, la eseguo
-            if (_currentDestination != null && _pathToCurrentWaypoint.Count != 0 && !IsBlocked(character))
+            if (_currentDestination != null && !IsBlocked(character))
             {
                 return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
             }

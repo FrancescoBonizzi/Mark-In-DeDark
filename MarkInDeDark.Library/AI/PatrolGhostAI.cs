@@ -10,13 +10,16 @@ namespace MarkInDeDark.Library.AI
     public class PatrolGhostAI : IEnemyAI
     {
         protected readonly Player _player;
-
-        private readonly List<GameCell> _waypoints;
-        private Queue<CharacterActions> _currentActions;
-
-        private int _currentWaypointIndex;
         protected GameGrid _gameGrid;
         protected SoundManager _soundManager;
+
+        private readonly List<GameCell> _waypoints;
+        private Queue<Vector2> _pathToCurrentWaypoint;
+        private int _currentWaypointIndex;
+
+        private Vector2? _currentDestination;
+        private float _currentDestinationStartingDistance;
+        private Vector2 _currentDestinationStart;
 
         public PatrolGhostAI(
             List<GameCell> patrolWaypoints,
@@ -31,44 +34,66 @@ namespace MarkInDeDark.Library.AI
 
             // 0 è la sua posizione di partenza
             _currentWaypointIndex = 1;
+            _pathToCurrentWaypoint = new Queue<Vector2>();
         }
 
         public void ClearActions()
-            => _currentActions.Clear();
+            => _pathToCurrentWaypoint?.Clear();
 
-        private bool HasActionsToDo
-            => _currentActions != null && _currentActions.Any();
-
-        //public virtual CharacterActions Update(
-        //    Enemy character,
-        //    TimeSpan elapsed)
-        //{
-        //    // Se non ho niente da fare, cerco la posizione per il prossimo waypoint
-        //    if (!HasActionsToDo)
-        //    {
-        //        _currentActions = new Queue<CharacterActions>(_gameGrid.FindActionsToPathWithoutConsideringWalls(
-        //            character.Position,
-        //            _waypoints[_currentWaypointIndex].TopLeftPosition));
-
-        //        // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
-        //        _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
-        //    }
-
-        //    // Se devo ancora terminare la lista di azioni, eseguo la prossima
-        //    if (HasActionsToDo)
-        //    {
-        //        return _currentActions.Dequeue();
-        //    }
-
-        //    return CharacterActions.Idle;
-        //}
-
-        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        private Vector2? GetNextDestination(Character character)
         {
-            throw new NotImplementedException();
+            // Se non ho più azioni per il waypoint, le calcolo per il prossimo
+            if (_pathToCurrentWaypoint == null || !_pathToCurrentWaypoint.Any())
+            {
+                _pathToCurrentWaypoint = new Queue<Vector2>(_gameGrid.FindPathWithoutConsideringWalls(
+                    character.WorldCenter,
+                    _waypoints[_currentWaypointIndex].CenterPosition));
+
+                // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
+                _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
+            }
+
+            // Se non ho un'azione corrente da eseguire, ma ho la lista pronta, ne scodo una
+            if (_pathToCurrentWaypoint.Any())
+            {
+                return _pathToCurrentWaypoint.Dequeue();
+            }
+
+            return null;
         }
 
+        private bool ReachedDestination(Character character)
+        {
+            return Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
+        }
+
+        // Il ghost non è mai bloccato
         public bool IsBlocked(Character character)
             => false;
+
+        public virtual Vector2 GetNextDirection(
+            Enemy character,
+            TimeSpan elapsed)
+        {
+            // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
+            if (_currentDestination == null || ReachedDestination(character))
+            {
+                _currentDestination = GetNextDestination(character);
+                if (_currentDestination != null)
+                {
+                    _currentDestinationStart = character.WorldCenter;
+                    _currentDestinationStartingDistance = Vector2.Distance(character.WorldCenter, _currentDestination.Value);
+                }
+            }
+
+            // Se ho un'azione da compiere, la eseguo
+            if (_currentDestination != null)
+            {
+                return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
+            }
+
+            return Vector2.Zero;
+        }
+
     }
 }
