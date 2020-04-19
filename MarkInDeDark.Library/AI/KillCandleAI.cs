@@ -12,6 +12,10 @@ namespace MarkInDeDark.Library.AI
         private readonly IEnemyAI _nextAI;
         private readonly Candle _targetCandle;
 
+        private Vector2? _currentDestination;
+        private float _currentDestinationStartingDistance;
+        private Vector2 _currentDestinationStart;
+
         public enum KillCandleStatus
         {
             WalkingToCandle,
@@ -34,6 +38,11 @@ namespace MarkInDeDark.Library.AI
             _currentKillCandleStatus = KillCandleStatus.WalkingToCandle;
         }
 
+        private bool ReachedDestination(Character character)
+        {
+            return Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
+        }
+
         public virtual Vector2 GetNextDirection(
             Enemy character,
             TimeSpan elapsed)
@@ -48,20 +57,33 @@ namespace MarkInDeDark.Library.AI
                     // torno indietro
                     if (anyPathToFollow && _targetCandle.IsActive)
                     {
-                        return _pathToCandle.Dequeue();
+                        if (_currentDestination == null || ReachedDestination(character))
+                        {
+                            _currentDestination = _pathToCandle.Dequeue();
+                            if (_currentDestination != null)
+                            {
+                                _currentDestinationStart = character.WorldCenter;
+                                _currentDestinationStartingDistance = Vector2.Distance(character.WorldCenter, _currentDestination.Value);
+                            }
+                        }
                     }
-                    else if (!_targetCandle.IsActive)
+
+                    if (!_targetCandle.IsActive)
                     {
                         character.SetNewAI(_nextAI);
                         return Vector2.Zero;
                     }
-                    else if (!anyPathToFollow)
+
+                    if (!anyPathToFollow && ReachedDestination(character))
                     {
                         _currentKillCandleStatus = KillCandleStatus.Smashing;
                         _targetCandle.Die();
                         character.Attack();
                         return Vector2.Zero;
                     }
+
+                    if (_currentDestination != null)
+                        return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
 
                     break;
 

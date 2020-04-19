@@ -11,14 +11,14 @@ namespace MarkInDeDark.Library.AI
     /// Quest'AI fa continua a far muovere a caso il personaggio 
     /// finché non ha modo di eseguire le proprie azioni dell'AI principale
     /// </summary>
-    public class RandomMovementAI : IEnemyAI
+    public class CrazyAI : IEnemyAI
     {
         private readonly IEnemyAI _previousAI;
 
         private Vector2? _currentDestination;
         private readonly GameGrid _gameGrid;
 
-        public RandomMovementAI(
+        public CrazyAI(
             IEnemyAI previousAI,
             GameGrid gameGrid)
         {

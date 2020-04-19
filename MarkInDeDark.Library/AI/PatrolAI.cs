@@ -131,11 +131,11 @@ namespace MarkInDeDark.Library.AI
 
             // Se non ho niente da fare, e non sono già in modalità RandomMovementAI 
             // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
-            if (!(character.CurrentAI is RandomMovementAI))
+            if (!(character.CurrentAI is CrazyAI))
             {
                 _currentDestination = null;
                 _pathToCurrentWaypoint = null;
-                character.SetNewAI(new RandomMovementAI(this, _gameGrid));
+                character.SetNewAI(new CrazyAI(this, _gameGrid));
                 return character.CurrentAI.GetNextDirection(character, elapsed);
             }
 
