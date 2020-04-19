@@ -31,7 +31,7 @@ namespace MarkInDeDark.Library.AI
             // Qui utilizzo un modo di capire se "sei arrivato" più rozzo 
             // per far muovere il mostro in modo più casuale.
             // Il risultato è che si muove lungo le diagonali perché non ha un punto d'arrivo preciso
-            return Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 96f;
+            return Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 50f;
         }
 
         private Vector2? GetNextDestination(Character character)

@@ -119,7 +119,7 @@ namespace MarkInDeDark.Library.AI
             }
 
             // Se ho un'azione da compiere, la eseguo
-            if (_currentDestination != null)
+            if (_currentDestination != null && _pathToCurrentWaypoint.Count != 0)
             {
                 return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
             }
@@ -128,6 +128,8 @@ namespace MarkInDeDark.Library.AI
             // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
             if (!(character.CurrentAI is RandomMovementAI))
             {
+                _currentDestination = null;
+                _pathToCurrentWaypoint = null;
                 character.SetNewAI(new RandomMovementAI(this, _gameGrid));
                 return character.CurrentAI.GetNextDirection(character, elapsed);
             }
