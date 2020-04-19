@@ -12,8 +12,9 @@ namespace MarkInDeDark.Library.AI
 
         public GoblinAI(
             GameGrid gameGrid,
-            Player player)
-            : base(new List<GameCell>(), gameGrid, null, false)
+            Player player,
+            CandlesManager candlesManager)
+            : base(new List<GameCell>(), gameGrid, candlesManager, true)
         {
             _player = player;
         }
@@ -21,13 +22,11 @@ namespace MarkInDeDark.Library.AI
         public override Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
         {
             _waypoints.Clear();
-            _waypoints.Add(_gameGrid.GetCellAtPixel(_player.WorldCenter));
+            _waypoints.Add(_player.WorldCenter);
             _currentWaypointIndex = 0;
+            SetCurrentDestination(_player.WorldCenter, character);
 
             return base.GetNextDirection(character, elapsed);
         }
-
-        protected override bool ReachedDestination(Character character)
-            => Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 50f;
     }
 }

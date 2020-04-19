@@ -12,7 +12,7 @@ namespace MarkInDeDark.Library.AI
         protected readonly CandlesManager _candlesManager;
         protected GameGrid _gameGrid;
 
-        protected readonly List<GameCell> _waypoints;
+        protected readonly List<Vector2> _waypoints;
         protected Queue<Vector2> _pathToCurrentWaypoint;
         protected int _currentWaypointIndex;
 
@@ -29,7 +29,7 @@ namespace MarkInDeDark.Library.AI
             bool searchesCandles)
         {
             _candlesManager = candlesManager;
-            _waypoints = patrolWaypoints;
+            _waypoints = patrolWaypoints.Select(p => p.CenterPosition).ToList();
             _gameGrid = gameGrid;
             _searchesCandles = searchesCandles;
 
@@ -48,7 +48,7 @@ namespace MarkInDeDark.Library.AI
             {
                 _pathToCurrentWaypoint = FindPath(
                     character.WorldCenter, 
-                    _waypoints[_currentWaypointIndex].CenterPosition);
+                    _waypoints[_currentWaypointIndex]);
 
                 // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
@@ -75,13 +75,22 @@ namespace MarkInDeDark.Library.AI
             {
                 var pathToThisWaypoint = _gameGrid.FindPathV2(
                     character.WorldCenter,
-                    w.CenterPosition);
+                    w);
 
                 if (pathToThisWaypoint.Count == 0)
                     return true;
             }
 
             return false;
+        }
+
+        protected void SetCurrentDestination(Vector2 destination, Character character)
+        {
+            _currentDestination = destination;
+            _currentDestinationStart = character.WorldCenter;
+            _currentDestinationStartingDistance = Vector2.Distance(
+                _currentDestinationStart,
+                _currentDestination.Value);
         }
 
         public virtual Vector2 GetNextDirection(
@@ -107,13 +116,18 @@ namespace MarkInDeDark.Library.AI
             }
 
             // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
-            if (_currentDestination == null || ReachedDestination(character))
+            var reachedDestination = ReachedDestination(character);
+            if (_currentDestination == null || reachedDestination)
             {
-                _currentDestination = GetNextDestination(character);
-                if (_currentDestination != null)
+                if (reachedDestination && _currentDestination != null)
                 {
-                    _currentDestinationStart = character.WorldCenter;
-                    _currentDestinationStartingDistance = Vector2.Distance(character.WorldCenter, _currentDestination.Value);
+                    character.MainFigureDrawingInfos.Position = _currentDestination.Value;
+                }
+
+                var newDestination = GetNextDestination(character);
+                if (newDestination != null)
+                {
+                    SetCurrentDestination(newDestination.Value, character);
                 }
             }
             
