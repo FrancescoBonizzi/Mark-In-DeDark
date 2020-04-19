@@ -16,7 +16,7 @@ namespace MarkInDeDark.Library.AI
         private readonly IEnemyAI _previousAI;
         
         private Vector2? _currentDestination;
-        private GameGrid _gameGrid;
+        private readonly GameGrid _gameGrid;
 
         public RandomMovementAI(
             IEnemyAI previousAI,
