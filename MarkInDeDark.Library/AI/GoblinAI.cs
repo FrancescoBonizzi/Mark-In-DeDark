@@ -2,31 +2,77 @@
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class GoblinAI : PatrolAI
+    public class GoblinAI : IEnemyAI
     {
         private readonly Player _player;
+        private readonly CandlesManager _candlesManager;
+        private readonly GameGrid _gameGrid;
+
+        private bool _isBlocked;
 
         public GoblinAI(
             GameGrid gameGrid,
             Player player,
             CandlesManager candlesManager)
-            : base(new List<GameCell>(), gameGrid, candlesManager, true)
         {
             _player = player;
+            _candlesManager = candlesManager;
+            _gameGrid = gameGrid;
         }
 
-        public override Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        protected Vector2? GetNextDestination(Character character)
         {
-            _waypoints.Clear();
-            _waypoints.Add(_player.WorldCenter);
-            _currentWaypointIndex = 0;
-            SetCurrentDestination(_player.WorldCenter, character);
+            var pathToPlayer = _gameGrid.FindPathV2(character.WorldCenter, _player.WorldCenter);
+            if (pathToPlayer.Count > 1)
+            {
+                // Lo 0 sono io
+                return pathToPlayer[1];
+            }
 
-            return base.GetNextDirection(character, elapsed);
+            if (pathToPlayer.Count == 0)
+            {
+                return null;
+            }
+
+            return _player.WorldCenter;
         }
+
+        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
+        {
+            // Ricerca candele...
+            var pathToTheNearestCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
+            // ...se c'è una candela nei paraggi...
+            if (pathToTheNearestCandle != null)
+            {
+                // ...passo all'AI di ricerca candele
+                character.SetNewAI(new KillCandleAI(pathToTheNearestCandle.Candle, pathToTheNearestCandle.PathToTheCandle, this));
+                return character.CurrentAI.GetNextDirection(character, elapsed);
+            }
+
+            // Inseguimento del player
+            var currentDestination = GetNextDestination(character);
+            
+            // Se ho un'azione da compiere, la eseguo
+            if (currentDestination != null)
+            {
+                return Character.GetDirectionToPosition(character.WorldCenter, currentDestination.Value);
+            }
+
+            // Se non ho niente da fare, e non sono già in modalità RandomMovementAI 
+            // faccio muovere a caso il personaggio (se lo continuo a reimpostare vado in StackOverflow)
+            if (!(character.CurrentAI is CrazyAI))
+            {
+                character.SetNewAI(new CrazyAI(this, _gameGrid));
+                return character.CurrentAI.GetNextDirection(character, elapsed);
+            }
+
+            return Vector2.Zero;
+        }
+
+        public bool IsBlocked(Character character)
+            => GetNextDestination(character) == null;
     }
 }

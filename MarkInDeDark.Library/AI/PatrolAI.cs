@@ -41,7 +41,7 @@ namespace MarkInDeDark.Library.AI
         public void ClearActions()
             => _pathToCurrentWaypoint?.Clear();
 
-        private Vector2? GetNextDestination(Character character)
+        protected Vector2? GetNextDestination(Character character)
         {
             // Se non ho più azioni per il waypoint, le calcolo per il prossimo
             if (_pathToCurrentWaypoint == null || !_pathToCurrentWaypoint.Any())
