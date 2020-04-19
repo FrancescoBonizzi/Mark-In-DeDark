@@ -519,6 +519,7 @@ namespace MarkInDeDark.Library.Characters
             {
                 _previousAction = CurrentAction;
                 CurrentAction = CharacterActions.Idle;
+                CurrentCharacterState = CharacterState.Idle;
                 SetDirectionAnimation(CurrentAction);
             }
 
