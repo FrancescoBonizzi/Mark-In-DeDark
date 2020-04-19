@@ -3,6 +3,7 @@ using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library.AI
@@ -17,7 +18,11 @@ namespace MarkInDeDark.Library.AI
         private readonly List<GameCell> _waypoints;
         private Queue<Vector2> _pathToCurrentWaypoint;
         private int _currentWaypointIndex;
+
         private Vector2? _currentDestination;
+        private float _currentDestinationStartingDistance;
+        private Vector2 _currentDestinationStart;
+
         private readonly bool _searchesCandles;
 
         public PatrolAI(
@@ -67,7 +72,7 @@ namespace MarkInDeDark.Library.AI
 
         private bool ReachedDestination(Character character)
         {
-            return Vector2.Distance(character.WorldCenter, _currentDestination.Value) <= 2f;
+            return Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
         }
 
         public virtual Vector2 GetNextDirection(
@@ -91,6 +96,11 @@ namespace MarkInDeDark.Library.AI
             if (_currentDestination == null || ReachedDestination(character))
             {
                 _currentDestination = GetNextDestination(character);
+                if (_currentDestination != null)
+                {
+                    _currentDestinationStart = character.WorldCenter;
+                    _currentDestinationStartingDistance = Vector2.Distance(character.WorldCenter, _currentDestination.Value);
+                }
             }
 
             // Se ho un'azione da compiere, la eseguo

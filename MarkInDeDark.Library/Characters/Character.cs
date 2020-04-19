@@ -414,7 +414,7 @@ namespace MarkInDeDark.Library.Characters
         {
             var difference = (to - from);
             
-            // Altrimenti ritorna NaN
+            // Altrimenti Normalize ritorna NaN
             if (difference == Vector2.Zero)
                 return difference;
 
@@ -422,17 +422,18 @@ namespace MarkInDeDark.Library.Characters
             return difference;
         }
 
-        public static CharacterActions GetActionForMovement(Vector2 movement)
+        public static CharacterActions GetActionForDirection(Vector2 normalizedMovement)
         {
-            movement.Normalize();
+            normalizedMovement.X = (float)Math.Round(normalizedMovement.X);
+            normalizedMovement.Y = (float)Math.Round(normalizedMovement.Y);
 
-            if (movement.X > 0)
+            if (normalizedMovement.X > 0)
                 return CharacterActions.Right;
-            else if (movement.X < 0)
+            if (normalizedMovement.X < 0)
                 return CharacterActions.Left;
-            else if (movement.Y < 0)
+            if (normalizedMovement.Y < 0)
                 return CharacterActions.Up;
-            else if (movement.Y > 0)
+            if (normalizedMovement.Y > 0)
                 return CharacterActions.Down;
 
             return CharacterActions.Idle;
@@ -451,7 +452,7 @@ namespace MarkInDeDark.Library.Characters
                     {
                         bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
                         if (isOnCellBorder)
-                            return (currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable);
+                            return currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
                         else return true;
                     }
 
@@ -494,13 +495,11 @@ namespace MarkInDeDark.Library.Characters
 
                 if (CanMove())
                 {
-                    MainFigureDrawingInfos.Position += new Vector2(
-                        Speed * (float)elapsed.TotalSeconds * direction.X,
-                        Speed * (float)elapsed.TotalSeconds * direction.Y);
+                    MainFigureDrawingInfos.Position += Speed * (float)elapsed.TotalSeconds * direction;
                 }
 
                 _previousAction = CurrentAction;
-                CurrentAction = GetActionForMovement(direction);
+                CurrentAction = GetActionForDirection(direction);
                 SetDirectionAnimation(CurrentAction);
                 SetShadowPosition();
             }
