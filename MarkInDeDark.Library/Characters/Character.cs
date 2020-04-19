@@ -326,30 +326,27 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case CharacterActions.Up:
-                    SetThingsWhenFacing(direction);
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkUp.ToString());
                     PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
                     break;
 
                 case CharacterActions.Down:
-                    SetThingsWhenFacing(direction);
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkDown.ToString());
                     PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
                     break;
 
                 case CharacterActions.Left:
-                    SetThingsWhenFacing(direction);
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkLeft.ToString());
                     PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
                     break;
 
                 case CharacterActions.Right:
-                    SetThingsWhenFacing(direction);
                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.WalkRight.ToString());
                     PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
                     break;
             }
 
+            SetThingsWhenFacing(direction);
             SetShadowPosition();
         }
 
@@ -516,7 +513,7 @@ namespace MarkInDeDark.Library.Characters
                 SetDirectionAnimation(CurrentAction);
             }
 
-            if (!IsDead && !IsDying && direction == Vector2.Zero)
+            if (!IsDead && !IsDying && direction == Vector2.Zero && CurrentCharacterState != CharacterState.Attacking)
             {
                 _previousAction = CurrentAction;
                 CurrentAction = CharacterActions.Idle;

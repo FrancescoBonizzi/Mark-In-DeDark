@@ -110,7 +110,6 @@ namespace MarkInDeDark.Library.Characters
                         _screamSoundIndex,
                         Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                     break;
-
             }
         }
 
@@ -157,9 +156,6 @@ namespace MarkInDeDark.Library.Characters
         //    _soundManager.PlayIndexedSound(_attackSoundIndex);
         //}
 
-        public void HitPlayer()
-            => CurrentAI = new IdleAI();
-
         public override void Die()
         {
             //StopAttackSound();
@@ -169,14 +165,10 @@ namespace MarkInDeDark.Library.Characters
         }
 
         public virtual bool CustomConditionToAttackPlayer()
-        {
-            return true;
-        }
+            => true;
 
         protected virtual void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
-        {
-            SetNewAI(new KillCandleAI(possibleCandle, new List<Vector2>(), CurrentAI));
-        }
+            => SetNewAI(new KillCandleAI(possibleCandle, new List<Vector2>(), CurrentAI));
 
         public virtual void Update(TimeSpan elapsed)
         {
@@ -197,33 +189,36 @@ namespace MarkInDeDark.Library.Characters
                 }
             }
 
-            // Rimodulo sempre il volume dell'attacco per fare il fade
-            // quando il player si allontana.
-            if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
+            if (CurrentCharacterState == CharacterState.Attacking)
             {
+                // Rimodulo sempre il volume dell'attacco per fare il fade
+                // quando il player si allontana.
+                // (Può attaccare anche una candela)
                 _soundManager.ComputeIndexSoundsVolume(
                     _screamSoundIndex,
                     _attackSoundIndex,
                     Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-            }
 
-            _screamTimer -= elapsed;
-            if (_screamTimer <= TimeSpan.Zero)
-            {
-                //PlayMyVoice();
-                SetRandomScreamTimer();
+                base.Update(elapsed, Vector2.Zero);
             }
-
-            if (!(_player.IsDead || _player.IsDying)
+            else if (!(_player.IsDead || _player.IsDying)
                 && !_player.HasWon
                 && CustomConditionToAttackPlayer()
                 && CollisionRectangle.Intersects(_player.CollisionRectangle))
             {
                 Attack();
-                HitPlayer();
                 _player.Die();
                 CurrentAI = new IdleAI();
                 _stopMovement = true;
+            }
+            else
+            {
+                _screamTimer -= elapsed;
+                if (_screamTimer <= TimeSpan.Zero)
+                {
+                    //PlayMyVoice();
+                    SetRandomScreamTimer();
+                }
             }
 
             base.Update(elapsed, CurrentAI.GetNextDirection(this, elapsed));
