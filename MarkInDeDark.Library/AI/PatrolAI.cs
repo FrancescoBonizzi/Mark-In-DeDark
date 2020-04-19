@@ -13,7 +13,6 @@ namespace MarkInDeDark.Library.AI
         protected readonly CandlesManager _candlesManager;
         protected readonly Player _player;
         protected GameGrid _gameGrid;
-        protected SoundManager _soundManager;
 
         private readonly List<GameCell> _waypoints;
         private Queue<Vector2> _pathToCurrentWaypoint;
@@ -30,10 +29,8 @@ namespace MarkInDeDark.Library.AI
             GameGrid gameGrid,
             CandlesManager candlesManager,
             Player player,
-            SoundManager soundManager,
             bool searchesCandles)
         {
-            _soundManager = soundManager;
             _candlesManager = candlesManager;
             _waypoints = patrolWaypoints;
             _player = player;
@@ -53,9 +50,9 @@ namespace MarkInDeDark.Library.AI
             // Se non ho più azioni per il waypoint, le calcolo per il prossimo
             if (_pathToCurrentWaypoint == null || !_pathToCurrentWaypoint.Any())
             {
-                _pathToCurrentWaypoint = new Queue<Vector2>(_gameGrid.FindPathV2(
-                    character.WorldCenter,
-                    _waypoints[_currentWaypointIndex].CenterPosition));
+                _pathToCurrentWaypoint = FindPath(
+                    character.WorldCenter, 
+                    _waypoints[_currentWaypointIndex].CenterPosition);
 
                 // Preparo il prossimo waypoint per quando terminerò le azioni del corrente
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
@@ -70,12 +67,13 @@ namespace MarkInDeDark.Library.AI
             return null;
         }
 
-        private bool ReachedDestination(Character character)
-        {
-            return Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
-        }
+        protected virtual Queue<Vector2> FindPath(Vector2 from, Vector2 to)
+            => new Queue<Vector2>(_gameGrid.FindPathV2(from, to));
 
-        public bool IsBlocked(Character character)
+        private bool ReachedDestination(Character character)
+            => Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
+
+        public virtual bool IsBlocked(Character character)
         {
             foreach (var w in _waypoints)
             {

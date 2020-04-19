@@ -44,7 +44,7 @@ namespace MarkInDeDark.Library.Characters
                       attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
                       screamSoundIndex: 0, //soundManager.RegisterGhostScreamSound(),
                       nCellsFindingRange: null,
-                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
+                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player),
                       killsCandlesIfCollidesWithThem: true),
                   soundManager,
                   player,
