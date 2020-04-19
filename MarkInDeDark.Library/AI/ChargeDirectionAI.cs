@@ -155,7 +155,8 @@ namespace MarkInDeDark.Library.AI
                         character.ResetNormalColor();
                         if (_nextAI is PatrolAI)
                             ((PatrolAI)_nextAI).ClearActions();
-                        return character.SetNewAI(_nextAI);
+                        character.SetNewAI(_nextAI);
+                        return CharacterActions.Idle;
                     }
             }
 

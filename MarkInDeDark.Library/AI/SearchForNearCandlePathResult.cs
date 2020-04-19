@@ -1,18 +1,17 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.Characters;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.AI
 {
     public class SearchForNearCandlePathResult
     {
-        public SearchForNearCandlePathResult(Candle candle, IEnumerable<AIMovementAction> actionsToGetTheCandle)
+        public SearchForNearCandlePathResult(Candle candle, List<Vector2> pathToTheCandle)
         {
             Candle = candle;
-            ActionsToGetTheCandle = actionsToGetTheCandle;
+            PathToTheCandle = pathToTheCandle;
         }
 
         public Candle Candle { get; }
-        public IEnumerable<AIMovementAction> ActionsToGetTheCandle { get; }
+        public List<Vector2> PathToTheCandle { get; }
     }
 }

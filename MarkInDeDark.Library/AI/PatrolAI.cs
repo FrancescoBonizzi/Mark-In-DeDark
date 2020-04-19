@@ -77,7 +77,7 @@ namespace MarkInDeDark.Library.AI
 
         public bool IsBlocked(Character character)
         {
-            foreach(var w in _waypoints)
+            foreach (var w in _waypoints)
             {
                 var pathToThisWaypoint = _gameGrid.FindPathV2(
                     character.WorldCenter,
@@ -94,18 +94,23 @@ namespace MarkInDeDark.Library.AI
             Enemy character,
             TimeSpan elapsed)
         {
-            // Se deve valutare se prendere le candele, lo valuto
-            //if (_searchesCandles)
-            //{
-            //    var actionsToNearCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
-            //    if (actionsToNearCandle != null)
-            //    {
-            //        // Passo all'AI di ricerca candele
-            //        character.SetNewAI(new KillCandleAI(actionsToNearCandle.Candle, actionsToNearCandle.ActionsToGetTheCandle, this));
-            //        _actionsToCurrentWaypoint = null; // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
-            //        return character.CurrentAI.Update(character, elapsed);
-            //    }
-            //}
+            // Se è un mostro cercatore di candele...
+            if (_searchesCandles)
+            {
+                var pathToTheNearestCandle = KillCandleAI.SearchForNearCandlePath(character, _candlesManager);
+                // ...e c'è una candela nei paraggi...
+                if (pathToTheNearestCandle != null)
+                {
+                    // ...passo all'AI di ricerca candele
+                    character.SetNewAI(new KillCandleAI(pathToTheNearestCandle.Candle, pathToTheNearestCandle.PathToTheCandle, this));
+
+                    // Lo annullo così appena ritorna in questo stato ricalcola i waypoint per tornare dov'era prima
+                    _currentDestination = null;
+                    _pathToCurrentWaypoint = null;
+
+                    return character.CurrentAI.GetNextDirection(character, elapsed);
+                }
+            }
 
             // Se non ho azioni o ho raggiunto la destinazione, passo alla successiva
             if (_currentDestination == null || ReachedDestination(character))
@@ -119,7 +124,7 @@ namespace MarkInDeDark.Library.AI
             }
 
             // Se ho un'azione da compiere, la eseguo
-            if (_currentDestination != null && _pathToCurrentWaypoint.Count != 0)
+            if (_currentDestination != null && _pathToCurrentWaypoint.Count != 0 && !IsBlocked(character))
             {
                 return Character.GetDirectionToPosition(character.WorldCenter, _currentDestination.Value);
             }

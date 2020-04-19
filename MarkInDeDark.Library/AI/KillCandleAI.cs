@@ -1,6 +1,4 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.Characters;
-using MarkInDeDark.Library.Levels;
+﻿using MarkInDeDark.Library.Characters;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ namespace MarkInDeDark.Library.AI
 {
     public class KillCandleAI : IEnemyAI
     {
-        private readonly Queue<AIMovementAction> _actionsToCandle;
+        private readonly Queue<Vector2> _pathToCandle;
         private readonly IEnemyAI _nextAI;
         private readonly Candle _targetCandle;
 
@@ -25,18 +23,18 @@ namespace MarkInDeDark.Library.AI
 
         public KillCandleAI(
             Candle targetCandle,
-            IEnumerable<AIMovementAction> actionsToCandle,
+            List<Vector2> actionsToCandle,
             IEnemyAI nextAI)
         {
             _targetCandle = targetCandle;
             targetCandle.AreSomeMonsterIsFollowingMe = true;
-            _actionsToCandle = new Queue<AIMovementAction>(actionsToCandle);
+            _pathToCandle = new Queue<Vector2>(actionsToCandle);
             _nextAI = nextAI;
 
             _currentKillCandleStatus = KillCandleStatus.WalkingToCandle;
         }
 
-        public CharacterActions Update(
+        public virtual Vector2 GetNextDirection(
             Enemy character,
             TimeSpan elapsed)
         {
@@ -44,24 +42,25 @@ namespace MarkInDeDark.Library.AI
             {
                 case KillCandleStatus.WalkingToCandle:
 
-                    bool anyPathToFollow = _actionsToCandle.Any();
+                    bool anyPathToFollow = _pathToCandle.Any();
 
                     // .IsActive perché se la candela viene distrutta da qualcun altro,
                     // torno indietro
                     if (anyPathToFollow && _targetCandle.IsActive)
                     {
-                        return _actionsToCandle.Dequeue().Action;
+                        return _pathToCandle.Dequeue();
                     }
                     else if (!_targetCandle.IsActive)
                     {
-                        return character.SetNewAI(_nextAI);
+                        character.SetNewAI(_nextAI);
+                        return Vector2.Zero;
                     }
                     else if (!anyPathToFollow)
                     {
                         _currentKillCandleStatus = KillCandleStatus.Smashing;
                         _targetCandle.Die();
                         character.Attack();
-                        return CharacterActions.Idle;
+                        return Vector2.Zero;
                     }
 
                     break;
@@ -71,16 +70,18 @@ namespace MarkInDeDark.Library.AI
                     if (!_targetCandle.IsActive)
                     {
                         character.StopAttacking();
-                        return character.SetNewAI(_nextAI);
+                        character.SetNewAI(_nextAI);
+                        return Vector2.Zero;
                     }
 
                     break;
 
                 case KillCandleStatus.Ended:
-                    return character.SetNewAI(_nextAI);
+                    character.SetNewAI(_nextAI);
+                    return Vector2.Zero;
             }
 
-            return CharacterActions.Idle;
+            return Vector2.Zero;
         }
 
         public static SearchForNearCandlePathResult SearchForNearCandlePath(
@@ -97,11 +98,6 @@ namespace MarkInDeDark.Library.AI
             return new SearchForNearCandlePathResult(
                 pathToNearestCandle.Key,
                 pathToNearestCandle.Value);
-        }
-
-        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
-        {
-            throw new NotImplementedException();
         }
 
         public bool IsBlocked(Character character)

@@ -704,6 +704,7 @@ namespace MarkInDeDark.Library.Levels
 
         public List<Vector2> FindPathV2(Vector2 A, Vector2 B)
         {
+#warning RIMETTERE LA CACHE
             //var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
             //if (_calculatedPathsCache.ContainsKey(pathKey))
             //    return _calculatedPathsCache[pathKey];

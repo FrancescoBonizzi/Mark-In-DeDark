@@ -3,6 +3,7 @@ using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -62,10 +63,9 @@ namespace MarkInDeDark.Library.Characters
         public void SetRandomScreamTimer()
             => _screamTimer = TimeSpan.FromSeconds(Numbers.RandomBetween(5, 8));
 
-        public CharacterActions SetNewAI(IEnemyAI newAI)
+        public void SetNewAI(IEnemyAI newAI)
         {
             CurrentAI = newAI;
-            return CharacterActions.Idle;
         }
 
         public void Attack()
@@ -125,6 +125,7 @@ namespace MarkInDeDark.Library.Characters
             if (CurrentCharacterState != CharacterState.Dying && CurrentCharacterState != CharacterState.Dead)
             {
                 //StopAttackSound();
+                CurrentCharacterState = CharacterState.Idle;
                 SetDirectionAnimation(CharacterActions.Down);
                 SetDirectionAnimation(CharacterActions.Idle);
             }
@@ -174,8 +175,7 @@ namespace MarkInDeDark.Library.Characters
 
         protected virtual void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
         {
-            SetNewAI(new KillCandleAI(possibleCandle, Array.Empty<AIMovementAction>(), CurrentAI));
-            CurrentAI.GetNextDirection(this, elapsed);
+            SetNewAI(new KillCandleAI(possibleCandle, new List<Vector2>(), CurrentAI));
         }
 
         public virtual void Update(TimeSpan elapsed)

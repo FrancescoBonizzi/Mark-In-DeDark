@@ -488,7 +488,7 @@ namespace MarkInDeDark.Library.Characters
         {
             // TODO Un bello switch con i possibili stati
 
-            if (!IsDying && !IsDead && !_stopMovement)
+            if (!IsDying && !IsDead && !_stopMovement && CurrentCharacterState != CharacterState.Attacking)
             {
                 // Già normalizzato!
                 // direction.Normalize();

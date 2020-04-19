@@ -61,12 +61,12 @@ namespace MarkInDeDark.Library
             return Candles.FirstOrDefault(c => _gameGrid.GetCellAtPixel(c.Position) == where);
         }
 
-        public KeyValuePair<Candle, IEnumerable<AIMovementAction>> GetNearestCandleActionsPath(
+        public KeyValuePair<Candle, List<Vector2>> GetNearestCandleActionsPath(
             Vector2 searchingStartPosition,
-            int maxActionsToFindCandle)
+            int maxCellsDistance)
         {
             // Distanza quadratica di n celle (width perché quadrate) 
-            var squared_distance_finding_range_ = (int)Math.Pow(_cellWidth * (maxActionsToFindCandle + 1), 2);
+            var squared_distance_finding_range_ = (int)Math.Pow(_cellWidth * (maxCellsDistance + 1), 2);
 
             // Cerco, se c'è, una candela entro un certo range
             // Non posso cercarla in tutta la mappa
@@ -74,7 +74,7 @@ namespace MarkInDeDark.Library
             // quindi non puoi evitarlo. Inoltre quelli lontani si farebbero il giro di tutta la mappa solo
             // per la candela
 
-            var pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>();
+            var pathToFollow = new KeyValuePair<Candle, List<Vector2>>();
 
             foreach (var candle in Candles)
             {
@@ -88,25 +88,25 @@ namespace MarkInDeDark.Library
                     continue;
 
                 // Tra quelle vicine per l'euristica, provo a vedere quale di queste ha un path corto
-                var actionsToCandle = _gameGrid.FindActionsToPath(searchingStartPosition, thisCandleWorldCenter);
-                var numberOfActionsToCandle = actionsToCandle.Count();
-                if (numberOfActionsToCandle > maxActionsToFindCandle)
+                var pathToCandle = _gameGrid.FindPathV2(searchingStartPosition, thisCandleWorldCenter);
+                var numberOfActionsToCandle = pathToCandle.Count();
+                if (numberOfActionsToCandle > maxCellsDistance)
                     continue;
 
                 if (pathToFollow.Key == null)
                 {
-                    pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(
+                    pathToFollow = new KeyValuePair<Candle, List<Vector2>>(
                         candle,
-                        actionsToCandle);
+                        pathToCandle);
                 }
                 else
                 {
                     // Prendo la candela più vicina
                     if (numberOfActionsToCandle < pathToFollow.Value.Count())
                     {
-                        pathToFollow = new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(
+                        pathToFollow = new KeyValuePair<Candle, List<Vector2>>(
                            candle,
-                           actionsToCandle);
+                           pathToCandle);
                     }
                 }
 
@@ -115,7 +115,7 @@ namespace MarkInDeDark.Library
             }
 
             if (pathToFollow.Key == null)
-                return new KeyValuePair<Candle, IEnumerable<AIMovementAction>>(null, null);
+                return new KeyValuePair<Candle, List<Vector2>>(null, null);
 
             return pathToFollow;
         }
