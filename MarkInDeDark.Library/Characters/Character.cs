@@ -6,6 +6,7 @@ using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -139,9 +140,6 @@ namespace MarkInDeDark.Library.Characters
                 .AddAnimation(AnimationsNames.IdleLeft.ToString(), configuration.IdleSideAnimation)
                 .AddAnimation(AnimationsNames.IdleRight.ToString(), configuration.IdleSideAnimation);
 
-            CurrentCharacterState = CharacterState.Idle;
-            MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
-
             if (configuration.CharacterShadowConfiguration != null)
             {
                 ShadowsAnimationManager = new AnimationsManager()
@@ -161,8 +159,11 @@ namespace MarkInDeDark.Library.Characters
                 _shadowPositionTraslationDownIdle = configuration.CharacterShadowConfiguration.ShadowPositionTraslationDownIdle;
 
                 _shadowsDrawingInfos = new DrawingInfos();
-                PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
             }
+
+            CurrentAction = CharacterActions.Idle;
+            _previousAction = CharacterActions.Down;
+            SetDirectionAnimation(CharacterActions.Idle);
 
             if (configuration.CharacterTorchConfiguration != null)
             {
@@ -299,28 +300,28 @@ namespace MarkInDeDark.Library.Characters
                             if (!DontPlayDefaultAnimations)
                                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleUp.ToString());
 
-                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleUp.ToString());
+                            PlayShadowFor(ShadowsAnimationsNames.WhileIdleUp);
                             break;
 
                         case CharacterActions.Down:
                             if (!DontPlayDefaultAnimations)
                                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleDown.ToString());
 
-                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleDown.ToString());
+                            PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
                             break;
 
                         case CharacterActions.Right:
                             if (!DontPlayDefaultAnimations)
                                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
 
-                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleRight.ToString());
+                            PlayShadowFor(ShadowsAnimationsNames.WhileIdleRight);
                             break;
 
                         case CharacterActions.Left:
                             if (!DontPlayDefaultAnimations)
                                 MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleLeft.ToString());
 
-                            ShadowsAnimationManager?.PlayAnimation(ShadowsAnimationsNames.WhileIdleLeft.ToString());
+                            PlayShadowFor(ShadowsAnimationsNames.WhileIdleLeft);
                             break;
                     }
 
@@ -351,6 +352,7 @@ namespace MarkInDeDark.Library.Characters
                     break;
             }
 
+            SetShadowPosition();
         }
 
         private void PlayShadowFor(ShadowsAnimationsNames shadowsAnimationName)
@@ -492,10 +494,9 @@ namespace MarkInDeDark.Library.Characters
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
         {
             // TODO Un bello switch con i possibili stati
-
-            if (!IsDying && !IsDead 
-                && !_stopMovement 
-                && CurrentCharacterState != CharacterState.Attacking 
+            if (!IsDying && !IsDead
+                && !_stopMovement
+                && CurrentCharacterState != CharacterState.Attacking
                 && direction != Vector2.Zero)
             {
                 // Già normalizzato!
@@ -510,7 +511,6 @@ namespace MarkInDeDark.Library.Characters
                 _previousAction = CurrentAction;
                 CurrentAction = GetActionForDirection(direction);
                 SetDirectionAnimation(CurrentAction);
-                SetShadowPosition();
             }
 
             if (direction == Vector2.Zero)
