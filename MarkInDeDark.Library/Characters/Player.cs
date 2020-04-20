@@ -25,8 +25,7 @@ namespace MarkInDeDark.Library.Characters
         }
 
         private PlayerStates _currentPlayerState;
-        public Vector2 CurrentDirection { get; private set; }
-
+        
         public Player(
             AssetsLoader assetsLoader,
             GameGrid gameGrid,
@@ -123,8 +122,6 @@ namespace MarkInDeDark.Library.Characters
 
         public override void Update(TimeSpan elapsed, Vector2 direction)
         {
-            CurrentDirection = direction;
-
             switch (_currentPlayerState)
             {
                 case PlayerStates.Playing:

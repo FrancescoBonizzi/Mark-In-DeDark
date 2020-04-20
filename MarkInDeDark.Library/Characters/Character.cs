@@ -102,6 +102,8 @@ namespace MarkInDeDark.Library.Characters
         protected CharacterTorchParticleSystem _dieMarkEffect;
         private readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
 
+        public Vector2 LightDirection { get; private set; }
+
         public Character(
             GameGrid grid,
             SoundManager soundManager,
@@ -490,6 +492,9 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
         {
+            if (direction != Vector2.Zero)
+                LightDirection = direction;
+
             if (!IsDying && !IsDead
                 && !_stopMovement
                 && CurrentCharacterState != CharacterState.Attacking

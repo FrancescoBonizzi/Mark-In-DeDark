@@ -38,6 +38,7 @@ namespace MarkInDeDark.Library
         private readonly GameHUD _gameHud;
 
         private readonly GraphicsDevice _graphicsDevice;
+        private readonly RenderTarget2D _baseSceneRenderTarget;
         private readonly RenderTarget2D _lightMaskRenderTarget;
         private readonly RenderTarget2D _normalMapRenderTarget;
 
@@ -106,6 +107,7 @@ namespace MarkInDeDark.Library
             var presentationParameters = graphicsDevice.PresentationParameters;
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
@@ -483,13 +485,10 @@ namespace MarkInDeDark.Library
             _markGamePad.Shake(intensity, _shakeDuration);
         }
 
-        private void DrawLightMap(
+        private void DrawLightMask(
             SpriteBatch spriteBatch,
-            RenderTarget2D virtualDrawTarget,
             Matrix viewMatrix)
         {
-            _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: viewMatrix);
 
             _player.DrawLightMap(spriteBatch);
@@ -506,10 +505,7 @@ namespace MarkInDeDark.Library
             }
             _candlesManager.DrawLightmap(spriteBatch);
 
-
             spriteBatch.End();
-
-            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
         }
 
         public void Draw(
@@ -548,12 +544,19 @@ namespace MarkInDeDark.Library
             RenderTarget2D virtualDrawTarget)
         {
             var viewMatrix = _camera.GetViewMatrix();
-            _normalMapShader.Parameters["LightDirection"].SetValue(new Vector3(_player.CurrentDirection, 1f));
+            var v = new Vector3(_player.LightDirection * 200f, 200f);
+            v.Normalize();
+            _normalMapShader.Parameters["LightDirection"].SetValue(v);
 
             // Disegno lo strato di luci
-            DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
-            
+            _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
+            _graphicsDevice.Clear(_backgroundColorForLightMask);
+            DrawLightMask(spriteBatch, viewMatrix);
+
             // Avvio il disegno con l'opzione per lo Z-Index
+            _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
+            _graphicsDevice.Clear(Color.Black);
+
             spriteBatch.Begin(
                 transformMatrix: viewMatrix, 
                 samplerState: SamplerState.PointClamp, 
@@ -583,13 +586,37 @@ namespace MarkInDeDark.Library
                 littleLight.Draw(spriteBatch);
 
             _gameGrid.Draw(spriteBatch);
-
             _candlesManager.Draw(spriteBatch);
             _player.Draw(spriteBatch);
 
             foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
 
+            spriteBatch.End();
+
+            // Disegno la normal map
+            _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
+            _graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
+                sortMode: SpriteSortMode.FrontToBack);
+            _gameGrid.DrawNormalMap(spriteBatch);
+            spriteBatch.End();
+
+            // Ricompongo la scena
+            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+
+            // Normal map
+            _normalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
+            _normalMapShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(
+                SpriteSortMode.Immediate, 
+                BlendState.Opaque, 
+                SamplerState.LinearClamp, 
+                null, null, 
+                _normalMapShader);
+            spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // LightMask

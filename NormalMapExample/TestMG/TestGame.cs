@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Diagnostics;
 
 namespace TestMG
 {
@@ -73,7 +71,7 @@ namespace TestMG
             _spriteBatch.Draw(_thing, new Vector2(200, 200), Color.White);
             _spriteBatch.End();
 
-            // Drawing the normal map
+            // Draws the normal map
             GraphicsDevice.SetRenderTarget(_normalMapRenderTarget);
             GraphicsDevice.Clear(Color.Black);
            
@@ -85,7 +83,6 @@ namespace TestMG
                 }
             
             // Without normal map, but no problem
-            _spriteBatch.Draw(_thing, new Vector2(200, 200), Color.White);
             _spriteBatch.End();
 
             // Compose postprocessed image
@@ -96,6 +93,10 @@ namespace TestMG
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, null, null, _normalMapShader);
             _spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(_thing, new Vector2(200, 200), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
