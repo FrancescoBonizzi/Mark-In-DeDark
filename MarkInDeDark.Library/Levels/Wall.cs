@@ -14,12 +14,14 @@ namespace MarkInDeDark.Library.Levels
 
         public DrawingInfos DrawingInfos { get; }
         private readonly Sprite _sprite;
+        private readonly Sprite _spriteNormalMap;
 
         public Wall(
             LinkDirection direction,
             Vector2 position,
             bool isDestroyable,
-            Sprite sprite)
+            Sprite sprite,
+            Sprite spriteNormalMap)
         {
             Direction = direction;
             DrawingInfos = new DrawingInfos()
@@ -30,9 +32,16 @@ namespace MarkInDeDark.Library.Levels
 
             IsDestroyable = isDestroyable;
             _sprite = sprite;
+            _spriteNormalMap = spriteNormalMap;
         }
 
         public void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_sprite, DrawingInfos);
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            if (_spriteNormalMap != null)
+                spriteBatch.Draw(_spriteNormalMap, DrawingInfos);
+        }
     }
 }

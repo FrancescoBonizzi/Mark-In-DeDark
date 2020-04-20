@@ -15,12 +15,15 @@ namespace MarkInDeDark.Library
 {
     public class AssetsLoader
     {
-        private readonly IDictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>();
-        public IDictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
-        public IDictionary<string, SoundEffect> Sounds { get; } = new Dictionary<string, SoundEffect>();
+        public Dictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
+        public Dictionary<string, SoundEffect> Sounds { get; } = new Dictionary<string, SoundEffect>();
+
         public SpriteFont Font { get; private set; }
+        public Effect NormalMapShader { get; private set; }
+
         public List<Level> Levels { get; private set; } = new List<Level>();
 
+        private readonly IDictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>();
         private readonly CustomSpriteImporter _textureImporter;
         private readonly GameConfig _gameConfig;
         private readonly ContentManager _contentManager;
@@ -59,6 +62,8 @@ namespace MarkInDeDark.Library
         private void LoadResources()
         {
             Font = _contentManager.Load<SpriteFont>("font");
+            NormalMapShader = _contentManager.Load<Effect>("Effects/normalmap");
+ 
             LoadSprites();
             LoadAnimations();
             LoadSounds();

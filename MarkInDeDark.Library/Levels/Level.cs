@@ -15,14 +15,22 @@ namespace MarkInDeDark.Library.Levels
         public TimeSpan? RecordCompletionTime { get; private set; }
 
         public Sprite GroundSpriteType1 { get; private set; }
+        public Sprite GroundSpriteType1NormalMap { get; private set; }
         public Sprite GroundSpriteType2 { get; private set; }
+        public Sprite GroundSpriteType2NormalMap { get; private set; }
+
         public Sprite DarkSprite { get; private set; }
         public Sprite DirtySprite { get; private set; }
+
         public Sprite HorizontalWallSprite { get; private set; }
+        public Sprite HorizontalWallSpriteNormalMap { get; private set; }
         public Sprite VerticalWallSprite { get; private set; }
+
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
+        public Sprite HorizontalDestroyableWallSpriteNormalMap { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
-        public Sprite AngleSprite { get; private set; }
+
+        public Sprite PillarSprite { get; private set; }
         public Sprite WallDoorDownSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
         public Sprite SpecialWallSprite { get; private set; }
@@ -49,14 +57,24 @@ namespace MarkInDeDark.Library.Levels
             DarkSprite = assetsLoader.Sprites["Grounds/celldark"];
 
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
+
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
+            GroundSpriteType1NormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_normal"];
+
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_2"];
+            GroundSpriteType2NormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_2_normal"];
+
             DirtySprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/dirty"];
+
             HorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal"];
-            VerticalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical"];
+            HorizontalWallSpriteNormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_normal"];
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
+            HorizontalDestroyableWallSpriteNormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable_normal"];
+
+            VerticalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical"];
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
-            AngleSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];
+
+            PillarSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];
             WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
             SpecialWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];

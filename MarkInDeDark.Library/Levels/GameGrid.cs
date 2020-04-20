@@ -79,15 +79,9 @@ namespace MarkInDeDark.Library.Levels
                     _cells[i, j] = new GameCell(
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
-                        cell: levelToLoad.GroundSpriteType1,
-                        horizontalWall: levelToLoad.HorizontalWallSprite,
-                        verticalWall: levelToLoad.VerticalWallSprite,
-                        horizontalDestroyableWall: levelToLoad.HorizontalDestroyableWallSprite,
-                        verticalDestroyableWall: levelToLoad.VerticalDestroyableWallSprite,
-                        pillar: levelToLoad.AngleSprite,
-                        dirty: levelToLoad.DirtySprite,
-                        wallDoorDown: levelToLoad.WallDoorDownSprite,
-                        wallDoorArc: levelToLoad.WallDoorArcSprite,
+                        width: levelToLoad.GroundSpriteType1.Width,
+                        height: levelToLoad.GroundSpriteType1NormalMap.Width,
+                        dirtySprite: levelToLoad.DirtySprite,
                         dirtyProbability: levelToLoad.DirtyProbability,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
@@ -784,20 +778,16 @@ namespace MarkInDeDark.Library.Levels
             _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
 
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-            {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                            _cells[x, y].Update(elapsed);
-                    }
-                }
-            }
+            DoOverAllCells(cell => cell.Update(elapsed));
         }
 
         public void Draw(SpriteBatch spriteBatch)
+            => DoOverAllCells(cell => cell.Draw(spriteBatch));
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+            => DoOverAllCells(cell => cell.DrawNormalMap(spriteBatch));
+
+        private void DoOverAllCells(Action<GameCell> action)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -806,16 +796,10 @@ namespace MarkInDeDark.Library.Levels
                     if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
                     {
                         if (_cells[x, y] != null)
-                        {
-                            _cells[x, y].DrawGround(spriteBatch);
-                            _cells[x, y].DrawDirty(spriteBatch);
-                            _cells[x, y].DrawWalls(spriteBatch);
-                            _cells[x, y].DrawEffects(spriteBatch);
-                        }
+                            action(_cells[x, y]);
                     }
                 }
             }
         }
-
     }
 }

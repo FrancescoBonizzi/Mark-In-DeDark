@@ -39,8 +39,11 @@ namespace MarkInDeDark.Library
 
         private readonly GraphicsDevice _graphicsDevice;
         private readonly RenderTarget2D _lightMaskRenderTarget;
+        private readonly RenderTarget2D _normalMapRenderTarget;
+
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
+        
         private readonly BlendState _blendStateMultiply;
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
@@ -56,6 +59,8 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
+
+        private Effect _normalMapShader;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -88,6 +93,7 @@ namespace MarkInDeDark.Library
             _currentGameState = GameStates.Playing;
             _localizedStringsRepository = localizedStringsRepository;
 
+            _normalMapShader = assetsLoader.NormalMapShader;
             _elapsedFinish = TimeSpan.Zero;
 
             _matrixScaleProvider = matrixScaleProvider;
@@ -99,9 +105,11 @@ namespace MarkInDeDark.Library
 
             var presentationParameters = graphicsDevice.PresentationParameters;
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-
+            
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;
             else _backgroundColorForLightMask = Color.Black;
@@ -540,6 +548,10 @@ namespace MarkInDeDark.Library
             RenderTarget2D virtualDrawTarget)
         {
             var viewMatrix = _camera.GetViewMatrix();
+            // TODO Ho messo un Vector2, può anche servire il Vector3!
+            _normalMapShader.Parameters["LightDirection"].SetValue(_player.CurrentDirection);
+
+            // Disegno lo strato di luci
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
             
             // Avvio il disegno con l'opzione per lo Z-Index
@@ -586,7 +598,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
-            // Effect over the dark
+            // Effects over the dark
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);

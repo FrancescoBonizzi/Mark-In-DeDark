@@ -136,9 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="Assets\font.xnb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\GameConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
