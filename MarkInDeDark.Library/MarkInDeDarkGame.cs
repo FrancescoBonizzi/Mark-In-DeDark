@@ -548,8 +548,7 @@ namespace MarkInDeDark.Library
             RenderTarget2D virtualDrawTarget)
         {
             var viewMatrix = _camera.GetViewMatrix();
-            // TODO Ho messo un Vector2, può anche servire il Vector3!
-            _normalMapShader.Parameters["LightDirection"].SetValue(_player.CurrentDirection);
+            _normalMapShader.Parameters["LightDirection"].SetValue(new Vector3(_player.CurrentDirection, 1f));
 
             // Disegno lo strato di luci
             DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
