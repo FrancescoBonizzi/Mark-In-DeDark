@@ -61,8 +61,8 @@ namespace MarkInDeDark.Library.Levels
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
             GroundSpriteType1NormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_normal"];
 
-            GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_2"];
-            GroundSpriteType2NormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_2_normal"];
+            GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
+            GroundSpriteType2NormalMap = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2_normal"];
 
             DirtySprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/dirty"];
 

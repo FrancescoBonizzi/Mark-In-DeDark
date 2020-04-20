@@ -486,11 +486,15 @@
             <key type="filename">Game/Effects/blood_decal.png</key>
             <key type="filename">Game/Effects/light_pixel.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
-            <key type="filename">Game/Grounds/Type0/cell_2.png</key>
+            <key type="filename">Game/Grounds/Type0/cell2.png</key>
+            <key type="filename">Game/Grounds/Type0/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/Type0/cell_normal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_horizontal_normal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
