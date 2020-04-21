@@ -462,6 +462,46 @@ namespace MarkInDeDark.Library.Levels
                 (int)pixelLocation.Y);
         }
 
+        public bool WillCollideWithWall(Rectangle collisionRectangle)
+        {
+            // TODO Ottimizzazione: guardare solo le celle intorno al player
+            // non funzionava bene
+            //var cell = GetCellAtPixel(character.WorldCenter);
+            //var nearCells = new List<GameCell>()
+            //{
+            //    cell.NorthCellWithoutLinks,
+            //    cell.SouthCellWithoutLinks,
+            //    cell.EastCellWithoutLinks,
+            //    cell.WestCellWithoutLinks,
+            //    cell.NorthCellWithoutLinks?.EastCellWithoutLinks,
+            //    cell.NorthCellWithoutLinks?.WestCellWithoutLinks,
+            //    cell.SouthCellWithoutLinks?.EastCellWithoutLinks,
+            //    cell.SouthCellWithoutLinks?.WestCellWithoutLinks,
+            //};
+
+            //foreach(var toAnalize in nearCells)
+            foreach (var toAnalize in _cells)
+            {
+                if (toAnalize == null)
+                    continue;
+
+                foreach (var wall in toAnalize.Walls.Values)
+                {
+                    if (wall.CollisionRectangle.Intersects(collisionRectangle))
+                        return true;
+                }
+
+                foreach(var door in toAnalize.Doors.Values)
+                {
+                    if (!door.IsOpen)
+                        if (door.DoorCollisionRectangle.Intersects(collisionRectangle))
+                            return true;
+                }
+            }
+
+            return false;
+        }
+
         // E' una BFS greedy
         private List<GameCell> FindPath(GameCell A, GameCell B)
         {
@@ -786,6 +826,9 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
             => DoOverAllCells(cell => cell.DrawNormalMap(spriteBatch));
+
+        public void DrawForDebug(SpriteBatch spriteBatch)
+            => DoOverAllCells(cell => cell.DrawForDebug(spriteBatch));
 
         private void DoOverAllCells(Action<GameCell> action)
         {

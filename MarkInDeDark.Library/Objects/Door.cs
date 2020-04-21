@@ -37,10 +37,14 @@ namespace MarkInDeDark.Library.Objects
 
         private DoorStates _currentState;
         private readonly Action _onClose;
-
         private readonly SpriteAnimation _doorOpenAnimation;
         private readonly SpriteAnimation _doorCloseAnimation;
         private SpriteAnimation _currentAnimation;
+
+        public Rectangle DoorCollisionRectangle { get; private set; }
+
+        private readonly Rectangle _closedDoorCollisionRectangle;
+        private readonly Rectangle _openDoorCollisionRectangle;
 
         public Door(
             Vector2 doorPosition,
@@ -80,6 +84,14 @@ namespace MarkInDeDark.Library.Objects
             _currentState = DoorStates.Open;
 
             _onClose = onClose;
+
+            _closedDoorCollisionRectangle = new Rectangle(
+                (int)doorPosition.X,
+                (int)doorPosition.Y + 100,
+                _wallDoorDownSprite.Width,
+                30);
+
+            _openDoorCollisionRectangle = new Rectangle();
         }
 
         public void Open()
@@ -105,6 +117,11 @@ namespace MarkInDeDark.Library.Objects
             spriteBatch.Draw(_currentAnimation.CurrentFrame, DoorAnimationDrawingInfos);
         }
 
+        public void DrawForDebug(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawRectangle(DoorCollisionRectangle, Color.Red.WithAlpha(0.5f));
+        }
+
         public void Update(TimeSpan elapsed)
         {
             _currentAnimation.Update(elapsed);
@@ -116,6 +133,7 @@ namespace MarkInDeDark.Library.Objects
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Closed;
+                        DoorCollisionRectangle = _closedDoorCollisionRectangle;
                         _onClose?.Invoke();
                     }
 
@@ -126,6 +144,7 @@ namespace MarkInDeDark.Library.Objects
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Open;
+                        DoorCollisionRectangle= _openDoorCollisionRectangle;
                     }
 
                     break;

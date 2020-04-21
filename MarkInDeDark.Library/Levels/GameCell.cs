@@ -531,5 +531,12 @@ namespace MarkInDeDark.Library.Levels
             //    a.Value.DrawNormalMap(spriteBatch);
         }
 
+        public void DrawForDebug(SpriteBatch spriteBatch)
+        {
+            foreach (var w in Walls)
+                w.Value.DrawForDebug(spriteBatch);
+            foreach (var d in Doors)
+                d.Value.DrawForDebug(spriteBatch);
+        }
     }
 }

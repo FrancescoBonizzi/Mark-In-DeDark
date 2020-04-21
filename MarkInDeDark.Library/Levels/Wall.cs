@@ -16,6 +16,8 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _sprite;
         private readonly Sprite _spriteNormalMap;
 
+        public Rectangle CollisionRectangle { get; }
+
         public Wall(
             LinkDirection direction,
             Vector2 position,
@@ -30,6 +32,24 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.ForWall(position + sprite.SpriteCenter)
             };
 
+            if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
+            {
+                CollisionRectangle = new Rectangle(
+                    (int)position.X, 
+                    (int)position.Y + 30, 
+                    sprite.Width, 
+                    sprite.Height + 30);
+            }
+            else
+            {
+                // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
+                CollisionRectangle = new Rectangle(
+                    (int)position.X, 
+                    (int)position.Y + 100, 
+                    sprite.Width,
+                    30);
+            }
+
             IsDestroyable = isDestroyable;
             _sprite = sprite;
             _spriteNormalMap = spriteNormalMap;
@@ -42,6 +62,11 @@ namespace MarkInDeDark.Library.Levels
         {
             if (_spriteNormalMap != null)
                 spriteBatch.Draw(_spriteNormalMap, DrawingInfos);
+        }
+
+        public void DrawForDebug(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
         }
     }
 }

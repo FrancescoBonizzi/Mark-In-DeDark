@@ -1,4 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
@@ -64,6 +65,8 @@ namespace MarkInDeDark.Library.Characters
         protected bool _stopMovement = false;
 
         public DrawingInfos MainFigureDrawingInfos { get; set; }
+
+        private DrawingInfos _futureCollisionRectangleDrawingInfos;
         protected DrawingInfos _shadowsDrawingInfos;
 
         protected readonly GameGrid _gameGrid;
@@ -117,6 +120,13 @@ namespace MarkInDeDark.Library.Characters
             _soundManager = soundManager;
 
             MainFigureDrawingInfos = new DrawingInfos()
+            {
+                Position = configuration.StartingPosition,
+                HitBoxTolerance = new Rectangle(50, 50, 100, 100),
+                Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
+            };
+
+            _futureCollisionRectangleDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
                 HitBoxTolerance = new Rectangle(50, 50, 100, 100),
@@ -218,7 +228,13 @@ namespace MarkInDeDark.Library.Characters
         public Rectangle CollisionRectangle
             => MainFigureDrawingInfos.HitBox(
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
-                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth);
+                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
+
+        private Rectangle FutureCollisionRectangle
+            => _futureCollisionRectangleDrawingInfos.HitBox(
+                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
+                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
+
 
         public float Height
             => MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight;
@@ -440,52 +456,59 @@ namespace MarkInDeDark.Library.Characters
             return CharacterActions.Idle;
         }
 
-        public bool CanMove(Vector2 direction)
+        public bool CanMove(Vector2 newIpotethicPosition)
         {
+            _futureCollisionRectangleDrawingInfos.Position = newIpotethicPosition;
+
             if (_canGoOverWalls)
                 return true;
 
-            // TODO In base alla direzione devo anche capire 
-            // se dove sto andando c'è un muro in mezzo alle celle
             var currentCell = _gameGrid.GetCellAtPixel(WorldCenter);
 
             if (currentCell == null)
                 return false;
 
-            var characterWorldCenter = WorldCenter;
-            const float verticalMovementMargin = 50f;
-            const float horizontalMovementMargin = 80f;
+            var characterCenter = WorldCenter;
+            var willCollideWithWall = _gameGrid.WillCollideWithWall(FutureCollisionRectangle);
+
+            if (willCollideWithWall)
+                return false;
+
+            // Se non collide con muri, controllo se ci sono porte o altre ostruzioni
+
+            //var characterWorldCenter = WorldCenter;
+            //const float verticalMovementMargin = 50f;
+            //const float horizontalMovementMargin = 80f;
 
             bool canMove = true;
 
-            if (direction.Y < 0)
-            {
-                bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
-                if (isOnCellBorder)
-                    canMove = canMove && currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
-            }
+            //if (direction.Y < 0)
+            //{
+            //    bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
+            //    if (isOnCellBorder)
+            //        canMove = canMove && currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
+            //}
 
-            if (direction.Y > 0)
-            {
-                bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
-                if (isOnCellBorder)
-                    canMove = canMove && currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
-            }
+            //if (direction.Y > 0)
+            //{
+            //    bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
+            //    if (isOnCellBorder)
+            //        canMove = canMove && currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
+            //}
 
-            if (direction.X > 0)
-            {
-                bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
-                if (isOnCellBorder)
-                    canMove = canMove && currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
-                else return true;
-            }
+            //if (direction.X > 0)
+            //{
+            //    bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
+            //    if (isOnCellBorder)
+            //        canMove = canMove && currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
+            //}
 
-            if (direction.X < 0)
-            {
-                bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
-                if (isOnCellBorder)
-                    canMove = canMove && currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
-            }
+            //if (direction.X < 0)
+            //{
+            //    bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
+            //    if (isOnCellBorder)
+            //        canMove = canMove && currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
+            //}
 
             return canMove;
         }
@@ -503,18 +526,17 @@ namespace MarkInDeDark.Library.Characters
                 // Già normalizzato!
                 // direction.Normalize();
 
-                // TODO Forse il CAN MOVE posso toglierlo per i mostri perché loro hanno il path
-                // sicuro || this is not player
-                if (CanMove(direction))
+                var newIpotethicPosition = MainFigureDrawingInfos.Position + Speed * (float)elapsed.TotalSeconds * direction;
+                if (!((this is Player)) || CanMove(newIpotethicPosition))
                 {
-                    MainFigureDrawingInfos.Position += Speed * (float)elapsed.TotalSeconds * direction;
+                    MainFigureDrawingInfos.Position = newIpotethicPosition;
                     CurrentCharacterState = CharacterState.Moving;
                     SetAction(GetActionForDirection(direction));
                 }
             }
 
-            if (!IsDead && !IsDying 
-                && direction == Vector2.Zero 
+            if (!IsDead && !IsDying
+                && direction == Vector2.Zero
                 && CurrentCharacterState != CharacterState.Attacking)
             {
                 SetAction(CharacterActions.Idle);
@@ -634,6 +656,7 @@ namespace MarkInDeDark.Library.Characters
             {
                 _dieMarkEffect?.Draw(spriteBatch);
             }
+
         }
 
         public virtual void DrawEffectsOverDark(SpriteBatch spriteBatch)
@@ -649,5 +672,12 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
+        public virtual void DrawForDebug(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
+            spriteBatch.DrawRectangle(FutureCollisionRectangle, Color.Blue.WithAlpha(0.5f));
+        }
+
     }
 }
+ 
