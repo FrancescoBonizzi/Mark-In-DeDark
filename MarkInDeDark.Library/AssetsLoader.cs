@@ -20,6 +20,7 @@ namespace MarkInDeDark.Library
 
         public SpriteFont Font { get; private set; }
         public Effect NormalMapShader { get; private set; }
+        public Effect LightMaskShader { get; private set; }
 
         public List<Level> Levels { get; private set; } = new List<Level>();
 
@@ -63,7 +64,8 @@ namespace MarkInDeDark.Library
         {
             Font = _contentManager.Load<SpriteFont>("font");
             NormalMapShader = _contentManager.Load<Effect>("Effects/normalmap");
- 
+            LightMaskShader = _contentManager.Load<Effect>("Effects/lightmask");
+
             LoadSprites();
             LoadAnimations();
             LoadSounds();

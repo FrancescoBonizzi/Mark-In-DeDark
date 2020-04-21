@@ -39,13 +39,13 @@ namespace MarkInDeDark.Library
 
         private readonly GraphicsDevice _graphicsDevice;
         private readonly RenderTarget2D _baseSceneRenderTarget;
+        private readonly RenderTarget2D _baseSceneWithNormalMapRenderTarget;
         private readonly RenderTarget2D _lightMaskRenderTarget;
         private readonly RenderTarget2D _normalMapRenderTarget;
 
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
-        
-        private readonly BlendState _blendStateMultiply;
+     
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
         private readonly SoundManager _soundManager;
@@ -61,7 +61,8 @@ namespace MarkInDeDark.Library
         private bool? _runGameOverScene;
         private bool _shakeViewport;
 
-        private Effect _normalMapShader;
+        private readonly Effect _normalMapShader;
+        private readonly Effect _lightMaskShader;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -95,6 +96,8 @@ namespace MarkInDeDark.Library
             _localizedStringsRepository = localizedStringsRepository;
 
             _normalMapShader = assetsLoader.NormalMapShader;
+            _lightMaskShader = assetsLoader.LightMaskShader;
+
             _elapsedFinish = TimeSpan.Zero;
 
             _matrixScaleProvider = matrixScaleProvider;
@@ -108,23 +111,15 @@ namespace MarkInDeDark.Library
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _baseSceneWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             
+
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;
             else _backgroundColorForLightMask = Color.Black;
-
-            _blendStateMultiply = new BlendState()
-            {
-                AlphaSourceBlend = Blend.DestinationAlpha,
-                AlphaDestinationBlend = Blend.Zero,
-                AlphaBlendFunction = BlendFunction.Add,
-                ColorSourceBlend = Blend.DestinationColor,
-                ColorDestinationBlend = Blend.Zero,
-                ColorBlendFunction = BlendFunction.Add
-            };
 
             _currentLevel = selectedLevel;
             _markGamePad = markGamePad;
@@ -604,24 +599,23 @@ namespace MarkInDeDark.Library
             _gameGrid.DrawNormalMap(spriteBatch);
             spriteBatch.End();
 
-            // Ricompongo la scena
-            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
 
-            // Normal map
+            // Applico gli effetti
+
+            // Scena con NormalMap
+            _graphicsDevice.SetRenderTarget(_baseSceneWithNormalMapRenderTarget);
             _normalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
             _normalMapShader.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Begin(
-                SpriteSortMode.Immediate, 
-                BlendState.Opaque, 
-                SamplerState.LinearClamp, 
-                null, null, 
-                _normalMapShader);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _normalMapShader);
             spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
-            // LightMask
-            spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
-            spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
+            // Scena con NormalMap e LightMask
+            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+            _lightMaskShader.Parameters["lightMask"].SetValue((Texture2D)_lightMaskRenderTarget);
+            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+            spriteBatch.Draw((Texture2D)_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // Effects over the dark
