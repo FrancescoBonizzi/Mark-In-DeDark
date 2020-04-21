@@ -497,6 +497,10 @@ namespace MarkInDeDark.Library.Levels
                         if (door.DoorCollisionRectangle.Intersects(collisionRectangle))
                             return true;
                 }
+
+                foreach (var pillar in toAnalize.Pillars.Values)
+                    if (pillar.CollisionRectangle.Intersects(collisionRectangle))
+                        return true;
             }
 
             return false;

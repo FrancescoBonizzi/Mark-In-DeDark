@@ -537,6 +537,8 @@ namespace MarkInDeDark.Library.Levels
                 w.Value.DrawForDebug(spriteBatch);
             foreach (var d in Doors)
                 d.Value.DrawForDebug(spriteBatch);
+            foreach (var p in Pillars)
+                p.Value.DrawForDebug(spriteBatch);
         }
     }
 }
