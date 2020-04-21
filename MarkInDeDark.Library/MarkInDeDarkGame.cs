@@ -603,19 +603,19 @@ namespace MarkInDeDark.Library
             // Applico gli effetti
 
             // Scena con NormalMap
-            _graphicsDevice.SetRenderTarget(_baseSceneWithNormalMapRenderTarget);
-            _normalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
-            _normalMapShader.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _normalMapShader);
-            spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            //_graphicsDevice.SetRenderTarget(_baseSceneWithNormalMapRenderTarget);
+            //_normalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
+            //_normalMapShader.CurrentTechnique.Passes[0].Apply();
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _normalMapShader);
+            //spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            //spriteBatch.End();
 
-            // Scena con NormalMap e LightMask
+            // Scena LightMask
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
             _lightMaskShader.Parameters["lightMask"].SetValue((Texture2D)_lightMaskRenderTarget);
             _lightMaskShader.CurrentTechnique.Passes[0].Apply();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-            spriteBatch.Draw((Texture2D)_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // Effects over the dark
