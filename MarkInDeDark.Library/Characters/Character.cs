@@ -230,11 +230,10 @@ namespace MarkInDeDark.Library.Characters
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
 
-        private Rectangle FutureCollisionRectangle
+        public Rectangle FutureCollisionRectangle
             => _futureCollisionRectangleDrawingInfos.HitBox(
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
                 MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
-
 
         public float Height
             => MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight;
@@ -480,7 +479,7 @@ namespace MarkInDeDark.Library.Characters
                 // direction.Normalize();
 
                 var newIpotethicPosition = MainFigureDrawingInfos.Position + Speed * (float)elapsed.TotalSeconds * direction;
-                if (!((this is Player)) || CanMove(newIpotethicPosition, direction))
+                if ((!(this is Player) && !(this is Taurus)) || CanMove(newIpotethicPosition, direction))
                 {
                     MainFigureDrawingInfos.Position = newIpotethicPosition;
                     CurrentCharacterState = CharacterState.Moving;

@@ -8,13 +8,13 @@ using System.Linq;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class SkeletonWithoutPlayerAI : PatrolAI
+    public class SkeletonPatrolAI : PatrolAI
     {
         private readonly GameConfig _gameConfig;
         private readonly Player _player;
         private readonly SoundManager _soundManager;
 
-        public SkeletonWithoutPlayerAI(
+        public SkeletonPatrolAI(
             List<GameCell> patrolWaypoints,
             GameGrid gameGrid,
             CandlesManager candlesManager,
@@ -102,16 +102,16 @@ namespace MarkInDeDark.Library.AI
         public override Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
         {
             var pathToPlayerIfFacingAndSameDirection = PathToPositionIfFacingAndSameDirection(
-              character,
-              _player.Position,
-              _gameGrid);
+                character,
+                _player.Position,
+                _gameGrid);
 
             if (pathToPlayerIfFacingAndSameDirection == null)
             {
                 return base.GetNextDirection(character, elapsed);
             }
 
-            character.SetNewAI(new SkeletonWithPlayerAI(
+            character.SetNewAI(new SkeletonFollowingPlayerAI(
                 character as Skeletron, 
                 this, 
                 _gameGrid, 

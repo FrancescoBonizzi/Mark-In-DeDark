@@ -1,20 +1,24 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.Characters;
+﻿using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class ChargeDirectionAI : IEnemyAI
+    public class TaurusChargingAI : IEnemyAI
     {
         private readonly GameGrid _gameGrid;
-        private readonly CharacterActions _direction;
+
+        private readonly CharacterActions _directionAction;
+        private readonly Vector2 _directionVector;
+
         private readonly float _normalSpeed;
         private readonly IEnemyAI _nextAI;
+
         private readonly Taurus _taurus;
         private readonly CandlesManager _candlesManager;
         private readonly MarkInDeDarkGame _game;
+
         private TimeSpan _chargeTimeToStartSeconds;
         private TimeSpan _stunTimeSeconds;
         private TimeSpan _elapsedTime = TimeSpan.Zero;
@@ -28,8 +32,8 @@ namespace MarkInDeDark.Library.AI
             Stunned
         }
 
-        public ChargeDirectionAI(
-            CharacterActions direction,
+        public TaurusChargingAI(
+            CharacterActions directionAction,
             GameGrid gameGrid,
             Taurus taurus,
             SoundManager soundManager,
@@ -38,7 +42,8 @@ namespace MarkInDeDark.Library.AI
             MarkInDeDarkGame game)
         {
             _gameGrid = gameGrid;
-            _direction = direction;
+            _directionAction = directionAction;
+
             _normalSpeed = taurus.Speed;
             taurus.Speed = taurus.TaurusChargeSpeed;
             _currentChargeStatus = ChargeStatus.Starting;
@@ -54,17 +59,34 @@ namespace MarkInDeDark.Library.AI
             _taurus = taurus;
             _taurus.DontPlayDefaultAnimations = true;
 
-            if (direction == CharacterActions.Up)
+            if (directionAction == CharacterActions.Up)
                 _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeBack");
-            else if (direction == CharacterActions.Right || direction == CharacterActions.Left)
+            else if (directionAction == CharacterActions.Right || directionAction == CharacterActions.Left)
                 _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeSide");
-            else if (direction == CharacterActions.Down)
+            else if (directionAction == CharacterActions.Down)
                 _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusChargeFront");
+
+            switch (directionAction)
+            {
+                case CharacterActions.Up:
+                    _directionVector = new Vector2(0f, -1f);
+                    break;
+
+                case CharacterActions.Down:
+                    _directionVector = new Vector2(0f, 1f);
+                    break;
+
+                case CharacterActions.Right:
+                    _directionVector = new Vector2(1f, 0f);
+                    break;
+
+                case CharacterActions.Left:
+                    _directionVector = new Vector2(-1f, 0f);
+                    break;
+            }
         }
 
-        public CharacterActions Update(
-            Enemy character,
-            TimeSpan elapsed)
+        public Vector2 GetNextDirection(Enemy enemy, TimeSpan elapsed)
         {
             switch (_currentChargeStatus)
             {
@@ -73,19 +95,19 @@ namespace MarkInDeDark.Library.AI
                     if (_elapsedTime < _chargeTimeToStartSeconds)
                     {
                         _elapsedTime += elapsed;
-                        character.SetAction(_direction);
-                        return CharacterActions.Idle;
+                        enemy.SetAction(_directionAction);
+                        return Vector2.Zero;
                     }
                     else
                     {
                         _elapsedTime = TimeSpan.Zero;
                         _currentChargeStatus = ChargeStatus.Charge;
 
-                        if (_direction == CharacterActions.Up)
+                        if (_directionAction == CharacterActions.Up)
                             _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunBack");
-                        else if (_direction == CharacterActions.Right || _direction == CharacterActions.Left)
+                        else if (_directionAction == CharacterActions.Right || _directionAction == CharacterActions.Left)
                             _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunSide");
-                        else if (_direction == CharacterActions.Down)
+                        else if (_directionAction == CharacterActions.Down)
                             _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunFront");
                     }
 
@@ -93,7 +115,7 @@ namespace MarkInDeDark.Library.AI
 
                 case ChargeStatus.Charge:
 
-                    var currentCell = _gameGrid.GetCellAtPixel(character.Position);
+                    var currentCell = _gameGrid.GetCellAtPixel(enemy.Position);
 
                     // Se c'è una candela lungo la strada, la spengo:
                     var possibleCandle = _candlesManager.IsThereACandle(currentCell);
@@ -103,34 +125,36 @@ namespace MarkInDeDark.Library.AI
                     }
 
                     // Se posso andare avanti vado avanti caricando
-                    if (currentCell.IsPassableWithAction(_direction))
+                    if (!_gameGrid.WillCollideWithSomethingNotPassable(
+                        enemy.FutureCollisionRectangle,
+                        _directionVector))
                     {
                         _game.StartCameraShake(5, TimeSpan.FromSeconds(1));
-                        return _direction;
+                        return _directionVector;
                     }
                     else
                     {
                         // Spacco il muro
-                        var breakWallEffectLocation = character.WorldCenter;
-                        switch (_direction)
+                        var breakWallEffectLocation = enemy.WorldCenter;
+                        switch (_directionAction)
                         {
                             case CharacterActions.Up:
-                                breakWallEffectLocation.Y -= character.Height / 2;
+                                breakWallEffectLocation.Y -= enemy.Height / 2;
                                 break;
                             case CharacterActions.Down:
-                                breakWallEffectLocation.Y += character.Height / 2;
+                                breakWallEffectLocation.Y += enemy.Height / 2;
                                 break;
                             case CharacterActions.Right:
-                                breakWallEffectLocation.X += character.Width / 2;
+                                breakWallEffectLocation.X += enemy.Width / 2;
                                 break;
                             case CharacterActions.Left:
-                                breakWallEffectLocation.X -= character.Width / 2;
+                                breakWallEffectLocation.X -= enemy.Width / 2;
                                 break;
                         }
 
                         _gameGrid.BreakWall(
                             currentCell,
-                            _direction,
+                            _directionAction,
                             breakWallEffectLocation);
 
                         _currentChargeStatus = ChargeStatus.Stunned;
@@ -144,28 +168,23 @@ namespace MarkInDeDark.Library.AI
                     if (_elapsedTime < _stunTimeSeconds)
                     {
                         _elapsedTime += elapsed;
-                        return CharacterActions.Idle;
+                        return Vector2.Zero;
                     }
                     else
                     {
                         // Resetto la velocità
-                        character.Speed = _normalSpeed;
+                        enemy.Speed = _normalSpeed;
 
                         // Ritorno a fare quello che facevo prima
-                        character.ResetNormalColor();
+                        enemy.ResetNormalColor();
                         if (_nextAI is PatrolAI)
                             ((PatrolAI)_nextAI).ClearActions();
-                        character.SetNewAI(_nextAI);
-                        return CharacterActions.Idle;
+                        enemy.SetNewAI(_nextAI);
+                        return Vector2.Zero;
                     }
             }
 
-            return _direction;
-        }
-
-        public Vector2 GetNextDirection(Enemy character, TimeSpan elapsed)
-        {
-            throw new NotImplementedException();
+            return _directionVector;
         }
 
         public bool IsBlocked(Character character)

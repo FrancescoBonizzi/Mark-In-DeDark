@@ -78,14 +78,14 @@
   <ItemGroup>
     <Compile Include="AI\IEnemyAI.cs" />
     <Compile Include="AI\KillCandleAI.cs" />
-    <Compile Include="AI\ChargeDirectionAI.cs" />
-    <Compile Include="AI\PatrolChargeAI.cs" />
+    <Compile Include="AI\TaurusChargingAI.cs" />
+    <Compile Include="AI\TaurusPatrolAI.cs" />
     <Compile Include="AI\GhostAI.cs" />
-    <Compile Include="AI\SkeletonWithoutPlayerAI.cs" />
+    <Compile Include="AI\SkeletonPatrolAI.cs" />
     <Compile Include="AI\HuntPlayerAI.cs" />
     <Compile Include="AI\IdleAI.cs" />
     <Compile Include="AI\PatrolAI.cs" />
-    <Compile Include="AI\SkeletonWithPlayerAI.cs" />
+    <Compile Include="AI\SkeletonFollowingPlayerAI.cs" />
     <Compile Include="AI\CrazyAI.cs" />
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Characters\CharacterFallingInTrapAnimation.cs" />

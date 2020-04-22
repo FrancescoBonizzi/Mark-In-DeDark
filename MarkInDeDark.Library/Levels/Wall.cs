@@ -35,9 +35,9 @@ namespace MarkInDeDark.Library.Levels
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
             {
                 CollisionRectangle = new Rectangle(
-                    (int)position.X, 
+                    (int)position.X - 10, 
                     (int)position.Y + 30, 
-                    sprite.Width, 
+                    sprite.Width + 20, 
                     sprite.Height + 30);
             }
             else

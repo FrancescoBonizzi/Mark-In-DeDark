@@ -52,7 +52,7 @@ namespace MarkInDeDark.Library.Characters
                       0,//soundManager.RegisterTaurusAttackSound(),
                       0,//soundManager.RegisterTaurusScreamSound(),
                       gameConfig.TaurusMaxCellsForNearCandle,
-                      new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager, game),
+                      new TaurusPatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, game),
                       true),
                   soundManager,
                   player,
@@ -84,7 +84,7 @@ namespace MarkInDeDark.Library.Characters
             {
                 if (!e.IsDead 
                     && !e.IsDying
-                    && CurrentAI is ChargeDirectionAI
+                    && CurrentAI is TaurusChargingAI
                     && CollisionRectangle.Intersects(e.CollisionRectangle))
                 {
                     e.Die();

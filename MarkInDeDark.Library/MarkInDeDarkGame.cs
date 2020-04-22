@@ -622,12 +622,12 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // Debug
-            //spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
-            //_gameGrid.DrawForDebug(spriteBatch);
-            //_player.DrawForDebug(spriteBatch);
-            //foreach (Enemy en in _enemies)
-            //    en.DrawForDebug(spriteBatch);
-            //spriteBatch.End();
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            _gameGrid.DrawForDebug(spriteBatch);
+            _player.DrawForDebug(spriteBatch);
+            foreach (Enemy en in _enemies)
+                en.DrawForDebug(spriteBatch);
+            spriteBatch.End();
 
             // HUD
             spriteBatch.Begin();

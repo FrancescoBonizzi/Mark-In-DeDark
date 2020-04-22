@@ -25,9 +25,9 @@ namespace MarkInDeDark.Library.Levels
             };
 
             CollisionRectangle = new Rectangle(
-                (int)position.X,
+                (int)position.X + 25,
                 (int)position.Y + 100,
-                sprite.Width,
+                sprite.Width - 50,
                 sprite.Height - 150);
 
             _sprite = sprite;

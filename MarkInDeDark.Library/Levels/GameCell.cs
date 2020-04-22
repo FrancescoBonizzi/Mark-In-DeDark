@@ -225,26 +225,6 @@ namespace MarkInDeDark.Library.Levels
         public bool IsSouthDoorPassable => !IsSouthDoor || Doors[LinkDirection.SouthLink].IsOpen;
         public bool IsWestDoorPassable => !IsWestDoor || Doors[LinkDirection.WestLink].IsOpen;
 
-        public bool IsPassableWithAction(CharacterActions action)
-        {
-            switch (action)
-            {
-                case CharacterActions.Up:
-                    return IsNorthPassable && IsNorthDoorPassable;
-
-                case CharacterActions.Down:
-                    return IsSouthPassable && IsSouthDoorPassable;
-
-                case CharacterActions.Right:
-                    return IsEastPassable && IsEastDoorPassable;
-
-                case CharacterActions.Left:
-                    return IsWestPassable && IsWestDoorPassable;
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Ritorna true se effettivamente rompe il muro
         /// </summary>

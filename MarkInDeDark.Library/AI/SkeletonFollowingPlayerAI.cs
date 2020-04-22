@@ -7,9 +7,9 @@ using System;
 
 namespace MarkInDeDark.Library.AI
 {
-    public class SkeletonWithPlayerAI : HuntPlayerAI
+    public class SkeletonFollowingPlayerAI : HuntPlayerAI
     {
-        private readonly SkeletonWithoutPlayerAI _previousAI;
+        private readonly SkeletonPatrolAI _previousAI;
 
         private GameCell _oldDestionation;
 
@@ -28,9 +28,9 @@ namespace MarkInDeDark.Library.AI
 
         private HuntingStatus _currentStatus;
 
-        public SkeletonWithPlayerAI(
+        public SkeletonFollowingPlayerAI(
             Skeletron skeletron,
-            SkeletonWithoutPlayerAI nextAI,
+            SkeletonPatrolAI nextAI,
             GameGrid gameGrid,
             CandlesManager candlesManager,
             Player player,
@@ -70,7 +70,7 @@ namespace MarkInDeDark.Library.AI
                     if (_oldDestionation != destinationCell)
                     {
                         // ...cerco di capire se riesco comunque a raggiungerlo a vista
-                        var pathToPlayerIfFacingAndSameDirection = SkeletonWithoutPlayerAI.PathToPositionIfFacingAndSameDirection(
+                        var pathToPlayerIfFacingAndSameDirection = SkeletonPatrolAI.PathToPositionIfFacingAndSameDirection(
                             character,
                             _player.Position,
                             _gameGrid);
