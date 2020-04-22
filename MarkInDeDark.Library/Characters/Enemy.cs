@@ -204,7 +204,7 @@ namespace MarkInDeDark.Library.Characters
             else if (!(_player.IsDead || _player.IsDying)
                 && !_player.HasWon
                 && CustomConditionToAttackPlayer()
-                && CollisionRectangle.Intersects(_player.CollisionRectangle))
+                && CollisionRectangleForAttack.Intersects(_player.CollisionRectangleForAttack))
             {
                 Attack();
                 _player.Die();

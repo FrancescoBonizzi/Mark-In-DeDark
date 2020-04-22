@@ -301,7 +301,7 @@ namespace MarkInDeDark.Library
 
                     if (!_key.IsCollected)
                     {
-                        if (_player.CollisionRectangle.Intersects(_key.CollisionRectangle))
+                        if (_player.CollisionRectangleForAttack.Intersects(_key.CollisionRectangle))
                         {
                             _key.Collect();
                             _gameHud.ShowMessage(
@@ -311,7 +311,7 @@ namespace MarkInDeDark.Library
                         }
                     }
 
-                    if (_player.CollisionRectangle.Intersects(_exit.CollisionRectangle))
+                    if (_player.CollisionRectangleForAttack.Intersects(_exit.CollisionRectangle))
                     {
                         if (_key.IsCollected)
                         {
@@ -336,7 +336,7 @@ namespace MarkInDeDark.Library
                         if (candlePack.IsActive)
                         {
                             candlePack.Update(elapsed);
-                            if (!candlePack.IsCollected && _player.CollisionRectangle.Intersects(candlePack.CollisionRectangle))
+                            if (!candlePack.IsCollected && _player.CollisionRectangleForAttack.Intersects(candlePack.CollisionRectangle))
                             {
                                 candlePack.Collect();
                                 _candlesManager.AddCandlesToInventory(candlePack.NCandlesInThisPack);
@@ -622,12 +622,12 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // Debug
-            //spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
-            //_gameGrid.DrawForDebug(spriteBatch);
-            //_player.DrawForDebug(spriteBatch);
-            //foreach (Enemy en in _enemies)
-            //    en.DrawForDebug(spriteBatch);
-            //spriteBatch.End();
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            _gameGrid.DrawForDebug(spriteBatch);
+            _player.DrawForDebug(spriteBatch);
+            foreach (Enemy en in _enemies)
+                en.DrawForDebug(spriteBatch);
+            spriteBatch.End();
 
             // HUD
             spriteBatch.Begin();

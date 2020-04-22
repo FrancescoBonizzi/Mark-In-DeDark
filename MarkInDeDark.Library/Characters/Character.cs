@@ -66,7 +66,9 @@ namespace MarkInDeDark.Library.Characters
 
         public DrawingInfos MainFigureDrawingInfos { get; set; }
 
-        private DrawingInfos _futureCollisionRectangleDrawingInfos;
+        private readonly DrawingInfos _futureCollisionRectangleDrawingInfosForMovement;
+        private readonly DrawingInfos _collisionRectangleDrawingInfosForAttack;
+
         protected DrawingInfos _shadowsDrawingInfos;
 
         protected readonly GameGrid _gameGrid;
@@ -126,11 +128,18 @@ namespace MarkInDeDark.Library.Characters
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
-            _futureCollisionRectangleDrawingInfos = new DrawingInfos()
+            _futureCollisionRectangleDrawingInfosForMovement = new DrawingInfos()
             {
-                Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(50, 50, 100, 100),
-                Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
+                Position = MainFigureDrawingInfos.Position,
+                HitBoxTolerance = MainFigureDrawingInfos.HitBoxTolerance,
+                Origin = MainFigureDrawingInfos.Origin
+            };
+
+            _collisionRectangleDrawingInfosForAttack = new DrawingInfos()
+            {
+                Position = MainFigureDrawingInfos.Position,
+                HitBoxTolerance = new Rectangle(30, 10, 60, 20),
+                Origin = MainFigureDrawingInfos.Origin
             };
 
             Speed = configuration.MovementSpeed;
@@ -225,15 +234,20 @@ namespace MarkInDeDark.Library.Characters
         public Vector2 Position
             => MainFigureDrawingInfos.Position;
 
-        public Rectangle CollisionRectangle
+        public Rectangle CollisionRectangleForMovement
             => MainFigureDrawingInfos.HitBox(
-                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
-                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
 
-        public Rectangle FutureCollisionRectangle
-            => _futureCollisionRectangleDrawingInfos.HitBox(
-                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
-                MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
+        public Rectangle FutureCollisionRectangleForMovement
+            => _futureCollisionRectangleDrawingInfosForMovement.HitBox(
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
+
+        public Rectangle CollisionRectangleForAttack
+            => _collisionRectangleDrawingInfosForAttack.HitBox(
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameWidth,
+                    MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight);
 
         public float Height
             => MainAnimationsAnimationManager.CurrentAnimation.CurrentFrameHeight;
@@ -457,12 +471,12 @@ namespace MarkInDeDark.Library.Characters
 
         public bool CanMove(Vector2 newIpotethicPosition, Vector2 direction)
         {
-            _futureCollisionRectangleDrawingInfos.Position = newIpotethicPosition;
+            _futureCollisionRectangleDrawingInfosForMovement.Position = newIpotethicPosition;
 
             if (_canGoOverWalls)
                 return true;
 
-            return !_gameGrid.WillCollideWithSomethingNotPassable(FutureCollisionRectangle, direction);
+            return !_gameGrid.WillCollideWithSomethingNotPassable(FutureCollisionRectangleForMovement, direction);
         }
 
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
@@ -482,6 +496,7 @@ namespace MarkInDeDark.Library.Characters
                 if ((!(this is Player) && !(this is Taurus)) || CanMove(newIpotethicPosition, direction))
                 {
                     MainFigureDrawingInfos.Position = newIpotethicPosition;
+                    _collisionRectangleDrawingInfosForAttack.Position = newIpotethicPosition;
                     CurrentCharacterState = CharacterState.Moving;
                     SetAction(GetActionForDirection(direction));
                 }
@@ -626,8 +641,9 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void DrawForDebug(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
-            spriteBatch.DrawRectangle(FutureCollisionRectangle, Color.Blue.WithAlpha(0.5f));
+            spriteBatch.DrawRectangle(CollisionRectangleForMovement, Color.Red.WithAlpha(0.5f));
+            spriteBatch.DrawRectangle(FutureCollisionRectangleForMovement, Color.Blue.WithAlpha(0.5f));
+            spriteBatch.DrawRectangle(CollisionRectangleForAttack, Color.Green.WithAlpha(0.5f));
         }
 
     }

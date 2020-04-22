@@ -85,7 +85,7 @@ namespace MarkInDeDark.Library.Characters
                 if (!e.IsDead 
                     && !e.IsDying
                     && CurrentAI is TaurusChargingAI
-                    && CollisionRectangle.Intersects(e.CollisionRectangle))
+                    && CollisionRectangleForAttack.Intersects(e.CollisionRectangleForAttack))
                 {
                     e.Die();
                 }

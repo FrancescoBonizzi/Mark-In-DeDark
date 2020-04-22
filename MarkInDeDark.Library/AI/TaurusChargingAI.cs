@@ -126,7 +126,7 @@ namespace MarkInDeDark.Library.AI
 
                     // Se posso andare avanti vado avanti caricando
                     if (!_gameGrid.WillCollideWithSomethingNotPassable(
-                        enemy.FutureCollisionRectangle,
+                        enemy.FutureCollisionRectangleForMovement,
                         _directionVector))
                     {
                         _game.StartCameraShake(5, TimeSpan.FromSeconds(1));

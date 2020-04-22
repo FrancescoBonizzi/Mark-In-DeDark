@@ -53,7 +53,7 @@ namespace MarkInDeDark.Library.Objects
 
                 for (int i = _affectedCharacters.Count() - 1; i >= 0; --i)
                 {
-                    if (_affectedCharacters[i].CollisionRectangle.Intersects(_triggerArea))
+                    if (_affectedCharacters[i].CollisionRectangleForAttack.Intersects(_triggerArea))
                     {
                         someOneOnTheTrigger = true;
                         _onTriggerPressed(_affectedCharacters[i], elapsed);
