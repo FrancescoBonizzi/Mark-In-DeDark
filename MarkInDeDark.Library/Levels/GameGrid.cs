@@ -49,7 +49,7 @@ namespace MarkInDeDark.Library.Levels
         private int _currentViewportMaxCellY = 0;
 
         private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<Vector2>> _calculatedPathsOfVectorsCache;
-        private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<GameCell>> _calculatedPathsOfCellsCache;
+        private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>> _calculatedPathsOfActionsCache;
         private readonly MarkInDeDarkGame _game;
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
@@ -95,7 +95,7 @@ namespace MarkInDeDark.Library.Levels
             }
 
             _calculatedPathsOfVectorsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<Vector2>>();
-            _calculatedPathsOfCellsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<GameCell>>();
+            _calculatedPathsOfActionsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>>();
 
             GameGridLoader.LoadGrid(
                 assetsLoader,
@@ -141,7 +141,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsNorthPassable = true;
                         cellAfterWall.IsSouthPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
 
                     break;
@@ -163,7 +163,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsSouthPassable = true;
                         cellAfterWall.IsNorthPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -184,7 +184,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsEastPassable = true;
                         cellAfterWall.IsWestPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -205,7 +205,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsWestPassable = true;
                         cellAfterWall.IsEastPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
             }
@@ -277,7 +277,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsNorthPassable = true;
                         cellAfterDoor.IsSouthPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
 
                     break;
@@ -295,7 +295,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsSouthPassable = true;
                         cellAfterDoor.IsNorthPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -312,7 +312,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsEastPassable = true;
                         cellAfterDoor.IsWestPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -329,7 +329,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsWestPassable = true;
                         cellAfterDoor.IsEastPassable = true;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
             }
@@ -356,7 +356,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsNorthPassable = false;
                         cellAfterDoor.IsSouthPassable = false;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
 
                     break;
@@ -374,7 +374,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsSouthPassable = false;
                         cellAfterDoor.IsNorthPassable = false;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -391,7 +391,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsEastPassable = false;
                         cellAfterDoor.IsWestPassable = false;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
 
@@ -408,7 +408,7 @@ namespace MarkInDeDark.Library.Levels
                         cell.IsWestPassable = false;
                         cellAfterDoor.IsEastPassable = false;
                         _calculatedPathsOfVectorsCache.Clear();
-                        _calculatedPathsOfCellsCache.Clear();
+                        _calculatedPathsOfActionsCache.Clear();
                     }
                     break;
             }
@@ -771,22 +771,16 @@ namespace MarkInDeDark.Library.Levels
         public List<CharacterActions> FindPathOfActions(Vector2 A, Vector2 B)
         {
             var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
-            List<GameCell> path = null;
 
-            if (_calculatedPathsOfCellsCache.ContainsKey(pathKey))
-                path = _calculatedPathsOfCellsCache[pathKey];
+            if (_calculatedPathsOfActionsCache.ContainsKey(pathKey))
+                return _calculatedPathsOfActionsCache[pathKey];
 
-            if (path == null)
-            {
-                path = FindPathOfCells(
-                    GetCellAtPixel((int)A.X, (int)A.Y),
-                    GetCellAtPixel((int)B.X, (int)B.Y));
-            }
+            var pathToActions = PathToDirections(FindPathOfCells(
+                GetCellAtPixel((int)A.X, (int)A.Y),
+                GetCellAtPixel((int)B.X, (int)B.Y)));
 
-            var actionsToPath = PathToDirections(path);
-
-            _calculatedPathsOfCellsCache.Add(pathKey, path);
-            return actionsToPath;
+            _calculatedPathsOfActionsCache.Add(pathKey, pathToActions);
+            return pathToActions;
         }
 
         public void ApplyBloodDecal(Vector2 where)
