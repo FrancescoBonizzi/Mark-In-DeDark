@@ -29,7 +29,6 @@ namespace MarkInDeDark.Library.Levels
         public Vector2 KeyPosition { get; set; }
         public List<CandlePack> CandlePacks { get; } = new List<CandlePack>();
         public List<LittleLight> LittleLights { get; } = new List<LittleLight>();
-        public List<IDrawableObject> DrawableObjects { get; } = new List<IDrawableObject>();
 
         public Vector2? GoblinStartPosition { get; set; }
         public Vector2? WerewolfStartingPosition { get; set; }
@@ -466,32 +465,34 @@ namespace MarkInDeDark.Library.Levels
             Rectangle futureCollisionRectangle,
             Vector2 direction)
         {
-            // TODO Ottimizzazione: guardare solo le celle intorno al player
-            // non funzionava bene
-            //var cell = GetCellAtPixel(character.WorldCenter);
-            //var nearCells = new List<GameCell>()
-            //{
-            //    cell.NorthCellWithoutLinks,
-            //    cell.SouthCellWithoutLinks,
-            //    cell.EastCellWithoutLinks,
-            //    cell.WestCellWithoutLinks,
-            //    cell.NorthCellWithoutLinks?.EastCellWithoutLinks,
-            //    cell.NorthCellWithoutLinks?.WestCellWithoutLinks,
-            //    cell.SouthCellWithoutLinks?.EastCellWithoutLinks,
-            //    cell.SouthCellWithoutLinks?.WestCellWithoutLinks,
-            //};
+            var cell = GetCellAtPixel(futureCollisionRectangle.X, futureCollisionRectangle.Y);
+            var nearCells = new List<GameCell>()
+            {
+                cell,
+                cell.NorthCellWithoutLinks,
+                cell.SouthCellWithoutLinks,
+                cell.EastCellWithoutLinks,
+                cell.WestCellWithoutLinks,
+                cell.NorthCellWithoutLinks?.EastCellWithoutLinks,
+                cell.NorthCellWithoutLinks?.WestCellWithoutLinks,
+                cell.SouthCellWithoutLinks?.EastCellWithoutLinks,
+                cell.SouthCellWithoutLinks?.WestCellWithoutLinks,
+            };
 
-            foreach (var toAnalize in _cells)
+            foreach (var toAnalize in nearCells)
             {
                 if (toAnalize == null)
                     continue;
 
                 // Check muri
                 foreach (var wall in toAnalize.Walls.Values)
-                {
                     if (wall.CollisionRectangle.Intersects(futureCollisionRectangle))
                         return true;
-                }
+
+                // Check oggetti non passabili
+                foreach (var unpassableObject in toAnalize.UnpassableObjects)
+                    if (unpassableObject.CollisionRectangle.Intersects(futureCollisionRectangle))
+                        return true;
 
                 // Check pilastri
                 foreach (var pillar in toAnalize.Pillars.Values)
@@ -503,20 +504,20 @@ namespace MarkInDeDark.Library.Levels
                 {
                     if (!door.IsOpen)
                     {
-                        if (door.DoorCollisionRectangle.Intersects(futureCollisionRectangle))
+                        if (door.CollisionRectangle.Intersects(futureCollisionRectangle))
                         {
                             // Vado a sbattere contro una porta chiusa...
 
                             if (direction.Y < 0)
                             {
                                 // ...se sto andando in su e la porta è sopra di me, mi blocco
-                                if (door.DoorCollisionRectangle.Y <= futureCollisionRectangle.Y)
+                                if (door.CollisionRectangle.Y <= futureCollisionRectangle.Y)
                                     return true;
                             }
                             else if (direction.Y > 0)
                             {
                                 // ...se sto andando in giù e la porta è sotto di me, mi blocco
-                                if (door.DoorCollisionRectangle.Y >= futureCollisionRectangle.Y)
+                                if (door.CollisionRectangle.Y >= futureCollisionRectangle.Y)
                                     return true;
                             }
                         }

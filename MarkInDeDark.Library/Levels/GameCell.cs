@@ -16,6 +16,8 @@ using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
+    // Gli oggetti che possono avere collisioni li faccio appartenere alle celle
+    // perché sono un'ottima astrazione per filtrare le cose da verificare (es tutte le celle intorno al player ecc)
     public class GameCell
     {
         public Sprite Sprite { get; set; }
@@ -39,6 +41,9 @@ namespace MarkInDeDark.Library.Levels
         private DrawingInfos _bloodDecalDrawingInfos;
         public Dictionary<LinkDirection, GameCell> Links { get; }
         public Dictionary<LinkDirection, Door> Doors { get; }
+
+        public List<UnpassableObject> UnpassableObjects { get; }
+        public List<PassableObject> PassableObjects { get; }
 
         public bool IsUnLinked { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
@@ -147,6 +152,9 @@ namespace MarkInDeDark.Library.Levels
             IsEastDestroyable = false;
             IsSouthDestroyable = false;
             IsWestDestroyable = false;
+
+            UnpassableObjects = new List<UnpassableObject>();
+            PassableObjects = new List<PassableObject>();
         }
 
         public void SetSpecialWallCell()
@@ -517,6 +525,10 @@ namespace MarkInDeDark.Library.Levels
                 d.Value.Draw(spriteBatch);
             foreach (var a in Pillars)
                 a.Value.Draw(spriteBatch);
+            foreach (var u in UnpassableObjects)
+                u.Draw(spriteBatch);
+            foreach (var u in PassableObjects)
+                u.Draw(spriteBatch);
         }
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
@@ -539,6 +551,10 @@ namespace MarkInDeDark.Library.Levels
                 d.Value.DrawForDebug(spriteBatch);
             foreach (var p in Pillars)
                 p.Value.DrawForDebug(spriteBatch);
+            foreach (var u in UnpassableObjects)
+                u.DrawForDebug(spriteBatch);
+            foreach (var u in PassableObjects)
+                u.DrawForDebug(spriteBatch);
         }
     }
 }

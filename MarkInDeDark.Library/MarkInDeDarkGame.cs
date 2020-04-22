@@ -557,7 +557,7 @@ namespace MarkInDeDark.Library
                 samplerState: SamplerState.PointClamp, 
                 sortMode: SpriteSortMode.FrontToBack);
 
-            // Disegno tutto il pavimento (che non ha ZIndex perché sta sempre sotto)
+            // Disegno il pavimento
             _gameGrid.Draw(spriteBatch);
 
             // Disegno di tutti gli oggetti
@@ -573,9 +573,6 @@ namespace MarkInDeDark.Library
 
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
-            
-            foreach (var otherObject in _gameGrid.DrawableObjects)
-                otherObject.Draw(spriteBatch);
             
             foreach (var littleLight in _gameGrid.LittleLights)
                 littleLight.Draw(spriteBatch);

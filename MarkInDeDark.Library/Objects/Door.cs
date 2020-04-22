@@ -41,7 +41,7 @@ namespace MarkInDeDark.Library.Objects
         private readonly SpriteAnimation _doorCloseAnimation;
         private SpriteAnimation _currentAnimation;
 
-        public Rectangle DoorCollisionRectangle { get; private set; }
+        public Rectangle CollisionRectangle { get; private set; }
 
         private readonly Rectangle _closedDoorCollisionRectangle;
         private readonly Rectangle _openDoorCollisionRectangle;
@@ -119,7 +119,7 @@ namespace MarkInDeDark.Library.Objects
 
         public void DrawForDebug(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawRectangle(DoorCollisionRectangle, Color.Red.WithAlpha(0.5f));
+            spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
         }
 
         public void Update(TimeSpan elapsed)
@@ -133,7 +133,7 @@ namespace MarkInDeDark.Library.Objects
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Closed;
-                        DoorCollisionRectangle = _closedDoorCollisionRectangle;
+                        CollisionRectangle = _closedDoorCollisionRectangle;
                         _onClose?.Invoke();
                     }
 
@@ -144,7 +144,7 @@ namespace MarkInDeDark.Library.Objects
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Open;
-                        DoorCollisionRectangle= _openDoorCollisionRectangle;
+                        CollisionRectangle= _openDoorCollisionRectangle;
                     }
 
                     break;

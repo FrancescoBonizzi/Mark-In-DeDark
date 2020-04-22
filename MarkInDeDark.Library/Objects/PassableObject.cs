@@ -28,5 +28,7 @@ namespace MarkInDeDark.Library.Objects
 
         public void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_sprite, _drawingInfos);
+
+        public void DrawForDebug(SpriteBatch spriteBatch) { }
     }
 }

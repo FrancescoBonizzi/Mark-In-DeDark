@@ -114,15 +114,15 @@ namespace MarkInDeDark.Library.Levels
                                 break;
 
                             case ObjectTypes.OggettoNonPassabile1:
-                                grid.DrawableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_1"], gameCell));
+                                gameCell.UnpassableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_1"], gameCell));
                                 break;
 
                             case ObjectTypes.OggettoNonPassabile2:
-                                grid.DrawableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_2"], gameCell));
+                                gameCell.UnpassableObjects.Add(new UnpassableObject(assetsLoader.Sprites["Objects/object_unpassable_2"], gameCell));
                                 break;
 
                             case ObjectTypes.OggettoPassabile1:
-                                grid.DrawableObjects.Add(new PassableObject(assetsLoader.Sprites["Objects/object_passable_1"], gameCell));
+                                gameCell.PassableObjects.Add(new PassableObject(assetsLoader.Sprites["Objects/object_passable_1"], gameCell));
                                 break;
 
                             case ObjectTypes.Zombie:
