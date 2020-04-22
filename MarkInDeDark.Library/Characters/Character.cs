@@ -456,61 +456,14 @@ namespace MarkInDeDark.Library.Characters
             return CharacterActions.Idle;
         }
 
-        public bool CanMove(Vector2 newIpotethicPosition)
+        public bool CanMove(Vector2 newIpotethicPosition, Vector2 direction)
         {
             _futureCollisionRectangleDrawingInfos.Position = newIpotethicPosition;
 
             if (_canGoOverWalls)
                 return true;
 
-            var currentCell = _gameGrid.GetCellAtPixel(WorldCenter);
-
-            if (currentCell == null)
-                return false;
-
-            var characterCenter = WorldCenter;
-            var willCollideWithWall = _gameGrid.WillCollideWithWall(FutureCollisionRectangle);
-
-            if (willCollideWithWall)
-                return false;
-
-            // Se non collide con muri, controllo se ci sono porte o altre ostruzioni
-
-            //var characterWorldCenter = WorldCenter;
-            //const float verticalMovementMargin = 50f;
-            //const float horizontalMovementMargin = 80f;
-
-            bool canMove = true;
-
-            //if (direction.Y < 0)
-            //{
-            //    bool isOnCellBorder = characterWorldCenter.Y <= currentCell.TopLeftPosition.Y + verticalMovementMargin;
-            //    if (isOnCellBorder)
-            //        canMove = canMove && currentCell.IsNorthPassable && currentCell.IsNorthDoorPassable && !currentCell.NorthCell.IsUnwalkable;
-            //}
-
-            //if (direction.Y > 0)
-            //{
-            //    bool isOnCellBorder = characterWorldCenter.Y >= currentCell.BottomLeftPosition.Y - verticalMovementMargin;
-            //    if (isOnCellBorder)
-            //        canMove = canMove && currentCell.IsSouthPassable && currentCell.IsSouthDoorPassable && !currentCell.SouthCell.IsUnwalkable;
-            //}
-
-            //if (direction.X > 0)
-            //{
-            //    bool isOnCellBorder = characterWorldCenter.X >= currentCell.TopRightPosition.X - horizontalMovementMargin;
-            //    if (isOnCellBorder)
-            //        canMove = canMove && currentCell.IsEastPassable && currentCell.IsEastDoorPassable && !currentCell.EastCell.IsUnwalkable;
-            //}
-
-            //if (direction.X < 0)
-            //{
-            //    bool isOnCellBorder = characterWorldCenter.X <= currentCell.TopLeftPosition.X + horizontalMovementMargin;
-            //    if (isOnCellBorder)
-            //        canMove = canMove && currentCell.IsWestPassable && currentCell.IsWestDoorPassable && !currentCell.WestCell.IsUnwalkable;
-            //}
-
-            return canMove;
+            return !_gameGrid.WillCollideWithSomethingNotPassable(FutureCollisionRectangle, direction);
         }
 
         public virtual void Update(TimeSpan elapsed, Vector2 direction)
@@ -527,7 +480,7 @@ namespace MarkInDeDark.Library.Characters
                 // direction.Normalize();
 
                 var newIpotethicPosition = MainFigureDrawingInfos.Position + Speed * (float)elapsed.TotalSeconds * direction;
-                if (!((this is Player)) || CanMove(newIpotethicPosition))
+                if (!((this is Player)) || CanMove(newIpotethicPosition, direction))
                 {
                     MainFigureDrawingInfos.Position = newIpotethicPosition;
                     CurrentCharacterState = CharacterState.Moving;

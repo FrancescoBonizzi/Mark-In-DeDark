@@ -462,7 +462,9 @@ namespace MarkInDeDark.Library.Levels
                 (int)pixelLocation.Y);
         }
 
-        public bool WillCollideWithWall(Rectangle collisionRectangle)
+        public bool WillCollideWithSomethingNotPassable(
+            Rectangle futureCollisionRectangle,
+            Vector2 direction)
         {
             // TODO Ottimizzazione: guardare solo le celle intorno al player
             // non funzionava bene
@@ -479,28 +481,47 @@ namespace MarkInDeDark.Library.Levels
             //    cell.SouthCellWithoutLinks?.WestCellWithoutLinks,
             //};
 
-            //foreach(var toAnalize in nearCells)
             foreach (var toAnalize in _cells)
             {
                 if (toAnalize == null)
                     continue;
 
+                // Check muri
                 foreach (var wall in toAnalize.Walls.Values)
                 {
-                    if (wall.CollisionRectangle.Intersects(collisionRectangle))
+                    if (wall.CollisionRectangle.Intersects(futureCollisionRectangle))
                         return true;
                 }
 
-                foreach(var door in toAnalize.Doors.Values)
+                // Check pilastri
+                foreach (var pillar in toAnalize.Pillars.Values)
+                    if (pillar.CollisionRectangle.Intersects(futureCollisionRectangle))
+                        return true;
+
+                // Check porte
+                foreach (var door in toAnalize.Doors.Values)
                 {
                     if (!door.IsOpen)
-                        if (door.DoorCollisionRectangle.Intersects(collisionRectangle))
-                            return true;
-                }
+                    {
+                        if (door.DoorCollisionRectangle.Intersects(futureCollisionRectangle))
+                        {
+                            // Vado a sbattere contro una porta chiusa...
 
-                foreach (var pillar in toAnalize.Pillars.Values)
-                    if (pillar.CollisionRectangle.Intersects(collisionRectangle))
-                        return true;
+                            if (direction.Y < 0)
+                            {
+                                // ...se sto andando in su e la porta è sopra di me, mi blocco
+                                if (door.DoorCollisionRectangle.Y <= futureCollisionRectangle.Y)
+                                    return true;
+                            }
+                            else if (direction.Y > 0)
+                            {
+                                // ...se sto andando in giù e la porta è sotto di me, mi blocco
+                                if (door.DoorCollisionRectangle.Y >= futureCollisionRectangle.Y)
+                                    return true;
+                            }
+                        }
+                    }
+                }
             }
 
             return false;

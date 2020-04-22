@@ -87,9 +87,9 @@ namespace MarkInDeDark.Library.Objects
 
             _closedDoorCollisionRectangle = new Rectangle(
                 (int)doorPosition.X,
-                (int)doorPosition.Y + 100,
+                (int)doorPosition.Y + 80,
                 _wallDoorDownSprite.Width,
-                30);
+                60);
 
             _openDoorCollisionRectangle = new Rectangle();
         }
