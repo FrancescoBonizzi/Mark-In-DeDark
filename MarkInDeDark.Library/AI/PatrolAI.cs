@@ -68,7 +68,7 @@ namespace MarkInDeDark.Library.AI
         }
 
         protected virtual Queue<Vector2> FindPath(Vector2 from, Vector2 to)
-            => new Queue<Vector2>(_gameGrid.FindPathV2(from, to));
+            => new Queue<Vector2>(_gameGrid.FindPathOfVectors(from, to));
 
         protected virtual bool ReachedDestination(Character character)
             => Vector2.Distance(character.WorldCenter, _currentDestinationStart) >= _currentDestinationStartingDistance;
@@ -77,7 +77,7 @@ namespace MarkInDeDark.Library.AI
         {
             foreach (var w in _waypoints)
             {
-                var pathToThisWaypoint = _gameGrid.FindPathV2(
+                var pathToThisWaypoint = _gameGrid.FindPathOfVectors(
                     character.WorldCenter,
                     w);
 

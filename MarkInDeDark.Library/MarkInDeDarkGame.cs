@@ -587,14 +587,14 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // Disegno la normal map
-            _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
-            _graphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(
-                transformMatrix: viewMatrix,
-                samplerState: SamplerState.PointClamp,
-                sortMode: SpriteSortMode.FrontToBack);
-            _gameGrid.DrawNormalMap(spriteBatch);
-            spriteBatch.End();
+            //_graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
+            //_graphicsDevice.Clear(Color.Black);
+            //spriteBatch.Begin(
+            //    transformMatrix: viewMatrix,
+            //    samplerState: SamplerState.PointClamp,
+            //    sortMode: SpriteSortMode.FrontToBack);
+            //_gameGrid.DrawNormalMap(spriteBatch);
+            //spriteBatch.End();
 
 
             // Applico gli effetti
@@ -622,12 +622,12 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // Debug
-            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
-            _gameGrid.DrawForDebug(spriteBatch);
-            _player.DrawForDebug(spriteBatch);
-            foreach (Enemy en in _enemies)
-                en.DrawForDebug(spriteBatch);
-            spriteBatch.End();
+            //spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            //_gameGrid.DrawForDebug(spriteBatch);
+            //_player.DrawForDebug(spriteBatch);
+            //foreach (Enemy en in _enemies)
+            //    en.DrawForDebug(spriteBatch);
+            //spriteBatch.End();
 
             // HUD
             spriteBatch.Begin();

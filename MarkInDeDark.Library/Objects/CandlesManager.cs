@@ -88,7 +88,7 @@ namespace MarkInDeDark.Library
                     continue;
 
                 // Tra quelle vicine per l'euristica, provo a vedere quale di queste ha un path corto
-                var pathToCandle = _gameGrid.FindPathV2(searchingStartPosition, thisCandleWorldCenter);
+                var pathToCandle = _gameGrid.FindPathOfVectors(searchingStartPosition, thisCandleWorldCenter);
                 var numberOfActionsToCandle = pathToCandle.Count();
                 if (numberOfActionsToCandle > maxCellsDistance)
                     continue;

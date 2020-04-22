@@ -16,7 +16,7 @@ namespace MarkInDeDark.Library.AI
         }
 
         protected override Queue<Vector2> FindPath(Vector2 from, Vector2 to)
-            => new Queue<Vector2>(_gameGrid.FindPathWithoutConsideringWalls(from, to));
+            => new Queue<Vector2>(_gameGrid.FindPathOfVectorsWithoutConsideringWalls(from, to));
 
         public override bool IsBlocked(Character character)
             => false;

@@ -76,7 +76,7 @@ namespace MarkInDeDark.Library.AI
 
             // Calcolo le azioni per raggiungersi,
             // così posso vedere se ci sono muri di mezzo (ovvero se deve fare più azioni per raggiungerlo)
-            var actionsToPlayer = gameGrid.FindActionsToPath(
+            var actionsToPlayer = gameGrid.FindPathOfActions(
                 enemy.Position,
                 playerPosition);
 

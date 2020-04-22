@@ -48,7 +48,8 @@ namespace MarkInDeDark.Library.Levels
         private int _currentViewportMinCellY = 0;
         private int _currentViewportMaxCellY = 0;
 
-        private readonly IDictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>> _calculatedPathsCache;
+        private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<Vector2>> _calculatedPathsOfVectorsCache;
+        private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<GameCell>> _calculatedPathsOfCellsCache;
         private readonly MarkInDeDarkGame _game;
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
@@ -93,8 +94,17 @@ namespace MarkInDeDark.Library.Levels
                 nextCellPosition.Y = _position.Y;
             }
 
-            _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>>();
-            GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
+            _calculatedPathsOfVectorsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<Vector2>>();
+            _calculatedPathsOfCellsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<GameCell>>();
+
+            GameGridLoader.LoadGrid(
+                assetsLoader,
+                soundManager,
+                levelToLoad.LevelEditorDeserializedGrid,
+                this,
+                levelToLoad,
+                gameConfig);
+
             _game = game;
         }
 
@@ -130,7 +140,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterWall.AddLink(cell, LinkDirection.SouthLink);
                         cell.IsNorthPassable = true;
                         cellAfterWall.IsSouthPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
 
                     break;
@@ -151,7 +162,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterWall.AddLink(cell, LinkDirection.NorthLink);
                         cell.IsSouthPassable = true;
                         cellAfterWall.IsNorthPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -171,7 +183,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterWall.AddLink(cell, LinkDirection.WestLink);
                         cell.IsEastPassable = true;
                         cellAfterWall.IsWestPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -191,7 +204,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterWall.AddLink(cell, LinkDirection.EastLink);
                         cell.IsWestPassable = true;
                         cellAfterWall.IsEastPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
             }
@@ -262,7 +276,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.AddLink(cell, LinkDirection.SouthLink);
                         cell.IsNorthPassable = true;
                         cellAfterDoor.IsSouthPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
 
                     break;
@@ -279,7 +294,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.AddLink(cell, LinkDirection.NorthLink);
                         cell.IsSouthPassable = true;
                         cellAfterDoor.IsNorthPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -295,7 +311,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.AddLink(cell, LinkDirection.WestLink);
                         cell.IsEastPassable = true;
                         cellAfterDoor.IsWestPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -311,7 +328,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.AddLink(cell, LinkDirection.EastLink);
                         cell.IsWestPassable = true;
                         cellAfterDoor.IsEastPassable = true;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
             }
@@ -337,7 +355,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.Links.Remove(LinkDirection.SouthLink);
                         cell.IsNorthPassable = false;
                         cellAfterDoor.IsSouthPassable = false;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
 
                     break;
@@ -354,7 +373,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.Links.Remove(LinkDirection.NorthLink);
                         cell.IsSouthPassable = false;
                         cellAfterDoor.IsNorthPassable = false;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -370,7 +390,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.Links.Remove(LinkDirection.WestLink);
                         cell.IsEastPassable = false;
                         cellAfterDoor.IsWestPassable = false;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
 
@@ -386,7 +407,8 @@ namespace MarkInDeDark.Library.Levels
                         cellAfterDoor.Links.Remove(LinkDirection.EastLink);
                         cell.IsWestPassable = false;
                         cellAfterDoor.IsEastPassable = false;
-                        _calculatedPathsCache.Clear();
+                        _calculatedPathsOfVectorsCache.Clear();
+                        _calculatedPathsOfCellsCache.Clear();
                     }
                     break;
             }
@@ -528,8 +550,8 @@ namespace MarkInDeDark.Library.Levels
             return false;
         }
 
-        // E' una BFS greedy
-        private List<GameCell> FindPath(GameCell A, GameCell B)
+        // E' un BFS greedy
+        private List<GameCell> FindPathOfCells(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();
 
@@ -581,7 +603,7 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        private List<Vector2> FindPathV2(GameCell A, GameCell B)
+        private List<Vector2> FindPathOfVectors(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();
 
@@ -633,16 +655,14 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        public List<Vector2> FindPathWithoutConsideringWalls(Vector2 A, Vector2 B)
+        public List<Vector2> FindPathOfVectorsWithoutConsideringWalls(Vector2 A, Vector2 B)
         {
-#warning TODO Cache
-
-            return FindPathWithoutConsideringWalls(
+            return FindPathOfVectorsWithoutConsideringWalls(
                 GetCellAtPixel((int)A.X, (int)A.Y),
                 GetCellAtPixel((int)B.X, (int)B.Y));
         }
 
-        public List<Vector2> FindPathWithoutConsideringWalls(GameCell A, GameCell B)
+        public List<Vector2> FindPathOfVectorsWithoutConsideringWalls(GameCell A, GameCell B)
         {
             var parent = new Dictionary<GameCell, GameCell>();
 
@@ -734,59 +754,38 @@ namespace MarkInDeDark.Library.Levels
             return directions;
         }
 
-        private IEnumerable<CharacterActions> PathToDirectionsWithoutWalls(List<GameCell> Path)
+        public List<Vector2> FindPathOfVectors(Vector2 A, Vector2 B)
         {
-            var directions = new List<CharacterActions>();
+            var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
+            if (_calculatedPathsOfVectorsCache.ContainsKey(pathKey))
+                return _calculatedPathsOfVectorsCache[pathKey];
 
-            for (int i = 0; i < Path.Count - 1; ++i)
-            {
-                if (Path[i].NorthCellWithoutLinks == Path[i + 1])
-                {
-                    directions.Add(CharacterActions.Up);
-                }
-                else if (Path[i].EastCellWithoutLinks == Path[i + 1])
-                {
-                    directions.Add(CharacterActions.Right);
-                }
-                else if (Path[i].SouthCellWithoutLinks == Path[i + 1])
-                {
-                    directions.Add(CharacterActions.Down);
-                }
-                else if (Path[i].WestCellWithoutLinks == Path[i + 1])
-                {
-                    directions.Add(CharacterActions.Left);
-                }
-            }
+            var foundPath = FindPathOfVectors(
+                GetCellAtPixel((int)A.X, (int)A.Y),
+                GetCellAtPixel((int)B.X, (int)B.Y));
 
-            return directions;
+            _calculatedPathsOfVectorsCache.Add(pathKey, foundPath);
+            return foundPath;
         }
 
-        public List<Vector2> FindPathV2(Vector2 A, Vector2 B)
+        public List<CharacterActions> FindPathOfActions(Vector2 A, Vector2 B)
         {
-#warning RIMETTERE LA CACHE
-            //var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
-            //if (_calculatedPathsCache.ContainsKey(pathKey))
-            //    return _calculatedPathsCache[pathKey];
+            var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
+            List<GameCell> path = null;
 
-            return FindPathV2(
+            if (_calculatedPathsOfCellsCache.ContainsKey(pathKey))
+                path = _calculatedPathsOfCellsCache[pathKey];
+
+            if (path == null)
+            {
+                path = FindPathOfCells(
                     GetCellAtPixel((int)A.X, (int)A.Y),
                     GetCellAtPixel((int)B.X, (int)B.Y));
+            }
 
-            //_calculatedPathsCache.Add(pathKey, actionsToPath);
-        }
+            var actionsToPath = PathToDirections(path);
 
-        public List<CharacterActions> FindActionsToPath(Vector2 A, Vector2 B)
-        {
-            //var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
-            //if (_calculatedPathsCache.ContainsKey(pathKey))
-            //    return _calculatedPathsCache[pathKey];
-
-            var actionsToPath = PathToDirections(
-                FindPath(
-                    GetCellAtPixel((int)A.X, (int)A.Y),
-                    GetCellAtPixel((int)B.X, (int)B.Y)));
-
-            //_calculatedPathsCache.Add(pathKey, actionsToPath);
+            _calculatedPathsOfCellsCache.Add(pathKey, path);
             return actionsToPath;
         }
 

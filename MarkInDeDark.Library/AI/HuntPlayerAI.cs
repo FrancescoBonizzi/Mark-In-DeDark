@@ -23,7 +23,7 @@ namespace MarkInDeDark.Library.AI
 
         protected Vector2? GetNextDestination(Character character)
         {
-            var pathToPlayer = _gameGrid.FindPathV2(character.WorldCenter, _player.WorldCenter);
+            var pathToPlayer = _gameGrid.FindPathOfVectors(character.WorldCenter, _player.WorldCenter);
             if (pathToPlayer.Count > 1)
             {
                 // Lo 0 sono io
