@@ -507,6 +507,7 @@ namespace MarkInDeDark.Library.Characters
                 && CurrentCharacterState != CharacterState.Attacking)
             {
                 SetAction(CharacterActions.Idle);
+                CurrentCharacterState = CharacterState.Idle;
             }
 
             if (IsDying)

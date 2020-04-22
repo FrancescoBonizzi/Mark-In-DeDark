@@ -483,6 +483,16 @@ namespace MarkInDeDark.Library.Levels
                 (int)pixelLocation.Y);
         }
 
+        public bool CollideWithAWall(Rectangle collisionRectangle)
+        {
+            var cell = GetCellAtPixel(collisionRectangle.X, collisionRectangle.Y);
+            foreach (var wall in cell.Walls.Values)
+                if (wall.CollisionRectangle.Intersects(collisionRectangle))
+                    return true;
+
+            return false;
+        }
+
         public bool WillCollideWithSomethingNotPassable(
             Rectangle futureCollisionRectangle,
             Vector2 direction)

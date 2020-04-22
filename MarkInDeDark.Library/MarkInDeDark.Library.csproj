@@ -133,6 +133,7 @@
     <Compile Include="Particles\CharacterExplosionParticleSystem.cs" />
     <Compile Include="Particles\EnemyEyeParticleSystem.cs" />
     <Compile Include="Particles\CharacterTorchParticleSystem.cs" />
+    <Compile Include="Particles\GhostParticleSystem.cs" />
     <Compile Include="Particles\Light.cs" />
     <Compile Include="MarkInDeDarkBootstrap.cs" />
     <Compile Include="Menu\LevelsPage.cs" />
