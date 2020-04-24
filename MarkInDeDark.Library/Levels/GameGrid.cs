@@ -665,6 +665,16 @@ namespace MarkInDeDark.Library.Levels
             return actionsToPath;
         }
 
+        public bool CollideWithAWall(Rectangle collisionRectangle)
+        {
+            var cell = GetCellAtPixel(collisionRectangle.X, collisionRectangle.Y);
+            foreach (var wall in cell.Walls.Values)
+                if (wall.CollisionRectangle.Intersects(collisionRectangle))
+                    return true;
+
+            return false;
+        }
+
         public void ApplyBloodDecal(Vector2 where)
         {
             var cell = GetCellAtPixel(where);
