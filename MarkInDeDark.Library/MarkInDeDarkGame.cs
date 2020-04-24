@@ -43,7 +43,10 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _lightMaskRenderTarget;
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
-        private readonly BlendState _blendStateMultiply;
+        private readonly RenderTarget2D _baseSceneRenderTarget;
+
+        private readonly Effect _lightMaskShader;
+
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
         private readonly SoundManager _soundManager;
@@ -90,6 +93,7 @@ namespace MarkInDeDark.Library
             _currentGameState = GameStates.Playing;
             _localizedStringsRepository = localizedStringsRepository;
 
+            _lightMaskShader = assetsLoader.LightMaskShader;
             _elapsedFinish = TimeSpan.Zero;
 
             _matrixScaleProvider = matrixScaleProvider;
@@ -103,20 +107,11 @@ namespace MarkInDeDark.Library
             _lightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;
             else _backgroundColorForLightMask = Color.Black;
-
-            _blendStateMultiply = new BlendState()
-            {
-                AlphaSourceBlend = Blend.DestinationAlpha,
-                AlphaDestinationBlend = Blend.Zero,
-                AlphaBlendFunction = BlendFunction.Add,
-                ColorSourceBlend = Blend.DestinationColor,
-                ColorDestinationBlend = Blend.Zero,
-                ColorBlendFunction = BlendFunction.Add
-            };
 
             _currentLevel = selectedLevel;
             _markGamePad = markGamePad;
@@ -475,14 +470,12 @@ namespace MarkInDeDark.Library
             _markGamePad.Shake(intensity, _shakeDuration);
         }
 
-        private void DrawLightMap(
+        private void DrawLightMask(
             SpriteBatch spriteBatch,
-            RenderTarget2D virtualDrawTarget,
             Matrix viewMatrix)
         {
-            _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: viewMatrix);
+            _graphicsDevice.Clear(_backgroundColorForLightMask);
 
             _player.DrawLightMap(spriteBatch);
 
@@ -498,10 +491,7 @@ namespace MarkInDeDark.Library
             }
             _candlesManager.DrawLightmap(spriteBatch);
 
-
             spriteBatch.End();
-
-            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
         }
 
         public void Draw(
@@ -540,9 +530,16 @@ namespace MarkInDeDark.Library
             RenderTarget2D virtualDrawTarget)
         {
             var viewMatrix = _camera.GetViewMatrix();
-            DrawLightMap(spriteBatch, virtualDrawTarget, viewMatrix);
-            
+
+            // Disegno lo strato di luci
+            _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
+            _graphicsDevice.Clear(_backgroundColorForLightMask);
+            DrawLightMask(spriteBatch, viewMatrix);
+
             // Avvio il disegno con l'opzione per lo Z-Index
+            _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
+            _graphicsDevice.Clear(Color.Black);
+
             spriteBatch.Begin(
                 transformMatrix: viewMatrix, 
                 samplerState: SamplerState.PointClamp, 
@@ -581,9 +578,14 @@ namespace MarkInDeDark.Library
 
             spriteBatch.End();
 
-            // LightMask
-            spriteBatch.Begin(SpriteSortMode.Immediate, _blendStateMultiply);
-            spriteBatch.Draw(_lightMaskRenderTarget, Vector2.Zero, Color.White);
+            // Applico gli effetti
+            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+
+            // Scena con LightMask
+            _lightMaskShader.Parameters["lightMask"].SetValue(_lightMaskRenderTarget);
+            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+            spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // Effect over the dark

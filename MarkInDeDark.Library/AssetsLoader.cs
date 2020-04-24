@@ -21,6 +21,8 @@ namespace MarkInDeDark.Library
         public SpriteFont Font { get; private set; }
         public List<Level> Levels { get; private set; } = new List<Level>();
 
+        public Effect LightMaskShader { get; private set; }
+
         private readonly CustomSpriteImporter _textureImporter;
         private readonly GameConfig _gameConfig;
         private readonly ContentManager _contentManager;
@@ -59,6 +61,8 @@ namespace MarkInDeDark.Library
         private void LoadResources()
         {
             Font = _contentManager.Load<SpriteFont>("font");
+            LightMaskShader = _contentManager.Load<Effect>("Effects/lightmask");
+
             LoadSprites();
             LoadAnimations();
             LoadSounds();
