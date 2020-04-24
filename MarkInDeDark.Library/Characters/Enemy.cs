@@ -48,6 +48,7 @@ namespace MarkInDeDark.Library.Characters
             SetRandomScreamTimer();
 
             CurrentDieAnimationType = DieAnimationType.Explosion;
+            ShouldDoExplosionAnimation = true;
 
             MainAnimationsAnimationManager
                 .AddAnimation(AnimationsNames.AttackUp.ToString(), enemyConfiguration.AttackUpAnimation)
@@ -226,6 +227,8 @@ namespace MarkInDeDark.Library.Characters
 
             if (!(_player.IsDead || _player.IsDying)
                 && !_player.HasWon
+                && !IsDying
+                && !IsDead
                 && CustomConditionToAttackPlayer()
                 && CollisionRectangle.Intersects(_player.CollisionRectangle))
             {
