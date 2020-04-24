@@ -50,7 +50,7 @@ namespace MarkInDeDark.Library.Levels
 
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
-            GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell_2"];
+            GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
             DirtySprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/dirty"];
             HorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal"];
             VerticalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical"];

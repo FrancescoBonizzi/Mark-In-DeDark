@@ -691,6 +691,8 @@ namespace MarkInDeDark.Library.Characters
 
                 SetShadowPosition();
                 RecalculateZIndex();
+                MainAnimationsAnimationManager.Update(elapsed);
+                ShadowsAnimationManager?.Update(elapsed);
             }
 
             if (IsDying)
