@@ -294,6 +294,9 @@ namespace MarkInDeDark.Library.Characters
 
             if (AreLightsActive)
                 SetLightPosition();
+
+            if (_deadBodyParticleEffect != null)
+                _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
@@ -808,6 +811,7 @@ namespace MarkInDeDark.Library.Characters
 
                 case CharacterState.Dead:
 
+                    if (CurrentDieAnimationType == DieAnimationType.StandardAnimation)
                     if (this is Player)
                     {
                         MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
