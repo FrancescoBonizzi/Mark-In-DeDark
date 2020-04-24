@@ -93,6 +93,11 @@ namespace MarkInDeDark.Library.Characters
             base.OnChangeDirection(characterState);
         }
 
+        public override void CustomActionOnPlayerDead()
+        {
+            _player.ShouldDoExplosionAnimation = true;
+        }
+
         public override void Update(TimeSpan elapsed)
         {
             base.Update(elapsed);

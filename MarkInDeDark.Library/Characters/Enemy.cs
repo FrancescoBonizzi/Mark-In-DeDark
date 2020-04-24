@@ -47,6 +47,8 @@ namespace MarkInDeDark.Library.Characters
             NCellsCandleFindingRange = enemyConfiguration.NCellsFindingRange;
             SetRandomScreamTimer();
 
+            CurrentDieAnimationType = DieAnimationType.Explosion;
+
             MainAnimationsAnimationManager
                 .AddAnimation(AnimationsNames.AttackUp.ToString(), enemyConfiguration.AttackUpAnimation)
                 .AddAnimation(AnimationsNames.AttackDown.ToString(), enemyConfiguration.AttackDownAnimation)
@@ -66,6 +68,11 @@ namespace MarkInDeDark.Library.Characters
         {
             CurrentAI = newAI;
             return CharacterActions.Idle;
+        }
+
+        public virtual void CustomActionOnPlayerDead()
+        {
+
         }
 
         public void Attack()
@@ -222,6 +229,7 @@ namespace MarkInDeDark.Library.Characters
                 && CustomConditionToAttackPlayer()
                 && CollisionRectangle.Intersects(_player.CollisionRectangle))
             {
+                CustomActionOnPlayerDead();
                 Attack();
                 HitPlayer();
                 _player.Die();

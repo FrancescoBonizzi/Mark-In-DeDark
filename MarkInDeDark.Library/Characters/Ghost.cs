@@ -27,8 +27,8 @@ namespace MarkInDeDark.Library.Characters
             GameConfig gameConfig,
             MarkInDeDarkGame game)
             : base(
-                  gameGrid,
-                  new CharacterConfiguration(
+                  grid: gameGrid,
+                  characterBasicConfiguration: new CharacterConfiguration(
                       assetsLoader: assetsLoader,
                       characterName: "ghost",
                       startingPosition: patrolPath.First().CenterPosition,
@@ -43,7 +43,7 @@ namespace MarkInDeDark.Library.Characters
                         assetsLoader: assetsLoader),
                       movementSpeed: gameConfig.GhostSpeed,
                       withDieAnimation: false),
-                  new EnemyConfiguration(
+                  enemyConfiguration: new EnemyConfiguration(
                       assetsLoader: assetsLoader,
                       enemyName: "ghost",
                       attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
@@ -51,11 +51,11 @@ namespace MarkInDeDark.Library.Characters
                       nCellsFindingRange: null,
                       startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
                       killsCandlesIfCollidesWithThem: true),
-                  soundManager,
-                  player,
-                  assetsLoader,
-                  game,
-                  candlesManager)
+                  soundManager: soundManager,
+                  player: player,
+                  assetsLoader: assetsLoader,
+                  game: game,
+                  candlesManager: candlesManager)
         {
             _canGoOverWalls = true;
 
@@ -86,6 +86,11 @@ namespace MarkInDeDark.Library.Characters
         {
             // Il Ghost non può morire
             return;
+        }
+
+        public override void CustomActionOnPlayerDead()
+        {
+            _player.ShouldDoExplosionAnimation = true;
         }
 
         protected override void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)

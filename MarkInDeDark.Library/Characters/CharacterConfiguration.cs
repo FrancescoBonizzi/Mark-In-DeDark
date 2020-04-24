@@ -33,7 +33,7 @@ namespace MarkInDeDark.Library.Characters
         {
             if (withDieAnimation)
             {
-                var folderName = char.ToUpper(characterName[0]) + characterName.Substring(1);
+                var folderName = $"{char.ToUpper(characterName[0]) + characterName.Substring(1)}/Death";
                 BodyParts = new List<Sprite>
                 {
                     assetsLoader.Sprites[$"{folderName}/{characterName}_armL"],
