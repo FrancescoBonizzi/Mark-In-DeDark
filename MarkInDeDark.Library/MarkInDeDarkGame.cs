@@ -31,9 +31,15 @@ namespace MarkInDeDark.Library
 
         public bool IsPaused { get; private set; }
 
-        private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(4);
+        // Tempo per tornare al menù dopo che è tutto finito
+        private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(5);
+
+        // Tempo prima di fare il fade di tutto il livello a parte il player
         private readonly TimeSpan _gameFinishGameOverSceneTimer = TimeSpan.FromSeconds(1);
-        private readonly TimeSpan _attackTimer = TimeSpan.FromSeconds(1);
+
+        // Tempo prima di dire a tutto il gioco "è finita!" (fa anche terminare l'animazione dell'attacco ai mostri)
+        private readonly TimeSpan _attackTimer = TimeSpan.FromSeconds(1.5);
+
         private TimeSpan _elapsedFinish;
         private FadeObject _gameOverFadeObject;
 
@@ -354,7 +360,7 @@ namespace MarkInDeDark.Library
                             _runGameOverScene = !_player.HasWon;
                             if (_runGameOverScene == true)
                             {
-                                _gameOverFadeObject = new FadeObject(TimeSpan.FromSeconds(2), Color.White);
+                                _gameOverFadeObject = new FadeObject(TimeSpan.FromSeconds(1.5), Color.White);
                                 _gameOverFadeObject.FadeOut();
                             }
                         }

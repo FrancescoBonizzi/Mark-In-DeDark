@@ -807,6 +807,12 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case CharacterState.Dead:
+
+                    if (this is Player)
+                    {
+                        MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+                    }
+
                     _deadBodyParticleEffect?.Draw(spriteBatch);
                     break;
             }

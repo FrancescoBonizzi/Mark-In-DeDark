@@ -66,6 +66,10 @@ namespace MarkInDeDark.Library.Characters
             _deadBodyPartLifetime = TimeSpan.FromSeconds(8f);
             _deadBodyParticleEffect = null;
             _deadBodyEffectWithFading = false;
+
+            MainAnimationsAnimationManager.AddAnimation(
+              "Dying",
+              assetsLoader.GetAnimation("playerDying"));
         }
 
         public bool HasWon
