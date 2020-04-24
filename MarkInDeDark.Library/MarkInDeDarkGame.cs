@@ -425,7 +425,6 @@ namespace MarkInDeDark.Library
             _player.Update(elapsed);
             _candlesManager.Update(elapsed);
             _key.Update(elapsed);
-            _exit.Update(elapsed);
             _gameHud.Update(elapsed);
             foreach (var enemy in _enemies)
             {
@@ -484,7 +483,6 @@ namespace MarkInDeDark.Library
                 enemy.DrawLightMap(spriteBatch);
             }
 
-            _exit.LightMap.Draw(spriteBatch);
             foreach (var littleLight in _gameGrid.LittleLights)
             {
                 littleLight.LightMap.Draw(spriteBatch);
