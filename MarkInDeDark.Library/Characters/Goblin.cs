@@ -54,7 +54,7 @@ namespace MarkInDeDark.Library.Characters
         {
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
-                (sender, args) => Speed += gameConfig.SpeedIncrementForEachCandleTaken;
+                (sender, args) => Speed += gameConfig.GoblinSpeedIncrementForEachCandleTaken;
 
             _goblinLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 
