@@ -45,7 +45,7 @@ namespace MarkInDeDark.Library
         public bool ShouldEndApplication { get; private set; }
         public bool IsPaused { get; private set; } = false;
 
-        private readonly TimeSpan _fadeDuration = TimeSpan.FromMilliseconds(800);
+        private readonly TimeSpan _fadeDuration = TimeSpan.FromMilliseconds(200);
         private readonly Uri _aboutUri = new Uri("https://www.fbonizzi.it");
 
         private DrawingInfos _inputTypeDrawingInfos = new DrawingInfos();
