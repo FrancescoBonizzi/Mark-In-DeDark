@@ -56,7 +56,15 @@ namespace MarkInDeDark.Library.Characters
             WhileDead
         }
 
+        public enum DieAnimationType
+        {
+            Falling,
+            StandardAnimation,
+            Explosion
+        }
+
         public CharacterState CurrentCharacterState { get; set; }
+        public DieAnimationType CurrentDieAnimationType { get; set; }
 
         protected bool _canGoOverWalls = false;
 
@@ -111,8 +119,10 @@ namespace MarkInDeDark.Library.Characters
         protected TimeSpan _deadBodyPartLifetime = TimeSpan.FromSeconds(3);
         protected bool _deadBodyEffectWithFading = true;
 
-        protected CharacterTorchParticleSystem _dieMarkEffect;
-        private readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
+        protected CharacterTorchParticleSystem _deadBodyParticleEffect;
+        protected readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
+        
+        public bool ShouldDoExplosionAnimation { get; set; } = false;
 
         public Character(
             GameGrid grid,
@@ -198,7 +208,7 @@ namespace MarkInDeDark.Library.Characters
                 _lightMap.SetPosition(MainFigureDrawingInfos.Position);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
-                _dieMarkEffect = new CharacterTorchParticleSystem(
+                _deadBodyParticleEffect = new CharacterTorchParticleSystem(
                     assetsLoader,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor);
@@ -249,15 +259,25 @@ namespace MarkInDeDark.Library.Characters
             _gameGrid.ApplyBloodDecal(WorldCenter);
             //_soundManager.PlayBlood();
             CurrentCharacterState = CharacterState.Dying;
-            _characterDieExplosionParticleSystem.Explode(
-                WorldCenter, 
-                ZIndexCalculator.OverAllLayerDepth,
-                _deadBodyPartLifetime,
-                _deadBodyEffectWithFading);
 
+            if (ShouldDoExplosionAnimation)
+            {
+                CurrentDieAnimationType = DieAnimationType.Explosion;
 
-            if (_dieMarkEffect != null)
-                _dieMarkEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
+                _characterDieExplosionParticleSystem.Explode(
+                    WorldCenter,
+                    ZIndexCalculator.OverAllLayerDepth,
+                    _deadBodyPartLifetime,
+                    _deadBodyEffectWithFading);
+            }
+            else
+            {
+                CurrentDieAnimationType = DieAnimationType.StandardAnimation;
+                MainAnimationsAnimationManager.PlayAnimation("Dying");
+            }
+
+            if (_deadBodyParticleEffect != null)
+                _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public void DieForTrap(Vector2 trapCenter)
@@ -269,10 +289,14 @@ namespace MarkInDeDark.Library.Characters
                 this,
                 _game);
 
+            CurrentDieAnimationType = DieAnimationType.Falling;
             CurrentCharacterState = CharacterState.Dying;
 
             if (AreLightsActive)
                 SetLightPosition();
+
+            if (_deadBodyParticleEffect != null)
+                _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
@@ -669,34 +693,40 @@ namespace MarkInDeDark.Library.Characters
                 }
 
                 SetShadowPosition();
+                RecalculateZIndex();
+                MainAnimationsAnimationManager.Update(elapsed);
+                ShadowsAnimationManager?.Update(elapsed);
             }
 
             if (IsDying)
             {
-                if (_characterFallingATrapAnimation != null)
+                switch (CurrentDieAnimationType)
                 {
-                    _characterFallingATrapAnimation.Update(elapsed);
-                }
-                else
-                {
-                    if (_characterDieExplosionParticleSystem != null)
-                    {
+                    case DieAnimationType.Falling:
+                        _characterFallingATrapAnimation.Update(elapsed);
+                        break;
+
+                    case DieAnimationType.StandardAnimation:
+                        if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying)
+                        {
+                            CurrentCharacterState = CharacterState.Dead;
+                        }
+                        else
+                        {
+                            MainAnimationsAnimationManager.Update(elapsed);
+                        }
+                        RecalculateZIndex();
+                        break;
+
+                    case DieAnimationType.Explosion:
                         _characterDieExplosionParticleSystem.Update(elapsed);
                         if (_characterDieExplosionParticleSystem.HasFinished)
+                        {
                             CurrentCharacterState = CharacterState.Dead;
-                    }
-                    else
-                    {
-                        CurrentCharacterState = CharacterState.Dead;
-                    }
+                        }
+                        RecalculateZIndex();
+                        break;
                 }
-            }
-
-            if (_characterDieExplosionParticleSystem == null
-                || !_characterDieExplosionParticleSystem.HasStarted)
-            {
-                MainAnimationsAnimationManager.Update(elapsed);
-                ShadowsAnimationManager?.Update(elapsed);
             }
 
             if (AreLightsActive)
@@ -705,15 +735,12 @@ namespace MarkInDeDark.Library.Characters
                 _lightMap.Update(elapsed);
                 _torch?.Update(elapsed);
             }
-
-            if (_characterFallingATrapAnimation == null)
-                RecalculateZIndex();
         }
 
         public virtual void UpdateAfterDeath(TimeSpan elapsed)
         {
-            _dieMarkEffect?.AddParticles(_deadPosition ?? WorldCenter);
-            _dieMarkEffect?.Update(elapsed);
+            _deadBodyParticleEffect?.AddParticles(_deadPosition ?? WorldCenter);
+            _deadBodyParticleEffect?.Update(elapsed);
         }
 
         protected virtual void RecalculateZIndex()
@@ -745,34 +772,53 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (_characterFallingATrapAnimation != null)
+            switch (CurrentCharacterState)
             {
-                _characterFallingATrapAnimation.Draw(spriteBatch);
-                return;
-            }
+                case CharacterState.GoingUp:
+                case CharacterState.GoingDown:
+                case CharacterState.GoingLeft:
+                case CharacterState.GoingRight:
+                case CharacterState.IdleUp:
+                case CharacterState.IdleDown:
+                case CharacterState.IdleLeft:
+                case CharacterState.IdleRight:
+                case CharacterState.Attacking:
+                    MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+                    ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
 
-            if (!IsDead && !IsDying)
-            {
-                ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+                    if (AreLightsActive)
+                    {
+                        _torch?.Draw(spriteBatch);
+                    }
+                    break;
 
-                if (AreLightsActive)
-                {
-                    _torch?.Draw(spriteBatch);
-                }
-            }
+                case CharacterState.Dying:
+                    switch (CurrentDieAnimationType)
+                    {
+                        case DieAnimationType.Falling:
+                            _characterFallingATrapAnimation.Draw(spriteBatch);
+                            break;
 
-            if (_characterDieExplosionParticleSystem != null)
-                _characterDieExplosionParticleSystem.Draw(spriteBatch);
+                        case DieAnimationType.StandardAnimation:
+                            MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+                            break;
 
-            if (_characterDieExplosionParticleSystem == null
-                || !_characterDieExplosionParticleSystem.HasStarted)
-            {
-                MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
-            }
+                        case DieAnimationType.Explosion:
+                            _characterDieExplosionParticleSystem.Draw(spriteBatch);
+                            break;
+                    }
+                    break;
 
-            if (CurrentCharacterState == CharacterState.Dead)
-            {
-                _dieMarkEffect?.Draw(spriteBatch);
+                case CharacterState.Dead:
+
+                    if (CurrentDieAnimationType == DieAnimationType.StandardAnimation)
+                    if (this is Player)
+                    {
+                        MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+                    }
+
+                    _deadBodyParticleEffect?.Draw(spriteBatch);
+                    break;
             }
         }
 

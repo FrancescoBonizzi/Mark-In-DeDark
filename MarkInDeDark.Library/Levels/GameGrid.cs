@@ -49,7 +49,7 @@ namespace MarkInDeDark.Library.Levels
         private int _currentViewportMinCellY = 0;
         private int _currentViewportMaxCellY = 0;
 
-        private readonly IDictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>> _calculatedPathsCache;
+        private readonly Dictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>> _calculatedPathsCache;
         private readonly MarkInDeDarkGame _game;
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
@@ -100,7 +100,7 @@ namespace MarkInDeDark.Library.Levels
                 nextCellPosition.Y = _position.Y;
             }
 
-            _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, IEnumerable<CharacterActions>>();
+            _calculatedPathsCache = new Dictionary<KeyValuePair<Vector2, Vector2>, List<CharacterActions>>();
             GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
             _game = game;
         }
@@ -587,7 +587,7 @@ namespace MarkInDeDark.Library.Levels
             return path;
         }
 
-        private IEnumerable<CharacterActions> PathToDirections(List<GameCell> Path)
+        private List<CharacterActions> PathToDirections(List<GameCell> Path)
         {
             var directions = new List<CharacterActions>();
             for (int i = 0; i < Path.Count - 1; ++i)
@@ -650,19 +650,32 @@ namespace MarkInDeDark.Library.Levels
                 destinationCell));
         }
 
-        public IEnumerable<CharacterActions> FindActionsToPath(Vector2 A, Vector2 B)
+        public List<CharacterActions> FindActionsToPath(Vector2 A, Vector2 B)
         {
             var pathKey = new KeyValuePair<Vector2, Vector2>(A, B);
             if (_calculatedPathsCache.ContainsKey(pathKey))
                 return _calculatedPathsCache[pathKey];
 
-            var actionsToPath = PathToDirections(
-                FindPath(
-                    GetCellAtPixel((int)A.X, (int)A.Y),
-                    GetCellAtPixel((int)B.X, (int)B.Y)));
+            var cellA = GetCellAtPixel((int)A.X, (int)A.Y);
+            var cellB = GetCellAtPixel((int)B.X, (int)B.Y);
+
+            if (cellA == null || cellB == null)
+                return new List<CharacterActions>();
+
+            var actionsToPath = PathToDirections(FindPath(cellA, cellB));
 
             _calculatedPathsCache.Add(pathKey, actionsToPath);
             return actionsToPath;
+        }
+
+        public bool CollideWithAWall(Rectangle collisionRectangle)
+        {
+            var cell = GetCellAtPixel(collisionRectangle.X, collisionRectangle.Y);
+            foreach (var wall in cell.Walls.Values)
+                if (wall.CollisionRectangle.Intersects(collisionRectangle))
+                    return true;
+
+            return false;
         }
 
         public void ApplyBloodDecal(Vector2 where)

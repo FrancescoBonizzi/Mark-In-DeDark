@@ -80,7 +80,7 @@
     "GoblinLightSize": 0.6,
     "GoblinSpeed": 1.5,
     "GoblinMaxCellsForNearCandle": 3,
-    "SpeedIncrementForEachCandleTaken": 0.2,
+    "GoblinSpeedIncrementForEachCandleTaken": 0.2,
     "WerewolfLightColorRGB1": {
         "B": 118,
         "G": 137,

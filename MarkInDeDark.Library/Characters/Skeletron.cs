@@ -27,8 +27,8 @@ namespace MarkInDeDark.Library.Characters
             GameConfig gameConfig,
             MarkInDeDarkGame game)
         : base(
-            gameGrid,
-            new CharacterConfiguration(
+            grid: gameGrid,
+            characterBasicConfiguration: new CharacterConfiguration(
                 assetsLoader: assetsLoader,
                 characterName: "skeleton",
                 startingPosition: patrolPath.First().CenterPosition,
@@ -42,7 +42,7 @@ namespace MarkInDeDark.Library.Characters
                     torchPositionTraslationDown: new Vector2(35, 0),
                     assetsLoader: assetsLoader),
                 movementSpeed: gameConfig.SkeletronSpeed),
-            new EnemyConfiguration(
+            enemyConfiguration: new EnemyConfiguration(
                 assetsLoader: assetsLoader,
                 enemyName: "skeleton",
                 attackSoundIndex: 0,//soundManager.RegisterSkeletronAttackSound(),
@@ -50,11 +50,11 @@ namespace MarkInDeDark.Library.Characters
                 nCellsFindingRange: gameConfig.SkeletronMaxCellsForNearCandle,
                 startingAI: new PatrolHunterLineOfSightAI(patrolPath, gameGrid, candlesManager, player, soundManager, gameConfig),
                 true),
-            soundManager,
-            player,
-            assetsLoader,
-            game,
-            candlesManager)
+            soundManager: soundManager,
+            player: player,
+            assetsLoader: assetsLoader,
+            game: game,
+            candlesManager: candlesManager)
         {
             _skeletonLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 

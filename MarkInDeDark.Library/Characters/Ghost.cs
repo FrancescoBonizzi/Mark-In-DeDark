@@ -1,9 +1,10 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.AI;
+﻿using MarkInDeDark.Library.AI;
 
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
+using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Ghost : Enemy
     {
+        private readonly GhostParticleSystem _primaryGhostParticleSystem;
+        private readonly GhostParticleSystem _wallCrossGhostParticleSystem;
+        private readonly GhostParticleSystem _lightMapGhostParticleSystem;
+
         public Ghost(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -22,8 +27,8 @@ namespace MarkInDeDark.Library.Characters
             GameConfig gameConfig,
             MarkInDeDarkGame game)
             : base(
-                  gameGrid,
-                  new CharacterConfiguration(
+                  grid: gameGrid,
+                  characterBasicConfiguration: new CharacterConfiguration(
                       assetsLoader: assetsLoader,
                       characterName: "ghost",
                       startingPosition: patrolPath.First().CenterPosition,
@@ -38,7 +43,7 @@ namespace MarkInDeDark.Library.Characters
                         assetsLoader: assetsLoader),
                       movementSpeed: gameConfig.GhostSpeed,
                       withDieAnimation: false),
-                  new EnemyConfiguration(
+                  enemyConfiguration: new EnemyConfiguration(
                       assetsLoader: assetsLoader,
                       enemyName: "ghost",
                       attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
@@ -46,11 +51,11 @@ namespace MarkInDeDark.Library.Characters
                       nCellsFindingRange: null,
                       startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
                       killsCandlesIfCollidesWithThem: true),
-                  soundManager,
-                  player,
-                  assetsLoader,
-                  game,
-                  candlesManager)
+                  soundManager: soundManager,
+                  player: player,
+                  assetsLoader: assetsLoader,
+                  game: game,
+                  candlesManager: candlesManager)
         {
             _canGoOverWalls = true;
 
@@ -58,12 +63,34 @@ namespace MarkInDeDark.Library.Characters
             _torch = null;
             var deltaPosition = new Vector2(0, -15f);
             MainFigureDrawingInfos.Origin -= deltaPosition;
+
+            _primaryGhostParticleSystem = new GhostParticleSystem(
+               assetsLoader,
+               new Color(101, 221, 160),
+               new Color(71, 191, 117));
+
+            _wallCrossGhostParticleSystem = new GhostParticleSystem(
+                assetsLoader,
+                Color.LimeGreen,
+                Color.Lime);
+
+            _lightMapGhostParticleSystem = new GhostParticleSystem(
+                assetsLoader,
+                Color.White,
+                Color.White);
+            _lightMapGhostParticleSystem.MinScale = 1.5f;
+            _lightMapGhostParticleSystem.MaxScale = 2f;
         }
 
         public override void Die()
         {
             // Il Ghost non può morire
             return;
+        }
+
+        public override void CustomActionOnPlayerDead()
+        {
+            _player.ShouldDoExplosionAnimation = true;
         }
 
         protected override void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
@@ -75,6 +102,42 @@ namespace MarkInDeDark.Library.Characters
         {
             // Attacca il player solo se si muove
             return _player.IsMoving;
+        }
+
+        public override void Update(TimeSpan elapsed)
+        {
+            _primaryGhostParticleSystem.AddParticles(WorldCenter);
+            _lightMapGhostParticleSystem.AddParticles(WorldCenter);
+
+            if (_gameGrid.CollideWithAWall(CollisionRectangle))
+            {
+                _wallCrossGhostParticleSystem.AddParticles(WorldCenter);
+            }
+
+            _lightMapGhostParticleSystem.Update(elapsed);
+            _primaryGhostParticleSystem.Update(elapsed);
+            _wallCrossGhostParticleSystem.Update(elapsed);
+            base.Update(elapsed);
+        }
+
+        protected override void RecalculateZIndex()
+        {
+            base.RecalculateZIndex();
+            _primaryGhostParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth - 0.00004f;
+            _wallCrossGhostParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth - 0.00005f;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            _primaryGhostParticleSystem.Draw(spriteBatch);
+            _wallCrossGhostParticleSystem.Draw(spriteBatch);
+            base.Draw(spriteBatch);
+        }
+
+        public override void DrawLightMap(SpriteBatch spriteBatch)
+        {
+            _lightMapGhostParticleSystem.Draw(spriteBatch);
+            base.DrawLightMap(spriteBatch);
         }
 
     }

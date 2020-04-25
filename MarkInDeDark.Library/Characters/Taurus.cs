@@ -30,8 +30,8 @@ namespace MarkInDeDark.Library.Characters
             IEnumerable<Enemy> enemies,
             MarkInDeDarkGame game)
             : base(
-                  gameGrid,
-                  new CharacterConfiguration(
+                  grid: gameGrid,
+                  characterBasicConfiguration: new CharacterConfiguration(
                       assetsLoader: assetsLoader,
                       characterName: "taurus",
                       startingPosition: patrolPath.First().CenterPosition,
@@ -46,7 +46,7 @@ namespace MarkInDeDark.Library.Characters
                         assetsLoader: assetsLoader),
                       gameConfig.TaurusSpeed,
                       withDieAnimation: false),
-                  new EnemyConfiguration(
+                  enemyConfiguration: new EnemyConfiguration(
                       assetsLoader,
                       "taurus",
                       0,//soundManager.RegisterTaurusAttackSound(),
@@ -54,11 +54,11 @@ namespace MarkInDeDark.Library.Characters
                       gameConfig.TaurusMaxCellsForNearCandle,
                       new PatrolChargeAI(patrolPath, gameGrid, candlesManager, player, soundManager, game),
                       true),
-                  soundManager,
-                  player,
-                  assetsLoader,
-                  game,
-                  candlesManager)
+                  soundManager: soundManager,
+                  player: player,
+                  assetsLoader: assetsLoader,
+                  game: game,
+                  candlesManager: candlesManager)
         {
             TaurusChargeSpeed = gameConfig.TaurusChargeSpeed;
             TaurusTimeToStartSeconds = gameConfig.TaurusTimeToStartSeconds;
@@ -73,6 +73,11 @@ namespace MarkInDeDark.Library.Characters
             MainAnimationsAnimationManager.AddAnimation("TaurusChargeSide", assetsLoader.GetAnimation("TaurusChargeSide"));
             MainAnimationsAnimationManager.AddAnimation("TaurusChargeFront", assetsLoader.GetAnimation("TaurusChargeFront"));
             MainAnimationsAnimationManager.AddAnimation("TaurusChargeBack", assetsLoader.GetAnimation("TaurusChargeBack"));
+        }
+
+        public override void CustomActionOnPlayerDead()
+        {
+            _player.ShouldDoExplosionAnimation = true;
         }
 
         public override void Update(TimeSpan elapsed)

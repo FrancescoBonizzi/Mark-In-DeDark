@@ -16,7 +16,7 @@ namespace MarkInDeDark.Library.Characters
         private readonly SoundManager _soundManager;
         private readonly CandlesManager _candlesManager;
         private readonly bool _doesntDie;
-
+      
         private enum PlayerStates
         {
             Playing,
@@ -33,9 +33,9 @@ namespace MarkInDeDark.Library.Characters
             SoundManager soundManager,
             MarkInDeDarkGame game)
             : base(gameGrid,
-                  soundManager,
-                  assetsLoader,
-                    new CharacterConfiguration(
+                  soundManager: soundManager,
+                  assetsLoader: assetsLoader,
+                    configuration: new CharacterConfiguration(
                         assetsLoader: assetsLoader,
                         characterName: "player",
                         startingPosition: gameGrid.PlayerStartingPosition,
@@ -49,7 +49,7 @@ namespace MarkInDeDark.Library.Characters
                             torchPositionTraslationDown: new Vector2(35, -30),
                             assetsLoader: assetsLoader),
                         movementSpeed: gameConfig.PlayerSpeed),
-                    game)
+                    game: game)
         {
             _soundManager = soundManager;
             _candlesManager = candlesManager;
@@ -64,8 +64,12 @@ namespace MarkInDeDark.Library.Characters
             //_soundManager.PlayPlayerTorch();
             SetLightPosition(0.5f);
             _deadBodyPartLifetime = TimeSpan.FromSeconds(8f);
-            _dieMarkEffect = null;
+            _deadBodyParticleEffect = null;
             _deadBodyEffectWithFading = false;
+
+            MainAnimationsAnimationManager.AddAnimation(
+              "Dying",
+              assetsLoader.GetAnimation("playerDying"));
         }
 
         public bool HasWon

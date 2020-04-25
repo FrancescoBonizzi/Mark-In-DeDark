@@ -21,6 +21,8 @@ namespace MarkInDeDark.Library
         public SpriteFont Font { get; private set; }
         public List<Level> Levels { get; private set; } = new List<Level>();
 
+        public Effect LightMaskShader { get; private set; }
+
         private readonly CustomSpriteImporter _textureImporter;
         private readonly GameConfig _gameConfig;
         private readonly ContentManager _contentManager;
@@ -59,6 +61,8 @@ namespace MarkInDeDark.Library
         private void LoadResources()
         {
             Font = _contentManager.Load<SpriteFont>("font");
+            LightMaskShader = _contentManager.Load<Effect>("Effects/lightmask");
+
             LoadSprites();
             LoadAnimations();
             LoadSounds();
@@ -151,7 +155,7 @@ namespace MarkInDeDark.Library
                 string frameName,
                 bool isAnimationLooped)
             {
-                const int _maxFramesNumber = 10;
+                const int _maxFramesNumber = 30;
 
                 var animation = new List<Sprite>();
 
@@ -160,7 +164,6 @@ namespace MarkInDeDark.Library
                     string completeFrameName = $"{frameName}_{f}";
                     if (Sprites.ContainsKey(completeFrameName))
                         animation.Add(Sprites[completeFrameName]);
-                    else break;
                 }
 
                 if (animation.Count > 0)
@@ -185,6 +188,9 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"{characterName}AttackDown", $"{folderName}/{characterName}_front_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackLeft", $"{folderName}/{characterName}_side_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackRight", $"{folderName}/{characterName}_side_attack", true);
+
+                if (characterName == "player")
+                    LoadCharacterAnimation($"{characterName}Dying", $"{folderName}/Death/{characterName}_front_dying", false);
             }
 
             LoadCharacterAnimations(characterName: "player");

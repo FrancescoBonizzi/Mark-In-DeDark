@@ -51,7 +51,7 @@ namespace MarkInDeDark.Common
             gameConfig.GoblinLightSize = LoadFloat(gameConfigDictionary[nameof(gameConfig.GoblinLightSize)]);
             gameConfig.GoblinSpeed = LoadFloat(gameConfigDictionary[nameof(gameConfig.GoblinSpeed)]);
             gameConfig.GoblinMaxCellsForNearCandle = LoadInt(gameConfigDictionary[nameof(gameConfig.GoblinMaxCellsForNearCandle)]);
-            gameConfig.SpeedIncrementForEachCandleTaken = LoadFloat(gameConfigDictionary[nameof(gameConfig.SpeedIncrementForEachCandleTaken)]);
+            gameConfig.GoblinSpeedIncrementForEachCandleTaken = LoadFloat(gameConfigDictionary[nameof(gameConfig.GoblinSpeedIncrementForEachCandleTaken)]);
 
             gameConfig.WerewolfLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(gameConfig.WerewolfLightColorRGB1)]);
             gameConfig.WerewolfLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(gameConfig.WerewolfLightColorRGB2)]);

@@ -22,8 +22,8 @@ namespace MarkInDeDark.Library.Characters
             GameConfig gameConfig,
             MarkInDeDarkGame game)
             : base(
-                  gameGrid,
-                  new CharacterConfiguration(
+                  grid: gameGrid,
+                  characterBasicConfiguration: new CharacterConfiguration(
                       assetsLoader: assetsLoader,
                       characterName: "zombie",
                       startingPosition: patrolPath.First().CenterPosition,
@@ -37,7 +37,7 @@ namespace MarkInDeDark.Library.Characters
                         torchPositionTraslationRight: new Vector2(0, -10),
                         torchPositionTraslationDown: new Vector2(0, -10)),
                       movementSpeed: gameConfig.ZombieSpeed),
-                  new EnemyConfiguration(
+                  enemyConfiguration: new EnemyConfiguration(
                       assetsLoader: assetsLoader,
                       enemyName: "zombie",
                       attackSoundIndex: 0,//soundManager.RegisterZombieAttackSound(),
@@ -45,11 +45,11 @@ namespace MarkInDeDark.Library.Characters
                       nCellsFindingRange: null,
                       startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: false),
                       true),
-                  soundManager,
-                  player,
-                  assetsLoader,
-                  game,
-                  candlesManager)
+                  soundManager: soundManager,
+                  player: player,
+                  assetsLoader: assetsLoader,
+                  game: game,
+                  candlesManager: candlesManager)
         {
             // Ha gli occhi, non una cosa in mano, quindi non serve il glow
             _torch = null;
