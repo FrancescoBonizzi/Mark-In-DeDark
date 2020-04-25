@@ -70,8 +70,8 @@ namespace MarkInDeDark.Library.Characters
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
-        private readonly Light _lightMap;
-        protected Light _torch;
+     //   private readonly Light _lightMap;
+        public Light SurroundingLight { get; protected set; }
 
         public bool AreLightsActive { get; set; }
 
@@ -195,17 +195,17 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslationLeft = configuration.CharacterTorchConfiguration.TorchPositionTraslationLeft;
                 _torchPositionTraslationRight = configuration.CharacterTorchConfiguration.TorchPositionTraslationRight;
                 _torchPositionTraslationDown = configuration.CharacterTorchConfiguration.TorchPositionTraslationDown;
-                _lightMap = new Light(
-                    configuration.CharacterTorchConfiguration.LightMapSprite,
-                    configuration.CharacterTorchConfiguration.FirstTorchColor,
-                    configuration.CharacterTorchConfiguration.SecondTorchColor,
-                    configuration.CharacterTorchConfiguration.TorchScale);
-                _torch = new Light(
+                //_lightMap = new Light(
+                //    configuration.CharacterTorchConfiguration.LightMapSprite,
+                //    configuration.CharacterTorchConfiguration.FirstTorchColor,
+                //    configuration.CharacterTorchConfiguration.SecondTorchColor,
+                //    configuration.CharacterTorchConfiguration.TorchScale);
+                SurroundingLight = new Light(
                     configuration.CharacterTorchConfiguration.TorchSprite,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
                     configuration.CharacterTorchConfiguration.TorchScale);
-                _lightMap.SetPosition(MainFigureDrawingInfos.Position);
+                //_lightMap.Position = MainFigureDrawingInfos.Position;
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
                 _deadBodyParticleEffect = new CharacterTorchParticleSystem(
@@ -217,8 +217,8 @@ namespace MarkInDeDark.Library.Characters
 
         public void SetTemporaryColor(Color color)
         {
-            _lightMap.SetTemporaryColorForAnimation(color);
-            _torch?.SetTemporaryColorForAnimation(color);
+            //_lightMap.SetTemporaryColorForAnimation(color);
+            SurroundingLight?.SetTemporaryColorForAnimation(color);
         }
 
         protected virtual void OnChangeDirection(CharacterState characterState)
@@ -228,12 +228,12 @@ namespace MarkInDeDark.Library.Characters
 
         public void ResetNormalColor()
         {
-            _lightMap.ResetColor();
-            _torch?.ResetColor();
+      //      _lightMap.ResetColor();
+            SurroundingLight?.ResetColor();
         }
 
         public Vector2 TorchPosition
-            => _torch.Position;
+            => SurroundingLight.Position;
 
         public Vector2 WorldCenter
             => MainFigureDrawingInfos.Center(
@@ -732,8 +732,8 @@ namespace MarkInDeDark.Library.Characters
             if (AreLightsActive)
             {
                 SetLightPosition();
-                _lightMap.Update(elapsed);
-                _torch?.Update(elapsed);
+               // _lightMap.Update(elapsed);
+                SurroundingLight?.Update(elapsed);
             }
         }
 
@@ -751,15 +751,19 @@ namespace MarkInDeDark.Library.Characters
 
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
-            if (_torch != null)
-                _torch.DrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
+            //if (SurroundingLight != null)
+            //    SurroundingLight.DrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
         {
+            if (SurroundingLight == null)
+                return;
+
             var newLightPosition = WorldCenter + _torchPositionTraslation;
-            _lightMap.SetPosition(Vector2.Lerp(_lightMap.Position, newLightPosition, lerpAmount));
-            _torch?.SetPosition(newLightPosition);
+          //  _lightMap.Position = Vector2.Lerp(_lightMap.Position, newLightPosition, lerpAmount);
+          
+            SurroundingLight.Position = Vector2.Lerp(SurroundingLight.Position, newLightPosition, lerpAmount);
         }
 
         protected void SetShadowPosition()
@@ -786,10 +790,10 @@ namespace MarkInDeDark.Library.Characters
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
                     ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
 
-                    if (AreLightsActive)
-                    {
-                        _torch?.Draw(spriteBatch);
-                    }
+                    //if (AreLightsActive)
+                    //{
+                    //    SurroundingLight?.Draw(spriteBatch);
+                    //}
                     break;
 
                 case CharacterState.Dying:
@@ -827,13 +831,13 @@ namespace MarkInDeDark.Library.Characters
 
         }
 
-        public virtual void DrawLightMap(SpriteBatch spriteBatch)
-        {
-            if (AreLightsActive && (!IsDead || this is Player))
-            {
-                _lightMap.Draw(spriteBatch);
-            }
-        }
+        //public virtual void DrawLightMap(SpriteBatch spriteBatch)
+        //{
+        //    if (AreLightsActive && (!IsDead || this is Player))
+        //    {
+        //        _lightMap.Draw(spriteBatch);
+        //    }
+        //}
 
     }
 }

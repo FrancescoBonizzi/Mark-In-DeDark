@@ -4,6 +4,7 @@ using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -16,6 +17,7 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _sprite;
 
         public Rectangle CollisionRectangle { get; }
+        public Hull Hull { get; }
 
         public Wall(
             LinkDirection direction,
@@ -33,26 +35,63 @@ namespace MarkInDeDark.Library.Levels
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
             {
                 CollisionRectangle = new Rectangle(
-                    (int)position.X - 10,
-                    (int)position.Y + 30,
-                    sprite.Width + 20,
-                    sprite.Height + 25);
+                    (int)position.X + 20,
+                    (int)position.Y,
+                    sprite.Width - 40,
+                    sprite.Height);
             }
             else
             {
                 // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
                 CollisionRectangle = new Rectangle(
                     (int)position.X,
-                    (int)position.Y + 100,
+                    (int)position.Y + 125,
                     sprite.Width,
                     30);
             }
 
             IsDestroyable = isDestroyable;
             _sprite = sprite;
+
+            Hull = HullFromRectangle(CollisionRectangle);
+            //Hull = new Hull(
+            //    new Vector2(CollisionRectangle.X, CollisionRectangle.Y),
+            //    new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y), 
+            //    new Vector2(CollisionRectangle.X, CollisionRectangle.Y + CollisionRectangle.Height),
+            //    new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y + CollisionRectangle.Height));
+
+            //if (Direction == LinkDirection.EastLink || Direction == LinkDirection.WestLink)
+            //{
+            //    //Hull.Points.Add(new Vector2(0, 0));
+            //    //Hull.Points.Add(new Vector2(0, 0));
+            //    //Hull.Points.Add(new Vector2(0, 0));
+            //    //Hull.Points.Add(new Vector2(0, 0));
+            //}
+            //else
+            //{
+            Hull.Points.Add(new Vector2(0, 0));
+            Hull.Points.Add(new Vector2(0, 1));
+            Hull.Points.Add(new Vector2(1, 1));
+            Hull.Points.Add(new Vector2(1, 0));
+
+            
+            //   }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_sprite, DrawingInfos);
+
+
+        private static Hull HullFromRectangle(Rectangle bounds)
+        {
+            return new Hull()
+            {
+                Position = new Vector2(bounds.X, bounds.Y),
+                Scale = new Vector2(bounds.Width, bounds.Height)
+            };
+        }
+
     }
+
 }

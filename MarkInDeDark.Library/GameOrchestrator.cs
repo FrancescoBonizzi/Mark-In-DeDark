@@ -324,7 +324,7 @@ namespace MarkInDeDark.Library
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics, GameTime gameTime)
         {
             if (IsPaused)
                 return;
@@ -343,7 +343,7 @@ namespace MarkInDeDark.Library
                     break;
 
                 case GameStates.Playing:
-                    _game.Draw(spriteBatch, _renderTarget);
+                    _game.Draw(spriteBatch, _renderTarget, gameTime);
                     break;
 
                 case GameStates.Levels:

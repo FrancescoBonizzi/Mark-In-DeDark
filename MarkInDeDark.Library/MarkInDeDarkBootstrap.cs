@@ -14,9 +14,11 @@ using MarkInDeDark.Library.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace MarkInDeDark.Library
 {
@@ -41,8 +43,7 @@ namespace MarkInDeDark.Library
         private IScreenTransformationMatrixProvider _matrixScaleProvider;
 
         private readonly IEnumerable<string> _levelsNames;
-
-
+  
         // private Sprite _mousePointer;
         private string _forcedLevelPath;
 
@@ -60,7 +61,7 @@ namespace MarkInDeDark.Library
             int windowHeight)
         {
             IsMouseVisible = true;
-
+           
             _textFileAssetsLoader = textFileAssetsLoader;
             _settingsRepository = settingsRepository;
             _levelsNames = levelPaths;
@@ -85,6 +86,19 @@ namespace MarkInDeDark.Library
                 GraphicsDeviceManager.PreferredBackBufferWidth = windowWidth;
                 GraphicsDeviceManager.PreferredBackBufferHeight = windowHeight;
             }
+        }
+
+        public PenumbraComponent CreatePenumbra()
+        {
+            var penumbra = new PenumbraComponent(this);
+            Services.AddService(penumbra);
+            return penumbra;
+        }
+
+        public void DisablePenumbra(PenumbraComponent penumbra)
+        {
+            Services.RemoveService(typeof(PenumbraComponent));
+            penumbra.Dispose();
         }
 
         public void ForceStartLevel(string levelFilePath)
@@ -146,7 +160,8 @@ namespace MarkInDeDark.Library
                     _matrixScaleProvider,
                     _soundManager,
                     _localizedStringsRepository,
-                    _markGamePad));
+                    _markGamePad,
+                    this));
 
             var menuFactory = new Func<MainMenuPage>(
                 () => new MainMenuPage(
@@ -237,7 +252,7 @@ namespace MarkInDeDark.Library
 
             foreach (var listener in _inputListeners)
                 listener.Update(gameTime);
-
+            
             if (_markGamePad.IsConnected)
             {
                 _markGamePad.Update(elapsed);
@@ -264,7 +279,7 @@ namespace MarkInDeDark.Library
                 return;
             }
 
-            _orchestrator.Draw(_spriteBatch, GraphicsDevice);
+            _orchestrator.Draw(_spriteBatch, GraphicsDevice, gameTime);
 
             //if (!_orchestrator.IsPaused)
             //{

@@ -4,15 +4,15 @@ using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
+using SharpDX.Direct2D1;
 using System;
 
 namespace MarkInDeDark.Library.Particles
 {
     public class Light
     {
-        private readonly Sprite _sprite;
-        public DrawingInfos DrawingInfos { get; }
-
+        //       private readonly Sprite _sprite;
         private ScalingObject _scalingObject;
         private readonly float _originalMinScale;
         private readonly float _originalMaxScale;
@@ -23,6 +23,31 @@ namespace MarkInDeDark.Library.Particles
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
 
+        public PointLight PointLight { get; }
+        public Vector2 Position
+        {
+            get
+            {
+                return PointLight.Position;
+            }
+            set
+            {
+                PointLight.Position = value;
+            }
+        }
+
+        public Vector2 Origin
+        {
+            get
+            {
+                return PointLight.Origin;
+            }
+            set
+            {
+                PointLight.Origin = value;
+            }
+        }
+
         private Color? _forcedColor;
 
         public Light(
@@ -31,12 +56,7 @@ namespace MarkInDeDark.Library.Particles
             Color secondAnimationColor,
             float scale)
         {
-            _sprite = sprite;
-
-            DrawingInfos = new DrawingInfos()
-            {
-                Origin = sprite.SpriteCenter
-            };
+            //_sprite = sprite;
 
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
@@ -49,6 +69,12 @@ namespace MarkInDeDark.Library.Particles
             _originalColorChangingSpeed = 2.5;
             _colorChangingObject = new ColorChangingObject(
                 firstAnimationColor, secondAnimationColor, _originalColorChangingSpeed);
+
+            PointLight = new PointLight()
+            {
+                ShadowType = ShadowType.Solid,
+                Intensity = 1f
+            };
         }
 
         public Light(Sprite sprite, float scale = 1.0f)
@@ -75,31 +101,26 @@ namespace MarkInDeDark.Library.Particles
                 _originalMinScale, _originalMaxScale, _originalScalingSpeed);
         }
 
-        public void SetPosition(Vector2 newPosition)
-            => DrawingInfos.Position = newPosition;
-
-        public Vector2 Position
-            => DrawingInfos.Position;
-
         public void Update(TimeSpan elapsed)
         {
             if (_forcedColor == null)
             {
                 // Cambiamento di colore
                 _colorChangingObject.Update(elapsed);
-                DrawingInfos.OverlayColor = _colorChangingObject.Color;
+                PointLight.Color = _colorChangingObject.Color;
             }
             else
             {
-                DrawingInfos.OverlayColor = _forcedColor.Value;
+                PointLight.Color = _forcedColor.Value;
             }
 
             // Cambiamento di scala
             _scalingObject.Update(elapsed);
-            DrawingInfos.Scale = _scalingObject.Scale;
+
+            PointLight.Scale = new Vector2(_scalingObject.Scale * 500);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_sprite, DrawingInfos);
+        //public void Draw(SpriteBatch spriteBatch)
+        //    => spriteBatch.Draw(_sprite, DrawingInfos);
     }
 }

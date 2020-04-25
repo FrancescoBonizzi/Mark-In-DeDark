@@ -60,7 +60,7 @@ namespace MarkInDeDark.Library.Characters
             _canGoOverWalls = true;
 
             // E' lui stesso il glow
-            _torch = null;
+         //   SurroundingLight = null;
             var deltaPosition = new Vector2(0, -15f);
             MainFigureDrawingInfos.Origin -= deltaPosition;
 
@@ -134,11 +134,11 @@ namespace MarkInDeDark.Library.Characters
             base.Draw(spriteBatch);
         }
 
-        public override void DrawLightMap(SpriteBatch spriteBatch)
-        {
-            _lightMapGhostParticleSystem.Draw(spriteBatch);
-            base.DrawLightMap(spriteBatch);
-        }
+        //public override void DrawLightMap(SpriteBatch spriteBatch)
+        //{
+        //    _lightMapGhostParticleSystem.Draw(spriteBatch);
+        //    base.DrawLightMap(spriteBatch);
+        //}
 
     }
 }

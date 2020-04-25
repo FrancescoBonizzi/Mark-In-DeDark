@@ -18,7 +18,7 @@ namespace MarkInDeDark.Library.Objects
         private readonly LittleLightParticleSystem _playerCandleFireParticleSystem;
         private readonly Vector2 _fireEffectGenerationCenter;
 
-        public Light LightMap { get; }
+ //       public Light LightMap { get; }
 
         public LittleLight(
             AssetsLoader assetsLoader,
@@ -35,8 +35,8 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
-            LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
-            LightMap.SetPosition(WorldCenter);
+            // LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
+            // LightMap.SetPosition(WorldCenter);
             _playerCandleFireParticleSystem = new LittleLightParticleSystem(assetsLoader)
             {
                 LayerDepth = _drawingInfos.LayerDepth + 0.00001f
@@ -51,7 +51,7 @@ namespace MarkInDeDark.Library.Objects
             _playerCandleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
             _playerCandleFireParticleSystem.Update(elapsed);
             _animation.Update(elapsed);
-            LightMap.Update(elapsed);
+     //       LightMap.Update(elapsed);
         }
 
         public void Draw(SpriteBatch spriteBatch)

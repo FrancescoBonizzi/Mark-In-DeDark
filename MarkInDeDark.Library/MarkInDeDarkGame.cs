@@ -13,6 +13,7 @@ using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace MarkInDeDark.Library
         private FadeObject _gameOverFadeObject;
 
         private readonly GameHUD _gameHud;
-
+        private readonly MarkInDeDarkBootstrap _markInDeDarkBootstrap;
         private readonly GraphicsDevice _graphicsDevice;
         private readonly RenderTarget2D _lightMaskRenderTarget;
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
@@ -83,6 +84,7 @@ namespace MarkInDeDark.Library
         private TimeSpan _shakeStart;
         private TimeSpan _shakeDuration;
         private readonly ILocalizedStringsRepository _localizedStringsRepository;
+        private readonly PenumbraComponent _penumbra;
 
         public MarkInDeDarkGame(
             GraphicsDevice graphicsDevice,
@@ -93,12 +95,14 @@ namespace MarkInDeDark.Library
             IScreenTransformationMatrixProvider matrixScaleProvider,
             SoundManager soundManager,
             ILocalizedStringsRepository localizedStringsRepository,
-            MarkGamePad markGamePad)
+            MarkGamePad markGamePad,
+            MarkInDeDarkBootstrap markInDeDarkBootstrap)
         {
+            _markInDeDarkBootstrap = markInDeDarkBootstrap;
             _graphicsDevice = graphicsDevice;
             _currentGameState = GameStates.Playing;
             _localizedStringsRepository = localizedStringsRepository;
-
+            
             _lightMaskShader = assetsLoader.LightMaskShader;
             _elapsedFinish = TimeSpan.Zero;
 
@@ -115,6 +119,11 @@ namespace MarkInDeDark.Library
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
+            _penumbra = markInDeDarkBootstrap.CreatePenumbra();
+            _penumbra.Initialize();
+            _penumbra.AmbientColor = new Color(new Vector3(0.1f));
+            _penumbra.Debug = false;
+
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;
             else _backgroundColorForLightMask = Color.Black;
@@ -124,10 +133,10 @@ namespace MarkInDeDark.Library
 
             _camera = new Camera2D(_matrixScaleProvider)
             {
-                Zoom = 0.8f
+                Zoom = 0.6f
             };
             _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
-            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig);
+            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _penumbra);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
 
             _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
@@ -250,6 +259,25 @@ namespace MarkInDeDark.Library
                         _player));
                 }
             }
+
+            // Penumbra
+
+
+            _penumbra.Lights.Add(_player.SurroundingLight.PointLight);
+            foreach (var e in _enemies)
+            {
+                if (e.SurroundingLight?.PointLight != null)
+                    _penumbra.Lights.Add(e.SurroundingLight.PointLight);
+            }
+
+            // TODO Altri oggetti che hanno luce
+
+            foreach (var w in _gameGrid.GetAllWalls())
+                _penumbra.Hulls.Add(w.Hull);
+            //foreach (var p in _gameGrid.GetAllPillars())
+            //    _penumbra.Hulls.Add(p.Hull);
+
+            _penumbra.Debug = false;
         }
 
         public void HandleInput(CharacterActions action)
@@ -394,6 +422,7 @@ namespace MarkInDeDark.Library
                     break;
 
                 case GameStates.Finished:
+                    _markInDeDarkBootstrap.DisablePenumbra(_penumbra);
                     _gameOrchestrator.SetAfterGameState();
                     return;
             }
@@ -439,6 +468,9 @@ namespace MarkInDeDark.Library
                 else
                     enemy.UpdateAfterDeath(elapsed);
             }
+
+            var viewMatrix = _camera.GetViewMatrix();
+            _penumbra.Transform = viewMatrix;
         }
 
         public void Pause()
@@ -475,36 +507,37 @@ namespace MarkInDeDark.Library
             _markGamePad.Shake(intensity, _shakeDuration);
         }
 
-        private void DrawLightMask(
-            SpriteBatch spriteBatch,
-            Matrix viewMatrix)
-        {
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: viewMatrix);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
+        //private void DrawLightMask(
+        //    SpriteBatch spriteBatch,
+        //    Matrix viewMatrix)
+        //{
+        //    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, transformMatrix: viewMatrix);
+        //    _graphicsDevice.Clear(_backgroundColorForLightMask);
 
-            _player.DrawLightMap(spriteBatch);
+        //    _player.DrawLightMap(spriteBatch);
 
-            foreach (var enemy in _enemies)
-            {
-                enemy.DrawLightMap(spriteBatch);
-            }
+        //    foreach (var enemy in _enemies)
+        //    {
+        //        enemy.DrawLightMap(spriteBatch);
+        //    }
 
-            foreach (var littleLight in _gameGrid.LittleLights)
-            {
-                littleLight.LightMap.Draw(spriteBatch);
-            }
-            _candlesManager.DrawLightmap(spriteBatch);
+        //    foreach (var littleLight in _gameGrid.LittleLights)
+        //    {
+        //        littleLight.LightMap.Draw(spriteBatch);
+        //    }
+        //    _candlesManager.DrawLightmap(spriteBatch);
 
-            spriteBatch.End();
-        }
+        //    spriteBatch.End();
+        //}
 
         public void Draw(
             SpriteBatch spriteBatch,
-            RenderTarget2D virtualDrawTarget)
+            RenderTarget2D virtualDrawTarget,
+            GameTime gameTime)
         {
             if (_runGameOverScene == true)
             {
-                DrawPlayingScene(spriteBatch, _gameOverBackgroundRenderTarget);
+                DrawPlayingScene(spriteBatch, _gameOverBackgroundRenderTarget, gameTime);
 
                 var viewMatrix = _camera.GetViewMatrix();
 
@@ -525,28 +558,30 @@ namespace MarkInDeDark.Library
             }
             else
             {
-                DrawPlayingScene(spriteBatch, virtualDrawTarget);
+                DrawPlayingScene(spriteBatch, virtualDrawTarget, gameTime);
             }
         }
 
         public void DrawPlayingScene(
             SpriteBatch spriteBatch,
-            RenderTarget2D virtualDrawTarget)
+            RenderTarget2D virtualDrawTarget,
+            GameTime gameTime)
         {
             var viewMatrix = _camera.GetViewMatrix();
-
+            
             // Disegno lo strato di luci
-            _graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
-            DrawLightMask(spriteBatch, viewMatrix);
+            //_graphicsDevice.SetRenderTarget(_lightMaskRenderTarget);
+            //_graphicsDevice.Clear(_backgroundColorForLightMask);
+            //DrawLightMask(spriteBatch, viewMatrix);
 
             // Avvio il disegno con l'opzione per lo Z-Index
-            _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
+            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+            _penumbra.BeginDraw();
             _graphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(
-                transformMatrix: viewMatrix, 
-                samplerState: SamplerState.PointClamp, 
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
                 sortMode: SpriteSortMode.FrontToBack);
 
             // Disegno tutto il pavimento (che non ha ZIndex perché sta sempre sotto)
@@ -565,14 +600,12 @@ namespace MarkInDeDark.Library
 
             foreach (var candlePack in _candlePacks)
                 candlePack.Draw(spriteBatch);
-            
+
             foreach (var otherObject in _gameGrid.DrawableObjects)
                 otherObject.Draw(spriteBatch);
-            
+
             foreach (var littleLight in _gameGrid.LittleLights)
                 littleLight.Draw(spriteBatch);
-
-            _gameGrid.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
             _player.Draw(spriteBatch);
@@ -582,22 +615,24 @@ namespace MarkInDeDark.Library
 
             spriteBatch.End();
 
+            _penumbra.Draw(gameTime);
+
             // Applico gli effetti
-            _graphicsDevice.SetRenderTarget(virtualDrawTarget);
+            //_graphicsDevice.SetRenderTarget(virtualDrawTarget);
 
             // Scena con LightMask
-            _lightMaskShader.Parameters["lightMask"].SetValue(_lightMaskRenderTarget);
-            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-            spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            //_lightMaskShader.Parameters["lightMask"].SetValue(_lightMaskRenderTarget);
+            //_lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+            //spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            //spriteBatch.End();
 
             // Effect over the dark
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
             spriteBatch.End();
-            
+
             // HUD
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);

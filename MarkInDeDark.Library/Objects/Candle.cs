@@ -15,7 +15,7 @@ namespace MarkInDeDark.Library
 {
     public class Candle
     {
-        private readonly Light _torch;
+        public Light SurroundingLight { get; }
 
         private ParticleGeneratorTimedEffect _smokeEffect;
 
@@ -28,7 +28,7 @@ namespace MarkInDeDark.Library
 
         private TimeSpan _timeToLive;
 
-        public Light LightMap { get; }
+       // public Light LightMap { get; }
         public bool IsDying { get; private set; }
         public bool AreSomeMonsterIsFollowingMe { get; set; }
 
@@ -48,28 +48,31 @@ namespace MarkInDeDark.Library
                 LayerDepth = ZIndexCalculator.ForCandle(position)
             };
 
-            LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
-            _torch = new Light(assetsLoader.Sprites["Effects/light_pixel"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
-            _torch.SetPosition(new Vector2(WorldCenter.X, WorldCenter.Y - 15));
+            //       LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
+            SurroundingLight = new Light(assetsLoader.Sprites["Effects/light_pixel"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize)
+            {
+                Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15)
+                //Origin = _animation.FirstFrameSprite.SpriteCenter
+            };
 
-            LightMap.SetPosition(WorldCenter);
+            //   LightMap.SetPosition(WorldCenter);
 
             IsDying = false;
             AreSomeMonsterIsFollowingMe = false;
 
             _timeToLive = TimeSpan.FromSeconds(gameConfig.CandleTimeToLiveWhenAttackedSeconds);
 
-            if (_torch != null)
-                _torch.DrawingInfos.LayerDepth = _drawingInfos.LayerDepth + 0.00001f;
+            //if (_torch != null)
+            //    _torch.DrawingInfos.LayerDepth = _drawingInfos.LayerDepth + 0.00001f;
 
             _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader)
             {
-                LayerDepth = _torch.DrawingInfos.LayerDepth + 0.00001f
+                LayerDepth = _drawingInfos.LayerDepth + 0.00001f
             };
 
             _candleFireParticleSystem = new CandleFireParticleSystem(assetsLoader)
             {
-                LayerDepth = _torch.DrawingInfos.LayerDepth + 0.00002f
+                LayerDepth =  _drawingInfos.LayerDepth + 0.00002f
             };
 
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 30.0f);
@@ -129,24 +132,25 @@ namespace MarkInDeDark.Library
                 _smokeEffect.Update(elapsed);
                 _fadeObject.Update(elapsed);
                 _drawingInfos.OverlayColor = _fadeObject.OverlayColor;
-                _torch.ForceColor(_fadeObject.OverlayColor);
-                LightMap.ForceColor(_fadeObject.OverlayColor);
+                SurroundingLight.ForceColor(_fadeObject.OverlayColor);
+            //    LightMap.ForceColor(_fadeObject.OverlayColor);
             }
             else
             {
+#warning anche questo deve fare un particellare con lightmap
                 _candleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
             }
 
             _candleFireParticleSystem.Update(elapsed);
             _animation.Update(elapsed);
-            LightMap.Update(elapsed);
-            _torch.Update(elapsed);
+       //     LightMap.Update(elapsed);
+            SurroundingLight.Update(elapsed);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-            _torch.Draw(spriteBatch);
+            //_torch.Draw(spriteBatch);
         }
 
         public void DrawEffects(SpriteBatch spriteBatch)

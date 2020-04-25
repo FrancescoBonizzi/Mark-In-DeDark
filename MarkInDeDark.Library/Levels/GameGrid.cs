@@ -208,6 +208,40 @@ namespace MarkInDeDark.Library.Levels
             else _game.StartCameraShake(5);
         }
 
+        public IEnumerable<Wall> GetAllWalls()
+        {
+            for (int x = 0; x < HorizontalCellsNumber; x++)
+            {
+                for (int y = 0; y < VerticalCellsNumber; y++)
+                {
+                    if (_cells[x, y] != null)
+                    {
+                        foreach (var w in _cells[x, y].Walls)
+                        {
+                            yield return w.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Pillar> GetAllPillars()
+        {
+            for (int x = 0; x < HorizontalCellsNumber; x++)
+            {
+                for (int y = 0; y < VerticalCellsNumber; y++)
+                {
+                    if (_cells[x, y] != null)
+                    {
+                        foreach (var p in _cells[x, y].Pillars)
+                        {
+                            yield return p.Value;
+                        }
+                    }
+                }
+            }
+        }
+
         public void SwitchDoorIfAny(GameCell cell)
         {
             var doorsToExamine = new Dictionary<LinkDirection, Door>(cell.Doors);
@@ -490,8 +524,8 @@ namespace MarkInDeDark.Library.Levels
 
                 foreach (var near in c.Links.Select(a => a.Value))
                 {
-                    if (near != null 
-                        && !near.IsUnwalkableForEnemies 
+                    if (near != null
+                        && !near.IsUnwalkableForEnemies
                         && !near.IsUnwalkable)
                     {
                         if (!visited.Contains(near))
@@ -728,7 +762,7 @@ namespace MarkInDeDark.Library.Levels
             // Mi segno le celle che l'utente vede, per Update e Draw
             var cameraBoundingRectangle = _camera.BoundingRectangle;
             _currentViewportMinCellX = GetCellByPixelX((int)(_camera.Position.X - _camera.Position.X * _camera.Zoom));
-            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right  + cameraBoundingRectangle.Right * _camera.Zoom));
+            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right + cameraBoundingRectangle.Right * _camera.Zoom));
             _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
 

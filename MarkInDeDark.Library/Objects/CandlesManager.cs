@@ -5,6 +5,7 @@ using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,15 @@ namespace MarkInDeDark.Library
         public int PlayerUsedCandles { get; private set; }
         public event EventHandler PlayerUsedACandle;
 
+        private readonly PenumbraComponent _penumbra;
+
         public CandlesManager(
             int startingCandles,
             AssetsLoader assetsLoader,
             SoundManager soundManager,
             GameGrid gameGrid,
-            GameConfig gameConfig)
+            GameConfig gameConfig,
+            PenumbraComponent penumbra)
         {
             Candles = new List<Candle>();
             _avaibleCandlesNumber = startingCandles;
@@ -45,6 +49,8 @@ namespace MarkInDeDark.Library
 
             if (_gameConfig.GodModeInfiniteCandles)
                 _avaibleCandlesNumber = short.MaxValue;
+
+            _penumbra = penumbra;
         }
 
         public void AddCandlesToInventory(int nCandles)
@@ -130,11 +136,13 @@ namespace MarkInDeDark.Library
 
             if (!IsThereACandle(where))
             {
-                Candles.Add(new Candle(_assetsLoader, _gameConfig, where));
+                var newCandle = new Candle(_assetsLoader, _gameConfig, where);
+                Candles.Add(newCandle);
                 ++PlayerUsedCandles;
                 _avaibleCandlesNumber -= 1;
                 //_soundManager.PlayPutCandle();
                 PlayerUsedACandle?.Invoke(null, EventArgs.Empty);
+                _penumbra.Lights.Add(newCandle.SurroundingLight.PointLight);
             }
         }
 
@@ -144,7 +152,10 @@ namespace MarkInDeDark.Library
             {
                 Candles[i].Update(elapsed);
                 if (!Candles[i].IsActive)
+                {
+                    _penumbra.Lights.Remove(Candles[i].SurroundingLight.PointLight);
                     Candles.RemoveAt(i);
+                }
             }
         }
 
@@ -157,10 +168,10 @@ namespace MarkInDeDark.Library
             }
         }
 
-        public void DrawLightmap(SpriteBatch spriteBatch)
-        {
-            foreach (Candle c in Candles)
-                c.LightMap.Draw(spriteBatch);
-        }
+        //public void DrawLightmap(SpriteBatch spriteBatch)
+        //{
+        //    foreach (Candle c in Candles)
+        //        c.LightMap.Draw(spriteBatch);
+        //}
     }
 }
