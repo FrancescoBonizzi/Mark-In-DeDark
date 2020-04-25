@@ -133,7 +133,6 @@ namespace MarkInDeDark.Library
             }
             else
             {
-#warning anche questo deve fare un particellare con lightmap
                 _candleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
             }
 
