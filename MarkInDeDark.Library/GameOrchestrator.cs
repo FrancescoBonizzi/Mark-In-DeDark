@@ -138,6 +138,7 @@ namespace MarkInDeDark.Library
                     _stateTransition.FadeIn();
 
                     _currentState = GameStates.Menu;
+                    _game?.OnLeavingPage();
                     _game = null;
                     _levels = null;
                     _menu = _menuFactory();
@@ -180,6 +181,7 @@ namespace MarkInDeDark.Library
                     _stateTransition.FadeIn();
 
                     _currentState = GameStates.Levels;
+                    _game?.OnLeavingPage();
                     _game = null;
                     _menu = null;
                     _levels = _levelsPageFactory();

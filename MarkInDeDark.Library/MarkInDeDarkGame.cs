@@ -422,7 +422,6 @@ namespace MarkInDeDark.Library
                     break;
 
                 case GameStates.Finished:
-                    _markInDeDarkBootstrap.DisablePenumbra(_penumbra);
                     _gameOrchestrator.SetAfterGameState();
                     return;
             }
@@ -471,6 +470,11 @@ namespace MarkInDeDark.Library
 
             var viewMatrix = _camera.GetViewMatrix();
             _penumbra.Transform = viewMatrix;
+        }
+
+        public void OnLeavingPage()
+        {
+            _markInDeDarkBootstrap.DisablePenumbra(_penumbra);
         }
 
         public void Pause()
