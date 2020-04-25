@@ -122,10 +122,10 @@ namespace MarkInDeDark.Library.Particles
             // Cambiamento di scala
             _scalingObject.Update(elapsed);
 
-            PointLight.Scale = new Vector2(_scalingObject.Scale * 500);
+            PointLight.Scale = new Vector2(_scalingObject.Scale * 600);
 
             _additionalLightMaskDrawingInfos.OverlayColor = PointLight.Color;
-            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale;
+            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale * 1.4f;
 
             AloneDrawingInfos.OverlayColor = PointLight.Color;
             AloneDrawingInfos.Scale = _scalingObject.Scale;
