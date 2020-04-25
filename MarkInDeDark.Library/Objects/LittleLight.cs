@@ -15,10 +15,10 @@ namespace MarkInDeDark.Library.Objects
     {
         private readonly SpriteAnimation _animation;
         private readonly DrawingInfos _drawingInfos;
-        private readonly LittleLightParticleSystem _playerCandleFireParticleSystem;
+        private readonly LittleLightParticleSystem _littleLightParticle;
         private readonly Vector2 _fireEffectGenerationCenter;
 
- //       public Light LightMap { get; }
+        public Light SurroundingLight { get; }
 
         public LittleLight(
             AssetsLoader assetsLoader,
@@ -35,29 +35,41 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
-            // LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.LittleLightColorRGB1, gameConfig.LittleLightColorRGB2, gameConfig.LittleLightLightSize);
-            // LightMap.SetPosition(WorldCenter);
-            _playerCandleFireParticleSystem = new LittleLightParticleSystem(assetsLoader)
+            _littleLightParticle = new LittleLightParticleSystem(assetsLoader)
             {
                 LayerDepth = _drawingInfos.LayerDepth + 0.00001f
+            };
+
+            SurroundingLight = new Light(
+                assetsLoader,
+                gameConfig.LittleLightColorRGB1,
+                gameConfig.LittleLightColorRGB2,
+                gameConfig.LittleLightLightSize,
+                0f)
+            {
+                Position = WorldCenter
             };
 
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
         }
 
-
         public void Update(TimeSpan elapsed)
         {
-            _playerCandleFireParticleSystem.AddParticles(_fireEffectGenerationCenter);
-            _playerCandleFireParticleSystem.Update(elapsed);
+            _littleLightParticle.AddParticles(_fireEffectGenerationCenter);
+            _littleLightParticle.Update(elapsed);
             _animation.Update(elapsed);
-     //       LightMap.Update(elapsed);
+            SurroundingLight.Update(elapsed);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-            _playerCandleFireParticleSystem.Draw(spriteBatch);
+            _littleLightParticle.Draw(spriteBatch);
+        }
+
+        public void DrawLightMask(SpriteBatch spriteBatch)
+        {
+            SurroundingLight.DrawAdditionalLightMask(spriteBatch);
         }
 
         public Vector2 WorldCenter

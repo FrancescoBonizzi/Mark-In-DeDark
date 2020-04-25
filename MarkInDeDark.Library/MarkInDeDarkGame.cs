@@ -103,7 +103,7 @@ namespace MarkInDeDark.Library
             _graphicsDevice = graphicsDevice;
             _currentGameState = GameStates.Playing;
             _localizedStringsRepository = localizedStringsRepository;
-            
+
             _lightMaskShader = assetsLoader.LightMaskShader;
             _elapsedFinish = TimeSpan.Zero;
 
@@ -269,10 +269,12 @@ namespace MarkInDeDark.Library
                     _penumbra.Lights.Add(e.SurroundingLight.PointLight);
             }
 
-            // TODO Altri oggetti che hanno luce
+            foreach (var l in _gameGrid.LittleLights)
+                _penumbra.Lights.Add(l.SurroundingLight.PointLight);
 
             foreach (var w in _gameGrid.GetAllWalls())
                 _penumbra.Hulls.Add(w.Hull);
+
             //foreach (var p in _gameGrid.GetAllPillars())
             //    _penumbra.Hulls.Add(p.Hull);
 
@@ -514,8 +516,8 @@ namespace MarkInDeDark.Library
             Matrix viewMatrix)
         {
             spriteBatch.Begin(
-                SpriteSortMode.Immediate, 
-                BlendState.Additive, 
+                SpriteSortMode.Immediate,
+                BlendState.Additive,
                 transformMatrix: viewMatrix);
             _graphicsDevice.Clear(_backgroundColorForLightMask);
 
@@ -526,10 +528,10 @@ namespace MarkInDeDark.Library
                 enemy.DrawLightMask(spriteBatch);
             }
 
-            //foreach (var littleLight in _gameGrid.LittleLights)
-            //{
-            //    littleLight.LightMap.Draw(spriteBatch);
-            //}
+            foreach (var littleLight in _gameGrid.LittleLights)
+            {
+                littleLight.DrawLightMask(spriteBatch);
+            }
             _candlesManager.DrawLightMask(spriteBatch);
 
             spriteBatch.End();
@@ -593,7 +595,7 @@ namespace MarkInDeDark.Library
             _graphicsDevice.SetRenderTarget(_anotherLightMaskLevelRenderTarget);
             _graphicsDevice.Clear(_backgroundColorForLightMask);
             DrawLightMask(spriteBatch, viewMatrix);
-         
+
             // 3. Disegno la scena normale
             _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
             _graphicsDevice.Clear(Color.Black);
