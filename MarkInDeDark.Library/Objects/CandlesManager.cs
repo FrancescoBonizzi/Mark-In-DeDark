@@ -1,5 +1,4 @@
-﻿using MarkInDeDark.Library;
-
+﻿
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
@@ -168,10 +167,10 @@ namespace MarkInDeDark.Library
             }
         }
 
-        //public void DrawLightmap(SpriteBatch spriteBatch)
-        //{
-        //    foreach (Candle c in Candles)
-        //        c.LightMap.Draw(spriteBatch);
-        //}
+        public void DrawLightMask(SpriteBatch spriteBatch)
+        {
+            foreach (Candle c in Candles)
+                c.SurroundingLight.DrawAdditionalLightMask(spriteBatch);
+        }
     }
 }

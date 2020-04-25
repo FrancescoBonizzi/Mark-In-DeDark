@@ -157,10 +157,10 @@ namespace MarkInDeDark.Library.Characters
             base.Die();
         }
 
-        //public override void DrawLightMap(SpriteBatch spriteBatch)
-        //{
-        //    base.DrawLightMap(spriteBatch);
-        //}
+        public override void DrawLightMask(SpriteBatch spriteBatch)
+        {
+            base.DrawLightMask(spriteBatch);
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

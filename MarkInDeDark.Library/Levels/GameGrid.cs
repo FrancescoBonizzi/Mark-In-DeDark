@@ -779,7 +779,7 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawEveryThingButWalls(SpriteBatch spriteBatch)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -791,8 +791,28 @@ namespace MarkInDeDark.Library.Levels
                         {
                             _cells[x, y].DrawGround(spriteBatch);
                             _cells[x, y].DrawDirty(spriteBatch);
-                            _cells[x, y].DrawWalls(spriteBatch);
+                          //  _cells[x, y].DrawWalls(spriteBatch);
                             _cells[x, y].DrawEffects(spriteBatch);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DrawWalls(SpriteBatch spriteBatch)
+        {
+            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            {
+                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
+                {
+                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
+                    {
+                        if (_cells[x, y] != null)
+                        {
+                            //_cells[x, y].DrawGround(spriteBatch);
+                            //_cells[x, y].DrawDirty(spriteBatch);
+                              _cells[x, y].DrawWalls(spriteBatch);
+                            //_cells[x, y].DrawEffects(spriteBatch);
                         }
                     }
                 }

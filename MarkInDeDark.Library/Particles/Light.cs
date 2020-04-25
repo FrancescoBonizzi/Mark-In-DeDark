@@ -5,14 +5,15 @@ using FbonizziMonoGame.TransformationObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
-using SharpDX.Direct2D1;
 using System;
 
 namespace MarkInDeDark.Library.Particles
 {
     public class Light
     {
-        //       private readonly Sprite _sprite;
+        private readonly Sprite _additionalLightMask;
+        private readonly DrawingInfos _additionalLightMaskDrawingInfos;
+
         private ScalingObject _scalingObject;
         private readonly float _originalMinScale;
         private readonly float _originalMaxScale;
@@ -33,30 +34,19 @@ namespace MarkInDeDark.Library.Particles
             set
             {
                 PointLight.Position = value;
-            }
-        }
-
-        public Vector2 Origin
-        {
-            get
-            {
-                return PointLight.Origin;
-            }
-            set
-            {
-                PointLight.Origin = value;
+                _additionalLightMaskDrawingInfos.Position = value;
             }
         }
 
         private Color? _forcedColor;
 
         public Light(
-            Sprite sprite,
+            Sprite lightMask,
             Color firstAnimationColor,
             Color secondAnimationColor,
             float scale)
         {
-            //_sprite = sprite;
+            _additionalLightMask = lightMask;
 
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
@@ -74,6 +64,11 @@ namespace MarkInDeDark.Library.Particles
             {
                 ShadowType = ShadowType.Solid,
                 Intensity = 1f
+            };
+
+            _additionalLightMaskDrawingInfos = new DrawingInfos()
+            {
+                Origin = _additionalLightMask.SpriteCenter
             };
         }
 
@@ -118,9 +113,12 @@ namespace MarkInDeDark.Library.Particles
             _scalingObject.Update(elapsed);
 
             PointLight.Scale = new Vector2(_scalingObject.Scale * 500);
+
+            _additionalLightMaskDrawingInfos.OverlayColor = PointLight.Color;
+            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale;
         }
 
-        //public void Draw(SpriteBatch spriteBatch)
-        //    => spriteBatch.Draw(_sprite, DrawingInfos);
+        public void DrawAdditionalLightMask(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_additionalLightMask, _additionalLightMaskDrawingInfos);
     }
 }

@@ -70,7 +70,6 @@ namespace MarkInDeDark.Library.Characters
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
-     //   private readonly Light _lightMap;
         public Light SurroundingLight { get; protected set; }
 
         public bool AreLightsActive { get; set; }
@@ -201,7 +200,7 @@ namespace MarkInDeDark.Library.Characters
                 //    configuration.CharacterTorchConfiguration.SecondTorchColor,
                 //    configuration.CharacterTorchConfiguration.TorchScale);
                 SurroundingLight = new Light(
-                    configuration.CharacterTorchConfiguration.TorchSprite,
+                    configuration.CharacterTorchConfiguration.LightMapSprite,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
                     configuration.CharacterTorchConfiguration.TorchScale);
@@ -831,13 +830,13 @@ namespace MarkInDeDark.Library.Characters
 
         }
 
-        //public virtual void DrawLightMap(SpriteBatch spriteBatch)
-        //{
-        //    if (AreLightsActive && (!IsDead || this is Player))
-        //    {
-        //        _lightMap.Draw(spriteBatch);
-        //    }
-        //}
+        public virtual void DrawLightMask(SpriteBatch spriteBatch)
+        {
+            if (AreLightsActive && (!IsDead || this is Player))
+            {
+                SurroundingLight.DrawAdditionalLightMask(spriteBatch);
+            }
+        }
 
     }
 }
