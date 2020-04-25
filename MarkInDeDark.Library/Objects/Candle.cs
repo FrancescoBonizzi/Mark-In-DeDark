@@ -3,7 +3,6 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
-using MarkInDeDark.Library;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Particles;
@@ -28,7 +27,6 @@ namespace MarkInDeDark.Library
 
         private TimeSpan _timeToLive;
 
-       // public Light LightMap { get; }
         public bool IsDying { get; private set; }
         public bool AreSomeMonsterIsFollowingMe { get; set; }
 
@@ -48,26 +46,21 @@ namespace MarkInDeDark.Library
                 LayerDepth = ZIndexCalculator.ForCandle(position)
             };
 
-            //       LightMap = new Light(assetsLoader.Sprites["Effects/light_1"], gameConfig.CandleColorRGB1, gameConfig.CandleColorRGB2, gameConfig.CandleLightSize);
             SurroundingLight = new Light(
-                assetsLoader.Sprites["Effects/light_1"], 
-                gameConfig.CandleColorRGB1, 
-                gameConfig.CandleColorRGB2, 
-                gameConfig.CandleLightSize)
+                assetsLoader,
+                gameConfig.CandleColorRGB1,
+                gameConfig.CandleColorRGB2,
+                gameConfig.CandleLightSize,
+                 _drawingInfos.LayerDepth + 0.00001f)
             {
-                Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15)
-                //Origin = _animation.FirstFrameSprite.SpriteCenter
+                Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
+                AloneEnabled = true
             };
-
-            //   LightMap.SetPosition(WorldCenter);
 
             IsDying = false;
             AreSomeMonsterIsFollowingMe = false;
 
             _timeToLive = TimeSpan.FromSeconds(gameConfig.CandleTimeToLiveWhenAttackedSeconds);
-
-            //if (_torch != null)
-            //    _torch.DrawingInfos.LayerDepth = _drawingInfos.LayerDepth + 0.00001f;
 
             _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader)
             {
@@ -137,7 +130,6 @@ namespace MarkInDeDark.Library
                 _fadeObject.Update(elapsed);
                 _drawingInfos.OverlayColor = _fadeObject.OverlayColor;
                 SurroundingLight.ForceColor(_fadeObject.OverlayColor);
-            //    LightMap.ForceColor(_fadeObject.OverlayColor);
             }
             else
             {
@@ -147,14 +139,13 @@ namespace MarkInDeDark.Library
 
             _candleFireParticleSystem.Update(elapsed);
             _animation.Update(elapsed);
-       //     LightMap.Update(elapsed);
             SurroundingLight.Update(elapsed);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-            //_torch.Draw(spriteBatch);
+            SurroundingLight.DrawAlone(spriteBatch);
         }
 
         public void DrawEffects(SpriteBatch spriteBatch)

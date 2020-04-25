@@ -56,6 +56,8 @@ namespace MarkInDeDark.Library.Characters
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.GoblinSpeedIncrementForEachCandleTaken;
 
+            SurroundingLight.AloneEnabled = true;
+
             _goblinLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 
                 gameConfig.GoblinLightColorRGB1,

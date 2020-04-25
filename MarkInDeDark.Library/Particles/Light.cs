@@ -13,6 +13,9 @@ namespace MarkInDeDark.Library.Particles
     {
         private readonly Sprite _additionalLightMask;
         private readonly DrawingInfos _additionalLightMaskDrawingInfos;
+        public DrawingInfos AloneDrawingInfos { get; }
+
+        private readonly Sprite _aloneSprite;
 
         private ScalingObject _scalingObject;
         private readonly float _originalMinScale;
@@ -35,19 +38,23 @@ namespace MarkInDeDark.Library.Particles
             {
                 PointLight.Position = value;
                 _additionalLightMaskDrawingInfos.Position = value;
+                AloneDrawingInfos.Position = value;
             }
         }
 
         private Color? _forcedColor;
 
+        public bool AloneEnabled { get; set; }
+
         public Light(
-            Sprite lightMask,
+            AssetsLoader assetsLoader,
             Color firstAnimationColor,
             Color secondAnimationColor,
-            float scale)
+            float scale,
+            float layerDepth)
         {
-            _additionalLightMask = lightMask;
-
+            _additionalLightMask = assetsLoader.Sprites["Effects/light_1"];
+            _aloneSprite = assetsLoader.Sprites["Effects/light_pixel"];
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
 
@@ -70,10 +77,13 @@ namespace MarkInDeDark.Library.Particles
             {
                 Origin = _additionalLightMask.SpriteCenter
             };
-        }
 
-        public Light(Sprite sprite, float scale = 1.0f)
-            : this(sprite, Color.White, Color.White.WithAlpha(0.9f), scale) { }
+            AloneDrawingInfos = new DrawingInfos()
+            {
+                Origin = _aloneSprite.SpriteCenter,
+                LayerDepth = layerDepth
+            };
+        }
 
         public void SetTemporaryColorForAnimation(Color color)
         {
@@ -116,9 +126,18 @@ namespace MarkInDeDark.Library.Particles
 
             _additionalLightMaskDrawingInfos.OverlayColor = PointLight.Color;
             _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale;
+
+            AloneDrawingInfos.OverlayColor = PointLight.Color;
+            AloneDrawingInfos.Scale = _scalingObject.Scale;
         }
 
         public void DrawAdditionalLightMask(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_additionalLightMask, _additionalLightMaskDrawingInfos);
+
+        public void DrawAlone(SpriteBatch spriteBatch)
+        {
+            if (AloneEnabled)
+                spriteBatch.Draw(_aloneSprite, AloneDrawingInfos);
+        }
     }
 }

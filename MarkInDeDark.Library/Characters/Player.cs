@@ -56,6 +56,7 @@ namespace MarkInDeDark.Library.Characters
             _doesntDie = gameConfig.GodModePlayerDoesntDie;
 
             _currentPlayerState = PlayerStates.Playing;
+            SurroundingLight.AloneEnabled = true;
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);

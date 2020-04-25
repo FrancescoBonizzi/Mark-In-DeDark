@@ -56,6 +56,7 @@ namespace MarkInDeDark.Library.Characters
             game: game,
             candlesManager: candlesManager)
         {
+            SurroundingLight.AloneEnabled = true;
             _skeletonLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 
                 gameConfig.SkeletronLightColorRGB1,
