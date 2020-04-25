@@ -199,7 +199,8 @@ namespace MarkInDeDark.Library.Characters
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
                     configuration.CharacterTorchConfiguration.TorchScale,
-                    0f);
+                    0f,
+                    configuration.CharacterTorchConfiguration.TorchScale * 600);
                
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();

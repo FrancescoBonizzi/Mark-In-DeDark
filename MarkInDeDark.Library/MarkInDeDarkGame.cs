@@ -598,12 +598,7 @@ namespace MarkInDeDark.Library
 
             // 3. Disegno la scena normale
             _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
-            _graphicsDevice.Clear(Color.Black);
-
-            // Disegno il pavimento ombrato
-            spriteBatch.Begin();
-            spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            _graphicsDevice.Clear(Color.Transparent);
 
             // E tutto il resto
             spriteBatch.Begin(
@@ -645,6 +640,11 @@ namespace MarkInDeDark.Library
             // Applico gli effetti
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
 
+            // Disegno il pavimento ombrato
+            spriteBatch.Begin();
+            spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
             // Scena con LightMask
             _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
             _lightMaskShader.CurrentTechnique.Passes[0].Apply();
@@ -665,3 +665,4 @@ namespace MarkInDeDark.Library
         }
     }
 }
+

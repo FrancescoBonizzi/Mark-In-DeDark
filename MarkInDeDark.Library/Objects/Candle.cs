@@ -51,7 +51,8 @@ namespace MarkInDeDark.Library
                 gameConfig.CandleColorRGB1,
                 gameConfig.CandleColorRGB2,
                 gameConfig.CandleLightSize,
-                 _drawingInfos.LayerDepth + 0.00001f)
+                _drawingInfos.LayerDepth + 0.00001f,
+                130f)
             {
                 Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
                 AloneEnabled = true

@@ -71,6 +71,8 @@ namespace MarkInDeDark.Library.Characters
             MainAnimationsAnimationManager.AddAnimation(
               "Dying",
               assetsLoader.GetAnimation("playerDying"));
+
+            SurroundingLight.PointLight.Scale = new Vector2(700);
         }
 
         public bool HasWon

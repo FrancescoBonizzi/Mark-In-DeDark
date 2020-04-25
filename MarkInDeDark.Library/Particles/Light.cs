@@ -50,16 +50,17 @@ namespace MarkInDeDark.Library.Particles
             AssetsLoader assetsLoader,
             Color firstAnimationColor,
             Color secondAnimationColor,
-            float scale,
-            float layerDepth)
+            float glowingLightScale,
+            float layerDepth,
+            float penumbraLightScale)
         {
             _additionalLightMask = assetsLoader.Sprites["Effects/light_1"];
             _aloneSprite = assetsLoader.Sprites["Effects/light_pixel"];
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
 
-            _originalMinScale = MathHelper.Clamp(scale - 0.2f, 0.1f, 1f);
-            _originalMaxScale = scale;
+            _originalMinScale = MathHelper.Clamp(glowingLightScale - 0.2f, 0.1f, 1f);
+            _originalMaxScale = glowingLightScale;
             _originalScalingSpeed = 2.5f;
             _scalingObject = new ScalingObject(_originalMinScale, _originalMaxScale, _originalScalingSpeed);
 
@@ -70,7 +71,8 @@ namespace MarkInDeDark.Library.Particles
             PointLight = new PointLight()
             {
                 ShadowType = ShadowType.Solid,
-                Intensity = 1f
+                Intensity = 1,
+                Scale = new Vector2(penumbraLightScale)
             };
 
             _additionalLightMaskDrawingInfos = new DrawingInfos()
@@ -122,10 +124,8 @@ namespace MarkInDeDark.Library.Particles
             // Cambiamento di scala
             _scalingObject.Update(elapsed);
 
-            PointLight.Scale = new Vector2(_scalingObject.Scale * 600);
-
             _additionalLightMaskDrawingInfos.OverlayColor = PointLight.Color;
-            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale * 1.4f;
+            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale;
 
             AloneDrawingInfos.OverlayColor = PointLight.Color;
             AloneDrawingInfos.Scale = _scalingObject.Scale;

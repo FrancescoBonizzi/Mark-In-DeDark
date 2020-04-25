@@ -45,7 +45,8 @@ namespace MarkInDeDark.Library.Objects
                 gameConfig.LittleLightColorRGB1,
                 gameConfig.LittleLightColorRGB2,
                 gameConfig.LittleLightLightSize,
-                0f)
+                0f,
+                130f)
             {
                 Position = WorldCenter
             };
