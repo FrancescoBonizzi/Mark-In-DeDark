@@ -19,8 +19,8 @@ namespace MarkInDeDark.Library.Levels
         public Sprite GroundSpriteType2 { get; private set; }
         public Sprite DarkSprite { get; private set; }
         public List<Sprite> DirtySprites { get; private set; }
-        public Sprite HorizontalWallSprite { get; private set; }
-        public Sprite VerticalWallSprite { get; private set; }
+        public List<Sprite> RandomHorizontalWallSprites { get; private set; }
+        public List<Sprite> RandomVerticalWallSprites { get; private set; }
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
         public Sprite AngleSprite { get; private set; }
@@ -60,8 +60,20 @@ namespace MarkInDeDark.Library.Levels
                     DirtySprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/Dirty/dirty_{i}"]);
             }
 
-            HorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal"];
-            VerticalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical"];
+            RandomHorizontalWallSprites = new List<Sprite>();
+            for (int i = 1; i < 20; ++i)
+            {
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}"))
+                    RandomHorizontalWallSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}"]);
+            }
+
+            RandomVerticalWallSprites = new List<Sprite>();
+            for (int i = 1; i < 20; ++i)
+            {
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"))
+                    RandomVerticalWallSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"]);
+            }
+
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
             AngleSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];

@@ -527,11 +527,12 @@
             <key type="filename">Game/Door/door_9.png</key>
             <key type="filename">Game/Effects/blood_decal.png</key>
             <key type="filename">Game/Effects/light_pixel.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_2.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>
             <key type="filename">Game/Grounds/Type0/cell2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
             <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
@@ -727,20 +728,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/pillar.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,48,64,96</rect>
-                <key>scale9Paddings</key>
-                <rect>32,48,64,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_vertical.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_vertical_breakable.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -751,6 +740,19 @@
                 <rect>22,48,44,96</rect>
                 <key>scale9Paddings</key>
                 <rect>22,48,44,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/pillar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,48,64,96</rect>
+                <key>scale9Paddings</key>
+                <rect>32,48,64,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
