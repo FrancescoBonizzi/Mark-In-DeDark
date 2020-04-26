@@ -728,6 +728,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,48,60,96</rect>
+                <key>scale9Paddings</key>
+                <rect>30,48,60,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_1.png</key>
             <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_2.png</key>
             <key type="filename">Game/Grounds/Type0/wall_vertical_breakable.png</key>
@@ -740,19 +755,6 @@
                 <rect>22,48,44,96</rect>
                 <key>scale9Paddings</key>
                 <rect>22,48,44,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/pillar.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,48,64,96</rect>
-                <key>scale9Paddings</key>
-                <rect>32,48,64,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

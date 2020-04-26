@@ -23,7 +23,7 @@ namespace MarkInDeDark.Library.Levels
         public List<Sprite> RandomVerticalWallSprites { get; private set; }
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
-        public Sprite AngleSprite { get; private set; }
+        public List<Sprite> RandomPillarSprites { get; private set; }
         public Sprite WallDoorDownSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
         public Sprite SpecialWallSprite { get; private set; }
@@ -74,9 +74,15 @@ namespace MarkInDeDark.Library.Levels
                     RandomVerticalWallSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"]);
             }
 
+            RandomPillarSprites = new List<Sprite>();
+            for (int i = 1; i < 20; ++i)
+            {
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"))
+                    RandomPillarSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"]);
+            }
+
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
-            AngleSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/pillar"];
             WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
             SpecialWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];
