@@ -276,9 +276,8 @@ namespace MarkInDeDark.Library
             foreach (var w in _gameGrid.GetAllWalls())
                 _penumbra.Hulls.Add(w.Hull);
 
-            //foreach (var p in _gameGrid.GetAllPillars())
-            //    _penumbra.Hulls.Add(p.Hull);
-
+            foreach (var p in _gameGrid.GetAllPillars())
+                _penumbra.Hulls.Add(p.Hull);
         }
 
         public void HandleInput(CharacterActions action)

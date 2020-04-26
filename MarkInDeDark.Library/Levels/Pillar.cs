@@ -27,10 +27,10 @@ namespace MarkInDeDark.Library.Levels
             _sprite = sprite;
 
             Hull = HullFromRectangle(new Rectangle(
-                (int)position.X, 
-                (int)position.Y + _sprite.Height - 80, 
-                _sprite.Width - 30, 
-                20));
+                (int)position.X + 35, 
+                (int)position.Y + _sprite.Height - 100, 
+                40, 
+                68));
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));
