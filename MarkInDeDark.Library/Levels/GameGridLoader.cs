@@ -60,7 +60,7 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.CellaMuroSpeciale:
-                            gameCell.Sprite = level.SpecialWallSprite;
+                            gameCell.Sprite = level.OversizeWallSprite;
                             gameCell.SetSpecialWallCell();
                             break;
 
@@ -264,7 +264,7 @@ namespace MarkInDeDark.Library.Levels
                     gameCell.IsWestDestroyable = levelEditorCell.Left == WallTypes.Fragile;
                     gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
 
-                    gameCell.GenerateWalls();
+                    gameCell.GenerateWalls(levelEditorCell);
                     gameCell.GenerateDoors();
                 }
             }

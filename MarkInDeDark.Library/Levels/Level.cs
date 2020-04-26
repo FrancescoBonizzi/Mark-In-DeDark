@@ -18,15 +18,20 @@ namespace MarkInDeDark.Library.Levels
         public Sprite GroundSpriteType1 { get; private set; }
         public Sprite GroundSpriteType2 { get; private set; }
         public Sprite DarkSprite { get; private set; }
+
         public List<Sprite> DirtySprites { get; private set; }
         public List<Sprite> RandomHorizontalWallSprites { get; private set; }
         public List<Sprite> RandomVerticalWallSprites { get; private set; }
+        public List<Sprite> RandomPillarSprites { get; private set; }
+        
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
-        public List<Sprite> RandomPillarSprites { get; private set; }
+        
+        public Sprite SpecialHorizontalWallSprite { get; private set; }
+
         public Sprite WallDoorDownSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
-        public Sprite SpecialWallSprite { get; private set; }
+        public Sprite OversizeWallSprite { get; private set; }
         public double DirtyProbability { get; private set; }
 
         public GameGridBundle LevelEditorDeserializedGrid { get; }
@@ -52,6 +57,8 @@ namespace MarkInDeDark.Library.Levels
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
+
+            SpecialHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
 
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
@@ -85,7 +92,7 @@ namespace MarkInDeDark.Library.Levels
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
             WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
-            SpecialWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];
+            OversizeWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;

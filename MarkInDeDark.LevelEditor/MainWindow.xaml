@@ -366,6 +366,25 @@
                         Cursor="Hand"
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="4"
+                        ToolTip="Disegna il muro speciale di questo pacco di livelli">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Yellow" />
+                            <TextBlock Padding="2,2" Text="Muro speciale" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="2"
                         ToolTip="Disegna un muro che potrà essere essere distrutto">
                         <StackPanel Orientation="Horizontal">

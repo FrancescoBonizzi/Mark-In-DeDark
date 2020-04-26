@@ -24,6 +24,7 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _verticalWallSprite;
         private readonly Sprite _horizontalDestroyableWallSprite;
         private readonly Sprite _verticalDestroyableWallSprite;
+        private readonly Sprite _horizontalSpecialWallSprite;
         private readonly Sprite _pillarSprite;
         private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
@@ -80,6 +81,7 @@ namespace MarkInDeDark.Library.Levels
             Sprite verticalWall,
             Sprite horizontalDestroyableWall,
             Sprite verticalDestroyableWall,
+            Sprite horizontalSpecialWall,
             Sprite pillar,
             Sprite dirty,
             Sprite wallDoorArc,
@@ -103,6 +105,7 @@ namespace MarkInDeDark.Library.Levels
             _pillarSprite = pillar;
             _horizontalDestroyableWallSprite = horizontalDestroyableWall;
             _verticalDestroyableWallSprite = verticalDestroyableWall;
+            _horizontalSpecialWallSprite = horizontalSpecialWall;
 
             _wallDoorDown = wallDoorDown;
             _wallDoorArc = wallDoorArc;
@@ -304,24 +307,36 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void GenerateWalls()
+        public void GenerateWalls(Cell cellConfig)
         {
             if (!IsNorthPassable)
             {
+                var horizontalWallSprite = _horizontalWallSprite;
+                if (IsNorthDestroyable)
+                    horizontalWallSprite = _horizontalDestroyableWallSprite;
+                else if (cellConfig.Top == WallTypes.Speciale1)
+                    horizontalWallSprite = _horizontalSpecialWallSprite;
+
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     IsNorthDestroyable,
-                    IsNorthDestroyable ? _horizontalDestroyableWallSprite : _horizontalWallSprite));
+                    horizontalWallSprite));
             }
 
             if (!IsSouthPassable)
             {
+                var horizontalWallSprite = _horizontalWallSprite;
+                if (IsSouthDestroyable)
+                    horizontalWallSprite = _horizontalDestroyableWallSprite;
+                else if (cellConfig.Bottom == WallTypes.Speciale1)
+                    horizontalWallSprite = _horizontalSpecialWallSprite;
+
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     IsSouthDestroyable,
-                    IsSouthDestroyable ? _horizontalDestroyableWallSprite : _horizontalWallSprite));
+                    horizontalWallSprite));
             }
 
             if (!IsEastPassable)
