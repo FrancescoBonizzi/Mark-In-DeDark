@@ -62,6 +62,22 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case WallTypes.Uscita:
                     return new SolidColorBrush(Colors.Aqua);
+
+                case WallTypes.Decal1:
+                    return new SolidColorBrush(Colors.RosyBrown);
+
+                case WallTypes.Decal2:
+                    return new SolidColorBrush(Colors.MistyRose); 
+
+                case WallTypes.Decal3:
+                    return new SolidColorBrush(Colors.CornflowerBlue); 
+
+                case WallTypes.Decal4:
+                    return new SolidColorBrush(Colors.BlueViolet); 
+
+                case WallTypes.Decal5:
+                    return new SolidColorBrush(Colors.Violet);
+
             }
 
             throw new NotImplementedException();

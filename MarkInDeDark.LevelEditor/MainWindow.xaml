@@ -453,6 +453,101 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="7"
+                        ToolTip="Decal 1">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="RosyBrown" />
+                            <TextBlock Padding="2,2" Text="Decal 1" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="8"
+                        ToolTip="Decal 2">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="MistyRose" />
+                            <TextBlock Padding="2,2" Text="Decal 2" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="9"
+                        ToolTip="Decal 3">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="CornflowerBlue" />
+                            <TextBlock Padding="2,2" Text="Decal 3" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="10"
+                        ToolTip="Decal 4">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="BlueViolet" />
+                            <TextBlock Padding="2,2" Text="Decal 4" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="11"
+                        ToolTip="Decal 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Violet" />
+                            <TextBlock Padding="2,2" Text="Decal 5" />
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">

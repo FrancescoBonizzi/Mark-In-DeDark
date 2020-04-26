@@ -713,6 +713,23 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Grounds/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/Decals/decal_5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Grounds/Type0/Dirty/dirty_3.png</key>
             <key type="filename">Game/Grounds/Type0/Dirty/dirty_4.png</key>
             <key type="filename">Game/Grounds/Type0/Dirty/dirty_5.png</key>

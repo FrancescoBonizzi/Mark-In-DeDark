@@ -319,7 +319,9 @@ namespace MarkInDeDark.Library.Levels
         {
             if (!IsNorthPassable)
             {
-                var horizontalWallSprite = _horizontalWallSprite;
+                Sprite horizontalWallSprite = _horizontalWallSprite;
+                Sprite decal = null;
+
                 if (IsNorthDestroyable)
                     horizontalWallSprite = _horizontalDestroyableWallSprite;
                 else if (cellConfig.Top == WallTypes.Speciale1)
@@ -328,17 +330,30 @@ namespace MarkInDeDark.Library.Levels
                     horizontalWallSprite = _horizontalEntranceWallSprite;
                 else if (cellConfig.Top == WallTypes.Uscita)
                     horizontalWallSprite = _horizontalExitWallSprite;
+                else if (cellConfig.Top == WallTypes.Decal1)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                else if (cellConfig.Top == WallTypes.Decal2)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                else if (cellConfig.Top == WallTypes.Decal3)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                else if (cellConfig.Top == WallTypes.Decal4)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                else if (cellConfig.Top == WallTypes.Decal5)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
 
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     IsNorthDestroyable,
-                    horizontalWallSprite));
+                    horizontalWallSprite,
+                    decal));
             }
 
             if (!IsSouthPassable)
             {
-                var horizontalWallSprite = _horizontalWallSprite;
+                Sprite horizontalWallSprite = _horizontalWallSprite;
+                Sprite decal = null;
+
                 if (IsSouthDestroyable)
                     horizontalWallSprite = _horizontalDestroyableWallSprite;
                 else if (cellConfig.Bottom == WallTypes.Speciale1)
@@ -347,12 +362,23 @@ namespace MarkInDeDark.Library.Levels
                     horizontalWallSprite = _horizontalEntranceWallSprite;
                 else if (cellConfig.Bottom == WallTypes.Uscita)
                     horizontalWallSprite = _horizontalExitWallSprite;
+                else if (cellConfig.Bottom == WallTypes.Decal1)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                else if (cellConfig.Bottom == WallTypes.Decal2)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                else if (cellConfig.Bottom == WallTypes.Decal3)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                else if (cellConfig.Bottom == WallTypes.Decal4)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                else if (cellConfig.Bottom == WallTypes.Decal5)
+                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
 
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
                     new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     IsSouthDestroyable,
-                    horizontalWallSprite));
+                    horizontalWallSprite,
+                    decal));
             }
 
             if (!IsEastPassable)
@@ -361,7 +387,8 @@ namespace MarkInDeDark.Library.Levels
                     LinkDirection.EastLink,
                     new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsEastDestroyable,
-                    IsEastDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite));
+                    IsEastDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite,
+                    null));
             }
 
             if (!IsWestPassable)
@@ -370,7 +397,8 @@ namespace MarkInDeDark.Library.Levels
                     LinkDirection.WestLink,
                     new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
                     IsWestDestroyable,
-                    IsWestDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite));
+                    IsWestDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite,
+                    null));
             }
         }
 
