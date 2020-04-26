@@ -124,6 +124,7 @@ namespace MarkInDeDark.Library
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
             _penumbra.AmbientColor = Color.Black;
+            _penumbra.Debug = _gameConfig.GodModeDebugMode;
 
             if (gameConfig.GodModePlayerSeesEverything)
                 _backgroundColorForLightMask = Color.White;

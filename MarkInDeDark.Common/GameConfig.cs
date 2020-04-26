@@ -78,6 +78,7 @@ namespace MarkInDeDark.Library.Common
         public bool GodModeInfiniteCandles { get; set; }
         public bool GodModePlayerDoesntDie { get; set; }
         public bool GodModePlayerSeesEverything { get; set; }
+        public bool GodModeDebugMode { get; set; }
 
         public int CharactersAnimationsMillisecondsBetweenFrames { get; set; }
     }
