@@ -56,6 +56,12 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case WallTypes.Speciale1:
                     return new SolidColorBrush(Colors.Yellow);
+
+                case WallTypes.Ingresso:
+                    return new SolidColorBrush(Colors.White);
+
+                case WallTypes.Uscita:
+                    return new SolidColorBrush(Colors.Aqua);
             }
 
             throw new NotImplementedException();

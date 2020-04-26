@@ -1,36 +1,34 @@
 ﻿using FbonizziMonoGame.Drawing;
-using FbonizziMonoGame.Extensions;
-using FbonizziMonoGame.Sprites;
-using MarkInDeDark.Library;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
-using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace MarkInDeDark.Library
 {
     public class Exit
     {
-        private Sprite _sprite;
-        private readonly Sprite _openSprite;
+        private readonly Vector2 _cellSize;
         private readonly DrawingInfos _drawingInfos;
+        public bool IsOpen { get; private set; } = false;
 
         public Exit(
-            AssetsLoader assetsLoader,
-            GameConfig gameConfig,
-            Vector2 position)
+            Vector2 position,
+            Vector2 cellSize)
         {
-            _sprite = assetsLoader.Sprites["win_closed"];
-            _openSprite = assetsLoader.Sprites["win"];
+            _cellSize = cellSize;
+
             _drawingInfos = new DrawingInfos()
             {
                 Position = position,
                 HitBoxTolerance = new Rectangle(60, 60, 120, 120),
-                Origin = _sprite.SpriteCenter,
+                Origin = cellSize / 2f,
                 LayerDepth = ZIndexCalculator.GroundObjectsLayerDepth
             };
+        }
+
+        public void SetOpen()
+        {
+            IsOpen = true;
         }
 
         public Vector2 Position
@@ -38,14 +36,7 @@ namespace MarkInDeDark.Library
 
         public Rectangle CollisionRectangle
             => _drawingInfos.HitBox(
-                _sprite.Width,
-                _sprite.Height);
-
-        public void SetOpen()
-            => _sprite = _openSprite;
-
-        public void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_sprite, _drawingInfos);
-
+                (int)_cellSize.X,
+                (int)_cellSize.Y);
     }
 }

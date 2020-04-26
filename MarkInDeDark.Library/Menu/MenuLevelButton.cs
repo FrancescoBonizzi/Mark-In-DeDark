@@ -43,7 +43,7 @@ namespace MarkInDeDark.Library.Menu
 
             if (level.IsCompleted)
             {
-                _backgroundSprite = assetsLoader.Sprites["win"];
+                _backgroundSprite = assetsLoader.Sprites["Objects/key"];
                 var completionTimeRecord = level.RecordCompletionTime == null ? string.Empty : level.RecordCompletionTime.Value.ToMinuteSecondsFormat();
                 var candleUsedRecord = level.RecordUsedCandles == null ? string.Empty : level.RecordUsedCandles.Value.ToString();
                 _bottomText = $"{candleUsedRecord} - {completionTimeRecord}";
@@ -51,7 +51,7 @@ namespace MarkInDeDark.Library.Menu
             }
             else
             {
-                _backgroundSprite = assetsLoader.Sprites["win_closed"];
+                _backgroundSprite = assetsLoader.Sprites["Zombie/zombie_front_attack_3"];
                 _bottomText = string.Empty;
                 _textColor = Color.White;
             }

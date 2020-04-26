@@ -28,6 +28,8 @@ namespace MarkInDeDark.Library.Levels
         public Sprite VerticalDestroyableWallSprite { get; private set; }
         
         public Sprite SpecialHorizontalWallSprite { get; private set; }
+        public Sprite EntranceHorizontalWallSprite { get; private set; }
+        public Sprite ExitHorizontalWallSprite { get; private set; }
 
         public Sprite WallDoorDownSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
@@ -59,6 +61,8 @@ namespace MarkInDeDark.Library.Levels
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
 
             SpecialHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
+            EntranceHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso"];
+            ExitHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita"];
 
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)

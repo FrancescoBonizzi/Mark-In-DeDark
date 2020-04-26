@@ -534,8 +534,10 @@
             <key type="filename">Game/Grounds/Type0/wall_door.png</key>
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_ingresso.png</key>
             <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
             <key type="filename">Game/Grounds/Type0/wall_special.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_uscita.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
             <key type="filename">Game/Grounds/trap_breakable.png</key>
@@ -565,8 +567,6 @@
             <key type="filename">Game/TrapIstant/7.png</key>
             <key type="filename">Game/TrapIstant/8.png</key>
             <key type="filename">Game/TrapIstant/9.png</key>
-            <key type="filename">Game/win.png</key>
-            <key type="filename">Game/win_closed.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

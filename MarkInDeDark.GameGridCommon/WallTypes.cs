@@ -6,6 +6,8 @@
         Occludente = 1,
         Fragile = 2,
         Porta = 3,
-        Speciale1 = 4
+        Speciale1 = 4,
+        Ingresso = 5,
+        Uscita  = 6
     }
 }

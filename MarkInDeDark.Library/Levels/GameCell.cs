@@ -25,6 +25,8 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _horizontalDestroyableWallSprite;
         private readonly Sprite _verticalDestroyableWallSprite;
         private readonly Sprite _horizontalSpecialWallSprite;
+        private readonly Sprite _horizontalEntranceWallSprite;
+        private readonly Sprite _horizontalExitWallSprite;
         private readonly Sprite _pillarSprite;
         private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
@@ -82,6 +84,8 @@ namespace MarkInDeDark.Library.Levels
             Sprite horizontalDestroyableWall,
             Sprite verticalDestroyableWall,
             Sprite horizontalSpecialWall,
+            Sprite horizontalEntranceWall,
+            Sprite horizontalExitWall,
             Sprite pillar,
             Sprite dirty,
             Sprite wallDoorArc,
@@ -106,6 +110,8 @@ namespace MarkInDeDark.Library.Levels
             _horizontalDestroyableWallSprite = horizontalDestroyableWall;
             _verticalDestroyableWallSprite = verticalDestroyableWall;
             _horizontalSpecialWallSprite = horizontalSpecialWall;
+            _horizontalEntranceWallSprite = horizontalEntranceWall;
+            _horizontalExitWallSprite = horizontalExitWall;
 
             _wallDoorDown = wallDoorDown;
             _wallDoorArc = wallDoorArc;
@@ -316,6 +322,10 @@ namespace MarkInDeDark.Library.Levels
                     horizontalWallSprite = _horizontalDestroyableWallSprite;
                 else if (cellConfig.Top == WallTypes.Speciale1)
                     horizontalWallSprite = _horizontalSpecialWallSprite;
+                else if (cellConfig.Top == WallTypes.Ingresso)
+                    horizontalWallSprite = _horizontalEntranceWallSprite;
+                else if (cellConfig.Top == WallTypes.Uscita)
+                    horizontalWallSprite = _horizontalExitWallSprite;
 
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
@@ -331,6 +341,10 @@ namespace MarkInDeDark.Library.Levels
                     horizontalWallSprite = _horizontalDestroyableWallSprite;
                 else if (cellConfig.Bottom == WallTypes.Speciale1)
                     horizontalWallSprite = _horizontalSpecialWallSprite;
+                else if (cellConfig.Bottom == WallTypes.Ingresso)
+                    horizontalWallSprite = _horizontalEntranceWallSprite;
+                else if (cellConfig.Bottom == WallTypes.Uscita)
+                    horizontalWallSprite = _horizontalExitWallSprite;
 
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,

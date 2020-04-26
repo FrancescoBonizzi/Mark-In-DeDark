@@ -97,6 +97,8 @@ namespace MarkInDeDark.Library.Levels
                         horizontalDestroyableWall: levelToLoad.HorizontalDestroyableWallSprite,
                         verticalDestroyableWall: levelToLoad.VerticalDestroyableWallSprite,
                         horizontalSpecialWall: levelToLoad.SpecialHorizontalWallSprite,
+                        horizontalEntranceWall: levelToLoad.EntranceHorizontalWallSprite,
+                        horizontalExitWall: levelToLoad.ExitHorizontalWallSprite,
                         pillar: levelToLoad.RandomPillarSprites[Numbers.RandomBetween(0, levelToLoad.RandomPillarSprites.Count)],
                         dirty: thisCellDirtySprite,
                         wallDoorDown: levelToLoad.WallDoorDownSprite,

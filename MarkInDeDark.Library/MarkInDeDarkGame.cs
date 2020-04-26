@@ -141,7 +141,7 @@ namespace MarkInDeDark.Library
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _penumbra);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
 
-            _exit = new Exit(assetsLoader, gameConfig, _gameGrid.ExitPosition);
+            _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight));
             _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
 
             _enemies = new List<Enemy>();
@@ -608,9 +608,6 @@ namespace MarkInDeDark.Library
 
             // Disegno i muri
             _gameGrid.DrawWalls(spriteBatch);
-
-            // Disegno di tutti gli oggetti
-            _exit.Draw(spriteBatch);
 
             if (_triggerObjects != null)
             {

@@ -414,7 +414,44 @@
                             <TextBlock Padding="2,2" Text="Porta" />
                         </StackPanel>
                     </RadioButton>
+                    
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="5"
+                        ToolTip="Disegna l'ingresso del gioco">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="White" />
+                            <TextBlock Padding="2,2" Text="Muro ingresso" />
+                        </StackPanel>
+                    </RadioButton>
 
+                    <RadioButton
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="6"
+                        ToolTip="Disegna l'uscita del gioco">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Aqua" />
+                            <TextBlock Padding="2,2" Text="Muro uscita" />
+                        </StackPanel>
+                    </RadioButton>
 
                 </StackPanel>
 
