@@ -132,7 +132,10 @@ namespace MarkInDeDark.Library.Particles
         }
 
         public void DrawAdditionalLightMask(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_additionalLightMask, _additionalLightMaskDrawingInfos);
+        {
+            if (_additionalLightMask != null)
+                spriteBatch.Draw(_additionalLightMask, _additionalLightMaskDrawingInfos);
+        }
 
         public void DrawAlone(SpriteBatch spriteBatch)
         {

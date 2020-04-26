@@ -120,7 +120,7 @@ namespace MarkInDeDark.Library.Characters
 
         protected CharacterTorchParticleSystem _deadBodyParticleEffect;
         protected readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
-        
+
         public bool ShouldDoExplosionAnimation { get; set; } = false;
 
         public Character(
@@ -201,7 +201,7 @@ namespace MarkInDeDark.Library.Characters
                     configuration.CharacterTorchConfiguration.TorchScale,
                     0f,
                     configuration.CharacterTorchConfiguration.TorchScale * 600);
-               
+
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
                 _deadBodyParticleEffect = new CharacterTorchParticleSystem(
@@ -726,7 +726,7 @@ namespace MarkInDeDark.Library.Characters
             if (AreLightsActive)
             {
                 SetLightPosition();
-               // _lightMap.Update(elapsed);
+                // _lightMap.Update(elapsed);
                 SurroundingLight?.Update(elapsed);
             }
         }
@@ -745,7 +745,8 @@ namespace MarkInDeDark.Library.Characters
 
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
-            SurroundingLight.AloneDrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
+            if (SurroundingLight != null)
+                SurroundingLight.AloneDrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -753,7 +754,7 @@ namespace MarkInDeDark.Library.Characters
             if (SurroundingLight == null)
                 return;
 
-            var newLightPosition = WorldCenter + _torchPositionTraslation;   
+            var newLightPosition = WorldCenter + _torchPositionTraslation;
             SurroundingLight.Position = Vector2.Lerp(SurroundingLight.Position, newLightPosition, lerpAmount);
         }
 
@@ -781,7 +782,7 @@ namespace MarkInDeDark.Library.Characters
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
                     ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
 
-                    if (AreLightsActive)
+                    if (AreLightsActive && SurroundingLight != null)
                     {
                         SurroundingLight.DrawAlone(spriteBatch);
                     }
@@ -807,10 +808,10 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.Dead:
 
                     if (CurrentDieAnimationType == DieAnimationType.StandardAnimation)
-                    if (this is Player)
-                    {
-                        MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
-                    }
+                        if (this is Player)
+                        {
+                            MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
+                        }
 
                     _deadBodyParticleEffect?.Draw(spriteBatch);
                     break;
@@ -824,6 +825,9 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void DrawLightMask(SpriteBatch spriteBatch)
         {
+            if (SurroundingLight == null)
+                return;
+
             if (AreLightsActive && (!IsDead || this is Player))
             {
                 SurroundingLight.DrawAdditionalLightMask(spriteBatch);
