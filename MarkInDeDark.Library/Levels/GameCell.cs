@@ -40,7 +40,7 @@ namespace MarkInDeDark.Library.Levels
 
         private readonly SoundManager _soundManager;
 
-        private readonly List<DrawingInfos> _dirtyDrawingInfos;
+        private readonly DrawingInfos _dirtyDrawingInfos;
         public Dictionary<PillarPositions, Pillar> Pillars { get; }
         public Dictionary<LinkDirection, Wall> Walls { get; }
 
@@ -81,10 +81,9 @@ namespace MarkInDeDark.Library.Levels
             Sprite horizontalDestroyableWall,
             Sprite verticalDestroyableWall,
             Sprite pillar,
-            List<Sprite> dirtys,
+            Sprite dirty,
             Sprite wallDoorArc,
             Sprite wallDoorDown,
-            double dirtyProbability,
             SoundManager soundManager,
             int iIndex,
             int jIndex,
@@ -139,15 +138,13 @@ namespace MarkInDeDark.Library.Levels
             Doors = new Dictionary<LinkDirection, Door>();
 
             Pillars = new Dictionary<PillarPositions, Pillar>();
-            _dirtyDrawingInfos = new List<DrawingInfos>();
 
             _gameGrid = gameGrid;
 
-            if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
+            if (dirty != null)
             {
-                _dirty = dirtys[Numbers.RandomBetween(0, dirtys.Count)];
-
-                _dirtyDrawingInfos.Add(new DrawingInfos()
+                _dirty = dirty;
+                _dirtyDrawingInfos = new DrawingInfos()
                 {
                     Position = new Vector2(
                         position.X + Numbers.RandomBetween(0f, _width - _dirty.Width / 2f),
@@ -156,7 +153,7 @@ namespace MarkInDeDark.Library.Levels
                     Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
                     Origin = _dirty.SpriteCenter,
                     LayerDepth = ZIndexCalculator.GroundDirtyLayerDepth
-                });
+                };
             }
 
             _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader)
@@ -504,8 +501,8 @@ namespace MarkInDeDark.Library.Levels
         {
             if (!NoDecals)
             {
-                foreach (var dirtyDrawingInfos in _dirtyDrawingInfos)
-                    spriteBatch.Draw(_dirty, dirtyDrawingInfos);
+                if (_dirty != null)
+                    spriteBatch.Draw(_dirty, _dirtyDrawingInfos);
 
                 if (_bloodDecalDrawingInfos != null)
                 {

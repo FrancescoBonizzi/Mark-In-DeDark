@@ -1,5 +1,6 @@
-﻿using FbonizziMonoGame.Drawing;
-
+﻿using FbonizziMonoGame;
+using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Objects;
@@ -71,11 +72,22 @@ namespace MarkInDeDark.Library.Levels
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
 
             var nextCellPosition = _position;
+            int currentDirtyIndex = 0;
 
             for (int i = 0; i < HorizontalCellsNumber; ++i)
             {
                 for (int j = 0; j < VerticalCellsNumber; ++j)
                 {
+                    Sprite thisCellDirtySprite = null;
+                    if (levelToLoad.DirtySprites.Count > 0)
+                    {
+                        if (Numbers.RandomBetween(0D, 1D) <= levelToLoad.DirtyProbability)
+                        {
+                            thisCellDirtySprite = levelToLoad.DirtySprites[currentDirtyIndex];
+                            currentDirtyIndex = (currentDirtyIndex + 1) % levelToLoad.DirtySprites.Count;
+                        }
+                    }
+
                     _cells[i, j] = new GameCell(
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
@@ -85,10 +97,9 @@ namespace MarkInDeDark.Library.Levels
                         horizontalDestroyableWall: levelToLoad.HorizontalDestroyableWallSprite,
                         verticalDestroyableWall: levelToLoad.VerticalDestroyableWallSprite,
                         pillar: levelToLoad.AngleSprite,
-                        dirtys: levelToLoad.DirtySprites,
+                        dirty: thisCellDirtySprite,
                         wallDoorDown: levelToLoad.WallDoorDownSprite,
                         wallDoorArc: levelToLoad.WallDoorArcSprite,
-                        dirtyProbability: levelToLoad.DirtyProbability,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
                         gameGrid: this,
