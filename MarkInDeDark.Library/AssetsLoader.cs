@@ -238,18 +238,6 @@ namespace MarkInDeDark.Library
                 _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
             }
 
-            // Door
-            {
-                var doorOpeningAnimation = new List<Sprite>();
-                for (int i = 0; i <= 8; ++i)
-                    doorOpeningAnimation.Add(Sprites[$"Door/door_{i}"]);
-                _animations["DoorOpen"] = new SpriteAnimation(doorOpeningAnimation, TimeSpan.FromMilliseconds(20), false);
-
-                var doorClosingAnimation = new List<Sprite>(doorOpeningAnimation);
-                doorClosingAnimation.Reverse();
-                _animations["DoorClose"] = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
-            }
-
             // Shadows
             {
                 LoadCharacterAnimation($"TorchCharacterWhileWalkingUpShadow", $"Shadows/TorchCharacter/shadow_back_walking", true);

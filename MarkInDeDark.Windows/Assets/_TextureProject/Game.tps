@@ -515,18 +515,18 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Door/door_0.png</key>
-            <key type="filename">Game/Door/door_1.png</key>
-            <key type="filename">Game/Door/door_2.png</key>
-            <key type="filename">Game/Door/door_3.png</key>
-            <key type="filename">Game/Door/door_4.png</key>
-            <key type="filename">Game/Door/door_5.png</key>
-            <key type="filename">Game/Door/door_6.png</key>
-            <key type="filename">Game/Door/door_7.png</key>
-            <key type="filename">Game/Door/door_8.png</key>
-            <key type="filename">Game/Door/door_9.png</key>
             <key type="filename">Game/Effects/blood_decal.png</key>
             <key type="filename">Game/Effects/light_pixel.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/Type0/Door/door_9.png</key>
             <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_1.png</key>
             <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_2.png</key>
             <key type="filename">Game/Grounds/Type0/cell.png</key>

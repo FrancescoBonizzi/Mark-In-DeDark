@@ -45,7 +45,8 @@ namespace MarkInDeDark.Library.Objects
         public Door(
             Vector2 doorPosition,
             LinkDirection linkDirection,
-            AssetsLoader assetsLoader,
+            SpriteAnimation doorOpenAnimation,
+            SpriteAnimation doorCloseAnimation,
             Sprite wallDoorArc,
             Sprite wallDoorDown,
             Action onClose)
@@ -73,8 +74,8 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.ForWall(doorPosition)
             };
 
-            _doorOpenAnimation = assetsLoader.GetAnimation("DoorOpen");
-            _doorCloseAnimation = assetsLoader.GetAnimation("DoorClose");
+            _doorOpenAnimation = doorOpenAnimation;
+            _doorCloseAnimation = doorCloseAnimation;
             
             _currentAnimation = _doorOpenAnimation;
             _currentState = DoorStates.Open;

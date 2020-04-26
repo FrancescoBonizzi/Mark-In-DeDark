@@ -23,10 +23,13 @@ namespace MarkInDeDark.Library.Levels
         public List<Sprite> RandomHorizontalWallSprites { get; private set; }
         public List<Sprite> RandomVerticalWallSprites { get; private set; }
         public List<Sprite> RandomPillarSprites { get; private set; }
-        
+
+        public SpriteAnimation DoorOpenAnimation { get; private set; }
+        public SpriteAnimation DoorCloseAnimation { get; private set; }
+
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
         public Sprite VerticalDestroyableWallSprite { get; private set; }
-        
+
         public Sprite SpecialHorizontalWallSprite { get; private set; }
         public Sprite EntranceHorizontalWallSprite { get; private set; }
         public Sprite ExitHorizontalWallSprite { get; private set; }
@@ -91,6 +94,16 @@ namespace MarkInDeDark.Library.Levels
                 if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"))
                     RandomPillarSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"]);
             }
+
+            // Door
+            var doorOpeningAnimation = new List<Sprite>();
+            for (int i = 0; i <= 8; ++i)
+                doorOpeningAnimation.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/Door/door_{i}"]);
+            DoorOpenAnimation = new SpriteAnimation(doorOpeningAnimation, TimeSpan.FromMilliseconds(20), false);
+
+            var doorClosingAnimation = new List<Sprite>(doorOpeningAnimation);
+            doorClosingAnimation.Reverse();
+            DoorCloseAnimation = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
 
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];

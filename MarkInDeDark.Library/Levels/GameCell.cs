@@ -285,7 +285,7 @@ namespace MarkInDeDark.Library.Levels
             return false;
         }
 
-        public void GenerateDoors()
+        public void GenerateDoors(Level levelConfig)
         {
             int shakeIntensity = 3;
 
@@ -294,7 +294,8 @@ namespace MarkInDeDark.Library.Levels
                 Doors.Add(LinkDirection.NorthLink, new Door(
                     doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
                     linkDirection: LinkDirection.NorthLink,
-                    assetsLoader: _assetsLoader,
+                    doorOpenAnimation: levelConfig.DoorOpenAnimation,
+                    doorCloseAnimation: levelConfig.DoorCloseAnimation,
                     wallDoorArc: _wallDoorArc,
                     wallDoorDown: _wallDoorDown,
                     onClose: () => _game.StartCameraShake(shakeIntensity)));
@@ -306,7 +307,8 @@ namespace MarkInDeDark.Library.Levels
                 Doors.Add(LinkDirection.SouthLink, new Door(
                     doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
                     linkDirection: LinkDirection.SouthLink,
-                    assetsLoader: _assetsLoader,
+                    doorOpenAnimation: levelConfig.DoorOpenAnimation,
+                    doorCloseAnimation: levelConfig.DoorCloseAnimation,
                     wallDoorArc: _wallDoorArc,
                     wallDoorDown: _wallDoorDown,
                     onClose: () => _game.StartCameraShake(shakeIntensity)));

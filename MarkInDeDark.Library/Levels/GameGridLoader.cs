@@ -265,7 +265,7 @@ namespace MarkInDeDark.Library.Levels
                     gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
 
                     gameCell.GenerateWalls(levelEditorCell);
-                    gameCell.GenerateDoors();
+                    gameCell.GenerateDoors(level);
                 }
             }
 
