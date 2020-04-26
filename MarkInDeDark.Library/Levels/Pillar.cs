@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -26,7 +27,7 @@ namespace MarkInDeDark.Library.Levels
             };
             _sprite = sprite;
 
-            Hull = HullFromRectangle(new Rectangle(
+            Hull = Utilities.HullFromRectangle(new Rectangle(
                 (int)position.X + 35, 
                 (int)position.Y + _sprite.Height - 100, 
                 40, 
@@ -35,17 +36,6 @@ namespace MarkInDeDark.Library.Levels
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));
             Hull.Points.Add(new Vector2(1, 0));
-
-        }
-
-
-        private static Hull HullFromRectangle(Rectangle bounds)
-        {
-            return new Hull()
-            {
-                Position = new Vector2(bounds.X, bounds.Y),
-                Scale = new Vector2(bounds.Width, bounds.Height)
-            };
         }
 
         public void Draw(SpriteBatch spriteBatch)
