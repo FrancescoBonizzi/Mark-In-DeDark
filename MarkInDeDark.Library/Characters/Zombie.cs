@@ -51,8 +51,6 @@ namespace MarkInDeDark.Library.Characters
                   game: game,
                   candlesManager: candlesManager)
         {
-            // Ha gli occhi, non una cosa in mano, quindi non serve il glow
-         //   SurroundingLight = null;
         }
     }
 }

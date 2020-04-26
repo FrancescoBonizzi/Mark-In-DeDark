@@ -65,7 +65,6 @@ namespace MarkInDeDark.Library.Characters
             TaurusTimeStunnedSeconds = gameConfig.TaurusTimeStunnedSeconds;
             TaurusChargeColorRGB = gameConfig.TaurusChargeColorRGB;
             _enemies = enemies.Where(e => !(e is Taurus));
-            SurroundingLight = null;
 
             MainAnimationsAnimationManager.AddAnimation("TaurusRunSide", assetsLoader.GetAnimation("TaurusRunSide"));
             MainAnimationsAnimationManager.AddAnimation("TaurusRunFront", assetsLoader.GetAnimation("TaurusRunFront"));
