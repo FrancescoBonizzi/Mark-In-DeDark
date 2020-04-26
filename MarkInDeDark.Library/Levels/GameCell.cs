@@ -25,7 +25,7 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _horizontalDestroyableWallSprite;
         private readonly Sprite _verticalDestroyableWallSprite;
         private readonly Sprite _pillarSprite;
-        private readonly Sprite _dirtySprite;
+        private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
         private readonly Sprite _wallDoorArc;
         private readonly Sprite _wallDoorDown;
@@ -40,7 +40,7 @@ namespace MarkInDeDark.Library.Levels
 
         private readonly SoundManager _soundManager;
 
-        private readonly List<DrawingInfos> _dirtysDrawingInfos;
+        private readonly List<DrawingInfos> _dirtyDrawingInfos;
         public Dictionary<PillarPositions, Pillar> Pillars { get; }
         public Dictionary<LinkDirection, Wall> Walls { get; }
 
@@ -81,7 +81,7 @@ namespace MarkInDeDark.Library.Levels
             Sprite horizontalDestroyableWall,
             Sprite verticalDestroyableWall,
             Sprite pillar,
-            Sprite dirty,
+            List<Sprite> dirtys,
             Sprite wallDoorArc,
             Sprite wallDoorDown,
             double dirtyProbability,
@@ -102,7 +102,6 @@ namespace MarkInDeDark.Library.Levels
             _horizontalWallSprite = horizontalWall;
             _verticalWallSprite = verticalWall;
             _pillarSprite = pillar;
-            _dirtySprite = dirty;
             _horizontalDestroyableWallSprite = horizontalDestroyableWall;
             _verticalDestroyableWallSprite = verticalDestroyableWall;
 
@@ -140,20 +139,22 @@ namespace MarkInDeDark.Library.Levels
             Doors = new Dictionary<LinkDirection, Door>();
 
             Pillars = new Dictionary<PillarPositions, Pillar>();
-            _dirtysDrawingInfos = new List<DrawingInfos>();
+            _dirtyDrawingInfos = new List<DrawingInfos>();
 
             _gameGrid = gameGrid;
 
             if (Numbers.RandomBetween(0D, 1D) <= dirtyProbability)
             {
-                _dirtysDrawingInfos.Add(new DrawingInfos()
+                _dirty = dirtys[Numbers.RandomBetween(0, dirtys.Count)];
+
+                _dirtyDrawingInfos.Add(new DrawingInfos()
                 {
                     Position = new Vector2(
-                        position.X + Numbers.RandomBetween(0f, _width - _dirtySprite.Width / 2f),
-                        position.Y + Numbers.RandomBetween(0f, _width - _dirtySprite.Height / 2f)),
+                        position.X + Numbers.RandomBetween(0f, _width - _dirty.Width / 2f),
+                        position.Y + Numbers.RandomBetween(0f, _width - _dirty.Height / 2f)),
                     Scale = 1f,
                     Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
-                    Origin = _dirtySprite.SpriteCenter,
+                    Origin = _dirty.SpriteCenter,
                     LayerDepth = ZIndexCalculator.GroundDirtyLayerDepth
                 });
             }
@@ -503,8 +504,8 @@ namespace MarkInDeDark.Library.Levels
         {
             if (!NoDecals)
             {
-                foreach (var dirtyDrawingInfos in _dirtysDrawingInfos)
-                    spriteBatch.Draw(_dirtySprite, dirtyDrawingInfos);
+                foreach (var dirtyDrawingInfos in _dirtyDrawingInfos)
+                    spriteBatch.Draw(_dirty, dirtyDrawingInfos);
 
                 if (_bloodDecalDrawingInfos != null)
                 {

@@ -604,6 +604,8 @@
                 <false/>
             </struct>
             <key type="filename">Game/Effects/smoke.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_1.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -709,16 +711,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/dirty.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_3.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_4.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_5.png</key>
+            <key type="filename">Game/Grounds/Type0/Dirty/dirty_6.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>24,24,48,48</rect>
+                <rect>4,8,8,16</rect>
                 <key>scale9Paddings</key>
-                <rect>24,24,48,48</rect>
+                <rect>4,8,8,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

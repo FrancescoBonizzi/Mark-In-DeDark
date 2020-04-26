@@ -85,7 +85,7 @@ namespace MarkInDeDark.Library.Levels
                         horizontalDestroyableWall: levelToLoad.HorizontalDestroyableWallSprite,
                         verticalDestroyableWall: levelToLoad.VerticalDestroyableWallSprite,
                         pillar: levelToLoad.AngleSprite,
-                        dirty: levelToLoad.DirtySprite,
+                        dirtys: levelToLoad.DirtySprites,
                         wallDoorDown: levelToLoad.WallDoorDownSprite,
                         wallDoorArc: levelToLoad.WallDoorArcSprite,
                         dirtyProbability: levelToLoad.DirtyProbability,

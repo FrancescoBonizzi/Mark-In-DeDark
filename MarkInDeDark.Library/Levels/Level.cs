@@ -3,6 +3,7 @@ using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGridCommon;
 
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -17,7 +18,7 @@ namespace MarkInDeDark.Library.Levels
         public Sprite GroundSpriteType1 { get; private set; }
         public Sprite GroundSpriteType2 { get; private set; }
         public Sprite DarkSprite { get; private set; }
-        public Sprite DirtySprite { get; private set; }
+        public List<Sprite> DirtySprites { get; private set; }
         public Sprite HorizontalWallSprite { get; private set; }
         public Sprite VerticalWallSprite { get; private set; }
         public Sprite HorizontalDestroyableWallSprite { get; private set; }
@@ -51,7 +52,14 @@ namespace MarkInDeDark.Library.Levels
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
-            DirtySprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/dirty"];
+
+            DirtySprites = new List<Sprite>();
+            for (int i = 1; i < 20; ++i)
+            {
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/Dirty/dirty_{i}"))
+                    DirtySprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/Dirty/dirty_{i}"]);
+            }
+
             HorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal"];
             VerticalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical"];
             HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
