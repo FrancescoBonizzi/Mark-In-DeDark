@@ -833,5 +833,22 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
+        public void DrawForDebug(SpriteBatch spriteBatch)
+        {
+            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            {
+                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
+                {
+                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
+                    {
+                        if (_cells[x, y] != null)
+                        {
+                            _cells[x, y].DrawForDebug(spriteBatch);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

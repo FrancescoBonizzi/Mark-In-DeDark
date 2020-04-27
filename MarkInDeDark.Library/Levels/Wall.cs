@@ -40,19 +40,19 @@ namespace MarkInDeDark.Library.Levels
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
             {
                 CollisionRectangle = new Rectangle(
-                    (int)position.X + 20,
+                    (int)position.X + 2,
                     (int)position.Y,
-                    sprite.Width - 40,
-                    sprite.Height + 30);
+                    sprite.Width - 2,
+                    sprite.Height);
             }
             else
             {
                 // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
                 CollisionRectangle = new Rectangle(
                     (int)position.X,
-                    (int)position.Y + 90,
+                    (int)position.Y + 100,
                     sprite.Width,
-                    65);
+                    40);
             }
 
             if (decal != null)

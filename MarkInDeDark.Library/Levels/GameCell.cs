@@ -343,7 +343,7 @@ namespace MarkInDeDark.Library.Levels
 
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60 + 36),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 78),
                     IsNorthDestroyable,
                     horizontalWallSprite,
                     decal));
@@ -375,7 +375,7 @@ namespace MarkInDeDark.Library.Levels
 
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60 + 36),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 115),
                     IsSouthDestroyable,
                     horizontalWallSprite,
                     decal));
@@ -469,7 +469,7 @@ namespace MarkInDeDark.Library.Levels
             Pillars.Add(PillarPositions.NW, new Pillar(
                 new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60),
+                    _cellDrawingInfos.Position.Y - _angleHeightOver2),
                 _pillarSprite));
         }
 
@@ -481,7 +481,7 @@ namespace MarkInDeDark.Library.Levels
             Pillars.Add(PillarPositions.NE, new Pillar(
                 new Vector2(
                       _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                      _cellDrawingInfos.Position.Y - _angleHeightOver2 - 70 + 60),
+                      _cellDrawingInfos.Position.Y - _angleHeightOver2),
                 _pillarSprite));
         }
 
@@ -493,7 +493,7 @@ namespace MarkInDeDark.Library.Levels
             Pillars.Add(PillarPositions.SW, new Pillar(
                 new Vector2(
                     _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60),
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2),
                 _pillarSprite));
         }
 
@@ -505,7 +505,7 @@ namespace MarkInDeDark.Library.Levels
             Pillars.Add(PillarPositions.SE, new Pillar(
                 new Vector2(
                     _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2 - 70 + 60),
+                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2),
                 _pillarSprite));
         }
 
@@ -553,8 +553,11 @@ namespace MarkInDeDark.Library.Levels
                 door.Update(elapsed);
         }
 
-        public void DrawGround(SpriteBatch _spritebatch)
-            => _spritebatch.Draw(Sprite, _cellDrawingInfos);
+        public void DrawGround(SpriteBatch spritebatch)
+            => spritebatch.Draw(Sprite, _cellDrawingInfos);
+
+        public void DrawForDebug(SpriteBatch spriteBatch)
+            => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
 
         public void DrawDirty(SpriteBatch spriteBatch)
         {
