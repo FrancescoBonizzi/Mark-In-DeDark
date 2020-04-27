@@ -343,7 +343,7 @@ namespace MarkInDeDark.Library.Levels
 
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60 + 36),
                     IsNorthDestroyable,
                     horizontalWallSprite,
                     decal));
@@ -375,7 +375,7 @@ namespace MarkInDeDark.Library.Levels
 
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60 + 36),
                     IsSouthDestroyable,
                     horizontalWallSprite,
                     decal));
