@@ -292,7 +292,7 @@ namespace MarkInDeDark.Library.Levels
             if (IsNorthDoor)
             {
                 Doors.Add(LinkDirection.NorthLink, new Door(
-                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 30 + 60),
+                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 80),
                     linkDirection: LinkDirection.NorthLink,
                     doorOpenAnimation: levelConfig.DoorOpenAnimation,
                     doorCloseAnimation: levelConfig.DoorCloseAnimation,
@@ -303,9 +303,8 @@ namespace MarkInDeDark.Library.Levels
 
             if (IsSouthDoor)
             {
-                var southDoorPosition = new Vector2(_cellDrawingInfos.Position.X + 96, _cellDrawingInfos.Position.Y + _height);
                 Doors.Add(LinkDirection.SouthLink, new Door(
-                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 30 + 60),
+                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _height - 80),
                     linkDirection: LinkDirection.SouthLink,
                     doorOpenAnimation: levelConfig.DoorOpenAnimation,
                     doorCloseAnimation: levelConfig.DoorCloseAnimation,
@@ -341,9 +340,13 @@ namespace MarkInDeDark.Library.Levels
                 else if (cellConfig.Top == WallTypes.Decal5)
                     decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
 
+                float yIncrement = 78f;
+                if (cellConfig.Top == WallTypes.Ingresso || cellConfig.Top == WallTypes.Uscita)
+                    yIncrement = 26f;
+
                 Walls.Add(LinkDirection.NorthLink, new Wall(
                     LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 78),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + yIncrement),
                     IsNorthDestroyable,
                     horizontalWallSprite,
                     decal));
@@ -373,9 +376,13 @@ namespace MarkInDeDark.Library.Levels
                 else if (cellConfig.Bottom == WallTypes.Decal5)
                     decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
 
+                float yIncrement = 115f;
+                if (cellConfig.Top == WallTypes.Ingresso || cellConfig.Top == WallTypes.Uscita)
+                    yIncrement = 0f;
+
                 Walls.Add(LinkDirection.SouthLink, new Wall(
                     LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + 115),
+                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + yIncrement),
                     IsSouthDestroyable,
                     horizontalWallSprite,
                     decal));

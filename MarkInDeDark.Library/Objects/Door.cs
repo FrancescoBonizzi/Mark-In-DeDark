@@ -68,10 +68,11 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
 
+            var doorAnimationPosition = doorPosition + new Vector2(0f, -15f);
             DoorAnimationDrawingInfos = new DrawingInfos()
             {
-                Position = doorPosition,
-                LayerDepth = ZIndexCalculator.ForWall(doorPosition)
+                Position = doorAnimationPosition,
+                LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition)
             };
 
             _doorOpenAnimation = doorOpenAnimation;
