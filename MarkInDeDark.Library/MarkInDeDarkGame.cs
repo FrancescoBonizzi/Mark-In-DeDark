@@ -170,6 +170,7 @@ namespace MarkInDeDark.Library
                             gameConfig,
                             this);
                         _enemies.Add(newGoblin);
+                        _penumbra.Lights.Add(newGoblin.SurroundingLight.PointLight);
                         //_soundManager.PlayBreakWallSound();
                         StartCameraShake(4);
 

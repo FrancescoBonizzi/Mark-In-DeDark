@@ -23,34 +23,34 @@ namespace MarkInDeDark.Library.Characters
             GameConfig gameConfig,
             MarkInDeDarkGame game)
             : base(
-                  gameGrid,
-                  new CharacterConfiguration(
-                      assetsLoader,
-                      "goblin",
-                      startingPosition,
+                  grid: gameGrid,
+                  characterBasicConfiguration: new CharacterConfiguration(
+                      assetsLoader: assetsLoader,
+                      characterName: "goblin",
+                      startingPosition: startingPosition,
                       characterTorchConfiguration: new CharacterTorchConfiguration(
                           gameConfig.GoblinLightColorRGB1,
                           gameConfig.GoblinLightColorRGB2,
                           gameConfig.GoblinLightSize,
-                          torchPositionTraslationUp: new Vector2(30, -15),
+                          torchPositionTraslationUp: new Vector2(-33, 5),
                           torchPositionTraslationLeft: new Vector2(5, 5),
                           torchPositionTraslationRight: new Vector2(-5, 5),
-                          torchPositionTraslationDown: new Vector2(-33, 5),
+                          torchPositionTraslationDown: new Vector2(30, -15),
                           assetsLoader: assetsLoader),
-                      gameConfig.GoblinSpeed),
-                  new EnemyConfiguration(
-                      assetsLoader,
-                      "goblin",
-                      0,//soundManager.RegisterGoblinAttackSound(),
-                      0,//soundManager.RegisterGoblinScreamSound(),
-                      gameConfig.GoblinMaxCellsForNearCandle,
-                      new PlayerHunterAI(player, gameGrid, candlesManager),
-                      true),
-                  soundManager,
-                  player,
-                  assetsLoader,
-                  game,
-                  candlesManager)
+                      movementSpeed: gameConfig.GoblinSpeed),
+                  enemyConfiguration: new EnemyConfiguration(
+                      assetsLoader: assetsLoader,
+                      enemyName: "goblin",
+                      attackSoundIndex: 0,//soundManager.RegisterGoblinAttackSound(),
+                      screamSoundIndex: 0,//soundManager.RegisterGoblinScreamSound(),
+                      nCellsFindingRange: gameConfig.GoblinMaxCellsForNearCandle,
+                      startingAI: new PlayerHunterAI(player, gameGrid, candlesManager),
+                      killsCandlesIfCollidesWithThem: true),
+                  soundManager: soundManager,
+                  player: player,
+                  assetsLoader: assetsLoader,
+                  game: game,
+                  candlesManager: candlesManager)
         {
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
@@ -90,8 +90,8 @@ namespace MarkInDeDark.Library.Characters
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
             _goblinLightParticleSystem.Draw(spriteBatch);
+            base.Draw(spriteBatch);
         }
     }
 }
