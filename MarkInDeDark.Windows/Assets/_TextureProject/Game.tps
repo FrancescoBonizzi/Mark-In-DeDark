@@ -774,6 +774,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Grounds/Type0/wall_horizontal_broken.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,39,96,78</rect>
+                <key>scale9Paddings</key>
+                <rect>48,39,96,78</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Grounds/Type0/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/Type0/wall_uscita_open.png</key>
             <struct type="IndividualSpriteSettings">
@@ -798,6 +811,19 @@
                 <rect>48,51,96,102</rect>
                 <key>scale9Paddings</key>
                 <rect>48,51,96,102</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/wall_vertical_broken.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,48,32,96</rect>
+                <key>scale9Paddings</key>
+                <rect>16,48,32,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
