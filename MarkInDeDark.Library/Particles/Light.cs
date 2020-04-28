@@ -32,11 +32,11 @@ namespace MarkInDeDark.Library.Particles
         {
             get
             {
-                return PointLight.Position;
+                return _additionalLightMaskDrawingInfos.Position;
             }
             set
             {
-                PointLight.Position = value;
+                PointLight.Position = value + new Vector2(0, 80f);
                 _additionalLightMaskDrawingInfos.Position = value;
                 AloneDrawingInfos.Position = value;
             }

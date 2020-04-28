@@ -638,16 +638,31 @@ namespace MarkInDeDark.Library
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
 
             // Disegno il pavimento ombrato
-            spriteBatch.Begin();
-            spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            if (!_gameConfig.GodModeDebugMode)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.End();
+            }
 
             // Scena con LightMask
-            _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
-            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-            spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            // Disegno il pavimento ombrato
+            if (!_gameConfig.GodModeDebugMode)
+            {
+                _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
+                _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.End();
+            }
+
+            if (_gameConfig.GodModeDebugMode)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(0.4f));
+                spriteBatch.End();
+            }
 
             // Effetti sopra la lightmask
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
