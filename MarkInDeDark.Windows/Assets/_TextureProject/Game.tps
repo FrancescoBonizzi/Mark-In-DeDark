@@ -535,7 +535,7 @@
             <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
             <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
             <key type="filename">Game/Grounds/Type0/wall_ingresso.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_oversize.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_riempimento.png</key>
             <key type="filename">Game/Grounds/Type0/wall_special.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
@@ -787,6 +787,35 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Grounds/Type0/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_ingresso_open.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9Paddings</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_uscita_up - Copia.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_uscita_up.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,51,96,102</rect>
+                <key>scale9Paddings</key>
+                <rect>48,51,96,102</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Grounds/Type0/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/Type0/wall_uscita_open.png</key>
             <struct type="IndividualSpriteSettings">
@@ -801,19 +830,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_up.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,51,96,102</rect>
-                <key>scale9Paddings</key>
-                <rect>48,51,96,102</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/Grounds/Type0/wall_vertical_broken.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -824,6 +840,20 @@
                 <rect>16,48,32,96</rect>
                 <key>scale9Paddings</key>
                 <rect>16,48,32,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_B.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,48,40,96</rect>
+                <key>scale9Paddings</key>
+                <rect>20,48,40,96</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
