@@ -114,7 +114,7 @@ namespace MarkInDeDark.Library.Levels
             VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
             WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
-            OversizeWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_oversize"];
+            OversizeWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"];
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;
