@@ -65,7 +65,24 @@ namespace MarkInDeDark.Library.Characters
             _primaryGhostParticleSystem = new GhostParticleSystem(
                assetsLoader,
                new Color(101, 221, 160),
-               new Color(71, 191, 117));
+               new Color(71, 191, 117))
+            {
+                Density = 3,
+                MinNumParticles = 1,
+                MaxNumParticles = 4,
+                MinInitialSpeed = 160,
+                MaxInitialSpeed = 200,
+                MinAcceleration = 3.6f,
+                MaxAcceleration = 7.5f,
+                MinRotationSpeed = -3,
+                MaxRotationSpeed = 0,
+                MinLifetime = TimeSpan.FromMilliseconds(1028),
+                MaxLifetime = TimeSpan.FromMilliseconds(1557),
+                MinScale = 1,
+                MaxScale = 1,
+                MinSpawnAngle = -45,
+                MaxSpawnAngle = 235
+            };
 
             _wallCrossGhostParticleSystem = new GhostParticleSystem(
                 assetsLoader,
@@ -75,9 +92,24 @@ namespace MarkInDeDark.Library.Characters
             _lightMapGhostParticleSystem = new GhostParticleSystem(
                 assetsLoader,
                 Color.White,
-                Color.White);
-            _lightMapGhostParticleSystem.MinScale = 1.5f;
-            _lightMapGhostParticleSystem.MaxScale = 2f;
+                Color.White)
+            {
+                Density = 3,
+                MinNumParticles = 1,
+                MaxNumParticles = 4,
+                MinInitialSpeed = 160,
+                MaxInitialSpeed = 200,
+                MinAcceleration = 3.6f,
+                MaxAcceleration = 7.5f,
+                MinRotationSpeed = -3,
+                MaxRotationSpeed = 0,
+                MinLifetime = TimeSpan.FromMilliseconds(1028),
+                MaxLifetime = TimeSpan.FromMilliseconds(1557),
+                MinScale = 1.5f,
+                MaxScale = 2f,
+                MinSpawnAngle = -45,
+                MaxSpawnAngle = 235
+            };
         }
 
         public override void Die()
