@@ -184,12 +184,14 @@ namespace MarkInDeDark.LevelEditor
         }
 
         private string SerializeLevel()
-            => new GameGridSerializerV4().SerializeLevel(_gameGrid);
+        {
+            _gameGrid.DirtyProbabilityPercentage = numDirtyProbability.Value ?? 0;
+            _gameGrid.EnvironmentTexturePackId = Convert.ToInt32((cmbTexturePack.SelectedItem as ComboBoxItem).Tag);
+            return new GameGridSerializerV4().SerializeLevel(_gameGrid);
+        }
 
         private void SaveLevel(string filePath, string serializedLevel)
         {
-            _gameGrid.DirtyProbabilityPercentage = numDirtyProbability.Value ?? 0;
-            _gameGrid.EnvironmentTexturePackId = cmbTexturePack.SelectedIndex;
             File.WriteAllText(filePath, serializedLevel);
             _currentLevelSerializedLastSave = serializedLevel;
         }

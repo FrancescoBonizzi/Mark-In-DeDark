@@ -35,7 +35,11 @@ namespace MarkInDeDark.LevelEditor.Editor
             _window.BtnObjectType_Exit.IsEnabled = true;
             _window.BtnObjectType_Goblin.IsEnabled = true;
 
-            _window.cmbTexturePack.SelectedIndex = _gameGrid.EnvironmentTexturePackId;
+            foreach (ComboBoxItem item in _window.cmbTexturePack.Items)
+            {
+                if (Convert.ToInt32(item.Tag) == _gameGrid.EnvironmentTexturePackId)
+                    _window.cmbTexturePack.SelectedItem = item;
+            }
             _window.numDirtyProbability.Value = gameGrid.DirtyProbabilityPercentage;
 
             _traslatedStrings = traslatedStrings;
