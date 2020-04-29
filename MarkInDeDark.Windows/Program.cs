@@ -19,6 +19,17 @@ namespace MarkInDeDark.Windows
             const int width = 1422;
             const int height = 800;
 
+            string levelSettingsDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "MarkInDeDark");
+
+            if (!Directory.Exists(levelSettingsDirectory))
+                Directory.CreateDirectory(levelSettingsDirectory);
+
+            string levelSettingsPath = Path.Combine(
+                levelSettingsDirectory,
+                "settings.txt");
+
             try
             {
                 string forcedLevelPath = null;
@@ -36,7 +47,7 @@ namespace MarkInDeDark.Windows
 
                 using (_game = new MarkInDeDarkBootstrap(
                     textFileAssetsLoader: new WindowsTextFileImporter(),
-                    settingsRepository: new TransientWindowsSettingsRepository(),
+                    settingsRepository: new FileWindowsSettingsRepository(levelSettingsPath),
                     gameCulture: CultureInfo.CurrentCulture,
                     levelPaths: levelsToLoad,
                     windowWidth: width,
