@@ -951,8 +951,8 @@
                                 Cursor="Hand"
                                 ToolTip="Indica il pacco di texture da utilizzare in questo livello">
 
-                                <ComboBoxItem Tag="1">Pacco 2</ComboBoxItem>
-                                <ComboBoxItem Tag="0">Pacco 3</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Pacco 2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Pacco 3</ComboBoxItem>
 
                             </ComboBox>
 

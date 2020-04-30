@@ -38,10 +38,16 @@ namespace MarkInDeDark.LevelEditor.Editor
             foreach (ComboBoxItem item in _window.cmbTexturePack.Items)
             {
                 if (Convert.ToInt32(item.Tag) == _gameGrid.EnvironmentTexturePackId)
+                {
                     _window.cmbTexturePack.SelectedItem = item;
+                    break;
+                }
             }
-            _window.numDirtyProbability.Value = gameGrid.DirtyProbabilityPercentage;
 
+            if (_window.cmbTexturePack.SelectedItem == null)
+                _window.cmbTexturePack.SelectedIndex = 0;
+
+           _window.numDirtyProbability.Value = gameGrid.DirtyProbabilityPercentage;
             _traslatedStrings = traslatedStrings;
 
             DrawAll();

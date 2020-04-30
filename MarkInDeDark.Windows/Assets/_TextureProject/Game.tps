@@ -514,40 +514,33 @@
             </struct>
             <key type="filename">Game/Effects/blood_decal.png</key>
             <key type="filename">Game/Effects/light_pixel.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type0/cell.png</key>
-            <key type="filename">Game/Grounds/Type0/cell2.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type1/cell.png</key>
-            <key type="filename">Game/Grounds/Type1/cell2.png</key>
-            <key type="filename">Game/Grounds/Type1/cell3.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/Type2/Door/door_9.png</key>
+            <key type="filename">Game/Grounds/Type2/cell.png</key>
+            <key type="filename">Game/Grounds/Type2/cell2.png</key>
+            <key type="filename">Game/Grounds/Type2/cell3.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/Type3/Door/door_9.png</key>
+            <key type="filename">Game/Grounds/Type3/cell.png</key>
+            <key type="filename">Game/Grounds/Type3/cell2.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_riempimento.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
             <key type="filename">Game/Grounds/trap_breakable.png</key>
@@ -616,10 +609,10 @@
                 <false/>
             </struct>
             <key type="filename">Game/Effects/smoke.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_2.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_1.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_2.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_1.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -742,14 +735,14 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_6.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_3.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_4.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_5.png</key>
+            <key type="filename">Game/Grounds/Type2/Dirty/dirty_6.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_3.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_4.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_5.png</key>
+            <key type="filename">Game/Grounds/Type3/Dirty/dirty_6.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -762,136 +755,10 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,48,60,96</rect>
-                <key>scale9Paddings</key>
-                <rect>30,48,60,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_breakable.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,48,44,96</rect>
-                <key>scale9Paddings</key>
-                <rect>22,48,44,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_broken.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,39,96,78</rect>
-                <key>scale9Paddings</key>
-                <rect>48,39,96,78</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_special.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_open.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,40,96,80</rect>
-                <key>scale9Paddings</key>
-                <rect>48,40,96,80</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_up - Copia.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_up.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,51,96,102</rect>
-                <key>scale9Paddings</key>
-                <rect>48,51,96,102</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_open.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,52,96,104</rect>
-                <key>scale9Paddings</key>
-                <rect>48,52,96,104</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_B.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,48,32,96</rect>
-                <key>scale9Paddings</key>
-                <rect>16,48,32,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_B.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,48,40,96</rect>
-                <key>scale9Paddings</key>
-                <rect>20,48,40,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -904,8 +771,60 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_door.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_special.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_door.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_special.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_uscita_open.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9Paddings</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_vertical_broken.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,48,32,96</rect>
+                <key>scale9Paddings</key>
+                <rect>16,48,32,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type2/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/Type2/wall_uscita_up.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -915,6 +834,37 @@
                 <rect>38,51,76,102</rect>
                 <key>scale9Paddings</key>
                 <rect>38,51,76,102</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_B.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,48,40,96</rect>
+                <key>scale9Paddings</key>
+                <rect>20,48,40,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/Type3/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/Type3/wall_uscita_up.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,51,96,102</rect>
+                <key>scale9Paddings</key>
+                <rect>48,51,96,102</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
