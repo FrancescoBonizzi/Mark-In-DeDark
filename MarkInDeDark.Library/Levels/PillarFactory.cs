@@ -1,0 +1,151 @@
+﻿using MarkInDeDark.GameGridCommon;
+using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Maths;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MarkInDeDark.Library.Levels
+{
+    public static class PillarFactory
+    {
+        public static List<Pillar> GeneratePillars(
+            GameCell cell,
+            Level level)
+        {
+            if (cell == null || cell.IsUnLinked)
+                return new List<Pillar>();
+
+            var pillars = new List<Pillar>();
+            
+            if (!cell.IsEastPassable)
+                if (cell.Links[LinkDirection.NorthLink] != null)
+                    if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
+                        if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
+                            pillars.Add(AddNEPillar(cell, level));
+
+            if (!cell.IsWestPassable)
+                if (cell.Links[LinkDirection.NorthLink] != null)
+                    if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)
+                        if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink].IsSouthPassable)
+                            pillars.Add(AddNWPillar(cell, level));
+
+            if (cell.Links[LinkDirection.NorthLink] != null)
+                if (!cell.Links[LinkDirection.NorthLink].IsEastPassable)
+                    if (cell.Links[LinkDirection.EastLink] != null)
+                        if (!cell.Links[LinkDirection.EastLink].IsNorthPassable)
+                            pillars.Add(AddNEPillar(cell, level));
+
+            if (cell.Links[LinkDirection.NorthLink] != null)
+                if (!cell.Links[LinkDirection.NorthLink].IsWestPassable)
+                    if (cell.Links[LinkDirection.WestLink] != null)
+                        if (!cell.Links[LinkDirection.WestLink].IsNorthPassable)
+                            pillars.Add(AddNWPillar(cell, level));
+
+            if (!cell.IsNorthPassable)
+                if (cell.Links[LinkDirection.EastLink] != null)
+                    if (cell.Links[LinkDirection.EastLink].IsNorthPassable || cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
+                        if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
+                            pillars.Add(AddNEPillar(cell, level));
+
+            if (!cell.IsNorthPassable)
+                if (cell.Links[LinkDirection.WestLink] != null)
+                    if (cell.Links[LinkDirection.WestLink].IsNorthPassable || cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
+                        if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
+                            pillars.Add(AddNWPillar(cell, level));
+
+            if (!cell.IsEastPassable)
+                if (cell.Links[LinkDirection.NorthLink] != null)
+                    if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                        if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
+                            pillars.Add(AddNEPillar(cell, level));
+
+            if (!cell.IsEastPassable)
+                if (cell.Links[LinkDirection.SouthLink] != null)
+                    if (cell.Links[LinkDirection.SouthLink].IsEastPassable || cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
+                        if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
+                            pillars.Add(AddSEPillar(cell, level));
+
+            if (!cell.IsWestPassable)
+                if (cell.Links[LinkDirection.SouthLink] != null)
+                    if (cell.Links[LinkDirection.SouthLink].IsWestPassable || cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
+                        if (!cell.IsWestDestroyable || !cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
+                            pillars.Add(AddSWPillar(cell, level));
+
+            if (!cell.IsNorthPassable && !cell.IsEastPassable)
+                pillars.Add(AddNEPillar(cell, level));
+            if (!cell.IsNorthPassable && !cell.IsWestPassable)
+                pillars.Add(AddNWPillar(cell, level));
+            if (!cell.IsSouthPassable && !cell.IsEastPassable)
+                pillars.Add(AddSEPillar(cell, level));
+            if (!cell.IsSouthPassable && !cell.IsWestPassable)
+                pillars.Add(AddSWPillar(cell, level));
+
+            if (cell.IsNorthDoor)
+            {
+                pillars.Add(AddNEPillar(cell, level));
+                pillars.Add(AddNWPillar(cell, level));
+            }
+
+            if (cell.IsSouthDoor)
+            {
+                pillars.Add(AddSEPillar(cell, level));
+                pillars.Add(AddSWPillar(cell, level));
+            }
+
+            if (cell.IsEastDoor)
+            {
+                pillars.Add(AddNEPillar(cell, level));
+                pillars.Add(AddSEPillar(cell, level));
+            }
+
+            if (cell.IsWestDoor)
+            {
+                pillars.Add(AddNWPillar(cell, level));
+                pillars.Add(AddSWPillar(cell, level));
+            }
+
+            return pillars.DistinctBy(p => p.PillarPosition).ToList();
+        }
+
+        private static Pillar AddNWPillar(GameCell cell, Level level)
+        {
+            return new Pillar(
+                new Vector2(
+                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Width / 2f,
+                    cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Height / 2f),
+                Utilities.RandomBetween(level.RandomPillarSprites),
+                PillarPositions.NW);
+        }
+
+        private static Pillar AddNEPillar(GameCell cell, Level level)
+        {
+            return new Pillar(
+                new Vector2(
+                      cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Width / 2f,
+                      cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Height / 2f),
+                Utilities.RandomBetween(level.RandomPillarSprites),
+                PillarPositions.NE);
+        }
+
+        private static Pillar AddSWPillar(GameCell cell, Level level)
+        {
+            return new Pillar(
+                new Vector2(
+                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Width / 2f,
+                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Height / 2f),
+                Utilities.RandomBetween(level.RandomPillarSprites),
+                PillarPositions.SW);
+        }
+
+        private static Pillar AddSEPillar(GameCell cell, Level level)
+        {
+            return new Pillar(
+                new Vector2(
+                    cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Width / 2f,
+                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Height / 2f),
+                Utilities.RandomBetween(level.RandomPillarSprites),
+                PillarPositions.SE);
+        }
+    }
+}

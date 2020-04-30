@@ -93,6 +93,7 @@
     <Compile Include="AI\SearchForNearCandlePathResult.cs" />
     <Compile Include="Characters\CharacterFallingInTrapAnimation.cs" />
     <Compile Include="Characters\CharacterShadowConfiguration.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\ZIndexCalculator.cs" />
     <Compile Include="GameStringsLoader.cs" />
@@ -110,10 +111,15 @@
     <Compile Include="Levels\GameGrid.cs" />
     <Compile Include="Levels\GameGridCleaner.cs" />
     <Compile Include="Levels\GameGridLoader.cs" />
+    <Compile Include="Levels\IWall.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\LinkDirection.cs" />
     <Compile Include="Levels\Pillar.cs" />
-    <Compile Include="Levels\Wall.cs" />
+    <Compile Include="Levels\PillarFactory.cs" />
+    <Compile Include="Levels\WallFixed.cs" />
+    <Compile Include="Levels\WallBreakable.cs" />
+    <Compile Include="Levels\WallEsteticDoor.cs" />
+    <Compile Include="Levels\WallFactory.cs" />
     <Compile Include="MarkGamePad.cs" />
     <Compile Include="MarkKeyboard.cs" />
     <Compile Include="Maths\Floats.cs" />
@@ -122,7 +128,7 @@
     <Compile Include="MarkInDeDarkGame.cs" />
     <Compile Include="AssetsLoader.cs" />
     <Compile Include="Objects\CandlePack.cs" />
-    <Compile Include="Objects\Door.cs" />
+    <Compile Include="Levels\WallInteractiveDoor.cs" />
     <Compile Include="Objects\IDrawableObject.cs" />
     <Compile Include="Objects\GoblinTriggerTrap.cs" />
     <Compile Include="Objects\LittleLight.cs" />

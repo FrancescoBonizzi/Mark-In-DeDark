@@ -14,9 +14,15 @@
     ResizeMode="CanResize"
     mc:Ignorable="d">
 
-    <DockPanel Background="AliceBlue">
+    <Grid Background="AliceBlue">
 
-        <Menu DockPanel.Dock="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
 
             <MenuItem Header="File">
                 <MenuItem
@@ -118,10 +124,7 @@
 
         </Menu>
 
-        <ToolBar
-            DockPanel.Dock="Top"
-            ToolBar.OverflowMode="Never"
-            ToolBarTray.IsLocked="True">
+        <Grid Grid.Row="1">
 
             <StackPanel Orientation="Vertical">
 
@@ -414,7 +417,7 @@
                             <TextBlock Padding="2,2" Text="Porta" />
                         </StackPanel>
                     </RadioButton>
-                    
+
                     <RadioButton
                         Width="100"
                         Margin="10,0"
@@ -980,9 +983,9 @@
 
             </StackPanel>
 
-        </ToolBar>
+        </Grid>
 
-        <Grid>
+        <Grid Grid.Row="2">
 
             <Canvas
                 Name="levelEditorCanvas"
@@ -994,6 +997,6 @@
 
         </Grid>
 
-    </DockPanel>
+    </Grid>
 
 </Window>

@@ -20,42 +20,26 @@ namespace MarkInDeDark.Library.Levels
     {
         public Sprite Sprite { get; set; }
 
-        private readonly Sprite _horizontalWallSprite;
-        private readonly Sprite _verticalWallSprite;
-        private readonly Sprite _horizontalDestroyableWallSprite;
-        private readonly Sprite _verticalDestroyableWallSprite;
-        private readonly Sprite _horizontalSpecialWallSprite;
-        private readonly Sprite _horizontalEntranceWallSprite;
-        private readonly Sprite _horizontalExitWallSprite;
-        private readonly Sprite _pillarSprite;
         private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
-        private readonly Sprite _wallDoorArc;
-        private readonly Sprite _wallDoorDown;
 
-        private readonly AssetsLoader _assetsLoader;
-
-        private readonly int _width;
-        private readonly int _height;
-
-        private readonly float _angleWidthOver2;
-        private readonly float _angleHeightOver2;
+        public int Width { get; }
+        public int Height { get; }
 
         private readonly SoundManager _soundManager;
 
         private readonly DrawingInfos _dirtyDrawingInfos;
-        public Dictionary<PillarPositions, Pillar> Pillars { get; }
-        public Dictionary<LinkDirection, Wall> Walls { get; }
+        public Dictionary<PillarPositions, Pillar> Pillars { get; private set; }
+        public Dictionary<LinkDirection, IWall> Walls { get; private set; }
 
         private readonly DrawingInfos _cellDrawingInfos;
         private DrawingInfos _bloodDecalDrawingInfos;
         public Dictionary<LinkDirection, GameCell> Links { get; }
-        public Dictionary<LinkDirection, Door> Doors { get; }
 
         public bool IsUnLinked { get; set; }
         public bool IsUnwalkableForEnemies { get; set; }
         public bool IsUnwalkable { get; set; }
-        public bool IsSpecialWallCell { get; set; }
+        public bool IsRiempitiveWallCell { get; set; }
         public bool DontDraw { get; set; }
         public int IIndex { get; }
         public int JIndex { get; }
@@ -67,64 +51,30 @@ namespace MarkInDeDark.Library.Levels
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
 
-        public enum PillarPositions
-        {
-            NE,
-            NW,
-            SE,
-            SW
-        }
-
         public GameCell(
             Vector2 position,
             AssetsLoader assetsLoader,
             Sprite cell,
-            Sprite horizontalWall,
-            Sprite verticalWall,
-            Sprite horizontalDestroyableWall,
-            Sprite verticalDestroyableWall,
-            Sprite horizontalSpecialWall,
-            Sprite horizontalEntranceWall,
-            Sprite horizontalExitWall,
-            Sprite pillar,
             Sprite dirty,
-            Sprite wallDoorArc,
-            Sprite wallDoorDown,
             SoundManager soundManager,
             int iIndex,
             int jIndex,
             GameGrid gameGrid,
             MarkInDeDarkGame game)
         {
-            _assetsLoader = assetsLoader;
             _bloodDecal = assetsLoader.Sprites["Effects/blood_decal"];
-            DontDraw = false;
 
             IIndex = iIndex;
             JIndex = jIndex;
 
             Sprite = cell;
-            _horizontalWallSprite = horizontalWall;
-            _verticalWallSprite = verticalWall;
-            _pillarSprite = pillar;
-            _horizontalDestroyableWallSprite = horizontalDestroyableWall;
-            _verticalDestroyableWallSprite = verticalDestroyableWall;
-            _horizontalSpecialWallSprite = horizontalSpecialWall;
-            _horizontalEntranceWallSprite = horizontalEntranceWall;
-            _horizontalExitWallSprite = horizontalExitWall;
-
-            _wallDoorDown = wallDoorDown;
-            _wallDoorArc = wallDoorArc;
 
             IsUnLinked = false;
             IsUnwalkableForEnemies = false;
             IsUnwalkable = false;
 
-            _width = cell.Width;
-            _height = cell.Height;
-
-            _angleWidthOver2 = _pillarSprite.Width / 2f;
-            _angleHeightOver2 = _pillarSprite.Height / 2f;
+            Width = cell.Width;
+            Height = cell.Height;
 
             _soundManager = soundManager;
 
@@ -144,8 +94,6 @@ namespace MarkInDeDark.Library.Levels
                 [LinkDirection.WestLink] = null
             };
 
-            Doors = new Dictionary<LinkDirection, Door>();
-
             Pillars = new Dictionary<PillarPositions, Pillar>();
 
             _gameGrid = gameGrid;
@@ -156,8 +104,8 @@ namespace MarkInDeDark.Library.Levels
                 _dirtyDrawingInfos = new DrawingInfos()
                 {
                     Position = new Vector2(
-                        position.X + Numbers.RandomBetween(0f, _width - _dirty.Width / 2f),
-                        position.Y + Numbers.RandomBetween(0f, _width - _dirty.Height / 2f)),
+                        position.X + Numbers.RandomBetween(0f, Width - _dirty.Width / 2f),
+                        position.Y + Numbers.RandomBetween(0f, Width - _dirty.Height / 2f)),
                     Scale = 1f,
                     Rotation = Utilities.RandomBetween(0f, (float)(Math.PI / 2f), (float)Math.PI, 3f / 2f * (float)Math.PI),
                     Origin = _dirty.SpriteCenter,
@@ -169,8 +117,6 @@ namespace MarkInDeDark.Library.Levels
             {
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
-
-            Walls = new Dictionary<LinkDirection, Wall>();
 
             IsNorthPassable = true;
             IsEastPassable = true;
@@ -185,11 +131,59 @@ namespace MarkInDeDark.Library.Levels
 
         public void SetSpecialWallCell()
         {
-            IsSpecialWallCell = true;
+            IsRiempitiveWallCell = true;
             _cellDrawingInfos.LayerDepth = ZIndexCalculator.ForSpecialExternalWall(
                 _cellDrawingInfos.Position);
             _cellDrawingInfos.Origin += new Vector2(0f, +28);
             IsUnLinked = true;
+        }
+
+        public void Initialize(
+            Cell levelEditorCell,
+            Level level,
+            AssetsLoader assets)
+        {
+            // TODO vedi se riesci a mettere privato il SET di questi campi
+            GroundType = levelEditorCell.GroundType;
+
+            IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
+            IsNorthPassable = levelEditorCell.Top == WallTypes.Niente || levelEditorCell.Top == WallTypes.Porta;
+            IsNorthDoor = levelEditorCell.Top == WallTypes.Porta;
+
+            IsEastDestroyable = levelEditorCell.Right == WallTypes.Fragile;
+            IsEastPassable = levelEditorCell.Right == WallTypes.Niente || levelEditorCell.Right == WallTypes.Porta;
+
+            IsSouthDestroyable = levelEditorCell.Bottom == WallTypes.Fragile;
+            IsSouthPassable = levelEditorCell.Bottom == WallTypes.Niente || levelEditorCell.Bottom == WallTypes.Porta;
+            IsSouthDoor = levelEditorCell.Bottom == WallTypes.Porta;
+
+            IsWestDestroyable = levelEditorCell.Left == WallTypes.Fragile;
+            IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
+
+            {
+                var walls = WallFactory.GenerateWalls(
+                    _cellDrawingInfos.Position,
+                    levelEditorCell,
+                    level,
+                    assets,
+                    new Vector2(Width, Height),
+                    () => _game.StartCameraShake(3));
+
+                Walls = new Dictionary<LinkDirection, IWall>();
+                foreach (var w in walls)
+                {
+                    Walls.Add(w.Direction, w);
+                }
+            }
+
+            {
+                var pillars = PillarFactory.GeneratePillars(this, level);
+                Pillars = new Dictionary<PillarPositions, Pillar>();
+                foreach(var p in pillars)
+                {
+                    Pillars.Add(p.PillarPosition, p);
+                }
+            }
         }
 
         public GameCell NorthCell
@@ -220,10 +214,10 @@ namespace MarkInDeDark.Library.Levels
             => _cellDrawingInfos.Position;
 
         public Vector2 CenterPosition
-            => _cellDrawingInfos.Center(_width, _height);
+            => _cellDrawingInfos.Center(Width, Height);
 
         public Rectangle CollisionRectangle
-            => _cellDrawingInfos.HitBox(_width, _height);
+            => _cellDrawingInfos.HitBox(Width, Height);
 
         public bool IsNorthPassable { get; set; }
         public bool IsEastPassable { get; set; }
@@ -240,10 +234,10 @@ namespace MarkInDeDark.Library.Levels
         public bool IsSouthDoor { get; set; }
         public bool IsWestDoor => false; // Non esistono
 
-        public bool IsNorthDoorPassable => !IsNorthDoor || Doors[LinkDirection.NorthLink].IsOpen;
-        public bool IsEastDoorPassable => !IsEastDoor || Doors[LinkDirection.EastLink].IsOpen;
-        public bool IsSouthDoorPassable => !IsSouthDoor || Doors[LinkDirection.SouthLink].IsOpen;
-        public bool IsWestDoorPassable => !IsWestDoor || Doors[LinkDirection.WestLink].IsOpen;
+        public bool IsNorthDoorPassable => !IsNorthDoor || (Walls[LinkDirection.NorthLink] as WallInteractiveDoor).IsOpen;
+        public bool IsEastDoorPassable => !IsEastDoor || (Walls[LinkDirection.EastLink] as WallInteractiveDoor).IsOpen;
+        public bool IsSouthDoorPassable => !IsSouthDoor || (Walls[LinkDirection.SouthLink] as WallInteractiveDoor).IsOpen;
+        public bool IsWestDoorPassable => !IsWestDoor || (Walls[LinkDirection.WestLink] as WallInteractiveDoor).IsOpen;
 
         public bool IsPassableWithAction(CharacterActions action)
         {
@@ -275,6 +269,9 @@ namespace MarkInDeDark.Library.Levels
         {
             if (Walls.ContainsKey(direction))
             {
+                var wall = Walls[direction] as WallBreakable;
+                wall.IsBroken = true;
+
                 Walls.Remove(direction);
                 //_soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
@@ -285,136 +282,12 @@ namespace MarkInDeDark.Library.Levels
             return false;
         }
 
-        public void GenerateDoors(Level levelConfig)
-        {
-            int shakeIntensity = 3;
-
-            if (IsNorthDoor)
-            {
-                Doors.Add(LinkDirection.NorthLink, new Door(
-                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + 80),
-                    linkDirection: LinkDirection.NorthLink,
-                    doorOpenAnimation: levelConfig.DoorOpenAnimation,
-                    doorCloseAnimation: levelConfig.DoorCloseAnimation,
-                    wallDoorArc: _wallDoorArc,
-                    wallDoorDown: _wallDoorDown,
-                    onClose: () => _game.StartCameraShake(shakeIntensity)));
-            }
-
-            if (IsSouthDoor)
-            {
-                Doors.Add(LinkDirection.SouthLink, new Door(
-                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _height - 80),
-                    linkDirection: LinkDirection.SouthLink,
-                    doorOpenAnimation: levelConfig.DoorOpenAnimation,
-                    doorCloseAnimation: levelConfig.DoorCloseAnimation,
-                    wallDoorArc: _wallDoorArc,
-                    wallDoorDown: _wallDoorDown,
-                    onClose: () => _game.StartCameraShake(shakeIntensity)));
-            }
-        }
-
-        public void GenerateWalls(Cell cellConfig)
-        {
-            if (!IsNorthPassable)
-            {
-                Sprite horizontalWallSprite = _horizontalWallSprite;
-                Sprite decal = null;
-
-                if (IsNorthDestroyable)
-                    horizontalWallSprite = _horizontalDestroyableWallSprite;
-                else if (cellConfig.Top == WallTypes.Speciale1)
-                    horizontalWallSprite = _horizontalSpecialWallSprite;
-                else if (cellConfig.Top == WallTypes.Ingresso)
-                    horizontalWallSprite = _horizontalEntranceWallSprite;
-                else if (cellConfig.Top == WallTypes.Uscita)
-                    horizontalWallSprite = _horizontalExitWallSprite;
-                else if (cellConfig.Top == WallTypes.Decal1)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_1"];
-                else if (cellConfig.Top == WallTypes.Decal2)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_2"];
-                else if (cellConfig.Top == WallTypes.Decal3)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_3"];
-                else if (cellConfig.Top == WallTypes.Decal4)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_4"];
-                else if (cellConfig.Top == WallTypes.Decal5)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
-
-                float yIncrement = 78f;
-                if (cellConfig.Top == WallTypes.Ingresso || cellConfig.Top == WallTypes.Uscita)
-                    yIncrement = 26f;
-
-                Walls.Add(LinkDirection.NorthLink, new Wall(
-                    LinkDirection.NorthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y - _horizontalWallSprite.Height + yIncrement),
-                    IsNorthDestroyable,
-                    horizontalWallSprite,
-                    decal));
-            }
-
-            if (!IsSouthPassable)
-            {
-                Sprite horizontalWallSprite = _horizontalWallSprite;
-                Sprite decal = null;
-
-                if (IsSouthDestroyable)
-                    horizontalWallSprite = _horizontalDestroyableWallSprite;
-                else if (cellConfig.Bottom == WallTypes.Speciale1)
-                    horizontalWallSprite = _horizontalSpecialWallSprite;
-                else if (cellConfig.Bottom == WallTypes.Ingresso)
-                    horizontalWallSprite = _horizontalEntranceWallSprite;
-                else if (cellConfig.Bottom == WallTypes.Uscita)
-                    horizontalWallSprite = _horizontalExitWallSprite;
-                else if (cellConfig.Bottom == WallTypes.Decal1)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_1"];
-                else if (cellConfig.Bottom == WallTypes.Decal2)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_2"];
-                else if (cellConfig.Bottom == WallTypes.Decal3)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_3"];
-                else if (cellConfig.Bottom == WallTypes.Decal4)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_4"];
-                else if (cellConfig.Bottom == WallTypes.Decal5)
-                    decal = _assetsLoader.Sprites["Grounds/Decals/decal_5"];
-
-                float yIncrement = 115f;
-                if (cellConfig.Top == WallTypes.Ingresso || cellConfig.Top == WallTypes.Uscita)
-                    yIncrement = 0f;
-
-                Walls.Add(LinkDirection.SouthLink, new Wall(
-                    LinkDirection.SouthLink,
-                    new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + yIncrement),
-                    IsSouthDestroyable,
-                    horizontalWallSprite,
-                    decal));
-            }
-
-            if (!IsEastPassable)
-            {
-                Walls.Add(LinkDirection.EastLink, new Wall(
-                    LinkDirection.EastLink,
-                    new Vector2(_cellDrawingInfos.Position.X + _width - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
-                    IsEastDestroyable,
-                    IsEastDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite,
-                    null));
-            }
-
-            if (!IsWestPassable)
-            {
-                Walls.Add(LinkDirection.WestLink, new Wall(
-                    LinkDirection.WestLink,
-                    new Vector2(_cellDrawingInfos.Position.X - _verticalWallSprite.Width / 2f, _cellDrawingInfos.Position.Y - 30),
-                    IsWestDestroyable,
-                    IsWestDestroyable ? _verticalDestroyableWallSprite : _verticalWallSprite,
-                    null));
-            }
-        }
-
         public void AddLink(GameCell destionationCell, LinkDirection direction)
             => Links[direction] = destionationCell;
 
         public void ApplyBloodDecal(CellRelativePosition cellRelativePosition)
         {
-            if (IsSpecialWallCell)
+            if (IsRiempitiveWallCell)
                 return;
 
             if (NoDecals)
@@ -468,106 +341,18 @@ namespace MarkInDeDark.Library.Levels
             };
         }
 
-        public void AddNWPillar()
-        {
-            if (Pillars.ContainsKey(PillarPositions.NW))
-                return;
-
-            Pillars.Add(PillarPositions.NW, new Pillar(
-                new Vector2(
-                    _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y - _angleHeightOver2),
-                _pillarSprite));
-        }
-
-        public void AddNEPillar()
-        {
-            if (Pillars.ContainsKey(PillarPositions.NE))
-                return;
-
-            Pillars.Add(PillarPositions.NE, new Pillar(
-                new Vector2(
-                      _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                      _cellDrawingInfos.Position.Y - _angleHeightOver2),
-                _pillarSprite));
-        }
-
-        public void AddSWPillar()
-        {
-            if (Pillars.ContainsKey(PillarPositions.SW))
-                return;
-
-            Pillars.Add(PillarPositions.SW, new Pillar(
-                new Vector2(
-                    _cellDrawingInfos.Position.X - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2),
-                _pillarSprite));
-        }
-
-        public void AddSEPillar()
-        {
-            if (Pillars.ContainsKey(PillarPositions.SE))
-                return;
-
-            Pillars.Add(PillarPositions.SE, new Pillar(
-                new Vector2(
-                    _cellDrawingInfos.Position.X + _width - _angleWidthOver2,
-                    _cellDrawingInfos.Position.Y + _width - _angleHeightOver2),
-                _pillarSprite));
-        }
-
-        public void SetSimplePillars()
-        {
-            if (!IsNorthPassable && !IsEastPassable)
-                AddNEPillar();
-            if (!IsNorthPassable && !IsWestPassable)
-                AddNWPillar();
-            if (!IsSouthPassable && !IsEastPassable)
-                AddSEPillar();
-            if (!IsSouthPassable && !IsWestPassable)
-                AddSWPillar();
-
-            if (IsNorthDoor)
-            {
-                AddNEPillar();
-                AddNWPillar();
-            }
-
-            if (IsSouthDoor)
-            {
-                AddSEPillar();
-                AddSWPillar();
-            }
-
-            if (IsEastDoor)
-            {
-                AddNEPillar();
-                AddSEPillar();
-            }
-
-            if (IsWestDoor)
-            {
-                AddNWPillar();
-                AddSWPillar();
-            }
-        }
-
         public void Update(TimeSpan elapsed)
         {
             if (_smokeParticleSystem.HasActiveParticles)
                 _smokeParticleSystem.Update(elapsed);
-            foreach (var door in Doors.Values)
-                door.Update(elapsed);
+            foreach (var w in Walls.Values)
+                w.Update(elapsed);
         }
 
-        public void DrawGround(SpriteBatch spritebatch)
-            => spritebatch.Draw(Sprite, _cellDrawingInfos);
-
-        public void DrawForDebug(SpriteBatch spriteBatch)
-            => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
-
-        public void DrawDirty(SpriteBatch spriteBatch)
+        public void DrawGround(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Sprite, _cellDrawingInfos);
+
             if (!NoDecals)
             {
                 if (_dirty != null)
@@ -579,6 +364,9 @@ namespace MarkInDeDark.Library.Levels
                 }
             }
         }
+
+        public void DrawForDebug(SpriteBatch spriteBatch)
+            => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
 
         public void DrawEffects(SpriteBatch spriteBatch)
         {
@@ -592,8 +380,6 @@ namespace MarkInDeDark.Library.Levels
         {
             foreach (var w in Walls)
                 w.Value.Draw(spritebatch);
-            foreach (var d in Doors)
-                d.Value.Draw(spritebatch);
             foreach (var a in Pillars)
                 a.Value.Draw(spritebatch);
         }

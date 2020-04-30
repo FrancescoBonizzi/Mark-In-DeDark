@@ -1,7 +1,6 @@
 ﻿using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGridCommon;
-
 using System;
 using System.Collections.Generic;
 
@@ -27,19 +26,27 @@ namespace MarkInDeDark.Library.Levels
         public SpriteAnimation DoorOpenAnimation { get; private set; }
         public SpriteAnimation DoorCloseAnimation { get; private set; }
 
-        public Sprite HorizontalDestroyableWallSprite { get; private set; }
-        public Sprite VerticalDestroyableWallSprite { get; private set; }
+        public Sprite WallHorizontalDestroyableSprite { get; private set; }
+        public Sprite WallHorizontalBrokenSprite { get; private set; }
 
-        public Sprite SpecialHorizontalWallSprite { get; private set; }
+        public Sprite WallVerticalDestroyableSprite { get; private set; }
+        public Sprite WallVerticalBrokenASprite { get; private set; }
+        public Sprite WallVerticalBrokenBSprite { get; private set; }
 
-        public Sprite EntranceHorizontalWallSprite { get; private set; }
-        public Sprite ExitClosedHorizontalWallSprite { get; private set; }
-        public Sprite ExitOpenHorizontalWallSprite { get; private set; }
-        public Sprite ExitOpenArcHorizontalWallSprite { get; private set; }
+        public Sprite WallSpecialHorizontalSprite { get; private set; }
 
-        public Sprite WallDoorDownSprite { get; private set; }
+        public Sprite WallEntranceClosedHorizontalSprite { get; private set; }
+        public Sprite WallEntranceOpenHorizontalSprite { get; private set; }
+        public Sprite WallEntranceArcHorizontalSprite { get; private set; }
+
+        public Sprite WallExitClosedHorizontalSprite { get; private set; }
+        public Sprite WallExitOpenHorizontalSprite { get; private set; }
+        public Sprite WallExitArcHorizontalSprite { get; private set; }
+
+        public Sprite WallDoorBaseSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
-        public Sprite OversizeWallSprite { get; private set; }
+        public Sprite FillingSprite { get; private set; }
+
         public double DirtyProbability { get; private set; }
 
         public GameGridBundle LevelEditorDeserializedGrid { get; }
@@ -60,17 +67,9 @@ namespace MarkInDeDark.Library.Levels
             var serializer = new GameGridDeserializerManager(levelContentRaw);
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
-            DarkSprite = assetsLoader.Sprites["Grounds/celldark"];
-
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
-
-            SpecialHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
-            EntranceHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso"];
-            ExitClosedHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_closed"];
-            ExitOpenHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_open"];
-            ExitOpenArcHorizontalWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_up"];
 
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
@@ -110,11 +109,27 @@ namespace MarkInDeDark.Library.Levels
             doorClosingAnimation.Reverse();
             DoorCloseAnimation = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
 
-            HorizontalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
-            VerticalDestroyableWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
-            WallDoorDownSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
+            WallHorizontalDestroyableSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
+            WallHorizontalBrokenSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_broken"];
+
+            WallVerticalDestroyableSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
+            WallVerticalBrokenASprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_A"];
+            WallVerticalBrokenBSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_B"];
+            
+            WallSpecialHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
+
+            WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];
+            WallEntranceOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"];
+            WallEntranceArcHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_up"];
+
+            WallExitClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_closed"];
+            WallExitOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_open"];
+            WallExitArcHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_up"];
+
+            WallDoorBaseSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];
-            OversizeWallSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"];
+            FillingSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"];
+
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 
             _settingsRepository = settingsRepository;

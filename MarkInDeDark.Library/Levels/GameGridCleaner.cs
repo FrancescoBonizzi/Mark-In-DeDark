@@ -1,5 +1,4 @@
-﻿using MarkInDeDark.GameGridCommon;
-using MarkInDeDark.Library.Extensions;
+﻿using MarkInDeDark.Library.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,58 +6,7 @@ namespace MarkInDeDark.Library.Levels
 {
     public static class GameGridCleaner
     {
-        private static Cell NorthCell(Cell[,] grid, int i, int j)
-            => grid[i, j - 1];
-
-        public static Cell SouthCell(Cell[,] grid, int i, int j)
-            => grid[i, j + 1];
-
-        public static Cell EastCell(Cell[,] grid, int i, int j)
-            => grid[i + 1, j];
-
-        public static Cell WestCell(Cell[,] grid, int i, int j)
-            => grid[i - 1, j];
-
-        public static void CleanUpGameGridBundle(GameGridBundle levelEditorGrid)
-        {
-            // Salto l'ultima riga perché non ha di sicuro la cella sotto
-            for (int j = 0; j < levelEditorGrid.Rows - 1; ++j)
-            {
-                for (int i = 0; i < levelEditorGrid.Columns; ++i)
-                {
-                    var cell = levelEditorGrid.Grid[i, j];
-                    var southCell = SouthCell(levelEditorGrid.Grid, i, j);
-                    if (southCell.GroundType != GroundTypes.NonCella)
-                    {
-                        if (cell.Bottom == WallTypes.Occludente || cell.Bottom == WallTypes.Fragile || cell.Bottom == WallTypes.Porta)
-                        {
-                            southCell.Top = cell.Bottom;
-                            cell.Bottom = WallTypes.Niente;
-                        }
-                    }
-                }
-            }
-
-            // Salto l'ultima colonna perché non ha di sicuro la cella a destra
-            for (int i = 0; i < levelEditorGrid.Columns - 1; ++i)
-            {
-                for (int j = 0; j < levelEditorGrid.Rows; ++j)
-                {
-                    var cell = levelEditorGrid.Grid[i, j];
-                    var eastCell = EastCell(levelEditorGrid.Grid, i, j);
-                    if (eastCell.GroundType != GroundTypes.NonCella)
-                    {
-                        if (cell.Right == WallTypes.Occludente || cell.Right == WallTypes.Fragile || cell.Right == WallTypes.Porta)
-                        {
-                            eastCell.Left = cell.Right;
-                            cell.Right = WallTypes.Niente;
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void CleanAnglesAndWallsGrid(GameGrid grid)
+        public static void CleanPillarsAndWallsGrid(GameGrid grid)
         {
             // Elimino le tutti i muri doppi gli angoli doppi
             // Per ogni angolo devo vedere se quell'angolo o quel muro esiste già uguale vicino
@@ -94,10 +42,11 @@ namespace MarkInDeDark.Library.Levels
                                     for (int w = nearCell.Walls.Count - 1; w >= 0; --w)
                                     {
                                         var nearCellWall = nearCell.Walls.ElementAt(w);
-                                        if (wall.Value.DrawingInfos.Position.IsEqualsConvertedToInt(nearCellWall.Value.DrawingInfos.Position))
+                                        if (wall.Value.Position.IsEqualsConvertedToInt(
+                                            nearCellWall.Value.Position))
                                         {
                                             // Fix balordo per evitare di perdere l'info sulla rompibilità
-                                            if (!nearCellWall.Value.IsDestroyable)
+                                            if (!(nearCellWall.Value is WallBreakable))
                                                 nearCell.Walls.Remove(nearCellWall.Key);
                                         }
                                     }
@@ -116,7 +65,8 @@ namespace MarkInDeDark.Library.Levels
                                         for (int w = nearCell.Pillars.Count - 1; w >= 0; --w)
                                         {
                                             var nearCellAngle = nearCell.Pillars.ElementAt(w);
-                                            if (cellAngle.Value.DrawingInfos.Position.IsEqualsConvertedToInt(nearCellAngle.Value.DrawingInfos.Position))
+                                            if (cellAngle.Value.DrawingInfos.Position.IsEqualsConvertedToInt(
+                                                nearCellAngle.Value.DrawingInfos.Position))
                                             {
                                                 nearCell.Pillars.Remove(nearCellAngle.Key);
                                             }

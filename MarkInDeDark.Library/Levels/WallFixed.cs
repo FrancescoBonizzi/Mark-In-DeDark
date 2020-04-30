@@ -6,32 +6,32 @@ using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
+using System;
 
 namespace MarkInDeDark.Library.Levels
 {
-    public class Wall
+    public class WallFixed : IWall
     {
         public LinkDirection Direction { get; }
-        public bool IsDestroyable { get; }
 
-        public DrawingInfos DrawingInfos { get; }
+        private readonly DrawingInfos _drawingInfos;
         private readonly Sprite _sprite;
 
         public Rectangle CollisionRectangle { get; }
         public Hull Hull { get; }
+        public Vector2 Position => _drawingInfos.Position;
 
-        private DrawingInfos _decalDrawingInfos;
-        private Sprite _decal;
+        private readonly DrawingInfos _decalDrawingInfos;
+        private readonly Sprite _decal;
 
-        public Wall(
+        public WallFixed(
             LinkDirection direction,
             Vector2 position,
-            bool isDestroyable,
             Sprite sprite,
-            Sprite decal)
+            Sprite decal = null)
         {
             Direction = direction;
-            DrawingInfos = new DrawingInfos()
+            _drawingInfos = new DrawingInfos()
             {
                 Position = position,
                 LayerDepth = ZIndexCalculator.ForWall(position + sprite.SpriteCenter)
@@ -60,13 +60,12 @@ namespace MarkInDeDark.Library.Levels
                 _decal = decal;
                 _decalDrawingInfos = new DrawingInfos()
                 {
-                    Position = DrawingInfos.Position + sprite.SpriteCenter,
-                    LayerDepth = DrawingInfos.LayerDepth + 0.00001f,
+                    Position = _drawingInfos.Position + sprite.SpriteCenter,
+                    LayerDepth = _drawingInfos.LayerDepth + 0.00001f,
                     Origin = _decal.SpriteCenter
                 };
             }
 
-            IsDestroyable = isDestroyable;
             _sprite = sprite;
 
             Hull = Utilities.HullFromRectangle(CollisionRectangle);
@@ -79,13 +78,16 @@ namespace MarkInDeDark.Library.Levels
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_sprite, DrawingInfos);
+            spriteBatch.Draw(_sprite, _drawingInfos);
 
             if (_decal != null)
                 spriteBatch.Draw(_decal, _decalDrawingInfos);
         }
 
+        public void Update(TimeSpan elapsed)
+        {
 
+        }
     }
 
 }

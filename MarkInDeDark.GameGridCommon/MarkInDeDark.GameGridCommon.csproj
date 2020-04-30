@@ -53,6 +53,7 @@
     <Compile Include="GroundTypes.cs" />
     <Compile Include="IGameGridSerializer.cs" />
     <Compile Include="ObjectTypes.cs" />
+    <Compile Include="PillarPositions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WallPositions.cs" />
     <Compile Include="WallTypes.cs" />

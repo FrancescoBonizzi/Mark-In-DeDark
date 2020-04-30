@@ -2,13 +2,12 @@
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
-using MarkInDeDark.Library.Levels;
-using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 
-namespace MarkInDeDark.Library.Objects
+namespace MarkInDeDark.Library.Levels
 {
     public enum DoorStates
     {
@@ -22,15 +21,22 @@ namespace MarkInDeDark.Library.Objects
     /// La porta si apre sempre nella direzione opposta la player 
     /// e cambia il suo punto di perno di conseguenza per fare in modo che si apra sempre alla sua destra
     /// </summary>
-    public class Door
+    public class WallInteractiveDoor : IWall
     {
         public bool IsMoving => _currentState == DoorStates.Closing || _currentState == DoorStates.Opening;
         public bool IsOpen => _currentState == DoorStates.Open;
 
-        public LinkDirection DoorDirectionInCell { get; }
-        public DrawingInfos _wallDoorDownDrawingInfos;
-        public DrawingInfos _wallDoorArcDrawingInfos;
-        public DrawingInfos DoorAnimationDrawingInfos;
+        public LinkDirection Direction { get; }
+
+#warning da fare per ombre
+        public Rectangle CollisionRectangle => throw new NotImplementedException();
+#warning da fare per ombre
+        public Hull Hull => throw new NotImplementedException();
+        public Vector2 Position => _wallDoorDownDrawingInfos.Position;
+
+        private readonly DrawingInfos _wallDoorDownDrawingInfos;
+        private readonly DrawingInfos _wallDoorArcDrawingInfos;
+        private readonly DrawingInfos _doorAnimationDrawingInfos;
 
         private readonly Sprite _wallDoorUpSprite;
         private readonly Sprite _wallDoorDownSprite;
@@ -42,7 +48,7 @@ namespace MarkInDeDark.Library.Objects
         private readonly SpriteAnimation _doorCloseAnimation;
         private SpriteAnimation _currentAnimation;
 
-        public Door(
+        public WallInteractiveDoor(
             Vector2 doorPosition,
             LinkDirection linkDirection,
             SpriteAnimation doorOpenAnimation,
@@ -54,7 +60,7 @@ namespace MarkInDeDark.Library.Objects
             _wallDoorUpSprite = wallDoorArc;
             _wallDoorDownSprite = wallDoorDown;
 
-            DoorDirectionInCell = linkDirection;
+            Direction = linkDirection;
 
             _wallDoorDownDrawingInfos = new DrawingInfos()
             {
@@ -69,7 +75,7 @@ namespace MarkInDeDark.Library.Objects
             };
 
             var doorAnimationPosition = doorPosition + new Vector2(0f, -15f);
-            DoorAnimationDrawingInfos = new DrawingInfos()
+            _doorAnimationDrawingInfos = new DrawingInfos()
             {
                 Position = doorAnimationPosition,
                 LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition)
@@ -104,7 +110,7 @@ namespace MarkInDeDark.Library.Objects
         {
             spriteBatch.Draw(_wallDoorDownSprite, _wallDoorDownDrawingInfos);
             spriteBatch.Draw(_wallDoorUpSprite, _wallDoorArcDrawingInfos);
-            spriteBatch.Draw(_currentAnimation.CurrentFrame, DoorAnimationDrawingInfos);
+            spriteBatch.Draw(_currentAnimation.CurrentFrame, _doorAnimationDrawingInfos);
         }
 
         public void Update(TimeSpan elapsed)

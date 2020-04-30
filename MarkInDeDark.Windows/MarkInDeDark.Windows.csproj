@@ -157,9 +157,6 @@
     <Content Include="Assets\Levels\3 TUTORIAL.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Levels\4 TUTORIAL.mark">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\menu.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

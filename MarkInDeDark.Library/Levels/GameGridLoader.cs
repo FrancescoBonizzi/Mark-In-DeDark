@@ -1,7 +1,5 @@
 ﻿using MarkInDeDark.GameGridCommon;
-
 using MarkInDeDark.Library.Common;
-using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
 using System;
@@ -20,8 +18,6 @@ namespace MarkInDeDark.Library.Levels
             Level level,
             GameConfig gameConfig)
         {
-           // GameGridCleaner.CleanUpGameGridBundle(levelEditorGrid);
-
             var skeletronsPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var zombiesPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
             var taurusPaths = new Dictionary<int, List<KeyValuePair<int, GameCell>>>();
@@ -60,7 +56,7 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.CellaMuroSpeciale:
-                            gameCell.Sprite = level.OversizeWallSprite;
+                            gameCell.Sprite = level.FillingSprite;
                             gameCell.SetSpecialWallCell();
                             break;
 
@@ -249,23 +245,10 @@ namespace MarkInDeDark.Library.Levels
                         }
                     }
 
-                    gameCell.GroundType = levelEditorCell.GroundType;
-                    gameCell.IsNorthDestroyable = levelEditorCell.Top == WallTypes.Fragile;
-                    gameCell.IsNorthPassable = levelEditorCell.Top == WallTypes.Niente || levelEditorCell.Top == WallTypes.Porta;
-                    gameCell.IsNorthDoor = levelEditorCell.Top == WallTypes.Porta;
-
-                    gameCell.IsEastDestroyable = levelEditorCell.Right == WallTypes.Fragile;
-                    gameCell.IsEastPassable = levelEditorCell.Right == WallTypes.Niente || levelEditorCell.Right == WallTypes.Porta;
-
-                    gameCell.IsSouthDestroyable = levelEditorCell.Bottom == WallTypes.Fragile;
-                    gameCell.IsSouthPassable = levelEditorCell.Bottom == WallTypes.Niente || levelEditorCell.Bottom == WallTypes.Porta;
-                    gameCell.IsSouthDoor = levelEditorCell.Bottom == WallTypes.Porta;
-
-                    gameCell.IsWestDestroyable = levelEditorCell.Left == WallTypes.Fragile;
-                    gameCell.IsWestPassable = levelEditorCell.Left == WallTypes.Niente || levelEditorCell.Left == WallTypes.Porta;
-
-                    gameCell.GenerateWalls(levelEditorCell);
-                    gameCell.GenerateDoors(level);
+                    gameCell.Initialize(
+                        levelEditorCell,
+                        level,
+                        assetsLoader);
                 }
             }
 
@@ -320,8 +303,7 @@ namespace MarkInDeDark.Library.Levels
             }
 
             GridAsGraph(grid);
-            GenerateAngles(grid);
-            GameGridCleaner.CleanAnglesAndWallsGrid(grid);
+            GameGridCleaner.CleanPillarsAndWallsGrid(grid);
 
             // Serve per impostare correttamente i link relativi alle porte, 
             // altrimenti in alcuni casi il link non è corretto.
@@ -454,77 +436,6 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        private static void GenerateAngles(GameGrid grid)
-        {
-            for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
-            {
-                for (int j = 0; j < GameGrid.VerticalCellsNumber; ++j)
-                {
-                    var cell = grid.GetCellByIndex(i, j);
-
-                    if (cell == null || cell.IsUnLinked)
-                        continue;
-
-                    cell.SetSimplePillars();
-
-                    // Aggiungo altri muretti. Posso farlo solo qua perchè prima non ho i link alle celle intorno!
-
-                    if (!cell.IsEastPassable)
-                        if (cell.Links[LinkDirection.NorthLink] != null)
-                            if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
-                                if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
-                                    cell.AddNEPillar();
-
-                    if (!cell.IsWestPassable)
-                        if (cell.Links[LinkDirection.NorthLink] != null)
-                            if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)
-                                if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink].IsSouthPassable)
-                                    cell.AddNWPillar();
-
-                    if (cell.Links[LinkDirection.NorthLink] != null)
-                        if (!cell.Links[LinkDirection.NorthLink].IsEastPassable)
-                            if (cell.Links[LinkDirection.EastLink] != null)
-                                if (!cell.Links[LinkDirection.EastLink].IsNorthPassable)
-                                    cell.AddNEPillar();
-
-                    if (cell.Links[LinkDirection.NorthLink] != null)
-                        if (!cell.Links[LinkDirection.NorthLink].IsWestPassable)
-                            if (cell.Links[LinkDirection.WestLink] != null)
-                                if (!cell.Links[LinkDirection.WestLink].IsNorthPassable)
-                                    cell.AddNWPillar();
-
-                    if (!cell.IsNorthPassable)
-                        if (cell.Links[LinkDirection.EastLink] != null)
-                            if (cell.Links[LinkDirection.EastLink].IsNorthPassable || cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
-                                if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
-                                    cell.AddNEPillar();
-
-                    if (!cell.IsNorthPassable)
-                        if (cell.Links[LinkDirection.WestLink] != null)
-                            if (cell.Links[LinkDirection.WestLink].IsNorthPassable || cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
-                                if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
-                                    cell.AddNWPillar();
-
-                    if (!cell.IsEastPassable)
-                        if (cell.Links[LinkDirection.NorthLink] != null)
-                            if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
-                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
-                                    cell.AddNEPillar();
-
-                    if (!cell.IsEastPassable)
-                        if (cell.Links[LinkDirection.SouthLink] != null)
-                            if (cell.Links[LinkDirection.SouthLink].IsEastPassable || cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
-                                if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
-                                    cell.AddSEPillar();
-
-                    if (!cell.IsWestPassable)
-                        if (cell.Links[LinkDirection.SouthLink] != null)
-                            if (cell.Links[LinkDirection.SouthLink].IsWestPassable || cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
-                                if (!cell.IsWestDestroyable || !cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
-                                    cell.AddSWPillar();
-                }
-            }
-        }
-
+    
     }
 }

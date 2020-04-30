@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDark.GameGridCommon;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
@@ -14,12 +15,15 @@ namespace MarkInDeDark.Library.Levels
         public DrawingInfos DrawingInfos { get; }
         private readonly Sprite _sprite;
         public Hull Hull { get; }
-
+        public PillarPositions PillarPosition { get; }
 
         public Pillar(
             Vector2 position,
-            Sprite sprite)
+            Sprite sprite,
+            PillarPositions pillarPosition)
         {
+            PillarPosition = pillarPosition;
+            
             DrawingInfos = new DrawingInfos()
             {
                 Position = position,
