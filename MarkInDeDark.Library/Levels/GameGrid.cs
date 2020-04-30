@@ -269,11 +269,14 @@ namespace MarkInDeDark.Library.Levels
             // Per gestire il fatto che io possa aprire una porta che è a cavallo tra due celle
             if (northCell != null && northCell.Walls.ContainsKey(LinkDirection.SouthLink) && northCell.Walls[LinkDirection.SouthLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.NorthLink, northCell.Walls[LinkDirection.SouthLink] as WallInteractiveDoor);
-            if (southCell != null && southCell.Walls.ContainsKey(LinkDirection.NorthLink) && northCell.Walls[LinkDirection.NorthLink] is WallInteractiveDoor)
+
+            if (southCell != null && southCell.Walls.ContainsKey(LinkDirection.NorthLink) && southCell.Walls[LinkDirection.NorthLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.SouthLink, southCell.Walls[LinkDirection.NorthLink] as WallInteractiveDoor);
-            if (eastCell != null && eastCell.Walls.ContainsKey(LinkDirection.WestLink) && northCell.Walls[LinkDirection.WestLink] is WallInteractiveDoor)
+
+            if (eastCell != null && eastCell.Walls.ContainsKey(LinkDirection.WestLink) && eastCell.Walls[LinkDirection.WestLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.EastLink, eastCell.Walls[LinkDirection.WestLink] as WallInteractiveDoor);
-            if (westCell != null && westCell.Walls.ContainsKey(LinkDirection.EastLink) && northCell.Walls[LinkDirection.EastLink] is WallInteractiveDoor)
+
+            if (westCell != null && westCell.Walls.ContainsKey(LinkDirection.EastLink) && westCell.Walls[LinkDirection.EastLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.WestLink, westCell.Walls[LinkDirection.EastLink] as WallInteractiveDoor);
 
             foreach (var door in doorsToExamine)

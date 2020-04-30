@@ -127,28 +127,6 @@ namespace MarkInDeDark.Library.Levels
             throw new NotImplementedException($"Muro di tipo non gestito: {topType}");
         }
 
-        /*
-                     // TODO da mettere nel WallFactory
-            int shakeIntensity = 3;
-
-            if (IsNorthDoor)
-            {
-               
-            }
-
-            if (IsSouthDoor)
-            {
-                Doors.Add(LinkDirection.SouthLink, new WallInteractiveDoor(
-                    doorPosition: new Vector2(_cellDrawingInfos.Position.X, _cellDrawingInfos.Position.Y + _height - 80),
-                    linkDirection: LinkDirection.SouthLink,
-                    doorOpenAnimation: levelConfig.DoorOpenAnimation,
-                    doorCloseAnimation: levelConfig.DoorCloseAnimation,
-                    wallDoorArc: _wallDoorArc,
-                    wallDoorDown: _wallDoorDown,
-                    onClose: () => _game.StartCameraShake(shakeIntensity)));
-            }
-            */
-
         private static IWall GenerateSouthWall(
             Vector2 cellPosition,
             Cell cellConfig,
@@ -157,7 +135,7 @@ namespace MarkInDeDark.Library.Levels
             Action doorActionOnClose)
         {
             var bottomType = cellConfig.Bottom;
-            var direction = LinkDirection.NorthLink;
+            var direction = LinkDirection.SouthLink;
 
             switch (bottomType)
             {
@@ -190,14 +168,14 @@ namespace MarkInDeDark.Library.Levels
 
                     return new WallFixed(
                         direction,
-                        new Vector2(cellPosition.X, cellPosition.Y - horizontalWallSprite.Height + 115f),
+                        new Vector2(cellPosition.X, cellPosition.Y + 115f),
                         horizontalWallSprite,
                         decal);
 
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallHorizontalDestroyableSprite.Height + 115f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + 115f),
                         primarySprite: level.WallHorizontalDestroyableSprite,
                         brokenSprite: level.WallHorizontalBrokenSprite);
 
@@ -273,7 +251,7 @@ namespace MarkInDeDark.Library.Levels
             if (cellConfig.Left == WallTypes.Fragile)
             {
                 return new WallBreakable(
-                    direction: LinkDirection.EastLink,
+                    direction: LinkDirection.WestLink,
                     position: wallPosition,
                     primarySprite: level.WallVerticalDestroyableSprite,
                     brokenSprite: level.WallVerticalBrokenASprite,
@@ -282,7 +260,7 @@ namespace MarkInDeDark.Library.Levels
             else
             {
                 return new WallFixed(
-                    direction: LinkDirection.EastLink,
+                    direction: LinkDirection.WestLink,
                     position: wallPosition,
                     sprite: Utilities.RandomBetween(level.RandomVerticalWallSprites));
             }
