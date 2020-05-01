@@ -106,7 +106,6 @@ namespace MarkInDeDark.Library.Levels
                         onClose: () => doorActionOnClose());
 
                 case WallTypes.Ingresso:
-#warning TODO La posizione è da configurare
                     return new WallEsteticDoor(
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
@@ -115,7 +114,6 @@ namespace MarkInDeDark.Library.Levels
                         spriteArc: level.WallEntranceArcHorizontalSprite);
 
                 case WallTypes.Uscita:
-#warning TODO La posizione è da configurare
                     return new WallEsteticDoor(
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
