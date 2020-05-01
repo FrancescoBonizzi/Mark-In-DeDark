@@ -43,7 +43,7 @@ namespace MarkInDeDark.Library.Levels
                     (int)position.X + 20,
                     (int)position.Y,
                     sprite.Width - 40,
-                    sprite.Height + 40);
+                    sprite.Height + 55);
             }
             else
             {

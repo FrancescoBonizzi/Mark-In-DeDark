@@ -237,9 +237,9 @@ namespace MarkInDeDark.Library.Levels
         public bool IsWestDoor => false; // Non esistono
 
         public bool IsNorthDoorPassable => !IsNorthDoor || (Walls[LinkDirection.NorthLink] as WallInteractiveDoor).IsOpen;
-        public bool IsEastDoorPassable => !IsEastDoor || (Walls[LinkDirection.EastLink] as WallInteractiveDoor).IsOpen;
+        public bool IsEastDoorPassable => true; // Non esistono
         public bool IsSouthDoorPassable => !IsSouthDoor || (Walls[LinkDirection.SouthLink] as WallInteractiveDoor).IsOpen;
-        public bool IsWestDoorPassable => !IsWestDoor || (Walls[LinkDirection.WestLink] as WallInteractiveDoor).IsOpen;
+        public bool IsWestDoorPassable => true; // Non esistono
 
         public bool IsPassableWithAction(CharacterActions action)
         {

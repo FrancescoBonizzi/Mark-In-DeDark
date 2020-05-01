@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -28,10 +29,8 @@ namespace MarkInDeDark.Library.Levels
 
         public LinkDirection Direction { get; }
 
-#warning da fare per ombre
-        public Rectangle CollisionRectangle => throw new NotImplementedException();
-#warning da fare per ombre
-        public Hull Hull => throw new NotImplementedException();
+        public Rectangle CollisionRectangle { get; }
+        public Hull Hull { get; }
         public Vector2 Position => _wallDoorDownDrawingInfos.Position;
 
         private readonly DrawingInfos _wallDoorDownDrawingInfos;
@@ -88,6 +87,20 @@ namespace MarkInDeDark.Library.Levels
             _currentState = DoorStates.Open;
 
             _onClose = onClose;
+
+            // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
+            CollisionRectangle = new Rectangle(
+                (int)doorPosition.X,
+                (int)doorPosition.Y + 100,
+                _wallDoorDownSprite.Width,
+                40);
+
+            Hull = Utilities.HullFromRectangle(CollisionRectangle);
+
+            Hull.Points.Add(new Vector2(0, 0));
+            Hull.Points.Add(new Vector2(0, 1));
+            Hull.Points.Add(new Vector2(1, 1));
+            Hull.Points.Add(new Vector2(1, 0));
         }
 
         public void Open()
@@ -96,6 +109,7 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation = _doorOpenAnimation;
             _currentAnimation.Stop();
             _currentAnimation.Play();
+            Hull.Enabled = false;
         }
 
         public void Close()
@@ -104,6 +118,7 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation = _doorCloseAnimation;
             _currentAnimation.Stop();
             _currentAnimation.Play();
+            Hull.Enabled = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
