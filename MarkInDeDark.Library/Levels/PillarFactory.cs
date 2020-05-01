@@ -22,93 +22,93 @@ namespace MarkInDeDark.Library.Levels
                 if (cell.Links[LinkDirection.NorthLink] != null)
                     if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink] != null)
                         if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.EastLink].IsSouthPassable)
-                            pillars.Add(AddNEPillar(cell, level));
+                            pillars.Add(GenerateNEPillar(cell, level));
 
             if (!cell.IsWestPassable)
                 if (cell.Links[LinkDirection.NorthLink] != null)
                     if (cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink] != null)
                         if (!cell.Links[LinkDirection.NorthLink].Links[LinkDirection.WestLink].IsSouthPassable)
-                            pillars.Add(AddNWPillar(cell, level));
+                            pillars.Add(GenerateNWPillar(cell, level));
 
             if (cell.Links[LinkDirection.NorthLink] != null)
                 if (!cell.Links[LinkDirection.NorthLink].IsEastPassable)
                     if (cell.Links[LinkDirection.EastLink] != null)
                         if (!cell.Links[LinkDirection.EastLink].IsNorthPassable)
-                            pillars.Add(AddNEPillar(cell, level));
+                            pillars.Add(GenerateNEPillar(cell, level));
 
             if (cell.Links[LinkDirection.NorthLink] != null)
                 if (!cell.Links[LinkDirection.NorthLink].IsWestPassable)
                     if (cell.Links[LinkDirection.WestLink] != null)
                         if (!cell.Links[LinkDirection.WestLink].IsNorthPassable)
-                            pillars.Add(AddNWPillar(cell, level));
+                            pillars.Add(GenerateNWPillar(cell, level));
 
             if (!cell.IsNorthPassable)
                 if (cell.Links[LinkDirection.EastLink] != null)
                     if (cell.Links[LinkDirection.EastLink].IsNorthPassable || cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
                         if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
-                            pillars.Add(AddNEPillar(cell, level));
+                            pillars.Add(GenerateNEPillar(cell, level));
 
             if (!cell.IsNorthPassable)
                 if (cell.Links[LinkDirection.WestLink] != null)
                     if (cell.Links[LinkDirection.WestLink].IsNorthPassable || cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
                         if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
-                            pillars.Add(AddNWPillar(cell, level));
+                            pillars.Add(GenerateNWPillar(cell, level));
 
             if (!cell.IsEastPassable)
                 if (cell.Links[LinkDirection.NorthLink] != null)
                     if (cell.Links[LinkDirection.NorthLink].IsEastPassable || cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
                         if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.NorthLink].IsEastDestroyable)
-                            pillars.Add(AddNEPillar(cell, level));
+                            pillars.Add(GenerateNEPillar(cell, level));
 
             if (!cell.IsEastPassable)
                 if (cell.Links[LinkDirection.SouthLink] != null)
                     if (cell.Links[LinkDirection.SouthLink].IsEastPassable || cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
                         if (!cell.IsEastDestroyable || !cell.Links[LinkDirection.SouthLink].IsEastDestroyable)
-                            pillars.Add(AddSEPillar(cell, level));
+                            pillars.Add(GenerateSEPillar(cell, level));
 
             if (!cell.IsWestPassable)
                 if (cell.Links[LinkDirection.SouthLink] != null)
                     if (cell.Links[LinkDirection.SouthLink].IsWestPassable || cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
                         if (!cell.IsWestDestroyable || !cell.Links[LinkDirection.SouthLink].IsWestDestroyable)
-                            pillars.Add(AddSWPillar(cell, level));
+                            pillars.Add(GenerateSWPillar(cell, level));
 
             if (!cell.IsNorthPassable && !cell.IsEastPassable)
-                pillars.Add(AddNEPillar(cell, level));
+                pillars.Add(GenerateNEPillar(cell, level));
             if (!cell.IsNorthPassable && !cell.IsWestPassable)
-                pillars.Add(AddNWPillar(cell, level));
+                pillars.Add(GenerateNWPillar(cell, level));
             if (!cell.IsSouthPassable && !cell.IsEastPassable)
-                pillars.Add(AddSEPillar(cell, level));
+                pillars.Add(GenerateSEPillar(cell, level));
             if (!cell.IsSouthPassable && !cell.IsWestPassable)
-                pillars.Add(AddSWPillar(cell, level));
+                pillars.Add(GenerateSWPillar(cell, level));
 
             if (cell.IsNorthDoor)
             {
-                pillars.Add(AddNEPillar(cell, level));
-                pillars.Add(AddNWPillar(cell, level));
+                pillars.Add(GenerateNEPillar(cell, level));
+                pillars.Add(GenerateNWPillar(cell, level));
             }
 
             if (cell.IsSouthDoor)
             {
-                pillars.Add(AddSEPillar(cell, level));
-                pillars.Add(AddSWPillar(cell, level));
+                pillars.Add(GenerateSEPillar(cell, level));
+                pillars.Add(GenerateSWPillar(cell, level));
             }
 
             if (cell.IsEastDoor)
             {
-                pillars.Add(AddNEPillar(cell, level));
-                pillars.Add(AddSEPillar(cell, level));
+                pillars.Add(GenerateNEPillar(cell, level));
+                pillars.Add(GenerateSEPillar(cell, level));
             }
 
             if (cell.IsWestDoor)
             {
-                pillars.Add(AddNWPillar(cell, level));
-                pillars.Add(AddSWPillar(cell, level));
+                pillars.Add(GenerateNWPillar(cell, level));
+                pillars.Add(GenerateSWPillar(cell, level));
             }
 
             return pillars.DistinctBy(p => p.PillarPosition).ToList();
         }
 
-        private static Pillar AddNWPillar(GameCell cell, Level level)
+        private static Pillar GenerateNWPillar(GameCell cell, Level level)
         {
             return new Pillar(
                 new Vector2(
@@ -118,7 +118,7 @@ namespace MarkInDeDark.Library.Levels
                 PillarPositions.NW);
         }
 
-        private static Pillar AddNEPillar(GameCell cell, Level level)
+        private static Pillar GenerateNEPillar(GameCell cell, Level level)
         {
             return new Pillar(
                 new Vector2(
@@ -128,7 +128,7 @@ namespace MarkInDeDark.Library.Levels
                 PillarPositions.NE);
         }
 
-        private static Pillar AddSWPillar(GameCell cell, Level level)
+        private static Pillar GenerateSWPillar(GameCell cell, Level level)
         {
             return new Pillar(
                 new Vector2(
@@ -138,7 +138,7 @@ namespace MarkInDeDark.Library.Levels
                 PillarPositions.SW);
         }
 
-        private static Pillar AddSEPillar(GameCell cell, Level level)
+        private static Pillar GenerateSEPillar(GameCell cell, Level level)
         {
             return new Pillar(
                 new Vector2(
