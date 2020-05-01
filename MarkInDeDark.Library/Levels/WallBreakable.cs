@@ -66,7 +66,7 @@ namespace MarkInDeDark.Library.Levels
                     (int)position.X + 20,
                     (int)position.Y,
                     _primarySprite.Width - 40,
-                    _primarySprite.Height);
+                    _primarySprite.Height + 55);
             }
             else
             {
