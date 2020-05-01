@@ -1,20 +1,24 @@
 ﻿using FbonizziMonoGame.Drawing;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 
 namespace MarkInDeDark.Library
 {
     public class Exit
     {
+        private readonly WallEsteticDoor _exitDoor;
         private readonly Vector2 _cellSize;
         private readonly DrawingInfos _drawingInfos;
-        public bool IsOpen { get; private set; } = false;
+        public bool IsOpen { get; private set; }
 
         public Exit(
             Vector2 position,
-            Vector2 cellSize)
+            Vector2 cellSize,
+            WallEsteticDoor exitDoor)
         {
+            _exitDoor = exitDoor;
             _cellSize = cellSize;
 
             _drawingInfos = new DrawingInfos()
@@ -29,6 +33,7 @@ namespace MarkInDeDark.Library
         public void SetOpen()
         {
             IsOpen = true;
+            _exitDoor.IsOpen = true;
         }
 
         public Vector2 Position

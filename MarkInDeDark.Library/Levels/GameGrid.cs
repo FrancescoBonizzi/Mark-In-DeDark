@@ -43,6 +43,9 @@ namespace MarkInDeDark.Library.Levels
         public List<Rectangle> BrekableTrapCollisionRectangles { get; set; }
         public List<KeyValuePair<Rectangle, string>> CellTriggerText { get; set; }
 
+        public WallEsteticDoor EntranceDoor { get; set; }
+        public WallEsteticDoor ExitDoor { get; set; }
+
         public Rectangle? GoblinTriggerRectangle { get; set; }
 
         private int _currentViewportMinCellX = 0;

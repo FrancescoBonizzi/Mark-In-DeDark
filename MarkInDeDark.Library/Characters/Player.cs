@@ -10,7 +10,7 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Player : Character
     {
-        private readonly PlayerDescendingStairsAnimation _winAnimation;
+        private readonly PlayerWinAnimation _winAnimation;
         private readonly CandleFireParticleSystem _playerCandleFireParticleSystem;
 
         private readonly SoundManager _soundManager;
@@ -59,7 +59,7 @@ namespace MarkInDeDark.Library.Characters
             SurroundingLight.AloneEnabled = true;
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
-            _winAnimation = new PlayerDescendingStairsAnimation(assetsLoader);
+            _winAnimation = new PlayerWinAnimation(assetsLoader);
 
             AreLightsActive = true;
             //_soundManager.PlayPlayerTorch();

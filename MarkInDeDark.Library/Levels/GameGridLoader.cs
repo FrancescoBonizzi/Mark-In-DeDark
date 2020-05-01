@@ -319,6 +319,26 @@ namespace MarkInDeDark.Library.Levels
 
             GameGridCleaner.CleanPillarsAndWallsGrid(grid);
 
+            // Reference alla porta d'ingresso
+            var allEntrances = grid.GetAllWalls()
+                .Where(w => w is WallEsteticDoor a && a.WallEsteticDoorType == WallEsteticDoorType.Entrance)
+                .ToList();
+            if (allEntrances.Count > 1)
+                throw new ApplicationException("È ammessa una sola porta d'ingresso");
+            if (allEntrances.Count == 0)
+                throw new ApplicationException("Non c'è la porta d'ingresso!");
+            grid.EntranceDoor = allEntrances.First() as WallEsteticDoor;
+
+            // Reference alla porta d'uscita
+            var allExits = grid.GetAllWalls()
+                .Where(w => w is WallEsteticDoor a && a.WallEsteticDoorType == WallEsteticDoorType.Exit)
+                .ToList();
+            if (allExits.Count > 1)
+                throw new ApplicationException("È ammessa una sola porta d'uscita");
+            if (allExits.Count == 0)
+                throw new ApplicationException("Non c'è la porta d'uscita!");
+            grid.ExitDoor = allExits.First() as WallEsteticDoor;
+
             // Serve per impostare correttamente i link relativi alle porte, 
             // altrimenti in alcuni casi il link non è corretto.
             // Di default iniziano tutte aperte
