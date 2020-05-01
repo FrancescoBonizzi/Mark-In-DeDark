@@ -418,11 +418,27 @@ namespace MarkInDeDark.LevelEditor.Editor
             int row,
             int column)
         {
-            if ((wallPosition == WallPositions.Left || wallPosition == WallPositions.Right)
-                && type == WallTypes.Porta)
+            if (wallPosition == WallPositions.Left || wallPosition == WallPositions.Right)
             {
-                // Non sono ammesse porte su muri verticali
+                if (type == WallTypes.Porta
+                    || type == WallTypes.Decal1
+                    || type == WallTypes.Decal2
+                    || type == WallTypes.Decal3
+                    || type == WallTypes.Decal4
+                    || type == WallTypes.Decal5
+                    || type == WallTypes.Ingresso
+                    || type == WallTypes.Uscita
+                    || type == WallTypes.Speciale1)
+                // Tipi di muro non ammessi sui muri verticali
                 return;
+            }
+
+            if (wallPosition == WallPositions.Bottom)
+            {
+                if (type == WallTypes.Ingresso || type == WallTypes.Uscita)
+                {
+                    return;
+                }
             }
 
             _gameGrid.SetWallType(row, column, type, wallPosition);
