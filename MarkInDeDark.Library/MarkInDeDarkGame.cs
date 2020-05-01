@@ -2,13 +2,11 @@
 using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
-using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
 
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
-using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
@@ -141,7 +139,7 @@ namespace MarkInDeDark.Library
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _penumbra);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
 
-            _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight));
+            _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight), _gameGrid.ExitDoor);
             _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
 
             _enemies = new List<Enemy>();

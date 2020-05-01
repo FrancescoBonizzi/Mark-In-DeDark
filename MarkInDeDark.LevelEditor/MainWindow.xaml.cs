@@ -340,18 +340,22 @@ namespace MarkInDeDark.LevelEditor
                 if (e.Key == Key.Up)
                 {
                     _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Top);
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Right)
                 {
                     _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Right);
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Down)
                 {
                     _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Bottom);
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Left)
                 {
                     _presentation.SetWallOfCurrentHoveredCellType(_currentSelectedWallType, WallPositions.Left);
+                    e.Handled = true;
                 }
             }
         }

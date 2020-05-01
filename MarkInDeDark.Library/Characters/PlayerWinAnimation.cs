@@ -8,18 +8,19 @@ using System;
 
 namespace MarkInDeDark.Library.Characters
 {
-    public class PlayerDescendingStairsAnimation
+    public class PlayerWinAnimation
     {
         private TimeSpan _currentAnimationDuration = TimeSpan.FromMilliseconds(35);
-        private TimeSpan _defaultInterval = TimeSpan.FromMilliseconds(35);
-        private readonly float _opacityDelta = -0.009f;
-        private readonly float _scaleDelta = -0.02f;
+        private TimeSpan _defaultInterval = TimeSpan.FromMilliseconds(10);
+        private readonly float _opacityDelta = -0.0009f;
+        private readonly Vector2 _positionDelta = new Vector2(0f, -2f);
+        //private readonly float _scaleDelta = -0.02f;
         private float _opacity = 1.0f;
 
         private readonly SpriteAnimation _walkUpAnimation;
         private readonly DrawingInfos _drawingInfos;
 
-        public PlayerDescendingStairsAnimation(
+        public PlayerWinAnimation(
             AssetsLoader assetsLoader)
         {
             _walkUpAnimation = assetsLoader.GetAnimation("playerWalkUp");
@@ -46,8 +47,8 @@ namespace MarkInDeDark.Library.Characters
                 _currentAnimationDuration = _defaultInterval;
 
                 _opacity += _opacityDelta;
-                _drawingInfos.Scale += _scaleDelta;
                 _drawingInfos.OverlayColor *= _opacity;
+                _drawingInfos.Position += _positionDelta;
             }
 
             _walkUpAnimation.Update(elapsed);

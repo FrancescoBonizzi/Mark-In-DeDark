@@ -107,6 +107,7 @@ namespace MarkInDeDark.Library.Levels
 
                 case WallTypes.Ingresso:
                     return new WallEsteticDoor(
+                        wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite,
@@ -115,6 +116,7 @@ namespace MarkInDeDark.Library.Levels
 
                 case WallTypes.Uscita:
                     return new WallEsteticDoor(
+                        wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite,
@@ -188,19 +190,19 @@ namespace MarkInDeDark.Library.Levels
                         onClose: () => doorActionOnClose());
 
                 case WallTypes.Ingresso:
-#warning TODO La posizione è da configurare
                     return new WallEsteticDoor(
+                        wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + level.WallDoorBaseSprite.Height - 43),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite,
                         spriteCenterClosed: level.WallEntranceClosedHorizontalSprite,
                         spriteArc: level.WallEntranceArcHorizontalSprite);
 
                 case WallTypes.Uscita:
-#warning TODO La posizione è da configurare
                     return new WallEsteticDoor(
+                        wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + level.WallDoorBaseSprite.Height - 43),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite,
                         spriteCenterClosed: level.WallExitClosedHorizontalSprite,
                         spriteArc: level.WallExitArcHorizontalSprite);

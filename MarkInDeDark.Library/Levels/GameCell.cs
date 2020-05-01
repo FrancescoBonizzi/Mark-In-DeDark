@@ -138,7 +138,7 @@ namespace MarkInDeDark.Library.Levels
             IsUnLinked = true;
         }
 
-        public void Initialize(
+        public void InitializeWalls(
             Cell levelEditorCell,
             Level level,
             AssetsLoader assets)
@@ -176,13 +176,15 @@ namespace MarkInDeDark.Library.Levels
                 }
             }
 
+        }
+
+        public void InitializePillars(Level level)
+        {
+            var pillars = PillarFactory.GeneratePillars(this, level);
+            Pillars = new Dictionary<PillarPositions, Pillar>();
+            foreach (var p in pillars)
             {
-                var pillars = PillarFactory.GeneratePillars(this, level);
-                Pillars = new Dictionary<PillarPositions, Pillar>();
-                foreach(var p in pillars)
-                {
-                    Pillars.Add(p.PillarPosition, p);
-                }
+                Pillars.Add(p.PillarPosition, p);
             }
         }
 
