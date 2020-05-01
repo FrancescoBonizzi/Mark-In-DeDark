@@ -324,6 +324,7 @@
                         FontWeight="Bold" />
 
                     <RadioButton
+                        x:Name="BtnWallType_No"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -343,6 +344,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnWallType_Standard"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -362,6 +364,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnWallType_Special1"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"
@@ -572,6 +575,7 @@
                         FontWeight="Bold" />
 
                     <RadioButton
+                        x:Name="BtnObjectTypeCancel"
                         Width="100"
                         Margin="10,0"
                         Padding="5,2"

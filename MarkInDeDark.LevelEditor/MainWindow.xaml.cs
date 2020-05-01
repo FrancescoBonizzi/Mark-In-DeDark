@@ -335,6 +335,52 @@ namespace MarkInDeDark.LevelEditor
 
         private void LevelEditorCanvas_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.F)
+            {
+                // Terra 
+                BtnGroundType_Ground.IsChecked = true;
+                _currentSelectedCellType = GroundTypes.Terra;
+                _currentEditorAction = EditorActions.Ground;
+                _presentation.ClearHover();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.W)
+            {
+                // Muro standard
+                BtnWallType_Standard.IsChecked = true;
+                _currentSelectedWallType = WallTypes.Occludente;
+                _currentEditorAction = EditorActions.Wall;
+                _presentation.ClearHover();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.D)
+            {
+                // No muro
+                BtnWallType_No.IsChecked = true;
+                _currentSelectedWallType = WallTypes.Niente;
+                _currentEditorAction = EditorActions.Wall;
+                _presentation.ClearHover();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.C)
+            {
+                // Cancella 
+                BtnObjectTypeCancel.IsChecked = true;
+                _currentSelectedObjectType = ObjectTypes.Cancella;
+                _currentEditorAction = EditorActions.Object;
+                _presentation.ClearHover();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.R)
+            {
+                // Muro speciale
+                BtnWallType_Special1.IsChecked = true;
+                _currentSelectedWallType = WallTypes.Speciale1;
+                _currentEditorAction = EditorActions.Wall;
+                _presentation.ClearHover();
+                e.Handled = true;
+            }
+
             if (_currentEditorAction == EditorActions.Wall)
             {
                 if (e.Key == Key.Up)
