@@ -190,22 +190,10 @@ namespace MarkInDeDark.Library.Levels
                         onClose: () => doorActionOnClose());
 
                 case WallTypes.Ingresso:
-                    return new WallEsteticDoor(
-                        wallEsteticDoorType: WallEsteticDoorType.Entrance,
-                        direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + level.WallDoorBaseSprite.Height - 43),
-                        spriteCenterOpen: level.WallEntranceOpenHorizontalSprite,
-                        spriteCenterClosed: level.WallEntranceClosedHorizontalSprite,
-                        spriteArc: level.WallEntranceArcHorizontalSprite);
+                    throw new ApplicationException("Porta d'ingresso a sud di una cella non consentita");
 
                 case WallTypes.Uscita:
-                    return new WallEsteticDoor(
-                        wallEsteticDoorType: WallEsteticDoorType.Exit,
-                        direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + level.WallDoorBaseSprite.Height - 43),
-                        spriteCenterOpen: level.WallExitOpenHorizontalSprite,
-                        spriteCenterClosed: level.WallExitClosedHorizontalSprite,
-                        spriteArc: level.WallExitArcHorizontalSprite);
+                    throw new ApplicationException("Porta d'uscita a sud di una cella non consentita");
             }
 
             throw new NotImplementedException($"Muro di tipo non gestito: {bottomType}");

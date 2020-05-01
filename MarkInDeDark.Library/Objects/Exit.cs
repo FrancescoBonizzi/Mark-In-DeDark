@@ -33,7 +33,7 @@ namespace MarkInDeDark.Library
         public void SetOpen()
         {
             IsOpen = true;
-            _exitDoor.IsOpen = true;
+            _exitDoor.SetOpen();
         }
 
         public Vector2 Position

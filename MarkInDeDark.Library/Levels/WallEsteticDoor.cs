@@ -30,7 +30,7 @@ namespace MarkInDeDark.Library.Levels
 
         public Vector2 Position => _spriteCenterDrawingInfos.Position;
 
-        public bool IsOpen { get; set; }
+        private bool _isOpen;
 
         public WallEsteticDoor(
             WallEsteticDoorType wallEsteticDoorType,
@@ -67,17 +67,22 @@ namespace MarkInDeDark.Library.Levels
                  40);
 
             Hull = Utilities.HullFromRectangle(CollisionRectangle);
-
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));
             Hull.Points.Add(new Vector2(1, 0));
         }
 
+        public void SetOpen()
+        {
+            _isOpen = true;
+            Hull.Enabled = false;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_spriteArc, _spriteArcDrawingInfos);
-            if (IsOpen)
+            if (_isOpen)
                 spriteBatch.Draw(_spriteCenterOpen, _spriteCenterDrawingInfos);
             else spriteBatch.Draw(_spriteCenterClosed, _spriteCenterDrawingInfos);
         }
