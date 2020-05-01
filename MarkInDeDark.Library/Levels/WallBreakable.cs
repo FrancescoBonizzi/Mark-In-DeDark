@@ -22,9 +22,10 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _brokenSprite;
         private readonly Sprite _brokenSpriteB;
 
+        private bool _isBroken;
+
         public Rectangle CollisionRectangle { get; }
         public Hull Hull { get; }
-        public bool IsBroken { get; set; }
         public Vector2 Position => _drawingInfos.Position;
 
         public WallBreakable(
@@ -45,16 +46,18 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.ForWall(position + primarySprite.SpriteCenter)
             };
 
-#warning Finire A
+            // Pezzo sud
             _drawingInfosA = new DrawingInfos()
             {
-
+                Position = position + new Vector2(0f, _primarySprite.Height - _brokenSprite.Height),
+                LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
 
-#warning Finire B
+            // Pezzo nord
             _drawingInfosB = new DrawingInfos()
             {
-
+                Position = position,
+                LayerDepth = ZIndexCalculator.ForWall(position + primarySprite.SpriteCenter)
             };
 
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
@@ -83,9 +86,15 @@ namespace MarkInDeDark.Library.Levels
             Hull.Points.Add(new Vector2(1, 0));
         }
 
+        public void Break()
+        {
+            _isBroken = true;
+            Hull.Enabled = false;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsBroken)
+            if (!_isBroken)
             {
                 spriteBatch.Draw(_primarySprite, _drawingInfos);
             }

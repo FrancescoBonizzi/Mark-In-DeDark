@@ -272,9 +272,9 @@ namespace MarkInDeDark.Library.Levels
             if (Walls.ContainsKey(direction))
             {
                 var wall = Walls[direction] as WallBreakable;
-                wall.IsBroken = true;
+                wall.Break();
 
-                Walls.Remove(direction);
+                //Walls.Remove(direction);
                 //_soundManager.PlayBreakWallSound();
                 _smokeParticleSystem.AddParticles(breakerPosition);
                 _smokeParticleSystem.AddParticles(breakerPosition);
