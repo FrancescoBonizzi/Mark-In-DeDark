@@ -80,8 +80,9 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition)
             };
 
-            _doorOpenAnimation = doorOpenAnimation;
-            _doorCloseAnimation = doorCloseAnimation;
+            // Copio le animazioni altrimenti apro tante porte contemporeanamente
+            _doorOpenAnimation = new SpriteAnimation(doorOpenAnimation);
+            _doorCloseAnimation = new SpriteAnimation(doorCloseAnimation);
             
             _currentAnimation = _doorOpenAnimation;
             _currentState = DoorStates.Open;
