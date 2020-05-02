@@ -723,11 +723,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/Type2/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/Type2/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/Type2/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/Type2/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/Type2/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/Type3/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/Type3/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/Type3/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/Type3/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/Type3/Decals/decal_5.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

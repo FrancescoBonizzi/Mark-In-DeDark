@@ -14,7 +14,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Vector2 cellSize,
             Action doorActionOnClose)
         {
@@ -22,12 +21,12 @@ namespace MarkInDeDark.Library.Levels
 
             if (cellConfig.Top != WallTypes.Niente)
             {
-                walls.Add(GenerateTopWall(cellPosition, cellConfig, level, assetsLoader, doorActionOnClose));
+                walls.Add(GenerateTopWall(cellPosition, cellConfig, level, doorActionOnClose));
             }
 
             if (cellConfig.Bottom != WallTypes.Niente)
             {
-                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level, assetsLoader, doorActionOnClose));
+                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level, doorActionOnClose));
             }
 
             if (cellConfig.Left != WallTypes.Niente)
@@ -47,7 +46,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Action doorActionOnClose)
         {
             var topType = cellConfig.Top;
@@ -72,15 +70,15 @@ namespace MarkInDeDark.Library.Levels
                         horizontalWallSprite = level.WallSpecialHorizontalSprite;
 
                     if (topType == WallTypes.Decal1)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                        decal = level.Decal1;
                     else if (topType == WallTypes.Decal2)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                        decal = level.Decal2;
                     else if (topType == WallTypes.Decal3)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                        decal = level.Decal3;
                     else if (topType == WallTypes.Decal4)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                        decal = level.Decal4;
                     else if (topType == WallTypes.Decal5)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_5"];
+                        decal = level.Decal5;
 
                     return new WallFixed(
                         direction: direction,
@@ -131,7 +129,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Action doorActionOnClose)
         {
             var bottomType = cellConfig.Bottom;
@@ -156,15 +153,15 @@ namespace MarkInDeDark.Library.Levels
                         horizontalWallSprite = level.WallSpecialHorizontalSprite;
 
                     if (bottomType == WallTypes.Decal1)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                        decal = level.Decal1;
                     else if (bottomType == WallTypes.Decal2)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                        decal = level.Decal2;
                     else if (bottomType == WallTypes.Decal3)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                        decal = level.Decal3;
                     else if (bottomType == WallTypes.Decal4)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                        decal = level.Decal4;
                     else if (bottomType == WallTypes.Decal5)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_5"];
+                        decal = level.Decal5;
 
                     return new WallFixed(
                         direction,
@@ -206,7 +203,7 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellSize)
         {
             var wallPosition = new Vector2(
-                cellPosition.X + cellSize.X - level.RandomVerticalWallSprites[0].Width / 2f, 
+                cellPosition.X + cellSize.X - level.RandomVerticalWallSprites[0].Width / 2f,
                 cellPosition.Y - 30);
 
             if (cellConfig.Right == WallTypes.Fragile)
@@ -233,7 +230,7 @@ namespace MarkInDeDark.Library.Levels
             Level level)
         {
             var wallPosition = new Vector2(
-                cellPosition.X - level.RandomVerticalWallSprites[0].Width / 2f, 
+                cellPosition.X - level.RandomVerticalWallSprites[0].Width / 2f,
                 cellPosition.Y - 30);
 
             if (cellConfig.Left == WallTypes.Fragile)

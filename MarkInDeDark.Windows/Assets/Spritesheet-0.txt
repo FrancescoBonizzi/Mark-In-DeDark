@@ -25,11 +25,6 @@ Goblin/Death/goblin_legL|2026|365|20|44
 Goblin/Death/goblin_legR|1553|195|16|48
 Goblin/Death/goblin_torso|1319|1|68|56
 Grounds/celldark|583|1305|192|192
-Grounds/Decals/decal_1|1177|643|64|64
-Grounds/Decals/decal_2|1243|643|64|64
-Grounds/Decals/decal_3|1309|641|64|64
-Grounds/Decals/decal_4|1375|641|64|64
-Grounds/Decals/decal_5|1971|1|64|64
 Grounds/goblin_trigger|737|1111|192|192
 Grounds/trap_breakable|583|1499|192|192
 Grounds/Type2/cell|389|1305|192|192
@@ -37,6 +32,11 @@ Grounds/Type2/cell2|543|1111|192|192
 Grounds/Type2/cell3|583|723|192|192
 Grounds/Type2/cell4|583|723|192|192
 Grounds/Type2/cell5|583|723|192|192
+Grounds/Type2/Decals/decal_1|1177|643|64|64
+Grounds/Type2/Decals/decal_2|1243|643|64|64
+Grounds/Type2/Decals/decal_3|1309|641|64|64
+Grounds/Type2/Decals/decal_4|1375|641|64|64
+Grounds/Type2/Decals/decal_5|1971|1|64|64
 Grounds/Type2/Dirty/dirty_1|1111|109|48|48
 Grounds/Type2/Dirty/dirty_2|1111|159|48|48
 Grounds/Type2/Dirty/dirty_3|131|2005|16|32
@@ -78,6 +78,11 @@ Grounds/Type3/cell2|389|1693|192|192
 Grounds/Type3/cell3|389|1693|192|192
 Grounds/Type3/cell4|389|1693|192|192
 Grounds/Type3/cell5|389|1693|192|192
+Grounds/Type3/Decals/decal_1|1177|643|64|64
+Grounds/Type3/Decals/decal_2|1243|643|64|64
+Grounds/Type3/Decals/decal_3|1309|641|64|64
+Grounds/Type3/Decals/decal_4|1375|641|64|64
+Grounds/Type3/Decals/decal_5|1971|1|64|64
 Grounds/Type3/Dirty/dirty_1|1111|109|48|48
 Grounds/Type3/Dirty/dirty_2|1111|159|48|48
 Grounds/Type3/Dirty/dirty_3|131|2005|16|32

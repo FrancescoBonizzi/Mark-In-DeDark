@@ -21,6 +21,12 @@ namespace MarkInDeDark.Library.Levels
         public Sprite GroundSpriteType5 { get; private set; }
         public Sprite DarkSprite { get; private set; }
 
+        public Sprite Decal1 { get; private set; }
+        public Sprite Decal2 { get; private set; }
+        public Sprite Decal3 { get; private set; }
+        public Sprite Decal4 { get; private set; }
+        public Sprite Decal5 { get; private set; }
+
         public List<Sprite> DirtySprites { get; private set; }
         public List<Sprite> RandomHorizontalWallSprites { get; private set; }
         public List<Sprite> RandomVerticalWallSprites { get; private set; }
@@ -77,6 +83,12 @@ namespace MarkInDeDark.Library.Levels
             GroundSpriteType4 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"];
             GroundSpriteType5 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"];
 
+            Decal1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"];
+            Decal2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_2"];
+            Decal3 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_3"];
+            Decal4 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_4"];
+            Decal5 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_5"];
+
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
             {
@@ -121,7 +133,7 @@ namespace MarkInDeDark.Library.Levels
             WallVerticalDestroyableSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
             WallVerticalBrokenASprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_A"];
             WallVerticalBrokenBSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_B"];
-            
+
             WallSpecialHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
 
             WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];

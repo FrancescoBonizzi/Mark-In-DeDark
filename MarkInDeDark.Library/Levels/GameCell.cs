@@ -165,7 +165,6 @@ namespace MarkInDeDark.Library.Levels
                     _cellDrawingInfos.Position,
                     levelEditorCell,
                     level,
-                    assets,
                     new Vector2(Width, Height),
                     () => _game.StartCameraShake(3));
 
