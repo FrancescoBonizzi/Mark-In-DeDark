@@ -59,7 +59,7 @@ namespace MarkInDeDark.Library.Characters
                 Color.White,
                 new Color(225, 206, 172));
 
-            _deadBodyParticleEffect = new CharacterTorchParticleSystem(
+            _deadBodyParticleEffect = new DeathBodyParticleSystem(
                 assetsLoader,
                 Color.White,
                 new Color(225, 206, 172));

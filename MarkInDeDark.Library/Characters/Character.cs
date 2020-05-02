@@ -118,7 +118,7 @@ namespace MarkInDeDark.Library.Characters
         protected TimeSpan _deadBodyPartLifetime = TimeSpan.FromSeconds(3);
         protected bool _deadBodyEffectWithFading = true;
 
-        protected CharacterTorchParticleSystem _deadBodyParticleEffect;
+        protected DeathBodyParticleSystem _deadBodyParticleEffect;
         protected readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
 
         public bool ShouldDoExplosionAnimation { get; set; } = false;
@@ -204,7 +204,7 @@ namespace MarkInDeDark.Library.Characters
 
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
-                _deadBodyParticleEffect = new CharacterTorchParticleSystem(
+                _deadBodyParticleEffect = new DeathBodyParticleSystem(
                     assetsLoader,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor);
@@ -274,9 +274,9 @@ namespace MarkInDeDark.Library.Characters
                 _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
-        public void DieForTrap(Vector2 trapCenter)
+        public virtual void FallInTrap(Vector2 trapCenter)
         {
-            _deadPosition = trapCenter + new Vector2(0, 35f);
+            _deadPosition = trapCenter + new Vector2(0, 70f);
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
@@ -286,6 +286,7 @@ namespace MarkInDeDark.Library.Characters
             CurrentDieAnimationType = DieAnimationType.Falling;
             CurrentCharacterState = CharacterState.Dying;
 
+            _torchPositionTraslation = new Vector2(0);
             if (AreLightsActive)
                 SetLightPosition();
 
@@ -698,12 +699,14 @@ namespace MarkInDeDark.Library.Characters
                 {
                     case DieAnimationType.Falling:
                         _characterFallingATrapAnimation.Update(elapsed);
+                        
                         break;
 
                     case DieAnimationType.StandardAnimation:
                         if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying)
                         {
                             CurrentCharacterState = CharacterState.Dead;
+                            SurroundingLight.PointLight.Enabled = false;
                         }
                         else
                         {
@@ -717,6 +720,7 @@ namespace MarkInDeDark.Library.Characters
                         if (_characterDieExplosionParticleSystem.HasFinished)
                         {
                             CurrentCharacterState = CharacterState.Dead;
+                            SurroundingLight.PointLight.Enabled = false;
                         }
                         RecalculateZIndex();
                         break;

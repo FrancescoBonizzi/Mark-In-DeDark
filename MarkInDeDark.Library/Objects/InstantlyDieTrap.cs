@@ -40,7 +40,7 @@ namespace MarkInDeDark.Library.Objects
             SetOnTriggerPressed(
                 (character, elapsed) =>
                 {
-                    character.DieForTrap(collisionRectangle.Center.ToVector2());
+                    character.FallInTrap(collisionRectangle.Center.ToVector2());
                     _animation.Play();
                 });
         }
