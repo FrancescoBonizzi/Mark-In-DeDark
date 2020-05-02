@@ -53,7 +53,19 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.Terra2:
-                            gameCell.Sprite = level.GroundSpriteType1;
+                            gameCell.Sprite = level.GroundSpriteType2;
+                            break;
+
+                        case GroundTypes.Terra3:
+                            gameCell.Sprite = level.GroundSpriteType3;
+                            break;
+
+                        case GroundTypes.Terra4:
+                            gameCell.Sprite = level.GroundSpriteType4;
+                            break;
+
+                        case GroundTypes.Terra5:
+                            gameCell.Sprite = level.GroundSpriteType5;
                             break;
 
                         case GroundTypes.CellaMuroSpeciale:

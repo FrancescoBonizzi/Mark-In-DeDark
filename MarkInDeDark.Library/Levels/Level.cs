@@ -16,6 +16,9 @@ namespace MarkInDeDark.Library.Levels
 
         public Sprite GroundSpriteType1 { get; private set; }
         public Sprite GroundSpriteType2 { get; private set; }
+        public Sprite GroundSpriteType3 { get; private set; }
+        public Sprite GroundSpriteType4 { get; private set; }
+        public Sprite GroundSpriteType5 { get; private set; }
         public Sprite DarkSprite { get; private set; }
 
         public List<Sprite> DirtySprites { get; private set; }
@@ -70,6 +73,9 @@ namespace MarkInDeDark.Library.Levels
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
             GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
+            GroundSpriteType3 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell3"];
+            GroundSpriteType4 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"];
+            GroundSpriteType5 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"];
 
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)

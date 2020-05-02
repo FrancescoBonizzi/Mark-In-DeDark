@@ -227,6 +227,66 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnGroundType_Ground3"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="9"
+                        ToolTip="Disegna una cella di tipo 3 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="RosyBrown" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 3" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnGroundType_Ground4"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="10"
+                        ToolTip="Disegna una cella di tipo 4 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="LightCoral" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 4" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnGroundType_Ground5"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="11"
+                        ToolTip="Disegna una cella di tipo 5 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="BlanchedAlmond" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 5" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
                         x:Name="BtnGroundType_Ground8"
                         Width="100"
                         Margin="10,0"
@@ -236,13 +296,13 @@
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="8"
-                        ToolTip="Disegna una cella con un muro speciale esterno">
+                        ToolTip="Disegna una cella per riempimento">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle
                                 Width="10"
                                 Height="10"
                                 Fill="Navy" />
-                            <TextBlock Padding="2,2" Text="Muro speciale" />
+                            <TextBlock Padding="2,2" Text="Riempimento" />
                         </StackPanel>
                     </RadioButton>
 

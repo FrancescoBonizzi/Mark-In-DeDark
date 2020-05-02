@@ -35,6 +35,8 @@ Grounds/trap_breakable|583|1499|192|192
 Grounds/Type2/cell|389|1305|192|192
 Grounds/Type2/cell2|543|1111|192|192
 Grounds/Type2/cell3|583|723|192|192
+Grounds/Type2/cell4|583|723|192|192
+Grounds/Type2/cell5|583|723|192|192
 Grounds/Type2/Dirty/dirty_1|1111|109|48|48
 Grounds/Type2/Dirty/dirty_2|1111|159|48|48
 Grounds/Type2/Dirty/dirty_3|131|2005|16|32
@@ -73,6 +75,9 @@ Grounds/Type2/wall_vertical_broken_A|1319|1097|64|192
 Grounds/Type2/wall_vertical_broken_B|1379|901|64|192
 Grounds/Type3/cell|389|1499|192|192
 Grounds/Type3/cell2|389|1693|192|192
+Grounds/Type3/cell3|389|1693|192|192
+Grounds/Type3/cell4|389|1693|192|192
+Grounds/Type3/cell5|389|1693|192|192
 Grounds/Type3/Dirty/dirty_1|1111|109|48|48
 Grounds/Type3/Dirty/dirty_2|1111|159|48|48
 Grounds/Type3/Dirty/dirty_3|131|2005|16|32

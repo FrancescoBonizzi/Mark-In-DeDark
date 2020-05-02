@@ -527,6 +527,8 @@
             <key type="filename">Game/Grounds/Type2/cell.png</key>
             <key type="filename">Game/Grounds/Type2/cell2.png</key>
             <key type="filename">Game/Grounds/Type2/cell3.png</key>
+            <key type="filename">Game/Grounds/Type2/cell4.png</key>
+            <key type="filename">Game/Grounds/Type2/cell5.png</key>
             <key type="filename">Game/Grounds/Type2/wall_riempimento.png</key>
             <key type="filename">Game/Grounds/Type3/Door/door_0.png</key>
             <key type="filename">Game/Grounds/Type3/Door/door_1.png</key>
@@ -540,6 +542,9 @@
             <key type="filename">Game/Grounds/Type3/Door/door_9.png</key>
             <key type="filename">Game/Grounds/Type3/cell.png</key>
             <key type="filename">Game/Grounds/Type3/cell2.png</key>
+            <key type="filename">Game/Grounds/Type3/cell3.png</key>
+            <key type="filename">Game/Grounds/Type3/cell4.png</key>
+            <key type="filename">Game/Grounds/Type3/cell5.png</key>
             <key type="filename">Game/Grounds/Type3/wall_riempimento.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
