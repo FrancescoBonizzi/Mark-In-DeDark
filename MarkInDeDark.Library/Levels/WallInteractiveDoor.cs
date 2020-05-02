@@ -111,6 +111,8 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation.Stop();
             _currentAnimation.Play();
             Hull.Enabled = false;
+            // Un piccolo imbroglio per risolvere un bug di Penumbra che non ricalcola l'ombra
+            Hull.Position += new Vector2(0, 1);
         }
 
         public void Close()
@@ -120,6 +122,8 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation.Stop();
             _currentAnimation.Play();
             Hull.Enabled = true;
+            // Un piccolo imbroglio per risolvere un bug di Penumbra che non ricalcola l'ombra
+            Hull.Position -= new Vector2(0, 1);
         }
 
         public void Draw(SpriteBatch spriteBatch)

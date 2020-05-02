@@ -584,7 +584,7 @@ namespace MarkInDeDark.Library
                 transformMatrix: viewMatrix,
                 samplerState: SamplerState.PointClamp,
                 sortMode: SpriteSortMode.FrontToBack);
-
+            
             _gameGrid.DrawEveryThingButWalls(spriteBatch);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
