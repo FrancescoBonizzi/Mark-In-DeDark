@@ -77,7 +77,7 @@ namespace MarkInDeDark.Library.Levels
             _doorAnimationDrawingInfos = new DrawingInfos()
             {
                 Position = doorAnimationPosition,
-                LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition)
+                LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition + doorOpenAnimation.FirstFrameSprite.SpriteCenter)
             };
 
             _doorOpenAnimation = doorOpenAnimation;
