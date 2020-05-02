@@ -55,6 +55,10 @@ namespace MarkInDeDark.Library.Levels
             {
                 case WallTypes.Occludente:
                 case WallTypes.Speciale1:
+                case WallTypes.Speciale2:
+                case WallTypes.Speciale3:
+                case WallTypes.Speciale4:
+                case WallTypes.Speciale5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
@@ -67,7 +71,15 @@ namespace MarkInDeDark.Library.Levels
                     if (topType == WallTypes.Fragile)
                         horizontalWallSprite = level.WallHorizontalDestroyableSprite;
                     else if (topType == WallTypes.Speciale1)
-                        horizontalWallSprite = level.WallSpecialHorizontalSprite;
+                        horizontalWallSprite = level.WallSpecial1HorizontalSprite;
+                    else if (topType == WallTypes.Speciale2)
+                        horizontalWallSprite = level.WallSpecial2HorizontalSprite;
+                    else if (topType == WallTypes.Speciale3)
+                        horizontalWallSprite = level.WallSpecial3HorizontalSprite;
+                    else if (topType == WallTypes.Speciale4)
+                        horizontalWallSprite = level.WallSpecial4HorizontalSprite;
+                    else if (topType == WallTypes.Speciale5)
+                        horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (topType == WallTypes.Decal1)
                         decal = level.Decal1;
@@ -138,6 +150,10 @@ namespace MarkInDeDark.Library.Levels
             {
                 case WallTypes.Occludente:
                 case WallTypes.Speciale1:
+                case WallTypes.Speciale2:
+                case WallTypes.Speciale3:
+                case WallTypes.Speciale4:
+                case WallTypes.Speciale5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
@@ -150,7 +166,15 @@ namespace MarkInDeDark.Library.Levels
                     if (bottomType == WallTypes.Fragile)
                         horizontalWallSprite = level.WallHorizontalDestroyableSprite;
                     else if (bottomType == WallTypes.Speciale1)
-                        horizontalWallSprite = level.WallSpecialHorizontalSprite;
+                        horizontalWallSprite = level.WallSpecial1HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale2)
+                        horizontalWallSprite = level.WallSpecial2HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale3)
+                        horizontalWallSprite = level.WallSpecial3HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale4)
+                        horizontalWallSprite = level.WallSpecial4HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale5)
+                        horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (bottomType == WallTypes.Decal1)
                         decal = level.Decal1;

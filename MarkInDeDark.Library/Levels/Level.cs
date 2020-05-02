@@ -42,7 +42,11 @@ namespace MarkInDeDark.Library.Levels
         public Sprite WallVerticalBrokenASprite { get; private set; }
         public Sprite WallVerticalBrokenBSprite { get; private set; }
 
-        public Sprite WallSpecialHorizontalSprite { get; private set; }
+        public Sprite WallSpecial1HorizontalSprite { get; private set; }
+        public Sprite WallSpecial2HorizontalSprite { get; private set; }
+        public Sprite WallSpecial3HorizontalSprite { get; private set; }
+        public Sprite WallSpecial4HorizontalSprite { get; private set; }
+        public Sprite WallSpecial5HorizontalSprite { get; private set; }
 
         public Sprite WallEntranceClosedHorizontalSprite { get; private set; }
         public Sprite WallEntranceOpenHorizontalSprite { get; private set; }
@@ -134,7 +138,11 @@ namespace MarkInDeDark.Library.Levels
             WallVerticalBrokenASprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_A"];
             WallVerticalBrokenBSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_B"];
 
-            WallSpecialHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_special"];
+            WallSpecial1HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special1"];
+            WallSpecial2HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special2"];
+            WallSpecial3HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special3"];
+            WallSpecial4HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special4"];
+            WallSpecial5HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special5"];
 
             WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];
             WallEntranceOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"];
