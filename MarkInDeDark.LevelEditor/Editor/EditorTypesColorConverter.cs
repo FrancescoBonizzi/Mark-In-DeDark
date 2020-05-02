@@ -70,7 +70,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     return new SolidColorBrush(Colors.Gold);
 
                 case WallTypes.Speciale3:
-                    return new SolidColorBrush(Colors.Brown);
+                    return new SolidColorBrush(Colors.Fuchsia);
 
                 case WallTypes.Speciale4:
                     return new SolidColorBrush(Colors.Coral);

@@ -478,7 +478,7 @@
                             <Rectangle
                                 Width="4"
                                 Height="15"
-                                Fill="Brown" />
+                                Fill="Fuchsia" />
                             <TextBlock Padding="2,2" Text="Muro spec. 3" />
                         </StackPanel>
                     </RadioButton>
