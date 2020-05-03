@@ -13,13 +13,16 @@ namespace MarkInDeDark.Library.Levels
     public class Pillar
     {
         public DrawingInfos DrawingInfos { get; }
-        private readonly Sprite _sprite;
         public Hull Hull { get; }
         public PillarPositions PillarPosition { get; }
+
+        private readonly Sprite _sprite;
+        private readonly Sprite _normalSprite;
 
         public Pillar(
             Vector2 position,
             Sprite sprite,
+            Sprite normalSprite,
             PillarPositions pillarPosition)
         {
             PillarPosition = pillarPosition;
@@ -29,7 +32,9 @@ namespace MarkInDeDark.Library.Levels
                 Position = position,
                 LayerDepth = ZIndexCalculator.ForPillars(position + sprite.SpriteCenter)
             };
+
             _sprite = sprite;
+            _normalSprite = normalSprite;
 
             Hull = Utilities.HullFromRectangle(new Rectangle(
                 (int)position.X + 12, 
@@ -44,5 +49,8 @@ namespace MarkInDeDark.Library.Levels
 
         public void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_sprite, DrawingInfos);
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_normalSprite, DrawingInfos);
     }
 }

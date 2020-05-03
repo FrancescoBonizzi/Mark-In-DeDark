@@ -14,11 +14,11 @@ namespace MarkInDeDark.Library.Levels
         public int? RecordUsedCandles { get; private set; }
         public TimeSpan? RecordCompletionTime { get; private set; }
 
-        public Sprite GroundSpriteType1 { get; private set; }
-        public Sprite GroundSpriteType2 { get; private set; }
-        public Sprite GroundSpriteType3 { get; private set; }
-        public Sprite GroundSpriteType4 { get; private set; }
-        public Sprite GroundSpriteType5 { get; private set; }
+        public (Sprite Base, Sprite Normal) GroundSpriteType1 { get; private set; }
+        public (Sprite Base, Sprite Normal) GroundSpriteType2 { get; private set; }
+        public (Sprite Base, Sprite Normal) GroundSpriteType3 { get; private set; }
+        public (Sprite Base, Sprite Normal) GroundSpriteType4 { get; private set; }
+        public (Sprite Base, Sprite Normal) GroundSpriteType5 { get; private set; }
         public Sprite DarkSprite { get; private set; }
 
         public Sprite Decal1 { get; private set; }
@@ -28,25 +28,25 @@ namespace MarkInDeDark.Library.Levels
         public Sprite Decal5 { get; private set; }
 
         public List<Sprite> DirtySprites { get; private set; }
-        public List<Sprite> RandomHorizontalWallSprites { get; private set; }
-        public List<Sprite> RandomVerticalWallSprites { get; private set; }
-        public List<Sprite> RandomPillarSprites { get; private set; }
+        public List<(Sprite Base, Sprite Normal)> RandomHorizontalWallSprites { get; private set; }
+        public List<(Sprite Base, Sprite Normal)> RandomVerticalWallSprites { get; private set; }
+        public List<(Sprite Base, Sprite Normal)> RandomPillarSprites { get; private set; }
 
         public SpriteAnimation DoorOpenAnimation { get; private set; }
         public SpriteAnimation DoorCloseAnimation { get; private set; }
 
-        public Sprite WallHorizontalDestroyableSprite { get; private set; }
-        public Sprite WallHorizontalBrokenSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallHorizontalBreakableSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallHorizontalBrokenSprite { get; private set; }
 
-        public Sprite WallVerticalDestroyableSprite { get; private set; }
-        public Sprite WallVerticalBrokenASprite { get; private set; }
-        public Sprite WallVerticalBrokenBSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallVerticalBreakableSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallVerticalBrokenASprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallVerticalBrokenBSprite { get; private set; }
 
-        public Sprite WallSpecial1HorizontalSprite { get; private set; }
-        public Sprite WallSpecial2HorizontalSprite { get; private set; }
-        public Sprite WallSpecial3HorizontalSprite { get; private set; }
-        public Sprite WallSpecial4HorizontalSprite { get; private set; }
-        public Sprite WallSpecial5HorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallSpecial1HorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallSpecial2HorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallSpecial3HorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallSpecial4HorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallSpecial5HorizontalSprite { get; private set; }
 
         public Sprite WallEntranceClosedHorizontalSprite { get; private set; }
         public Sprite WallEntranceOpenHorizontalSprite { get; private set; }
@@ -81,11 +81,19 @@ namespace MarkInDeDark.Library.Levels
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
-            GroundSpriteType1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"];
-            GroundSpriteType2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"];
-            GroundSpriteType3 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell3"];
-            GroundSpriteType4 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"];
-            GroundSpriteType5 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"];
+            GroundSpriteType1 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"));
+            GroundSpriteType2 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"));
+            GroundSpriteType3 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell3"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"));
+            GroundSpriteType4 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"));
+            GroundSpriteType5 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"));
 
             Decal1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"];
             Decal2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_2"];
@@ -100,25 +108,41 @@ namespace MarkInDeDark.Library.Levels
                     DirtySprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/Dirty/dirty_{i}"]);
             }
 
-            RandomHorizontalWallSprites = new List<Sprite>();
+            RandomHorizontalWallSprites = new List<(Sprite Base, Sprite Normal)>();
             for (int i = 1; i < 20; ++i)
             {
+                (Sprite Base, Sprite Normal) thisWallSprites = (null, null);
                 if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}"))
-                    RandomHorizontalWallSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}"]);
+                    thisWallSprites.Base = assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}"];
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}_normal"))
+                    thisWallSprites.Normal = assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_horizontal_{i}_normal"];
+
+                if (thisWallSprites.Base != null)
+                    RandomHorizontalWallSprites.Add(thisWallSprites);
             }
 
-            RandomVerticalWallSprites = new List<Sprite>();
+            RandomVerticalWallSprites = new List<(Sprite Base, Sprite Normal)>();
             for (int i = 1; i < 20; ++i)
             {
+                (Sprite Base, Sprite Normal) thisWallSprites = (null, null);
                 if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"))
-                    RandomVerticalWallSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"]);
+                    thisWallSprites.Base = assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}"];
+                thisWallSprites.Normal = GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/RandomWalls/wall_vertical_{i}");
+
+                if (thisWallSprites.Base != null)
+                    RandomVerticalWallSprites.Add(thisWallSprites);
             }
 
-            RandomPillarSprites = new List<Sprite>();
+            RandomPillarSprites = new List<(Sprite Base, Sprite Normal)>();
             for (int i = 1; i < 20; ++i)
             {
+                (Sprite Base, Sprite Normal) thisPillarSprites = (null, null);
                 if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"))
-                    RandomPillarSprites.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"]);
+                    thisPillarSprites.Base = assetsLoader.Sprites[$"{groundTextureLevelSelector}/RandomPillars/pillar_{i}"];
+                thisPillarSprites.Normal = GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/RandomPillars/pillar_{i}");
+
+                if (thisPillarSprites.Base != null)
+                    RandomPillarSprites.Add(thisPillarSprites);
             }
 
             // Door
@@ -131,18 +155,37 @@ namespace MarkInDeDark.Library.Levels
             doorClosingAnimation.Reverse();
             DoorCloseAnimation = new SpriteAnimation(doorClosingAnimation, TimeSpan.FromMilliseconds(20), false);
 
-            WallHorizontalDestroyableSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"];
-            WallHorizontalBrokenSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_broken"];
+            WallHorizontalBreakableSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_breakable"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_horizontal_breakable"));
+            WallHorizontalBrokenSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_horizontal_broken"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_horizontal_broken"));
+            WallVerticalBreakableSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_vertical_breakable"));
+            WallVerticalBrokenASprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_A"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_vertical_broken_A"));
+            WallVerticalBrokenBSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_B"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_vertical_broken_B"));
 
-            WallVerticalDestroyableSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_breakable"];
-            WallVerticalBrokenASprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_A"];
-            WallVerticalBrokenBSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_vertical_broken_B"];
-
-            WallSpecial1HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special1"];
-            WallSpecial2HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special2"];
-            WallSpecial3HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special3"];
-            WallSpecial4HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special4"];
-            WallSpecial5HorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special5"];
+            WallSpecial1HorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special1"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special1"));
+            WallSpecial2HorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special2"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special2"));
+            WallSpecial3HorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special3"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special3"));
+            WallSpecial4HorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special4"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special4"));
+            WallSpecial5HorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special5"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special5"));
 
             WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];
             WallEntranceOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"];
@@ -172,6 +215,15 @@ namespace MarkInDeDark.Library.Levels
             RecordCompletionTime = settingsRepository.GetOrSetTimeSpan(_recordCompletionTimeKey, TimeSpan.Zero);
             if (RecordCompletionTime == TimeSpan.Zero)
                 RecordCompletionTime = null;
+        }
+
+        private Sprite GetNormalOrNull(AssetsLoader assetsLoader, string baseTextureName)
+        {
+            var normalName = $"{baseTextureName}_normal";
+            if (assetsLoader.Sprites.ContainsKey(normalName))
+                return assetsLoader.Sprites[normalName];
+
+            return null;
         }
 
         public void SetCompletionParameters(

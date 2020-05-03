@@ -4,7 +4,6 @@ using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
@@ -48,10 +47,13 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
         private readonly RenderTarget2D _groundLevelRenderTarget;
+        private readonly RenderTarget2D _groundLevelWithNormalMapRenderTarget;
         private readonly RenderTarget2D _anotherLightMaskLevelRenderTarget;
+        private readonly RenderTarget2D _normalMapRenderTarget;
         private readonly RenderTarget2D _baseSceneRenderTarget;
 
         private readonly Effect _lightMaskShader;
+        private readonly Effect _circularNormalMapShader;
 
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
@@ -67,6 +69,10 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
+        private Vector3 _ambienceColor = new Vector3(1f);
+        private Vector3 _playerLightColor;
+
+        private readonly Matrix _worldMatrix = Matrix.CreateTranslation(new Vector3(-new Vector2(0, 0), 0.0f));
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -103,6 +109,8 @@ namespace MarkInDeDark.Library
             _localizedStringsRepository = localizedStringsRepository;
 
             _lightMaskShader = assetsLoader.LightMaskShader;
+            _circularNormalMapShader = assetsLoader.CircularNormalMapShader;
+
             _elapsedFinish = TimeSpan.Zero;
 
             _matrixScaleProvider = matrixScaleProvider;
@@ -116,8 +124,10 @@ namespace MarkInDeDark.Library
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _anotherLightMaskLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
@@ -456,6 +466,11 @@ namespace MarkInDeDark.Library
 
             _gameGrid.Update(elapsed);
             _player.Update(elapsed);
+            _playerLightColor = new Vector3(
+                _player.SurroundingLight.PointLight.Color.R,
+                _player.SurroundingLight.PointLight.Color.G,
+                _player.SurroundingLight.PointLight.Color.B);
+            _playerLightColor.Normalize();
             _candlesManager.Update(elapsed);
             _key.Update(elapsed);
             _gameHud.Update(elapsed);
@@ -518,7 +533,6 @@ namespace MarkInDeDark.Library
                 SpriteSortMode.Immediate,
                 BlendState.Additive,
                 transformMatrix: viewMatrix);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
 
             _player.DrawLightMask(spriteBatch);
 
@@ -533,6 +547,18 @@ namespace MarkInDeDark.Library
             }
             _candlesManager.DrawLightMask(spriteBatch);
 
+            spriteBatch.End();
+        }
+
+        private void DrawNormalMap(
+            SpriteBatch spriteBatch,
+            Matrix viewMatrix)
+        {
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
+                sortMode: SpriteSortMode.FrontToBack);
+            _gameGrid.DrawNormalMap(spriteBatch);
             spriteBatch.End();
         }
 
@@ -574,6 +600,7 @@ namespace MarkInDeDark.Library
             GameTime gameTime)
         {
             var viewMatrix = _camera.GetViewMatrix();
+            var projectionMatrix = _camera.GetProjectionMatrix(_worldMatrix);
 
             // 1. Disegno il pavimento con le ombre solo sul pavimento
             _graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
@@ -584,7 +611,7 @@ namespace MarkInDeDark.Library
                 transformMatrix: viewMatrix,
                 samplerState: SamplerState.PointClamp,
                 sortMode: SpriteSortMode.FrontToBack);
-            
+
             _gameGrid.DrawEveryThingButWalls(spriteBatch);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
@@ -595,17 +622,22 @@ namespace MarkInDeDark.Library
             _graphicsDevice.Clear(_backgroundColorForLightMask);
             DrawLightMask(spriteBatch, viewMatrix);
 
-            // 3. Disegno la scena normale
+            // 3. Disegno la normal map
+            _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
+            _graphicsDevice.Clear(Color.Transparent);
+            DrawNormalMap(spriteBatch, viewMatrix);
+
+            // 4. Disegno la scena normale
             _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
             _graphicsDevice.Clear(Color.Transparent);
 
-            // E tutto il resto
             spriteBatch.Begin(
                 transformMatrix: viewMatrix,
                 samplerState: SamplerState.PointClamp,
                 sortMode: SpriteSortMode.FrontToBack);
 
             // Disegno i muri
+            _gameGrid.DrawEveryThingButWalls(spriteBatch);
             _gameGrid.DrawWalls(spriteBatch);
 
             if (_triggerObjects != null)
@@ -636,7 +668,7 @@ namespace MarkInDeDark.Library
             // Applico gli effetti
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
 
-            // Disegno il pavimento ombrato
+            //// Disegno il pavimento ombrato
             if (!_gameConfig.GodModeDebugMode)
             {
                 spriteBatch.Begin();
@@ -644,16 +676,39 @@ namespace MarkInDeDark.Library
                 spriteBatch.End();
             }
 
-            // Scena con LightMask
-            // Disegno il pavimento ombrato
+            // Scena con NormalMap
             if (!_gameConfig.GodModeDebugMode)
             {
-                _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
-                _lightMaskShader.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+                var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
+                var p = new Vector3(m.Position.ToVector2(), 60);
+                _circularNormalMapShader.Parameters["LightPosition"].SetValue(p);
+                    //new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 1));
+                _circularNormalMapShader.Parameters["LightColor"].SetValue(_playerLightColor);
+                _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
+                _circularNormalMapShader.Parameters["World"].SetValue(_worldMatrix);
+                _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
+                _circularNormalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
+                _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, null, null, _circularNormalMapShader);
+                spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.DrawRectangle(new Rectangle((int)p.X, (int)p.Y, 10, 10), Color.Blue);
                 spriteBatch.End();
             }
+
+            //_graphicsDevice.SetRenderTarget(virtualDrawTarget);
+            //_graphicsDevice.Clear(Color.Black);
+
+            //// Scena con LightMask
+            //// Disegno il pavimento ombrato
+            //if (!_gameConfig.GodModeDebugMode)
+            //{
+            //    _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
+            //    _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            //    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+            //    spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            //    spriteBatch.End();
+            //}
 
             if (_gameConfig.GodModeDebugMode)
             {
@@ -667,6 +722,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
+
             spriteBatch.End();
 
             // HUD

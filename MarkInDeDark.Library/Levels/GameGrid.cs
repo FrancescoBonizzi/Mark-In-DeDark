@@ -69,8 +69,8 @@ namespace MarkInDeDark.Library.Levels
             _position = Vector2.Zero;
             _camera = camera;
 
-            CellWidth = levelToLoad.GroundSpriteType1.Width;
-            CellHeight = levelToLoad.GroundSpriteType1.Height;
+            CellWidth = levelToLoad.GroundSpriteType1.Base.Width;
+            CellHeight = levelToLoad.GroundSpriteType1.Base.Height;
 
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
 
@@ -94,8 +94,9 @@ namespace MarkInDeDark.Library.Levels
                     _cells[i, j] = new GameCell(
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
-                        cell: levelToLoad.GroundSpriteType1,
+                        cell: levelToLoad.GroundSpriteType1.Base,
                         dirty: thisCellDirtySprite,
+                        normalSprite: levelToLoad.GroundSpriteType1.Normal,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
                         gameGrid: this,
@@ -844,6 +845,23 @@ namespace MarkInDeDark.Library.Levels
                         if (_cells[x, y] != null)
                         {
                             _cells[x, y].DrawForDebug(spriteBatch);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            {
+                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
+                {
+                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
+                    {
+                        if (_cells[x, y] != null)
+                        {
+                            _cells[x, y].DrawNormalMap(spriteBatch);
                         }
                     }
                 }

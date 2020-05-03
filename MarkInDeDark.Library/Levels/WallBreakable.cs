@@ -19,8 +19,13 @@ namespace MarkInDeDark.Library.Levels
         private readonly DrawingInfos _drawingInfosB;
 
         private readonly Sprite _primarySprite;
+        private readonly Sprite _primarySpriteNormal;
+
         private readonly Sprite _brokenSprite;
+        private readonly Sprite _brokenSpriteNormal;
+
         private readonly Sprite _brokenSpriteB;
+        private readonly Sprite _brokenSpriteBNormal;
 
         private bool _isBroken;
 
@@ -32,13 +37,22 @@ namespace MarkInDeDark.Library.Levels
             LinkDirection direction,
             Vector2 position,
             Sprite primarySprite,
+            Sprite primarySpriteNormal,
             Sprite brokenSprite,
-            Sprite brokenSpriteB = null)
+            Sprite brokenSpriteNormal,
+            Sprite brokenSpriteB = null,
+            Sprite brokenSpriteBNormal = null)
         {
             Direction = direction;
+            
             _primarySprite = primarySprite;
+            _primarySpriteNormal = primarySpriteNormal;
+
             _brokenSprite = brokenSprite;
+            _brokenSpriteNormal = brokenSpriteNormal;
+
             _brokenSpriteB = brokenSpriteB;
+            _brokenSpriteBNormal = brokenSpriteBNormal;
 
             _drawingInfos = new DrawingInfos()
             {
@@ -108,6 +122,26 @@ namespace MarkInDeDark.Library.Levels
                 {
                     spriteBatch.Draw(_brokenSprite, _drawingInfosA);
                     spriteBatch.Draw(_brokenSpriteB, _drawingInfosB);
+                }
+            }
+        }
+
+        public void DrawNormal(SpriteBatch spriteBatch)
+        {
+            if (!_isBroken)
+            {
+                spriteBatch.Draw(_primarySpriteNormal, _drawingInfos);
+            }
+            else
+            {
+                if (_brokenSpriteBNormal == null)
+                {
+                    spriteBatch.Draw(_brokenSpriteNormal, _drawingInfos);
+                }
+                else
+                {
+                    spriteBatch.Draw(_brokenSpriteNormal, _drawingInfosA);
+                    spriteBatch.Draw(_brokenSpriteBNormal, _drawingInfosB);
                 }
             }
         }
