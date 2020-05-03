@@ -69,7 +69,7 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
-        private Vector3 _ambienceColor = new Vector3(1f);
+        private Vector3 _ambienceColor = new Vector3(0.35f);
         private Vector3 _playerLightColor;
 
         private Matrix _worldMatrix = Matrix.Identity;
@@ -681,11 +681,11 @@ namespace MarkInDeDark.Library
             // Scena con NormalMap
             if (!_gameConfig.GodModeDebugMode)
             {
-                 // var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                 // var m2 = new Vector3(m.X, m.Y, 60f);
+                  var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
+                  var m2 = new Vector3(m.X, m.Y, 60f);
                  // new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 120)
                 _circularNormalMapShader.Parameters["LightPosition"].SetValue(
-                    new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 120));
+                    m2);
                 _circularNormalMapShader.Parameters["LightColor"].SetValue(_playerLightColor);
                 _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
                 _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
@@ -723,6 +723,10 @@ namespace MarkInDeDark.Library
                 spriteBatch.Draw(_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();
             }
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
 
             if (_gameConfig.GodModeDebugMode)
             {
