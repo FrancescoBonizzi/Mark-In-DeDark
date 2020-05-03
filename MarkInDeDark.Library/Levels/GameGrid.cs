@@ -799,7 +799,7 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void DrawEveryThingButWalls(SpriteBatch spriteBatch)
+        public void DrawEverythingButWalls(SpriteBatch spriteBatch)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {

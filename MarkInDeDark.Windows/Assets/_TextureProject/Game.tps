@@ -790,6 +790,7 @@
             <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_2.png</key>
             <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_2_normal.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special1.png</key>
+            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special1_normal.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special2.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special3.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special4.png</key>
@@ -804,7 +805,6 @@
             <key type="filename">Game/Grounds/Type2/wall_horizontal_broken_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_ingresso_closed.png</key>
             <key type="filename">Game/Grounds/Type2/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_open.png</key>
             <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_1.png</key>
