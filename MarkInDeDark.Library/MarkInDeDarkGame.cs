@@ -678,19 +678,11 @@ namespace MarkInDeDark.Library
             _graphicsDevice.SetRenderTarget(_baseSceneWithNormalMapRenderTarget);
             _graphicsDevice.Clear(Color.Black);
 
-            //// Disegno il pavimento ombrato
-            if (!_gameConfig.GodModeDebugMode)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-                spriteBatch.End();
-            }
-
             // Scena con NormalMap
             if (!_gameConfig.GodModeDebugMode)
             {
                  // var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                 // var m2 = new Vector3(m.X, m.Y, 120f);
+                 // var m2 = new Vector3(m.X, m.Y, 60f);
                  // new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 120)
                 _circularNormalMapShader.Parameters["LightPosition"].SetValue(
                     new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 120));
@@ -701,9 +693,16 @@ namespace MarkInDeDark.Library
                 _circularNormalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
                 _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
 
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, null, null, _circularNormalMapShader);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _circularNormalMapShader);
+
+                // Disegno il pavimento ombrato
+                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+
+                // E tutto il resto
                 spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
-                //spriteBatch.DrawRectangle(new Rectangle((int)p.X, (int)p.Y, 10, 10), Color.Blue);
+
+                // Per disegnare il punto di luce del player: spriteBatch.DrawRectangle(new Rectangle((int)p.X, (int)p.Y, 10, 10), Color.Blue);
+
                 spriteBatch.End();
             }
 
