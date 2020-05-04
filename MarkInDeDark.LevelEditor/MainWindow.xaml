@@ -227,6 +227,66 @@
                     </RadioButton>
 
                     <RadioButton
+                        x:Name="BtnGroundType_Ground3"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="9"
+                        ToolTip="Disegna una cella di tipo 3 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="RosyBrown" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 3" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnGroundType_Ground4"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="10"
+                        ToolTip="Disegna una cella di tipo 4 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="LightCoral" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 4" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnGroundType_Ground5"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnGroundType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="11"
+                        ToolTip="Disegna una cella di tipo 5 sui il personaggio può camminare">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="10"
+                                Height="10"
+                                Fill="BlanchedAlmond" />
+                            <TextBlock Padding="2,2" Text="Terra tipo 5" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
                         x:Name="BtnGroundType_Ground8"
                         Width="100"
                         Margin="10,0"
@@ -236,13 +296,13 @@
                         GroupName="PulsantiEditor"
                         Style="{StaticResource {x:Type ToggleButton}}"
                         Tag="8"
-                        ToolTip="Disegna una cella con un muro speciale esterno">
+                        ToolTip="Disegna una cella per riempimento">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle
                                 Width="10"
                                 Height="10"
                                 Fill="Navy" />
-                            <TextBlock Padding="2,2" Text="Muro speciale" />
+                            <TextBlock Padding="2,2" Text="Riempimento" />
                         </StackPanel>
                     </RadioButton>
 
@@ -379,7 +439,87 @@
                                 Width="4"
                                 Height="15"
                                 Fill="Yellow" />
-                            <TextBlock Padding="2,2" Text="Muro speciale" />
+                            <TextBlock Padding="2,2" Text="Muro spec. 1" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnWallType_Special2"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="12"
+                        ToolTip="Disegna il muro speciale di questo pacco di livelli">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Gold" />
+                            <TextBlock Padding="2,2" Text="Muro spec. 2" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnWallType_Special3"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="13"
+                        ToolTip="Disegna il muro speciale di questo pacco di livelli">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Fuchsia" />
+                            <TextBlock Padding="2,2" Text="Muro spec. 3" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnWallType_Special4"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="14"
+                        ToolTip="Disegna il muro speciale di questo pacco di livelli">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="Coral" />
+                            <TextBlock Padding="2,2" Text="Muro spec. 4" />
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton
+                        x:Name="BtnWallType_Special5"
+                        Width="100"
+                        Margin="10,0"
+                        Padding="5,2"
+                        Click="BtnWallType_Click"
+                        Cursor="Hand"
+                        GroupName="PulsantiEditor"
+                        Style="{StaticResource {x:Type ToggleButton}}"
+                        Tag="15"
+                        ToolTip="Disegna il muro speciale di questo pacco di livelli">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle
+                                Width="4"
+                                Height="15"
+                                Fill="DarkKhaki" />
+                            <TextBlock Padding="2,2" Text="Muro spec. 5" />
                         </StackPanel>
                     </RadioButton>
 
@@ -460,7 +600,7 @@
                     </RadioButton>
 
                     <RadioButton
-                        Width="100"
+                        Width="60"
                         Margin="10,0"
                         Padding="5,2"
                         Click="BtnWallType_Click"
@@ -479,7 +619,7 @@
                     </RadioButton>
 
                     <RadioButton
-                        Width="100"
+                        Width="60"
                         Margin="10,0"
                         Padding="5,2"
                         Click="BtnWallType_Click"
@@ -498,7 +638,7 @@
                     </RadioButton>
 
                     <RadioButton
-                        Width="100"
+                        Width="60"
                         Margin="10,0"
                         Padding="5,2"
                         Click="BtnWallType_Click"
@@ -517,7 +657,7 @@
                     </RadioButton>
 
                     <RadioButton
-                        Width="100"
+                        Width="60"
                         Margin="10,0"
                         Padding="5,2"
                         Click="BtnWallType_Click"
@@ -536,7 +676,7 @@
                     </RadioButton>
 
                     <RadioButton
-                        Width="100"
+                        Width="60"
                         Margin="10,0"
                         Padding="5,2"
                         Click="BtnWallType_Click"

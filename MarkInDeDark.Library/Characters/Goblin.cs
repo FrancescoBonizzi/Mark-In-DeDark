@@ -32,7 +32,7 @@ namespace MarkInDeDark.Library.Characters
                           gameConfig.GoblinLightColorRGB1,
                           gameConfig.GoblinLightColorRGB2,
                           gameConfig.GoblinLightSize,
-                          torchPositionTraslationUp: new Vector2(-33, 5),
+                          torchPositionTraslationUp: new Vector2(-35, -10),
                           torchPositionTraslationLeft: new Vector2(5, 5),
                           torchPositionTraslationRight: new Vector2(-5, 5),
                           torchPositionTraslationDown: new Vector2(30, -15),

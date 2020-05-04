@@ -110,41 +110,49 @@ namespace MarkInDeDark.Library.Levels
 
         private static Pillar GenerateNWPillar(GameCell cell, Level level)
         {
+            var (Base, Normal) = Utilities.RandomBetween(level.RandomPillarSprites);
             return new Pillar(
                 new Vector2(
-                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Width / 2f,
-                    cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Height / 2f),
-                Utilities.RandomBetween(level.RandomPillarSprites),
+                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Base.Width / 2f,
+                    cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Base.Height / 2f),
+                Base,
+                Normal,
                 PillarPositions.NW);
         }
 
         private static Pillar GenerateNEPillar(GameCell cell, Level level)
         {
+            var (Base, Normal) = Utilities.RandomBetween(level.RandomPillarSprites);
             return new Pillar(
                 new Vector2(
-                      cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Width / 2f,
-                      cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Height / 2f),
-                Utilities.RandomBetween(level.RandomPillarSprites),
+                      cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Base.Width / 2f,
+                      cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Base.Height / 2f),
+                Base,
+                Normal,
                 PillarPositions.NE);
         }
 
         private static Pillar GenerateSWPillar(GameCell cell, Level level)
         {
+            var (Base, Normal) = Utilities.RandomBetween(level.RandomPillarSprites);
             return new Pillar(
                 new Vector2(
-                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Width / 2f,
-                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Height / 2f),
-                Utilities.RandomBetween(level.RandomPillarSprites),
+                    cell.TopLeftPosition.X - level.RandomPillarSprites[0].Base.Width / 2f,
+                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Base.Height / 2f),
+                Base,
+                Normal,
                 PillarPositions.SW);
         }
 
         private static Pillar GenerateSEPillar(GameCell cell, Level level)
         {
+            var (Base, Normal) = Utilities.RandomBetween(level.RandomPillarSprites);
             return new Pillar(
                 new Vector2(
-                    cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Width / 2f,
-                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Height / 2f),
-                Utilities.RandomBetween(level.RandomPillarSprites),
+                    cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Base.Width / 2f,
+                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Base.Height / 2f),
+                Base,
+                Normal,
                 PillarPositions.SE);
         }
     }

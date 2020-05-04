@@ -15,6 +15,9 @@ namespace MarkInDeDark.GameGridCommon
         TriggerGoblin = 5,
         Terra2 = 6,
         Buio = 7,
-        CellaMuroSpeciale = 8
+        CellaMuroSpeciale = 8,
+        Terra3 = 9,
+        Terra4 = 10,
+        Terra5 = 11
     }
 }

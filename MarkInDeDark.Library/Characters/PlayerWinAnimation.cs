@@ -14,7 +14,6 @@ namespace MarkInDeDark.Library.Characters
         private TimeSpan _defaultInterval = TimeSpan.FromMilliseconds(10);
         private readonly float _opacityDelta = -0.0009f;
         private readonly Vector2 _positionDelta = new Vector2(0f, -2f);
-        //private readonly float _scaleDelta = -0.02f;
         private float _opacity = 1.0f;
 
         private readonly SpriteAnimation _walkUpAnimation;

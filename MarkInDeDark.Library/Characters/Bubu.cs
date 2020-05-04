@@ -58,6 +58,11 @@ namespace MarkInDeDark.Library.Characters
                 assetsLoader,
                 Color.White,
                 new Color(225, 206, 172));
+
+            _deadBodyParticleEffect = new DeathBodyParticleSystem(
+                assetsLoader,
+                Color.White,
+                new Color(225, 206, 172));
         }
 
         protected override void OnChangeDirection(CharacterState characterState)
@@ -101,20 +106,27 @@ namespace MarkInDeDark.Library.Characters
         {
             base.Update(elapsed);
 
-            if (_leftEyeTraslation!= null)
-            _leftEye.AddParticles(MainFigureDrawingInfos.Position + _leftEyeTraslation.Value);
-            if (_rightEyeTraslation != null)
-                _rightEye.AddParticles(MainFigureDrawingInfos.Position + _rightEyeTraslation.Value);
+            if (!IsDead)
+            {
+                if (_leftEyeTraslation != null)
+                    _leftEye.AddParticles(MainFigureDrawingInfos.Position + _leftEyeTraslation.Value);
+                if (_rightEyeTraslation != null)
+                    _rightEye.AddParticles(MainFigureDrawingInfos.Position + _rightEyeTraslation.Value);
 
-            _leftEye.Update(elapsed);
-            _rightEye.Update(elapsed);
+                _leftEye.Update(elapsed);
+                _rightEye.Update(elapsed);
+            }
         }
 
         public override void DrawEffectsOverDark(SpriteBatch spriteBatch)
         {
             base.DrawEffectsOverDark(spriteBatch);
-            _leftEye.Draw(spriteBatch);
-            _rightEye.Draw(spriteBatch);
+
+            if (!IsDead)
+            {
+                _leftEye.Draw(spriteBatch);
+                _rightEye.Draw(spriteBatch);
+            }
         }
     }
 }

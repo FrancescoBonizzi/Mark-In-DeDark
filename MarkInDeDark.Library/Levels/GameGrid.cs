@@ -69,8 +69,8 @@ namespace MarkInDeDark.Library.Levels
             _position = Vector2.Zero;
             _camera = camera;
 
-            CellWidth = levelToLoad.GroundSpriteType1.Width;
-            CellHeight = levelToLoad.GroundSpriteType1.Height;
+            CellWidth = levelToLoad.GroundSpriteType1.Base.Width;
+            CellHeight = levelToLoad.GroundSpriteType1.Base.Height;
 
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
 
@@ -94,8 +94,9 @@ namespace MarkInDeDark.Library.Levels
                     _cells[i, j] = new GameCell(
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
-                        cell: levelToLoad.GroundSpriteType1,
+                        cell: levelToLoad.GroundSpriteType1.Base,
                         dirty: thisCellDirtySprite,
+                        normalSprite: levelToLoad.GroundSpriteType1.Normal,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
                         gameGrid: this,
@@ -249,6 +250,7 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
+        //, LinkDirection watchDirection
         public void SwitchDoorIfAny(GameCell cell)
         {
             var doors = cell.Walls.Where(w => w.Value is WallInteractiveDoor);
@@ -269,17 +271,20 @@ namespace MarkInDeDark.Library.Levels
             var eastCell = GetCellByIndex(i + 1, j);
             var westCell = GetCellByIndex(i - 1, j);
 
+            // TODO ALTERNATIVA: Fare un bounding box largo per la porta e calcolare la collisione
+            // (guardando solo alla cella in cui c'è il player e quelle nelle celle intorno)
+
             // Per gestire il fatto che io possa aprire una porta che è a cavallo tra due celle
-            if (northCell != null && northCell.Walls.ContainsKey(LinkDirection.SouthLink) && northCell.Walls[LinkDirection.SouthLink] is WallInteractiveDoor)
+            if (!doorsToExamine.ContainsKey(LinkDirection.NorthLink) && northCell != null && northCell.Walls.ContainsKey(LinkDirection.SouthLink) && northCell.Walls[LinkDirection.SouthLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.NorthLink, northCell.Walls[LinkDirection.SouthLink] as WallInteractiveDoor);
 
-            if (southCell != null && southCell.Walls.ContainsKey(LinkDirection.NorthLink) && southCell.Walls[LinkDirection.NorthLink] is WallInteractiveDoor)
+            if (!doorsToExamine.ContainsKey(LinkDirection.SouthLink) && southCell != null && southCell.Walls.ContainsKey(LinkDirection.NorthLink) && southCell.Walls[LinkDirection.NorthLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.SouthLink, southCell.Walls[LinkDirection.NorthLink] as WallInteractiveDoor);
 
-            if (eastCell != null && eastCell.Walls.ContainsKey(LinkDirection.WestLink) && eastCell.Walls[LinkDirection.WestLink] is WallInteractiveDoor)
+            if (!doorsToExamine.ContainsKey(LinkDirection.EastLink) && eastCell != null && eastCell.Walls.ContainsKey(LinkDirection.WestLink) && eastCell.Walls[LinkDirection.WestLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.EastLink, eastCell.Walls[LinkDirection.WestLink] as WallInteractiveDoor);
 
-            if (westCell != null && westCell.Walls.ContainsKey(LinkDirection.EastLink) && westCell.Walls[LinkDirection.EastLink] is WallInteractiveDoor)
+            if (!doorsToExamine.ContainsKey(LinkDirection.WestLink) && westCell != null && westCell.Walls.ContainsKey(LinkDirection.EastLink) && westCell.Walls[LinkDirection.EastLink] is WallInteractiveDoor)
                 doorsToExamine.Add(LinkDirection.WestLink, westCell.Walls[LinkDirection.EastLink] as WallInteractiveDoor);
 
             foreach (var door in doorsToExamine)
@@ -794,7 +799,7 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void DrawEveryThingButWalls(SpriteBatch spriteBatch)
+        public void DrawEverythingButWalls(SpriteBatch spriteBatch)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -840,6 +845,23 @@ namespace MarkInDeDark.Library.Levels
                         if (_cells[x, y] != null)
                         {
                             _cells[x, y].DrawForDebug(spriteBatch);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            {
+                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
+                {
+                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
+                    {
+                        if (_cells[x, y] != null)
+                        {
+                            _cells[x, y].DrawNormalMap(spriteBatch);
                         }
                     }
                 }

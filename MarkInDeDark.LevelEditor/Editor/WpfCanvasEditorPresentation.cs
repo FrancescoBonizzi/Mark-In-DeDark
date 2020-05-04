@@ -428,7 +428,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                     || type == WallTypes.Decal5
                     || type == WallTypes.Ingresso
                     || type == WallTypes.Uscita
-                    || type == WallTypes.Speciale1)
+                    || type == WallTypes.Speciale1
+                    || type == WallTypes.Speciale2
+                    || type == WallTypes.Speciale3
+                    || type == WallTypes.Speciale4
+                    || type == WallTypes.Speciale5)
                 // Tipi di muro non ammessi sui muri verticali
                 return;
             }

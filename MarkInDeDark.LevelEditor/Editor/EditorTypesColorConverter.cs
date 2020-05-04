@@ -22,6 +22,15 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case GroundTypes.Terra2:
                     return new SolidColorBrush(Colors.SandyBrown);
 
+                case GroundTypes.Terra3:
+                    return new SolidColorBrush(Colors.RosyBrown);
+
+                case GroundTypes.Terra4:
+                    return new SolidColorBrush(Colors.LightCoral);
+
+                case GroundTypes.Terra5:
+                    return new SolidColorBrush(Colors.BlanchedAlmond);
+
                 case GroundTypes.CellaMuroSpeciale:
                     return new SolidColorBrush(Colors.Navy);
 
@@ -56,6 +65,18 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case WallTypes.Speciale1:
                     return new SolidColorBrush(Colors.Yellow);
+
+                case WallTypes.Speciale2:
+                    return new SolidColorBrush(Colors.Gold);
+
+                case WallTypes.Speciale3:
+                    return new SolidColorBrush(Colors.Fuchsia);
+
+                case WallTypes.Speciale4:
+                    return new SolidColorBrush(Colors.Coral);
+
+                case WallTypes.Speciale5:
+                    return new SolidColorBrush(Colors.DarkKhaki);
 
                 case WallTypes.Ingresso:
                     return new SolidColorBrush(Colors.White);

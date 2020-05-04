@@ -110,3 +110,9 @@
 /processorParam:TextureFormat=Color
 /build:Spritesheet-2.png
 
+#begin Effects/circularnormalmap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/circularnormalmap.fx
+

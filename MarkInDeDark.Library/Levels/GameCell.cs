@@ -3,11 +3,9 @@ using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGridCommon;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Maths;
-using MarkInDeDark.Library.Objects;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +17,7 @@ namespace MarkInDeDark.Library.Levels
     public class GameCell
     {
         public Sprite Sprite { get; set; }
+        public Sprite NormalSprite { get; set; }
 
         private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
@@ -56,6 +55,7 @@ namespace MarkInDeDark.Library.Levels
             AssetsLoader assetsLoader,
             Sprite cell,
             Sprite dirty,
+            Sprite normalSprite,
             SoundManager soundManager,
             int iIndex,
             int jIndex,
@@ -68,6 +68,7 @@ namespace MarkInDeDark.Library.Levels
             JIndex = jIndex;
 
             Sprite = cell;
+            NormalSprite = normalSprite;
 
             IsUnLinked = false;
             IsUnwalkableForEnemies = false;
@@ -165,7 +166,6 @@ namespace MarkInDeDark.Library.Levels
                     _cellDrawingInfos.Position,
                     levelEditorCell,
                     level,
-                    assets,
                     new Vector2(Width, Height),
                     () => _game.StartCameraShake(3));
 
@@ -367,6 +367,17 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            if (NormalSprite != null)
+                spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
+            foreach (var w in Walls)
+                if (w.Value is WallFixed wf)
+                    wf.DrawNormalMap(spriteBatch);
+            foreach (var a in Pillars)
+                a.Value.DrawNormalMap(spriteBatch);
+        }
+
         public void DrawForDebug(SpriteBatch spriteBatch)
             => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
 
@@ -378,12 +389,12 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void DrawWalls(SpriteBatch spritebatch)
+        public void DrawWalls(SpriteBatch spriteBatch)
         {
             foreach (var w in Walls)
-                w.Value.Draw(spritebatch);
+                w.Value.Draw(spriteBatch);
             foreach (var a in Pillars)
-                a.Value.Draw(spritebatch);
+                a.Value.Draw(spriteBatch);
         }
     }
 }

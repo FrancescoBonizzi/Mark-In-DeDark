@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FbonizziMonoGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FbonizziMonoGame.1.5.0\lib\net45\FbonizziMonoGame.dll</HintPath>
+      <HintPath>..\packages\FbonizziMonoGame.1.7.0\lib\net45\FbonizziMonoGame.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
@@ -140,6 +140,7 @@
     <Compile Include="Objects\UnpassableObject.cs" />
     <Compile Include="Particles\BodyPartParticle.cs" />
     <Compile Include="Particles\CharacterExplosionParticleSystem.cs" />
+    <Compile Include="Particles\DeathBodyParticleSystem.cs" />
     <Compile Include="Particles\EnemyEyeParticleSystem.cs" />
     <Compile Include="Particles\CharacterTorchParticleSystem.cs" />
     <Compile Include="Particles\GhostParticleSystem.cs" />

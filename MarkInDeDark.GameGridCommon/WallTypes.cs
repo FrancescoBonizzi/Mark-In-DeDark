@@ -9,10 +9,16 @@
         Speciale1 = 4,
         Ingresso = 5,
         Uscita  = 6,
+
         Decal1 = 7,
         Decal2 = 8,
         Decal3 = 9,
         Decal4 = 10,
-        Decal5 = 11
+        Decal5 = 11,
+
+        Speciale2 = 12,
+        Speciale3 = 13,
+        Speciale4 = 14,
+        Speciale5 = 15
     }
 }

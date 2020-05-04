@@ -16,6 +16,7 @@ namespace MarkInDeDark.Library.Levels
 
         private readonly DrawingInfos _drawingInfos;
         private readonly Sprite _sprite;
+        private readonly Sprite _normalSprite;
 
         public Rectangle CollisionRectangle { get; }
         public Hull Hull { get; }
@@ -28,6 +29,7 @@ namespace MarkInDeDark.Library.Levels
             LinkDirection direction,
             Vector2 position,
             Sprite sprite,
+            Sprite normalSprite,
             Sprite decal = null)
         {
             Direction = direction;
@@ -67,6 +69,7 @@ namespace MarkInDeDark.Library.Levels
             }
 
             _sprite = sprite;
+            _normalSprite = normalSprite;
 
             Hull = Utilities.HullFromRectangle(CollisionRectangle);
 
@@ -82,6 +85,12 @@ namespace MarkInDeDark.Library.Levels
 
             if (_decal != null)
                 spriteBatch.Draw(_decal, _decalDrawingInfos);
+        }
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            if (_normalSprite != null)
+                spriteBatch.Draw(_normalSprite, _drawingInfos);
         }
 
         public void Update(TimeSpan elapsed)

@@ -14,7 +14,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Vector2 cellSize,
             Action doorActionOnClose)
         {
@@ -22,12 +21,12 @@ namespace MarkInDeDark.Library.Levels
 
             if (cellConfig.Top != WallTypes.Niente)
             {
-                walls.Add(GenerateTopWall(cellPosition, cellConfig, level, assetsLoader, doorActionOnClose));
+                walls.Add(GenerateTopWall(cellPosition, cellConfig, level, doorActionOnClose));
             }
 
             if (cellConfig.Bottom != WallTypes.Niente)
             {
-                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level, assetsLoader, doorActionOnClose));
+                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level, doorActionOnClose));
             }
 
             if (cellConfig.Left != WallTypes.Niente)
@@ -47,7 +46,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Action doorActionOnClose)
         {
             var topType = cellConfig.Top;
@@ -57,43 +55,56 @@ namespace MarkInDeDark.Library.Levels
             {
                 case WallTypes.Occludente:
                 case WallTypes.Speciale1:
+                case WallTypes.Speciale2:
+                case WallTypes.Speciale3:
+                case WallTypes.Speciale4:
+                case WallTypes.Speciale5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
                 case WallTypes.Decal4:
                 case WallTypes.Decal5:
 
-                    Sprite horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
+                    var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     Sprite decal = null;
 
-                    if (topType == WallTypes.Fragile)
-                        horizontalWallSprite = level.WallHorizontalDestroyableSprite;
-                    else if (topType == WallTypes.Speciale1)
-                        horizontalWallSprite = level.WallSpecialHorizontalSprite;
+                    if (topType == WallTypes.Speciale1)
+                        horizontalWallSprite = level.WallSpecial1HorizontalSprite;
+                    else if (topType == WallTypes.Speciale2)
+                        horizontalWallSprite = level.WallSpecial2HorizontalSprite;
+                    else if (topType == WallTypes.Speciale3)
+                        horizontalWallSprite = level.WallSpecial3HorizontalSprite;
+                    else if (topType == WallTypes.Speciale4)
+                        horizontalWallSprite = level.WallSpecial4HorizontalSprite;
+                    else if (topType == WallTypes.Speciale5)
+                        horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (topType == WallTypes.Decal1)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                        decal = level.Decal1;
                     else if (topType == WallTypes.Decal2)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                        decal = level.Decal2;
                     else if (topType == WallTypes.Decal3)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                        decal = level.Decal3;
                     else if (topType == WallTypes.Decal4)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                        decal = level.Decal4;
                     else if (topType == WallTypes.Decal5)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_5"];
+                        decal = level.Decal5;
 
                     return new WallFixed(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - horizontalWallSprite.Height + 78f),
-                        sprite: horizontalWallSprite,
+                        position: new Vector2(cellPosition.X, cellPosition.Y - horizontalWallSprite.Base.Height + 78f),
+                        sprite: horizontalWallSprite.Base,
+                        normalSprite: horizontalWallSprite.Normal,
                         decal: decal);
 
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallHorizontalDestroyableSprite.Height + 78f),
-                        primarySprite: level.WallHorizontalDestroyableSprite,
-                        brokenSprite: level.WallHorizontalBrokenSprite);
+                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallHorizontalBreakableSprite.Base.Height + 78f),
+                        primarySprite: level.WallHorizontalBreakableSprite.Base,
+                        primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
+                        brokenSprite: level.WallHorizontalBrokenSprite.Base,
+                        brokenSpriteNormal: level.WallHorizontalBrokenSprite.Normal);
 
                 case WallTypes.Porta:
                     return new WallInteractiveDoor(
@@ -131,7 +142,6 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            AssetsLoader assetsLoader,
             Action doorActionOnClose)
         {
             var bottomType = cellConfig.Bottom;
@@ -141,43 +151,56 @@ namespace MarkInDeDark.Library.Levels
             {
                 case WallTypes.Occludente:
                 case WallTypes.Speciale1:
+                case WallTypes.Speciale2:
+                case WallTypes.Speciale3:
+                case WallTypes.Speciale4:
+                case WallTypes.Speciale5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
                 case WallTypes.Decal4:
                 case WallTypes.Decal5:
 
-                    Sprite horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
+                    var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     Sprite decal = null;
 
-                    if (bottomType == WallTypes.Fragile)
-                        horizontalWallSprite = level.WallHorizontalDestroyableSprite;
-                    else if (bottomType == WallTypes.Speciale1)
-                        horizontalWallSprite = level.WallSpecialHorizontalSprite;
+                    if (bottomType == WallTypes.Speciale1)
+                        horizontalWallSprite = level.WallSpecial1HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale2)
+                        horizontalWallSprite = level.WallSpecial2HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale3)
+                        horizontalWallSprite = level.WallSpecial3HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale4)
+                        horizontalWallSprite = level.WallSpecial4HorizontalSprite;
+                    else if (bottomType == WallTypes.Speciale5)
+                        horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (bottomType == WallTypes.Decal1)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_1"];
+                        decal = level.Decal1;
                     else if (bottomType == WallTypes.Decal2)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_2"];
+                        decal = level.Decal2;
                     else if (bottomType == WallTypes.Decal3)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_3"];
+                        decal = level.Decal3;
                     else if (bottomType == WallTypes.Decal4)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_4"];
+                        decal = level.Decal4;
                     else if (bottomType == WallTypes.Decal5)
-                        decal = assetsLoader.Sprites["Grounds/Decals/decal_5"];
+                        decal = level.Decal5;
 
                     return new WallFixed(
-                        direction,
-                        new Vector2(cellPosition.X, cellPosition.Y + 115f),
-                        horizontalWallSprite,
-                        decal);
+                        direction: direction,
+                        position: new Vector2(cellPosition.X, cellPosition.Y + 115f),
+                        sprite: horizontalWallSprite.Base,
+                        normalSprite: horizontalWallSprite.Normal,
+                        decal: decal);
 
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y + 115f),
-                        primarySprite: level.WallHorizontalDestroyableSprite,
-                        brokenSprite: level.WallHorizontalBrokenSprite);
+                        primarySprite: level.WallHorizontalBreakableSprite.Base,
+                        primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
+                        brokenSprite: level.WallHorizontalBrokenSprite.Base,
+                        brokenSpriteNormal: level.WallHorizontalBrokenSprite.Normal);
 
                 case WallTypes.Porta:
                     return new WallInteractiveDoor(
@@ -206,7 +229,7 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellSize)
         {
             var wallPosition = new Vector2(
-                cellPosition.X + cellSize.X - level.RandomVerticalWallSprites[0].Width / 2f, 
+                cellPosition.X + cellSize.X - level.RandomVerticalWallSprites[0].Base.Width / 2f,
                 cellPosition.Y - 30);
 
             if (cellConfig.Right == WallTypes.Fragile)
@@ -214,16 +237,21 @@ namespace MarkInDeDark.Library.Levels
                 return new WallBreakable(
                     direction: LinkDirection.EastLink,
                     position: wallPosition,
-                    primarySprite: level.WallVerticalDestroyableSprite,
-                    brokenSprite: level.WallVerticalBrokenASprite,
-                    brokenSpriteB: level.WallVerticalBrokenBSprite);
+                    primarySprite: level.WallVerticalBreakableSprite.Base,
+                    primarySpriteNormal: level.WallVerticalBreakableSprite.Normal,
+                    brokenSprite: level.WallVerticalBrokenASprite.Base,
+                    brokenSpriteNormal: level.WallVerticalBrokenASprite.Normal,
+                    brokenSpriteB: level.WallVerticalBrokenBSprite.Base,
+                    brokenSpriteBNormal: level.WallVerticalBrokenBSprite.Normal);
             }
             else
             {
+                var (Base, Normal) = Utilities.RandomBetween(level.RandomVerticalWallSprites);
                 return new WallFixed(
                     direction: LinkDirection.EastLink,
                     position: wallPosition,
-                    sprite: Utilities.RandomBetween(level.RandomVerticalWallSprites));
+                    sprite: Base,
+                    normalSprite: Normal);
             }
         }
 
@@ -233,24 +261,29 @@ namespace MarkInDeDark.Library.Levels
             Level level)
         {
             var wallPosition = new Vector2(
-                cellPosition.X - level.RandomVerticalWallSprites[0].Width / 2f, 
+                cellPosition.X - level.RandomVerticalWallSprites[0].Base.Width / 2f,
                 cellPosition.Y - 30);
-
+            
             if (cellConfig.Left == WallTypes.Fragile)
             {
                 return new WallBreakable(
                     direction: LinkDirection.WestLink,
                     position: wallPosition,
-                    primarySprite: level.WallVerticalDestroyableSprite,
-                    brokenSprite: level.WallVerticalBrokenASprite,
-                    brokenSpriteB: level.WallVerticalBrokenBSprite);
+                    primarySprite: level.WallVerticalBreakableSprite.Base,
+                    primarySpriteNormal: level.WallVerticalBreakableSprite.Normal,
+                    brokenSprite: level.WallVerticalBrokenASprite.Base,
+                    brokenSpriteNormal: level.WallVerticalBrokenASprite.Normal,
+                    brokenSpriteB: level.WallVerticalBrokenBSprite.Base,
+                    brokenSpriteBNormal: level.WallVerticalBrokenBSprite.Normal);
             }
             else
             {
+                var randomWall = Utilities.RandomBetween(level.RandomVerticalWallSprites);
                 return new WallFixed(
                     direction: LinkDirection.WestLink,
                     position: wallPosition,
-                    sprite: Utilities.RandomBetween(level.RandomVerticalWallSprites));
+                    sprite: randomWall.Base,
+                    normalSprite: randomWall.Normal);
             }
 
         }
