@@ -69,7 +69,7 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
-        private Vector3 _ambienceColor = new Vector3(0.25f);
+        private Vector3 _ambienceColor = new Vector3(0.35f);
         private Vector3 _playerLightColor;
 
         private Matrix _worldMatrix = Matrix.Identity;
@@ -466,11 +466,7 @@ namespace MarkInDeDark.Library
 
             _gameGrid.Update(elapsed);
             _player.Update(elapsed);
-            _playerLightColor = new Vector3(
-                _player.SurroundingLight.PointLight.Color.R,
-                _player.SurroundingLight.PointLight.Color.G,
-                _player.SurroundingLight.PointLight.Color.B);
-            _playerLightColor.Normalize();
+            _playerLightColor = Vector3.One;
             _candlesManager.Update(elapsed);
             _key.Update(elapsed);
             _gameHud.Update(elapsed);
