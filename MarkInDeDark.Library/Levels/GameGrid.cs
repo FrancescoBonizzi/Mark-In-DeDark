@@ -789,13 +789,55 @@ namespace MarkInDeDark.Library.Levels
             OnAllVisibleCells(c => c.Update(elapsed));
         }
 
-        public void DrawEverythingButWalls(SpriteBatch spriteBatch)
+        public void DrawGroundWithNormalMap(
+            SpriteBatch spriteBatch,
+            Matrix viewMatrix,
+            Effect normalMapEffect,
+            GraphicsDevice graphicsDevice,
+            RenderTarget2D baseRenderTarget,
+            RenderTarget2D normalMapRenderTarget,
+            RenderTarget2D resultRenderTarget)
         {
+            // Pavimento di base
+            graphicsDevice.SetRenderTarget(baseRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             OnAllVisibleCells(c =>
             {
                 c.DrawGround(spriteBatch);
-                c.DrawEffects(spriteBatch);
             });
+            spriteBatch.End();
+
+            // Normal map
+            graphicsDevice.SetRenderTarget(normalMapRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            OnAllVisibleCells(c =>
+            {
+                c.DrawGroundNormalMap(spriteBatch);
+            });
+            spriteBatch.End();
+
+            // Normal map applicata
+            graphicsDevice.SetRenderTarget(resultRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            normalMapEffect.Parameters["NormalTexture"].SetValue(normalMapRenderTarget);
+            normalMapEffect.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, normalMapEffect);
+            spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
+            // Effetti
+#warning RIMETTERE
+            //OnAllVisibleCells(c =>
+            //{
+            //    c.DrawEffects(spriteBatch);
+            //});
+        }
+
+        public void DrawAllNormalMapsButGround(SpriteBatch spriteBatch)
+        {
+            OnAllVisibleCells(c => c.DrawNormalMapButGrounds(spriteBatch));
         }
 
         public void DrawWalls(SpriteBatch spriteBatch)
@@ -806,11 +848,6 @@ namespace MarkInDeDark.Library.Levels
         public void DrawForDebug(SpriteBatch spriteBatch)
         {
             OnAllVisibleCells(c => c.DrawForDebug(spriteBatch));
-        }
-
-        public void DrawNormalMap(SpriteBatch spriteBatch)
-        {
-            OnAllVisibleCells(c => c.DrawNormalMap(spriteBatch));
         }
 
         private void OnAllVisibleCells(Action<GameCell> action)

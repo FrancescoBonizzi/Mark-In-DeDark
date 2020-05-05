@@ -9,6 +9,7 @@ using MarkInDeDark.Library.Maths;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 
@@ -367,10 +368,14 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void DrawNormalMap(SpriteBatch spriteBatch)
+        public void DrawGroundNormalMap(SpriteBatch spriteBatch)
         {
             if (NormalSprite != null)
                 spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
+        }
+
+        public void DrawNormalMapButGrounds(SpriteBatch spriteBatch)
+        {
             foreach (var w in Walls)
                 if (w.Value is WallFixed wf)
                     wf.DrawNormalMap(spriteBatch);
