@@ -255,7 +255,7 @@ namespace MarkInDeDark.Library.Levels
         {
             var doors = cell.Walls.Where(w => w.Value is WallInteractiveDoor);
             var doorsToExamine = new Dictionary<LinkDirection, WallInteractiveDoor>();
-            foreach(var d in doors)
+            foreach (var d in doors)
             {
                 doorsToExamine.Add(d.Key, d.Value as WallInteractiveDoor);
             }
@@ -786,72 +786,34 @@ namespace MarkInDeDark.Library.Levels
             _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
 
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-            {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                            _cells[x, y].Update(elapsed);
-                    }
-                }
-            }
+            OnAllVisibleCells(c => c.Update(elapsed));
         }
 
         public void DrawEverythingButWalls(SpriteBatch spriteBatch)
         {
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
+            OnAllVisibleCells(c =>
             {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                        {
-                            _cells[x, y].DrawGround(spriteBatch);
-                            _cells[x, y].DrawEffects(spriteBatch);
-                        }
-                    }
-                }
-            }
+                c.DrawGround(spriteBatch);
+                c.DrawEffects(spriteBatch);
+            });
         }
 
         public void DrawWalls(SpriteBatch spriteBatch)
         {
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-            {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                        {
-                              _cells[x, y].DrawWalls(spriteBatch);
-                        }
-                    }
-                }
-            }
+            OnAllVisibleCells(c => c.DrawWalls(spriteBatch));
         }
 
         public void DrawForDebug(SpriteBatch spriteBatch)
         {
-            for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
-            {
-                for (int y = _currentViewportMinCellY; y <= _currentViewportMaxCellY; y++)
-                {
-                    if ((x >= 0) && (y >= 0) && (x < HorizontalCellsNumber) && (y < VerticalCellsNumber))
-                    {
-                        if (_cells[x, y] != null)
-                        {
-                            _cells[x, y].DrawForDebug(spriteBatch);
-                        }
-                    }
-                }
-            }
+            OnAllVisibleCells(c => c.DrawForDebug(spriteBatch));
         }
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            OnAllVisibleCells(c => c.DrawNormalMap(spriteBatch));
+        }
+
+        private void OnAllVisibleCells(Action<GameCell> action)
         {
             for (int x = _currentViewportMinCellX; x <= _currentViewportMaxCellX; x++)
             {
@@ -861,7 +823,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         if (_cells[x, y] != null)
                         {
-                            _cells[x, y].DrawNormalMap(spriteBatch);
+                            action(_cells[x, y]);
                         }
                     }
                 }
