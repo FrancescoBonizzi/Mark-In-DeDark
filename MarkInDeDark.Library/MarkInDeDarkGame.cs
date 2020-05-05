@@ -47,10 +47,11 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _gameOverBackgroundRenderTarget;
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
         private readonly RenderTarget2D _groundLevelRenderTarget;
-        private readonly RenderTarget2D _baseSceneWithNormalMapRenderTarget;
+        private readonly RenderTarget2D _groundWallsWithNormalMapRenderTarget;
         private readonly RenderTarget2D _anotherLightMaskLevelRenderTarget;
         private readonly RenderTarget2D _normalMapRenderTarget;
         private readonly RenderTarget2D _baseSceneRenderTarget;
+        private readonly RenderTarget2D _baseSceneItemsWithNormalMapRenderTarget;
 
         private readonly Effect _lightMaskShader;
         private readonly Effect _circularNormalMapShader;
@@ -73,6 +74,7 @@ namespace MarkInDeDark.Library
         private Vector3 _playerLightColor;
 
         private Matrix _worldMatrix = Matrix.Identity;
+        private Matrix _projectionMatrix = Matrix.Identity;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
@@ -124,10 +126,11 @@ namespace MarkInDeDark.Library
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _baseSceneWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundWallsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _anotherLightMaskLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _baseSceneItemsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
@@ -270,6 +273,8 @@ namespace MarkInDeDark.Library
                         _player));
                 }
             }
+
+            _projectionMatrix = GetProjectionMatrixForNormalMap();
 
             // Penumbra
             _penumbra.Lights.Add(_player.SurroundingLight.PointLight);
@@ -605,9 +610,9 @@ namespace MarkInDeDark.Library
             GameTime gameTime)
         {
             var viewMatrix = _camera.GetViewMatrix();
-            var projectionMatrix = GetProjectionMatrixForNormalMap();
+            var projectionMatrix = _projectionMatrix;
 
-            // 1. Disegno il pavimento con le ombre solo sul pavimento
+            // 1. Disegno il pavimento con le ombre solo sul pavimento + i muri sopra
             _graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
             _penumbra.BeginDraw();
             _graphicsDevice.Clear(Color.Black);
@@ -620,19 +625,66 @@ namespace MarkInDeDark.Library
             _gameGrid.DrawEverythingButWalls(spriteBatch);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
-            // Arrivati qui ho fatto disegnare le ombre dinamiche a penumbra sul pavimento
 
-            // 2. Disegno un altro strato di luci per avere le ombre sugli oggetti tridimensionali
-            _graphicsDevice.SetRenderTarget(_anotherLightMaskLevelRenderTarget);
-            _graphicsDevice.Clear(_backgroundColorForLightMask);
-            DrawLightMask(spriteBatch, viewMatrix);
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
+                sortMode: SpriteSortMode.FrontToBack);
 
-            // 3. Disegno la normal map
+            _gameGrid.DrawWalls(spriteBatch);
+            spriteBatch.End();
+
+            // 2. Disegno la normal map (solo muri e pavimento)
             _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
             _graphicsDevice.Clear(Color.Transparent);
             DrawNormalMap(spriteBatch, viewMatrix);
 
-            // 4. Disegno la scena normale
+            // 2.5 applico la normal map su muri e pavimento
+            _graphicsDevice.SetRenderTarget(_groundWallsWithNormalMapRenderTarget);
+            _graphicsDevice.Clear(Color.Black);
+            // var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
+            // var m2 = new Vector3(m.X, m.Y, 60f);
+            _circularNormalMapShader.Parameters["LightPosition"].SetValue(
+                new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 60));
+            _circularNormalMapShader.Parameters["LightColor"].SetValue(_playerLightColor);
+            _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
+            _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
+            _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
+            _circularNormalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
+            _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _circularNormalMapShader);
+
+            // Disegno il pavimento ombrato
+            //spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+
+            spriteBatch.Draw((Texture2D)_groundLevelRenderTarget, Vector2.Zero, Color.White);
+
+            // Per disegnare il punto di luce del player: spriteBatch.DrawRectangle(new Rectangle((int)p.X, (int)p.Y, 10, 10), Color.Blue);
+
+            spriteBatch.End();
+
+            // / pavimento e muri con normal finito
+
+            // 3. Disegno un altro strato di luci per avere le ombre sugli oggetti tridimensionali
+            _graphicsDevice.SetRenderTarget(_anotherLightMaskLevelRenderTarget);
+            _graphicsDevice.Clear(_backgroundColorForLightMask);
+            DrawLightMask(spriteBatch, viewMatrix);
+
+         
+            // 4. Disegno tutti gli oggetti che hanno normal map
+            //_graphicsDevice.SetRenderTarget(_baseSceneItemsWithNormalMapRenderTarget);
+            //_graphicsDevice.Clear(Color.Transparent);
+
+            //spriteBatch.Begin(
+            //    transformMatrix: viewMatrix,
+            //    samplerState: SamplerState.PointClamp,
+            //    sortMode: SpriteSortMode.FrontToBack);
+
+            //_gameGrid.DrawWalls(spriteBatch);
+
+
+            // 4 Disegno il resto
             _graphicsDevice.SetRenderTarget(_baseSceneRenderTarget);
             _graphicsDevice.Clear(Color.Transparent);
 
@@ -643,7 +695,7 @@ namespace MarkInDeDark.Library
 
             // Disegno i muri
            // _gameGrid.DrawEverythingButWalls(spriteBatch);
-            _gameGrid.DrawWalls(spriteBatch);
+         //   _gameGrid.DrawWalls(spriteBatch);
 
             if (_triggerObjects != null)
             {
@@ -671,66 +723,45 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // Applico gli effetti
-            _graphicsDevice.SetRenderTarget(_baseSceneWithNormalMapRenderTarget);
-            _graphicsDevice.Clear(Color.Black);
+         
+            //// Scena con NormalMap
+            //if (!_gameConfig.GodModeDebugMode)
+            //{
+              
+            //}
 
-            // Scena con NormalMap
-            if (!_gameConfig.GodModeDebugMode)
-            {
-                // var m = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                // var m2 = new Vector3(m.X, m.Y, 60f);
 
-                _circularNormalMapShader.Parameters["LightPosition"].SetValue(
-                    new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 60));
-                _circularNormalMapShader.Parameters["LightColor"].SetValue(_playerLightColor);
-                _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
-                _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
-                _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
-                _circularNormalMapShader.Parameters["NormalTexture"].SetValue((Texture2D)_normalMapRenderTarget);
-                _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _circularNormalMapShader);
-
-                // Disegno il pavimento ombrato
-                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-
-                // E tutto il resto
-                spriteBatch.Draw((Texture2D)_baseSceneRenderTarget, Vector2.Zero, Color.White);
-
-                // Per disegnare il punto di luce del player: spriteBatch.DrawRectangle(new Rectangle((int)p.X, (int)p.Y, 10, 10), Color.Blue);
-
-                spriteBatch.End();
-            }
-
+            // 5 ricompongo tutto
             _graphicsDevice.SetRenderTarget(virtualDrawTarget);
             _graphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
-            spriteBatch.End();
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(_groundWallsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+            //spriteBatch.End();
 
             // Scena con LightMask
-            // Disegno il pavimento ombrato
-            if (!_gameConfig.GodModeDebugMode)
-            {
-                _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
-                _lightMaskShader.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, _lightMaskShader);
-                spriteBatch.Draw(_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
-                spriteBatch.End();
-            }
+            // Disegno il layer di pavimento e muri
+            //if (!_gameConfig.GodModeDebugMode)
+            //{
+            //    _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
+            //    _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            //    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, _lightMaskShader);
+            //    spriteBatch.Draw(_groundWallsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+            //    spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            //    spriteBatch.End();
+            //}
 
             //spriteBatch.Begin();
             //spriteBatch.Draw(_baseSceneWithNormalMapRenderTarget, Vector2.Zero, Color.White);
             //spriteBatch.End();
 
-            if (_gameConfig.GodModeDebugMode)
-            {
+            //if (_gameConfig.GodModeDebugMode)
+            //{
                 spriteBatch.Begin();
-                spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(0.4f));
+                spriteBatch.Draw(_groundWallsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(1f));
                 spriteBatch.End();
-            }
+            //}
 
             // Effetti sopra la lightmask
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
