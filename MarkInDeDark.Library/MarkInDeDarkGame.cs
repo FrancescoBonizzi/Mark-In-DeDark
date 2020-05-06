@@ -61,6 +61,8 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _baseSceneItemsWithNormalMapRenderTarget;
         private readonly RenderTarget2D _anotherLightMaskLevelRenderTarget;
 
+        private readonly Color _normalMapNeutralColor = new Color(128, 128, 255);
+
         private readonly Effect _lightMaskShader;
         private readonly Effect _circularNormalMapShader;
 
@@ -637,6 +639,8 @@ namespace MarkInDeDark.Library
             _penumbra.BeginDraw();
             _graphicsDevice.Clear(Color.Black);
 
+            // TODO: si può evitare di fare questo per il pavimento e riapplicarla sempre una volta sola come prima del commit "normal per il pavimento"?
+
             spriteBatch.Begin();
             spriteBatch.Draw(_groundLevel2RenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
@@ -644,7 +648,7 @@ namespace MarkInDeDark.Library
 
             // 2. Disegno la normal map di muri e pilastri
             _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
-            _graphicsDevice.Clear(Color.White);
+            _graphicsDevice.Clear(_normalMapNeutralColor);
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
             _gameGrid.DrawAllNormalMapsButGround(spriteBatch);
             spriteBatch.End();
@@ -705,14 +709,9 @@ namespace MarkInDeDark.Library
             _graphicsDevice.SetRenderTarget(finalRenderTarget);
             _graphicsDevice.Clear(Color.Black);
 
-            //_lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
-            //_lightMaskShader.CurrentTechnique.Passes[0].Apply();
-            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-            //spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-            //spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
-            //spriteBatch.End();
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
+            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
             spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();

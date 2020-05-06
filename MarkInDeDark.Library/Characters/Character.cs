@@ -1,10 +1,12 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D;
 using System;
 
 namespace MarkInDeDark.Library.Characters
