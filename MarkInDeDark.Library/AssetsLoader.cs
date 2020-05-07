@@ -99,7 +99,7 @@ namespace MarkInDeDark.Library
         {
             const string gameSpriteSheetName = "Spritesheet";
 
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < 4; ++i)
             {
                 var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
                 var gameSpritesDescriptions = _textureImporter.Import($"Assets/{gameSpriteSheetName}-{i}.txt");
