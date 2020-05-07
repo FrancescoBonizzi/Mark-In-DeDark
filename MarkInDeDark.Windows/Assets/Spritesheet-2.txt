@@ -238,4 +238,4 @@ Zombie/zombie_front_attack_1_normal|1691|1821|128|128
 Zombie/zombie_front_attack_2|1821|1691|128|128
 Zombie/zombie_front_attack_2_normal|1821|1821|128|128
 Zombie/zombie_front_iddle_1|1691|1691|128|128
-Zombie/zombie_front_iddlle_1_normal|1691|1821|128|128
+Zombie/zombie_front_iddle_1_normal|1691|1821|128|128

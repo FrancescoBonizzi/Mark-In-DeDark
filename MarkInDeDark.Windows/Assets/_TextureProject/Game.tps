@@ -694,11 +694,8 @@
             <key type="filename">Game/Zombie/zombie_front_attack_3_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_4.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_4_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_1.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_1_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_front_dying_2_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_iddle_1.png</key>
-            <key type="filename">Game/Zombie/zombie_front_iddlle_1_normal.png</key>
+            <key type="filename">Game/Zombie/zombie_front_iddle_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_1.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_2.png</key>
