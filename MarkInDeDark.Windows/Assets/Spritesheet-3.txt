@@ -1,0 +1,2 @@
+
+Zombie/zombie_side_walking_4_normal|1|1|128|128

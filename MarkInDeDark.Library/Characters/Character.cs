@@ -836,11 +836,6 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.IdleRight:
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
-
-                    if (AreLightsActive && SurroundingLight != null)
-                    {
-                        SurroundingLight.DrawAlone(spriteBatch);
-                    }
                     break;
 
                 case CharacterState.Dying:

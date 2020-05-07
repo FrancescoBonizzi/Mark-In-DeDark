@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace MarkInDeDark.Library
 {
@@ -160,18 +161,24 @@ namespace MarkInDeDark.Library
                 const int _maxFramesNumber = 30;
 
                 var animation = new List<Sprite>();
+                var normalMapAnimation = new List<Sprite>();
 
                 for (int f = 1; f <= _maxFramesNumber; ++f)
                 {
                     string completeFrameName = $"{frameName}_{f}";
                     if (Sprites.ContainsKey(completeFrameName))
                         animation.Add(Sprites[completeFrameName]);
+
+                    string completeFrameNameNormal = $"{completeFrameName}_normal";
+                    if (Sprites.ContainsKey(completeFrameNameNormal))
+                        normalMapAnimation.Add(Sprites[completeFrameNameNormal]);
                 }
 
                 if (animation.Count > 0)
                 {
                     _animations[animationName] = new SpriteAnimation(
                         animation,
+                        normalMapAnimation,
                         TimeSpan.FromMilliseconds(_gameConfig.CharactersAnimationsMillisecondsBetweenFrames),
                         isAnimationLooped);
                 }
