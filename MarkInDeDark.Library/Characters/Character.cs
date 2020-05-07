@@ -1,12 +1,10 @@
 ﻿using FbonizziMonoGame.Drawing;
-using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D;
 using System;
 
 namespace MarkInDeDark.Library.Characters
@@ -787,7 +785,7 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
                     ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
-
+                    
                     if (AreLightsActive && SurroundingLight != null)
                     {
                         SurroundingLight.DrawAlone(spriteBatch);
@@ -820,6 +818,48 @@ namespace MarkInDeDark.Library.Characters
                         }
 
                     _deadBodyParticleEffect?.Draw(spriteBatch);
+                    break;
+            }
+        }
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            switch (CurrentCharacterState)
+            {
+                case CharacterState.GoingUp:
+                case CharacterState.GoingDown:
+                case CharacterState.GoingLeft:
+                case CharacterState.GoingRight:
+                case CharacterState.IdleUp:
+                case CharacterState.IdleDown:
+                case CharacterState.IdleLeft:
+                case CharacterState.IdleRight:
+                case CharacterState.Attacking:
+                    MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
+
+                    if (AreLightsActive && SurroundingLight != null)
+                    {
+                        SurroundingLight.DrawAlone(spriteBatch);
+                    }
+                    break;
+
+                case CharacterState.Dying:
+                    switch (CurrentDieAnimationType)
+                    {
+                        case DieAnimationType.StandardAnimation:
+                            MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
+                            break;
+                    }
+                    break;
+
+                case CharacterState.Dead:
+
+                    if (CurrentDieAnimationType == DieAnimationType.StandardAnimation)
+                        if (this is Player)
+                        {
+                            MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
+                        }
+
                     break;
             }
         }

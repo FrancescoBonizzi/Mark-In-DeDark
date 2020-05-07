@@ -10,11 +10,10 @@ using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Penumbra;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library
@@ -639,8 +638,6 @@ namespace MarkInDeDark.Library
             _penumbra.BeginDraw();
             _graphicsDevice.Clear(Color.Black);
 
-            // TODO: si può evitare di fare questo per il pavimento e riapplicarla sempre una volta sola come prima del commit "normal per il pavimento"?
-
             spriteBatch.Begin();
             spriteBatch.Draw(_groundLevel2RenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
@@ -651,6 +648,9 @@ namespace MarkInDeDark.Library
             _graphicsDevice.Clear(_normalMapNeutralColor);
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
             _gameGrid.DrawAllNormalMapsButGround(spriteBatch);
+            _player.DrawNormalMap(spriteBatch);
+            foreach (var e in _enemies)
+                e.DrawNormalMap(spriteBatch);
             spriteBatch.End();
 
             // 3. Disegno un altro strato di luci per avere le ombre sugli oggetti tridimensionali
