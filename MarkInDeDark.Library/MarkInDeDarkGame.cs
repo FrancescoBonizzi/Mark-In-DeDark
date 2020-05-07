@@ -695,13 +695,13 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
 
             // 5. Applico la normal map generica
-            //_graphicsDevice.SetRenderTarget(_baseSceneItemsWithNormalMapRenderTarget);
-            //_graphicsDevice.Clear(Color.Black);
-            //_circularNormalMapShader.Parameters["NormalTexture"].SetValue(_normalMapRenderTarget);
-            //_circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
-            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, _circularNormalMapShader);
-            //spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
-            //spriteBatch.End();
+            _graphicsDevice.SetRenderTarget(_baseSceneItemsWithNormalMapRenderTarget);
+            _graphicsDevice.Clear(Color.Black);
+            _circularNormalMapShader.Parameters["NormalTexture"].SetValue(_normalMapRenderTarget);
+            _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, _circularNormalMapShader);
+            spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
 
 #warning TODO Rimettere una modalità debug
 
@@ -709,15 +709,12 @@ namespace MarkInDeDark.Library
             _graphicsDevice.SetRenderTarget(finalRenderTarget);
             _graphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(_normalMapRenderTarget, Vector2.Zero, Color.White);
+            _lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
+            _lightMaskShader.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
+            spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
-            //_lightMaskShader.Parameters["lightMask"].SetValue(_anotherLightMaskLevelRenderTarget);
-            //_lightMaskShader.CurrentTechnique.Passes[0].Apply();
-            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, _lightMaskShader);
-            //spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-            //spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
-            //spriteBatch.End();
 
             // 7. Effetti sopra la lightmask
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
