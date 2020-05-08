@@ -14,5 +14,6 @@ namespace MarkInDeDark.Library.Levels
 
         void Update(TimeSpan elapsed);
         void Draw(SpriteBatch spriteBatch);
+        void DrawNormalMap(SpriteBatch spriteBatch);
     }
 }

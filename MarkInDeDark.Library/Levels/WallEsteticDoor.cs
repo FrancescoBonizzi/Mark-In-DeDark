@@ -28,6 +28,10 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _spriteCenterClosed;
         private readonly Sprite _spriteArc;
 
+        private readonly Sprite _spriteCenterOpenNormal;
+        private readonly Sprite _spriteCenterClosedNormal;
+        private readonly Sprite _spriteArcNormal;
+
         public Vector2 Position => _spriteCenterDrawingInfos.Position;
 
         private bool _isOpen;
@@ -37,8 +41,11 @@ namespace MarkInDeDark.Library.Levels
             LinkDirection direction,
             Vector2 position,
             Sprite spriteCenterOpen,
+            Sprite spriteCenterOpenNormal,
             Sprite spriteCenterClosed,
-            Sprite spriteArc)
+            Sprite spriteCenterClosedNormal,
+            Sprite spriteArc,
+            Sprite spriteArcNormal)
         {
             WallEsteticDoorType = wallEsteticDoorType;
             Direction = direction;
@@ -50,15 +57,17 @@ namespace MarkInDeDark.Library.Levels
             };
 
             _spriteCenterOpen = spriteCenterOpen;
+            _spriteCenterOpenNormal = spriteCenterOpenNormal;
             _spriteCenterClosed = spriteCenterClosed;
+            _spriteCenterClosedNormal = spriteCenterClosedNormal;
+            _spriteArc = spriteArc;
+            _spriteArcNormal = spriteArcNormal;
 
             _spriteArcDrawingInfos = new DrawingInfos()
             {
                 Position = position + new Vector2(20f, -40f),
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
-
-            _spriteArc = spriteArc;
 
             CollisionRectangle = new Rectangle(
                  (int)position.X,
@@ -85,6 +94,17 @@ namespace MarkInDeDark.Library.Levels
             if (_isOpen)
                 spriteBatch.Draw(_spriteCenterOpen, _spriteCenterDrawingInfos);
             else spriteBatch.Draw(_spriteCenterClosed, _spriteCenterDrawingInfos);
+        }
+
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            if (_spriteCenterOpenNormal == null)
+                return;
+
+            spriteBatch.Draw(_spriteArcNormal, _spriteArcDrawingInfos);
+            if (_isOpen)
+                spriteBatch.Draw(_spriteCenterOpenNormal, _spriteCenterDrawingInfos);
+            else spriteBatch.Draw(_spriteCenterClosedNormal, _spriteCenterDrawingInfos);
         }
 
         public void Update(TimeSpan elapsed)

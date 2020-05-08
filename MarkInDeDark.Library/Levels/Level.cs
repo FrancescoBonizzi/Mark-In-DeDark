@@ -48,13 +48,13 @@ namespace MarkInDeDark.Library.Levels
         public (Sprite Base, Sprite Normal) WallSpecial4HorizontalSprite { get; private set; }
         public (Sprite Base, Sprite Normal) WallSpecial5HorizontalSprite { get; private set; }
 
-        public Sprite WallEntranceClosedHorizontalSprite { get; private set; }
-        public Sprite WallEntranceOpenHorizontalSprite { get; private set; }
-        public Sprite WallEntranceArcHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallEntranceClosedHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallEntranceOpenHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallEntranceArcHorizontalSprite { get; private set; }
 
-        public Sprite WallExitClosedHorizontalSprite { get; private set; }
-        public Sprite WallExitOpenHorizontalSprite { get; private set; }
-        public Sprite WallExitArcHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallExitClosedHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallExitOpenHorizontalSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) WallExitArcHorizontalSprite { get; private set; }
 
         public Sprite WallDoorBaseSprite { get; private set; }
         public Sprite WallDoorArcSprite { get; private set; }
@@ -187,13 +187,25 @@ namespace MarkInDeDark.Library.Levels
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_5"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_5"));
 
-            WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];
-            WallEntranceOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"];
-            WallEntranceArcHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_up"];
+            WallEntranceClosedHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_ingresso_closed"));
+            WallEntranceOpenHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_ingresso_open"));
+            WallEntranceArcHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_up"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_ingresso_up"));
 
-            WallExitClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_closed"];
-            WallExitOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_open"];
-            WallExitArcHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_up"];
+            WallExitClosedHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_closed"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_uscita_closed"));
+            WallExitOpenHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_open"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_uscita_open"));
+            WallExitArcHorizontalSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_uscita_up"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_uscita_up"));
 
             WallDoorBaseSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door"];
             WallDoorArcSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"];

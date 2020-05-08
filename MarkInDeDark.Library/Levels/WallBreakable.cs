@@ -126,7 +126,7 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
-        public void DrawNormal(SpriteBatch spriteBatch)
+        public void DrawNormalMap(SpriteBatch spriteBatch)
         {
             if (!_isBroken)
             {

@@ -160,5 +160,9 @@ namespace MarkInDeDark.Library.Levels
             }
         }
 
+        public void DrawNormalMap(SpriteBatch spriteBatch)
+        {
+            
+        }
     }
 }

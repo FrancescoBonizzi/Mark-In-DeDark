@@ -121,18 +121,24 @@ namespace MarkInDeDark.Library.Levels
                         wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - 76),
-                        spriteCenterOpen: level.WallEntranceOpenHorizontalSprite,
-                        spriteCenterClosed: level.WallEntranceClosedHorizontalSprite,
-                        spriteArc: level.WallEntranceArcHorizontalSprite);
+                        spriteCenterOpen: level.WallEntranceOpenHorizontalSprite.Base,
+                        spriteCenterOpenNormal: level.WallEntranceOpenHorizontalSprite.Normal,
+                        spriteCenterClosed: level.WallEntranceClosedHorizontalSprite.Base,
+                        spriteCenterClosedNormal: level.WallEntranceClosedHorizontalSprite.Normal,
+                        spriteArc: level.WallEntranceArcHorizontalSprite.Base,
+                        spriteArcNormal: level.WallEntranceArcHorizontalSprite.Normal);
 
                 case WallTypes.Uscita:
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y - 76),
-                        spriteCenterOpen: level.WallExitOpenHorizontalSprite,
-                        spriteCenterClosed: level.WallExitClosedHorizontalSprite,
-                        spriteArc: level.WallExitArcHorizontalSprite);
+                        spriteCenterOpen: level.WallExitOpenHorizontalSprite.Base,
+                        spriteCenterOpenNormal: level.WallExitOpenHorizontalSprite.Normal,
+                        spriteCenterClosed: level.WallExitClosedHorizontalSprite.Base,
+                        spriteCenterClosedNormal: level.WallExitClosedHorizontalSprite.Normal,
+                        spriteArc: level.WallExitArcHorizontalSprite.Base,
+                        spriteArcNormal: level.WallExitArcHorizontalSprite.Normal);
             }
 
             throw new NotImplementedException($"Muro di tipo non gestito: {topType}");

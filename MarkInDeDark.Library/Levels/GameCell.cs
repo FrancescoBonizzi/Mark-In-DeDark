@@ -377,8 +377,7 @@ namespace MarkInDeDark.Library.Levels
         public void DrawNormalMapButGrounds(SpriteBatch spriteBatch)
         {
             foreach (var w in Walls)
-                if (w.Value is WallFixed wf)
-                    wf.DrawNormalMap(spriteBatch);
+                w.Value.DrawNormalMap(spriteBatch);
             foreach (var a in Pillars)
                 a.Value.DrawNormalMap(spriteBatch);
         }
