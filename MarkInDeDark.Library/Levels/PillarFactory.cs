@@ -114,7 +114,7 @@ namespace MarkInDeDark.Library.Levels
             return new Pillar(
                 new Vector2(
                     cell.TopLeftPosition.X - level.RandomPillarSprites[0].Base.Width / 2f,
-                    cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Base.Height / 2f),
+                    cell.TopLeftPosition.Y + WallFactory.NorthWallYOffset),
                 Base,
                 Normal,
                 PillarPositions.NW);
@@ -126,7 +126,7 @@ namespace MarkInDeDark.Library.Levels
             return new Pillar(
                 new Vector2(
                       cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Base.Width / 2f,
-                      cell.TopLeftPosition.Y - level.RandomPillarSprites[0].Base.Height / 2f),
+                      cell.TopLeftPosition.Y + WallFactory.NorthWallYOffset),
                 Base,
                 Normal,
                 PillarPositions.NE);
@@ -138,7 +138,7 @@ namespace MarkInDeDark.Library.Levels
             return new Pillar(
                 new Vector2(
                     cell.TopLeftPosition.X - level.RandomPillarSprites[0].Base.Width / 2f,
-                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Base.Height / 2f),
+                    cell.TopLeftPosition.Y + WallFactory.SouthWallYOffset),
                 Base,
                 Normal,
                 PillarPositions.SW);
@@ -150,7 +150,7 @@ namespace MarkInDeDark.Library.Levels
             return new Pillar(
                 new Vector2(
                     cell.TopLeftPosition.X + cell.Width - level.RandomPillarSprites[0].Base.Width / 2f,
-                    cell.TopLeftPosition.Y + cell.Width - level.RandomPillarSprites[0].Base.Height / 2f),
+                    cell.TopLeftPosition.Y + WallFactory.SouthWallYOffset),
                 Base,
                 Normal,
                 PillarPositions.SE);

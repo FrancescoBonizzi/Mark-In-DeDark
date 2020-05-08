@@ -9,6 +9,10 @@ namespace MarkInDeDark.Library.Levels
 {
     public static class WallFactory
     {
+        public const int NorthWallYOffset = -78;
+        public const int SouthWallYOffset = 114;
+        public const int EntranceExitDoorYOffset = -76;
+
         // WARNING Prima usavo IsNorthPassable per gestire queste cose... speriamo bene
         public static List<IWall> GenerateWalls(
             Vector2 cellPosition,
@@ -92,7 +96,7 @@ namespace MarkInDeDark.Library.Levels
 
                     return new WallFixed(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - 78f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + NorthWallYOffset),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
                         decal: decal.Base,
@@ -101,7 +105,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - 78f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + NorthWallYOffset),
                         primarySprite: level.WallHorizontalBreakableSprite.Base,
                         primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
                         brokenSprite: level.WallHorizontalBrokenSprite.Base,
@@ -109,7 +113,7 @@ namespace MarkInDeDark.Library.Levels
 
                 case WallTypes.Porta:
                     return new WallInteractiveDoor(
-                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y - 78),
+                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y + NorthWallYOffset),
                         linkDirection: LinkDirection.NorthLink,
                         doorOpenAnimation: level.DoorOpenAnimation,
                         doorCloseAnimation: level.DoorCloseAnimation,
@@ -121,7 +125,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - 76),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallEntranceOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallEntranceClosedHorizontalSprite.Base,
@@ -133,7 +137,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - 76),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallExitOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallExitClosedHorizontalSprite.Base,
@@ -195,7 +199,7 @@ namespace MarkInDeDark.Library.Levels
 
                     return new WallFixed(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + 114f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + SouthWallYOffset),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
                         decal: decal.Base,
@@ -204,7 +208,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + 114f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + SouthWallYOffset),
                         primarySprite: level.WallHorizontalBreakableSprite.Base,
                         primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
                         brokenSprite: level.WallHorizontalBrokenSprite.Base,
