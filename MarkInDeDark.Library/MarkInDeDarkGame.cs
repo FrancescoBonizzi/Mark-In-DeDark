@@ -11,7 +11,6 @@ using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +80,7 @@ namespace MarkInDeDark.Library
         private bool _shakeViewport;
         private Vector3 _ambienceColor = new Vector3(0.35f);
         private Vector3 _playerLightColor;
+        private float _lightDistanceSquared = 7000f;
 
         private Matrix _worldMatrix = Matrix.Identity;
         private Matrix _projectionMatrix = Matrix.Identity;
@@ -619,6 +619,7 @@ namespace MarkInDeDark.Library
             // var p = new Vector3(m.X, m.Y, 60f);
             _circularNormalMapShader.Parameters["LightPosition"].SetValue(
                 new Vector3(_player.TorchPosition - _camera.Position - new Vector2(180, 120), 60));
+            _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(_lightDistanceSquared);
             _circularNormalMapShader.Parameters["LightColor"].SetValue(_playerLightColor);
             _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
             _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
