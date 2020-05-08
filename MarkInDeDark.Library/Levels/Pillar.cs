@@ -26,7 +26,7 @@ namespace MarkInDeDark.Library.Levels
             PillarPositions pillarPosition)
         {
             PillarPosition = pillarPosition;
-            
+
             DrawingInfos = new DrawingInfos()
             {
                 Position = position,
@@ -37,9 +37,9 @@ namespace MarkInDeDark.Library.Levels
             _normalSprite = normalSprite;
 
             Hull = Utilities.HullFromRectangle(new Rectangle(
-                (int)position.X + 12, 
-                (int)position.Y + _sprite.Height - 53, 
-                60, 
+                (int)position.X + 12,
+                (int)position.Y + _sprite.Height - 53,
+                60,
                 40));
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
@@ -51,6 +51,9 @@ namespace MarkInDeDark.Library.Levels
             => spriteBatch.Draw(_sprite, DrawingInfos);
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_normalSprite, DrawingInfos);
+        {
+            if (_normalSprite != null)
+                spriteBatch.Draw(_normalSprite, DrawingInfos);
+        }
     }
 }
