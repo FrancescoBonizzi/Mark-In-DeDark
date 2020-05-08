@@ -262,8 +262,6 @@
             <key type="filename">Game/Bubu/bubu_back_attack_3_normal.png</key>
             <key type="filename">Game/Bubu/bubu_back_attack_4.png</key>
             <key type="filename">Game/Bubu/bubu_back_attack_4_normal.png</key>
-            <key type="filename">Game/Bubu/bubu_back_iddle_1.png</key>
-            <key type="filename">Game/Bubu/bubu_back_iddle_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_back_walking_1.png</key>
             <key type="filename">Game/Bubu/bubu_back_walking_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_back_walking_2.png</key>
@@ -282,8 +280,6 @@
             <key type="filename">Game/Bubu/bubu_front_attack_4_normal.png</key>
             <key type="filename">Game/Bubu/bubu_front_attack_5.png</key>
             <key type="filename">Game/Bubu/bubu_front_attack_5_normal.png</key>
-            <key type="filename">Game/Bubu/bubu_front_iddle_1.png</key>
-            <key type="filename">Game/Bubu/bubu_front_iddle_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_front_walking_1.png</key>
             <key type="filename">Game/Bubu/bubu_front_walking_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_front_walking_2.png</key>
@@ -302,8 +298,6 @@
             <key type="filename">Game/Bubu/bubu_side_attack_4_normal.png</key>
             <key type="filename">Game/Bubu/bubu_side_attack_5.png</key>
             <key type="filename">Game/Bubu/bubu_side_attack_5_normal.png</key>
-            <key type="filename">Game/Bubu/bubu_side_iddle_1.png</key>
-            <key type="filename">Game/Bubu/bubu_side_iddle_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_side_walking_1.png</key>
             <key type="filename">Game/Bubu/bubu_side_walking_1_normal.png</key>
             <key type="filename">Game/Bubu/bubu_side_walking_2.png</key>
@@ -313,7 +307,6 @@
             <key type="filename">Game/Bubu/bubu_side_walking_4.png</key>
             <key type="filename">Game/Bubu/bubu_side_walking_4_normal.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_1.png</key>
-            <key type="filename">Game/Ghost/ghost_back_attack_1_V2_normal.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_1_normal.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_2.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_2_normal.png</key>
@@ -329,7 +322,6 @@
             <key type="filename">Game/Ghost/ghost_back_attack_7_normal.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_8.png</key>
             <key type="filename">Game/Ghost/ghost_back_attack_8_normal.png</key>
-            <key type="filename">Game/Ghost/ghost_back_iddle_1.png</key>
             <key type="filename">Game/Ghost/ghost_back_walking_1.png</key>
             <key type="filename">Game/Ghost/ghost_back_walking_1_normal.png</key>
             <key type="filename">Game/Ghost/ghost_back_walking_2.png</key>
@@ -356,7 +348,6 @@
             <key type="filename">Game/Ghost/ghost_front_attack_7_normal.png</key>
             <key type="filename">Game/Ghost/ghost_front_attack_8.png</key>
             <key type="filename">Game/Ghost/ghost_front_attack_8_normal.png</key>
-            <key type="filename">Game/Ghost/ghost_front_iddle_1.png</key>
             <key type="filename">Game/Ghost/ghost_front_walking_1.png</key>
             <key type="filename">Game/Ghost/ghost_front_walking_1_normal.png</key>
             <key type="filename">Game/Ghost/ghost_front_walking_2.png</key>
@@ -383,7 +374,6 @@
             <key type="filename">Game/Ghost/ghost_side_attack_7_normal.png</key>
             <key type="filename">Game/Ghost/ghost_side_attack_8.png</key>
             <key type="filename">Game/Ghost/ghost_side_attack_8_normal.png</key>
-            <key type="filename">Game/Ghost/ghost_side_iddle_1.png</key>
             <key type="filename">Game/Ghost/ghost_side_walking_1.png</key>
             <key type="filename">Game/Ghost/ghost_side_walking_1_normal.png</key>
             <key type="filename">Game/Ghost/ghost_side_walking_2.png</key>
@@ -404,8 +394,6 @@
             <key type="filename">Game/Goblin/goblin_back_attack_4_normal.png</key>
             <key type="filename">Game/Goblin/goblin_back_attack_5.png</key>
             <key type="filename">Game/Goblin/goblin_back_attack_5_normal.png</key>
-            <key type="filename">Game/Goblin/goblin_back_iddle_1.png</key>
-            <key type="filename">Game/Goblin/goblin_back_iddle_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_back_walking_1.png</key>
             <key type="filename">Game/Goblin/goblin_back_walking_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_back_walking_2.png</key>
@@ -424,8 +412,6 @@
             <key type="filename">Game/Goblin/goblin_front_attack_4_normal.png</key>
             <key type="filename">Game/Goblin/goblin_front_attack_5.png</key>
             <key type="filename">Game/Goblin/goblin_front_attack_5_normal.png</key>
-            <key type="filename">Game/Goblin/goblin_front_iddle_1.png</key>
-            <key type="filename">Game/Goblin/goblin_front_iddle_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_front_walking_1.png</key>
             <key type="filename">Game/Goblin/goblin_front_walking_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_front_walking_2.png</key>
@@ -444,8 +430,6 @@
             <key type="filename">Game/Goblin/goblin_side_attack_4_normal.png</key>
             <key type="filename">Game/Goblin/goblin_side_attack_5.png</key>
             <key type="filename">Game/Goblin/goblin_side_attack_5_normal.png</key>
-            <key type="filename">Game/Goblin/goblin_side_iddle_1.png</key>
-            <key type="filename">Game/Goblin/goblin_side_iddle_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_1.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_1_normal.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_2.png</key>
@@ -523,8 +507,6 @@
             <key type="filename">Game/Skeleton/skeleton_back_attack_3_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_attack_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_attack_4_normal.png</key>
-            <key type="filename">Game/Skeleton/skeleton_back_iddle_1.png</key>
-            <key type="filename">Game/Skeleton/skeleton_back_iddle_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_walking_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_walking_1_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_back_walking_2.png</key>
@@ -541,8 +523,6 @@
             <key type="filename">Game/Skeleton/skeleton_front_attack_3_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_attack_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_attack_4_normal.png</key>
-            <key type="filename">Game/Skeleton/skeleton_front_iddle_1.png</key>
-            <key type="filename">Game/Skeleton/skeleton_front_iddle_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_walking_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_walking_1_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_front_walking_2.png</key>
@@ -559,8 +539,6 @@
             <key type="filename">Game/Skeleton/skeleton_side_attack_3_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_attack_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_attack_4_normal.png</key>
-            <key type="filename">Game/Skeleton/skeleton_side_iddle_1.png</key>
-            <key type="filename">Game/Skeleton/skeleton_side_iddle_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_1.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_1_normal.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_2.png</key>
@@ -570,7 +548,9 @@
             <key type="filename">Game/Skeleton/skeleton_side_walking_4.png</key>
             <key type="filename">Game/Skeleton/skeleton_side_walking_4_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_back_attack_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_attack_2.png</key>
+            <key type="filename">Game/Taurus/taurus_back_attack_2_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_2.png</key>
@@ -579,7 +559,6 @@
             <key type="filename">Game/Taurus/taurus_back_charge_3_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_4.png</key>
             <key type="filename">Game/Taurus/taurus_back_charge_4_normal.png</key>
-            <key type="filename">Game/Taurus/taurus_back_iddle_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_1.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_back_run_2.png</key>
@@ -603,7 +582,9 @@
             <key type="filename">Game/Taurus/taurus_back_walking_6.png</key>
             <key type="filename">Game/Taurus/taurus_back_walking_6_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_front_attack_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_attack_2.png</key>
+            <key type="filename">Game/Taurus/taurus_front_attack_2_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_2.png</key>
@@ -612,7 +593,6 @@
             <key type="filename">Game/Taurus/taurus_front_charge_3_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_4.png</key>
             <key type="filename">Game/Taurus/taurus_front_charge_4_normal.png</key>
-            <key type="filename">Game/Taurus/taurus_front_iddle_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_1.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_front_run_2.png</key>
@@ -636,7 +616,9 @@
             <key type="filename">Game/Taurus/taurus_front_walking_6.png</key>
             <key type="filename">Game/Taurus/taurus_front_walking_6_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_attack_1.png</key>
+            <key type="filename">Game/Taurus/taurus_side_attack_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_attack_2.png</key>
+            <key type="filename">Game/Taurus/taurus_side_attack_2_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_1.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_2.png</key>
@@ -645,8 +627,6 @@
             <key type="filename">Game/Taurus/taurus_side_charge_3_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_4.png</key>
             <key type="filename">Game/Taurus/taurus_side_charge_4_normal.png</key>
-            <key type="filename">Game/Taurus/taurus_side_iddle_1.png</key>
-            <key type="filename">Game/Taurus/taurus_side_iddle_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_run_1.png</key>
             <key type="filename">Game/Taurus/taurus_side_run_1_normal.png</key>
             <key type="filename">Game/Taurus/taurus_side_run_2.png</key>
@@ -675,9 +655,6 @@
             <key type="filename">Game/Zombie/zombie_back_attack_3_normal.png</key>
             <key type="filename">Game/Zombie/zombie_back_attack_4.png</key>
             <key type="filename">Game/Zombie/zombie_back_attack_4_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_back_iddle_1.png</key>
-            <key type="filename">Game/Zombie/zombie_back_iddle_1_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_back_iddle_normal.png</key>
             <key type="filename">Game/Zombie/zombie_back_walking_1.png</key>
             <key type="filename">Game/Zombie/zombie_back_walking_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_back_walking_2.png</key>
@@ -694,8 +671,6 @@
             <key type="filename">Game/Zombie/zombie_front_attack_3_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_4.png</key>
             <key type="filename">Game/Zombie/zombie_front_attack_4_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_front_iddle_1.png</key>
-            <key type="filename">Game/Zombie/zombie_front_iddle_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_1.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_front_walking_2.png</key>
@@ -712,8 +687,6 @@
             <key type="filename">Game/Zombie/zombie_side_attack_3_normal.png</key>
             <key type="filename">Game/Zombie/zombie_side_attack_4.png</key>
             <key type="filename">Game/Zombie/zombie_side_attack_4_normal.png</key>
-            <key type="filename">Game/Zombie/zombie_side_iddle_1.png</key>
-            <key type="filename">Game/Zombie/zombie_side_iddle_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_side_walking_1.png</key>
             <key type="filename">Game/Zombie/zombie_side_walking_1_normal.png</key>
             <key type="filename">Game/Zombie/zombie_side_walking_2.png</key>

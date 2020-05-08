@@ -7,8 +7,6 @@ Bubu/bubu_back_attack_3|1747|1233|128|128
 Bubu/bubu_back_attack_3_normal|1747|1363|128|128
 Bubu/bubu_back_attack_4|1747|1493|128|128
 Bubu/bubu_back_attack_4_normal|1747|1623|128|128
-Bubu/bubu_back_iddle_1|1747|713|128|128
-Bubu/bubu_back_iddle_1_normal|1747|843|128|128
 Bubu/bubu_back_walking_1|1747|1753|128|128
 Bubu/bubu_back_walking_1_normal|1747|1883|128|128
 Bubu/bubu_back_walking_2|1747|713|128|128

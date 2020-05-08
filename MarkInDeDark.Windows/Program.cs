@@ -24,7 +24,9 @@ namespace MarkInDeDark.Windows
                 "MarkInDeDark");
 
             if (!Directory.Exists(levelSettingsDirectory))
+            {
                 Directory.CreateDirectory(levelSettingsDirectory);
+            }
 
             string levelSettingsPath = Path.Combine(
                 levelSettingsDirectory,
@@ -36,12 +38,14 @@ namespace MarkInDeDark.Windows
                 if (args.Length > 0)
                 {
                     if (!File.Exists(args[0]))
+                    {
                         throw new ArgumentException($"Il livello al path: {args[0]} non esiste!");
+                    }
 
                     forcedLevelPath = args[0];
                 }
 
-                List<string> levelsToLoad = forcedLevelPath == null 
+                List<string> levelsToLoad = forcedLevelPath == null
                     ? Directory.GetFiles("Assets/Levels", "*.mark").ToList()
                     : new List<string>() { forcedLevelPath };
 

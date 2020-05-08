@@ -160,6 +160,8 @@ namespace MarkInDeDark.Library
             {
                 const int _maxFramesNumber = 30;
 
+                // TODO If animationname contiene idle, carica solo un frame
+
                 var animation = new List<Sprite>();
                 var normalMapAnimation = new List<Sprite>();
 
@@ -190,9 +192,20 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"{characterName}WalkUp", $"{folderName}/{characterName}_back_walking", true);
                 LoadCharacterAnimation($"{characterName}WalkDown", $"{folderName}/{characterName}_front_walking", true);
                 LoadCharacterAnimation($"{characterName}WalkSide", $"{folderName}/{characterName}_side_walking", true);
-                LoadCharacterAnimation($"{characterName}IdleUp", $"{folderName}/{characterName}_back_iddle", true);
-                LoadCharacterAnimation($"{characterName}IdleDown", $"{folderName}/{characterName}_front_iddle", true);
-                LoadCharacterAnimation($"{characterName}IdleSide", $"{folderName}/{characterName}_side_iddle", true);
+
+                if (characterName == "player")
+                {
+                    LoadCharacterAnimation($"{characterName}IdleUp", $"{folderName}/{characterName}_back_iddle", true);
+                    LoadCharacterAnimation($"{characterName}IdleDown", $"{folderName}/{characterName}_front_iddle", true);
+                    LoadCharacterAnimation($"{characterName}IdleSide", $"{folderName}/{characterName}_side_iddle", true);
+                }
+                else
+                {
+                    LoadCharacterAnimation($"{characterName}IdleUp", $"{folderName}/{characterName}_back_walking", true);
+                    LoadCharacterAnimation($"{characterName}IdleDown", $"{folderName}/{characterName}_front_walking", true);
+                    LoadCharacterAnimation($"{characterName}IdleSide", $"{folderName}/{characterName}_side_walking", true);
+                }
+
                 LoadCharacterAnimation($"{characterName}AttackUp", $"{folderName}/{characterName}_back_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackDown", $"{folderName}/{characterName}_front_attack", true);
                 LoadCharacterAnimation($"{characterName}AttackLeft", $"{folderName}/{characterName}_side_attack", true);
