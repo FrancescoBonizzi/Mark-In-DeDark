@@ -66,7 +66,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Decal5:
 
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
-                    Sprite decal = null;
+                    (Sprite Base, Sprite Normal) decal = (null, null);
 
                     if (topType == WallTypes.Speciale1)
                         horizontalWallSprite = level.WallSpecial1HorizontalSprite;
@@ -95,7 +95,8 @@ namespace MarkInDeDark.Library.Levels
                         position: new Vector2(cellPosition.X, cellPosition.Y - 78f),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
-                        decal: decal);
+                        decal: decal.Base,
+                        decalNormal: decal.Normal);
 
                 case WallTypes.Fragile:
                     return new WallBreakable(
@@ -168,7 +169,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Decal5:
 
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
-                    Sprite decal = null;
+                    (Sprite Base, Sprite Normal) decal = (null, null);
 
                     if (bottomType == WallTypes.Speciale1)
                         horizontalWallSprite = level.WallSpecial1HorizontalSprite;
@@ -197,7 +198,8 @@ namespace MarkInDeDark.Library.Levels
                         position: new Vector2(cellPosition.X, cellPosition.Y + 114f),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
-                        decal: decal);
+                        decal: decal.Base,
+                        decalNormal: decal.Normal);
 
                 case WallTypes.Fragile:
                     return new WallBreakable(

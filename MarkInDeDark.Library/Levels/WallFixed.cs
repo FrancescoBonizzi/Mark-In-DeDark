@@ -24,13 +24,15 @@ namespace MarkInDeDark.Library.Levels
 
         private readonly DrawingInfos _decalDrawingInfos;
         private readonly Sprite _decal;
+        private readonly Sprite _decalNormal;
 
         public WallFixed(
             LinkDirection direction,
             Vector2 position,
             Sprite sprite,
             Sprite normalSprite,
-            Sprite decal = null)
+            Sprite decal = null,
+            Sprite decalNormal = null)
         {
             Direction = direction;
             _drawingInfos = new DrawingInfos()
@@ -60,6 +62,7 @@ namespace MarkInDeDark.Library.Levels
             if (decal != null)
             {
                 _decal = decal;
+                _decalNormal = decalNormal;
                 _decalDrawingInfos = new DrawingInfos()
                 {
                     Position = _drawingInfos.Position + sprite.SpriteCenter,
@@ -91,6 +94,9 @@ namespace MarkInDeDark.Library.Levels
         {
             if (_normalSprite != null)
                 spriteBatch.Draw(_normalSprite, _drawingInfos);
+
+            if (_decalNormal != null)
+                spriteBatch.Draw(_decalNormal, _decalDrawingInfos);
         }
 
         public void Update(TimeSpan elapsed)

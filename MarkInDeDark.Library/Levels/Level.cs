@@ -21,11 +21,11 @@ namespace MarkInDeDark.Library.Levels
         public (Sprite Base, Sprite Normal) GroundSpriteType5 { get; private set; }
         public Sprite DarkSprite { get; private set; }
 
-        public Sprite Decal1 { get; private set; }
-        public Sprite Decal2 { get; private set; }
-        public Sprite Decal3 { get; private set; }
-        public Sprite Decal4 { get; private set; }
-        public Sprite Decal5 { get; private set; }
+        public (Sprite Base, Sprite Normal) Decal1 { get; private set; }
+        public (Sprite Base, Sprite Normal) Decal2 { get; private set; }
+        public (Sprite Base, Sprite Normal) Decal3 { get; private set; }
+        public (Sprite Base, Sprite Normal) Decal4 { get; private set; }
+        public (Sprite Base, Sprite Normal) Decal5 { get; private set; }
 
         public List<Sprite> DirtySprites { get; private set; }
         public List<(Sprite Base, Sprite Normal)> RandomHorizontalWallSprites { get; private set; }
@@ -95,11 +95,21 @@ namespace MarkInDeDark.Library.Levels
             GroundSpriteType5 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"));
 
-            Decal1 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"];
-            Decal2 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_2"];
-            Decal3 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_3"];
-            Decal4 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_4"];
-            Decal5 = assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_5"];
+            Decal1 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_1"));
+            Decal2 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_2"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_2"));
+            Decal3 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_3"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_3"));
+            Decal4 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_4"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_4"));
+            Decal5 = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_5"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_5"));
 
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
