@@ -172,20 +172,20 @@ namespace MarkInDeDark.Library.Levels
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_vertical_broken_B"));
 
             WallSpecial1HorizontalSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special1"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special1"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_1"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_1"));
             WallSpecial2HorizontalSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special2"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special2"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_2"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_2"));
             WallSpecial3HorizontalSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special3"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special3"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_3"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_3"));
             WallSpecial4HorizontalSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special4"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special4"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_4"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_4"));
             WallSpecial5HorizontalSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special5"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special5"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/SpecialWalls/wall_special_5"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/SpecialWalls/wall_special_5"));
 
             WallEntranceClosedHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_closed"];
             WallEntranceOpenHorizontalSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_ingresso_open"];

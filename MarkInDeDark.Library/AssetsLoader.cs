@@ -101,9 +101,16 @@ namespace MarkInDeDark.Library
 
             for (int i = 0; i < 4; ++i)
             {
-                var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
-                var gameSpritesDescriptions = _textureImporter.Import($"Assets/{gameSpriteSheetName}-{i}.txt");
-                AddSpritesFromDictionary(gameSpritesDescriptions, gameSpriteSheet);
+                try
+                {
+                    var gameSpriteSheet = _contentManager.Load<Texture2D>($"{gameSpriteSheetName}-{i}");
+                    var gameSpritesDescriptions = _textureImporter.Import($"Assets/{gameSpriteSheetName}-{i}.txt");
+                    AddSpritesFromDictionary(gameSpritesDescriptions, gameSpriteSheet);
+                }
+                catch
+                {
+                    // Mi sono rotto di cambiare 1, 2, 3, 4
+                }
             }
 
             var menuTexture = _contentManager.Load<Texture2D>("menu");
@@ -160,8 +167,6 @@ namespace MarkInDeDark.Library
             {
                 const int _maxFramesNumber = 30;
 
-                // TODO If animationname contiene idle, carica solo un frame
-
                 var animation = new List<Sprite>();
                 var normalMapAnimation = new List<Sprite>();
 
@@ -178,6 +183,12 @@ namespace MarkInDeDark.Library
 
                 if (animation.Count > 0)
                 {
+                    // Creo automaticamente una sola idle per i mostri
+                    if (animationName.Contains("Idle") && !animationName.Contains("player"))
+                    {
+                        animation = animation.Take(1).ToList();
+                    }
+
                     _animations[animationName] = new SpriteAnimation(
                         animation,
                         normalMapAnimation,
