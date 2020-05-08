@@ -92,7 +92,7 @@ namespace MarkInDeDark.Library.Levels
 
                     return new WallFixed(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - horizontalWallSprite.Base.Height + 78f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y - 78f),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
                         decal: decal);
@@ -100,7 +100,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallHorizontalBreakableSprite.Base.Height + 78f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y - 78f),
                         primarySprite: level.WallHorizontalBreakableSprite.Base,
                         primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
                         brokenSprite: level.WallHorizontalBrokenSprite.Base,
@@ -108,7 +108,7 @@ namespace MarkInDeDark.Library.Levels
 
                 case WallTypes.Porta:
                     return new WallInteractiveDoor(
-                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
+                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y - 78),
                         linkDirection: LinkDirection.NorthLink,
                         doorOpenAnimation: level.DoorOpenAnimation,
                         doorCloseAnimation: level.DoorCloseAnimation,
@@ -120,7 +120,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
+                        position: new Vector2(cellPosition.X, cellPosition.Y - 76),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite,
                         spriteCenterClosed: level.WallEntranceClosedHorizontalSprite,
                         spriteArc: level.WallEntranceArcHorizontalSprite);
@@ -129,7 +129,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y - level.WallDoorBaseSprite.Height + 80),
+                        position: new Vector2(cellPosition.X, cellPosition.Y - 76),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite,
                         spriteCenterClosed: level.WallExitClosedHorizontalSprite,
                         spriteArc: level.WallExitArcHorizontalSprite);
@@ -188,7 +188,7 @@ namespace MarkInDeDark.Library.Levels
 
                     return new WallFixed(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + 115f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + 114f),
                         sprite: horizontalWallSprite.Base,
                         normalSprite: horizontalWallSprite.Normal,
                         decal: decal);
@@ -196,7 +196,7 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Fragile:
                     return new WallBreakable(
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + 115f),
+                        position: new Vector2(cellPosition.X, cellPosition.Y + 114f),
                         primarySprite: level.WallHorizontalBreakableSprite.Base,
                         primarySpriteNormal: level.WallHorizontalBreakableSprite.Normal,
                         brokenSprite: level.WallHorizontalBrokenSprite.Base,
