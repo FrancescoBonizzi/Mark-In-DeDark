@@ -216,7 +216,7 @@ namespace MarkInDeDark.Library.Levels
 
                 case WallTypes.Porta:
                     return new WallInteractiveDoor(
-                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y + level.WallDoorBaseSprite.Height - 50),
+                        doorPosition: new Vector2(cellPosition.X, cellPosition.Y + SouthWallYOffset),
                         linkDirection: LinkDirection.SouthLink,
                         doorOpenAnimation: level.DoorOpenAnimation,
                         doorCloseAnimation: level.DoorCloseAnimation,
