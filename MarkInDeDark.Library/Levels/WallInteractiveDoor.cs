@@ -81,11 +81,11 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
 
-            var doorAnimationPosition = doorPosition + new Vector2(0f, -15f);
+            var doorAnimationPosition = doorPosition + new Vector2(0f, -11f);
             _doorAnimationDrawingInfos = new DrawingInfos()
             {
                 Position = doorAnimationPosition,
-                LayerDepth = ZIndexCalculator.ForWall(doorAnimationPosition + doorOpenAnimation.FirstFrameSprite.SpriteCenter)
+                LayerDepth = _wallDoorDownDrawingInfos.LayerDepth + 0.0001f
             };
 
             // Copio le animazioni altrimenti apro tante porte contemporeanamente
