@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -9,7 +10,7 @@ namespace MarkInDeDark.Library.Levels
     {
         LinkDirection Direction { get; }
         Rectangle CollisionRectangle { get; }
-        Hull Hull { get; }
+        List<Hull> Hulls { get; }
         Vector2 Position { get; }
 
         void Update(TimeSpan elapsed);

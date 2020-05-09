@@ -302,9 +302,7 @@ namespace MarkInDeDark.Library
 
             foreach (var w in _gameGrid.GetAllWalls())
             {
-                _penumbra.Hulls.Add(w.Hull);
-                if (w is WallInteractiveDoor door)
-                    _penumbra.Hulls.Add(door.HullRight);
+                _penumbra.Hulls.AddRange(w.Hulls);
             }
 
             foreach (var p in _gameGrid.GetAllPillars())

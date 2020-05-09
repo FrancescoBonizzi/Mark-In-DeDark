@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -19,7 +20,7 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _normalSprite;
 
         public Rectangle CollisionRectangle { get; }
-        public Hull Hull { get; }
+        public List<Hull> Hulls { get; }
         public Vector2 Position => _drawingInfos.Position;
 
         private readonly DrawingInfos _decalDrawingInfos;
@@ -74,12 +75,15 @@ namespace MarkInDeDark.Library.Levels
             _sprite = sprite;
             _normalSprite = normalSprite;
 
-            Hull = Utilities.HullFromRectangle(CollisionRectangle);
+            Hulls = new List<Hull>()
+            {
+                Utilities.HullFromRectangle(CollisionRectangle)
+            };
 
-            Hull.Points.Add(new Vector2(0, 0));
-            Hull.Points.Add(new Vector2(0, 1));
-            Hull.Points.Add(new Vector2(1, 1));
-            Hull.Points.Add(new Vector2(1, 0));
+            Hulls[0].Points.Add(new Vector2(0, 0));
+            Hulls[0].Points.Add(new Vector2(0, 1));
+            Hulls[0].Points.Add(new Vector2(1, 1));
+            Hulls[0].Points.Add(new Vector2(1, 0));
         }
 
         public void Draw(SpriteBatch spriteBatch)

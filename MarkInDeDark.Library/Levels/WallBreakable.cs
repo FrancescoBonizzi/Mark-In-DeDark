@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -30,8 +31,11 @@ namespace MarkInDeDark.Library.Levels
         private bool _isBroken;
 
         public Rectangle CollisionRectangle { get; }
-        public Hull Hull { get; }
+        public List<Hull> Hulls { get; }
         public Vector2 Position => _drawingInfos.Position;
+
+        private readonly Hull _firstHull;
+        private readonly Hull _secondHull;
 
         public WallBreakable(
             LinkDirection direction,
@@ -92,18 +96,28 @@ namespace MarkInDeDark.Library.Levels
                     40);
             }
 
-            Hull = Utilities.HullFromRectangle(CollisionRectangle);
+            _firstHull = Utilities.HullFromRectangle(CollisionRectangle);
+            _firstHull.Points.Add(new Vector2(0, 0));
+            _firstHull.Points.Add(new Vector2(0, 1));
+            _firstHull.Points.Add(new Vector2(1, 1));
+            _firstHull.Points.Add(new Vector2(1, 0));
 
-            Hull.Points.Add(new Vector2(0, 0));
-            Hull.Points.Add(new Vector2(0, 1));
-            Hull.Points.Add(new Vector2(1, 1));
-            Hull.Points.Add(new Vector2(1, 0));
+            _secondHull = Utilities.HullFromRectangle(CollisionRectangle);
+            _secondHull.Points.Add(new Vector2(0, 0));
+            _secondHull.Points.Add(new Vector2(0, 1));
+            _secondHull.Points.Add(new Vector2(1, 1));
+            _secondHull.Points.Add(new Vector2(1, 0));
+
+            Hulls = new List<Hull>()
+            {
+                _firstHull,
+                _secondHull
+            };
         }
 
         public void Break()
         {
             _isBroken = true;
-            Hull.Enabled = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)

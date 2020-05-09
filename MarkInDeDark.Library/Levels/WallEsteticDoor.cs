@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
+using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -19,7 +20,7 @@ namespace MarkInDeDark.Library.Levels
         public WallEsteticDoorType WallEsteticDoorType { get; }
         public LinkDirection Direction { get; }
         public Rectangle CollisionRectangle { get; }
-        public Hull Hull { get; }
+        public List<Hull> Hulls { get; }
 
         private readonly DrawingInfos _spriteCenterDrawingInfos;
         private readonly DrawingInfos _spriteArcDrawingInfos;
@@ -75,17 +76,21 @@ namespace MarkInDeDark.Library.Levels
                  _spriteCenterOpen.Width,
                  40);
 
-            Hull = Utilities.HullFromRectangle(CollisionRectangle);
-            Hull.Points.Add(new Vector2(0, 0));
-            Hull.Points.Add(new Vector2(0, 1));
-            Hull.Points.Add(new Vector2(1, 1));
-            Hull.Points.Add(new Vector2(1, 0));
+            Hulls = new List<Hull>()
+            {
+                Utilities.HullFromRectangle(CollisionRectangle)
+            };
+
+            Hulls[0].Points.Add(new Vector2(0, 0));
+            Hulls[0].Points.Add(new Vector2(0, 1));
+            Hulls[0].Points.Add(new Vector2(1, 1));
+            Hulls[0].Points.Add(new Vector2(1, 0));
         }
 
         public void SetOpen()
         {
             _isOpen = true;
-            Hull.Enabled = false;
+            Hulls[0].Enabled = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)
