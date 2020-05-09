@@ -301,7 +301,11 @@ namespace MarkInDeDark.Library
                 _penumbra.Lights.Add(l.SurroundingLight.PointLight);
 
             foreach (var w in _gameGrid.GetAllWalls())
+            {
                 _penumbra.Hulls.Add(w.Hull);
+                if (w is WallInteractiveDoor door)
+                    _penumbra.Hulls.Add(door.HullRight);
+            }
 
             foreach (var p in _gameGrid.GetAllPillars())
                 _penumbra.Hulls.Add(p.Hull);

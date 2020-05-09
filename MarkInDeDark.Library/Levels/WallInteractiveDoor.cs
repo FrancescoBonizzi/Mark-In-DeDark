@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -31,6 +32,7 @@ namespace MarkInDeDark.Library.Levels
 
         public Rectangle CollisionRectangle { get; }
         public Hull Hull { get; }
+        public Hull HullRight { get; }
         public Vector2 Position => _wallDoorDownDrawingInfos.Position;
 
         private readonly DrawingInfos _wallDoorDownDrawingInfos;
@@ -46,6 +48,12 @@ namespace MarkInDeDark.Library.Levels
         private readonly SpriteAnimation _doorOpenAnimation;
         private readonly SpriteAnimation _doorCloseAnimation;
         private SpriteAnimation _currentAnimation;
+
+        private readonly double _doorAnimationDurationMilliseconds;
+     
+        private TimeSpan _currentAnimationDuration;
+        private float _openDoorHullWidth;
+        private float _closedDoorHullWidth;
 
         public WallInteractiveDoor(
             Vector2 doorPosition,
@@ -83,9 +91,6 @@ namespace MarkInDeDark.Library.Levels
             // Copio le animazioni altrimenti apro tante porte contemporeanamente
             _doorOpenAnimation = new SpriteAnimation(doorOpenAnimation);
             _doorCloseAnimation = new SpriteAnimation(doorCloseAnimation);
-            
-            _currentAnimation = _doorOpenAnimation;
-            _currentState = DoorStates.Open;
 
             _onClose = onClose;
 
@@ -96,13 +101,42 @@ namespace MarkInDeDark.Library.Levels
                 _wallDoorDownSprite.Width,
                 40);
 
-            Hull = Utilities.HullFromRectangle(CollisionRectangle);
+            _openDoorHullWidth = 10f;
+            _closedDoorHullWidth = _wallDoorDownSprite.Width / 2;
+
+            _currentAnimation = _doorOpenAnimation;
+            _currentState = DoorStates.Open;
+
+            // Left
+            Hull = new Hull()
+            {
+                Origin = Vector2.Zero,
+                Position = new Vector2(doorPosition.X, doorPosition.Y + 100),
+                Scale = new Vector2(_openDoorHullWidth, 40)
+            };
+
+            // Right
+            HullRight = new Hull()
+            {
+                Origin = new Vector2(1, 0), // Considera i Points. Mi gioco l'origine per allargare o stringere l'Hull
+                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width, doorPosition.Y + 100),
+                Scale = new Vector2(_openDoorHullWidth, 40)
+            };
 
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));
             Hull.Points.Add(new Vector2(1, 0));
+
+            HullRight.Points.Add(new Vector2(0, 0));
+            HullRight.Points.Add(new Vector2(0, 1));
+            HullRight.Points.Add(new Vector2(1, 1));
+            HullRight.Points.Add(new Vector2(1, 0));
+
+            _doorAnimationDurationMilliseconds = _doorOpenAnimation.FrameDuration.TotalMilliseconds * _doorOpenAnimation.Frames.Length;
         }
+
+        // NB Se hull non si aggiorna tricca con qualche pixel gli hull
 
         public void Open()
         {
@@ -110,9 +144,7 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation = _doorOpenAnimation;
             _currentAnimation.Stop();
             _currentAnimation.Play();
-            Hull.Enabled = false;
-            // Un piccolo imbroglio per risolvere un bug di Penumbra che non ricalcola l'ombra
-            Hull.Position += new Vector2(0, 1);
+            _currentAnimationDuration = TimeSpan.Zero;
         }
 
         public void Close()
@@ -121,9 +153,7 @@ namespace MarkInDeDark.Library.Levels
             _currentAnimation = _doorCloseAnimation;
             _currentAnimation.Stop();
             _currentAnimation.Play();
-            Hull.Enabled = true;
-            // Un piccolo imbroglio per risolvere un bug di Penumbra che non ricalcola l'ombra
-            Hull.Position -= new Vector2(0, 1);
+            _currentAnimationDuration = TimeSpan.Zero;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -131,15 +161,38 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Draw(_wallDoorDownSprite, _wallDoorDownDrawingInfos);
             spriteBatch.Draw(_wallDoorUpSprite, _wallDoorArcDrawingInfos);
             spriteBatch.Draw(_currentAnimation.CurrentFrame, _doorAnimationDrawingInfos);
+            
+            // Per debug
+            //spriteBatch.DrawRectangle(
+            //    new Rectangle(
+            //        (int)Hull.Position.X, 
+            //        (int)Hull.Position.Y, 
+            //        (int)Hull.Scale.X, 
+            //        (int)Hull.Scale.Y),
+            //    Color.Red,
+            //    Vector2.Zero,
+            //    1);
+
+            //spriteBatch.DrawRectangle(
+            //    new Rectangle(
+            //        (int)HullRight.Position.X, 
+            //        (int)HullRight.Position.Y, 
+            //        (int)HullRight.Scale.X,
+            //        (int)HullRight.Scale.Y),
+            //    Color.Red,
+            //    HullRight.Origin,
+            //    1);
         }
 
         public void Update(TimeSpan elapsed)
         {
             _currentAnimation.Update(elapsed);
-            
+
             switch (_currentState)
             {
                 case DoorStates.Closing:
+
+                    _currentAnimationDuration += elapsed;
 
                     if (_currentAnimation.HasFinishedPlaying)
                     {
@@ -147,14 +200,40 @@ namespace MarkInDeDark.Library.Levels
                         _onClose?.Invoke();
                     }
 
+                    Hull.Scale = new Vector2(MathHelper.Lerp(
+                        _openDoorHullWidth,
+                        _closedDoorHullWidth,
+                        (float)(_currentAnimationDuration.TotalMilliseconds / _doorAnimationDurationMilliseconds)),
+                        Hull.Scale.Y);
+
+                    HullRight.Scale = new Vector2(MathHelper.Lerp(
+                        _openDoorHullWidth,
+                        _closedDoorHullWidth,
+                        (float)(_currentAnimationDuration.TotalMilliseconds / _doorAnimationDurationMilliseconds)),
+                        HullRight.Scale.Y);
+
                     break;
 
                 case DoorStates.Opening:
+
+                    _currentAnimationDuration += elapsed;
 
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Open;
                     }
+
+                    Hull.Scale = new Vector2(MathHelper.Lerp(
+                        _closedDoorHullWidth,
+                        _openDoorHullWidth,
+                        (float)(_currentAnimationDuration.TotalMilliseconds / _doorAnimationDurationMilliseconds)),
+                        Hull.Scale.Y);
+
+                    HullRight.Scale = new Vector2(MathHelper.Lerp(
+                        _closedDoorHullWidth,
+                        _openDoorHullWidth,
+                        (float)(_currentAnimationDuration.TotalMilliseconds / _doorAnimationDurationMilliseconds)),
+                        Hull.Scale.Y);
 
                     break;
             }
@@ -162,7 +241,7 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
         {
-            
+
         }
     }
 }
