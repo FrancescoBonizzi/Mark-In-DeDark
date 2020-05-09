@@ -37,9 +37,9 @@ namespace MarkInDeDark.Library.Levels
             _normalSprite = normalSprite;
 
             Hull = Utilities.HullFromRectangle(new Rectangle(
-                (int)position.X + 12,
+                (int)position.X + 15,
                 (int)position.Y + _sprite.Height - 53,
-                60,
+                50,
                 40));
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));

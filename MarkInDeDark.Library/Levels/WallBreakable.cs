@@ -122,12 +122,22 @@ namespace MarkInDeDark.Library.Levels
             if (Direction == LinkDirection.EastLink || Direction == LinkDirection.WestLink)
             {
                 // Sopra
-                _firstHull.Scale = new Vector2(_firstHull.Scale.X, 100f);
+                _firstHull.Scale = new Vector2(_firstHull.Scale.X, 130f);
 
                 // Sotto
                 _secondHull.Origin = new Vector2(0, 1);
-                _secondHull.Scale = new Vector2(_secondHull.Scale.X, 30f);
+                _secondHull.Scale = new Vector2(_secondHull.Scale.X, 40f);
                 _secondHull.Position = new Vector2(_secondHull.Position.X, _firstHull.Position.Y + _primarySprite.Height);
+            }
+            else
+            {
+                // Sinistra
+                _firstHull.Scale = new Vector2(50, _firstHull.Scale.Y);
+
+                // Destra
+                _secondHull.Origin = new Vector2(1, 0);
+                _secondHull.Scale = new Vector2(50, _secondHull.Scale.Y);
+                _secondHull.Position = new Vector2(_firstHull.Position.X + _primarySprite.Width, _firstHull.Position.Y);
             }
         }
 
