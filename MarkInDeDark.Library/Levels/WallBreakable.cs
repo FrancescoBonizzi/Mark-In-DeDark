@@ -118,6 +118,17 @@ namespace MarkInDeDark.Library.Levels
         public void Break()
         {
             _isBroken = true;
+
+            if (Direction == LinkDirection.EastLink || Direction == LinkDirection.WestLink)
+            {
+                // Sopra
+                _firstHull.Scale = new Vector2(_firstHull.Scale.X, 100f);
+
+                // Sotto
+                _secondHull.Origin = new Vector2(0, 1);
+                _secondHull.Scale = new Vector2(_secondHull.Scale.X, 30f);
+                _secondHull.Position = new Vector2(_secondHull.Position.X, _firstHull.Position.Y + _primarySprite.Height);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
