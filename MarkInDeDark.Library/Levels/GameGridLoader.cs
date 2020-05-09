@@ -73,7 +73,7 @@ namespace MarkInDeDark.Library.Levels
                             gameCell.NormalSprite = level.GroundSpriteType5.Normal;
                             break;
 
-                        case GroundTypes.CellaMuroSpeciale:
+                        case GroundTypes.Riempimento:
                             gameCell.Sprite = level.FillingSprite;
                             gameCell.SetSpecialWallCell();
                             break;

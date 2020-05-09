@@ -373,10 +373,10 @@ namespace MarkInDeDark.LevelEditor
             }
             else if (e.Key == Key.R)
             {
-                // Muro speciale
-                BtnWallType_Special1.IsChecked = true;
-                _currentSelectedWallType = WallTypes.Speciale1;
-                _currentEditorAction = EditorActions.Wall;
+                // Terra riempimento
+                BtnGroundType_Ground8.IsChecked = true;
+                _currentSelectedCellType = GroundTypes.Riempimento;
+                _currentEditorAction = EditorActions.Ground;
                 _presentation.ClearHover();
                 e.Handled = true;
             }
