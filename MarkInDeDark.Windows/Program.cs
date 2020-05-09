@@ -52,7 +52,7 @@ namespace MarkInDeDark.Windows
                 using (_game = new MarkInDeDarkBootstrap(
                     textFileAssetsLoader: new WindowsTextFileImporter(),
                     settingsRepository: new FileWindowsSettingsRepository(levelSettingsPath),
-                    gameCulture: CultureInfo.CurrentCulture,
+                    gameCulture: new CultureInfo("en-us"), // CultureInfo.CurrentCulture,
                     levelPaths: levelsToLoad,
                     windowWidth: width,
                     windowHeight: height))
