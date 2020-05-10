@@ -868,11 +868,6 @@ namespace MarkInDeDark.Library.Characters
         {
             if (SurroundingLight == null)
                 return;
-
-            if (AreLightsActive && (!IsDead || this is Player))
-            {
-                SurroundingLight.DrawAdditionalLightMask(spriteBatch);
-            }
         }
 
     }

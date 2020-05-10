@@ -1,4 +1,5 @@
-﻿using FbonizziMonoGame.Drawing;
+﻿using FbonizziMonoGame;
+using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
@@ -11,13 +12,12 @@ namespace MarkInDeDark.Library.Particles
 {
     public class Light
     {
-        private readonly Sprite _additionalLightMask;
-        private readonly DrawingInfos _additionalLightMaskDrawingInfos;
         public DrawingInfos AloneDrawingInfos { get; }
 
         private readonly Sprite _aloneSprite;
 
-        private ScalingObject _scalingObject;
+        private ScalingObject _scalingObjectForAlone;
+        private ScalingObject _scalingObjectForPenumbraLight;
         private readonly float _originalMinScale;
         private readonly float _originalMaxScale;
         private readonly float _originalScalingSpeed;
@@ -32,12 +32,11 @@ namespace MarkInDeDark.Library.Particles
         {
             get
             {
-                return _additionalLightMaskDrawingInfos.Position;
+                return AloneDrawingInfos.Position;
             }
             set
             {
                 PointLight.Position = value + new Vector2(0, 80f);
-                _additionalLightMaskDrawingInfos.Position = value;
                 AloneDrawingInfos.Position = value;
             }
         }
@@ -54,7 +53,6 @@ namespace MarkInDeDark.Library.Particles
             float layerDepth,
             float penumbraLightScale)
         {
-            _additionalLightMask = assetsLoader.Sprites["Effects/light_1"];
             _aloneSprite = assetsLoader.Sprites["Effects/light_pixel"];
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
@@ -62,7 +60,8 @@ namespace MarkInDeDark.Library.Particles
             _originalMinScale = MathHelper.Clamp(glowingLightScale - 0.2f, 0.1f, 1f);
             _originalMaxScale = glowingLightScale;
             _originalScalingSpeed = 2.5f;
-            _scalingObject = new ScalingObject(_originalMinScale, _originalMaxScale, _originalScalingSpeed);
+            _scalingObjectForAlone = new ScalingObject(_originalMinScale, _originalMaxScale, _originalScalingSpeed);
+            _scalingObjectForPenumbraLight = new ScalingObject(penumbraLightScale * 0.8f, penumbraLightScale * 1.5f, 2.5f);
 
             _originalColorChangingSpeed = 2.5;
             _colorChangingObject = new ColorChangingObject(
@@ -73,11 +72,6 @@ namespace MarkInDeDark.Library.Particles
                 ShadowType = ShadowType.Solid,
                 Intensity = 1,
                 Scale = new Vector2(penumbraLightScale)
-            };
-
-            _additionalLightMaskDrawingInfos = new DrawingInfos()
-            {
-                Origin = _additionalLightMask.SpriteCenter
             };
 
             AloneDrawingInfos = new DrawingInfos()
@@ -91,8 +85,10 @@ namespace MarkInDeDark.Library.Particles
         {
             _colorChangingObject = new ColorChangingObject(
                 _firstAnimationColor, color, _originalColorChangingSpeed * 4);
-            _scalingObject = new ScalingObject(
+            _scalingObjectForAlone = new ScalingObject(
                 _originalMinScale * 1.5f, _originalMaxScale * 1.5f, _originalScalingSpeed * 2f);
+            _scalingObjectForPenumbraLight = new ScalingObject(
+                PointLight.Scale.X * 1.5f, PointLight.Scale.Y * 1.5f, _originalScalingSpeed * 2f);
         }
 
         public void ForceColor(Color color)
@@ -104,7 +100,7 @@ namespace MarkInDeDark.Library.Particles
         {
             _colorChangingObject = new ColorChangingObject(
                 _firstAnimationColor, _secondAnimationColor, _originalColorChangingSpeed);
-            _scalingObject = new ScalingObject(
+            _scalingObjectForAlone = new ScalingObject(
                 _originalMinScale, _originalMaxScale, _originalScalingSpeed);
         }
 
@@ -115,26 +111,28 @@ namespace MarkInDeDark.Library.Particles
                 // Cambiamento di colore
                 _colorChangingObject.Update(elapsed);
                 PointLight.Color = _colorChangingObject.Color;
+                AloneDrawingInfos.OverlayColor = _colorChangingObject.Color;
             }
             else
             {
                 PointLight.Color = _forcedColor.Value;
+                AloneDrawingInfos.OverlayColor = _forcedColor.Value;
             }
 
             // Cambiamento di scala
-            _scalingObject.Update(elapsed);
+            _scalingObjectForAlone.Update(elapsed);
+            _scalingObjectForPenumbraLight.Update(elapsed);
 
-            _additionalLightMaskDrawingInfos.OverlayColor = PointLight.Color;
-            _additionalLightMaskDrawingInfos.Scale = _scalingObject.Scale;
+            PointLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
+            AloneDrawingInfos.Scale = _scalingObjectForAlone.Scale;
 
-            AloneDrawingInfos.OverlayColor = PointLight.Color;
-            AloneDrawingInfos.Scale = _scalingObject.Scale;
-        }
-
-        public void DrawAdditionalLightMask(SpriteBatch spriteBatch)
-        {
-            if (_additionalLightMask != null)
-                spriteBatch.Draw(_additionalLightMask, _additionalLightMaskDrawingInfos);
+            // TODO Shake luce
+            //var offset = new Vector2(
+            //    (float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), 
+            //    (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
+            //_shakeIntensity = Numbers.RandomBetween(0, 10);
+            //_shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
+            //PointLight.Position += offset;
         }
 
         public void DrawAlone(SpriteBatch spriteBatch)

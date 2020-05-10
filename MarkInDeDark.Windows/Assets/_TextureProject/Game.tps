@@ -822,19 +822,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Effects/light_1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>180,180,360,360</rect>
-                <key>scale9Paddings</key>
-                <rect>180,180,360,360</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/Effects/smoke.png</key>
             <key type="filename">Game/Grounds/Type1/Dirty/dirty_1.png</key>
             <key type="filename">Game/Grounds/Type1/Dirty/dirty_2.png</key>
@@ -1095,7 +1082,9 @@
             <key type="filename">Game/Grounds/Type1/wall_vertical_broken_A.png</key>
             <key type="filename">Game/Grounds/Type1/wall_vertical_broken_B.png</key>
             <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_1_normal.png</key>
             <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_2_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_vertical_breakable.png</key>
             <key type="filename">Game/Grounds/Type2/wall_vertical_breakable_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_vertical_broken_A.png</key>

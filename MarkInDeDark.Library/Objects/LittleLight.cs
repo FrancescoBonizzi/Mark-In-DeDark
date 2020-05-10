@@ -51,6 +51,7 @@ namespace MarkInDeDark.Library.Objects
                 Position = WorldCenter
             };
 
+            SurroundingLight.PointLight.Intensity = 0.5f;
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
         }
 
@@ -66,11 +67,6 @@ namespace MarkInDeDark.Library.Objects
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
             _littleLightParticle.Draw(spriteBatch);
-        }
-
-        public void DrawLightMask(SpriteBatch spriteBatch)
-        {
-            SurroundingLight.DrawAdditionalLightMask(spriteBatch);
         }
 
         public Vector2 WorldCenter

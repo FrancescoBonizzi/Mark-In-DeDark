@@ -166,11 +166,5 @@ namespace MarkInDeDark.Library
                 c.DrawEffects(spriteBatch);
             }
         }
-
-        public void DrawLightMask(SpriteBatch spriteBatch)
-        {
-            foreach (Candle c in Candles)
-                c.SurroundingLight.DrawAdditionalLightMask(spriteBatch);
-        }
     }
 }

@@ -6,6 +6,7 @@ using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -796,7 +797,8 @@ namespace MarkInDeDark.Library.Levels
             GraphicsDevice graphicsDevice,
             RenderTarget2D baseRenderTarget,
             RenderTarget2D normalMapRenderTarget,
-            RenderTarget2D resultRenderTarget)
+            RenderTarget2D resultRenderTarget,
+            List<Vector3> lights)
         {
             // Pavimento di base
             graphicsDevice.SetRenderTarget(baseRenderTarget);
@@ -822,11 +824,15 @@ namespace MarkInDeDark.Library.Levels
             graphicsDevice.SetRenderTarget(resultRenderTarget);
             graphicsDevice.Clear(Color.Black);
             normalMapEffect.Parameters["NormalTexture"].SetValue(normalMapRenderTarget);
-            normalMapEffect.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, null, null, normalMapEffect);
-            spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, normalMapEffect);
+            foreach (var light in lights)
+            {
+                normalMapEffect.Parameters["LightPosition"].SetValue(light);
+                normalMapEffect.CurrentTechnique.Passes[0].Apply();
+                spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
+            }
             spriteBatch.End();
-
+            
             // Effetti
 #warning RIMETTERE
             //OnAllVisibleCells(c =>
