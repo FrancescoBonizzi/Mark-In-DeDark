@@ -115,7 +115,7 @@ namespace MarkInDeDark.Library.Levels
             _hullLeft = new Hull()
             {
                 Origin = Vector2.Zero,
-                Position = new Vector2(doorPosition.X + 30, doorPosition.Y + 100),
+                Position = new Vector2(doorPosition.X + 50, doorPosition.Y + 100),
                 Scale = new Vector2(_openDoorHullWidth, 40)
             };
 
@@ -123,7 +123,7 @@ namespace MarkInDeDark.Library.Levels
             _hullRight = new Hull()
             {
                 Origin = new Vector2(1, 0), // Considera i Points. Mi gioco l'origine per allargare o stringere l'Hull
-                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width - 30, doorPosition.Y + 100),
+                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width - 50, doorPosition.Y + 100),
                 Scale = new Vector2(_openDoorHullWidth, 40)
             };
 
