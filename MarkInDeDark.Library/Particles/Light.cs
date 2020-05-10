@@ -36,7 +36,7 @@ namespace MarkInDeDark.Library.Particles
             }
             set
             {
-                PointLight.Position = value + new Vector2(0, 80f);
+                PointLight.Position = value + new Vector2(0, 100f);
                 AloneDrawingInfos.Position = value;
             }
         }
