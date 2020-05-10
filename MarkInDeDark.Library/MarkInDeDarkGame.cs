@@ -727,7 +727,7 @@ namespace MarkInDeDark.Library
                 spriteBatch.End();
             }
 
-            // 4. Ultima LightMask
+            // 4. Ricomposizione finale di pavimento ed il resto
             _graphicsDevice.SetRenderTarget(finalRenderTarget);
             _graphicsDevice.Clear(Color.Black);
 
@@ -742,7 +742,7 @@ namespace MarkInDeDark.Library
             {
                 spriteBatch.Begin();
                 spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(0.4f));
+                spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(0.2f));
                 spriteBatch.End();
             }
 

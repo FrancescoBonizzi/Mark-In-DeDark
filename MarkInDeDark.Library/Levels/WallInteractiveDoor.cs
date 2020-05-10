@@ -105,7 +105,7 @@ namespace MarkInDeDark.Library.Levels
                 _wallDoorDownSprite.Width,
                 40);
 
-            _openDoorHullWidth = 10f;
+            _openDoorHullWidth = 70f;
             _closedDoorHullWidth = _wallDoorDownSprite.Width / 2;
 
             _currentAnimation = _doorOpenAnimation;
@@ -115,16 +115,16 @@ namespace MarkInDeDark.Library.Levels
             _hullLeft = new Hull()
             {
                 Origin = Vector2.Zero,
-                Position = new Vector2(doorPosition.X + 50, doorPosition.Y + 100),
-                Scale = new Vector2(_openDoorHullWidth, 40)
+                Position = new Vector2(doorPosition.X, doorPosition.Y + 135),
+                Scale = new Vector2(_openDoorHullWidth, 5)
             };
 
             // Right
             _hullRight = new Hull()
             {
                 Origin = new Vector2(1, 0), // Considera i Points. Mi gioco l'origine per allargare o stringere l'Hull
-                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width - 50, doorPosition.Y + 100),
-                Scale = new Vector2(_openDoorHullWidth, 40)
+                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width + 8, doorPosition.Y + 135),
+                Scale = new Vector2(_openDoorHullWidth, 5)
             };
 
             _hullLeft.Points.Add(new Vector2(0, 0));
