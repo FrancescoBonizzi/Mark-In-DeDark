@@ -502,7 +502,7 @@ namespace MarkInDeDark.Library
                 if (p.Enabled)
                 {
                     _activeLightsForWallsNormalMap.Add(new Vector3(
-                        WorldToScreenForLights(p.Position - new Vector2(0, 120f), viewMatrix),
+                        WorldToScreenForLights(p.Position - new Vector2(0, 160f), viewMatrix),
                         60));
 
                     _activeLightsForGroundNormalMap.Add(new Vector3(
@@ -751,6 +751,22 @@ namespace MarkInDeDark.Library
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
             spriteBatch.End();
+
+            if (_gameConfig.GodModeDebugMode)
+            {
+                spriteBatch.Begin();
+                foreach (var l in _activeLightsForGroundNormalMap)
+                {
+                    spriteBatch.DrawRectangle(new Rectangle((int)l.X, (int)l.Y, 10, 10), Color.Red.WithAlpha(0.5f));
+                }
+
+                foreach (var l in _activeLightsForWallsNormalMap)
+                {
+                    spriteBatch.DrawRectangle(new Rectangle((int)l.X, (int)l.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
+                }
+                spriteBatch.End();
+            }
+            
 
             // 6. HUD
             spriteBatch.Begin();
