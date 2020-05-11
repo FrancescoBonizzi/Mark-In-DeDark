@@ -27,6 +27,9 @@ namespace MarkInDeDark.Library.Particles
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
 
+        private Vector2 _basePosition;
+
+
         public PointLight PointLight { get; }
         public Vector2 Position
         {
@@ -36,7 +39,8 @@ namespace MarkInDeDark.Library.Particles
             }
             set
             {
-                PointLight.Position = value + new Vector2(0, 100f);
+                _basePosition = value + new Vector2(0, 100f);
+                PointLight.Position = _basePosition;
                 AloneDrawingInfos.Position = value;
             }
         }
@@ -126,13 +130,16 @@ namespace MarkInDeDark.Library.Particles
             PointLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             AloneDrawingInfos.Scale = _scalingObjectForAlone.Scale;
 
-            // TODO Shake luce
-            //var offset = new Vector2(
-            //    (float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), 
-            //    (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
-            //_shakeIntensity = Numbers.RandomBetween(0, 10);
-            //_shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
-            //PointLight.Position += offset;
+            // Shake luce
+            var shakeIntensity = Numbers.RandomBetween(0, 10);
+            var shakeStartAngle = Numbers.RandomBetween(0, 360);
+            var offset = new Vector2(
+                (float)(Math.Sin(shakeStartAngle) * shakeIntensity),
+                (float)(Math.Cos(shakeStartAngle) * shakeIntensity));
+            
+            PointLight.Position =new Vector2(
+                MathHelper.Lerp(_basePosition.X, _basePosition.X + offset.X, (float)Math.Sin(elapsed.TotalSeconds * 20)),
+                MathHelper.Lerp(_basePosition.Y, _basePosition.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
         }
 
         public void DrawAlone(SpriteBatch spriteBatch)
