@@ -46,13 +46,15 @@ namespace MarkInDeDark.Library.Levels
                 if (cell.Links[LinkDirection.EastLink] != null)
                     if (!cell.Links[LinkDirection.EastLink].IsNorthDoor && (cell.Links[LinkDirection.EastLink].IsNorthPassable || cell.Links[LinkDirection.EastLink].IsNorthDestroyable))
                         if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.EastLink].IsNorthDestroyable)
-                            pillars.Add(GenerateNEPillar(cell, level));
+                            if (cell.Links[LinkDirection.EastLink]?.Links[LinkDirection.NorthLink]?.IsSouthDoor == false)
+                                pillars.Add(GenerateNEPillar(cell, level));
 
             if (!cell.IsNorthPassable)
                 if (cell.Links[LinkDirection.WestLink] != null)
                     if (!cell.Links[LinkDirection.WestLink].IsNorthDoor && (cell.Links[LinkDirection.WestLink].IsNorthPassable || cell.Links[LinkDirection.WestLink].IsNorthDestroyable))
                         if (!cell.IsNorthDestroyable || !cell.Links[LinkDirection.WestLink].IsNorthDestroyable)
-                            pillars.Add(GenerateNWPillar(cell, level));
+                            if (cell.Links[LinkDirection.WestLink]?.Links[LinkDirection.NorthLink]?.IsSouthDoor == false)
+                                pillars.Add(GenerateNWPillar(cell, level));
 
             if (!cell.IsEastPassable)
                 if (cell.Links[LinkDirection.NorthLink] != null)
