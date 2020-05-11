@@ -53,7 +53,7 @@ namespace MarkInDeDark.Library.Levels
 
             _spriteCenterDrawingInfos = new DrawingInfos()
             {
-                Position = position + new Vector2(0f, -2f),
+                Position = position,
                 LayerDepth = ZIndexCalculator.ForWall(position + spriteCenterOpen.SpriteCenter)
             };
 

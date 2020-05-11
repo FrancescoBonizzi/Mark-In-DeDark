@@ -1098,6 +1098,8 @@
                                 Cursor="Hand"
                                 ToolTip="Indica il pacco di texture da utilizzare in questo livello">
 
+                                <ComboBoxItem Tag="0">Pacco Debug</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Pacco Test muri alti</ComboBoxItem>
                                 <ComboBoxItem Tag="1">Pacco 1</ComboBoxItem>
                                 <ComboBoxItem Tag="2">Pacco 2</ComboBoxItem>
                                 <ComboBoxItem Tag="3">Pacco 3</ComboBoxItem>

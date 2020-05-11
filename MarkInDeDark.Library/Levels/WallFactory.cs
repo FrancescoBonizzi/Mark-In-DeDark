@@ -9,9 +9,9 @@ namespace MarkInDeDark.Library.Levels
 {
     public static class WallFactory
     {
-        public const int NorthWallYOffset = -78;
-        public const int SouthWallYOffset = 114;
-        public const int EntranceExitDoorYOffset = -76;
+        public const int NorthWallYOffset = -96;
+        public const int SouthWallYOffset = 96;
+        public const int EntranceExitDoorYOffset = -96;
 
         // WARNING Prima usavo IsNorthPassable per gestire queste cose... speriamo bene
         public static List<IWall> GenerateWalls(
