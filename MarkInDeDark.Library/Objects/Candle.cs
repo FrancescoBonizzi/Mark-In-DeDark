@@ -70,13 +70,13 @@ namespace MarkInDeDark.Library
 
             _candleFireParticleSystem = new CandleFireParticleSystem(assetsLoader)
             {
-                LayerDepth =  _drawingInfos.LayerDepth + 0.00002f
+                LayerDepth = _drawingInfos.LayerDepth + 0.00002f
             };
 
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 30.0f);
         }
 
-        public void Die()
+        public void Die(bool instantlyDie = false)
         {
             IsDying = true;
 
@@ -86,14 +86,23 @@ namespace MarkInDeDark.Library
                     _timeToLive,
                     _drawingInfos.OverlayColor);
 
-                _smokeEffect = new ParticleGeneratorTimedEffect(
-                    _smokeEffectParticleSystem,
-                    _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
-                    TimeSpan.FromMilliseconds(35),
-                    _timeToLive);
+                if (!instantlyDie)
+                {
+                    _smokeEffect = new ParticleGeneratorTimedEffect(
+                        _smokeEffectParticleSystem,
+                        _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
+                        TimeSpan.FromMilliseconds(35),
+                        _timeToLive);
+                }
 
                 _fadeObject.FadeOut();
             }
+        }
+
+        public void DieIstantly()
+        {
+            _timeToLive = TimeSpan.FromMilliseconds(5);
+            Die(true);
         }
 
         public void DieFast()
@@ -102,6 +111,9 @@ namespace MarkInDeDark.Library
             Die();
         }
 
+        /// <summary>
+        /// Indica quando la candela è definitivamente "morta" e bisogna rimuoverla dagli oggetti di disegno
+        /// </summary>
         public bool IsActive
         {
             get
@@ -127,7 +139,7 @@ namespace MarkInDeDark.Library
             if (IsDying)
             {
                 _timeToLive -= elapsed;
-                _smokeEffect.Update(elapsed);
+                _smokeEffect?.Update(elapsed);
                 _fadeObject.Update(elapsed);
                 _drawingInfos.OverlayColor = _fadeObject.OverlayColor;
                 SurroundingLight.ForceColor(_fadeObject.OverlayColor);
@@ -154,7 +166,7 @@ namespace MarkInDeDark.Library
 
             if (IsDying)
             {
-                _smokeEffect.Draw(spriteBatch);
+                _smokeEffect?.Draw(spriteBatch);
             }
         }
     }

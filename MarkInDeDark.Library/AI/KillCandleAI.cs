@@ -59,7 +59,11 @@ namespace MarkInDeDark.Library.AI
                     else if (!anyPathToFollow)
                     {
                         _currentKillCandleStatus = KillCandleStatus.Smashing;
-                        _targetCandle.Die();
+
+                        if (character is Bubu)
+                            _targetCandle.DieIstantly();
+                        else
+                            _targetCandle.Die();
                         character.Attack();
                         return CharacterActions.Idle;
                     }
