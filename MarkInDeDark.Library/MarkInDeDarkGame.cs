@@ -354,6 +354,7 @@ namespace MarkInDeDark.Library
                                 string.Format(_localizedStringsRepository.Get("KeyFoundString")),
                                 _gameConfig.KeyFoundStringColorRGB);
                             _exit.SetOpen();
+                            _gameHud.DrawKey = true;
                         }
                     }
 
