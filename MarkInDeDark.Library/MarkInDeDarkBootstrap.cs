@@ -7,7 +7,6 @@ using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.StringsLocalization;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using MarkInDeDark.Common;
-
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Menu;
@@ -18,7 +17,6 @@ using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
 
 namespace MarkInDeDark.Library
 {
@@ -126,6 +124,7 @@ namespace MarkInDeDark.Library
 
             _inputListeners = new List<IInputListener>();
 
+#warning Punto di ottimizzazione B, rimuovere per intero InputListeners fare tutto come XNA base, usano il 6,5% di CPU
             // Mouse
             var mouseListener = new MouseListener(_matrixScaleProvider);
             mouseListener.MouseDown += MouseListener_MouseClicked;

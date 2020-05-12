@@ -10,8 +10,8 @@ namespace MarkInDeDark.Library.Particles
             : base(
                   assetsLoader.Sprites["Effects/generic_spark"],
                   density: 1,
-                  minNumParticles: 5,
-                  maxNumParticles: 6,
+                  minNumParticles: 2,
+                  maxNumParticles: 3,
                   minInitialSpeed: 50f,
                   maxInitialSpeed: 106f,
                   minAcceleration: 1f,
