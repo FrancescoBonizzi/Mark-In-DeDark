@@ -58,11 +58,6 @@ namespace MarkInDeDark.Library.Characters
                 assetsLoader,
                 Color.White,
                 new Color(225, 206, 172));
-
-            _deadBodyParticleEffect = new DeathBodyParticleSystem(
-                assetsLoader,
-                Color.White,
-                new Color(225, 206, 172));
         }
 
         protected override void OnChangeDirection(CharacterState characterState)

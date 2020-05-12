@@ -15,7 +15,7 @@ namespace MarkInDeDark.Library.Objects
     {
         private readonly SpriteAnimation _animation;
         private readonly DrawingInfos _drawingInfos;
-        private readonly LittleLightParticleSystem _littleLightParticle;
+ //       private readonly LittleLightParticleSystem _littleLightParticle;
         private readonly Vector2 _fireEffectGenerationCenter;
 
         public Light SurroundingLight { get; }
