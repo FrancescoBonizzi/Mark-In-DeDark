@@ -65,7 +65,6 @@ namespace MarkInDeDark.Library.Characters
             //_soundManager.PlayPlayerTorch();
             SetLightPosition(0.5f);
             _deadBodyPartLifetime = TimeSpan.FromSeconds(8f);
-            _deadBodyParticleEffect = null;
             _deadBodyEffectWithFading = false;
 
             MainAnimationsAnimationManager.AddAnimation(

@@ -15,7 +15,7 @@ namespace MarkInDeDark.Library.Objects
     {
         private readonly SpriteAnimation _animation;
         private readonly DrawingInfos _drawingInfos;
-        private readonly LittleLightParticleSystem _littleLightParticle;
+ //       private readonly LittleLightParticleSystem _littleLightParticle;
         private readonly Vector2 _fireEffectGenerationCenter;
 
         public Light SurroundingLight { get; }
@@ -35,10 +35,12 @@ namespace MarkInDeDark.Library.Objects
                 LayerDepth = ZIndexCalculator.ForGenericObject(position)
             };
 
-            _littleLightParticle = new LittleLightParticleSystem(assetsLoader)
-            {
-                LayerDepth = _drawingInfos.LayerDepth + 0.00001f
-            };
+            // Rimosso momentaneamente per performance. Comunque mettere poche particelle. 
+            // Faceva 1% di CPU per luce
+            //_littleLightParticle = new LittleLightParticleSystem(assetsLoader)
+            //{
+            //    LayerDepth = _drawingInfos.LayerDepth + 0.00001f
+            //};
 
             SurroundingLight = new Light(
                 assetsLoader,
@@ -57,8 +59,9 @@ namespace MarkInDeDark.Library.Objects
 
         public void Update(TimeSpan elapsed)
         {
-            _littleLightParticle.AddParticles(_fireEffectGenerationCenter);
-            _littleLightParticle.Update(elapsed);
+            // Rimosso momentaneamente per performance. Comunque mettere poche particelle
+            //_littleLightParticle.AddParticles(_fireEffectGenerationCenter);
+            //_littleLightParticle.Update(elapsed);
             _animation.Update(elapsed);
             SurroundingLight.Update(elapsed);
         }
@@ -66,7 +69,8 @@ namespace MarkInDeDark.Library.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-            _littleLightParticle.Draw(spriteBatch);
+            // Rimosso momentaneamente per performance. Comunque mettere poche particelle
+            //_littleLightParticle.Draw(spriteBatch);
         }
 
         public Vector2 WorldCenter

@@ -57,6 +57,9 @@ namespace MarkInDeDark.Windows
                     windowWidth: width,
                     windowHeight: height))
                 {
+                    // TODO: Cap 50 FPS così non si vedono scatti ?
+                    // _game.TargetElapsedTime = TimeSpan.FromSeconds(1d / 50d);
+
                     if (forcedLevelPath != null)
                     {
                         _game.ForceStartLevel(args[0]);

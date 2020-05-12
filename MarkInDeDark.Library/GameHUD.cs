@@ -1,8 +1,8 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
+using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
-using MarkInDeDark.Library;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +36,10 @@ namespace MarkInDeDark.Library
 
         private readonly CandlesManager _candlesManager;
 
+        public bool DrawKey { get; set; }
+        private readonly Sprite _keySprite;
+        private readonly DrawingInfos _keyDrawingInfos;
+
         public GameHUD(
             AssetsLoader assetsLoader,
             IScreenTransformationMatrixProvider scaleMatrixProvider,
@@ -68,6 +72,13 @@ namespace MarkInDeDark.Library
             _messages = new List<PopupText>();
             GameElapsed = TimeSpan.Zero;
             _candlesManager = candlesManager;
+
+            _keySprite = assetsLoader.Sprites["Objects/key"];
+            _keyDrawingInfos = new DrawingInfos()
+            {
+                Position = _remainingCandlesDrawingInfos.Position - new Vector2(50f, 0f),
+                Scale = 0.2f,
+            };
         }
 
         public void ShowMessage(
@@ -142,6 +153,11 @@ namespace MarkInDeDark.Library
             foreach (var message in _messages)
             {
                 spriteBatch.DrawString(_font, message.Text, message.DrawingInfos);
+            }
+
+            if (DrawKey)
+            {
+                spriteBatch.Draw(_keySprite, _keyDrawingInfos);
             }
         }
 

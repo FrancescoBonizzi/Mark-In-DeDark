@@ -118,7 +118,6 @@ namespace MarkInDeDark.Library.Characters
         protected TimeSpan _deadBodyPartLifetime = TimeSpan.FromSeconds(3);
         protected bool _deadBodyEffectWithFading = true;
 
-        protected DeathBodyParticleSystem _deadBodyParticleEffect;
         protected readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
 
         public bool ShouldDoExplosionAnimation { get; set; } = false;
@@ -204,10 +203,6 @@ namespace MarkInDeDark.Library.Characters
 
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
-                _deadBodyParticleEffect = new DeathBodyParticleSystem(
-                    assetsLoader,
-                    configuration.CharacterTorchConfiguration.FirstTorchColor,
-                    configuration.CharacterTorchConfiguration.SecondTorchColor);
             }
         }
 
@@ -269,9 +264,6 @@ namespace MarkInDeDark.Library.Characters
                 CurrentDieAnimationType = DieAnimationType.StandardAnimation;
                 MainAnimationsAnimationManager.PlayAnimation("Dying");
             }
-
-            if (_deadBodyParticleEffect != null)
-                _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public virtual void FallInTrap(Vector2 trapCenter)
@@ -289,9 +281,6 @@ namespace MarkInDeDark.Library.Characters
             _torchPositionTraslation = new Vector2(0);
             if (AreLightsActive)
                 SetLightPosition();
-
-            if (_deadBodyParticleEffect != null)
-                _deadBodyParticleEffect.LayerDepth = ZIndexCalculator.ForGenericObject(Position);
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
@@ -737,8 +726,6 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void UpdateAfterDeath(TimeSpan elapsed)
         {
-            _deadBodyParticleEffect?.AddParticles(_deadPosition ?? WorldCenter);
-            _deadBodyParticleEffect?.Update(elapsed);
         }
 
         protected virtual void RecalculateZIndex()
@@ -817,7 +804,6 @@ namespace MarkInDeDark.Library.Characters
                             MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
                         }
 
-                    _deadBodyParticleEffect?.Draw(spriteBatch);
                     break;
             }
         }

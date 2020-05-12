@@ -22,7 +22,6 @@ namespace MarkInDeDark.Library
         public SpriteFont Font { get; private set; }
         public List<Level> Levels { get; private set; } = new List<Level>();
 
-        public Effect LightMaskShader { get; private set; }
         public Effect CircularNormalMapShader { get; private set; }
 
         private readonly CustomSpriteImporter _textureImporter;
@@ -63,7 +62,6 @@ namespace MarkInDeDark.Library
         private void LoadResources()
         {
             Font = _contentManager.Load<SpriteFont>("font");
-            LightMaskShader = _contentManager.Load<Effect>("Effects/lightmask");
             CircularNormalMapShader = _contentManager.Load<Effect>("Effects/circularnormalmap");
 
             LoadSprites();

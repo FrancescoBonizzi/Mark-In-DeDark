@@ -60,7 +60,6 @@ namespace MarkInDeDark.Library
 
         private readonly Color _normalMapNeutralColor = new Color(128, 128, 255);
 
-        private readonly Effect _lightMaskShader;
         private readonly Effect _circularNormalMapShader;
 
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
@@ -119,7 +118,6 @@ namespace MarkInDeDark.Library
             _currentGameState = GameStates.Playing;
             _localizedStringsRepository = localizedStringsRepository;
 
-            _lightMaskShader = assetsLoader.LightMaskShader;
             _circularNormalMapShader = assetsLoader.CircularNormalMapShader;
 
             _elapsedFinish = TimeSpan.Zero;
@@ -356,6 +354,7 @@ namespace MarkInDeDark.Library
                                 string.Format(_localizedStringsRepository.Get("KeyFoundString")),
                                 _gameConfig.KeyFoundStringColorRGB);
                             _exit.SetOpen();
+                            _gameHud.DrawKey = true;
                         }
                     }
 
@@ -562,31 +561,6 @@ namespace MarkInDeDark.Library
 
             _markGamePad.Shake(intensity, _shakeDuration);
         }
-
-        //private void DrawLightMask(
-        //    SpriteBatch spriteBatch,
-        //    Matrix viewMatrix)
-        //{
-        //    spriteBatch.Begin(
-        //        SpriteSortMode.Immediate,
-        //        BlendState.Additive,
-        //        transformMatrix: viewMatrix);
-
-        //    _player.DrawLightMask(spriteBatch);
-
-        //    foreach (var enemy in _enemies)
-        //    {
-        //        enemy.DrawLightMask(spriteBatch);
-        //    }
-
-        //    foreach (var littleLight in _gameGrid.LittleLights)
-        //    {
-        //        littleLight.DrawLightMask(spriteBatch);
-        //    }
-        //    _candlesManager.DrawLightMask(spriteBatch);
-
-        //    spriteBatch.End();
-        //}
 
         public void Draw(
             SpriteBatch spriteBatch,
