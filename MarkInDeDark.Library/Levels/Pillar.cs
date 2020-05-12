@@ -30,7 +30,7 @@ namespace MarkInDeDark.Library.Levels
             DrawingInfos = new DrawingInfos()
             {
                 Position = position,
-                LayerDepth = ZIndexCalculator.ForPillars(position + sprite.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForPillars(position + new Vector2(0, 96)) // Così li equiparo all'altezza dei muri
             };
 
             _sprite = sprite;
