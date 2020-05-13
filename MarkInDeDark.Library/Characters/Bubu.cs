@@ -13,12 +13,6 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Bubu : Enemy
     {
-        private readonly EnemyEyeParticleSystem _leftEye;
-        private readonly EnemyEyeParticleSystem _rightEye;
-
-        private Vector2? _leftEyeTraslation;
-        private Vector2? _rightEyeTraslation;
-
         public Bubu(
             AssetsLoader assetsLoader,
             List<GameCell> patrolPath,
@@ -50,78 +44,12 @@ namespace MarkInDeDark.Library.Characters
                     game,
                     candlesManager)
         {
-            _leftEye = new EnemyEyeParticleSystem(
-                assetsLoader,
-                Color.White,
-                new Color(225, 206, 172));
-            _rightEye = new EnemyEyeParticleSystem(
-                assetsLoader,
-                Color.White,
-                new Color(225, 206, 172));
-        }
 
-        protected override void OnChangeDirection(CharacterState characterState)
-        {
-            switch (characterState)
-            {
-                case CharacterState.GoingUp:
-                case CharacterState.IdleUp:
-                    _leftEyeTraslation = null; //new Vector2(-10f, -33f);
-                    _rightEyeTraslation = null;//new Vector2(6f, -33f);
-                    break;
-
-                case CharacterState.GoingDown:
-                case CharacterState.IdleDown:
-                    _leftEyeTraslation = new Vector2(-10f, -33f);
-                    _rightEyeTraslation = new Vector2(6f, -33f);
-                    break;
-
-                case CharacterState.GoingLeft:
-                case CharacterState.IdleLeft:
-                    _leftEyeTraslation = new Vector2(-20f, -41f);
-                    _rightEyeTraslation = new Vector2(-15f, -41f);
-                    break;
-
-                case CharacterState.GoingRight:
-                case CharacterState.IdleRight:
-                    _leftEyeTraslation = new Vector2(15f, -41f);
-                    _rightEyeTraslation = new Vector2(20f, -41f);
-                    break;
-            }
-
-            base.OnChangeDirection(characterState);
         }
 
         public override void CustomActionOnPlayerDead()
         {
             _player.ShouldDoExplosionAnimation = true;
-        }
-
-        public override void Update(TimeSpan elapsed)
-        {
-            base.Update(elapsed);
-
-            if (!IsDead)
-            {
-                if (_leftEyeTraslation != null)
-                    _leftEye.AddParticles(MainFigureDrawingInfos.Position + _leftEyeTraslation.Value);
-                if (_rightEyeTraslation != null)
-                    _rightEye.AddParticles(MainFigureDrawingInfos.Position + _rightEyeTraslation.Value);
-
-                _leftEye.Update(elapsed);
-                _rightEye.Update(elapsed);
-            }
-        }
-
-        public override void DrawEffectsOverDark(SpriteBatch spriteBatch)
-        {
-            base.DrawEffectsOverDark(spriteBatch);
-
-            if (!IsDead)
-            {
-                _leftEye.Draw(spriteBatch);
-                _rightEye.Draw(spriteBatch);
-            }
         }
     }
 }
