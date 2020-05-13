@@ -6,6 +6,7 @@ using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -569,7 +570,7 @@ namespace MarkInDeDark.Library.Characters
                                 break;
 
                             case CharacterState.GoingRight:
-                                CurrentCharacterState = CharacterState.IdleLeft;
+                                CurrentCharacterState = CharacterState.IdleRight;
                                 if (!DontPlayDefaultAnimations)
                                     MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.IdleRight.ToString());
                                 PlayShadowFor(ShadowsAnimationsNames.WhileIdleRight);
