@@ -53,7 +53,6 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _groundLevel2RenderTarget;
 
         private readonly RenderTarget2D _groundLevelRenderTarget;
-        private readonly RenderTarget2D _groundWallsWithNormalMapRenderTarget;
         private readonly RenderTarget2D _normalMapRenderTarget;
         private readonly RenderTarget2D _baseSceneRenderTarget;
         private readonly RenderTarget2D _baseSceneItemsWithNormalMapRenderTarget;
@@ -133,14 +132,12 @@ namespace MarkInDeDark.Library
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundWallsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneItemsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevel0RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevel1RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevel2RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
@@ -300,6 +297,13 @@ namespace MarkInDeDark.Library
 
             foreach (var p in _gameGrid.GetAllPillars())
                 _penumbra.Hulls.Add(p.Hull);
+
+
+            if (_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 1)
+            {
+                _ambienceColor = new Vector3(0, 0.01f, 0.03f); //; new Vector3(212, 213, 255) * 0.1f;
+                _penumbra.AmbientColor = new Color(0, 0, 3);
+            }
         }
 
         public void HandleInput(CharacterActions action)
