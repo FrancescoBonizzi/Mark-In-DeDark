@@ -764,7 +764,6 @@
             <key type="filename">Game/Grounds/Type2/Door/door_9.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_3.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_3_on.png</key>
             <key type="filename">Game/Grounds/Type2/cell.png</key>
             <key type="filename">Game/Grounds/Type2/cell2.png</key>
             <key type="filename">Game/Grounds/Type2/cell2_normal.png</key>
@@ -774,9 +773,6 @@
             <key type="filename">Game/Grounds/Type2/cell5.png</key>
             <key type="filename">Game/Grounds/Type2/cell_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_3_on.png</key>
             <key type="filename">Game/Grounds/Type3/Door/door_0.png</key>
             <key type="filename">Game/Grounds/Type3/Door/door_1.png</key>
             <key type="filename">Game/Grounds/Type3/Door/door_2.png</key>
@@ -1054,10 +1050,6 @@
             <key type="filename">Game/Grounds/Type2/wall_ingresso_closed_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/Type2/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_special_2_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_open.png</key>
