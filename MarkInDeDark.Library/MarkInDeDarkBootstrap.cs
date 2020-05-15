@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Input;
 using Penumbra;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace MarkInDeDark.Library
@@ -41,7 +42,7 @@ namespace MarkInDeDark.Library
         private IScreenTransformationMatrixProvider _matrixScaleProvider;
 
         private readonly IEnumerable<string> _levelsNames;
-  
+
         // private Sprite _mousePointer;
         private string _forcedLevelPath;
 
@@ -59,7 +60,7 @@ namespace MarkInDeDark.Library
             int windowHeight)
         {
             IsMouseVisible = true;
-           
+
             _textFileAssetsLoader = textFileAssetsLoader;
             _settingsRepository = settingsRepository;
             _levelsNames = levelPaths;
@@ -124,16 +125,13 @@ namespace MarkInDeDark.Library
 
             _inputListeners = new List<IInputListener>();
 
-#warning Punto di ottimizzazione B, rimuovere per intero InputListeners fare tutto come XNA base, usano il 6,5% di CPU
             // Mouse
+#warning Rimuovere anche questo
             var mouseListener = new MouseListener(_matrixScaleProvider);
             mouseListener.MouseDown += MouseListener_MouseClicked;
             _inputListeners.Add(mouseListener);
 
             // Tastiera
-            var keyboardListener = new KeyboardListener();
-            keyboardListener.KeyPressed += KeyboardListener_KeyPressed;
-            _inputListeners.Add(keyboardListener);
             _markKeyboard = new MarkKeyboard();
 
             // Gamepad
@@ -184,18 +182,14 @@ namespace MarkInDeDark.Library
                 _localizedStringsRepository,
                 _assetsLoader.Font,
                 _markGamePad);
-
         }
 
-        private void KeyboardListener_KeyPressed(object sender, KeyboardEventArgs e)
+        public void Back()
         {
-            if (e.Key == Keys.Escape)
+            _orchestrator.Back();
+            if (_orchestrator.ShouldEndApplication)
             {
-                _orchestrator.Back();
-                if (_orchestrator.ShouldEndApplication)
-                {
-                    Exit();
-                }
+                Exit();
             }
         }
 
@@ -251,16 +245,24 @@ namespace MarkInDeDark.Library
 
             foreach (var listener in _inputListeners)
                 listener.Update(gameTime);
-            
+
             if (_markGamePad.IsConnected)
             {
                 _markGamePad.Update(elapsed);
-                _orchestrator.HandleKeyboardPressed(_markGamePad.CurrentInputAction);
+                var currentInput = _markGamePad.CurrentInputAction;
+                if (currentInput == Characters.CharacterActions.GameBack)
+                    Back();
+                else
+                    _orchestrator.HandleKeyboardPressed(currentInput);
             }
             else
             {
                 _markKeyboard.Update();
-                _orchestrator.HandleKeyboardPressed(_markKeyboard.CurrentInputAction);
+                var currentInput = _markKeyboard.CurrentInputAction;
+                if (currentInput == Characters.CharacterActions.GameBack)
+                    Back();
+                else
+                    _orchestrator.HandleKeyboardPressed(currentInput);
             }
 
             _orchestrator.Update(elapsed);

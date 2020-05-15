@@ -9,6 +9,7 @@ using MarkInDeDark.Library.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDark.Library
 {
@@ -46,10 +47,10 @@ namespace MarkInDeDark.Library
         public bool IsPaused { get; private set; } = false;
 
         private readonly TimeSpan _fadeDuration = TimeSpan.FromMilliseconds(200);
-        private readonly Uri _aboutUri = new Uri("https://www.fbonizzi.it");
 
         private DrawingInfos _inputTypeDrawingInfos = new DrawingInfos();
         private string _inputTypeText = string.Empty;
+
         private readonly MarkGamePad _markJoypad;
 
         public GameOrchestrator(

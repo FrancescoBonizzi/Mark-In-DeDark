@@ -6,7 +6,6 @@ namespace MarkInDeDark.Library
     public class MarkKeyboard
     {
         private CharacterActions _currentAction;
-
         private KeyboardState _lastState;
 
         public CharacterActions CurrentInputAction
@@ -23,33 +22,40 @@ namespace MarkInDeDark.Library
         public void Update()
         {
             var keyState = Keyboard.GetState();
-            
-            if (keyState.IsKeyDown(Keys.Up))
-            {
-                _currentAction = CharacterActions.Up;
-            }
-            else if (keyState.IsKeyDown(Keys.Down))
-            {
-                _currentAction = CharacterActions.Down;
-            }
-            else if (keyState.IsKeyDown(Keys.Right))
-            {
-                _currentAction = CharacterActions.Right;
-            }
-            else if (keyState.IsKeyDown(Keys.Left))
-            {
-                _currentAction = CharacterActions.Left;
-            }
 
-            if (keyState.IsKeyDown(Keys.Space) && _lastState.IsKeyUp(Keys.Space))
+            if (keyState.IsKeyDown(Keys.Escape) && _lastState.IsKeyUp(Keys.Escape))
             {
-                _currentAction = CharacterActions.Candle;
+                _currentAction = CharacterActions.GameBack;
             }
-
-            if ((keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl))
-                || (keyState.IsKeyDown(Keys.RightControl) && _lastState.IsKeyUp(Keys.RightControl)))
+            else
             {
-                _currentAction = CharacterActions.DoorSwitch;
+                if (keyState.IsKeyDown(Keys.Up))
+                {
+                    _currentAction = CharacterActions.Up;
+                }
+                else if (keyState.IsKeyDown(Keys.Down))
+                {
+                    _currentAction = CharacterActions.Down;
+                }
+                else if (keyState.IsKeyDown(Keys.Right))
+                {
+                    _currentAction = CharacterActions.Right;
+                }
+                else if (keyState.IsKeyDown(Keys.Left))
+                {
+                    _currentAction = CharacterActions.Left;
+                }
+
+                if (keyState.IsKeyDown(Keys.Space) && _lastState.IsKeyUp(Keys.Space))
+                {
+                    _currentAction = CharacterActions.Candle;
+                }
+
+                if ((keyState.IsKeyDown(Keys.LeftControl) && _lastState.IsKeyUp(Keys.LeftControl))
+                    || (keyState.IsKeyDown(Keys.RightControl) && _lastState.IsKeyUp(Keys.RightControl)))
+                {
+                    _currentAction = CharacterActions.DoorSwitch;
+                }
             }
 
             _lastState = keyState;

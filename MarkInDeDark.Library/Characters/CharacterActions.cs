@@ -12,6 +12,8 @@
         IdleUp,
         IdleDown,
         Candle,
-        DoorSwitch
+        DoorSwitch,
+        
+        GameBack
     }
 }

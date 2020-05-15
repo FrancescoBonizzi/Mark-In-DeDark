@@ -130,6 +130,11 @@ namespace MarkInDeDark.Library
                 _currentAction = CharacterActions.DoorSwitch;
             }
 
+            if (gamePadState.Buttons.Start == ButtonState.Pressed && _lastState.Buttons.Start == ButtonState.Released)
+            {
+                _currentAction = CharacterActions.DoorSwitch;
+            }
+
             _lastState = gamePadState;
         }
     }
