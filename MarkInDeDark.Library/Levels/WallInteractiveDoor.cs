@@ -2,13 +2,11 @@
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
-using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -46,6 +44,9 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _wallDoorUpSprite;
         private readonly Sprite _wallDoorDownSprite;
 
+        private readonly Sprite _wallDoorUpNormalSprite;
+        private readonly Sprite _wallDoorDownNormalSprite;
+
         private DoorStates _currentState;
         private readonly Action _onClose;
 
@@ -66,10 +67,14 @@ namespace MarkInDeDark.Library.Levels
             SpriteAnimation doorCloseAnimation,
             Sprite wallDoorArc,
             Sprite wallDoorDown,
+            Sprite wallDoorArcNormal,
+            Sprite wallDoorDownNormal,
             Action onClose)
         {
             _wallDoorUpSprite = wallDoorArc;
             _wallDoorDownSprite = wallDoorDown;
+            _wallDoorUpNormalSprite = wallDoorArcNormal;
+            _wallDoorDownNormalSprite = wallDoorDownNormal;
 
             Direction = linkDirection;
 
@@ -249,7 +254,10 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawNormalMap(SpriteBatch spriteBatch)
         {
-
+            if (_wallDoorDownNormalSprite != null)
+                spriteBatch.Draw(_wallDoorDownNormalSprite, _wallDoorDownDrawingInfos);
+            if (_wallDoorUpNormalSprite != null)
+                spriteBatch.Draw(_wallDoorUpNormalSprite, _wallDoorArcDrawingInfos);
         }
     }
 }

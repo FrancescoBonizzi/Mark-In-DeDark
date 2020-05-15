@@ -164,7 +164,7 @@ namespace MarkInDeDark.Library.Levels
 
             {
                 var walls = WallFactory.GenerateWalls(
-                    _cellDrawingInfos.Position,
+                    TopLeftPosition,
                     levelEditorCell,
                     level,
                     new Vector2(Width, Height),

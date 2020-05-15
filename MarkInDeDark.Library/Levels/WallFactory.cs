@@ -117,8 +117,10 @@ namespace MarkInDeDark.Library.Levels
                         linkDirection: LinkDirection.NorthLink,
                         doorOpenAnimation: level.DoorOpenAnimation,
                         doorCloseAnimation: level.DoorCloseAnimation,
-                        wallDoorArc: level.WallDoorArcSprite,
-                        wallDoorDown: level.WallDoorBaseSprite,
+                        wallDoorArc: level.WallDoorArcSprite.Base,
+                        wallDoorDown: level.WallDoorBaseSprite.Base,
+                        wallDoorArcNormal: level.WallDoorArcSprite.Normal,
+                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal,
                         onClose: () => doorActionOnClose());
 
                 case WallTypes.Ingresso:
@@ -220,8 +222,10 @@ namespace MarkInDeDark.Library.Levels
                         linkDirection: LinkDirection.SouthLink,
                         doorOpenAnimation: level.DoorOpenAnimation,
                         doorCloseAnimation: level.DoorCloseAnimation,
-                        wallDoorArc: level.WallDoorArcSprite,
-                        wallDoorDown: level.WallDoorBaseSprite,
+                        wallDoorArc: level.WallDoorArcSprite.Base,
+                        wallDoorDown: level.WallDoorBaseSprite.Base,
+                        wallDoorArcNormal: level.WallDoorArcSprite.Normal,
+                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal,
                         onClose: () => doorActionOnClose());
 
                 case WallTypes.Ingresso:
