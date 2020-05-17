@@ -148,7 +148,7 @@ namespace MarkInDeDark.Library.Characters
 
             if (configuration.BodyParts != null)
             {
-                _characterDieExplosionParticleSystem = new CharacterExplosionParticleSystem(configuration);
+                _characterDieExplosionParticleSystem = new CharacterExplosionParticleSystem(configuration, assetsLoader);
             }
 
             MainAnimationsAnimationManager = new AnimationsManager()

@@ -1,4 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,13 +15,16 @@ namespace MarkInDeDark.Library.Particles
         public float RotationSpeed { get; private set; }
         public TimeSpan LifeTime { get; private set; }
         public Color StartingColor { get; private set; }
-        
+
         public Sprite Sprite { get; }
 
         public bool IsActive
             => TimeSinceStart < LifeTime || OverlayColor.A < 0;
 
+        public ParticleGeneratorTimedEffect BodyPartBloodParticleSystem { get; private set; }
+
         public BodyPartParticle(
+            Sprite bloodParticleSprite,
             Sprite sprite,
             Vector2 position,
             Vector2 velocity,
@@ -47,6 +51,12 @@ namespace MarkInDeDark.Library.Particles
             StartingColor = color;
 
             Origin = sprite.SpriteCenter;
+
+            BodyPartBloodParticleSystem = new ParticleGeneratorTimedEffect(
+                new BodyPartBloodParticleSystem(bloodParticleSprite),
+                position,
+                TimeSpan.FromMilliseconds(100),
+                null);
         }
 
         public void Update(TimeSpan elapsed)
@@ -57,6 +67,9 @@ namespace MarkInDeDark.Library.Particles
             Rotation += RotationSpeed * elapsedSeconds;
 
             TimeSinceStart += elapsed;
+
+            BodyPartBloodParticleSystem.SetGeneratorPosition(Position);
+            BodyPartBloodParticleSystem.Update(elapsed);
         }
     }
 }

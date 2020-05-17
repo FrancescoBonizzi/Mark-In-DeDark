@@ -13,16 +13,19 @@ namespace MarkInDeDark.Library.Particles
     {
         private readonly List<BodyPartParticle> _characterBodyPartsParticles;
         private readonly List<Sprite> _bodyParts;
+        private readonly Sprite _bloodParticleSprite;
         private bool _withFading;
 
         public bool HasFinished { get; private set; }
         public bool HasStarted { get; private set; }
 
         public CharacterExplosionParticleSystem(
-            CharacterConfiguration characterConfiguration)
+            CharacterConfiguration characterConfiguration,
+            AssetsLoader assetsLoader)
         {
             _characterBodyPartsParticles = new List<BodyPartParticle>();
             _bodyParts = characterConfiguration.BodyParts;
+            _bloodParticleSprite = assetsLoader.Sprites["Effects/generic_spark"];
         }
 
         public void Explode(
@@ -44,6 +47,7 @@ namespace MarkInDeDark.Library.Particles
 
                 _characterBodyPartsParticles.Add(new BodyPartParticle(
                     sprite: bodyPartSprite,
+                    bloodParticleSprite: _bloodParticleSprite,
                     position: where,
                     velocity: velocity,
                     acceleration: Vector2.Zero,
@@ -87,6 +91,7 @@ namespace MarkInDeDark.Library.Particles
                 }
 
                 spriteBatch.Draw(particle.Sprite, particle);
+                particle.BodyPartBloodParticleSystem.Draw(spriteBatch);
             }
         }
 
