@@ -20,6 +20,7 @@ namespace MarkInDeDark.Library.Particles
         private readonly Sprite _specularGlowSprite;
 
         private ScalingObject _scalingObjectForAlone;
+        private ScalingObject _scalingObjectForSpecular;
         private ScalingObject _scalingObjectForPenumbraLight;
         private readonly float _originalMinScale;
         private readonly float _originalMaxScale;
@@ -69,6 +70,7 @@ namespace MarkInDeDark.Library.Particles
             _originalScalingSpeed = 2.5f;
             _scalingObjectForAlone = new ScalingObject(_originalMinScale, _originalMaxScale, _originalScalingSpeed);
             _scalingObjectForPenumbraLight = new ScalingObject(penumbraLightScale * 0.8f, penumbraLightScale * 1.5f, 2.5f);
+            _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
 
             _originalColorChangingSpeed = 2.5;
             _colorChangingObject = new ColorChangingObject(
@@ -89,7 +91,8 @@ namespace MarkInDeDark.Library.Particles
 
             _specularGlowDrawingInfos = new DrawingInfos()
             {
-                Origin = _specularGlowSprite.SpriteCenter
+                Origin = _specularGlowSprite.SpriteCenter,
+                Scale = 2f
             };
         }
 
@@ -134,6 +137,7 @@ namespace MarkInDeDark.Library.Particles
             // Cambiamento di scala
             _scalingObjectForAlone.Update(elapsed);
             _scalingObjectForPenumbraLight.Update(elapsed);
+            _scalingObjectForSpecular.Update(elapsed);
 
             PointLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             AloneDrawingInfos.Scale = _scalingObjectForAlone.Scale;
@@ -150,6 +154,7 @@ namespace MarkInDeDark.Library.Particles
                 MathHelper.Lerp(_basePosition.Y, _basePosition.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
 
             _specularGlowDrawingInfos.Position = PointLight.Position;
+            _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
         }
 
         public void DrawAlone(SpriteBatch spriteBatch)
