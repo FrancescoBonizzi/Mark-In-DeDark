@@ -66,7 +66,7 @@ namespace MarkInDeDark.Library.Levels
 
             _spriteArcDrawingInfos = new DrawingInfos()
             {
-                Position = position,
+                Position = position + new Vector2(0f, -40f),
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth,
             };
 
