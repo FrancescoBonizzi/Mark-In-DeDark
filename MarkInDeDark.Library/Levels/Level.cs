@@ -82,9 +82,9 @@ namespace MarkInDeDark.Library.Levels
 
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"));
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell1"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell1"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell1"));
             GroundSpriteType2 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"),
