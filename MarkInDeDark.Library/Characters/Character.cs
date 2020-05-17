@@ -6,7 +6,6 @@ using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Characters
 {

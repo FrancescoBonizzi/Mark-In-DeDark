@@ -14,7 +14,10 @@ namespace MarkInDeDark.Library.Particles
     {
         public DrawingInfos AloneDrawingInfos { get; }
 
+        private readonly DrawingInfos _specularGlowDrawingInfos;
+
         private readonly Sprite _aloneSprite;
+        private readonly Sprite _specularGlowSprite;
 
         private ScalingObject _scalingObjectForAlone;
         private ScalingObject _scalingObjectForPenumbraLight;
@@ -28,7 +31,6 @@ namespace MarkInDeDark.Library.Particles
         private readonly double _originalColorChangingSpeed;
 
         private Vector2 _basePosition;
-
 
         public PointLight PointLight { get; }
         public Vector2 Position
@@ -58,6 +60,7 @@ namespace MarkInDeDark.Library.Particles
             float penumbraLightScale)
         {
             _aloneSprite = assetsLoader.Sprites["Effects/light_pixel"];
+            _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
 
@@ -82,6 +85,11 @@ namespace MarkInDeDark.Library.Particles
             {
                 Origin = _aloneSprite.SpriteCenter,
                 LayerDepth = layerDepth
+            };
+
+            _specularGlowDrawingInfos = new DrawingInfos()
+            {
+                Origin = _specularGlowSprite.SpriteCenter
             };
         }
 
@@ -136,16 +144,23 @@ namespace MarkInDeDark.Library.Particles
             var offset = new Vector2(
                 (float)(Math.Sin(shakeStartAngle) * shakeIntensity),
                 (float)(Math.Cos(shakeStartAngle) * shakeIntensity));
-            
-            PointLight.Position =new Vector2(
+
+            PointLight.Position = new Vector2(
                 MathHelper.Lerp(_basePosition.X, _basePosition.X + offset.X, (float)Math.Sin(elapsed.TotalSeconds * 20)),
                 MathHelper.Lerp(_basePosition.Y, _basePosition.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
+
+            _specularGlowDrawingInfos.Position = PointLight.Position;
         }
 
         public void DrawAlone(SpriteBatch spriteBatch)
         {
             if (AloneEnabled)
                 spriteBatch.Draw(_aloneSprite, AloneDrawingInfos);
+        }
+
+        public void DrawGlow(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_specularGlowSprite, _specularGlowDrawingInfos);
         }
     }
 }

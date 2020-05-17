@@ -14,11 +14,11 @@ namespace MarkInDeDark.Library.Levels
         public int? RecordUsedCandles { get; private set; }
         public TimeSpan? RecordCompletionTime { get; private set; }
 
-        public (Sprite Base, Sprite Normal) GroundSpriteType1 { get; private set; }
-        public (Sprite Base, Sprite Normal) GroundSpriteType2 { get; private set; }
-        public (Sprite Base, Sprite Normal) GroundSpriteType3 { get; private set; }
-        public (Sprite Base, Sprite Normal) GroundSpriteType4 { get; private set; }
-        public (Sprite Base, Sprite Normal) GroundSpriteType5 { get; private set; }
+        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType1 { get; private set; }
+        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType2 { get; private set; }
+        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType3 { get; private set; }
+        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType4 { get; private set; }
+        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType5 { get; private set; }
         public Sprite DarkSprite { get; private set; }
 
         public (Sprite Base, Sprite Normal) Decal1 { get; private set; }
@@ -83,17 +83,22 @@ namespace MarkInDeDark.Library.Levels
             string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell"));
             GroundSpriteType2 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"));
             GroundSpriteType3 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell3"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"));
             GroundSpriteType4 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"));
             GroundSpriteType5 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"),
+                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"));
 
             Decal1 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"],
@@ -248,6 +253,15 @@ namespace MarkInDeDark.Library.Levels
             var normalName = $"{baseTextureName}_normal";
             if (assetsLoader.Sprites.ContainsKey(normalName))
                 return assetsLoader.Sprites[normalName];
+
+            return null;
+        }
+
+        private Sprite GetSpecularOrNull(AssetsLoader assetsLoader, string baseTextureName)
+        {
+            var specularName = $"{baseTextureName}_spec";
+            if (assetsLoader.Sprites.ContainsKey(specularName))
+                return assetsLoader.Sprites[specularName];
 
             return null;
         }

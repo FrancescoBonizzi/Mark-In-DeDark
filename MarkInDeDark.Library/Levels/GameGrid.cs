@@ -98,6 +98,7 @@ namespace MarkInDeDark.Library.Levels
                         cell: levelToLoad.GroundSpriteType1.Base,
                         dirty: thisCellDirtySprite,
                         normalSprite: levelToLoad.GroundSpriteType1.Normal,
+                        specularSprite: levelToLoad.GroundSpriteType1.Specular,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
                         gameGrid: this,
@@ -794,10 +795,16 @@ namespace MarkInDeDark.Library.Levels
             SpriteBatch spriteBatch,
             Matrix viewMatrix,
             Effect normalMapEffect,
+            Effect specularMapEffect,
             GraphicsDevice graphicsDevice,
             RenderTarget2D baseRenderTarget,
             RenderTarget2D normalMapRenderTarget,
+            RenderTarget2D specularMapRenderTarget,
+            RenderTarget2D specularMapLightmaskRenderTarget,
+            RenderTarget2D specularMapWithAppliedLightmaskRenderTarget,
+            RenderTarget2D appliedNormalMapRenderTarget,
             RenderTarget2D resultRenderTarget,
+            Action<SpriteBatch> drawGlows,
             List<Vector3> lights)
         {
             // Pavimento di base
@@ -820,8 +827,25 @@ namespace MarkInDeDark.Library.Levels
             });
             spriteBatch.End();
 
+            // Specular map
+            graphicsDevice.SetRenderTarget(specularMapRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+            OnAllVisibleCells(c =>
+            {
+                c.DrawGroundSpecularMap(spriteBatch);
+            });
+            spriteBatch.End();
+
+            // Lightmask for the specular map
+            graphicsDevice.SetRenderTarget(specularMapLightmaskRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+            drawGlows(spriteBatch);
+            spriteBatch.End();
+
             // Normal map applicata
-            graphicsDevice.SetRenderTarget(resultRenderTarget);
+            graphicsDevice.SetRenderTarget(appliedNormalMapRenderTarget);
             graphicsDevice.Clear(Color.Black);
             normalMapEffect.Parameters["NormalTexture"].SetValue(normalMapRenderTarget);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, normalMapEffect);
@@ -832,7 +856,24 @@ namespace MarkInDeDark.Library.Levels
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }
             spriteBatch.End();
-            
+
+            // Lightmask sulla specular map
+            graphicsDevice.SetRenderTarget(specularMapWithAppliedLightmaskRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            specularMapEffect.Parameters["SpecularTexture"].SetValue(specularMapLightmaskRenderTarget);
+            specularMapEffect.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Begin(effect: specularMapEffect);
+            spriteBatch.Draw(specularMapRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
+            // Composizione finale
+            graphicsDevice.SetRenderTarget(resultRenderTarget);
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(blendState: BlendState.Additive);
+            spriteBatch.Draw(appliedNormalMapRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(specularMapWithAppliedLightmaskRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
             // Effetti
 #warning RIMETTERE
             //OnAllVisibleCells(c =>

@@ -51,26 +51,31 @@ namespace MarkInDeDark.Library.Levels
                         case GroundTypes.Terra:
                             gameCell.Sprite = level.GroundSpriteType1.Base;
                             gameCell.NormalSprite = level.GroundSpriteType1.Normal;
+                            gameCell.SpecularSprite = level.GroundSpriteType1.Specular;
                             break;
 
                         case GroundTypes.Terra2:
                             gameCell.Sprite = level.GroundSpriteType2.Base;
                             gameCell.NormalSprite = level.GroundSpriteType2.Normal;
+                            gameCell.SpecularSprite = level.GroundSpriteType2.Specular;
                             break;
 
                         case GroundTypes.Terra3:
                             gameCell.Sprite = level.GroundSpriteType3.Base;
                             gameCell.NormalSprite = level.GroundSpriteType3.Normal;
+                            gameCell.SpecularSprite = level.GroundSpriteType3.Specular;
                             break;
 
                         case GroundTypes.Terra4:
                             gameCell.Sprite = level.GroundSpriteType4.Base;
                             gameCell.NormalSprite = level.GroundSpriteType4.Normal;
+                            gameCell.SpecularSprite = level.GroundSpriteType4.Specular;
                             break;
 
                         case GroundTypes.Terra5:
                             gameCell.Sprite = level.GroundSpriteType5.Base;
                             gameCell.NormalSprite = level.GroundSpriteType5.Normal;
+                            gameCell.SpecularSprite = level.GroundSpriteType5.Specular;
                             break;
 
                         case GroundTypes.Riempimento:

@@ -19,6 +19,7 @@ namespace MarkInDeDark.Library.Levels
     {
         public Sprite Sprite { get; set; }
         public Sprite NormalSprite { get; set; }
+        public Sprite SpecularSprite { get; set; }
 
         private readonly Sprite _dirty;
         private readonly Sprite _bloodDecal;
@@ -57,6 +58,7 @@ namespace MarkInDeDark.Library.Levels
             Sprite cell,
             Sprite dirty,
             Sprite normalSprite,
+            Sprite specularSprite,
             SoundManager soundManager,
             int iIndex,
             int jIndex,
@@ -70,6 +72,7 @@ namespace MarkInDeDark.Library.Levels
 
             Sprite = cell;
             NormalSprite = normalSprite;
+            SpecularSprite = specularSprite;
 
             IsUnLinked = false;
             IsUnwalkableForEnemies = false;
@@ -372,6 +375,12 @@ namespace MarkInDeDark.Library.Levels
         {
             if (NormalSprite != null)
                 spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
+        }
+
+        public void DrawGroundSpecularMap(SpriteBatch spriteBatch)
+        {
+            if (SpecularSprite != null)
+                spriteBatch.Draw(SpecularSprite, _cellDrawingInfos);
         }
 
         public void DrawNormalMapButGrounds(SpriteBatch spriteBatch)

@@ -49,8 +49,12 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _gameOverForegroundRenderTarget;
 
         private readonly RenderTarget2D _groundLevel0RenderTarget;
-        private readonly RenderTarget2D _groundLevel1RenderTarget;
-        private readonly RenderTarget2D _groundLevel2RenderTarget;
+        private readonly RenderTarget2D _groundLevelNormalMapRenderTarget;
+        private readonly RenderTarget2D _groundLevelSpecularMapRenderTarget;
+        private readonly RenderTarget2D _groundLevelSpecularMapLightMaskRenderTarget;
+        private readonly RenderTarget2D _groundLevelSpecularMapWithAppliedLightmaskRenderTarget;
+        private readonly RenderTarget2D _groundLevelAppliedNormalMapRenderTarget;
+        private readonly RenderTarget2D _groundLevelResultRenderTarget;
 
         private readonly RenderTarget2D _groundLevelRenderTarget;
         private readonly RenderTarget2D _normalMapRenderTarget;
@@ -60,6 +64,7 @@ namespace MarkInDeDark.Library
         private readonly Color _normalMapNeutralColor = new Color(128, 128, 255);
 
         private readonly Effect _circularNormalMapShader;
+        private readonly Effect _specularMapShader;
 
         private readonly IScreenTransformationMatrixProvider _matrixScaleProvider;
         private readonly GameOrchestrator _gameOrchestrator;
@@ -118,6 +123,7 @@ namespace MarkInDeDark.Library
             _localizedStringsRepository = localizedStringsRepository;
 
             _circularNormalMapShader = assetsLoader.CircularNormalMapShader;
+            _specularMapShader = assetsLoader.SpecularMapShader;
 
             _elapsedFinish = TimeSpan.Zero;
 
@@ -136,8 +142,12 @@ namespace MarkInDeDark.Library
             _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _baseSceneItemsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevel0RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevel1RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevel2RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelSpecularMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelSpecularMapLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelSpecularMapWithAppliedLightmaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelResultRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
@@ -629,10 +639,19 @@ namespace MarkInDeDark.Library
                 spriteBatch: spriteBatch,
                 viewMatrix: viewMatrix,
                 normalMapEffect: _circularNormalMapShader,
+                specularMapEffect: _specularMapShader,
                 graphicsDevice: _graphicsDevice,
                 baseRenderTarget: _groundLevel0RenderTarget,
-                normalMapRenderTarget: _groundLevel1RenderTarget,
-                resultRenderTarget: _groundLevel2RenderTarget,
+                normalMapRenderTarget: _groundLevelNormalMapRenderTarget,
+                specularMapRenderTarget: _groundLevelSpecularMapRenderTarget,
+                specularMapLightmaskRenderTarget: _groundLevelSpecularMapLightMaskRenderTarget,
+                specularMapWithAppliedLightmaskRenderTarget: _groundLevelSpecularMapWithAppliedLightmaskRenderTarget,
+                resultRenderTarget: _groundLevelResultRenderTarget,
+                appliedNormalMapRenderTarget: _groundLevelAppliedNormalMapRenderTarget,
+                drawGlows: s =>
+                {
+                    _player.SurroundingLight?.DrawGlow(s);
+                },
                 lights: _activeLightsForGroundNormalMap);
 
             _graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
@@ -640,7 +659,7 @@ namespace MarkInDeDark.Library
             _graphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(_groundLevel2RenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(_groundLevelResultRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
 

@@ -752,12 +752,16 @@
             <key type="filename">Game/Grounds/Type1/cell.png</key>
             <key type="filename">Game/Grounds/Type1/cell2.png</key>
             <key type="filename">Game/Grounds/Type1/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/Type1/cell2_spec.png</key>
             <key type="filename">Game/Grounds/Type1/cell3.png</key>
             <key type="filename">Game/Grounds/Type1/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/Type1/cell3_spec.png</key>
             <key type="filename">Game/Grounds/Type1/cell4.png</key>
             <key type="filename">Game/Grounds/Type1/cell4_normal.png</key>
+            <key type="filename">Game/Grounds/Type1/cell4_spec.png</key>
             <key type="filename">Game/Grounds/Type1/cell5.png</key>
             <key type="filename">Game/Grounds/Type1/cell_normal.png</key>
+            <key type="filename">Game/Grounds/Type1/cell_spec.png</key>
             <key type="filename">Game/Grounds/Type1/wall_door_normal.png</key>
             <key type="filename">Game/Grounds/Type1/wall_door_up_normal.png</key>
             <key type="filename">Game/Grounds/Type1/wall_horizontal_breakable_normal.png</key>
@@ -786,7 +790,6 @@
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_4_normal.png</key>
             <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_5_normal.png</key>
             <key type="filename">Game/Grounds/Type2/cell.png</key>
-            <key type="filename">Game/Grounds/Type2/cell1_spec.png</key>
             <key type="filename">Game/Grounds/Type2/cell2.png</key>
             <key type="filename">Game/Grounds/Type2/cell2_normal.png</key>
             <key type="filename">Game/Grounds/Type2/cell2_spec.png</key>
@@ -798,6 +801,7 @@
             <key type="filename">Game/Grounds/Type2/cell4_spec.png</key>
             <key type="filename">Game/Grounds/Type2/cell5.png</key>
             <key type="filename">Game/Grounds/Type2/cell_normal.png</key>
+            <key type="filename">Game/Grounds/Type2/cell_spec.png</key>
             <key type="filename">Game/Grounds/Type2/wall_riempimento.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_closed_spec.png</key>
             <key type="filename">Game/Grounds/Type2/wall_uscita_open_spec.png</key>
@@ -906,6 +910,19 @@
                 <rect>5,5,10,10</rect>
                 <key>scale9Paddings</key>
                 <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Effects/glow.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

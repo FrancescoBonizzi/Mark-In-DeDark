@@ -13,12 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Effects/lightmask.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/lightmask.fx
-
 #begin font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -110,12 +104,6 @@
 /processorParam:TextureFormat=Color
 /build:Spritesheet-2.png
 
-#begin Effects/circularnormalmap.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/circularnormalmap.fx
-
 #begin Spritesheet-3.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -127,4 +115,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Spritesheet-3.png
+
+#begin Effects/circularnormalmap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/circularnormalmap.fx
+
+#begin Effects/specularmap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/specularmap.fx
 

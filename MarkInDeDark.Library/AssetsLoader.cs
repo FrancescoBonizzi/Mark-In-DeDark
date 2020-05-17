@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace MarkInDeDark.Library
 {
@@ -23,6 +22,7 @@ namespace MarkInDeDark.Library
         public List<Level> Levels { get; private set; } = new List<Level>();
 
         public Effect CircularNormalMapShader { get; private set; }
+        public Effect SpecularMapShader { get; private set; }
 
         private readonly CustomSpriteImporter _textureImporter;
         private readonly GameConfig _gameConfig;
@@ -63,6 +63,7 @@ namespace MarkInDeDark.Library
         {
             Font = _contentManager.Load<SpriteFont>("font");
             CircularNormalMapShader = _contentManager.Load<Effect>("Effects/circularnormalmap");
+            SpecularMapShader = _contentManager.Load<Effect>("Effects/specularmap");
 
             LoadSprites();
             LoadAnimations();
