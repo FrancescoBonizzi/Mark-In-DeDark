@@ -40,7 +40,8 @@ namespace MarkInDeDark.Library.Levels
         public WallEsteticDoor(
             WallEsteticDoorType wallEsteticDoorType,
             LinkDirection direction,
-            Vector2 position,
+            Vector2 doorPosition,
+            Vector2 arcPosition,
             Sprite spriteCenterOpen,
             Sprite spriteCenterOpenNormal,
             Sprite spriteCenterClosed,
@@ -53,8 +54,8 @@ namespace MarkInDeDark.Library.Levels
 
             _spriteCenterDrawingInfos = new DrawingInfos()
             {
-                Position = position,
-                LayerDepth = ZIndexCalculator.ForWall(position + spriteCenterOpen.SpriteCenter),
+                Position = doorPosition,
+                LayerDepth = ZIndexCalculator.ForWall(doorPosition + spriteCenterOpen.SpriteCenter),
             };
 
             _spriteCenterOpen = spriteCenterOpen;
@@ -66,13 +67,13 @@ namespace MarkInDeDark.Library.Levels
 
             _spriteArcDrawingInfos = new DrawingInfos()
             {
-                Position = position + new Vector2(0f, -40f),
+                Position = arcPosition + new Vector2(0f, -40f),
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth,
             };
 
             CollisionRectangle = new Rectangle(
-                 (int)position.X,
-                 (int)position.Y + 100,
+                 (int)doorPosition.X,
+                 (int)doorPosition.Y + 100,
                  _spriteCenterOpen.Width,
                  40);
 

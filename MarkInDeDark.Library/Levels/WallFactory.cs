@@ -128,7 +128,8 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
-                        position: new Vector2(cellPosition.X + cellSpriteCenter.X - level.WallEntranceOpenHorizontalSprite.Base.Width / 2, cellPosition.Y + EntranceExitDoorYOffset),
+                        doorPosition: new Vector2(cellPosition.X + cellSpriteCenter.X - (level.WallEntranceOpenHorizontalSprite.Base.Width / 2), cellPosition.Y + EntranceExitDoorYOffset),
+                        arcPosition: new Vector2(cellPosition.X + cellSpriteCenter.X - (level.WallEntranceArcHorizontalSprite.Base.Width / 2), cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallEntranceOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallEntranceClosedHorizontalSprite.Base,
@@ -140,7 +141,8 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
-                        position: new Vector2(cellPosition.X + cellSpriteCenter.X - level.WallEntranceOpenHorizontalSprite.Base.Width / 2, cellPosition.Y + EntranceExitDoorYOffset),
+                        doorPosition: new Vector2(cellPosition.X + cellSpriteCenter.X - (level.WallExitOpenHorizontalSprite.Base.Width / 2), cellPosition.Y + EntranceExitDoorYOffset),
+                        arcPosition: new Vector2(cellPosition.X + cellSpriteCenter.X - (level.WallExitArcHorizontalSprite.Base.Width / 2), cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallExitOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallExitClosedHorizontalSprite.Base,
