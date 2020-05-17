@@ -54,7 +54,8 @@ namespace MarkInDeDark.Library.Levels
             _spriteCenterDrawingInfos = new DrawingInfos()
             {
                 Position = position,
-                LayerDepth = ZIndexCalculator.ForWall(position + spriteCenterOpen.SpriteCenter)
+                LayerDepth = ZIndexCalculator.ForWall(position + spriteCenterOpen.SpriteCenter),
+        //        Origin = new Vector2(spriteCenterOpen.SpriteCenter.X, 0f)
             };
 
             _spriteCenterOpen = spriteCenterOpen;
@@ -67,7 +68,8 @@ namespace MarkInDeDark.Library.Levels
             _spriteArcDrawingInfos = new DrawingInfos()
             {
                 Position = position + new Vector2(20f, -40f),
-                LayerDepth = ZIndexCalculator.OverAllLayerDepth
+                LayerDepth = ZIndexCalculator.OverAllLayerDepth,
+         //       Origin = new Vector2(spriteArc.SpriteCenter.X, 0f)
             };
 
             CollisionRectangle = new Rectangle(

@@ -54,6 +54,7 @@ namespace MarkInDeDark.Library.Levels
         {
             var topType = cellConfig.Top;
             var direction = LinkDirection.NorthLink;
+            var cellSpriteCenter = level.GroundSpriteType1.Base.SpriteCenter;
 
             switch (topType)
             {
@@ -127,7 +128,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Entrance,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + EntranceExitDoorYOffset),
+                        position: new Vector2(cellPosition.X + cellSpriteCenter.X - level.WallEntranceOpenHorizontalSprite.Base.Width / 2, cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallEntranceOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallEntranceOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallEntranceClosedHorizontalSprite.Base,
@@ -139,7 +140,7 @@ namespace MarkInDeDark.Library.Levels
                     return new WallEsteticDoor(
                         wallEsteticDoorType: WallEsteticDoorType.Exit,
                         direction: direction,
-                        position: new Vector2(cellPosition.X, cellPosition.Y + EntranceExitDoorYOffset),
+                        position: new Vector2(cellPosition.X + cellSpriteCenter.X - level.WallEntranceOpenHorizontalSprite.Base.Width / 2, cellPosition.Y + EntranceExitDoorYOffset),
                         spriteCenterOpen: level.WallExitOpenHorizontalSprite.Base,
                         spriteCenterOpenNormal: level.WallExitOpenHorizontalSprite.Normal,
                         spriteCenterClosed: level.WallExitClosedHorizontalSprite.Base,
