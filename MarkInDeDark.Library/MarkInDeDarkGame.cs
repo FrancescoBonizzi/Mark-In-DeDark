@@ -299,7 +299,9 @@ namespace MarkInDeDark.Library
                 _penumbra.Hulls.Add(p.Hull);
 
 
-            if (_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 1)
+            // TODO Mettere in una classe fuori di mapping luce livello
+            if (_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 1 ||
+                _currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 2)
             {
                 _ambienceColor = new Vector3(0, 0.01f, 0.03f); //; new Vector3(212, 213, 255) * 0.1f;
                 _penumbra.AmbientColor = new Color(0, 0, 3);
