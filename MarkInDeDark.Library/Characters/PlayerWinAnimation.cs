@@ -17,13 +17,13 @@ namespace MarkInDeDark.Library.Characters
         private float _opacity = 1.0f;
 
         private readonly SpriteAnimation _walkUpAnimation;
-        private readonly DrawingInfos _drawingInfos;
+        public DrawingInfos DrawingInfos { get; private set; }
 
         public PlayerWinAnimation(
             AssetsLoader assetsLoader)
         {
             _walkUpAnimation = assetsLoader.GetAnimation("playerWalkUp");
-            _drawingInfos = new DrawingInfos()
+            DrawingInfos = new DrawingInfos()
             {
                 Origin = _walkUpAnimation.FirstFrameSprite.SpriteCenter
             };
@@ -31,13 +31,13 @@ namespace MarkInDeDark.Library.Characters
 
         public void SetPosition(Vector2 position)
         {
-            _drawingInfos.Position = position;
+            DrawingInfos.Position = position;
         }
 
         public void Update(TimeSpan elapsed)
         {
-            _drawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(
-                _drawingInfos.Position - _walkUpAnimation.CurrentFrame.SpriteCenter);
+            DrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(
+                DrawingInfos.Position - _walkUpAnimation.CurrentFrame.SpriteCenter);
 
             _currentAnimationDuration -= elapsed;
 
@@ -46,14 +46,14 @@ namespace MarkInDeDark.Library.Characters
                 _currentAnimationDuration = _defaultInterval;
 
                 _opacity += _opacityDelta;
-                _drawingInfos.OverlayColor *= _opacity;
-                _drawingInfos.Position += _positionDelta;
+                DrawingInfos.OverlayColor *= _opacity;
+                DrawingInfos.Position += _positionDelta;
             }
 
             _walkUpAnimation.Update(elapsed);
         }
 
         public void Draw(SpriteBatch spriteBatch)
-            => spriteBatch.Draw(_walkUpAnimation.CurrentFrame, _drawingInfos);
+            => spriteBatch.Draw(_walkUpAnimation.CurrentFrame, DrawingInfos);
     }
 }

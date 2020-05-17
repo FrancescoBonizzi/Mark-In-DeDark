@@ -91,11 +91,11 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _nextLocation;
         private Vector2 _startingLocation;
 
-        private Vector2 _torchPositionTraslation;
-        private Vector2 _torchPositionTraslationUp;
-        private Vector2 _torchPositionTraslationLeft;
-        private Vector2 _torchPositionTraslationRight;
-        private Vector2 _torchPositionTraslationDown;
+        protected Vector2 _torchPositionTraslation;
+        protected Vector2 _torchPositionTraslationUp;
+        protected Vector2 _torchPositionTraslationLeft;
+        protected Vector2 _torchPositionTraslationRight;
+        protected Vector2 _torchPositionTraslationDown;
 
         private Vector2 _shadowPositionTraslation;
         private Vector2 _shadowPositionTraslationUp;
@@ -742,11 +742,14 @@ namespace MarkInDeDark.Library.Characters
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
+            => SetLightPosition(lerpAmount, WorldCenter + _torchPositionTraslation);
+
+        protected void SetLightPosition(float lerpAmount, Vector2 position)
         {
             if (SurroundingLight == null)
                 return;
 
-            var newLightPosition = WorldCenter + _torchPositionTraslation;
+            var newLightPosition = position;
             SurroundingLight.Position = Vector2.Lerp(SurroundingLight.Position, newLightPosition, lerpAmount);
         }
 

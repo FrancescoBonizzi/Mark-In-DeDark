@@ -138,6 +138,9 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case PlayerStates.Exiting:
+                    SetLightPosition(0.2f, _winAnimation.DrawingInfos.Position + _torchPositionTraslation);
+                    SurroundingLight?.Update(elapsed);
+                    _playerCandleFireParticleSystem.AddParticles(TorchPosition);
                     _winAnimation.Update(elapsed);
                     break;
             }
