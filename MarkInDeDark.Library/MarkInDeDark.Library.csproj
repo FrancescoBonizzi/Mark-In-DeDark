@@ -162,6 +162,9 @@
     <Compile Include="Characters\Player.cs" />
     <Compile Include="Particles\CandleFireParticleSystem.cs" />
     <Compile Include="Particles\LittleLightParticleSystem.cs" />
+    <Compile Include="Particles\Snowing\SnowFlake.cs" />
+    <Compile Include="Particles\Snowing\SnowingLayer.cs" />
+    <Compile Include="Particles\Snowing\SnowingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundManager.cs" />
     <Compile Include="Characters\PlayerWinAnimation.cs" />

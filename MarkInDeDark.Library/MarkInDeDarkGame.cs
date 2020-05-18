@@ -8,6 +8,7 @@ using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
+using MarkInDeDark.Library.Particles.Snowing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -26,6 +27,7 @@ namespace MarkInDeDark.Library
         private readonly List<TriggerObject> _triggerObjects;
         private readonly CandlesManager _candlesManager;
         private readonly CollectableObject _key;
+        private readonly SnowingManager _snowingManager;
 
         public bool IsPaused { get; private set; }
 
@@ -313,8 +315,9 @@ namespace MarkInDeDark.Library
             if (_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 1 ||
                 _currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 2)
             {
-                _ambienceColor = new Vector3(0, 0.01f, 0.03f); //; new Vector3(212, 213, 255) * 0.1f;
+                _ambienceColor = new Vector3(0f, 0.01f, 0.03f);
                 _penumbra.AmbientColor = new Color(0, 0, 3);
+                _snowingManager = new SnowingManager(assetsLoader.Sprites["snowflake"], _camera);
             }
         }
 
@@ -350,6 +353,7 @@ namespace MarkInDeDark.Library
 
                     RepositionCamera();
 
+                    _snowingManager?.Update(elapsed);
                     if (_player.IsDying)
                     {
                         _gameHud.ShowMessage(
@@ -749,6 +753,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
+            _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
 
             if (_gameConfig.GodModeDebugMode)
@@ -766,7 +771,6 @@ namespace MarkInDeDark.Library
                 spriteBatch.End();
             }
             
-
             // 6. HUD
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);
