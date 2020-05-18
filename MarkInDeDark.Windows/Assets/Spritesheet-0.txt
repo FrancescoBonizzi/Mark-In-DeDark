@@ -24,6 +24,7 @@ Effects/generic_spark|1|2019|20|20
 Effects/glow|1|1|256|256
 Effects/light_pixel|195|469|192|192
 Effects/smoke|411|195|48|48
+Effects/snowflake|1|2041|3|3
 Goblin/Death/goblin_armL|860|1947|36|72
 Goblin/Death/goblin_armR|561|195|40|56
 Goblin/Death/goblin_guts|799|195|44|36
