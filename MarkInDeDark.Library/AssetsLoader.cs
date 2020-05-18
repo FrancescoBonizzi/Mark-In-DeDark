@@ -98,7 +98,7 @@ namespace MarkInDeDark.Library
         {
             const string gameSpriteSheetName = "Spritesheet";
 
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 try
                 {
