@@ -53,10 +53,11 @@ namespace MarkInDeDark.Library.Particles.Snowing
         {
             var sprite = new SnowFlake(_snowFlakeParticle);
 
-            var xPosition = Numbers.RandomBetween(_camera.BoundingRectangle.X, _camera.BoundingRectangle.Width);
+            var xPosition = Numbers.RandomBetween(_cameraBoundingRectangle.X, _cameraBoundingRectangle.X + _cameraBoundingRectangle.Width);
+            var yPosition = _cameraBoundingRectangle.Y;
             var ySpeed = Numbers.RandomBetween(70, 75) / 100f;
 
-            sprite.Position = new Vector2(xPosition, -sprite.Bounds.Height);
+            sprite.Position = new Vector2(xPosition, yPosition);
             sprite.Opacity = Numbers.RandomBetween(0f, 1f);
             sprite.Velocity = new Vector2(0, ySpeed);
 
@@ -111,7 +112,7 @@ namespace MarkInDeDark.Library.Particles.Snowing
             return snowFlake.Position.Y >= _cameraBoundingRectangle.Y
                 && snowFlake.Position.Y <= (_cameraBoundingRectangle.Y + _cameraBoundingRectangle.Height + _heightOffset)
                 && snowFlake.Position.X >= 0
-                && snowFlake.Position.X >= (_cameraBoundingRectangle.X + _cameraBoundingRectangle.Width);
+                && snowFlake.Position.X <= (_cameraBoundingRectangle.X + _cameraBoundingRectangle.Width);
         }
 
         private void AddParticles()

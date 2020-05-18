@@ -317,7 +317,7 @@ namespace MarkInDeDark.Library
             {
                 _ambienceColor = new Vector3(0f, 0.01f, 0.03f);
                 _penumbra.AmbientColor = new Color(0, 0, 3);
-                _snowingManager = new SnowingManager(assetsLoader.Sprites["snowflake"], _camera);
+                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
         }
 
