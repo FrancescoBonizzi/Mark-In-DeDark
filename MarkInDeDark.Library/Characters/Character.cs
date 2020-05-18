@@ -826,25 +826,6 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
                     break;
-
-                case CharacterState.Dying:
-                    switch (CurrentDieAnimationType)
-                    {
-                        case DieAnimationType.StandardAnimation:
-                            MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
-                            break;
-                    }
-                    break;
-
-                case CharacterState.Dead:
-
-                    if (CurrentDieAnimationType == DieAnimationType.StandardAnimation)
-                        if (this is Player)
-                        {
-                            MainAnimationsAnimationManager.DrawNormalMap(spriteBatch, MainFigureDrawingInfos);
-                        }
-
-                    break;
             }
         }
 
