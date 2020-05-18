@@ -15,7 +15,7 @@ namespace MarkInDeDark.Library.Particles
         public DrawingInfos AloneDrawingInfos { get; }
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
-
+        private readonly float _penumbraOriginalLightScale;
         private readonly Sprite _aloneSprite;
         private readonly Sprite _specularGlowSprite;
 
@@ -94,6 +94,8 @@ namespace MarkInDeDark.Library.Particles
                 Origin = _specularGlowSprite.SpriteCenter,
                 Scale = 2f
             };
+
+            _penumbraOriginalLightScale = penumbraLightScale;
         }
 
         public void SetTemporaryColorForAnimation(Color color)
@@ -103,7 +105,7 @@ namespace MarkInDeDark.Library.Particles
             _scalingObjectForAlone = new ScalingObject(
                 _originalMinScale * 1.5f, _originalMaxScale * 1.5f, _originalScalingSpeed * 2f);
             _scalingObjectForPenumbraLight = new ScalingObject(
-                PointLight.Scale.X * 1.5f, PointLight.Scale.Y * 1.5f, _originalScalingSpeed * 2f);
+                _penumbraOriginalLightScale * 0.8f, _penumbraOriginalLightScale * 1.5f, 2.5f);
         }
 
         public void ForceColor(Color color)
@@ -117,6 +119,8 @@ namespace MarkInDeDark.Library.Particles
                 _firstAnimationColor, _secondAnimationColor, _originalColorChangingSpeed);
             _scalingObjectForAlone = new ScalingObject(
                 _originalMinScale, _originalMaxScale, _originalScalingSpeed);
+            _scalingObjectForPenumbraLight = new ScalingObject(
+                PointLight.Scale.X * 1.5f, PointLight.Scale.Y * 1.5f, _originalScalingSpeed * 2f);
         }
 
         public void Update(TimeSpan elapsed)

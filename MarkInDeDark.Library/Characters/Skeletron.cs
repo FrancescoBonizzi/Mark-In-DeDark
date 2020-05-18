@@ -36,11 +36,11 @@ namespace MarkInDeDark.Library.Characters
                     firstTorchColor: gameConfig.SkeletronLightColorRGB1,
                     secondTorchColor: gameConfig.SkeletronLightColorRGB2,
                     torchScale: gameConfig.SkeletronLightSize,
+                    torchScaleMultiplierForPenumbra: 600,
                     torchPositionTraslationUp: new Vector2(-45, -15),
                     torchPositionTraslationLeft: new Vector2(-30, -5),
                     torchPositionTraslationRight: new Vector2(30, -5),
-                    torchPositionTraslationDown: new Vector2(35, 0),
-                    assetsLoader: assetsLoader),
+                    torchPositionTraslationDown: new Vector2(35, 0)),
                 movementSpeed: gameConfig.SkeletronSpeed),
             enemyConfiguration: new EnemyConfiguration(
                 assetsLoader: assetsLoader,

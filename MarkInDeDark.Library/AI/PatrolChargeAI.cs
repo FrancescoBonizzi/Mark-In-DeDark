@@ -1,5 +1,4 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.Characters;
+﻿using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
 using System;
 using System.Collections.Generic;

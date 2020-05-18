@@ -39,11 +39,11 @@ namespace MarkInDeDark.Library.Characters
                         firstTorchColor: gameConfig.TaurusLightColorRGB1,
                         secondTorchColor: gameConfig.TaurusLightColorRGB2,
                         torchScale: gameConfig.TaurusLightSize,
+                        torchScaleMultiplierForPenumbra: 600,
                         torchPositionTraslationUp: new Vector2(25, 10),
                         torchPositionTraslationLeft: new Vector2(0, 25),
                         torchPositionTraslationRight: new Vector2(0, 25),
-                        torchPositionTraslationDown: new Vector2(-25, 10),
-                        assetsLoader: assetsLoader),
+                        torchPositionTraslationDown: new Vector2(-25, 10)),
                       gameConfig.TaurusSpeed,
                       withDieAnimation: false),
                   enemyConfiguration: new EnemyConfiguration(

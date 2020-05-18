@@ -31,7 +31,7 @@ namespace MarkInDeDark.Library.Characters
                         firstTorchColor: gameConfig.ZombieLightColorRGB1,
                         secondTorchColor: gameConfig.ZombieLightColorRGB2,
                         torchScale: gameConfig.ZombieLightSize,
-                        assetsLoader: assetsLoader,
+                        torchScaleMultiplierForPenumbra: 600,
                         torchPositionTraslationUp: new Vector2(0, -10),
                         torchPositionTraslationLeft: new Vector2(0, -20),
                         torchPositionTraslationRight: new Vector2(0, -10),

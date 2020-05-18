@@ -43,11 +43,11 @@ namespace MarkInDeDark.Library.Characters
                             firstTorchColor: gameConfig.PlayerLightColorRGB1,
                             secondTorchColor: gameConfig.PlayerLightColorRGB2,
                             torchScale: gameConfig.PlayerLightSize,
+                            torchScaleMultiplierForPenumbra: 600,
                             torchPositionTraslationUp: new Vector2(-42, -38),
                             torchPositionTraslationLeft: new Vector2(-38, -38),
                             torchPositionTraslationRight: new Vector2(38, -38),
-                            torchPositionTraslationDown: new Vector2(35, -30),
-                            assetsLoader: assetsLoader),
+                            torchPositionTraslationDown: new Vector2(35, -30)),
                         movementSpeed: gameConfig.PlayerSpeed),
                     game: game)
         {

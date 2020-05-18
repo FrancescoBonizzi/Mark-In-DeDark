@@ -1,6 +1,4 @@
-﻿using FbonizziMonoGame.Sprites;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -13,20 +11,22 @@ namespace MarkInDeDark.Library.Characters
         public Vector2 TorchPositionTraslationLeft { get; }
         public Vector2 TorchPositionTraslationRight { get; }
         public Vector2 TorchPositionTraslationDown { get; }
+        public float TorchScaleMultiplierForPenumbra { get; }
 
         public CharacterTorchConfiguration(
             Color firstTorchColor,
             Color secondTorchColor,
             float torchScale,
+            float torchScaleMultiplierForPenumbra,
             Vector2 torchPositionTraslationUp,
             Vector2 torchPositionTraslationLeft,
             Vector2 torchPositionTraslationRight,
-            Vector2 torchPositionTraslationDown,
-            AssetsLoader assetsLoader)
+            Vector2 torchPositionTraslationDown)
         {
             FirstTorchColor = firstTorchColor;
             SecondTorchColor = secondTorchColor;
             TorchScale = torchScale;
+            TorchScaleMultiplierForPenumbra = torchScaleMultiplierForPenumbra;
             TorchPositionTraslationUp = torchPositionTraslationUp;
             TorchPositionTraslationLeft = torchPositionTraslationLeft;
             TorchPositionTraslationRight = torchPositionTraslationRight;
