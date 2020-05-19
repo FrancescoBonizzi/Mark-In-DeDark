@@ -83,7 +83,7 @@ namespace MarkInDeDark.Library
 
             foreach (var candle in Candles)
             {
-                if (candle.AreSomeMonsterIsFollowingMe && !_doMonstersAttackTheSameCandle)
+                if (!candle.IsAlive || (candle.AreSomeMonsterIsFollowingMe && !_doMonstersAttackTheSameCandle))
                     continue;
 
                 var thisCandleWorldCenter = candle.WorldCenter;
@@ -150,7 +150,7 @@ namespace MarkInDeDark.Library
             for (int i = Candles.Count - 1; i >= 0; --i)
             {
                 Candles[i].Update(elapsed);
-                if (!Candles[i].IsActive)
+                if (!Candles[i].HasCompletelyFinishedItsLifetime)
                 {
                     _penumbra.Lights.Remove(Candles[i].SurroundingLight.PointLight);
                     Candles.RemoveAt(i);

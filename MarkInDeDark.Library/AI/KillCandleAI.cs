@@ -2,6 +2,7 @@
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,11 +49,11 @@ namespace MarkInDeDark.Library.AI
 
                     // .IsActive perché se la candela viene distrutta da qualcun altro,
                     // torno indietro
-                    if (anyPathToFollow && _targetCandle.IsActive)
+                    if (anyPathToFollow && _targetCandle.IsAlive)
                     {
                         return _actionsToCandle.Dequeue();
                     }
-                    else if (!_targetCandle.IsActive)
+                    else if (!_targetCandle.IsAlive)
                     {
                         return character.SetNewAI(_nextAI);
                     }
@@ -61,7 +62,7 @@ namespace MarkInDeDark.Library.AI
                         _currentKillCandleStatus = KillCandleStatus.Smashing;
 
                         if (character is Bubu)
-                            _targetCandle.DieIstantly();
+                            _targetCandle.Die(TimeSpan.FromMilliseconds(500));
                         else
                             _targetCandle.Die();
                         character.Attack();
@@ -72,7 +73,7 @@ namespace MarkInDeDark.Library.AI
 
                 case KillCandleStatus.Smashing:
 
-                    if (!_targetCandle.IsActive)
+                    if (!_targetCandle.IsAlive)
                     {
                         character.StopAttacking();
                         return character.SetNewAI(_nextAI);

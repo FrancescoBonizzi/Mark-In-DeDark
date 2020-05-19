@@ -125,7 +125,7 @@ namespace MarkInDeDark.Library.Characters
 
         protected override void KillCandleLogic(Candle possibleCandle, TimeSpan elapsed)
         {
-            possibleCandle.DieFast();
+            possibleCandle.Die(TimeSpan.FromMilliseconds(250));
         }
 
         public override bool CustomConditionToAttackPlayer()

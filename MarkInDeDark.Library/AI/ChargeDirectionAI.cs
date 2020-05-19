@@ -97,7 +97,7 @@ namespace MarkInDeDark.Library.AI
                     var possibleCandle = _candlesManager.IsThereACandle(currentCell);
                     if (possibleCandle != null)
                     {
-                        possibleCandle.DieFast();
+                        possibleCandle.Die(TimeSpan.FromMilliseconds(500));
                     }
 
                     // Se posso andare avanti vado avanti caricando

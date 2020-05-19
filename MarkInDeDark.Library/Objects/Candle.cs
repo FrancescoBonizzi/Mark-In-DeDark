@@ -76,8 +76,11 @@ namespace MarkInDeDark.Library
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(7, 30.0f);
         }
 
-        public void Die(bool instantlyDie = false)
+        public void Die(TimeSpan? timeToLive = null)
         {
+            if (timeToLive != null)
+                _timeToLive = timeToLive.Value;
+
             IsDying = true;
 
             if (_fadeObject == null)
@@ -86,35 +89,20 @@ namespace MarkInDeDark.Library
                     _timeToLive,
                     _drawingInfos.OverlayColor);
 
-                if (!instantlyDie)
-                {
-                    _smokeEffect = new ParticleGeneratorTimedEffect(
-                        _smokeEffectParticleSystem,
-                        _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
-                        TimeSpan.FromMilliseconds(35),
-                        _timeToLive);
-                }
+                _smokeEffect = new ParticleGeneratorTimedEffect(
+                    _smokeEffectParticleSystem,
+                    _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
+                    TimeSpan.FromMilliseconds(35),
+                    _timeToLive);
 
                 _fadeObject.FadeOut();
             }
         }
 
-        public void DieIstantly()
-        {
-            _timeToLive = TimeSpan.FromMilliseconds(5);
-            Die(true);
-        }
-
-        public void DieFast()
-        {
-            _timeToLive = TimeSpan.FromMilliseconds(500);
-            Die();
-        }
-
         /// <summary>
         /// Indica quando la candela è definitivamente "morta" e bisogna rimuoverla dagli oggetti di disegno
         /// </summary>
-        public bool IsActive
+        public bool HasCompletelyFinishedItsLifetime
         {
             get
             {
@@ -127,6 +115,9 @@ namespace MarkInDeDark.Library
                 return false;
             }
         }
+
+        public bool IsAlive
+            => _timeToLive > TimeSpan.Zero;
 
         public Vector2 WorldCenter
             => _drawingInfos.Center(_animation.CurrentFrameWidth, _animation.CurrentFrameHeight);
