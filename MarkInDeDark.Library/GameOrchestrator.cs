@@ -162,6 +162,7 @@ namespace MarkInDeDark.Library
                     _stateTransition.FadeIn();
                     _currentState = GameStates.Playing;
                     _game = _gameFactory(levelToLoad);
+                    GC.Collect();
                     _levels = null;
                     _menu = null;
                 });
@@ -186,6 +187,7 @@ namespace MarkInDeDark.Library
                     _game = null;
                     _menu = null;
                     _levels = _levelsPageFactory();
+                    GC.Collect();
                 });
         }
 
