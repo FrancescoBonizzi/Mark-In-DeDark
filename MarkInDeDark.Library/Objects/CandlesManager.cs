@@ -15,7 +15,6 @@ namespace MarkInDeDark.Library
     {
         public List<Candle> Candles { get; }
 
-        private int _avaibleCandlesNumber;
         private readonly SoundManager _soundManager;
         private readonly GameGrid _gameGrid;
         private readonly AssetsLoader _assetsLoader;
@@ -37,7 +36,7 @@ namespace MarkInDeDark.Library
             PenumbraComponent penumbra)
         {
             Candles = new List<Candle>();
-            _avaibleCandlesNumber = startingCandles;
+            LeftCandles = startingCandles;
             _soundManager = soundManager;
             _gameGrid = gameGrid;
             _cellWidth = gameGrid.CellWidth;
@@ -47,19 +46,18 @@ namespace MarkInDeDark.Library
             _gameConfig = gameConfig;
 
             if (_gameConfig.GodModeInfiniteCandles)
-                _avaibleCandlesNumber = short.MaxValue;
+                LeftCandles = short.MaxValue;
 
             _penumbra = penumbra;
         }
 
         public void AddCandlesToInventory(int nCandles)
-            => _avaibleCandlesNumber += nCandles;
+            => LeftCandles += nCandles;
 
         public bool DoIHaveACandleLeft
-            => _avaibleCandlesNumber > 0;
+            => LeftCandles > 0;
 
-        public int LeftCandles
-            => _avaibleCandlesNumber;
+        public int LeftCandles { get; private set; }
 
         public Candle IsThereACandle(GameCell where)
         {
@@ -138,7 +136,7 @@ namespace MarkInDeDark.Library
                 var newCandle = new Candle(_assetsLoader, _gameConfig, where);
                 Candles.Add(newCandle);
                 ++PlayerUsedCandles;
-                _avaibleCandlesNumber -= 1;
+                LeftCandles -= 1;
                 //_soundManager.PlayPutCandle();
                 PlayerUsedACandle?.Invoke(null, EventArgs.Empty);
                 _penumbra.Lights.Add(newCandle.SurroundingLight.PointLight);
