@@ -310,8 +310,6 @@ namespace MarkInDeDark.Library
             foreach (var p in _gameGrid.GetAllPillars())
                 _penumbra.Hulls.Add(p.Hull);
 
-
-            // TODO Mettere in una classe fuori di mapping luce livello
             var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
             _ambienceColor = levelCustomization.AmbienceColor;
             _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
