@@ -312,11 +312,12 @@ namespace MarkInDeDark.Library
 
 
             // TODO Mettere in una classe fuori di mapping luce livello
-            if (_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 1 ||
-                _currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId == 2)
+            var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
+            _ambienceColor = levelCustomization.AmbienceColor;
+            _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
+
+            if (levelCustomization.IsSnowing)
             {
-                _ambienceColor = new Vector3(0f, 0.01f, 0.03f);
-                _penumbra.AmbientColor = new Color(0, 0, 3);
                 _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
         }
@@ -770,7 +771,7 @@ namespace MarkInDeDark.Library
                 }
                 spriteBatch.End();
             }
-            
+
             // 6. HUD
             spriteBatch.Begin();
             _gameHud.Draw(spriteBatch);

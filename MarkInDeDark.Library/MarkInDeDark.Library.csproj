@@ -106,6 +106,8 @@
     <Compile Include="GameOrchestrator.cs" />
     <Compile Include="GameHUD.cs" />
     <Compile Include="Characters\CharacterActions.cs" />
+    <Compile Include="Levels\LevelCustomization.cs" />
+    <Compile Include="Levels\LevelCustomizations.cs" />
     <Compile Include="Levels\CellRelativePosition.cs" />
     <Compile Include="Levels\GameCell.cs" />
     <Compile Include="Levels\GameGrid.cs" />
