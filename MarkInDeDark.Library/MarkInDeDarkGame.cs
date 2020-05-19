@@ -657,6 +657,12 @@ namespace MarkInDeDark.Library
                 drawGlows: s =>
                 {
                     _player.SurroundingLight?.DrawGlow(s);
+                    foreach (var e in _enemies)
+                        e.SurroundingLight?.DrawGlow(s);
+                    foreach (var l in _gameGrid.LittleLights)
+                        l.SurroundingLight?.DrawGlow(s);
+                    foreach (var c in _candlesManager.Candles)
+                        c.SurroundingLight?.DrawGlow(s);
                 },
                 lights: _activeLightsForGroundNormalMap);
 
