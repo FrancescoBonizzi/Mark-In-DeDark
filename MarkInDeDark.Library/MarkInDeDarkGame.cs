@@ -309,8 +309,14 @@ namespace MarkInDeDark.Library
             }
 
             foreach (var p in _gameGrid.GetAllPillars())
+            {
                 _penumbra.Hulls.Add(p.Hull);
+            }
 
+            _penumbra.Hulls.Add(_player.Hull);
+            foreach (var e in _enemies)
+                _penumbra.Hulls.Add(e.Hull);
+                    
             var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
             _ambienceColor = levelCustomization.AmbienceColor;
             _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
