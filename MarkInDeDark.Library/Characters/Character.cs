@@ -688,7 +688,7 @@ namespace MarkInDeDark.Library.Characters
                 {
                     case DieAnimationType.Falling:
                         _characterFallingATrapAnimation.Update(elapsed);
-                        
+
                         break;
 
                     case DieAnimationType.StandardAnimation:
@@ -709,7 +709,8 @@ namespace MarkInDeDark.Library.Characters
                         if (_characterDieExplosionParticleSystem.HasFinished)
                         {
                             CurrentCharacterState = CharacterState.Dead;
-                            SurroundingLight.PointLight.Enabled = false;
+                            if (SurroundingLight != null)
+                                SurroundingLight.PointLight.Enabled = false;
                         }
                         RecalculateZIndex();
                         break;
