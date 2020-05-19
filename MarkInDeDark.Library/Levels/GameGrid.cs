@@ -805,7 +805,7 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D appliedNormalMapRenderTarget,
             RenderTarget2D resultRenderTarget,
             Action<SpriteBatch> drawGlows,
-            List<Vector3> lights)
+            List<(Vector3 Position, Vector3 Color)> lights)
         {
             // Pavimento di base
             graphicsDevice.SetRenderTarget(baseRenderTarget);
@@ -851,7 +851,8 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, normalMapEffect);
             foreach (var light in lights)
             {
-                normalMapEffect.Parameters["LightPosition"].SetValue(light);
+                normalMapEffect.Parameters["LightPosition"].SetValue(light.Position);
+                normalMapEffect.Parameters["LightColor"].SetValue(light.Color);
                 normalMapEffect.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }

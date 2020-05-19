@@ -33,7 +33,7 @@ namespace MarkInDeDark.Library.Particles
 
         private Vector2 _basePosition;
 
-        public PointLight PointLight { get; }
+        public PenumbraPointLightWithAdditions PointLight { get; }
         public Vector2 Position
         {
             get
@@ -76,11 +76,12 @@ namespace MarkInDeDark.Library.Particles
             _colorChangingObject = new ColorChangingObject(
                 firstAnimationColor, secondAnimationColor, _originalColorChangingSpeed);
 
-            PointLight = new PointLight()
+            PointLight = new PenumbraPointLightWithAdditions()
             {
                 ShadowType = ShadowType.Solid,
                 Intensity = 1,
-                Scale = new Vector2(penumbraLightScale)
+                Scale = new Vector2(penumbraLightScale),
+                Z = 60f
             };
 
             AloneDrawingInfos = new DrawingInfos()

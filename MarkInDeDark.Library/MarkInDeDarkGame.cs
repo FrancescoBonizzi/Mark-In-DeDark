@@ -8,6 +8,7 @@ using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Objects;
+using MarkInDeDark.Library.Particles;
 using MarkInDeDark.Library.Particles.Snowing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -89,9 +90,9 @@ namespace MarkInDeDark.Library
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
-        private readonly List<Vector3> _activeLightsForWallsNormalMap = new List<Vector3>();
-        private readonly List<Vector3> _activeLightsForGroundNormalMap = new List<Vector3>();
-
+        private readonly List<(Vector3 Position, Vector3 Color)> _activeLightsForWallsNormalMap = new List<(Vector3 Position, Vector3 Color)>();
+        private readonly List<(Vector3 Position, Vector3 Color)> _activeLightsForGroundNormalMap = new List<(Vector3 Position, Vector3 Color)>();
+                                                                                                            
         private enum GameStates
         {
             Playing,
@@ -519,21 +520,24 @@ namespace MarkInDeDark.Library
             {
                 if (p.Enabled)
                 {
-                    _activeLightsForWallsNormalMap.Add(new Vector3(
+                    var pointLight = p as PenumbraPointLightWithAdditions;
+                    _activeLightsForWallsNormalMap.Add((new Vector3(
                         WorldToScreenForLights(p.Position - new Vector2(0, 160f), viewMatrix),
-                        60));
+                        pointLight.Z),
+                        Vector3.One * pointLight.Opacity));
 
-                    _activeLightsForGroundNormalMap.Add(new Vector3(
+                    _activeLightsForGroundNormalMap.Add((new Vector3(
                         WorldToScreenForLights(p.Position, viewMatrix),
-                        60));
+                        pointLight.Z),
+                        Vector3.One * pointLight.Opacity));
                 }
             }
 
             if (_gameConfig.GodModeDebugMode)
             {
                 var mouse = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                _activeLightsForWallsNormalMap.Add(new Vector3(mouse.X, mouse.Y, 60));
-                _activeLightsForGroundNormalMap.Add(new Vector3(mouse.X, mouse.Y, 60));
+                _activeLightsForWallsNormalMap.Add((new Vector3(mouse.X, mouse.Y, 60), Vector3.One));
+                _activeLightsForGroundNormalMap.Add((new Vector3(mouse.X, mouse.Y, 60), Vector3.One));
             }
         }
 
@@ -632,7 +636,6 @@ namespace MarkInDeDark.Library
 
             // 0. Preparo l'effetto NormalMap
             _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(_lightDistanceSquared);
-            _circularNormalMapShader.Parameters["LightColor"].SetValue(Vector3.One);
             _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
             _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
             _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
@@ -722,7 +725,8 @@ namespace MarkInDeDark.Library
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, _circularNormalMapShader);
                 foreach (var light in _activeLightsForWallsNormalMap)
                 {
-                    _circularNormalMapShader.Parameters["LightPosition"].SetValue(light);
+                    _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.Position);
+                    _circularNormalMapShader.Parameters["LightColor"].SetValue(light.Color);
                     _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
                 }
@@ -760,12 +764,12 @@ namespace MarkInDeDark.Library
                 spriteBatch.Begin();
                 foreach (var l in _activeLightsForGroundNormalMap)
                 {
-                    spriteBatch.DrawRectangle(new Rectangle((int)l.X, (int)l.Y, 10, 10), Color.Red.WithAlpha(0.5f));
+                    spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
                 }
 
                 foreach (var l in _activeLightsForWallsNormalMap)
                 {
-                    spriteBatch.DrawRectangle(new Rectangle((int)l.X, (int)l.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
+                    spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
                 }
                 spriteBatch.End();
             }
