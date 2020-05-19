@@ -12,11 +12,8 @@ namespace MarkInDeDark.Library.Particles
 {
     public class Light
     {
-        public DrawingInfos AloneDrawingInfos { get; }
-
         private readonly DrawingInfos _specularGlowDrawingInfos;
         private readonly float _penumbraOriginalLightScale;
-        private readonly Sprite _aloneSprite;
         private readonly Sprite _specularGlowSprite;
 
         private ScalingObject _scalingObjectForAlone;
@@ -31,6 +28,7 @@ namespace MarkInDeDark.Library.Particles
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
 
+        private Vector2 _position;
         private Vector2 _basePosition;
 
         public PenumbraPointLightWithAdditions PointLight { get; }
@@ -38,13 +36,13 @@ namespace MarkInDeDark.Library.Particles
         {
             get
             {
-                return AloneDrawingInfos.Position;
+                return _position;
             }
             set
             {
+                _position = value;
                 _basePosition = value + new Vector2(0, 100f);
                 PointLight.Position = _basePosition;
-                AloneDrawingInfos.Position = value;
             }
         }
 
@@ -60,7 +58,6 @@ namespace MarkInDeDark.Library.Particles
             float layerDepth,
             float penumbraLightScale)
         {
-            _aloneSprite = assetsLoader.Sprites["Effects/light_pixel"];
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
             _firstAnimationColor = firstAnimationColor;
             _secondAnimationColor = secondAnimationColor;
@@ -82,12 +79,6 @@ namespace MarkInDeDark.Library.Particles
                 Intensity = 1,
                 Scale = new Vector2(penumbraLightScale),
                 Z = 60f
-            };
-
-            AloneDrawingInfos = new DrawingInfos()
-            {
-                Origin = _aloneSprite.SpriteCenter,
-                LayerDepth = layerDepth
             };
 
             _specularGlowDrawingInfos = new DrawingInfos()
@@ -131,12 +122,10 @@ namespace MarkInDeDark.Library.Particles
                 // Cambiamento di colore
                 _colorChangingObject.Update(elapsed);
                 PointLight.Color = _colorChangingObject.Color;
-                AloneDrawingInfos.OverlayColor = _colorChangingObject.Color;
             }
             else
             {
                 PointLight.Color = _forcedColor.Value;
-                AloneDrawingInfos.OverlayColor = _forcedColor.Value;
             }
 
             // Cambiamento di scala
@@ -145,7 +134,6 @@ namespace MarkInDeDark.Library.Particles
             _scalingObjectForSpecular.Update(elapsed);
 
             PointLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
-            AloneDrawingInfos.Scale = _scalingObjectForAlone.Scale;
 
             // Shake luce
             var shakeIntensity = Numbers.RandomBetween(0, 10);
@@ -160,12 +148,6 @@ namespace MarkInDeDark.Library.Particles
 
             _specularGlowDrawingInfos.Position = PointLight.Position;
             _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
-        }
-
-        public void DrawAlone(SpriteBatch spriteBatch)
-        {
-            if (AloneEnabled)
-                spriteBatch.Draw(_aloneSprite, AloneDrawingInfos);
         }
 
         public void DrawGlow(SpriteBatch spriteBatch)

@@ -736,8 +736,6 @@ namespace MarkInDeDark.Library.Characters
 
             if (_shadowsDrawingInfos != null)
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
-            if (SurroundingLight != null)
-                SurroundingLight.AloneDrawingInfos.LayerDepth = MainFigureDrawingInfos.LayerDepth + 0.00001f;
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -775,11 +773,6 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
                     ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
-                    
-                    if (AreLightsActive && SurroundingLight != null)
-                    {
-                        SurroundingLight.DrawAlone(spriteBatch);
-                    }
                     break;
 
                 case CharacterState.Dying:
