@@ -16,10 +16,7 @@ namespace MarkInDeDark.Library
     {
         public Light SurroundingLight { get; }
 
-        private ParticleGeneratorTimedEffect _smokeEffect;
-
         private readonly CandleFireParticleSystem _candleFireParticleSystem;
-        private readonly CandleSmokeParticleSystem _smokeEffectParticleSystem;
 
         private readonly Vector2 _fireEffectGenerationCenter;
         private readonly DrawingInfos _drawingInfos;
@@ -63,11 +60,6 @@ namespace MarkInDeDark.Library
 
             _timeToLive = TimeSpan.FromSeconds(gameConfig.CandleTimeToLiveWhenAttackedSeconds);
 
-            _smokeEffectParticleSystem = new CandleSmokeParticleSystem(assetsLoader)
-            {
-                LayerDepth = _drawingInfos.LayerDepth + 0.00001f
-            };
-
             _candleFireParticleSystem = new CandleFireParticleSystem(assetsLoader)
             {
                 LayerDepth = _drawingInfos.LayerDepth + 0.00002f
@@ -88,34 +80,11 @@ namespace MarkInDeDark.Library
                 _fadeObject = new FadeObject(
                     _timeToLive,
                     _drawingInfos.OverlayColor);
-
-                _smokeEffect = new ParticleGeneratorTimedEffect(
-                    _smokeEffectParticleSystem,
-                    _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0.0f, 15.0f),
-                    TimeSpan.FromMilliseconds(35),
-                    _timeToLive);
-
                 _fadeObject.FadeOut();
             }
         }
 
-        /// <summary>
-        /// Indica quando la candela è definitivamente "morta" e bisogna rimuoverla dagli oggetti di disegno
-        /// </summary>
-        public bool HasCompletelyFinishedItsLifetime
-        {
-            get
-            {
-                if (_timeToLive > TimeSpan.Zero)
-                    return true;
-
-                if (_smokeEffect != null)
-                    return !_smokeEffect.HasFinished;
-
-                return false;
-            }
-        }
-
+       
         public bool IsAlive
             => _timeToLive > TimeSpan.Zero;
 
@@ -130,7 +99,7 @@ namespace MarkInDeDark.Library
             if (IsDying)
             {
                 _timeToLive -= elapsed;
-                _smokeEffect?.Update(elapsed);
+                
                 _fadeObject.Update(elapsed);
                 _drawingInfos.OverlayColor = _fadeObject.OverlayColor;
                 SurroundingLight.ForceColor(_fadeObject.OverlayColor);
@@ -153,11 +122,6 @@ namespace MarkInDeDark.Library
         public void DrawEffects(SpriteBatch spriteBatch)
         {
             _candleFireParticleSystem.Draw(spriteBatch);
-
-            if (IsDying)
-            {
-                _smokeEffect?.Draw(spriteBatch);
-            }
         }
     }
 }

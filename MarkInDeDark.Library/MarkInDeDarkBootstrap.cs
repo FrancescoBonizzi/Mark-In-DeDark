@@ -126,7 +126,6 @@ namespace MarkInDeDark.Library
             _inputListeners = new List<IInputListener>();
 
             // Mouse
-#warning Rimuovere anche questo
             var mouseListener = new MouseListener(_matrixScaleProvider);
             mouseListener.MouseDown += MouseListener_MouseClicked;
             _inputListeners.Add(mouseListener);

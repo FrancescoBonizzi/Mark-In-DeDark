@@ -874,13 +874,6 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Draw(appliedNormalMapRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.Draw(specularMapWithAppliedLightmaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
-
-            // Effetti
-#warning RIMETTERE
-            //OnAllVisibleCells(c =>
-            //{
-            //    c.DrawEffects(spriteBatch);
-            //});
         }
 
         public void DrawAllNormalMapsButGround(SpriteBatch spriteBatch)

@@ -148,7 +148,7 @@ namespace MarkInDeDark.Library
             for (int i = Candles.Count - 1; i >= 0; --i)
             {
                 Candles[i].Update(elapsed);
-                if (!Candles[i].HasCompletelyFinishedItsLifetime)
+                if (!Candles[i].IsAlive)
                 {
                     _penumbra.Lights.Remove(Candles[i].SurroundingLight.PointLight);
                     Candles.RemoveAt(i);

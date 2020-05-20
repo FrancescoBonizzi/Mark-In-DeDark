@@ -48,7 +48,6 @@ namespace MarkInDeDark.Library.Levels
 
         public GroundTypes GroundType { get; set; }
 
-        private readonly BrokenWallSmokeParticleSystem _smokeParticleSystem;
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
 
@@ -117,11 +116,6 @@ namespace MarkInDeDark.Library.Levels
                     LayerDepth = ZIndexCalculator.GroundDirtyLayerDepth
                 };
             }
-
-            _smokeParticleSystem = new BrokenWallSmokeParticleSystem(assetsLoader)
-            {
-                LayerDepth = ZIndexCalculator.OverAllLayerDepth
-            };
 
             IsNorthPassable = true;
             IsEastPassable = true;
@@ -280,8 +274,6 @@ namespace MarkInDeDark.Library.Levels
 
                 //Walls.Remove(direction);
                 //_soundManager.PlayBreakWallSound();
-                _smokeParticleSystem.AddParticles(breakerPosition);
-                _smokeParticleSystem.AddParticles(breakerPosition);
                 return true;
             }
 
@@ -349,8 +341,6 @@ namespace MarkInDeDark.Library.Levels
 
         public void Update(TimeSpan elapsed)
         {
-            if (_smokeParticleSystem.HasActiveParticles)
-                _smokeParticleSystem.Update(elapsed);
             foreach (var w in Walls.Values)
                 w.Update(elapsed);
         }
@@ -393,14 +383,6 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawForDebug(SpriteBatch spriteBatch)
             => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
-
-        public void DrawEffects(SpriteBatch spriteBatch)
-        {
-            if (_smokeParticleSystem != null)
-            {
-                _smokeParticleSystem.Draw(spriteBatch);
-            }
-        }
 
         public void DrawWalls(SpriteBatch spriteBatch)
         {
