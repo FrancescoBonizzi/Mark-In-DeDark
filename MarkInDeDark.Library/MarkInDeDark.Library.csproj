@@ -159,8 +159,6 @@
     <Compile Include="Objects\CandlesManager.cs" />
     <Compile Include="Objects\CollectableObject.cs" />
     <Compile Include="Objects\Exit.cs" />
-    <Compile Include="Particles\BrokenWallSmokeParticleSystem.cs" />
-    <Compile Include="Particles\CandleSmokeParticleSystem.cs" />
     <Compile Include="Characters\Player.cs" />
     <Compile Include="Particles\CandleFireParticleSystem.cs" />
     <Compile Include="Particles\LittleLightParticleSystem.cs" />
