@@ -679,7 +679,7 @@ namespace MarkInDeDark.Library.Characters
                 SetShadowPosition();
                 RecalculateZIndex();
                 MainAnimationsAnimationManager.Update(elapsed);
-                ShadowsAnimationManager?.Update(elapsed);
+              //  ShadowsAnimationManager?.Update(elapsed);
             }
 
             if (IsDying)
@@ -774,7 +774,7 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.IdleRight:
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
-                    ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+                 //   ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
                     
                     if (AreLightsActive && SurroundingLight != null)
                     {
