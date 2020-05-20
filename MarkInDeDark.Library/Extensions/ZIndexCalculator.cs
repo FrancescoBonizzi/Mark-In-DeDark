@@ -37,7 +37,7 @@ namespace MarkInDeDark.Library.Extensions
 
         // Le candele devono stare sopra agli altri oggetti e i personaggi
         public static float ForCandle(Vector2 position)
-            => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.001f);
+            => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.0001f);
 
         public static float ForCharacter(Character character, Vector2 position)
         {

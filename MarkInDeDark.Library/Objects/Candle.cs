@@ -148,7 +148,6 @@ namespace MarkInDeDark.Library
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
-            SurroundingLight.DrawAlone(spriteBatch);
         }
 
         public void DrawEffects(SpriteBatch spriteBatch)

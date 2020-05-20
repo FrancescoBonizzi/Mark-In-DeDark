@@ -1,4 +1,4 @@
-﻿
+﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
@@ -16,7 +16,7 @@ namespace MarkInDeDark.Library.Characters
         private readonly SoundManager _soundManager;
         private readonly CandlesManager _candlesManager;
         private readonly bool _doesntDie;
-      
+
         private enum PlayerStates
         {
             Playing,
@@ -142,6 +142,14 @@ namespace MarkInDeDark.Library.Characters
                     SurroundingLight?.Update(elapsed);
                     _playerCandleFireParticleSystem.AddParticles(TorchPosition);
                     _winAnimation.Update(elapsed);
+
+                    // Per far sparire la luce con lui
+                    SurroundingLight.PointLight.Opacity = Numbers.MapValueFromIntervalToInterval(
+                        _winAnimation.DrawingInfos.OverlayColor.A,
+                        0, 255,
+                        0, 1);
+                    SurroundingLight.ForceColor(Color.White * SurroundingLight.PointLight.Opacity);
+
                     break;
             }
         }
