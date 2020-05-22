@@ -708,284 +708,409 @@
                 <false/>
             </struct>
             <key type="filename">Game/Effects/blood_decal.png</key>
-            <key type="filename">Game/Effects/light_pixel.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type0/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_3_on.png</key>
-            <key type="filename">Game/Grounds/Type0/cell1.png</key>
-            <key type="filename">Game/Grounds/Type0/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/cell2.png</key>
-            <key type="filename">Game/Grounds/Type0/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/cell3.png</key>
-            <key type="filename">Game/Grounds/Type0/cell4.png</key>
-            <key type="filename">Game/Grounds/Type0/cell5.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_3_on.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type1/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/cell1.png</key>
-            <key type="filename">Game/Grounds/Type1/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/cell1_spec.png</key>
-            <key type="filename">Game/Grounds/Type1/cell2.png</key>
-            <key type="filename">Game/Grounds/Type1/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/cell2_spec.png</key>
-            <key type="filename">Game/Grounds/Type1/cell3.png</key>
-            <key type="filename">Game/Grounds/Type1/cell3_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/cell3_spec.png</key>
-            <key type="filename">Game/Grounds/Type1/cell4.png</key>
-            <key type="filename">Game/Grounds/Type1/cell4_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/cell4_spec.png</key>
-            <key type="filename">Game/Grounds/Type1/cell5.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type2/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_3.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_4.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/cell1.png</key>
-            <key type="filename">Game/Grounds/Type2/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/cell1_spec.png</key>
-            <key type="filename">Game/Grounds/Type2/cell2.png</key>
-            <key type="filename">Game/Grounds/Type2/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/cell2_spec.png</key>
-            <key type="filename">Game/Grounds/Type2/cell3.png</key>
-            <key type="filename">Game/Grounds/Type2/cell3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/cell3_spec.png</key>
-            <key type="filename">Game/Grounds/Type2/cell4.png</key>
-            <key type="filename">Game/Grounds/Type2/cell4_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/cell4_spec.png</key>
-            <key type="filename">Game/Grounds/Type2/cell5.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_closed_spec.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_open_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_1_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_4_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_5.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type3/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_horizontal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomWalls/wall_vertical_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type3/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type3/cell1.png</key>
-            <key type="filename">Game/Grounds/Type3/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/cell1_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/cell2.png</key>
-            <key type="filename">Game/Grounds/Type3/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/cell3.png</key>
-            <key type="filename">Game/Grounds/Type3/cell3_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/cell4.png</key>
-            <key type="filename">Game/Grounds/Type3/cell5.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_closed_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_open_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_closed_spec.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_open_spec.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_5.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type4/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_horizontal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type4/cell1.png</key>
-            <key type="filename">Game/Grounds/Type4/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/cell2.png</key>
-            <key type="filename">Game/Grounds/Type4/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/cell3.png</key>
-            <key type="filename">Game/Grounds/Type4/cell3_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/cell4.png</key>
-            <key type="filename">Game/Grounds/Type4/cell5.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_5.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_0.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_1.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_2.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_3.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_4.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_5.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_6.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_7.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_8.png</key>
-            <key type="filename">Game/Grounds/Type5/Door/door_9.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_3.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_4.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_5.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_horizontal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type5/cell1.png</key>
-            <key type="filename">Game/Grounds/Type5/cell1_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/cell2.png</key>
-            <key type="filename">Game/Grounds/Type5/cell2_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/cell3.png</key>
-            <key type="filename">Game/Grounds/Type5/cell3_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/cell4.png</key>
-            <key type="filename">Game/Grounds/Type5/cell5.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_riempimento.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_open_normal.png</key>
             <key type="filename">Game/Grounds/celldark.png</key>
             <key type="filename">Game/Grounds/goblin_trigger.png</key>
+            <key type="filename">Game/Grounds/pacco1/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco1/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco1/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco1/Door/door_9.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_3.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_4.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_horizontal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco1/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco1/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell4_spec.png</key>
+            <key type="filename">Game/Grounds/pacco1/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco2/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco2/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco2/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco2/Door/door_9.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_3.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_4.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_horizontal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco2/SpecialWalls/wall_special_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell4_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_closed_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_open_spec.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_4_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco3/Decals/decal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_0_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_6_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_7_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco3/Door/door_8_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco3/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_door_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_door_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_closed_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_open_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_closed_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_open_spec.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_4_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco4/Decals/decal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_0_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_6_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_7_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco4/Door/door_8_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco4/SpecialWalls/wall_special_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell4_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_door_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_door_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_closed_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_open_spec.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_0_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_6_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_7_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco5/Door/door_8_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco5/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_door_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_door_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_horizontal_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_horizontal_broken_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_0_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_6_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_7_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco6/Door/door_8_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_3.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_4.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_5.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_horizontal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco6/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_door_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_door_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_horizontal_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_horizontal_broken_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_open_normal.png</key>
             <key type="filename">Game/Grounds/trap_breakable.png</key>
             <key type="filename">Game/Objects/Candle/candle_pack_1.png</key>
             <key type="filename">Game/Objects/Candle/candle_pack_2.png</key>
@@ -1052,18 +1177,6 @@
                 <false/>
             </struct>
             <key type="filename">Game/Effects/smoke.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_2.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_1.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1182,278 +1295,30 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_5.png</key>
-            <key type="filename">Game/Grounds/Type0/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type0/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_5.png</key>
-            <key type="filename">Game/Grounds/Type1/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_3.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_horizontal_4.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type1/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_4_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_5_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_1.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_2.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_horizontal_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_1.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_2.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_4.png</key>
-            <key type="filename">Game/Grounds/Type2/SpecialWalls/wall_special_5.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_door.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_door_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_door_up.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_door_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_horizontal_breakable.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_horizontal_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_horizontal_broken.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_horizontal_broken_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_closed.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_open.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_closed.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_closed_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_open.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_open_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Type4/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Type5/Decals/decal_3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,40,96,80</rect>
-                <key>scale9Paddings</key>
-                <rect>48,40,96,80</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type0/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type1/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type2/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type3/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type4/Dirty/dirty_6.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_3.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_4.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_5.png</key>
-            <key type="filename">Game/Grounds/Type5/Dirty/dirty_6.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,8,8,16</rect>
-                <key>scale9Paddings</key>
-                <rect>4,8,8,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_2.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_2.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomPillars/pillar_2_normal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,40,40,80</rect>
-                <key>scale9Paddings</key>
-                <rect>20,40,40,80</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type0/RandomWalls/wall_vertical_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_vertical_broken_B_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomWalls/wall_vertical_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_vertical_broken_B_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type2/RandomWalls/wall_vertical_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_vertical_broken_B_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_vertical_broken_B_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_vertical_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomWalls/wall_vertical_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_vertical_broken_B_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_vertical_1.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomWalls/wall_vertical_2.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_breakable.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_breakable_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_broken_A.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_broken_A_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_broken_B.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_vertical_broken_B_normal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,48,32,96</rect>
-                <key>scale9Paddings</key>
-                <rect>16,48,32,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_up.png</key>
-            <key type="filename">Game/Grounds/Type0/wall_uscita_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_up.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_up.png</key>
-            <key type="filename">Game/Grounds/Type2/wall_uscita_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_up.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_up.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>38,51,76,102</rect>
-                <key>scale9Paddings</key>
-                <rect>38,51,76,102</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/RandomPillars/pillar_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_2.png</key>
-            <key type="filename">Game/Grounds/Type3/RandomPillars/pillar_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomPillars/pillar_2.png</key>
-            <key type="filename">Game/Grounds/Type4/RandomPillars/pillar_2_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomPillars/pillar_1.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomPillars/pillar_1_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomPillars/pillar_2.png</key>
-            <key type="filename">Game/Grounds/Type5/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomPillars/pillar_2_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1466,12 +1331,65 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type1/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type1/wall_uscita_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type4/wall_uscita_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco1/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco2/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco3/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco4/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco5/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_broken_A_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_vertical_broken_B_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco6/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_broken_A_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_vertical_broken_B_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,48,32,96</rect>
+                <key>scale9Paddings</key>
+                <rect>16,48,32,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_up_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1484,41 +1402,14 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_1.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_3.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_4.png</key>
-            <key type="filename">Game/Grounds/Type2/Decals/decal_5.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_2.png</key>
-            <key type="filename">Game/Grounds/Type3/Decals/decal_2_normal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,54,96,108</rect>
-                <key>scale9Paddings</key>
-                <rect>48,54,96,108</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_up.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_ingresso_up_normal.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_up.png</key>
-            <key type="filename">Game/Grounds/Type3/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_ingresso_up_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1531,10 +1422,55 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type4/SpecialWalls/wall_special_3_normal.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_3.png</key>
-            <key type="filename">Game/Grounds/Type5/SpecialWalls/wall_special_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco3/SpecialWalls/wall_special_3_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,54,96,108</rect>
+                <key>scale9Paddings</key>
+                <rect>48,54,96,108</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/pacco4/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_uscita_up.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,51,76,102</rect>
+                <key>scale9Paddings</key>
+                <rect>38,51,76,102</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/pacco5/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco6/Decals/decal_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9Paddings</key>
+                <rect>48,40,96,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco5/SpecialWalls/wall_special_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco6/SpecialWalls/wall_special_3_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

@@ -1082,7 +1082,7 @@
                             FontWeight="Bold" />
 
                         <StackPanel
-                            Width="370"
+                            Width="270"
                             Margin="10,0"
                             Orientation="Horizontal">
 
@@ -1094,16 +1094,16 @@
 
                             <ComboBox
                                 x:Name="cmbTexturePack"
-                                Width="250"
+                                Width="100"
                                 Cursor="Hand"
                                 ToolTip="Indica il pacco di texture da utilizzare in questo livello">
 
-                                <ComboBoxItem Tag="0">Pacco 0 (debug)</ComboBoxItem>
-                                <ComboBoxItem Tag="1">Pacco 1 (esterno - esterno)</ComboBoxItem>
-                                <ComboBoxItem Tag="2">Pacco 2 (esterno - ingresso castello)</ComboBoxItem>
-                                <ComboBoxItem Tag="3">Pacco 3 (pulitissimo)</ComboBoxItem>
-                                <ComboBoxItem Tag="4">Pacco 4 (pulito)</ComboBoxItem>
-                                <ComboBoxItem Tag="5">Pacco 5 (pulito - inizio degrado)</ComboBoxItem>
+                                <ComboBoxItem Tag="1">Pacco 1</ComboBoxItem>
+                                <ComboBoxItem Tag="2">Pacco 2</ComboBoxItem>
+                                <ComboBoxItem Tag="3">Pacco 3</ComboBoxItem>
+                                <ComboBoxItem Tag="4">Pacco 4</ComboBoxItem>
+                                <ComboBoxItem Tag="5">Pacco 5</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Pacco 6</ComboBoxItem>
 
                             </ComboBox>
 

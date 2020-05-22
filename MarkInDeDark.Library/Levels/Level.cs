@@ -80,7 +80,7 @@ namespace MarkInDeDark.Library.Levels
             var serializer = new GameGridDeserializerManager(levelContentRaw);
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
-            string groundTextureLevelSelector = $"Grounds/Type{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
+            string groundTextureLevelSelector = $"Grounds/pacco{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
             GroundSpriteType1 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell1"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell1"),
@@ -162,7 +162,7 @@ namespace MarkInDeDark.Library.Levels
 
             // Door
             var doorOpeningAnimation = new List<Sprite>();
-            for (int i = 0; i <= 8; ++i)
+            for (int i = 1; i <= 8; ++i)
                 doorOpeningAnimation.Add(assetsLoader.Sprites[$"{groundTextureLevelSelector}/Door/door_{i}"]);
             DoorOpenAnimation = new SpriteAnimation(doorOpeningAnimation, TimeSpan.FromMilliseconds(20), false);
 
