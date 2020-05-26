@@ -4,7 +4,6 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -60,7 +59,7 @@ namespace MarkInDeDark.Library.Menu
                     startingPosition.X = _startingPosition.X;
                 }
 
-                levelUi.SetPosition(startingPosition);
+                levelUi.SetStartingPosition(startingPosition);
                 startingPosition.X += levelUi.BoxRectangle.Width + padding;
             }
         }

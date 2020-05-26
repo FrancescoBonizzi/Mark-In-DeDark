@@ -24,10 +24,6 @@ namespace MarkInDeDark.Library
 
         private readonly SpriteFont _font;
 
-        private readonly DrawingInfos _gameElapsedTimeDrawingInfos;
-        private readonly StringBuilder _gameElapsedString;
-        public TimeSpan GameElapsed { get; private set; }
-
         private readonly DrawingInfos _remainingCandlesDrawingInfos;
         private readonly StringBuilder _remainingCandlesString;
 
@@ -47,14 +43,6 @@ namespace MarkInDeDark.Library
         {
             _font = assetsLoader.Font;
 
-            _gameElapsedString = new StringBuilder();
-            _gameElapsedTimeDrawingInfos = new DrawingInfos()
-            {
-                Position = new Vector2(24.0f, 24.0f),
-                OverlayColor = Color.White,
-                Scale = 0.6f
-            };
-
             _remainingCandlesString = new StringBuilder();
             _remainingCandlesDrawingInfos = new DrawingInfos()
             {
@@ -70,7 +58,6 @@ namespace MarkInDeDark.Library
                78f);
 
             _messages = new List<PopupText>();
-            GameElapsed = TimeSpan.Zero;
             _candlesManager = candlesManager;
 
             _keySprite = assetsLoader.Sprites["Objects/key"];
@@ -127,10 +114,6 @@ namespace MarkInDeDark.Library
             _remainingCandlesString.Clear();
             _remainingCandlesString.AppendNumber(_candlesManager.LeftCandles);
 
-            GameElapsed += elapsed;
-            _gameElapsedString.Clear();
-            _gameElapsedString.Append(GameElapsed.ToMinuteSecondsFormat());
-
             for (int i = _messages.Count - 1; i >= 0; --i)
             {
                 var message = _messages[i];
@@ -147,7 +130,6 @@ namespace MarkInDeDark.Library
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_font, _gameElapsedString.ToString(), _gameElapsedTimeDrawingInfos);
             spriteBatch.DrawString(_font, _remainingCandlesString.ToString(), _remainingCandlesDrawingInfos);
 
             foreach (var message in _messages)

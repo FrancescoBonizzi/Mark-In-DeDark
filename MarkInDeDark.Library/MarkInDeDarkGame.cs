@@ -452,10 +452,7 @@ namespace MarkInDeDark.Library
                     {
                         if (_player.HasWon)
                         {
-                            _currentLevel.SetCompletionParameters(
-                                true,
-                                _candlesManager.PlayerUsedCandles,
-                                _gameHud.GameElapsed);
+                            _currentLevel.SetCompletionParameters(true);
                         }
 
                         _currentGameState = GameStates.Finished;
