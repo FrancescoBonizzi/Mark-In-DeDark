@@ -88,8 +88,8 @@ namespace MarkInDeDark.Library
         private bool _shakeViewport;
         private Vector3 _normalMapAmbienceColor;
         private Vector3 _normalMapPointLightColor = Vector3.One;
-        private float _normalMapLightDistanceSquared = 25_830f;
-        private float _normalMapLightOpacity = 0.8f;
+        private float _normalMapLightDistanceSquared = 4_373f;
+        private float _normalMapLightOpacity = 1f;
 
         private Matrix _worldMatrix = Matrix.Identity;
         private Matrix _projectionMatrix = Matrix.Identity;
