@@ -82,8 +82,9 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
-        private Vector3 _ambienceColor = new Vector3(0f);
-        private readonly float _lightDistanceSquared = 10000f;
+        private Vector3 _normalMapAmbienceColor;
+        private readonly float _normalMapLightDistanceSquared = 25_830f;
+        private readonly float _normalMapLightOpacity = 0.8f;
 
         private Matrix _worldMatrix = Matrix.Identity;
         private Matrix _projectionMatrix = Matrix.Identity;
@@ -318,7 +319,7 @@ namespace MarkInDeDark.Library
                 _penumbra.Hulls.Add(e.Hull);
                     
             var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
-            _ambienceColor = levelCustomization.AmbienceColor;
+            _normalMapAmbienceColor = levelCustomization.AmbienceColor;
             _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
 
             if (levelCustomization.IsSnowing)
@@ -638,8 +639,9 @@ namespace MarkInDeDark.Library
             var projectionMatrix = _projectionMatrix;
 
             // 0. Preparo l'effetto NormalMap
-            _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(_lightDistanceSquared);
-            _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_ambienceColor);
+            _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(_normalMapLightDistanceSquared);
+            _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_normalMapAmbienceColor);
+            _circularNormalMapShader.Parameters["LightOpacity"].SetValue(_normalMapLightOpacity);
             _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
             _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
 
