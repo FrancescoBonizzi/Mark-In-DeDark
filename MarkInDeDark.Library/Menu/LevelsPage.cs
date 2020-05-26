@@ -44,10 +44,10 @@ namespace MarkInDeDark.Library.Menu
 
             _background = assetsLoader.Sprites["levels"];
             _levelsUi = assetsLoader.Levels.Select(l => new MenuLevelButton(assetsLoader, l)).ToList();
-            _startingPosition = new Vector2(240f, 240f);
+            _startingPosition = new Vector2(240f, 140f);
 
             var startingPosition = _startingPosition;
-            const float padding = 144f;
+            const float padding = 100f;
 
             for (int i = 0; i < _levelsUi.Count; ++i)
             {
