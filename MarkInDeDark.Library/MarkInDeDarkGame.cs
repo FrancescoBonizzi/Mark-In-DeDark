@@ -732,7 +732,6 @@ namespace MarkInDeDark.Library
                 _graphicsDevice.SetRenderTarget(_baseSceneItemsWithNormalMapRenderTarget);
                 _graphicsDevice.Clear(Color.Transparent);
                 _circularNormalMapShader.Parameters["NormalTexture"].SetValue(_normalMapRenderTarget);
-                _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, _circularNormalMapShader);
                 foreach (var light in _activeLightsForWallsNormalMap)
                 {
