@@ -550,5 +550,45 @@ namespace MarkInDeDark.LevelEditor
             NewGrid();
             btnNonCella.IsChecked = true;
         }
+
+        private void btnNormalMapRegulations_Click(object sender, RoutedEventArgs e)
+        {
+            var gameExecutablePath = _settingsRepository.GetValue(SettingsKeys.GameExecutablePath);
+
+            if (gameExecutablePath == null)
+            {
+                MessageBox.Show("Devi prima selezionare l'eseguibile del gioco!", "Attenzione");
+                return;
+            }
+
+            if (!File.Exists(gameExecutablePath))
+            {
+                MessageBox.Show("L'eseguibile del gioco non esiste più, reimpostalo!", "Attenzione");
+                return;
+            }
+
+            string randomFilePath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".mark";
+            SaveLevel(randomFilePath, SerializeLevel());
+
+            var w = new InGameParametersWindow(gameExecutablePath);
+            w.Show();
+
+            //using (var process = new Process())
+            //{
+            var process = new Process();
+            process.StartInfo.FileName = gameExecutablePath;
+            process.StartInfo.Arguments = $"\"{randomFilePath}\" \"NormalMapRegulations\""; /// Il secondo parametro non ha valore, basta che ci sia
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.WorkingDirectory = Path.GetDirectoryName(gameExecutablePath);
+
+            process.Start();
+            //  process.Exited += Process_Exited;
+            //
+            // }
+
+            // File.Delete(randomFilePath);
+        }
+
     }
 }

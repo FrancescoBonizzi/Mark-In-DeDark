@@ -51,6 +51,8 @@ namespace MarkInDeDark.Library
         private MarkKeyboard _markKeyboard;
         private MarkGamePad _markGamePad;
 
+        public bool NormalMapRegulationMode { get; set; }
+
         public MarkInDeDarkBootstrap(
             ITextFileLoader textFileAssetsLoader,
             ISettingsRepository settingsRepository,
@@ -227,10 +229,20 @@ namespace MarkInDeDark.Library
         }
 
         public void Pause()
-            => _orchestrator?.Pause();
+        {
+            if (NormalMapRegulationMode)
+                return;
+
+            _orchestrator?.Pause();
+        }
 
         public void Resume()
-            => _orchestrator?.Resume();
+        {
+            if (NormalMapRegulationMode)
+                return;
+
+            _orchestrator?.Resume();
+        }
 
         protected override void Update(GameTime gameTime)
         {

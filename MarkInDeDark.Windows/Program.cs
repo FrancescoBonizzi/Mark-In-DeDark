@@ -45,6 +45,12 @@ namespace MarkInDeDark.Windows
                     forcedLevelPath = args[0];
                 }
 
+                bool normalMapParametersRegulation = false;
+                if (args.Length > 1)
+                {
+                    normalMapParametersRegulation = true;
+                }
+
                 List<string> levelsToLoad = forcedLevelPath == null
                     ? Directory.GetFiles("Assets/Levels", "*.mark").ToList()
                     : new List<string>() { forcedLevelPath };
@@ -64,6 +70,8 @@ namespace MarkInDeDark.Windows
                     {
                         _game.ForceStartLevel(args[0]);
                     }
+
+                    _game.NormalMapRegulationMode = true;//normalMapParametersRegulation;
 
                     _game.Window.Title = "Mark in DeDark";
                     _game.Window.AllowUserResizing = false;
