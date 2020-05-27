@@ -399,7 +399,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var northCell = grid.GetCellByIndex(i, j - 1);
-                        if (northCell.IsUnLinked || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
+                        if (northCell == null || northCell.IsUnLinked || !northCell.IsSouthPassable || !northCell.IsSouthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.NorthLink);
                             cell.IsNorthPassable = false;
@@ -423,7 +423,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         // É un altro check rispetto al *passable per evitare di dover disegnare il doppio muro nell'editor
                         var eastCell = grid.GetCellByIndex(i + 1, j);
-                        if (eastCell.IsUnLinked || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
+                        if (eastCell == null || eastCell.IsUnLinked || !eastCell.IsWestPassable || !eastCell.IsWestDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.EastLink);
                             cell.IsEastPassable = false;
@@ -446,7 +446,7 @@ namespace MarkInDeDark.Library.Levels
                     if (cell.IsSouthPassable)
                     {
                         var southCell = grid.GetCellByIndex(i, j + 1);
-                        if (southCell.IsUnLinked || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
+                        if (southCell == null || southCell.IsUnLinked || !southCell.IsNorthPassable || !southCell.IsNorthDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.SouthLink);
                             cell.IsSouthPassable = false;
@@ -469,7 +469,7 @@ namespace MarkInDeDark.Library.Levels
                     if (cell.IsWestPassable)
                     {
                         var westCell = grid.GetCellByIndex(i - 1, j);
-                        if (westCell.IsUnLinked || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
+                        if (westCell == null || westCell.IsUnLinked || !westCell.IsEastPassable || !westCell.IsEastDoorPassable)
                         {
                             cell.AddLink(null, LinkDirection.WestLink);
                             cell.IsWestPassable = false;
