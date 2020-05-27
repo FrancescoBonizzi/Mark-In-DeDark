@@ -4,7 +4,6 @@ using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -45,10 +44,10 @@ namespace MarkInDeDark.Library.Menu
 
             _background = assetsLoader.Sprites["levels"];
             _levelsUi = assetsLoader.Levels.Select(l => new MenuLevelButton(assetsLoader, l)).ToList();
-            _startingPosition = new Vector2(240f, 240f);
+            _startingPosition = new Vector2(240f, 140f);
 
             var startingPosition = _startingPosition;
-            const float padding = 144f;
+            const float padding = 100f;
 
             for (int i = 0; i < _levelsUi.Count; ++i)
             {
@@ -60,7 +59,7 @@ namespace MarkInDeDark.Library.Menu
                     startingPosition.X = _startingPosition.X;
                 }
 
-                levelUi.SetPosition(startingPosition);
+                levelUi.SetStartingPosition(startingPosition);
                 startingPosition.X += levelUi.BoxRectangle.Width + padding;
             }
         }

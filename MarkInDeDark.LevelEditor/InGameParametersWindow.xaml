@@ -1,0 +1,170 @@
+﻿<Window
+    x:Class="MarkInDeDark.LevelEditor.InGameParametersWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="In game parameters"
+    Width="400"
+    Height="600"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+
+    <Grid>
+
+        <StackPanel
+            Grid.Column="1"
+            Margin="10"
+            Orientation="Vertical">
+
+            <TextBlock
+                Margin="0,10"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Normal Map parameters"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light direction Z: " />
+                    <Run Text="{Binding Value, ElementName=LightDirectionZ}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightDirectionZ"
+                    Maximum="1000"
+                    Minimum="0"
+                    TickFrequency="1"
+                    Value="0" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light distance: " />
+                    <Run Text="{Binding Value, ElementName=LightDistance}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightDistance"
+                    Maximum="100000"
+                    Minimum="0"
+                    TickFrequency="1"
+                    Value="0" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light opacity: " />
+                    <Run Text="{Binding Value, ElementName=LightOpacity}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightOpacity"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="1" />
+            </StackPanel>
+
+            <Rectangle
+                Height="2"
+                Margin="10"
+                Fill="DarkGray" />
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light color X: " />
+                    <Run Text="{Binding Value, ElementName=LightColorX}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightColorX"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="1" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light color Y: " />
+                    <Run Text="{Binding Value, ElementName=LightColorY}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightColorY"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="1" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Light color Z: " />
+                    <Run Text="{Binding Value, ElementName=LightColorZ}" />
+                </TextBlock>
+                <Slider
+                    x:Name="LightColorZ"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="1" />
+            </StackPanel>
+
+            <Rectangle
+                Height="2"
+                Margin="10"
+                Fill="DarkGray" />
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Ambience color X: " />
+                    <Run Text="{Binding Value, ElementName=AmbienceColorX}" />
+                </TextBlock>
+                <Slider
+                    x:Name="AmbienceColorX"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="0.35" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Ambience color Y: " />
+                    <Run Text="{Binding Value, ElementName=AmbienceColorY}" />
+                </TextBlock>
+                <Slider
+                    x:Name="AmbienceColorY"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="0.35" />
+            </StackPanel>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="Ambience color Z: " />
+                    <Run Text="{Binding Value, ElementName=AmbienceColorZ}" />
+                </TextBlock>
+                <Slider
+                    x:Name="AmbienceColorZ"
+                    Maximum="1"
+                    Minimum="0"
+                    TickFrequency="0.001"
+                    Value="0.35" />
+            </StackPanel>
+
+            <Rectangle
+                Height="2"
+                Margin="10"
+                Fill="DarkGray" />
+
+            <Button
+                x:Name="btnMandaCambiamentiAlGioco"
+                Padding="0,10"
+                Click="btnMandaCambiamentiAlGioco_Click"
+                Content="Manda i cambiamenti al gioco" />
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

@@ -93,6 +93,17 @@
                 </MenuItem>
 
                 <MenuItem
+                    x:Name="btnNormalMapRegulations"
+                    Click="btnNormalMapRegulations_Click"
+                    Header="Imposta parametri normal map in game">
+
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE193;" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
+
+                <MenuItem
                     x:Name="btnCambiaSettingsGioco"
                     Click="BtnCambiaSettingsGioco_Click"
                     Header="Cambia impostazioni di gioco">

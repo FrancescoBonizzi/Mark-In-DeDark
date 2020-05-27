@@ -10,18 +10,22 @@ namespace MarkInDeDark.Library.Menu
 {
     public class MenuLevelButton
     {
-        private string _upText;
+        private readonly string _upText;
         private readonly Sprite _backgroundSprite;
-        private readonly DrawingInfos _drawingInfos;
+
+        private DrawingInfos _upTextDrawingInfos;
+        private DrawingInfos _iconDrawingInfos;
+        private DrawingInfos _bottomTextDrawingInfos;
+
         private readonly Color _textColor;
         public Rectangle BoxRectangle { get; }
 
         public Level Level { get; }
 
         public Rectangle HitBox => new Rectangle(
-            (int)(_drawingInfos.Position.X - _drawingInfos.Origin.X), 
-            (int)(_drawingInfos.Position.Y - _drawingInfos.Origin.Y),
-            BoxRectangle.Width, 
+            (int)(_iconDrawingInfos.Position.X - _iconDrawingInfos.Origin.X),
+            (int)(_iconDrawingInfos.Position.Y - _iconDrawingInfos.Origin.Y),
+            BoxRectangle.Width,
             BoxRectangle.Height);
 
         private readonly SpriteFont _font;
@@ -31,6 +35,7 @@ namespace MarkInDeDark.Library.Menu
         private readonly Vector2 _bottomTextOrigin;
 
         private const float _fontSize = 0.3f;
+        private readonly float _iconScale = 1.0f;
 
         public MenuLevelButton(
             AssetsLoader assetsLoader,
@@ -39,66 +44,66 @@ namespace MarkInDeDark.Library.Menu
             Level = level;
             _font = assetsLoader.Font;
 
-            _drawingInfos = new DrawingInfos();
-
+            // Per me qui ci va un'icona accattivamente e ciccia, senza testo
             if (level.IsCompleted)
             {
                 _backgroundSprite = assetsLoader.Sprites["Objects/key"];
-                var completionTimeRecord = level.RecordCompletionTime == null ? string.Empty : level.RecordCompletionTime.Value.ToMinuteSecondsFormat();
-                var candleUsedRecord = level.RecordUsedCandles == null ? string.Empty : level.RecordUsedCandles.Value.ToString();
-                _bottomText = $"{candleUsedRecord} - {completionTimeRecord}";
                 _textColor = new Color(138, 7, 7);
+#warning Tradurre o mettere un'icona più chiara
+                _bottomText = "Completed!";
+                _iconScale = 0.7f;
             }
             else
             {
-                _backgroundSprite = assetsLoader.Sprites["Zombie/zombie_front_attack_3"];
+                _backgroundSprite = assetsLoader.Sprites["Grounds/pacco4/Door/door_0"];
                 _bottomText = string.Empty;
                 _textColor = Color.White;
             }
 
             _upText = level.LevelTitleToShow;
 
-            var uptextCenter = _font.GetTextCenter(_upText);
-            _upTextOrigin = new Vector2(uptextCenter.X, uptextCenter.Y * 2);
-
-            _bottomTextOrigin = new Vector2(_font.GetTextCenter(_bottomText).X, 0f);
+            _upTextOrigin = _font.GetTextCenter(_upText);
+            _bottomTextOrigin = _font.GetTextCenter(_bottomText);
 
             BoxRectangle = _backgroundSprite.SourceRectangle;
-            _drawingInfos.Origin = new Vector2(BoxRectangle.Width / 2.0f, BoxRectangle.Height / 2.0f);
+
+            _upTextDrawingInfos = new DrawingInfos();
+            _iconDrawingInfos = new DrawingInfos();
+            _bottomTextDrawingInfos = new DrawingInfos();
         }
 
-        public void SetPosition(Vector2 newPosition)
-            => _drawingInfos.Position = newPosition;
+        public void SetStartingPosition(Vector2 position)
+        {
+            // TODO Mi fa cagare passato da fuori, lo voglio nel costruttore
+            _upTextDrawingInfos = new DrawingInfos()
+            {
+                Origin = _upTextOrigin,
+                Position = position,
+                OverlayColor = _textColor,
+                Scale = _fontSize
+            };
+
+            _iconDrawingInfos = new DrawingInfos()
+            {
+                Origin = _backgroundSprite.SpriteCenter * _iconScale,
+                Position = position + new Vector2(0f, 50f),
+                Scale = _iconScale
+            };
+
+            _bottomTextDrawingInfos = new DrawingInfos()
+            {
+                Origin = _bottomTextOrigin,
+                Position = position + new Vector2(0f, 140f),
+                OverlayColor = _textColor,
+                Scale = _fontSize
+            };
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_backgroundSprite, _drawingInfos);
-
-            spriteBatch.DrawString(
-                _font, 
-                _upText, 
-                new Vector2(
-                    _drawingInfos.Position.X,
-                    _drawingInfos.Position.Y - _drawingInfos.Origin.Y),
-                _textColor,
-                0f,
-                _upTextOrigin,
-                _fontSize,
-                SpriteEffects.None,
-                0f);
-
-            spriteBatch.DrawString(
-                _font,
-                _bottomText,
-                new Vector2(
-                    _drawingInfos.Position.X,
-                    _drawingInfos.Position.Y + _drawingInfos.Origin.Y),
-                _textColor,
-                0f,
-                _bottomTextOrigin,
-                _fontSize,
-                SpriteEffects.None,
-                0f);
+            spriteBatch.DrawString(_font, _upText, _upTextDrawingInfos);
+            spriteBatch.Draw(_backgroundSprite, _iconDrawingInfos);
+            spriteBatch.DrawString(_font, _bottomText, _bottomTextDrawingInfos);
         }
 
     }

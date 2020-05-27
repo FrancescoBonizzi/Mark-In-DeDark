@@ -77,8 +77,7 @@ namespace MarkInDeDark.Library.Particles
             {
                 ShadowType = ShadowType.Solid,
                 Intensity = 1,
-                Scale = new Vector2(penumbraLightScale),
-                Z = 60f
+                Scale = new Vector2(penumbraLightScale)
             };
 
             _specularGlowDrawingInfos = new DrawingInfos()

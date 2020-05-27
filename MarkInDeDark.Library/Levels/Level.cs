@@ -266,40 +266,16 @@ namespace MarkInDeDark.Library.Levels
             return null;
         }
 
-        public void SetCompletionParameters(
-            bool isCompleted,
-            int usedCandles,
-            TimeSpan completionTime)
+        public void SetCompletionParameters(bool isCompleted)
         {
             if (isCompleted)
                 SetCompleted();
-
-            SetRecordUsedCandles(usedCandles);
-            SetRecordCompletionTime(completionTime);
         }
 
         private void SetCompleted()
         {
             _settingsRepository.SetBool(_isCompletedKey, true);
             IsCompleted = true;
-        }
-
-        private void SetRecordUsedCandles(int usedCandles)
-        {
-            if (usedCandles < RecordUsedCandles || RecordUsedCandles == null)
-            {
-                _settingsRepository.SetInt(_recordUsedCandlesKey, usedCandles);
-                RecordUsedCandles = usedCandles;
-            }
-        }
-
-        private void SetRecordCompletionTime(TimeSpan completionTime)
-        {
-            if (completionTime < RecordCompletionTime || RecordCompletionTime == null)
-            {
-                _settingsRepository.SetTimeSpan(_recordCompletionTimeKey, completionTime);
-                RecordCompletionTime = completionTime;
-            }
         }
 
         public override string ToString()
