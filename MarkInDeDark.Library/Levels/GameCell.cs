@@ -347,6 +347,9 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawGround(SpriteBatch spriteBatch)
         {
+            if (Sprite == null)
+                return;
+
             spriteBatch.Draw(Sprite, _cellDrawingInfos);
 
             if (!NoDecals)
