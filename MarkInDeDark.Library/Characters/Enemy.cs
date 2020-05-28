@@ -61,8 +61,11 @@ namespace MarkInDeDark.Library.Characters
             CurrentAI = enemyConfiguration.StartingAI;
             _killsCandlesIfCollidesWithThem = enemyConfiguration.KillsCandlesIfCollidesWithThem;
 
-            SurroundingLight.PointLight.DistanceSquared = 2000f;
-            SurroundingLight.PointLight.Z = 30f;
+            if (SurroundingLight?.PointLight != null)
+            {
+                SurroundingLight.PointLight.DistanceSquared = 2000f;
+                SurroundingLight.PointLight.Z = 30f;
+            }
         }
 
         public void SetRandomScreamTimer()
