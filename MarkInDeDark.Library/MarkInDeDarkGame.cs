@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Timers;
 
 namespace MarkInDeDark.Library
@@ -88,17 +89,12 @@ namespace MarkInDeDark.Library
         private bool _shakeViewport;
         private Vector3 _normalMapAmbienceColor;
         private Vector3 _normalMapPointLightColor = Vector3.One;
-        private float _normalMapLightDistanceSquared = 4_373f;
-        private float _normalMapLightOpacity = 1f;
 
         private Matrix _worldMatrix = Matrix.Identity;
         private Matrix _projectionMatrix = Matrix.Identity;
 
         public TimeSpan ElapsedGameTime { get; private set; }
 
-        private readonly List<(Vector3 Position, Vector3 Color)> _activeLightsForWallsNormalMap = new List<(Vector3 Position, Vector3 Color)>();
-        private readonly List<(Vector3 Position, Vector3 Color)> _activeLightsForGroundNormalMap = new List<(Vector3 Position, Vector3 Color)>();
-                                                                                                            
         private enum GameStates
         {
             Playing,
@@ -351,16 +347,16 @@ namespace MarkInDeDark.Library
                     File.ReadAllText(NormalMapParameters.FileName));
 
                 _normalMapAmbienceColor = normalMapParametersTemp.AmbienceColor;
-                _normalMapLightDistanceSquared = normalMapParametersTemp.LightDistance;
-                _normalMapLightOpacity = normalMapParametersTemp.LightOpacity;
-                _normalMapPointLightColor = normalMapParametersTemp.LightColor;
 
                 if (_penumbra != null)
                 {
-                    foreach (var l in _penumbra.Lights)
+                    foreach (var penumbraLight in _penumbra.Lights)
                     {
-                        var p = l as PenumbraPointLightWithAdditions;
-                        p.Z = normalMapParametersTemp.LightDirectionZ;
+                        var gameLight = penumbraLight as PenumbraPointLightWithAdditions;
+                        gameLight.Z = normalMapParametersTemp.LightDirectionZ;
+                        gameLight.DistanceSquared = normalMapParametersTemp.LightDistance;
+                        gameLight.Opacity = normalMapParametersTemp.LightOpacity;
+                        gameLight.ColorNormal = normalMapParametersTemp.LightColor;
                     }
                 }
 
@@ -565,30 +561,18 @@ namespace MarkInDeDark.Library
             var viewMatrix = _camera.GetViewMatrix();
             _penumbra.Transform = viewMatrix;
 
-            _activeLightsForWallsNormalMap.Clear();
-            _activeLightsForGroundNormalMap.Clear();
-            foreach (var p in _penumbra.Lights)
+            foreach (var penumbraLight in _penumbra.Lights)
             {
-                if (p.Enabled)
+                if (penumbraLight.Enabled)
                 {
-                    var pointLight = p as PenumbraPointLightWithAdditions;
-                    _activeLightsForWallsNormalMap.Add((new Vector3(
-                        WorldToScreenForLights(p.Position - new Vector2(0, 160f), viewMatrix),
-                        pointLight.Z),
-                        _normalMapPointLightColor * pointLight.Opacity));
-
-                    _activeLightsForGroundNormalMap.Add((new Vector3(
-                        WorldToScreenForLights(p.Position, viewMatrix),
-                        pointLight.Z),
-                        _normalMapPointLightColor * pointLight.Opacity));
+                    var gameLight = penumbraLight as PenumbraPointLightWithAdditions;
+                    gameLight.PositionForWall = new Vector3(
+                        WorldToScreenForLights(penumbraLight.Position - new Vector2(0, 160f), viewMatrix), 
+                        gameLight.Z);
+                    gameLight.PositionForGround = new Vector3(
+                        WorldToScreenForLights(penumbraLight.Position, viewMatrix), 
+                        gameLight.Z);
                 }
-            }
-
-            if (_gameConfig.GodModeDebugMode)
-            {
-                var mouse = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                _activeLightsForWallsNormalMap.Add((new Vector3(mouse.X, mouse.Y, 60), _normalMapPointLightColor));
-                _activeLightsForGroundNormalMap.Add((new Vector3(mouse.X, mouse.Y, 60), _normalMapPointLightColor));
             }
         }
 
@@ -684,13 +668,13 @@ namespace MarkInDeDark.Library
         {
             var viewMatrix = _camera.GetViewMatrix();
             var projectionMatrix = _projectionMatrix;
+            var lights = _penumbra.Lights.Cast<PenumbraPointLightWithAdditions>().ToList();
 
             // 0. Preparo l'effetto NormalMap
-            _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(_normalMapLightDistanceSquared);
             _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_normalMapAmbienceColor);
-            _circularNormalMapShader.Parameters["LightOpacity"].SetValue(_normalMapLightOpacity);
             _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
             _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
+            _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
 
             // 1. Disegno il pavimento con già la normal applicata e con le ombre
             _gameGrid.DrawGroundWithNormalMap(
@@ -716,7 +700,7 @@ namespace MarkInDeDark.Library
                     foreach (var c in _candlesManager.Candles)
                         c.SurroundingLight?.DrawGlow(s);
                 },
-                lights: _activeLightsForGroundNormalMap);
+                lights: lights);
 
             _graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
             _penumbra.BeginDraw();
@@ -780,11 +764,13 @@ namespace MarkInDeDark.Library
                 _graphicsDevice.Clear(Color.Transparent);
                 _circularNormalMapShader.Parameters["NormalTexture"].SetValue(_normalMapRenderTarget);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, _circularNormalMapShader);
-                foreach (var light in _activeLightsForWallsNormalMap)
+                foreach (var light in lights)
                 {
-                    _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.Position);
-                    _circularNormalMapShader.Parameters["LightColor"].SetValue(light.Color);
-                    _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
+                    _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.PositionForWall);
+                    _circularNormalMapShader.Parameters["LightColor"].SetValue(light.ColorNormal);
+                    _circularNormalMapShader.Parameters["LightOpacity"].SetValue(light.Opacity);
+                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
                 }
                 spriteBatch.End();
@@ -819,12 +805,12 @@ namespace MarkInDeDark.Library
             if (_gameConfig.GodModeDebugMode)
             {
                 spriteBatch.Begin();
-                foreach (var l in _activeLightsForGroundNormalMap)
+                foreach (var l in lights)
                 {
                     spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
                 }
 
-                foreach (var l in _activeLightsForWallsNormalMap)
+                foreach (var l in lights)
                 {
                     spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
                 }

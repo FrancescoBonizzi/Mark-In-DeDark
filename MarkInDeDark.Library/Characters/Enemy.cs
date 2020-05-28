@@ -60,6 +60,9 @@ namespace MarkInDeDark.Library.Characters
             _screamSoundIndex = enemyConfiguration.ScreamSoundIndex;
             CurrentAI = enemyConfiguration.StartingAI;
             _killsCandlesIfCollidesWithThem = enemyConfiguration.KillsCandlesIfCollidesWithThem;
+
+            SurroundingLight.PointLight.DistanceSquared = 2000f;
+            SurroundingLight.PointLight.Z = 30f;
         }
 
         public void SetRandomScreamTimer()

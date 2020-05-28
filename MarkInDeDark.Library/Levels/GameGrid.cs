@@ -4,6 +4,7 @@ using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Objects;
+using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -805,7 +806,7 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D appliedNormalMapRenderTarget,
             RenderTarget2D resultRenderTarget,
             Action<SpriteBatch> drawGlows,
-            List<(Vector3 Position, Vector3 Color)> lights)
+            List<PenumbraPointLightWithAdditions> lights)
         {
             // Pavimento di base
             graphicsDevice.SetRenderTarget(baseRenderTarget);
@@ -851,8 +852,10 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, normalMapEffect);
             foreach (var light in lights)
             {
-                normalMapEffect.Parameters["LightPosition"].SetValue(light.Position);
-                normalMapEffect.Parameters["LightColor"].SetValue(light.Color);
+                normalMapEffect.Parameters["LightPosition"].SetValue(light.PositionForGround);
+                normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
+                normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+                normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 normalMapEffect.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }

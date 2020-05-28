@@ -201,7 +201,6 @@ namespace MarkInDeDark.Library.Characters
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
                     configuration.CharacterTorchConfiguration.TorchScale,
-                    0f,
                     configuration.CharacterTorchConfiguration.TorchScale * configuration.CharacterTorchConfiguration.TorchScaleMultiplierForPenumbra);
 
                 _torchPositionTraslation = _torchPositionTraslationDown;

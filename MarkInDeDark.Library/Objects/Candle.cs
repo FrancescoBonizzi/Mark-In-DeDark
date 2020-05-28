@@ -1,6 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
-using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDark.Library.Common;
@@ -44,16 +43,16 @@ namespace MarkInDeDark.Library
             };
 
             SurroundingLight = new Light(
-                assetsLoader,
-                gameConfig.CandleColorRGB1,
-                gameConfig.CandleColorRGB2,
-                gameConfig.CandleLightSize,
-                _drawingInfos.LayerDepth + 0.00001f,
-                130f)
+                assetsLoader: assetsLoader,
+                firstAnimationColor: gameConfig.CandleColorRGB1,
+                secondAnimationColor: gameConfig.CandleColorRGB2,
+                glowingLightScale: gameConfig.CandleLightSize,
+                penumbraLightScale: 120f)
             {
                 Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
                 AloneEnabled = true
             };
+            SurroundingLight.PointLight.DistanceSquared /= 3f; 
 
             IsDying = false;
             AreSomeMonsterIsFollowingMe = false;

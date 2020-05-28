@@ -1,6 +1,5 @@
 ﻿using MarkInDeDark.Library;
 using MarkInDeDark.Library.AI;
-
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
@@ -51,6 +50,7 @@ namespace MarkInDeDark.Library.Characters
                   game: game,
                   candlesManager: candlesManager)
         {
+
         }
     }
 }

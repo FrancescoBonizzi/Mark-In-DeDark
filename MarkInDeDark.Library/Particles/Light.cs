@@ -55,7 +55,6 @@ namespace MarkInDeDark.Library.Particles
             Color firstAnimationColor,
             Color secondAnimationColor,
             float glowingLightScale,
-            float layerDepth,
             float penumbraLightScale)
         {
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
