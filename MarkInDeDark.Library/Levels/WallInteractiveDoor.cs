@@ -60,6 +60,8 @@ namespace MarkInDeDark.Library.Levels
         private readonly float _openDoorHullWidth;
         private readonly float _closedDoorHullWidth;
 
+        public float ObscurationOpacity { get; set; }
+ 
         public WallInteractiveDoor(
             Vector2 doorPosition,
             LinkDirection linkDirection,

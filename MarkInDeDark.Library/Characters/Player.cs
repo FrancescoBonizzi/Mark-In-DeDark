@@ -57,6 +57,7 @@ namespace MarkInDeDark.Library.Characters
 
             _currentPlayerState = PlayerStates.Playing;
             SurroundingLight.AloneEnabled = true;
+            gameGrid.InitializeLuminator(SurroundingLight.PointLight);
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _winAnimation = new PlayerWinAnimation(assetsLoader);

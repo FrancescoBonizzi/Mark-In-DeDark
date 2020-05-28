@@ -175,10 +175,10 @@ namespace MarkInDeDark.Library
             {
                 Zoom = 0.8f
             };
+
             _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
             _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _penumbra);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
-
             _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight), _gameGrid.ExitDoor);
             _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
 

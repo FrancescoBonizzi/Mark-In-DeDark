@@ -33,6 +33,7 @@ namespace MarkInDeDark.Library.Levels
         public Rectangle CollisionRectangle { get; }
         public List<Hull> Hulls { get; }
         public Vector2 Position => _drawingInfos.Position;
+        public float ObscurationOpacity { get; set; }
 
         private readonly Hull _firstHull;
         private readonly Hull _secondHull;

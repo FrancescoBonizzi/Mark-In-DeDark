@@ -12,6 +12,7 @@ namespace MarkInDeDark.Library.Levels
         Rectangle CollisionRectangle { get; }
         List<Hull> Hulls { get; }
         Vector2 Position { get; }
+        float ObscurationOpacity { get; set; }
 
         void Update(TimeSpan elapsed);
         void Draw(SpriteBatch spriteBatch);
