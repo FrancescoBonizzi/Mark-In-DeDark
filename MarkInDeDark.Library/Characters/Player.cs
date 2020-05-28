@@ -73,6 +73,7 @@ namespace MarkInDeDark.Library.Characters
               assetsLoader.GetAnimation("playerDying"));
 
             SurroundingLight.PointLight.Scale = new Vector2(700);
+            SurroundingLight.PointLight.CastsShadows = true;
         }
 
         public bool HasWon
