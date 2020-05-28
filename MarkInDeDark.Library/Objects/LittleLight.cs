@@ -4,7 +4,7 @@ using FbonizziMonoGame.Sprites;
 
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
-using MarkInDeDark.Library.Particles;
+using MarkInDeDark.Library.Lighting;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,7 +18,7 @@ namespace MarkInDeDark.Library.Objects
  //       private readonly LittleLightParticleSystem _littleLightParticle;
         private readonly Vector2 _fireEffectGenerationCenter;
 
-        public Light SurroundingLight { get; }
+        public MarkLight SurroundingLight { get; }
 
         public LittleLight(
             AssetsLoader assetsLoader,
@@ -42,17 +42,19 @@ namespace MarkInDeDark.Library.Objects
             //    LayerDepth = _drawingInfos.LayerDepth + 0.00001f
             //};
 
-            SurroundingLight = new Light(
+            SurroundingLight = new MarkLight(
                 assetsLoader,
                 gameConfig.LittleLightColorRGB1,
                 gameConfig.LittleLightColorRGB2,
-                gameConfig.LittleLightLightSize,
-                130f)
+                z: 67f,
+                opacity: 1f,
+                distanceSquared: 7_280f)
             {
                 Position = WorldCenter
             };
 
-            SurroundingLight.PointLight.Intensity = 0.5f;
+            SurroundingLight.DistanceSquared = 7_280f;
+            SurroundingLight.Z = 67f;
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
         }
 

@@ -2,6 +2,8 @@
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
+using MarkInDeDark.Library.Lighting;
+using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -25,7 +27,7 @@ namespace MarkInDeDark.Library
         public int PlayerUsedCandles { get; private set; }
         public event EventHandler PlayerUsedACandle;
 
-        private readonly PenumbraComponent _penumbra;
+        private readonly List<MarkLight> _normalMapLights;
 
         public CandlesManager(
             int startingCandles,
@@ -33,7 +35,7 @@ namespace MarkInDeDark.Library
             SoundManager soundManager,
             GameGrid gameGrid,
             GameConfig gameConfig,
-            PenumbraComponent penumbra)
+            List<MarkLight> normalMapLights)
         {
             Candles = new List<Candle>();
             LeftCandles = startingCandles;
@@ -48,7 +50,7 @@ namespace MarkInDeDark.Library
             if (_gameConfig.GodModeInfiniteCandles)
                 LeftCandles = short.MaxValue;
 
-            _penumbra = penumbra;
+            _normalMapLights = normalMapLights;
         }
 
         public void AddCandlesToInventory(int nCandles)
@@ -139,7 +141,7 @@ namespace MarkInDeDark.Library
                 LeftCandles -= 1;
                 //_soundManager.PlayPutCandle();
                 PlayerUsedACandle?.Invoke(null, EventArgs.Empty);
-                _penumbra.Lights.Add(newCandle.SurroundingLight.PointLight);
+                _normalMapLights.Add(newCandle.SurroundingLight);
             }
         }
 
@@ -150,7 +152,7 @@ namespace MarkInDeDark.Library
                 Candles[i].Update(elapsed);
                 if (!Candles[i].IsAlive)
                 {
-                    _penumbra.Lights.Remove(Candles[i].SurroundingLight.PointLight);
+                    _normalMapLights.Remove(Candles[i].SurroundingLight);
                     Candles.RemoveAt(i);
                 }
             }

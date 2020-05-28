@@ -1,6 +1,4 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.AI;
-
+﻿using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
@@ -8,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library.Characters
@@ -35,12 +32,13 @@ namespace MarkInDeDark.Library.Characters
                 characterTorchConfiguration: new CharacterTorchConfiguration(
                     firstTorchColor: gameConfig.SkeletronLightColorRGB1,
                     secondTorchColor: gameConfig.SkeletronLightColorRGB2,
-                    torchScale: gameConfig.SkeletronLightSize,
-                    torchScaleMultiplierForPenumbra: 600,
                     torchPositionTraslationUp: new Vector2(-45, -15),
                     torchPositionTraslationLeft: new Vector2(-30, -5),
                     torchPositionTraslationRight: new Vector2(30, -5),
-                    torchPositionTraslationDown: new Vector2(35, 0)),
+                    torchPositionTraslationDown: new Vector2(35, 0),
+                    z: 46f,
+                    opacity: 0.5f,
+                    distanceSquared: 4_950f),
                 movementSpeed: gameConfig.SkeletronSpeed),
             enemyConfiguration: new EnemyConfiguration(
                 assetsLoader: assetsLoader,
@@ -56,7 +54,6 @@ namespace MarkInDeDark.Library.Characters
             game: game,
             candlesManager: candlesManager)
         {
-            SurroundingLight.AloneEnabled = true;
             _skeletonLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 
                 gameConfig.SkeletronLightColorRGB1,

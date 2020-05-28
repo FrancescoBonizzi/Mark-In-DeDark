@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
+using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,12 +43,13 @@ namespace MarkInDeDark.Library.Characters
                         characterTorchConfiguration: new CharacterTorchConfiguration(
                             firstTorchColor: gameConfig.PlayerLightColorRGB1,
                             secondTorchColor: gameConfig.PlayerLightColorRGB2,
-                            torchScale: gameConfig.PlayerLightSize,
-                            torchScaleMultiplierForPenumbra: 1200,
                             torchPositionTraslationUp: new Vector2(-42, -38),
                             torchPositionTraslationLeft: new Vector2(-38, -38),
                             torchPositionTraslationRight: new Vector2(38, -38),
-                            torchPositionTraslationDown: new Vector2(35, -30)),
+                            torchPositionTraslationDown: new Vector2(35, -30),
+                            z: 0f,
+                            opacity: 0f,
+                            distanceSquared: 0f),
                         movementSpeed: gameConfig.PlayerSpeed),
                     game: game)
         {
@@ -56,8 +58,6 @@ namespace MarkInDeDark.Library.Characters
             _doesntDie = gameConfig.GodModePlayerDoesntDie;
 
             _currentPlayerState = PlayerStates.Playing;
-            SurroundingLight.AloneEnabled = true;
-            gameGrid.InitializeLuminator(SurroundingLight.PointLight);
 
             _playerCandleFireParticleSystem = new CandleFireParticleSystem(assetsLoader);
             _winAnimation = new PlayerWinAnimation(assetsLoader);
@@ -72,8 +72,11 @@ namespace MarkInDeDark.Library.Characters
               "Dying",
               assetsLoader.GetAnimation("playerDying"));
 
-            SurroundingLight.PointLight.Scale = new Vector2(700);
-            SurroundingLight.PointLight.CastsShadows = true;
+            SurroundingLight = new PlayerLight(
+                assetsLoader,
+                gameConfig.PlayerLightColorRGB1,
+                gameConfig.PlayerLightColorRGB2);
+            gameGrid.InitializeLuminator(SurroundingLight as PlayerLight);
         }
 
         public bool HasWon
@@ -146,11 +149,11 @@ namespace MarkInDeDark.Library.Characters
                     _winAnimation.Update(elapsed);
 
                     // Per far sparire la luce con lui
-                    SurroundingLight.PointLight.Opacity = Numbers.MapValueFromIntervalToInterval(
+                    SurroundingLight.Opacity = Numbers.MapValueFromIntervalToInterval(
                         _winAnimation.DrawingInfos.OverlayColor.A,
                         0, 255,
                         0, 1);
-                    SurroundingLight.ForceColor(Color.White * SurroundingLight.PointLight.Opacity);
+                    SurroundingLight.ForceColor(Color.White * SurroundingLight.Opacity);
 
                     break;
             }

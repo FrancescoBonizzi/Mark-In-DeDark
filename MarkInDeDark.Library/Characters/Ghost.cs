@@ -35,12 +35,13 @@ namespace MarkInDeDark.Library.Characters
                       characterTorchConfiguration: new CharacterTorchConfiguration(
                         firstTorchColor: gameConfig.GhostLightColorRGB1,
                         secondTorchColor: gameConfig.GhostLightColorRGB2,
-                        torchScale: gameConfig.GhostLightSize,
-                        torchScaleMultiplierForPenumbra: 600,
                         torchPositionTraslationUp: Vector2.Zero,
                         torchPositionTraslationLeft: Vector2.Zero,
                         torchPositionTraslationRight: Vector2.Zero,
-                        torchPositionTraslationDown: Vector2.Zero),
+                        torchPositionTraslationDown: Vector2.Zero,
+                        z: 46f,
+                        opacity: 0.5f,
+                        distanceSquared: 4_950f),
                       movementSpeed: gameConfig.GhostSpeed,
                       withDieAnimation: false),
                   enemyConfiguration: new EnemyConfiguration(

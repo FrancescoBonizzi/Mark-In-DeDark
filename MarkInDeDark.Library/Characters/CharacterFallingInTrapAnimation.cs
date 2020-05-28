@@ -50,7 +50,7 @@ namespace MarkInDeDark.Library.Characters
             {
                 _game.StartCameraShake(10);
                 _character.CurrentCharacterState = Character.CharacterState.Dead;
-                _character.SurroundingLight.PointLight.Enabled = false;
+                _character.SurroundingLight.IsEnabled = false;
                 return;
             }
 

@@ -7,12 +7,10 @@ namespace MarkInDeDark.Library.Common
     {
         public Color PlayerLightColorRGB1 { get; set; }
         public Color PlayerLightColorRGB2 { get; set; }
-        public float PlayerLightSize { get; set; }
         public float PlayerSpeed { get; set; }
 
         public Color ZombieLightColorRGB1 { get; set; }
         public Color ZombieLightColorRGB2 { get; set; }
-        public float ZombieLightSize { get; set; }
         public float ZombieSpeed { get; set; }
 
         public float BubuSpeed { get; set; }
@@ -20,12 +18,10 @@ namespace MarkInDeDark.Library.Common
 
         public Color GhostLightColorRGB1 { get; set; }
         public Color GhostLightColorRGB2 { get; set; }
-        public float GhostLightSize { get; set; }
         public float GhostSpeed { get; set; }
 
         public Color SkeletronLightColorRGB1 { get; set; }
         public Color SkeletronLightColorRGB2 { get; set; }
-        public float SkeletronLightSize { get; set; }
         public float SkeletronSpeed { get; set; }
         public int SkeletronMaxCellsForNearCandle { get; set; }
         public Color SkeletronRageColorRGB { get; set; }
@@ -33,20 +29,17 @@ namespace MarkInDeDark.Library.Common
 
         public Color GoblinLightColorRGB1 { get; set; }
         public Color GoblinLightColorRGB2 { get; set; }
-        public float GoblinLightSize { get; set; }
         public float GoblinSpeed { get; set; }
         public int GoblinMaxCellsForNearCandle { get; set; }
         public float GoblinSpeedIncrementForEachCandleTaken { get; set; }
 
         public Color WerewolfLightColorRGB1 { get; set; }
         public Color WerewolfLightColorRGB2 { get; set; }
-        public float WerewolfLightSize { get; set; }
         public float WerewolfSpeed { get; set; }
         public int WerewolfMaxCellsForNearCandle { get; set; }
 
         public Color TaurusLightColorRGB1 { get; set; }
         public Color TaurusLightColorRGB2 { get; set; }
-        public float TaurusLightSize { get; set; }
         public float TaurusSpeed { get; set; }
         public int TaurusMaxCellsForNearCandle { get; set; }
         public float TaurusTimeToStartSeconds { get; set; }
@@ -56,8 +49,6 @@ namespace MarkInDeDark.Library.Common
 
         public Color CandleColorRGB1 { get; set; }
         public Color CandleColorRGB2 { get; set; }
-        public float CandleLightSize { get; set; }
-        public float ExitLightSize { get; set; }
         public ClassVector2 CameraOffsetFromPlayer { get; set; }
         public bool DoMonstersAttackTheSameCandle { get; set; }
         public float CandleTimeToLiveWhenAttackedSeconds { get; set; }
@@ -66,7 +57,6 @@ namespace MarkInDeDark.Library.Common
 
         public Color LittleLightColorRGB1 { get; set; }
         public Color LittleLightColorRGB2 { get; set; }
-        public float LittleLightLightSize { get; set; }
 
         public Color NotEnoughCandlesStringColorRGB { get; set; }
         public Color KeyFoundStringColorRGB { get; set; }

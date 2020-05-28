@@ -3,11 +3,10 @@ using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
+using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Objects;
-using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +60,9 @@ namespace MarkInDeDark.Library.Levels
 
         public const float GridMaxHeight = VerticalCellsNumber * 192;
 
+        public List<IWall> AllWalls { get; }
+        public List<Pillar> AllPillars { get; }
+
         public GameGrid(
             Level levelToLoad,
             AssetsLoader assetsLoader,
@@ -69,6 +71,8 @@ namespace MarkInDeDark.Library.Levels
             GameConfig gameConfig,
             MarkInDeDarkGame game)
         {
+            AllWalls = new List<IWall>();
+            AllPillars = new List<Pillar>();
             _position = Vector2.Zero;
             _camera = camera;
 
@@ -76,7 +80,7 @@ namespace MarkInDeDark.Library.Levels
             CellHeight = levelToLoad.GroundSpriteType1.Base.Height;
 
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
-           
+
             var nextCellPosition = _position;
             int currentDirtyIndex = 0;
 
@@ -117,7 +121,7 @@ namespace MarkInDeDark.Library.Levels
             _game = game;
         }
 
-        public void InitializeLuminator(PenumbraPointLightWithAdditions playerLight)
+        public void InitializeLuminator(PlayerLight playerLight)
             => _gameGridLuminator = new GameGridLuminator(this, playerLight);
 
         public void SetNullCell(int cellX, int cellY)
@@ -223,8 +227,10 @@ namespace MarkInDeDark.Library.Levels
             else _game.StartCameraShake(5);
         }
 
-        public IEnumerable<IWall> GetAllWalls()
+        public void UpdateAllWalls()
         {
+            AllWalls.Clear();
+
             for (int x = 0; x < HorizontalCellsNumber; x++)
             {
                 for (int y = 0; y < VerticalCellsNumber; y++)
@@ -233,15 +239,17 @@ namespace MarkInDeDark.Library.Levels
                     {
                         foreach (var w in _cells[x, y].Walls)
                         {
-                            yield return w.Value;
+                            AllWalls.Add(w.Value);
                         }
                     }
                 }
             }
         }
 
-        public IEnumerable<Pillar> GetAllPillars()
+        public void UpdateAllPillars()
         {
+            AllPillars.Clear();
+
             for (int x = 0; x < HorizontalCellsNumber; x++)
             {
                 for (int y = 0; y < VerticalCellsNumber; y++)
@@ -250,7 +258,7 @@ namespace MarkInDeDark.Library.Levels
                     {
                         foreach (var p in _cells[x, y].Pillars)
                         {
-                            yield return p.Value;
+                            AllPillars.Add(p.Value);
                         }
                     }
                 }
@@ -788,10 +796,10 @@ namespace MarkInDeDark.Library.Levels
         {
             // Mi segno le celle che l'utente vede, per Update e Draw
             var cameraBoundingRectangle = _camera.BoundingRectangle;
-            _currentViewportMinCellX = GetCellByPixelX((int)(_camera.Position.X - _camera.Position.X * _camera.Zoom));
-            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right + cameraBoundingRectangle.Right * _camera.Zoom));
-            _currentViewportMinCellY = GetCellByPixelY((int)(_camera.Position.Y - _camera.Position.Y * _camera.Zoom));
-            _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom + cameraBoundingRectangle.Bottom * _camera.Zoom));
+            _currentViewportMinCellX = GetCellByPixelX((int)(cameraBoundingRectangle.X));
+            _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right));
+            _currentViewportMinCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Top));
+            _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom)) + 1;
 
             OnAllVisibleCells(c => c.Update(elapsed));
             _gameGridLuminator.Luminate();
@@ -811,7 +819,7 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D appliedNormalMapRenderTarget,
             RenderTarget2D resultRenderTarget,
             Action<SpriteBatch> drawGlows,
-            List<PenumbraPointLightWithAdditions> lights)
+            List<MarkLight> lights)
         {
             // Pavimento di base
             graphicsDevice.SetRenderTarget(baseRenderTarget);
@@ -861,7 +869,6 @@ namespace MarkInDeDark.Library.Levels
                 normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
                 normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
-                normalMapEffect.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }
             spriteBatch.End();

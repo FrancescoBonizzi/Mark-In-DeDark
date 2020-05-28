@@ -31,12 +31,13 @@ namespace MarkInDeDark.Library.Characters
                       characterTorchConfiguration: new CharacterTorchConfiguration(
                           firstTorchColor: gameConfig.GoblinLightColorRGB1,
                           secondTorchColor: gameConfig.GoblinLightColorRGB2,
-                          torchScale: gameConfig.GoblinLightSize,
-                          torchScaleMultiplierForPenumbra: 600,
                           torchPositionTraslationUp: new Vector2(-35, -10),
                           torchPositionTraslationLeft: new Vector2(5, 5),
                           torchPositionTraslationRight: new Vector2(-5, 5),
-                          torchPositionTraslationDown: new Vector2(30, -15)),
+                          torchPositionTraslationDown: new Vector2(30, -15),
+                          z: 46f,
+                          opacity: 0.5f,
+                          distanceSquared: 4_950f),
                       movementSpeed: gameConfig.GoblinSpeed),
                   enemyConfiguration: new EnemyConfiguration(
                       assetsLoader: assetsLoader,
@@ -55,8 +56,6 @@ namespace MarkInDeDark.Library.Characters
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
                 (sender, args) => Speed += gameConfig.GoblinSpeedIncrementForEachCandleTaken;
-
-            SurroundingLight.AloneEnabled = true;
 
             _goblinLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 

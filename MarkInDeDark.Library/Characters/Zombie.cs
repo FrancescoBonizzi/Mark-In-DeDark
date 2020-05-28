@@ -29,12 +29,13 @@ namespace MarkInDeDark.Library.Characters
                       characterTorchConfiguration: new CharacterTorchConfiguration(
                         firstTorchColor: gameConfig.ZombieLightColorRGB1,
                         secondTorchColor: gameConfig.ZombieLightColorRGB2,
-                        torchScale: gameConfig.ZombieLightSize,
-                        torchScaleMultiplierForPenumbra: 600,
                         torchPositionTraslationUp: new Vector2(0, -10),
                         torchPositionTraslationLeft: new Vector2(0, -20),
                         torchPositionTraslationRight: new Vector2(0, -10),
-                        torchPositionTraslationDown: new Vector2(0, -10)),
+                        torchPositionTraslationDown: new Vector2(0, -10),
+                        z: 46f,
+                        opacity: 0.5f,
+                        distanceSquared: 4_950f),
                       movementSpeed: gameConfig.ZombieSpeed),
                   enemyConfiguration: new EnemyConfiguration(
                       assetsLoader: assetsLoader,

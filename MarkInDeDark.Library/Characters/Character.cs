@@ -2,6 +2,7 @@
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
+using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Maths;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
@@ -71,7 +72,7 @@ namespace MarkInDeDark.Library.Characters
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
-        public Light SurroundingLight { get; protected set; }
+        public MarkLight SurroundingLight { get; protected set; }
 
         public bool AreLightsActive { get; set; }
 
@@ -196,13 +197,13 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslationLeft = configuration.CharacterTorchConfiguration.TorchPositionTraslationLeft;
                 _torchPositionTraslationRight = configuration.CharacterTorchConfiguration.TorchPositionTraslationRight;
                 _torchPositionTraslationDown = configuration.CharacterTorchConfiguration.TorchPositionTraslationDown;
-                SurroundingLight = new Light(
+                SurroundingLight = new MarkLight(
                     assetsLoader,
                     configuration.CharacterTorchConfiguration.FirstTorchColor,
                     configuration.CharacterTorchConfiguration.SecondTorchColor,
-                    configuration.CharacterTorchConfiguration.TorchScale,
-                    configuration.CharacterTorchConfiguration.TorchScale * configuration.CharacterTorchConfiguration.TorchScaleMultiplierForPenumbra);
-
+                    configuration.CharacterTorchConfiguration.Z,
+                    configuration.CharacterTorchConfiguration.Opacity,
+                    configuration.CharacterTorchConfiguration.DistanceSquared);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
             }
@@ -704,7 +705,7 @@ namespace MarkInDeDark.Library.Characters
                         if (MainAnimationsAnimationManager.CurrentAnimation.HasFinishedPlaying)
                         {
                             CurrentCharacterState = CharacterState.Dead;
-                            SurroundingLight.PointLight.Enabled = false;
+                            SurroundingLight.IsEnabled = false;
                         }
                         else
                         {
@@ -719,7 +720,7 @@ namespace MarkInDeDark.Library.Characters
                         {
                             CurrentCharacterState = CharacterState.Dead;
                             if (SurroundingLight != null)
-                                SurroundingLight.PointLight.Enabled = false;
+                                SurroundingLight.IsEnabled = false;
                         }
                         RecalculateZIndex();
                         break;

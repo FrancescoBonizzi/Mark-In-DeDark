@@ -4,6 +4,7 @@ using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,7 @@ namespace MarkInDeDark.Library
 {
     public class Candle
     {
-        public Light SurroundingLight { get; }
+        public MarkLight SurroundingLight { get; }
 
         private readonly CandleFireParticleSystem _candleFireParticleSystem;
 
@@ -42,17 +43,16 @@ namespace MarkInDeDark.Library
                 LayerDepth = ZIndexCalculator.ForCandle(position)
             };
 
-            SurroundingLight = new Light(
+            SurroundingLight = new MarkLight(
                 assetsLoader: assetsLoader,
                 firstAnimationColor: gameConfig.CandleColorRGB1,
                 secondAnimationColor: gameConfig.CandleColorRGB2,
-                glowingLightScale: gameConfig.CandleLightSize,
-                penumbraLightScale: 120f)
+                z: 67f,
+                opacity: 1f,
+                distanceSquared: 7_280f)
             {
                 Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
-                AloneEnabled = true
             };
-            SurroundingLight.PointLight.DistanceSquared /= 3f; 
 
             IsDying = false;
             AreSomeMonsterIsFollowingMe = false;

@@ -341,8 +341,11 @@ namespace MarkInDeDark.Library.Levels
 
             GameGridCleaner.CleanPillarsAndWallsGrid(grid);
 
+            grid.UpdateAllWalls();
+            grid.UpdateAllPillars();
+
             // Reference alla porta d'ingresso
-            var allEntrances = grid.GetAllWalls()
+            var allEntrances = grid.AllWalls
                 .Where(w => w is WallEsteticDoor a && a.WallEsteticDoorType == WallEsteticDoorType.Entrance)
                 .ToList();
             if (allEntrances.Count > 1)
@@ -352,7 +355,7 @@ namespace MarkInDeDark.Library.Levels
             grid.EntranceDoor = allEntrances.First() as WallEsteticDoor;
 
             // Reference alla porta d'uscita
-            var allExits = grid.GetAllWalls()
+            var allExits = grid.AllWalls
                 .Where(w => w is WallEsteticDoor a && a.WallEsteticDoorType == WallEsteticDoorType.Exit)
                 .ToList();
             if (allExits.Count > 1)

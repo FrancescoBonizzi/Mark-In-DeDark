@@ -49,7 +49,6 @@ namespace MarkInDeDark.Library.Menu
             {
                 _backgroundSprite = assetsLoader.Sprites["Objects/key"];
                 _textColor = new Color(138, 7, 7);
-#warning Tradurre o mettere un'icona più chiara
                 _bottomText = "Completed!";
                 _iconScale = 0.7f;
             }

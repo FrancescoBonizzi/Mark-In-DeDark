@@ -1,18 +1,18 @@
 ﻿using FbonizziMonoGame;
-using MarkInDeDark.Library.Particles;
+using MarkInDeDark.Library.Levels;
 using System;
 using System.Linq;
 
-namespace MarkInDeDark.Library.Levels
+namespace MarkInDeDark.Library.Lighting
 {
     public class GameGridLuminator
     {
         private readonly GameGrid _gameGrid;
-        private readonly PenumbraPointLightWithAdditions _playerLight;
+        private readonly PlayerLight _playerLight;
 
         public GameGridLuminator(
             GameGrid gameGrid,
-            PenumbraPointLightWithAdditions playerLight)
+            PlayerLight playerLight)
         {
             _gameGrid = gameGrid;
             _playerLight = playerLight;
@@ -31,13 +31,13 @@ namespace MarkInDeDark.Library.Levels
 
         private void LuminateWalls5x5()
         {
-            var allWalls = _gameGrid.GetAllWalls().ToList();
+            var allWalls = _gameGrid.AllWalls;
             foreach (var wall in allWalls)
             {
                 wall.ObscurationOpacity = 1f; // Tutto oscurato
             }
 
-            if (!_playerLight.Enabled)
+            if (!_playerLight.IsEnabled)
                 return;
 
 

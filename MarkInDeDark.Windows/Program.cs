@@ -71,7 +71,7 @@ namespace MarkInDeDark.Windows
                         _game.ForceStartLevel(args[0]);
                     }
 
-                    _game.NormalMapRegulationMode = true;//normalMapParametersRegulation;
+                    _game.NormalMapRegulationMode = normalMapParametersRegulation;
 
                     _game.Window.Title = "Mark in DeDark";
                     _game.Window.AllowUserResizing = false;

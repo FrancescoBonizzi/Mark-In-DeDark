@@ -9,8 +9,8 @@ namespace MarkInDeDark.Library.Levels
             var l = new LevelCustomization()
             {
                 LevelId = levelId,
-                AmbienceColor = new Vector3(0f),
-                PenumbraAmbientColor = Color.Black,
+                AmbienceColor = Vector3.Zero,
+                PenumbraAmbientColor = new Color(36, 36, 36),
                 IsSnowing = false
             };
 
