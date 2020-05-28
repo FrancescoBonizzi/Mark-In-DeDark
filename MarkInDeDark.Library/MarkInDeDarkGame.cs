@@ -772,6 +772,7 @@ namespace MarkInDeDark.Library
                     _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
 
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
+                    break;
                 }
                 spriteBatch.End();
             }
