@@ -48,13 +48,13 @@ namespace MarkInDeDark.Library.Objects
                 gameConfig.LittleLightColorRGB2,
                 z: 67f,
                 opacity: 1f,
-                distanceSquared: 7_280f)
+                distanceSquared: 7_280f,
+                castsShadows: false,
+                penumbraLightScale: 150f)
             {
                 Position = WorldCenter
             };
 
-            SurroundingLight.DistanceSquared = 7_280f;
-            SurroundingLight.Z = 67f;
             _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
         }
 

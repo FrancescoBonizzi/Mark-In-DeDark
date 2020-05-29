@@ -28,6 +28,7 @@ namespace MarkInDeDark.Library
         public event EventHandler PlayerUsedACandle;
 
         private readonly List<MarkLight> _normalMapLights;
+        private readonly PenumbraComponent _penumbraComponent;
 
         public CandlesManager(
             int startingCandles,
@@ -35,7 +36,8 @@ namespace MarkInDeDark.Library
             SoundManager soundManager,
             GameGrid gameGrid,
             GameConfig gameConfig,
-            List<MarkLight> normalMapLights)
+            List<MarkLight> normalMapLights,
+            PenumbraComponent penumbraComponent)
         {
             Candles = new List<Candle>();
             LeftCandles = startingCandles;
@@ -51,6 +53,7 @@ namespace MarkInDeDark.Library
                 LeftCandles = short.MaxValue;
 
             _normalMapLights = normalMapLights;
+            _penumbraComponent = penumbraComponent;
         }
 
         public void AddCandlesToInventory(int nCandles)
@@ -142,6 +145,7 @@ namespace MarkInDeDark.Library
                 //_soundManager.PlayPutCandle();
                 PlayerUsedACandle?.Invoke(null, EventArgs.Empty);
                 _normalMapLights.Add(newCandle.SurroundingLight);
+                _penumbraComponent.Lights.Add(newCandle.SurroundingLight.PenumbraLight);
             }
         }
 
@@ -153,6 +157,7 @@ namespace MarkInDeDark.Library
                 if (!Candles[i].IsAlive)
                 {
                     _normalMapLights.Remove(Candles[i].SurroundingLight);
+                    _penumbraComponent.Lights.Remove(Candles[i].SurroundingLight.PenumbraLight);
                     Candles.RemoveAt(i);
                 }
             }

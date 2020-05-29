@@ -11,6 +11,8 @@ namespace MarkInDeDark.Library.Characters
         public Vector2 TorchPositionTraslationRight { get; }
         public Vector2 TorchPositionTraslationDown { get; }
 
+        public float PenumbraTorchScale { get; } = 300f;
+
         public float Z { get; }
         public float Opacity { get; }
         public float DistanceSquared { get; }
@@ -24,7 +26,8 @@ namespace MarkInDeDark.Library.Characters
             Vector2 torchPositionTraslationDown,
             float z,
             float opacity,
-            float distanceSquared)
+            float distanceSquared,
+            float penumbraTorchScale)
         {
             FirstTorchColor = firstTorchColor;
             SecondTorchColor = secondTorchColor;
@@ -35,6 +38,7 @@ namespace MarkInDeDark.Library.Characters
             Z = z;
             Opacity = opacity;
             DistanceSquared = distanceSquared;
+            PenumbraTorchScale = penumbraTorchScale;
         }
     }
 }

@@ -121,7 +121,7 @@ namespace MarkInDeDark.Library.Levels
             _game = game;
         }
 
-        public void InitializeLuminator(PlayerLight playerLight)
+        public void InitializeLuminator(MarkLight playerLight)
             => _gameGridLuminator = new GameGridLuminator(this, playerLight);
 
         public void SetNullCell(int cellX, int cellY)
@@ -870,6 +870,9 @@ namespace MarkInDeDark.Library.Levels
                 normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
+
+#warning Cappato alla sola luce del player la normal del pavimento
+                break;
             }
             spriteBatch.End();
 

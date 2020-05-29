@@ -176,7 +176,7 @@ namespace MarkInDeDark.Library
             };
 
             _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
-            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _normalMapLights);
+            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _normalMapLights, _penumbra);
             _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
             _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight), _gameGrid.ExitDoor);
             _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
@@ -208,6 +208,7 @@ namespace MarkInDeDark.Library
                             this);
                         _enemies.Add(newGoblin);
                         _normalMapLights.Add(newGoblin.SurroundingLight);
+                        _penumbra.Lights.Add(newGoblin.SurroundingLight.PenumbraLight);
                         //_soundManager.PlayBreakWallSound();
                         StartCameraShake(4);
 
@@ -302,10 +303,6 @@ namespace MarkInDeDark.Library
 
             _projectionMatrix = GetProjectionMatrixForNormalMap();
 
-            // Penumbra
-            // L'unica luce che passo a penumbra è quella del player
-            _penumbra.Lights.Add((_player.SurroundingLight as PlayerLight).PenumbraLight);
-            // Fine Luci per Penumbra
             _normalMapLights.Add(_player.SurroundingLight);
             foreach (var e in _enemies)
             {
@@ -315,6 +312,10 @@ namespace MarkInDeDark.Library
 
             foreach (var l in _gameGrid.LittleLights)
                 _normalMapLights.Add(l.SurroundingLight);
+
+            // Penumbra
+            foreach (var normalMapLight in _normalMapLights)
+                _penumbra.Lights.Add(normalMapLight.PenumbraLight);
 
             foreach (var w in _gameGrid.AllWalls)
             {

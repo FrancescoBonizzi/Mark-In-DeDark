@@ -49,7 +49,9 @@ namespace MarkInDeDark.Library
                 secondAnimationColor: gameConfig.CandleColorRGB2,
                 z: 67f,
                 opacity: 1f,
-                distanceSquared: 7_280f)
+                distanceSquared: 7_280f,
+                castsShadows: false,
+                penumbraLightScale: 150f)
             {
                 Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
             };

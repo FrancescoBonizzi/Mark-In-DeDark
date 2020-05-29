@@ -198,12 +198,14 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslationRight = configuration.CharacterTorchConfiguration.TorchPositionTraslationRight;
                 _torchPositionTraslationDown = configuration.CharacterTorchConfiguration.TorchPositionTraslationDown;
                 SurroundingLight = new MarkLight(
-                    assetsLoader,
-                    configuration.CharacterTorchConfiguration.FirstTorchColor,
-                    configuration.CharacterTorchConfiguration.SecondTorchColor,
-                    configuration.CharacterTorchConfiguration.Z,
-                    configuration.CharacterTorchConfiguration.Opacity,
-                    configuration.CharacterTorchConfiguration.DistanceSquared);
+                    assetsLoader: assetsLoader,
+                    firstAnimationColor: configuration.CharacterTorchConfiguration.FirstTorchColor,
+                    secondAnimationColor: configuration.CharacterTorchConfiguration.SecondTorchColor,
+                    z: configuration.CharacterTorchConfiguration.Z,
+                    opacity: configuration.CharacterTorchConfiguration.Opacity,
+                    distanceSquared: configuration.CharacterTorchConfiguration.DistanceSquared,
+                    castsShadows: false,
+                    penumbraLightScale: configuration.CharacterTorchConfiguration.PenumbraTorchScale);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
             }

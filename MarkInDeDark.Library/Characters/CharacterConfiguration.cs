@@ -8,7 +8,6 @@ namespace MarkInDeDark.Library.Characters
     public class CharacterConfiguration
     {
         public Vector2 StartingPosition { get; }
-        public float TorchScale { get; set; }
         public float MovementSpeed { get; }
 
         public CharacterTorchConfiguration CharacterTorchConfiguration { get; }

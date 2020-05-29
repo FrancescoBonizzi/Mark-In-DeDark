@@ -41,7 +41,8 @@ namespace MarkInDeDark.Library.Characters
                         torchPositionTraslationDown: Vector2.Zero,
                         z: 46f,
                         opacity: 0.5f,
-                        distanceSquared: 4_950f),
+                        distanceSquared: 4_950f,
+                        penumbraTorchScale: 300f),
                       movementSpeed: gameConfig.GhostSpeed,
                       withDieAnimation: false),
                   enemyConfiguration: new EnemyConfiguration(

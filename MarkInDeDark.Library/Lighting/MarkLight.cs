@@ -5,18 +5,23 @@ using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 
 namespace MarkInDeDark.Library.Lighting
 {
     public class MarkLight
     {
+        public Vector2 Position { get; set; }
+
         public float Z { get; set; }
         public float Opacity { get; set; }
         public float DistanceSquared { get; set; }
         public Vector3 PositionForGround { get; set; }
         public Vector3 PositionForWall { get; set; }
         public Vector3 ColorNormal { get; set; } = Vector3.One;
+
+        public PointLight PenumbraLight { get; }
 
         public bool IsEnabled { get; set; } = true;
 
@@ -33,11 +38,11 @@ namespace MarkInDeDark.Library.Lighting
         private readonly Color _firstAnimationColor;
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
-        private readonly float _originalDistanceSquared;
-
-        public Vector2 Position { get; set; }
+    //    private readonly float _originalDistanceSquared;
 
         private Color? _forcedColor;
+
+        private readonly ScalingObject _scalingObjectForPenumbraLight;
 
         public MarkLight(
             AssetsLoader assetsLoader,
@@ -45,12 +50,14 @@ namespace MarkInDeDark.Library.Lighting
             Color secondAnimationColor,
             float z,
             float opacity,
-            float distanceSquared)
+            float distanceSquared,
+            bool castsShadows,
+            float penumbraLightScale)
         {
             Z = z;
             Opacity = opacity;
             DistanceSquared = distanceSquared;
-            _originalDistanceSquared = distanceSquared;
+     //       _originalDistanceSquared = distanceSquared;
 
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
             _firstAnimationColor = firstAnimationColor;
@@ -59,7 +66,7 @@ namespace MarkInDeDark.Library.Lighting
             _originalMinScale = 0.8f;
             _originalMaxScale = 1f;
             _originalScalingSpeed = 2.5f;
-            _scalingObjectForLight = new ScalingObject(_originalMinScale, _originalMaxScale, 2.5f);
+      //      _scalingObjectForLight = new ScalingObject(_originalMinScale, _originalMaxScale, 2.5f);
             _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
 
             _originalColorChangingSpeed = 2.5;
@@ -70,6 +77,20 @@ namespace MarkInDeDark.Library.Lighting
             {
                 Origin = _specularGlowSprite.SpriteCenter,
                 Scale = 2f
+            };
+
+            _scalingObjectForPenumbraLight = new ScalingObject(
+                penumbraLightScale * 0.8f,
+                penumbraLightScale * 1.5f, 2.5f);
+
+            PenumbraLight = new PointLight()
+            {
+                CastsShadows = castsShadows,
+                Scale = new Vector2(penumbraLightScale),
+                Color = firstAnimationColor,
+                Enabled = true,
+                Intensity = 1,
+                ShadowType = ShadowType.Solid
             };
         }
 
@@ -106,25 +127,31 @@ namespace MarkInDeDark.Library.Lighting
             }
 
             // Cambiamento di scala
-            _scalingObjectForLight.Update(elapsed);
+ //           _scalingObjectForLight.Update(elapsed);
             _scalingObjectForSpecular.Update(elapsed);
+            _scalingObjectForPenumbraLight.Update(elapsed);
 
-            DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
+   //         DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
             ColorNormal = _colorChangingObject.Color.ToVector3();
 
             // Shake luce
-            var shakeIntensity = Numbers.RandomBetween(0, 10);
-            var shakeStartAngle = Numbers.RandomBetween(0, 360);
-            var offset = new Vector2(
-                (float)(Math.Sin(shakeStartAngle) * shakeIntensity),
-                (float)(Math.Cos(shakeStartAngle) * shakeIntensity));
+#warning RIMETTERE. Ma non può basarsi su Position, altrimenti si continua a spostare!
+            //var shakeIntensity = Numbers.RandomBetween(0, 10);
+            //var shakeStartAngle = Numbers.RandomBetween(0, 360);
+            //var offset = new Vector2(
+            //    (float)(Math.Sin(shakeStartAngle) * shakeIntensity),
+            //    (float)(Math.Cos(shakeStartAngle) * shakeIntensity));
 
-            Position = new Vector2(
-                MathHelper.Lerp(Position.X, Position.X + offset.X, (float)Math.Sin(elapsed.TotalSeconds * 20)),
-                MathHelper.Lerp(Position.Y, Position.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
+            //Position = new Vector2(
+            //    MathHelper.Lerp(Position.X, Position.X + offset.X, (float)Math.Sin(elapsed.TotalSeconds * 20)),
+            //    MathHelper.Lerp(Position.Y, Position.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
 
             _specularGlowDrawingInfos.Position = Position + new Vector2(0f, 100f);
             _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
+
+            PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
+            PenumbraLight.Position = Position + new Vector2(0f, 100f);
+            PenumbraLight.Color = _colorChangingObject.Color;
         }
 
         public void DrawGlow(SpriteBatch spriteBatch)

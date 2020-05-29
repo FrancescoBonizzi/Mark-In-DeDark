@@ -47,9 +47,10 @@ namespace MarkInDeDark.Library.Characters
                             torchPositionTraslationLeft: new Vector2(-38, -38),
                             torchPositionTraslationRight: new Vector2(38, -38),
                             torchPositionTraslationDown: new Vector2(35, -30),
-                            z: 0f,
-                            opacity: 0f,
-                            distanceSquared: 0f),
+                            z: 90f,
+                            opacity: 1f,
+                            distanceSquared: 20_600f,
+                            penumbraTorchScale: 1200f),
                         movementSpeed: gameConfig.PlayerSpeed),
                     game: game)
         {
@@ -72,11 +73,8 @@ namespace MarkInDeDark.Library.Characters
               "Dying",
               assetsLoader.GetAnimation("playerDying"));
 
-            SurroundingLight = new PlayerLight(
-                assetsLoader,
-                gameConfig.PlayerLightColorRGB1,
-                gameConfig.PlayerLightColorRGB2);
-            gameGrid.InitializeLuminator(SurroundingLight as PlayerLight);
+            gameGrid.InitializeLuminator(SurroundingLight);
+            SurroundingLight.PenumbraLight.CastsShadows = true;
         }
 
         public bool HasWon

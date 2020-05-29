@@ -8,11 +8,11 @@ namespace MarkInDeDark.Library.Lighting
     public class GameGridLuminator
     {
         private readonly GameGrid _gameGrid;
-        private readonly PlayerLight _playerLight;
+        private readonly MarkLight _playerLight;
 
         public GameGridLuminator(
             GameGrid gameGrid,
-            PlayerLight playerLight)
+            MarkLight playerLight)
         {
             _gameGrid = gameGrid;
             _playerLight = playerLight;
