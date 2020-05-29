@@ -75,6 +75,7 @@ namespace MarkInDeDark.Library.Characters
 
             gameGrid.InitializeLuminator(SurroundingLight);
             SurroundingLight.PenumbraLight.CastsShadows = true;
+            SurroundingLight.PenumbraLight.Enabled = true;
         }
 
         public bool HasWon

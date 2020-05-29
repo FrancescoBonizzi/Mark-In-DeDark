@@ -871,8 +871,8 @@ namespace MarkInDeDark.Library.Levels
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
 
-#warning Cappato alla sola luce del player la normal del pavimento
-                break;
+//#warning Cappato alla sola luce del player la normal del pavimento
+//                break;
             }
             spriteBatch.End();
 

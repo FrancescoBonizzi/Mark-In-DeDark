@@ -88,7 +88,7 @@ namespace MarkInDeDark.Library.Lighting
                 CastsShadows = castsShadows,
                 Scale = new Vector2(penumbraLightScale),
                 Color = firstAnimationColor,
-                Enabled = true,
+                Enabled = false,
                 Intensity = 1,
                 ShadowType = ShadowType.Solid
             };

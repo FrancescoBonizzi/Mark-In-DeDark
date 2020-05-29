@@ -711,6 +711,13 @@ namespace MarkInDeDark.Library
             spriteBatch.End();
             _penumbra.Draw(gameTime);
 
+            // Disegno altri glow sopra alla lightmap di penumbra
+            _graphicsDevice.SetRenderTarget(_penumbra.LightMap);
+            spriteBatch.Begin(blendState: BlendState.Additive);
+            spriteBatch.Draw(_groundLevelSpecularMapLightMaskRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            _penumbra.BlendAll();
+
             // 2. Disegno la normal map di muri e pilastri
             _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
             _graphicsDevice.Clear(_normalMapNeutralColor);
