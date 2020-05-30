@@ -112,7 +112,6 @@ namespace MarkInDeDark.Library.Characters
         public AnimationsManager ShadowsAnimationManager { get; }
 
         private CharacterFallingInTrapAnimation _characterFallingATrapAnimation;
-        private Vector2? _deadPosition;
 
         public float CurrentZIndex => MainFigureDrawingInfos.LayerDepth;
 
@@ -280,7 +279,6 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void FallInTrap(Vector2 trapCenter)
         {
-            _deadPosition = trapCenter + new Vector2(0, 70f);
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
