@@ -303,7 +303,8 @@ namespace Penumbra
                 if (//!light.IgnoredHulls.Contains(hull) 
                     hull.Enabled &&
                     hull.Valid &&
-                    light.Bounds.Intersects(ref hull.Bounds) &&
+                    // MODIFICA SPERIMENTALE CHE POTREBBE SPACCARE TUTTO
+               //     light.Bounds.Intersects(ref hull.Bounds) &&
                     hull.WorldPoints.Contains(ref light._position))
                     return true;
             }
