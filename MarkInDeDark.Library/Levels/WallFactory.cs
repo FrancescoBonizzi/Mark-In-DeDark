@@ -297,12 +297,12 @@ namespace MarkInDeDark.Library.Levels
             }
             else
             {
-                var randomWall = Utilities.RandomBetween(level.RandomVerticalWallSprites);
+                var (Base, Normal) = Utilities.RandomBetween(level.RandomVerticalWallSprites);
                 return new WallFixed(
                     direction: LinkDirection.WestLink,
                     position: wallPosition,
-                    sprite: randomWall.Base,
-                    normalSprite: randomWall.Normal);
+                    sprite: Base,
+                    normalSprite: Normal);
             }
 
         }
