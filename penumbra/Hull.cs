@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Penumbra.Geometry;
 using Penumbra.Graphics;
 using Penumbra.Utilities;
-using Polygon = Penumbra.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Indices = Penumbra.Utilities.FastList<int>;
+using Polygon = Penumbra.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
 
 namespace Penumbra
 {
@@ -71,7 +71,18 @@ namespace Penumbra
         /// Gets or sets if the hull is enabled and participates in shadow casting.
         /// Shadows are only cast from enabled hulls.
         /// </summary>
-        public bool Enabled { get; set; } = true;
+        private bool _enabled = true;
+        public bool Enabled 
+        {
+            get => _enabled;
+            set
+            {
+                if (_enabled != value)
+                    _enabled = value;
+
+                _worldDirty = true;
+            }
+        }
 
         /// <summary>
         /// Gets if the hull forms a valid polygon and participates in shadow casting. See

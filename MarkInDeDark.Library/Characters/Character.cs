@@ -275,6 +275,8 @@ namespace MarkInDeDark.Library.Characters
                 CurrentDieAnimationType = DieAnimationType.StandardAnimation;
                 MainAnimationsAnimationManager.PlayAnimation("Dying");
             }
+
+            Hull.Enabled = false;
         }
 
         public virtual void FallInTrap(Vector2 trapCenter)
@@ -291,6 +293,8 @@ namespace MarkInDeDark.Library.Characters
             _torchPositionTraslation = new Vector2(0);
             if (AreLightsActive)
                 SetLightPosition();
+
+            Hull.Enabled = false;
         }
 
         public void SetDirectionAnimation(CharacterActions direction)
