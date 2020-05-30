@@ -50,7 +50,8 @@ namespace MarkInDeDark.Library.Characters
             {
                 _game.StartCameraShake(10);
                 _character.CurrentCharacterState = Character.CharacterState.Dead;
-                _character.SurroundingLight.IsEnabled = false;
+                if (_character.SurroundingLight != null)
+                    _character.SurroundingLight.IsEnabled = false;
                 return;
             }
 
@@ -68,9 +69,9 @@ namespace MarkInDeDark.Library.Characters
                 _drawingInfos.Rotation += _rotationDelta;
 
                 _drawingInfos.Position = new Vector2(
-                    _drawingInfos.Position.X, 
+                    _drawingInfos.Position.X,
                     _drawingInfos.Position.Y + _deltaYPosition);
-                
+
                 // Lo faccio per far muovere con lui la luce
                 _character.MainFigureDrawingInfos.Position = _drawingInfos.Position;
             }
