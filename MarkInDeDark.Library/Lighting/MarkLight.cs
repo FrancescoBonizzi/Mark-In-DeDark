@@ -13,6 +13,11 @@ namespace MarkInDeDark.Library.Lighting
     public class MarkLight
     {
         public Vector2 Position { get; set; }
+        public Rectangle BoundingRectangle => new Rectangle(
+            (int)Position.X - 150,
+            (int)Position.Y - 150,
+            300,
+            300);
 
         public float Z { get; set; }
         public float Opacity { get; set; }
@@ -24,6 +29,9 @@ namespace MarkInDeDark.Library.Lighting
         public PointLight PenumbraLight { get; }
 
         public bool IsEnabled { get; set; } = true;
+        public bool IsOutOfScreen { get; set; }
+
+        public bool ShouldDraw => IsEnabled && !IsOutOfScreen;
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
         private readonly Sprite _specularGlowSprite;
@@ -38,7 +46,7 @@ namespace MarkInDeDark.Library.Lighting
         private readonly Color _firstAnimationColor;
         private readonly Color _secondAnimationColor;
         private readonly double _originalColorChangingSpeed;
-    //    private readonly float _originalDistanceSquared;
+        //    private readonly float _originalDistanceSquared;
 
         private Color? _forcedColor;
 
@@ -57,7 +65,7 @@ namespace MarkInDeDark.Library.Lighting
             Z = z;
             Opacity = opacity;
             DistanceSquared = distanceSquared;
-     //       _originalDistanceSquared = distanceSquared;
+            //       _originalDistanceSquared = distanceSquared;
 
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
             _firstAnimationColor = firstAnimationColor;
@@ -66,8 +74,8 @@ namespace MarkInDeDark.Library.Lighting
             _originalMinScale = 0.8f;
             _originalMaxScale = 1f;
             _originalScalingSpeed = 2.5f;
-      //      _scalingObjectForLight = new ScalingObject(_originalMinScale, _originalMaxScale, 2.5f);
-  //          _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
+            //      _scalingObjectForLight = new ScalingObject(_originalMinScale, _originalMaxScale, 2.5f);
+            //          _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
 
             _originalColorChangingSpeed = 2.5;
             _colorChangingObject = new ColorChangingObject(
@@ -97,8 +105,8 @@ namespace MarkInDeDark.Library.Lighting
         public void SetTemporaryColorForAnimation(Color color)
         {
             _colorChangingObject = new ColorChangingObject(
-                _firstAnimationColor, 
-                color, 
+                _firstAnimationColor,
+                color,
                 _originalColorChangingSpeed * 4);
         }
 
@@ -110,8 +118,8 @@ namespace MarkInDeDark.Library.Lighting
         public void ResetColor()
         {
             _colorChangingObject = new ColorChangingObject(
-                _firstAnimationColor, 
-                _secondAnimationColor, 
+                _firstAnimationColor,
+                _secondAnimationColor,
                 _originalColorChangingSpeed);
         }
 
@@ -127,11 +135,11 @@ namespace MarkInDeDark.Library.Lighting
             }
 
             // Cambiamento di scala
- //           _scalingObjectForLight.Update(elapsed);
-   //         _scalingObjectForSpecular.Update(elapsed);
-   //         _scalingObjectForPenumbraLight.Update(elapsed);
+            //           _scalingObjectForLight.Update(elapsed);
+            //         _scalingObjectForSpecular.Update(elapsed);
+            //         _scalingObjectForPenumbraLight.Update(elapsed);
 
-   //         DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
+            //         DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
             ColorNormal = _colorChangingObject.Color.ToVector3();
 
             // Shake luce
@@ -147,15 +155,18 @@ namespace MarkInDeDark.Library.Lighting
             //    MathHelper.Lerp(Position.Y, Position.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
 
             _specularGlowDrawingInfos.Position = Position + new Vector2(0f, 100f);
-    //        _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
+            //        _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
 
-  //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
+            //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             PenumbraLight.Position = Position + new Vector2(0f, 100f);
             PenumbraLight.Color = _colorChangingObject.Color;
         }
 
         public void DrawGlow(SpriteBatch spriteBatch)
         {
+            if (!ShouldDraw)
+                return;
+
             spriteBatch.Draw(_specularGlowSprite, _specularGlowDrawingInfos);
         }
     }

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Penumbra;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Timers;
@@ -330,7 +331,7 @@ namespace MarkInDeDark.Library
             _penumbra.Hulls.Add(_player.Hull);
             foreach (var e in _enemies)
                 _penumbra.Hulls.Add(e.Hull);
-                    
+
             var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
             _normalMapAmbientColor = levelCustomization.AmbienceColor;
             _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
@@ -565,16 +566,24 @@ namespace MarkInDeDark.Library
 
             foreach (var gameLight in _normalMapLights)
             {
-                if (gameLight.IsEnabled)
+                // TODO Fare meglio: non dev'essere un punto, ma un'area
+                gameLight.IsOutOfScreen = _camera.Contains(gameLight.BoundingRectangle) == ContainmentType.Disjoint;
+
+                if (gameLight.ShouldDraw)
                 {
                     gameLight.PositionForWall = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 60f), viewMatrix), 
+                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 60f), viewMatrix),
                         gameLight.Z);
                     gameLight.PositionForGround = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 100f), viewMatrix), 
+                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 100f), viewMatrix),
                         gameLight.Z);
                 }
             }
+
+            //var onScreen = _normalMapLights.Count(c => !c.IsOutOfScreen);
+            //var toDraw = _normalMapLights.Count(c => c.ShouldDraw);
+            //var enableds = _normalMapLights.Count(c => c.IsEnabled);
+            //Console.WriteLine($"onScreen: {onScreen} - enabled: {enableds} - toDraw: {toDraw}");
         }
 
         public Vector2 WorldToScreenForLights(Vector2 worldPosition, Matrix viewMatrix)
@@ -662,6 +671,8 @@ namespace MarkInDeDark.Library
             return projection;
         }
 
+        private bool _penumbraOk;
+
         public void DrawPlayingScene(
             SpriteBatch spriteBatch,
             RenderTarget2D finalRenderTarget,
@@ -710,6 +721,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Draw(_groundLevelResultRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
+            _penumbraOk = !_penumbraOk;
 
             // Disegno altri glow sopra alla lightmap di penumbra
             _graphicsDevice.SetRenderTarget(_penumbra.LightMap);
@@ -773,6 +785,9 @@ namespace MarkInDeDark.Library
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, _circularNormalMapShader);
                 foreach (var light in _normalMapLights)
                 {
+                    if (!light.ShouldDraw)
+                        continue;
+
                     _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.PositionForWall);
                     _circularNormalMapShader.Parameters["LightColor"].SetValue(light.ColorNormal);
                     _circularNormalMapShader.Parameters["LightOpacity"].SetValue(light.Opacity);
@@ -810,6 +825,13 @@ namespace MarkInDeDark.Library
 
             if (_gameConfig.GodModeDebugMode)
             {
+                spriteBatch.Begin(transformMatrix: viewMatrix);
+                foreach (var l in _normalMapLights)
+                {
+                    spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
+                }
+                spriteBatch.End();
+
                 spriteBatch.Begin();
                 foreach (var l in _normalMapLights)
                 {

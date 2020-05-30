@@ -865,6 +865,8 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, normalMapEffect);
             foreach (var light in lights)
             {
+                if (!light.ShouldDraw)
+                    continue;
                 normalMapEffect.Parameters["LightPosition"].SetValue(light.PositionForGround);
                 normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
                 normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
