@@ -164,7 +164,7 @@ namespace Penumbra.Graphics.Renderers
                 Hull hull = _engine.Hulls[i];
                 if (!hull.Enabled ||
                     !hull.Valid ||
-                    light.IgnoredHulls.Contains(hull) ||
+            //        light.IgnoredHulls.Contains(hull) ||
                     !light.Intersects(hull))
                 {
                     continue;

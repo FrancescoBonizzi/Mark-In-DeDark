@@ -300,7 +300,7 @@ namespace Penumbra
                 // If hull is not ignored by light, valid and enabled:
                 // 1. test AABB intersection
                 // 2. test point is contained in polygon
-                if (!light.IgnoredHulls.Contains(hull) &&
+                if (//!light.IgnoredHulls.Contains(hull) 
                     hull.Enabled &&
                     hull.Valid &&
                     light.Bounds.Intersects(ref hull.Bounds) &&

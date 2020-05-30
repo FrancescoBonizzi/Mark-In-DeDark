@@ -21,7 +21,7 @@ namespace Penumbra
     {
         private const float Epsilon = 1e-5f;
 
-        private readonly ObservableCollection<Hull> _ignoredHulls = new ObservableCollection<Hull>();
+    //    private readonly ObservableCollection<Hull> _ignoredHulls = new ObservableCollection<Hull>();
         // Used privately to determine when to calculate world transform and bounds.
         private bool _worldDirty = true;
 
@@ -30,7 +30,7 @@ namespace Penumbra
         /// </summary>
         protected Light()
         {
-            _ignoredHulls.CollectionChanged += (s, e) => Dirty = true;
+    //        _ignoredHulls.CollectionChanged += (s, e) => Dirty = true;
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Penumbra
         /// <summary>
         /// Gets a list of hulls not participating in the light's shadow casting process.
         /// </summary>
-        public IList<Hull> IgnoredHulls => _ignoredHulls;
+   //     public IList<Hull> IgnoredHulls => _ignoredHulls;
 
         // Cleared by the engine. Used by other systems to know when to regenerate shadows for the light.
         internal bool Dirty;
