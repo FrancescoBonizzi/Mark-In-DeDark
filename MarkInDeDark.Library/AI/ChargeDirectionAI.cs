@@ -37,8 +37,8 @@ namespace MarkInDeDark.Library.AI
         {
             _gameGrid = gameGrid;
             _direction = direction;
-            _normalSpeed = taurus.Speed;
-            taurus.Speed = taurus.TaurusChargeSpeed;
+            _normalSpeed = taurus.CellMovementSeconds;
+            taurus.CellMovementSeconds = taurus.TaurusChargeSpeed;
             _currentChargeStatus = ChargeStatus.Starting;
             _candlesManager = candlesManager;
             _game = game;
@@ -147,7 +147,7 @@ namespace MarkInDeDark.Library.AI
                     else
                     {
                         // Resetto la velocità
-                        character.Speed = _normalSpeed;
+                        character.CellMovementSeconds = _normalSpeed;
 
                         // Ritorno a fare quello che facevo prima
                         character.ResetNormalColor();

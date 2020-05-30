@@ -1,4 +1,5 @@
-﻿using MarkInDeDark.Library.AI;
+﻿using MarkInDeDark.GameGridCommon;
+using MarkInDeDark.Library.AI;
 
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
@@ -56,7 +57,7 @@ namespace MarkInDeDark.Library.Characters
         {
             // E' più veloce quando hai quasi finito le candele
             candlesManager.PlayerUsedACandle +=
-                (sender, args) => Speed += gameConfig.GoblinSpeedIncrementForEachCandleTaken;
+                (sender, args) => CellMovementSeconds -= gameConfig.GoblinSpeedIncrementForEachCandleTaken;
 
             _goblinLightParticleSystem = new CharacterTorchParticleSystem(
                 assetsLoader, 

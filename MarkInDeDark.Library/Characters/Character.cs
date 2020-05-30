@@ -77,7 +77,6 @@ namespace MarkInDeDark.Library.Characters
         public bool AreLightsActive { get; set; }
 
         public bool IsMoving => _movementLerpAmount < 1f && !IsDead && !IsDying;
-        public float Speed { get; set; }
 
         protected bool _stopMovement = false;
 
@@ -88,7 +87,6 @@ namespace MarkInDeDark.Library.Characters
         private readonly SoundManager _soundManager;
         private float _movementLerpAmount;
         private readonly MarkInDeDarkGame _game;
-        private float _startingLerpAmount;
         private Vector2 _nextLocation;
         private Vector2 _startingLocation;
 
@@ -104,6 +102,9 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _shadowPositionTraslationRight;
         private Vector2 _shadowPositionTraslationDown;
         private Vector2 _shadowPositionTraslationDownIdle;
+        
+        private TimeSpan _currentMovementElapsed = TimeSpan.Zero;
+        public float CellMovementSeconds { get; set; }
 
         private CharacterActions? _nextActionToProcess;
 
@@ -134,7 +135,6 @@ namespace MarkInDeDark.Library.Characters
             MarkInDeDarkGame game)
         {
             _game = game;
-            _startingLerpAmount = 0f;
             _movementLerpAmount = 1.0f;
 
             _gameGrid = grid;
@@ -148,7 +148,7 @@ namespace MarkInDeDark.Library.Characters
             };
 
             _nextLocation = Position;
-            Speed = configuration.MovementSpeed;
+            CellMovementSeconds = configuration.MovementSpeed;
 
             if (configuration.BodyParts != null)
             {
@@ -414,7 +414,6 @@ namespace MarkInDeDark.Library.Characters
                 _startingLocation = MainFigureDrawingInfos.Position;
                 MainFigureDrawingInfos.IsFlipped = false;
                 _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationUp;
 
@@ -443,7 +442,6 @@ namespace MarkInDeDark.Library.Characters
                 _startingLocation = MainFigureDrawingInfos.Position;
                 MainFigureDrawingInfos.IsFlipped = false;
                 _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationDown;
 
@@ -472,7 +470,6 @@ namespace MarkInDeDark.Library.Characters
                 MainFigureDrawingInfos.IsFlipped = false;
                 _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationRight;
 
@@ -501,7 +498,6 @@ namespace MarkInDeDark.Library.Characters
                 MainFigureDrawingInfos.IsFlipped = true;
                 _startingLocation = MainFigureDrawingInfos.Position;
                 _nextLocation = nextCell.CenterPosition;
-                _startingLerpAmount = 0f;
                 _movementLerpAmount = 0f;
                 _torchPositionTraslation = _torchPositionTraslationLeft;
 
@@ -602,8 +598,7 @@ namespace MarkInDeDark.Library.Characters
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
+                            _currentMovementElapsed = TimeSpan.FromSeconds(CellMovementSeconds - (float)_currentMovementElapsed.TotalSeconds);
                             _torchPositionTraslation = _torchPositionTraslationDown;
 
                             PlayShadowFor(ShadowsAnimationsNames.WhileWalkingDown);
@@ -618,8 +613,7 @@ namespace MarkInDeDark.Library.Characters
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
+                            _currentMovementElapsed = TimeSpan.FromSeconds(CellMovementSeconds - (float)_currentMovementElapsed.TotalSeconds);
                             _torchPositionTraslation = _torchPositionTraslationUp;
 
                             PlayShadowFor(ShadowsAnimationsNames.WhileWalkingUp);
@@ -635,8 +629,7 @@ namespace MarkInDeDark.Library.Characters
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
+                            _currentMovementElapsed = TimeSpan.FromSeconds(CellMovementSeconds - (float)_currentMovementElapsed.TotalSeconds);
                             _torchPositionTraslation = _torchPositionTraslationRight;
 
                             PlayShadowFor(ShadowsAnimationsNames.WhileWalkingRight);
@@ -652,8 +645,7 @@ namespace MarkInDeDark.Library.Characters
                             Vector2 tmp = _nextLocation;
                             _nextLocation = _startingLocation;
                             _startingLocation = tmp;
-                            _startingLerpAmount = 1f - _movementLerpAmount;
-                            _movementLerpAmount = 0f;
+                            _currentMovementElapsed = TimeSpan.FromSeconds(CellMovementSeconds - (float)_currentMovementElapsed.TotalSeconds);
                             _torchPositionTraslation = _torchPositionTraslationLeft;
 
                             PlayShadowFor(ShadowsAnimationsNames.WhileWalkingLeft);
@@ -669,6 +661,7 @@ namespace MarkInDeDark.Library.Characters
             _nextActionToProcess = action;
         }
 
+     
         public virtual void Update(TimeSpan elapsed)
         {
             if (!IsDying && !IsDead)
@@ -677,15 +670,25 @@ namespace MarkInDeDark.Library.Characters
 
                 if (IsMoving && !_stopMovement)
                 {
-                    _movementLerpAmount = MathHelper.Clamp(
-                        _movementLerpAmount + Speed * (float)elapsed.TotalSeconds,
-                        _startingLerpAmount,
-                        1f);
+                    _currentMovementElapsed += elapsed;
+                    // 1 secondo per raggiugnere la cella
+                    _movementLerpAmount = (float)(_currentMovementElapsed.TotalSeconds / CellMovementSeconds);
 
-                    MainFigureDrawingInfos.Position = Vector2.Lerp(_startingLocation, _nextLocation, _movementLerpAmount);
+                    //_movementLerpAmount = MathHelper.Clamp(
+                    //    _movementLerpAmount + Speed * (float)elapsed.TotalSeconds,
+                    //    _startingLerpAmount,
+                    //    1f);
+
+                    MainFigureDrawingInfos.Position = Vector2.Lerp(
+                        _startingLocation, 
+                        _nextLocation, 
+                        _movementLerpAmount);
 
                     if (_movementLerpAmount >= 1f)
-                        MainFigureDrawingInfos.Position = _nextLocation;
+                    {
+                        //MainFigureDrawingInfos.Position = _nextLocation;
+                        _currentMovementElapsed = TimeSpan.Zero;
+                    }
                 }
 
                 SetShadowPosition();

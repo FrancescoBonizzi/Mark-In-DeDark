@@ -49,10 +49,10 @@ namespace MarkInDeDark.Library.AI
             _player = player;
             _gameGrid = gameGrid;
             _candlesManager = candlesManager;
-            _originalSpeed = skeletron.Speed;
+            _originalSpeed = skeletron.CellMovementSeconds;
 
             skeletron.SetTemporaryColor(gameConfig.SkeletronRageColorRGB);
-            skeletron.Speed = gameConfig.SkeletronHuntingSpeed;
+            skeletron.CellMovementSeconds = gameConfig.SkeletronHuntingSpeed;
             soundManager.Play("PatrolSeenYou");
 
             _currentActions = new Queue<CharacterActions>(firstPathToPlayer);
@@ -145,7 +145,7 @@ namespace MarkInDeDark.Library.AI
                 case HuntingStatus.Lost:
 
                     enemy.ResetNormalColor();
-                    enemy.Speed = _originalSpeed;
+                    enemy.CellMovementSeconds = _originalSpeed;
                     if (_nextAI is PatrolAI)
                         ((PatrolAI)_nextAI).ClearActions();
                     return enemy.SetNewAI(_nextAI);

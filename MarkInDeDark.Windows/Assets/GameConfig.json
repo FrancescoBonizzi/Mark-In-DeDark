@@ -12,7 +12,7 @@
     "A": 255
   },
   "PlayerLightSize": 1.0,
-  "PlayerSpeed": 1.5,
+  "PlayerSpeed": 0.6,
   "ZombieLightColorRGB1": {
     "B": 90,
     "G": 239,
@@ -26,8 +26,8 @@
     "A": 255
   },
   "ZombieLightSize": 0.5,
-  "ZombieSpeed": 1.5,
-  "BubuSpeed": 1.5,
+  "ZombieSpeed": 0.6,
+  "BubuSpeed": 0.6,
   "BubuMaxCellsForNearCandle": 3,
   "GhostLightColorRGB1": {
     "B": 192,
@@ -42,7 +42,7 @@
     "A": 255
   },
   "GhostLightSize": 0.5,
-  "GhostSpeed": 1.5,
+  "GhostSpeed": 1,
   "SkeletronLightColorRGB1": {
     "B": 240,
     "G": 118,
@@ -56,7 +56,7 @@
     "A": 255
   },
   "SkeletronLightSize": 0.6,
-  "SkeletronSpeed": 1.2,
+  "SkeletronSpeed": 0.5,
   "SkeletronMaxCellsForNearCandle": 3,
   "SkeletronRageColorRGB": {
     "B": 0,
@@ -64,7 +64,7 @@
     "R": 255,
     "A": 255
   },
-  "SkeletronHuntingSpeed": 2.0,
+  "SkeletronHuntingSpeed": 0.4,
   "GoblinLightColorRGB1": {
     "B": 118,
     "G": 240,
@@ -78,9 +78,9 @@
     "A": 255
   },
   "GoblinLightSize": 0.6,
-  "GoblinSpeed": 1.5,
+  "GoblinSpeed": 0.8,
   "GoblinMaxCellsForNearCandle": 3,
-  "GoblinSpeedIncrementForEachCandleTaken": 0.2,
+  "GoblinSpeedIncrementForEachCandleTaken": 0.1,
   "WerewolfLightColorRGB1": {
     "B": 118,
     "G": 137,
@@ -94,7 +94,7 @@
     "A": 255
   },
   "WerewolfLightSize": 0.2,
-  "WerewolfSpeed": 0.4,
+  "WerewolfSpeed": 1,
   "WerewolfMaxCellsForNearCandle": 3,
   "TaurusLightColorRGB1": {
     "B": 0,
@@ -113,7 +113,7 @@
   "TaurusMaxCellsForNearCandle": 3,
   "TaurusTimeToStartSeconds": 1.0,
   "TaurusTimeStunnedSeconds": 2.0,
-  "TaurusChargeSpeed": 8.0,
+  "TaurusChargeSpeed": 0.1,
   "TaurusChargeColorRGB": {
     "B": 255,
     "G": 0,
