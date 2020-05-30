@@ -1,6 +1,8 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Levels;
+using Penumbra;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MarkInDeDark.Library.Lighting
@@ -8,14 +10,14 @@ namespace MarkInDeDark.Library.Lighting
     public class GameGridLuminator
     {
         private readonly GameGrid _gameGrid;
-        private readonly MarkLight _playerLight;
+        private readonly List<MarkLight> _lights;
 
         public GameGridLuminator(
             GameGrid gameGrid,
-            MarkLight playerLight)
+            List<MarkLight> lights)
         {
             _gameGrid = gameGrid;
-            _playerLight = playerLight;
+            _lights = lights;
         }
 
         public void Luminate()
@@ -26,23 +28,26 @@ namespace MarkInDeDark.Library.Lighting
 
         private void LuminateWalls()
         {
-            LuminateWalls5x5();
-        }
-
-        private void LuminateWalls5x5()
-        {
             var allWalls = _gameGrid.AllWalls;
             foreach (var wall in allWalls)
             {
                 wall.ObscurationOpacity = 1f; // Tutto oscurato
             }
 
-            if (!_playerLight.IsEnabled)
+            LuminateWalls5x5(_lights[0]); // Player
+            foreach (var l in _lights.Skip(1))
+            {
+                LuminateWalls3x3(l);
+            }
+        }
+
+        private void LuminateWalls5x5(MarkLight light)
+        {
+            if (!light.ShouldDraw)
                 return;
 
-
             // Scelgo quali illuminare
-            var lightCell = _gameGrid.GetCellAtPixel(_playerLight.Position);
+            var lightCell = _gameGrid.GetCellAtPixel(light.Position);
             if (lightCell == null)
                 return;
 
@@ -90,10 +95,14 @@ namespace MarkInDeDark.Library.Lighting
             //   }
 
             float darkeningOpacityLevel1Walls = 0;
-            float darkeningOpacityLevel3Walls = opacity;
-            float darkeningOpacityLevel2Walls = opacity / 2f;
-            if (darkeningOpacityLevel2Walls < 0)
-                darkeningOpacityLevel2Walls = 0;
+            float darkeningOpacityLevel3Walls = 0;
+            float darkeningOpacityLevel2Walls = 0;
+
+            //float darkeningOpacityLevel1Walls = 0;
+            //float darkeningOpacityLevel3Walls = opacity;
+            //float darkeningOpacityLevel2Walls = opacity / 2f;
+            //if (darkeningOpacityLevel2Walls < 0)
+            //    darkeningOpacityLevel2Walls = 0;
 
             //float darkeningOpacityLevel1Walls = 0;
             //float darkeningOpacityLevel3Walls = 0.8f;
@@ -234,24 +243,6 @@ namespace MarkInDeDark.Library.Lighting
             return toReturn;
         }
 
-        private float GetOpacityForYDelta(float yDistance)
-        {
-            // TODO Gestire originalOpacity
-
-            var toReturn = Numbers.MapValueFromIntervalToInterval(
-                yDistance,
-                0f, 96f,
-                0f, 1f);
-
-            if (toReturn > 1f)
-                return 1f;
-
-            if (toReturn < 0f)
-                return 0f;
-
-            return toReturn;
-        }
-
         // Illumina i muri a nord della cella se ci sono. Se illumina qualcosa ritorna true
         private bool LightNorthCellWalls(GameCell lightCell, float opacity)
         {
@@ -340,75 +331,64 @@ namespace MarkInDeDark.Library.Lighting
             return false;
         }
 
-        //private void LuminateWalls3x3()
-        //{
-        //    var allWalls = _gameGrid.GetAllWalls().ToList();
-        //    foreach (var wall in allWalls)
-        //    {
-        //        wall.IsObscured = true;
-        //    }
+        private void LuminateWalls3x3(MarkLight light)
+        {
+            if (!light.ShouldDraw)
+                return;
 
-        //    // TODO non funziona sui muri esterni di contorno del mondo
+            // Scelgo quali illuminare
+            var lightCell = _gameGrid.GetCellAtPixel(light.Position);
+            if (lightCell == null)
+                return;
 
-        //    foreach (var light in _penumbra.Lights)
-        //    {
-        //        if (!light.Enabled)
-        //            continue;
+            // Versione 3x3
+            // Se c'è subito un muro nord, lo illumino
+            if (lightCell.Walls.ContainsKey(LinkDirection.NorthLink))
+            {
+                lightCell.Walls[LinkDirection.NorthLink].ObscurationOpacity = 0f;
+            }
+            else
+            {
+                // Controllo il muro sud nella cella nord
+                if (lightCell.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
+                    lightCell.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].ObscurationOpacity = 0f;
+            }
 
-        //        // Scelgo quali illuminare
-        //        var lightCell = _gameGrid.GetCellAtPixel(light.Position);
-        //        if (lightCell == null)
-        //            continue;
+            // Se c'è subito un muro est, lo illumino
+            if (lightCell.Walls.ContainsKey(LinkDirection.EastLink))
+                lightCell.Walls[LinkDirection.EastLink].ObscurationOpacity = 0f;
+            else
+            {
+                // Controllo il muro ovest nella cella est
+                if (lightCell.EastCellWithoutLinks?.Walls.ContainsKey(LinkDirection.WestLink) == true)
+                    lightCell.EastCellWithoutLinks.Walls[LinkDirection.WestLink].ObscurationOpacity = 0f;
+                else // else fondamentale, altrimenti illumino muri che dovrebbero bloccare la luce
+                     // Controllo il muro nord nella cella est
+                {
+                    if (lightCell.EastCellWithoutLinks?.Walls.ContainsKey(LinkDirection.NorthLink) == true)
+                        lightCell.EastCellWithoutLinks.Walls[LinkDirection.NorthLink].ObscurationOpacity = 0f;
+                    if (lightCell.EastCellWithoutLinks?.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
+                        lightCell.EastCellWithoutLinks.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].ObscurationOpacity = 0f;
+                }
+            }
 
-        //        // Versione 3x3
-        //        // Se c'è subito un muro nord, lo illumino
-        //        if (lightCell.Walls.ContainsKey(LinkDirection.NorthLink))
-        //        {
-        //            lightCell.Walls[LinkDirection.NorthLink].IsObscured = false;
-        //        }
-        //        else
-        //        {
-        //            // Controllo il muro sud nella cella nord
-        //            if (lightCell.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
-        //                lightCell.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].IsObscured = false;
-        //        }
-
-        //        // Se c'è subito un muro est, lo illumino
-        //        if (lightCell.Walls.ContainsKey(LinkDirection.EastLink))
-        //            lightCell.Walls[LinkDirection.EastLink].IsObscured = false;
-        //        else
-        //        {
-        //            // Controllo il muro ovest nella cella est
-        //            if (lightCell.EastCellWithoutLinks?.Walls.ContainsKey(LinkDirection.WestLink) == true)
-        //                lightCell.EastCellWithoutLinks.Walls[LinkDirection.WestLink].IsObscured = false;
-        //            else // else fondamentale, altrimenti illumino muri che dovrebbero bloccare la luce
-        //                 // Controllo il muro nord nella cella est
-        //            {
-        //                if (lightCell.EastCellWithoutLinks?.Walls.ContainsKey(LinkDirection.NorthLink) == true)
-        //                    lightCell.EastCellWithoutLinks.Walls[LinkDirection.NorthLink].IsObscured = false;
-        //                if (lightCell.EastCellWithoutLinks?.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
-        //                    lightCell.EastCellWithoutLinks.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].IsObscured = false;
-        //            }
-        //        }
-
-        //        // Se c'è subito un muro ovest, lo illumino
-        //        if (lightCell.Walls.ContainsKey(LinkDirection.WestLink))
-        //            lightCell.Walls[LinkDirection.WestLink].IsObscured = false;
-        //        else
-        //        {
-        //            // Controllo il muro est nella cella ovest
-        //            if (lightCell.WestCellWithoutLinks?.Walls.ContainsKey(LinkDirection.EastLink) == true)
-        //                lightCell.WestCellWithoutLinks.Walls[LinkDirection.EastLink].IsObscured = false;
-        //            else // else fondamentale, altrimenti illumino muri che dovrebbero bloccare la luce
-        //            {
-        //                if (lightCell.WestCellWithoutLinks?.Walls.ContainsKey(LinkDirection.NorthLink) == true)
-        //                    lightCell.WestCellWithoutLinks.Walls[LinkDirection.NorthLink].IsObscured = false;
-        //                if (lightCell.WestCellWithoutLinks?.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
-        //                    lightCell.WestCellWithoutLinks.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].IsObscured = false;
-        //            }
-        //        }
-        //    }
-        //}
+            // Se c'è subito un muro ovest, lo illumino
+            if (lightCell.Walls.ContainsKey(LinkDirection.WestLink))
+                lightCell.Walls[LinkDirection.WestLink].ObscurationOpacity = 0f;
+            else
+            {
+                // Controllo il muro est nella cella ovest
+                if (lightCell.WestCellWithoutLinks?.Walls.ContainsKey(LinkDirection.EastLink) == true)
+                    lightCell.WestCellWithoutLinks.Walls[LinkDirection.EastLink].ObscurationOpacity = 0f;
+                else // else fondamentale, altrimenti illumino muri che dovrebbero bloccare la luce
+                {
+                    if (lightCell.WestCellWithoutLinks?.Walls.ContainsKey(LinkDirection.NorthLink) == true)
+                        lightCell.WestCellWithoutLinks.Walls[LinkDirection.NorthLink].ObscurationOpacity = 0f;
+                    if (lightCell.WestCellWithoutLinks?.NorthCellWithoutLinks?.Walls.ContainsKey(LinkDirection.SouthLink) == true)
+                        lightCell.WestCellWithoutLinks.NorthCellWithoutLinks.Walls[LinkDirection.SouthLink].ObscurationOpacity = 0f;
+                }
+            }
+        }
 
         private void LuminatePillars()
         {

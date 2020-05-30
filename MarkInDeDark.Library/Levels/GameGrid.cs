@@ -121,8 +121,8 @@ namespace MarkInDeDark.Library.Levels
             _game = game;
         }
 
-        public void InitializeLuminator(MarkLight playerLight)
-            => _gameGridLuminator = new GameGridLuminator(this, playerLight);
+        public void InitializeLuminator(List<MarkLight> lights)
+            => _gameGridLuminator = new GameGridLuminator(this, lights);
 
         public void SetNullCell(int cellX, int cellY)
             => _cells[cellX, cellY] = null;
