@@ -67,7 +67,7 @@ namespace MarkInDeDark.Library.Lighting
             _originalMaxScale = 1f;
             _originalScalingSpeed = 2.5f;
       //      _scalingObjectForLight = new ScalingObject(_originalMinScale, _originalMaxScale, 2.5f);
-            _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
+  //          _scalingObjectForSpecular = new ScalingObject(1.4f, 2.4f, _originalScalingSpeed);
 
             _originalColorChangingSpeed = 2.5;
             _colorChangingObject = new ColorChangingObject(
@@ -79,9 +79,9 @@ namespace MarkInDeDark.Library.Lighting
                 Scale = 2f
             };
 
-            _scalingObjectForPenumbraLight = new ScalingObject(
-                penumbraLightScale * 0.8f,
-                penumbraLightScale * 1.5f, 2.5f);
+            //_scalingObjectForPenumbraLight = new ScalingObject(
+            //    penumbraLightScale * 0.8f,
+            //    penumbraLightScale * 1.5f, 2.5f);
 
             PenumbraLight = new PointLight()
             {
@@ -128,8 +128,8 @@ namespace MarkInDeDark.Library.Lighting
 
             // Cambiamento di scala
  //           _scalingObjectForLight.Update(elapsed);
-            _scalingObjectForSpecular.Update(elapsed);
-            _scalingObjectForPenumbraLight.Update(elapsed);
+   //         _scalingObjectForSpecular.Update(elapsed);
+   //         _scalingObjectForPenumbraLight.Update(elapsed);
 
    //         DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
             ColorNormal = _colorChangingObject.Color.ToVector3();
@@ -147,9 +147,9 @@ namespace MarkInDeDark.Library.Lighting
             //    MathHelper.Lerp(Position.Y, Position.Y + offset.Y, (float)Math.Sin(elapsed.TotalSeconds * 20)));
 
             _specularGlowDrawingInfos.Position = Position + new Vector2(0f, 100f);
-            _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
+    //        _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
 
-            PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
+  //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             PenumbraLight.Position = Position + new Vector2(0f, 100f);
             PenumbraLight.Color = _colorChangingObject.Color;
         }

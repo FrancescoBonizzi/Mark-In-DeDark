@@ -43,7 +43,7 @@ namespace Penumbra.Graphics
 
         public void SetVertices<T>(FastList<T> fromData) where T : struct
         {
-            SetVertices(fromData.Items, fromData.Count);
+            SetVertices(fromData.ToArray(), fromData.Count);
         }
 
         public void SetVertices<T>(T[] fromData, int count) where T : struct
@@ -63,7 +63,7 @@ namespace Penumbra.Graphics
 
         public void SetIndices(FastList<int> fromData)
         {
-            SetIndices(fromData.Items, fromData.Count);
+            SetIndices(fromData.ToArray(), fromData.Count);
         }
 
         public void SetIndices(int[] fromData, int count)

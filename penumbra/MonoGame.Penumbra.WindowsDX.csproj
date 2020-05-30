@@ -24,7 +24,8 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\WindowsDX\</OutputPath>
     <IntermediateOutputPath>obj\Debug\WindowsDX\</IntermediateOutputPath>
-    <DocumentationFile>bin\Debug\WindowsDX\MonoGame.Penumbra.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DefineConstants>TRACE;DEBUG;MONOGAME;WINDOWSDX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
