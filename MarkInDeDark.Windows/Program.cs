@@ -63,8 +63,9 @@ namespace MarkInDeDark.Windows
                     windowWidth: width,
                     windowHeight: height))
                 {
-                    // TODO: Cap 50 FPS così non si vedono scatti ?
-                    // _game.TargetElapsedTime = TimeSpan.FromSeconds(1d / 50d);
+                    // CAP 50 FPS per migliorare l'impatto sulla GPU
+                    _game.TargetElapsedTime = TimeSpan.FromSeconds(1d / 50d);
+                    _game.IsFixedTimeStep = true;
 
                     if (forcedLevelPath != null)
                     {
