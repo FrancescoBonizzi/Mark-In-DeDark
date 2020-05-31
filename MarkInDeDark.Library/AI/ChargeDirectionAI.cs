@@ -17,9 +17,9 @@ namespace MarkInDeDark.Library.AI
         private TimeSpan _stunTimeSeconds;
         private TimeSpan _elapsedTime = TimeSpan.Zero;
 
-        private ChargeStatus _currentChargeStatus;
+        public ChargeStatus CurrentChargeStatus { get; private set; }
 
-        private enum ChargeStatus
+        public enum ChargeStatus
         {
             Starting,
             Charge,
@@ -39,7 +39,7 @@ namespace MarkInDeDark.Library.AI
             _direction = direction;
             _normalSpeed = taurus.CellMovementSeconds;
             taurus.CellMovementSeconds = taurus.TaurusChargeSpeed;
-            _currentChargeStatus = ChargeStatus.Starting;
+            CurrentChargeStatus = ChargeStatus.Starting;
             _candlesManager = candlesManager;
             _game = game;
 
@@ -64,7 +64,7 @@ namespace MarkInDeDark.Library.AI
             Enemy character,
             TimeSpan elapsed)
         {
-            switch (_currentChargeStatus)
+            switch (CurrentChargeStatus)
             {
                 case ChargeStatus.Starting:
 
@@ -77,7 +77,7 @@ namespace MarkInDeDark.Library.AI
                     else
                     {
                         _elapsedTime = TimeSpan.Zero;
-                        _currentChargeStatus = ChargeStatus.Charge;
+                        CurrentChargeStatus = ChargeStatus.Charge;
 
                         if (_direction == CharacterActions.Up)
                             _taurus.MainAnimationsAnimationManager.PlayAnimation("TaurusRunBack");
@@ -131,7 +131,7 @@ namespace MarkInDeDark.Library.AI
                             _direction,
                             breakWallEffectLocation);
 
-                        _currentChargeStatus = ChargeStatus.Stunned;
+                        CurrentChargeStatus = ChargeStatus.Stunned;
                         _taurus.DontPlayDefaultAnimations = false;
                     }
 

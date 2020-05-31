@@ -85,12 +85,13 @@ namespace MarkInDeDark.Library.Characters
         {
             base.Update(elapsed);
 
-            // Il Taurus può uccidere gli altri nemici
+            // Il Taurus può uccidere gli altri nemici, ma solo se sta correndo
             foreach(var e in _enemies)
             {
                 if (!e.IsDead 
                     && !e.IsDying
-                    && CurrentAI is ChargeDirectionAI
+                    && CurrentAI is ChargeDirectionAI c
+                    && c.CurrentChargeStatus == ChargeDirectionAI.ChargeStatus.Charge
                     && CollisionRectangle.Intersects(e.CollisionRectangle))
                 {
                     e.Die();
