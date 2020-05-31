@@ -204,7 +204,8 @@ namespace MarkInDeDark.Library.Characters
                     opacity: configuration.CharacterTorchConfiguration.Opacity,
                     distanceSquared: configuration.CharacterTorchConfiguration.DistanceSquared,
                     castsShadows: false,
-                    penumbraLightScale: configuration.CharacterTorchConfiguration.PenumbraTorchScale);
+                    penumbraLightScale: configuration.CharacterTorchConfiguration.PenumbraTorchScale,
+                    lightingMode: LightingMode.None);
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
             }

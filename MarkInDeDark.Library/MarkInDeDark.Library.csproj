@@ -123,6 +123,7 @@
     <Compile Include="Levels\WallBreakable.cs" />
     <Compile Include="Levels\WallEsteticDoor.cs" />
     <Compile Include="Levels\WallFactory.cs" />
+    <Compile Include="Lighting\LightingMode.cs" />
     <Compile Include="MarkGamePad.cs" />
     <Compile Include="MarkKeyboard.cs" />
     <Compile Include="Maths\Floats.cs" />

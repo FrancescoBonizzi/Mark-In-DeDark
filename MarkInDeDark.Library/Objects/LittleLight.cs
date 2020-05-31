@@ -50,7 +50,8 @@ namespace MarkInDeDark.Library.Objects
                 opacity: 1f,
                 distanceSquared: 7_280f,
                 castsShadows: false,
-                penumbraLightScale: 150f)
+                penumbraLightScale: 150f,
+                lightingMode: LightingMode.ThreePerThree)
             {
                 Position = WorldCenter
             };

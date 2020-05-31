@@ -32,6 +32,7 @@ namespace MarkInDeDark.Library.Lighting
         public bool IsOutOfScreen { get; set; }
 
         public bool ShouldDraw => IsEnabled && !IsOutOfScreen;
+        public LightingMode LightingMode { get; set; }
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
         private readonly Sprite _specularGlowSprite;
@@ -60,11 +61,13 @@ namespace MarkInDeDark.Library.Lighting
             float opacity,
             float distanceSquared,
             bool castsShadows,
-            float penumbraLightScale)
+            float penumbraLightScale,
+            LightingMode lightingMode)
         {
             Z = z;
             Opacity = opacity;
             DistanceSquared = distanceSquared;
+            LightingMode = lightingMode;
             //       _originalDistanceSquared = distanceSquared;
 
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];

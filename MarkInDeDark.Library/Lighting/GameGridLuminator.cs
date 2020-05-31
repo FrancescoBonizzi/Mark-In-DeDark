@@ -1,9 +1,7 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Levels;
-using Penumbra;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MarkInDeDark.Library.Lighting
 {
@@ -34,10 +32,12 @@ namespace MarkInDeDark.Library.Lighting
                 wall.ObscurationOpacity = 1f; // Tutto oscurato
             }
 
-            LuminateWalls5x5(_lights[0]); // Player
-            foreach (var l in _lights.Skip(1))
+            foreach (var l in _lights)
             {
-                LuminateWalls3x3(l);
+                if (l.LightingMode == LightingMode.FivePerFive)
+                    LuminateWalls5x5(l);
+                else if (l.LightingMode == LightingMode.ThreePerThree)
+                    LuminateWalls3x3(l);
             }
         }
 
