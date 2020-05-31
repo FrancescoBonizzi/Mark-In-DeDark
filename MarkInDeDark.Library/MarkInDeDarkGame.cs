@@ -828,6 +828,7 @@ namespace MarkInDeDark.Library
             if (_gameConfig.GodModeDebugMode)
             {
                 spriteBatch.Begin(transformMatrix: viewMatrix);
+
                 foreach (var l in _normalMapLights)
                 {
                     spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
@@ -844,6 +845,14 @@ namespace MarkInDeDark.Library
                 {
                     spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
                 }
+
+                foreach (var e in _enemies)
+                {
+                    spriteBatch.DrawRectangle(e.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
+                }
+
+                spriteBatch.DrawRectangle(_player.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
+
                 spriteBatch.End();
             }
 

@@ -135,8 +135,8 @@
   "CandleLightSize": 0.5,
   "ExitLightSize": 1.0,
   "CameraOffsetFromPlayer": {
-    "X": 720.0,
-    "Y": 576.0
+    "X": 960.0,
+    "Y": 540.0
   },
   "DoMonstersAttackTheSameCandle": true,
   "CandleTimeToLiveWhenAttackedSeconds": 3.0,

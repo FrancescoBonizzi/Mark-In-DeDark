@@ -142,7 +142,7 @@ namespace MarkInDeDark.Library.Characters
             MainFigureDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(50, 50, 100, 100),
+                HitBoxTolerance = new Rectangle(16, 16, 32, 32),
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
@@ -852,6 +852,5 @@ namespace MarkInDeDark.Library.Characters
             if (SurroundingLight == null)
                 return;
         }
-
     }
 }
