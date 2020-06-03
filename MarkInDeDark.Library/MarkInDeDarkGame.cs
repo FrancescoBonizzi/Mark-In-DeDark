@@ -568,13 +568,12 @@ namespace MarkInDeDark.Library
 
             foreach (var gameLight in _normalMapLights)
             {
-                // TODO Fare meglio: non dev'essere un punto, ma un'area
                 gameLight.IsOutOfScreen = _camera.Contains(gameLight.BoundingRectangle) == ContainmentType.Disjoint;
 
                 if (gameLight.ShouldDraw)
                 {
                     gameLight.PositionForWall = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 60f), viewMatrix),
+                        WorldToScreenForLights(gameLight.Position - new Vector2(0, 60f), viewMatrix),
                         gameLight.Z);
                     gameLight.PositionForGround = new Vector3(
                         WorldToScreenForLights(gameLight.Position + new Vector2(0, 100f), viewMatrix),
