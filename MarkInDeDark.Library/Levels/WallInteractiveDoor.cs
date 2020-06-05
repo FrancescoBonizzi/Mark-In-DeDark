@@ -36,6 +36,7 @@ namespace MarkInDeDark.Library.Levels
         public List<Hull> Hulls { get; }
 
         public Vector2 Position => _wallDoorDownDrawingInfos.Position;
+        public Vector2 CenterPosition => _wallDoorDownDrawingInfos.Position + _wallDoorDownSprite.SpriteCenter;
 
         private readonly DrawingInfos _wallDoorDownDrawingInfos;
         private readonly DrawingInfos _wallDoorArcDrawingInfos;
@@ -112,7 +113,7 @@ namespace MarkInDeDark.Library.Levels
                 _wallDoorDownSprite.Width,
                 40);
 
-            _openDoorHullWidth = 70f;
+            _openDoorHullWidth = 60f;
             _closedDoorHullWidth = _wallDoorDownSprite.Width / 2;
 
             _currentAnimation = _doorOpenAnimation;
@@ -122,7 +123,7 @@ namespace MarkInDeDark.Library.Levels
             _hullLeft = new Hull()
             {
                 Origin = Vector2.Zero,
-                Position = new Vector2(doorPosition.X, doorPosition.Y + 135),
+                Position = new Vector2(doorPosition.X - 5, doorPosition.Y + 135),
                 Scale = new Vector2(_openDoorHullWidth, 5)
             };
 

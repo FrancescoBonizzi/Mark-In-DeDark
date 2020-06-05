@@ -34,6 +34,8 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _spriteArcNormal;
 
         public Vector2 Position => _spriteCenterDrawingInfos.Position;
+        public Vector2 CenterPosition => _spriteCenterDrawingInfos.Position + _spriteCenterClosed.SpriteCenter;
+
         public float ObscurationOpacity { get; set; }
 
         private bool _isOpen;

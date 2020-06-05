@@ -22,6 +22,7 @@ namespace MarkInDeDark.Library.Levels
         public Rectangle CollisionRectangle { get; }
         public List<Hull> Hulls { get; }
         public Vector2 Position => _drawingInfos.Position;
+        public Vector2 CenterPosition => _drawingInfos.Position + _sprite.SpriteCenter;
 
         private readonly DrawingInfos _decalDrawingInfos;
         private readonly DrawingInfos _obscurationDrawingInfos;

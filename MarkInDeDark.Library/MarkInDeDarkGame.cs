@@ -340,8 +340,6 @@ namespace MarkInDeDark.Library
             {
                 _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
-
-            _gameGrid.InitializeLuminator(_normalMapLights);
         }
 
         // TODO Levare questa robba quando avremo finito?

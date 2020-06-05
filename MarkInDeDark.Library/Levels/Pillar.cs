@@ -38,9 +38,9 @@ namespace MarkInDeDark.Library.Levels
 
             Hull = Utilities.HullFromRectangle(new Rectangle(
                 (int)position.X + 15,
-                (int)position.Y + _sprite.Height - 53,
+                (int)position.Y + _sprite.Height - 65,
                 50,
-                40));
+                35));
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));

@@ -22,7 +22,6 @@ namespace MarkInDeDark.Library.Levels
         public const int VerticalCellsNumber = 25;
 
         private readonly GameCell[,] _cells;
-        private GameGridLuminator _gameGridLuminator;
 
         public int CellWidth { get; }
         public int CellHeight { get; }
@@ -120,9 +119,6 @@ namespace MarkInDeDark.Library.Levels
             GameGridLoader.LoadGrid(assetsLoader, soundManager, levelToLoad.LevelEditorDeserializedGrid, this, levelToLoad, gameConfig);
             _game = game;
         }
-
-        public void InitializeLuminator(List<MarkLight> lights)
-            => _gameGridLuminator = new GameGridLuminator(this, lights);
 
         public void SetNullCell(int cellX, int cellY)
             => _cells[cellX, cellY] = null;
@@ -802,7 +798,6 @@ namespace MarkInDeDark.Library.Levels
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom)) + 1;
 
             OnAllVisibleCells(c => c.Update(elapsed));
-            _gameGridLuminator.Luminate();
         }
 
         public void DrawGroundWithNormalMap(
