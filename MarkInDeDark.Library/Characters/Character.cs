@@ -296,6 +296,12 @@ namespace MarkInDeDark.Library.Characters
                 SetLightPosition();
 
             Hull.Enabled = false;
+            if (SurroundingLight != null)
+            {
+                SurroundingLight.IsGlowEnabled = false;
+                if (SurroundingLight.PenumbraLight != null)
+                    SurroundingLight.PenumbraLight.Enabled = false;
+            }
         }
 
         public void SetDirectionAnimation(CharacterActions direction)

@@ -29,10 +29,12 @@ namespace MarkInDeDark.Library.Lighting
         public PointLight PenumbraLight { get; }
 
         public bool IsEnabled { get; set; } = true;
+        public bool IsGlowEnabled { get; set; } = true;
         public bool IsOutOfScreen { get; set; }
 
         public bool ShouldDraw => IsEnabled && !IsOutOfScreen;
         public LightingMode LightingMode { get; set; }
+        
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
         private readonly Sprite _specularGlowSprite;
@@ -131,10 +133,13 @@ namespace MarkInDeDark.Library.Lighting
             if (_forcedColor == null)
             {
                 _colorChangingObject.Update(elapsed);
+                PenumbraLight.Color = _colorChangingObject.Color;
+                ColorNormal = _colorChangingObject.Color.ToVector3();
             }
             else
             {
                 ColorNormal = _forcedColor.Value.ToVector3();
+                PenumbraLight.Color = _forcedColor.Value;
             }
 
             // Cambiamento di scala
@@ -143,8 +148,7 @@ namespace MarkInDeDark.Library.Lighting
             //         _scalingObjectForPenumbraLight.Update(elapsed);
 
             //         DistanceSquared = _scalingObjectForLight.Scale * _originalDistanceSquared;
-            ColorNormal = _colorChangingObject.Color.ToVector3();
-
+            
             // Shake luce
 #warning RIMETTERE. Ma non può basarsi su Position, altrimenti si continua a spostare!
             //var shakeIntensity = Numbers.RandomBetween(0, 10);
@@ -162,12 +166,14 @@ namespace MarkInDeDark.Library.Lighting
 
             //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             PenumbraLight.Position = Position + new Vector2(0f, 100f);
-            PenumbraLight.Color = _colorChangingObject.Color;
         }
 
         public void DrawGlow(SpriteBatch spriteBatch)
         {
             if (!ShouldDraw)
+                return;
+
+            if (!IsGlowEnabled)
                 return;
 
             spriteBatch.Draw(_specularGlowSprite, _specularGlowDrawingInfos);

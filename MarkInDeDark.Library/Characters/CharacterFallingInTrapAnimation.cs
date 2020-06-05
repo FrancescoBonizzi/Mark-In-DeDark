@@ -74,6 +74,8 @@ namespace MarkInDeDark.Library.Characters
 
                 // Lo faccio per far muovere con lui la luce
                 _character.MainFigureDrawingInfos.Position = _drawingInfos.Position;
+                if (_character.SurroundingLight != null)
+                    _character.SurroundingLight.ForceColor(_drawingInfos.OverlayColor);
             }
 
         }
