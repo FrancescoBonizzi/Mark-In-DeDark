@@ -1,6 +1,4 @@
-﻿using MarkInDeDark.Library;
-using MarkInDeDark.Library.AI;
-
+﻿using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;

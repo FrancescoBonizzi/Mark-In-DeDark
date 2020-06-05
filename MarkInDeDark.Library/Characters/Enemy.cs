@@ -195,7 +195,8 @@ namespace MarkInDeDark.Library.Characters
                 return;
 
             // Se incontra una candela, la spegne all'istante
-            if (_killsCandlesIfCollidesWithThem)
+            if (_killsCandlesIfCollidesWithThem
+                && !(CurrentAI is ChargeDirectionAI))
             {
                 if (!(CurrentAI is KillCandleAI))
                 {
@@ -210,20 +211,20 @@ namespace MarkInDeDark.Library.Characters
 
             // Rimodulo sempre il volume dell'attacco per fare il fade
             // quando il player si allontana.
-            if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
-            {
-                _soundManager.ComputeIndexSoundsVolume(
-                    _screamSoundIndex,
-                    _attackSoundIndex,
-                    Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
-            }
+            //if (MainAnimationsAnimationManager.CurrentAnimationName.Contains("Attack"))
+            //{
+            //    _soundManager.ComputeIndexSoundsVolume(
+            //        _screamSoundIndex,
+            //        _attackSoundIndex,
+            //        Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+            //}
 
-            _screamTimer -= elapsed;
-            if (_screamTimer <= TimeSpan.Zero)
-            {
-                //PlayMyVoice();
-                SetRandomScreamTimer();
-            }
+            //_screamTimer -= elapsed;
+            //if (_screamTimer <= TimeSpan.Zero)
+            //{
+            //    //PlayMyVoice();
+            //    SetRandomScreamTimer();
+            //}
 
             if (!(_player.IsDead || _player.IsDying)
                 && !_player.HasWon
