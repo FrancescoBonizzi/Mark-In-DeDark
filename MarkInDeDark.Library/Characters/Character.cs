@@ -773,7 +773,7 @@ namespace MarkInDeDark.Library.Characters
         {
             if (_shadowsDrawingInfos != null)
             {
-                Hull.Position = WorldCenter + new Vector2(0, 20);
+                Hull.Position = WorldCenter + _shadowPositionTraslation;
                 _shadowsDrawingInfos.Position = WorldCenter + _shadowPositionTraslation;
             }
         }

@@ -34,23 +34,14 @@ namespace MarkInDeDark.Library.Characters
             ShadowWhileIdleDownAnimation = shadowWhileIdleDownAnimation;
             ShadowWhileIdleSideAnimation = shadowWhileIdleSideAnimation;
 
-            if (shadowType == "GenericCharacter")
-            {
-                ShadowPositionTraslationUp = new Vector2(0, 20f);
-                ShadowPositionTraslationLeft = new Vector2(0, 20f);
-                ShadowPositionTraslationRight = new Vector2(0, 20f);
-                ShadowPositionTraslationDown = new Vector2(0, 20f);
+            // Up quando il personaggio guarda in su
+            ShadowPositionTraslationUp = new Vector2(0, 35);
 
-                ShadowPositionTraslationDownIdle = Vector2.Zero;
-            }
-            else
-            {
-                ShadowPositionTraslationUp = new Vector2(32, 32);
-                ShadowPositionTraslationLeft = new Vector2(32, 0);
-                ShadowPositionTraslationRight = new Vector2(-32, 0);
-                ShadowPositionTraslationDown = new Vector2(-8, 0);
-                ShadowPositionTraslationDownIdle = new Vector2(-32, 0);
-            }
+            // Left quando guarda a sinistra
+            ShadowPositionTraslationLeft = new Vector2(0, 40);
+            ShadowPositionTraslationRight = new Vector2(0, 40);
+            ShadowPositionTraslationDown = new Vector2(0, 0);
+            ShadowPositionTraslationDownIdle = new Vector2(0, 0);
         }
     }
 }
