@@ -1,4 +1,5 @@
 ﻿using FbonizziMonoGame.Drawing;
+using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Levels;
@@ -102,7 +103,7 @@ namespace MarkInDeDark.Library.Characters
         private Vector2 _shadowPositionTraslationRight;
         private Vector2 _shadowPositionTraslationDown;
         private Vector2 _shadowPositionTraslationDownIdle;
-        
+
         private TimeSpan _currentMovementElapsed = TimeSpan.Zero;
         public float CellMovementSeconds { get; set; }
 
@@ -123,8 +124,6 @@ namespace MarkInDeDark.Library.Characters
         protected readonly CharacterExplosionParticleSystem _characterDieExplosionParticleSystem;
 
         public bool ShouldDoExplosionAnimation { get; set; } = false;
-
-        public Penumbra.Hull Hull { get; }
 
         public Character(
             GameGrid grid,
@@ -185,7 +184,10 @@ namespace MarkInDeDark.Library.Characters
                 _shadowPositionTraslationUp = configuration.CharacterShadowConfiguration.ShadowPositionTraslationUp;
                 _shadowPositionTraslationDownIdle = configuration.CharacterShadowConfiguration.ShadowPositionTraslationDownIdle;
 
-                _shadowsDrawingInfos = new DrawingInfos();
+                _shadowsDrawingInfos = new DrawingInfos()
+                {
+                    OverlayColor = Color.Black.WithAlpha(0.7f)
+                };
                 PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
             }
 
@@ -208,13 +210,6 @@ namespace MarkInDeDark.Library.Characters
                 _torchPositionTraslation = _torchPositionTraslationDown;
                 SetLightPosition();
             }
-
-            Hull = Utilities.HullFromRectangle(CollisionRectangle);
-            Hull.Scale = new Vector2(15, 15);
-            Hull.Points.Add(new Vector2(0, 0));
-            Hull.Points.Add(new Vector2(0, 1));
-            Hull.Points.Add(new Vector2(1, 1));
-            Hull.Points.Add(new Vector2(1, 0));
         }
 
         public void SetTemporaryColor(Color color)
@@ -275,8 +270,6 @@ namespace MarkInDeDark.Library.Characters
                 CurrentDieAnimationType = DieAnimationType.StandardAnimation;
                 MainAnimationsAnimationManager.PlayAnimation("Dying");
             }
-
-            Hull.Enabled = false;
         }
 
         public virtual void FallInTrap(Vector2 trapCenter)
@@ -294,7 +287,6 @@ namespace MarkInDeDark.Library.Characters
             if (AreLightsActive)
                 SetLightPosition();
 
-            Hull.Enabled = false;
             if (SurroundingLight != null)
             {
                 SurroundingLight.IsGlowEnabled = false;
@@ -669,7 +661,7 @@ namespace MarkInDeDark.Library.Characters
             _nextActionToProcess = action;
         }
 
-     
+
         public virtual void Update(TimeSpan elapsed)
         {
             if (!IsDying && !IsDead)
@@ -688,8 +680,8 @@ namespace MarkInDeDark.Library.Characters
                     //    1f);
 
                     MainFigureDrawingInfos.Position = Vector2.Lerp(
-                        _startingLocation, 
-                        _nextLocation, 
+                        _startingLocation,
+                        _nextLocation,
                         _movementLerpAmount);
 
                     if (_movementLerpAmount >= 1f)
@@ -702,7 +694,7 @@ namespace MarkInDeDark.Library.Characters
                 SetShadowPosition();
                 RecalculateZIndex();
                 MainAnimationsAnimationManager.Update(elapsed);
-              //  ShadowsAnimationManager?.Update(elapsed);
+                ShadowsAnimationManager?.Update(elapsed);
             }
 
             if (IsDying)
@@ -754,12 +746,21 @@ namespace MarkInDeDark.Library.Characters
 
         protected virtual void RecalculateZIndex()
         {
-            MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
-                this,
-                Position);
+            if (IsDying && CurrentDieAnimationType == DieAnimationType.StandardAnimation)
+            {
+                MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.OverAllLayerDepth;
+            }
+            else
+            { 
+                MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
+                    this,
+                    Position);
+            }
 
             if (_shadowsDrawingInfos != null)
+            {
                 _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
+            }
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)
@@ -778,7 +779,6 @@ namespace MarkInDeDark.Library.Characters
         {
             if (_shadowsDrawingInfos != null)
             {
-                Hull.Position = WorldCenter + _shadowPositionTraslation;
                 _shadowsDrawingInfos.Position = WorldCenter + _shadowPositionTraslation;
             }
         }
@@ -797,7 +797,7 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.IdleRight:
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
-                    //ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+                    ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
                     break;
 
                 case CharacterState.Dying:

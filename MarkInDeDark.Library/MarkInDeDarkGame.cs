@@ -163,6 +163,8 @@ namespace MarkInDeDark.Library
             _groundLevelResultRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
+            // _gameConfig.GodModeDebugMode = true;
+
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
             _penumbra.Debug = _gameConfig.GodModeDebugMode;
@@ -326,10 +328,6 @@ namespace MarkInDeDark.Library
             {
                 _penumbra.Hulls.Add(p.Hull);
             }
-
-            _penumbra.Hulls.Add(_player.Hull);
-            foreach (var e in _enemies)
-                _penumbra.Hulls.Add(e.Hull);
 
             var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
             _normalMapAmbientColor = levelCustomization.AmbienceColor;
@@ -800,7 +798,7 @@ namespace MarkInDeDark.Library
 
             if (!_gameConfig.GodModeDebugMode)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
                 spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();
@@ -821,36 +819,36 @@ namespace MarkInDeDark.Library
             _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
 
-            if (_gameConfig.GodModeDebugMode)
-            {
-                spriteBatch.Begin(transformMatrix: viewMatrix);
+            //if (_gameConfig.GodModeDebugMode)
+            //{
+            //    spriteBatch.Begin(transformMatrix: viewMatrix);
 
-                foreach (var l in _normalMapLights)
-                {
-                    spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
-                }
+            //    foreach (var l in _normalMapLights)
+            //    {
+            //        spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
+            //    }
 
-                foreach (var e in _enemies)
-                {
-                    spriteBatch.DrawRectangle(e.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
-                }
-                spriteBatch.DrawRectangle(_player.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
+            //    foreach (var e in _enemies)
+            //    {
+            //        spriteBatch.DrawRectangle(e.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
+            //    }
+            //    spriteBatch.DrawRectangle(_player.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
 
-                spriteBatch.End();
+            //    spriteBatch.End();
 
-                spriteBatch.Begin();
-                foreach (var l in _normalMapLights)
-                {
-                    spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
-                }
+            //    spriteBatch.Begin();
+            //    foreach (var l in _normalMapLights)
+            //    {
+            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
+            //    }
 
-                foreach (var l in _normalMapLights)
-                {
-                    spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
-                }
+            //    foreach (var l in _normalMapLights)
+            //    {
+            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
+            //    }
 
-                spriteBatch.End();
-            }
+            //    spriteBatch.End();
+            //}
 
             // 6. HUD
             spriteBatch.Begin();

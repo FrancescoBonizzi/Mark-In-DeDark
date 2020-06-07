@@ -169,7 +169,7 @@ namespace MarkInDeDark.Library
                 var animation = new List<Sprite>();
                 var normalMapAnimation = new List<Sprite>();
 
-                for (int f = 1; f <= _maxFramesNumber; ++f)
+                for (int f = 1; f <= _maxFramesNumber;  ++f)
                 {
                     string completeFrameName = $"{frameName}_{f}";
                     if (Sprites.ContainsKey(completeFrameName))
@@ -178,12 +178,12 @@ namespace MarkInDeDark.Library
                     string completeFrameNameNormal = $"{completeFrameName}_normal";
                     if (Sprites.ContainsKey(completeFrameNameNormal))
                         normalMapAnimation.Add(Sprites[completeFrameNameNormal]);
-                }
+                   }
 
                 if (animation.Count > 0)
                 {
                     // Creo automaticamente una sola idle per i mostri
-                    if (animationName.Contains("Idle") && !animationName.Contains("player"))
+                    if (animationName.Contains("Idle") && !animationName.Contains("player") && !frameName.Contains("shadow"))
                     {
                         animation = animation.Take(1).ToList();
                     }

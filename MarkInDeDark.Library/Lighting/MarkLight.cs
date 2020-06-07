@@ -165,7 +165,7 @@ namespace MarkInDeDark.Library.Lighting
             //        _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
 
             //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
-            PenumbraLight.Position = Position + new Vector2(0f, 100f);
+            PenumbraLight.Position = Position + new Vector2(-10f, 75f);
         }
 
         public void DrawGlow(SpriteBatch spriteBatch)
