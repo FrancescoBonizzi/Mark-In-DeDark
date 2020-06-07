@@ -8,5 +8,6 @@ namespace MarkInDeDark.Library.Levels
         public Vector3 AmbienceColor { get; set; }
         public Color PenumbraAmbientColor { get; set; }
         public bool IsSnowing { get; set; }
+        public float GlowScale { get; set; }
     }
 }

@@ -87,6 +87,7 @@ namespace MarkInDeDark.Library
 
         private bool? _runGameOverScene;
         private bool _shakeViewport;
+        public static LevelCustomization LevelCustomization { get; private set; }
         private Vector3 _normalMapAmbientColor;
 
         private Matrix _worldMatrix = Matrix.Identity;
@@ -149,6 +150,9 @@ namespace MarkInDeDark.Library
                 _normalMapRegulationTimer.Start();
             }
 
+            _currentLevel = selectedLevel;
+            LevelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
+
             var presentationParameters = graphicsDevice.PresentationParameters;
             _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
@@ -171,7 +175,6 @@ namespace MarkInDeDark.Library
             _penumbra.Initialize();
             _penumbra.Debug = _gameConfig.GodModeDebugMode;
 
-            _currentLevel = selectedLevel;
             _markGamePad = markGamePad;
 
             _camera = new Camera2D(_matrixScaleProvider)
@@ -331,11 +334,9 @@ namespace MarkInDeDark.Library
                 _penumbra.Hulls.Add(p.Hull);
             }
 
-            var levelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
-            _normalMapAmbientColor = levelCustomization.AmbienceColor;
-            _penumbra.AmbientColor = levelCustomization.PenumbraAmbientColor;
-
-            if (levelCustomization.IsSnowing)
+            _normalMapAmbientColor = LevelCustomization.AmbienceColor;
+            _penumbra.AmbientColor = LevelCustomization.PenumbraAmbientColor;
+            if (LevelCustomization.IsSnowing)
             {
                 _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }

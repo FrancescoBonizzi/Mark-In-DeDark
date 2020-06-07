@@ -11,7 +11,8 @@ namespace MarkInDeDark.Library.Levels
                 LevelId = levelId,
                 AmbienceColor = Vector3.Zero,
                 PenumbraAmbientColor = Color.Black,
-                IsSnowing = false
+                IsSnowing = false,
+                GlowScale = 1
             };
 
             if (levelId == 1 || levelId == 2)
@@ -19,6 +20,7 @@ namespace MarkInDeDark.Library.Levels
                 l.AmbienceColor = new Vector3(0f, 0.01f, 0.03f);
                 l.PenumbraAmbientColor = new Color(0, 0, 3);
                 l.IsSnowing = true;
+                l.GlowScale = 2f;
             }
 
             return l;

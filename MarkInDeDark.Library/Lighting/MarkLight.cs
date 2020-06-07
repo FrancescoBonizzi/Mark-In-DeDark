@@ -90,7 +90,7 @@ namespace MarkInDeDark.Library.Lighting
             _specularGlowDrawingInfos = new DrawingInfos()
             {
                 Origin = _specularGlowSprite.SpriteCenter,
-                Scale = 1f
+                Scale = MarkInDeDarkGame.LevelCustomization.GlowScale
             };
 
             _lightMaskDrawingInfos = new DrawingInfos()

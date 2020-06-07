@@ -1,7 +1,6 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
-using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
