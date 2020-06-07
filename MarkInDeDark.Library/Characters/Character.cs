@@ -746,16 +746,9 @@ namespace MarkInDeDark.Library.Characters
 
         protected virtual void RecalculateZIndex()
         {
-            if (IsDying && CurrentDieAnimationType == DieAnimationType.StandardAnimation)
-            {
-                MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.OverAllLayerDepth;
-            }
-            else
-            { 
-                MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
-                    this,
-                    Position);
-            }
+            MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
+                this,
+                Position);
 
             if (_shadowsDrawingInfos != null)
             {

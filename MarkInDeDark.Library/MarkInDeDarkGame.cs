@@ -829,7 +829,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
-            _candlesManager.Draw(spriteBatch);
+            _candlesManager.DrawEffectsOverDark(spriteBatch);
             _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
 
