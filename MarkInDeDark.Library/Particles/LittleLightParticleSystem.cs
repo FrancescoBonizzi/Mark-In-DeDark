@@ -8,7 +8,7 @@ namespace MarkInDeDark.Library.Particles
     {
         public LittleLightParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["Effects/generic_spark"],
+                  assetsLoader.Sprites["Effects/particle"],
                   density: 1,
                   minNumParticles: 9,
                   maxNumParticles: 10,

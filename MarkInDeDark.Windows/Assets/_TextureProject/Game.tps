@@ -1150,19 +1150,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Game/Effects/generic_spark.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9Paddings</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Game/Effects/glow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -1176,6 +1163,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Game/Effects/particle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,3,6,6</rect>
+                <key>scale9Paddings</key>
+                <rect>3,3,6,6</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Game/Effects/smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -1186,19 +1186,6 @@
                 <rect>12,12,24,24</rect>
                 <key>scale9Paddings</key>
                 <rect>12,12,24,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/Effects/snowflake.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>1,1,1,1</rect>
-                <key>scale9Paddings</key>
-                <rect>1,1,1,1</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

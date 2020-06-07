@@ -1,9 +1,7 @@
-﻿
-using MarkInDeDark.Library.Characters;
+﻿using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Lighting;
-using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
@@ -168,6 +166,13 @@ namespace MarkInDeDark.Library
             foreach (Candle c in Candles)
             {
                 c.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawEffectsOverDark(SpriteBatch spriteBatch)
+        {
+            foreach (Candle c in Candles)
+            {
                 c.DrawEffects(spriteBatch);
             }
         }

@@ -25,7 +25,7 @@ namespace MarkInDeDark.Library.Particles
         {
             _characterBodyPartsParticles = new List<BodyPartParticle>();
             _bodyParts = characterConfiguration.BodyParts;
-            _bloodParticleSprite = assetsLoader.Sprites["Effects/generic_spark"];
+            _bloodParticleSprite = assetsLoader.Sprites["Effects/particle"];
         }
 
         public void Explode(

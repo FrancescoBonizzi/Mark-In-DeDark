@@ -384,7 +384,10 @@ namespace MarkInDeDark.Library.Levels
         }
 
         public void DrawForDebug(SpriteBatch spriteBatch)
-            => spriteBatch.DrawRectangle(CollisionRectangle, Color.Red.WithAlpha(0.5f));
+        {
+            foreach (var w in Walls)
+                spriteBatch.DrawRectangle(w.Value.CollisionRectangle, Color.Red.WithAlpha(0.5f));
+        }
 
         public void DrawWalls(SpriteBatch spriteBatch)
         {

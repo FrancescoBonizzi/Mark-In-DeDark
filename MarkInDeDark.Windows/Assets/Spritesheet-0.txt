@@ -7,10 +7,9 @@ Bubu/Death/bubu_legL|1|2011|52|36
 Bubu/Death/bubu_legR|685|1997|28|48
 Bubu/Death/bubu_torso|1|1925|68|84
 Effects/blood_decal|413|1|192|192
-Effects/generic_spark|553|1815|20|20
 Effects/glow|1|1|256|256
+Effects/particle|161|2033|12|12
 Effects/smoke|321|207|48|48
-Effects/snowflake|161|2033|3|3
 Goblin/Death/goblin_armL|485|1763|36|72
 Goblin/Death/goblin_armR|685|1939|40|56
 Goblin/Death/goblin_guts|55|2011|44|36

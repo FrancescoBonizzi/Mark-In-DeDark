@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 using Penumbra;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Timers;
@@ -338,7 +337,7 @@ namespace MarkInDeDark.Library
 
             if (levelCustomization.IsSnowing)
             {
-                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
+                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/particle"], _camera);
             }
         }
 
@@ -571,10 +570,10 @@ namespace MarkInDeDark.Library
                 if (gameLight.ShouldDraw)
                 {
                     gameLight.PositionForWall = new Vector3(
-                        WorldToScreenForLights(gameLight.Position - new Vector2(0, 60f), viewMatrix),
+                        WorldToScreenForLights(gameLight.Position + gameLight.DeltaForWall, viewMatrix),
                         gameLight.Z);
                     gameLight.PositionForGround = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + new Vector2(0, 100f), viewMatrix),
+                        WorldToScreenForLights(gameLight.Position + gameLight.DeltaForGround, viewMatrix),
                         gameLight.Z);
                 }
             }
@@ -745,7 +744,9 @@ namespace MarkInDeDark.Library
                 samplerState: SamplerState.PointClamp,
                 sortMode: SpriteSortMode.FrontToBack);
 
-            _gameGrid.DrawWalls(spriteBatch);
+            if (!_gameConfig.GodModeDebugMode)
+                _gameGrid.DrawWalls(spriteBatch);
+            else _gameGrid.DrawForDebug(spriteBatch);
 
             if (_triggerObjects != null)
             {
@@ -816,6 +817,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             foreach (Enemy en in _enemies)
                 en.DrawEffectsOverDark(spriteBatch);
+            _candlesManager.Draw(spriteBatch);
             _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
 

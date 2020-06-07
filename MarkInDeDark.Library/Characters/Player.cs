@@ -75,7 +75,6 @@ namespace MarkInDeDark.Library.Characters
             
             SurroundingLight.PenumbraLight.CastsShadows = true;
             SurroundingLight.PenumbraLight.Enabled = true;
-            SurroundingLight.LightingMode = LightingMode.FivePerFive;
         }
 
         public bool HasWon

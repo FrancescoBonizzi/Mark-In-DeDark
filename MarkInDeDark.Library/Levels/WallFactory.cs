@@ -244,7 +244,7 @@ namespace MarkInDeDark.Library.Levels
         {
             var wallPosition = new Vector2(
                 cellPosition.X + cellSize.X - level.RandomVerticalWallSprites[0].Base.Width / 2f,
-                cellPosition.Y - 30);
+                cellPosition.Y - 48);
 
             if (cellConfig.Right == WallTypes.Fragile)
             {
@@ -276,7 +276,7 @@ namespace MarkInDeDark.Library.Levels
         {
             var wallPosition = new Vector2(
                 cellPosition.X - level.RandomVerticalWallSprites[0].Base.Width / 2f,
-                cellPosition.Y - 30);
+                cellPosition.Y - 48);
             
             if (cellConfig.Left == WallTypes.Fragile)
             {

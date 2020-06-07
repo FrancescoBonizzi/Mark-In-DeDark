@@ -1,5 +1,5 @@
-﻿using MarkInDeDark.Library.AI;
-
+﻿using FbonizziMonoGame.Extensions;
+using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
@@ -13,9 +13,7 @@ namespace MarkInDeDark.Library.Characters
 {
     public class Ghost : Enemy
     {
-        private readonly GhostParticleSystem _primaryGhostParticleSystem;
         private readonly GhostParticleSystem _wallCrossGhostParticleSystem;
-        private readonly GhostParticleSystem _lightMapGhostParticleSystem;
 
         public Ghost(
             AssetsLoader assetsLoader,
@@ -40,7 +38,7 @@ namespace MarkInDeDark.Library.Characters
                         torchPositionTraslationRight: Vector2.Zero,
                         torchPositionTraslationDown: Vector2.Zero,
                         z: 46f,
-                        opacity: 0.5f,
+                        opacity: 1f,
                         distanceSquared: 4_950f,
                         penumbraTorchScale: 300f),
                       movementSpeed: gameConfig.GhostSpeed,
@@ -63,55 +61,14 @@ namespace MarkInDeDark.Library.Characters
 
             var deltaPosition = new Vector2(0, -15f);
             MainFigureDrawingInfos.Origin -= deltaPosition;
-
-            _primaryGhostParticleSystem = new GhostParticleSystem(
-               assetsLoader,
-               new Color(101, 221, 160),
-               new Color(71, 191, 117))
-            {
-                Density = 3,
-                MinNumParticles = 1,
-                MaxNumParticles = 4,
-                MinInitialSpeed = 160,
-                MaxInitialSpeed = 200,
-                MinAcceleration = 3.6f,
-                MaxAcceleration = 7.5f,
-                MinRotationSpeed = -3,
-                MaxRotationSpeed = 0,
-                MinLifetime = TimeSpan.FromMilliseconds(1028),
-                MaxLifetime = TimeSpan.FromMilliseconds(1557),
-                MinScale = 1,
-                MaxScale = 1,
-                MinSpawnAngle = -45,
-                MaxSpawnAngle = 235
-            };
+            MainFigureDrawingInfos.HitBoxTolerance = new Rectangle(30, 30, 46, 46);
 
             _wallCrossGhostParticleSystem = new GhostParticleSystem(
                 assetsLoader,
-                Color.LimeGreen,
-                Color.Lime);
+                Color.LimeGreen.WithAlpha(0.2f),
+                Color.Lime.WithAlpha(0.2f));
 
-            _lightMapGhostParticleSystem = new GhostParticleSystem(
-                assetsLoader,
-                Color.White,
-                Color.White)
-            {
-                Density = 3,
-                MinNumParticles = 1,
-                MaxNumParticles = 4,
-                MinInitialSpeed = 160,
-                MaxInitialSpeed = 200,
-                MinAcceleration = 3.6f,
-                MaxAcceleration = 7.5f,
-                MinRotationSpeed = -3,
-                MaxRotationSpeed = 0,
-                MinLifetime = TimeSpan.FromMilliseconds(1028),
-                MaxLifetime = TimeSpan.FromMilliseconds(1557),
-                MinScale = 1.5f,
-                MaxScale = 2f,
-                MinSpawnAngle = -45,
-                MaxSpawnAngle = 235
-            };
+            SurroundingLight.DeltaForWall = new Vector2(0f, -30f);
         }
 
         public override void Die()
@@ -138,38 +95,28 @@ namespace MarkInDeDark.Library.Characters
 
         public override void Update(TimeSpan elapsed)
         {
-            _primaryGhostParticleSystem.AddParticles(WorldCenter);
-            _lightMapGhostParticleSystem.AddParticles(WorldCenter);
+            // Tenere per primo altrimenti sovrascrive il LayerDepth
+            base.Update(elapsed);
 
             if (_gameGrid.CollideWithAWall(CollisionRectangle))
             {
                 _wallCrossGhostParticleSystem.AddParticles(WorldCenter);
+                MainFigureDrawingInfos.LayerDepth -= 0.02f;
             }
 
-            _lightMapGhostParticleSystem.Update(elapsed);
-            _primaryGhostParticleSystem.Update(elapsed);
             _wallCrossGhostParticleSystem.Update(elapsed);
-            base.Update(elapsed);
         }
 
         protected override void RecalculateZIndex()
         {
             base.RecalculateZIndex();
-            _primaryGhostParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth - 0.00004f;
             _wallCrossGhostParticleSystem.LayerDepth = MainFigureDrawingInfos.LayerDepth - 0.00005f;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void DrawEffectsOverDark(SpriteBatch spriteBatch)
         {
-            _primaryGhostParticleSystem.Draw(spriteBatch);
             _wallCrossGhostParticleSystem.Draw(spriteBatch);
-            base.Draw(spriteBatch);
-        }
-
-        public override void DrawLightMask(SpriteBatch spriteBatch)
-        {
-            _lightMapGhostParticleSystem.Draw(spriteBatch);
-            base.DrawLightMask(spriteBatch);
+            base.DrawEffectsOverDark(spriteBatch);
         }
 
     }

@@ -8,7 +8,7 @@ namespace MarkInDeDark.Library.Particles
     {
         public CandleFireParticleSystem(AssetsLoader assetsLoader)
             : base(
-                  assetsLoader.Sprites["Effects/generic_spark"],
+                  assetsLoader.Sprites["Effects/particle"],
                   density: 1,
                   minNumParticles: 2,
                   maxNumParticles: 3,

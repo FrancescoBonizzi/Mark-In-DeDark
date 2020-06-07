@@ -26,6 +26,9 @@ namespace MarkInDeDark.Library.Lighting
         public Vector3 PositionForWall { get; set; }
         public Vector3 ColorNormal { get; set; } = Vector3.One;
 
+        public Vector2 DeltaForWall { get; set; } = new Vector2(0, -60f);
+        public Vector2 DeltaForGround { get; set; } = new Vector2(0, 100f);
+
         public PointLight PenumbraLight { get; }
 
         public bool IsEnabled { get; set; } = true;
@@ -33,7 +36,6 @@ namespace MarkInDeDark.Library.Lighting
         public bool IsOutOfScreen { get; set; }
 
         public bool ShouldDraw => IsEnabled && !IsOutOfScreen;
-        public LightingMode LightingMode { get; set; }
         
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
@@ -63,13 +65,11 @@ namespace MarkInDeDark.Library.Lighting
             float opacity,
             float distanceSquared,
             bool castsShadows,
-            float penumbraLightScale,
-            LightingMode lightingMode)
+            float penumbraLightScale)
         {
             Z = z;
             Opacity = opacity;
             DistanceSquared = distanceSquared;
-            LightingMode = lightingMode;
             //       _originalDistanceSquared = distanceSquared;
 
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];

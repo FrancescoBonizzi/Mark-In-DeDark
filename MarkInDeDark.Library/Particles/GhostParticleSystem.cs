@@ -11,7 +11,7 @@ namespace MarkInDeDark.Library.Particles
             Color colorA,
             Color colorB)
             : base(
-                  assetsLoader.Sprites["Effects/generic_spark"],
+                  assetsLoader.Sprites["Effects/particle"],
                   density: 10,
                   minNumParticles: 20,
                   maxNumParticles: 20,
@@ -25,8 +25,8 @@ namespace MarkInDeDark.Library.Particles
                   maxLifetime: TimeSpan.FromMilliseconds(1500),
                   minScale: 1f,
                   maxScale: 1f,
-                  minSpawnAngle: -45f,
-                  maxSpawnAngle: -235f)
+                  minSpawnAngle: 0,
+                  maxSpawnAngle: 360f)
         {
             PrimaryParticleOverlayColor = colorA;
             SecondaryParticleOverlayColor = colorB;
