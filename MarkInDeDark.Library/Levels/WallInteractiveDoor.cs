@@ -49,7 +49,6 @@ namespace MarkInDeDark.Library.Levels
         private readonly Sprite _wallDoorDownNormalSprite;
 
         private DoorStates _currentState;
-        private readonly Action _onClose;
 
         private readonly SpriteAnimation _doorOpenAnimation;
         private readonly SpriteAnimation _doorCloseAnimation;
@@ -71,8 +70,7 @@ namespace MarkInDeDark.Library.Levels
             Sprite wallDoorArc,
             Sprite wallDoorDown,
             Sprite wallDoorArcNormal,
-            Sprite wallDoorDownNormal,
-            Action onClose)
+            Sprite wallDoorDownNormal)
         {
             _wallDoorUpSprite = wallDoorArc;
             _wallDoorDownSprite = wallDoorDown;
@@ -103,8 +101,6 @@ namespace MarkInDeDark.Library.Levels
             // Copio le animazioni altrimenti apro tante porte contemporeanamente
             _doorOpenAnimation = new SpriteAnimation(doorOpenAnimation);
             _doorCloseAnimation = new SpriteAnimation(doorCloseAnimation);
-
-            _onClose = onClose;
 
             // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
             CollisionRectangle = new Rectangle(
@@ -213,7 +209,6 @@ namespace MarkInDeDark.Library.Levels
                     if (_currentAnimation.HasFinishedPlaying)
                     {
                         _currentState = DoorStates.Closed;
-                        _onClose?.Invoke();
                     }
 
                     _hullLeft.Scale = new Vector2(MathHelper.Lerp(

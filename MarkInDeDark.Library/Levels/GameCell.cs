@@ -164,8 +164,7 @@ namespace MarkInDeDark.Library.Levels
                     TopLeftPosition,
                     levelEditorCell,
                     level,
-                    new Vector2(Width, Height),
-                    () => _game.StartCameraShake(3));
+                    new Vector2(Width, Height));
 
                 Walls = new Dictionary<LinkDirection, IWall>();
                 foreach (var w in walls)

@@ -18,19 +18,18 @@ namespace MarkInDeDark.Library.Levels
             Vector2 cellPosition,
             Cell cellConfig,
             Level level,
-            Vector2 cellSize,
-            Action doorActionOnClose)
+            Vector2 cellSize)
         {
             var walls = new List<IWall>();
 
             if (cellConfig.Top != WallTypes.Niente)
             {
-                walls.Add(GenerateTopWall(cellPosition, cellConfig, level, doorActionOnClose));
+                walls.Add(GenerateTopWall(cellPosition, cellConfig, level));
             }
 
             if (cellConfig.Bottom != WallTypes.Niente)
             {
-                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level, doorActionOnClose));
+                walls.Add(GenerateSouthWall(cellPosition, cellConfig, level));
             }
 
             if (cellConfig.Left != WallTypes.Niente)
@@ -49,8 +48,7 @@ namespace MarkInDeDark.Library.Levels
         private static IWall GenerateTopWall(
             Vector2 cellPosition,
             Cell cellConfig,
-            Level level,
-            Action doorActionOnClose)
+            Level level)
         {
             var topType = cellConfig.Top;
             var direction = LinkDirection.NorthLink;
@@ -121,8 +119,7 @@ namespace MarkInDeDark.Library.Levels
                         wallDoorArc: level.WallDoorArcSprite.Base,
                         wallDoorDown: level.WallDoorBaseSprite.Base,
                         wallDoorArcNormal: level.WallDoorArcSprite.Normal,
-                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal,
-                        onClose: () => doorActionOnClose());
+                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal);
 
                 case WallTypes.Ingresso:
                     return new WallEsteticDoor(
@@ -157,8 +154,7 @@ namespace MarkInDeDark.Library.Levels
         private static IWall GenerateSouthWall(
             Vector2 cellPosition,
             Cell cellConfig,
-            Level level,
-            Action doorActionOnClose)
+            Level level)
         {
             var bottomType = cellConfig.Bottom;
             var direction = LinkDirection.SouthLink;
@@ -228,8 +224,7 @@ namespace MarkInDeDark.Library.Levels
                         wallDoorArc: level.WallDoorArcSprite.Base,
                         wallDoorDown: level.WallDoorBaseSprite.Base,
                         wallDoorArcNormal: level.WallDoorArcSprite.Normal,
-                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal,
-                        onClose: () => doorActionOnClose());
+                        wallDoorDownNormal: level.WallDoorBaseSprite.Normal);
 
                 case WallTypes.Ingresso:
                     throw new ApplicationException("Porta d'ingresso a sud di una cella non consentita");
