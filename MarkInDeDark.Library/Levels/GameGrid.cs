@@ -794,7 +794,7 @@ namespace MarkInDeDark.Library.Levels
             var cameraBoundingRectangle = _camera.BoundingRectangle;
             _currentViewportMinCellX = GetCellByPixelX((int)(cameraBoundingRectangle.X));
             _currentViewportMaxCellX = GetCellByPixelX((int)(cameraBoundingRectangle.Right));
-            _currentViewportMinCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Top));
+            _currentViewportMinCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Top)) - 1;
             _currentViewportMaxCellY = GetCellByPixelY((int)(cameraBoundingRectangle.Bottom)) + 1;
 
             OnAllVisibleCells(c => c.Update(elapsed));
@@ -862,14 +862,12 @@ namespace MarkInDeDark.Library.Levels
             {
                 if (!light.ShouldDraw)
                     continue;
+
                 normalMapEffect.Parameters["LightPosition"].SetValue(light.PositionForGround);
                 normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
                 normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
-
-//#warning Cappato alla sola luce del player la normal del pavimento
-//                break;
             }
             spriteBatch.End();
 

@@ -670,8 +670,6 @@ namespace MarkInDeDark.Library
             return projection;
         }
 
-        private bool _penumbraOk;
-
         public void DrawPlayingScene(
             SpriteBatch spriteBatch,
             RenderTarget2D finalRenderTarget,
@@ -720,7 +718,6 @@ namespace MarkInDeDark.Library
             spriteBatch.Draw(_groundLevelResultRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
             _penumbra.Draw(gameTime);
-            _penumbraOk = !_penumbraOk;
 
             // Disegno altri glow sopra alla lightmap di penumbra
             _graphicsDevice.SetRenderTarget(_penumbra.LightMap);
