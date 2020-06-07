@@ -73,7 +73,7 @@ namespace MarkInDeDark.Library.Characters
               "Dying",
               assetsLoader.GetAnimation("playerDying"));
             
-            SurroundingLight.PenumbraLight.CastsShadows = false;
+            SurroundingLight.PenumbraLight.CastsShadows = true;
             SurroundingLight.PenumbraLight.Enabled = true;
         }
 

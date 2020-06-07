@@ -13,7 +13,6 @@ namespace MarkInDeDark.Library.Levels
         List<Hull> Hulls { get; }
         Vector2 Position { get; }
         Vector2 CenterPosition { get; }
-        float ObscurationOpacity { get; set; }
 
         void Update(TimeSpan elapsed);
         void Draw(SpriteBatch spriteBatch);

@@ -25,25 +25,8 @@ namespace MarkInDeDark.Library.Levels
         public Vector2 CenterPosition => _drawingInfos.Position + _sprite.SpriteCenter;
 
         private readonly DrawingInfos _decalDrawingInfos;
-        private readonly DrawingInfos _obscurationDrawingInfos;
         private readonly Sprite _decal;
         private readonly Sprite _decalNormal;
-
-        private float _obscurationOpacity = 0f;
-        public float ObscurationOpacity
-        {
-            get => _obscurationOpacity;
-            set
-            {
-                _obscurationOpacity = value;
-                if (_obscurationOpacity > 0)
-                    _obscurationDrawingInfos.OverlayColor = Color.Black.WithAlpha(_obscurationOpacity);
-                else
-                {
-                    _obscurationDrawingInfos.OverlayColor = Color.White;
-                }
-            }
-        }
 
         public WallFixed(
             LinkDirection direction,
@@ -58,12 +41,6 @@ namespace MarkInDeDark.Library.Levels
             {
                 Position = position,
                 LayerDepth = ZIndexCalculator.ForWall(position + sprite.SpriteCenter)
-            };
-
-            _obscurationDrawingInfos = new DrawingInfos()
-            {
-                Position = position,
-                LayerDepth = _drawingInfos.LayerDepth + 0.0001f
             };
 
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
@@ -113,7 +90,6 @@ namespace MarkInDeDark.Library.Levels
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_sprite, _drawingInfos);
-            spriteBatch.Draw(_sprite, _obscurationDrawingInfos);
 
             if (_decal != null)
                 spriteBatch.Draw(_decal, _decalDrawingInfos);

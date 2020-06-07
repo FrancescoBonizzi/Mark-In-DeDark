@@ -39,6 +39,7 @@ namespace MarkInDeDark.Library.Lighting
         
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
+        private readonly DrawingInfos _lightMaskDrawingInfos;
         private readonly Sprite _specularGlowSprite;
 
         private ScalingObject _scalingObjectForSpecular;
@@ -87,6 +88,12 @@ namespace MarkInDeDark.Library.Lighting
                 firstAnimationColor, secondAnimationColor, _originalColorChangingSpeed);
 
             _specularGlowDrawingInfos = new DrawingInfos()
+            {
+                Origin = _specularGlowSprite.SpriteCenter,
+                Scale = 1f
+            };
+
+            _lightMaskDrawingInfos = new DrawingInfos()
             {
                 Origin = _specularGlowSprite.SpriteCenter,
                 Scale = 2f
@@ -163,12 +170,13 @@ namespace MarkInDeDark.Library.Lighting
 
             _specularGlowDrawingInfos.Position = Position + new Vector2(0f, 100f);
             //        _specularGlowDrawingInfos.Scale = _scalingObjectForSpecular.Scale;
+            _lightMaskDrawingInfos.Position = _specularGlowDrawingInfos.Position;
 
             //          PenumbraLight.Scale = new Vector2(_scalingObjectForPenumbraLight.Scale);
             PenumbraLight.Position = Position + new Vector2(-10f, 75f);
         }
 
-        public void DrawGlow(SpriteBatch spriteBatch)
+        public void DrawGlowForSpecular(SpriteBatch spriteBatch)
         {
             if (!ShouldDraw)
                 return;
@@ -177,6 +185,17 @@ namespace MarkInDeDark.Library.Lighting
                 return;
 
             spriteBatch.Draw(_specularGlowSprite, _specularGlowDrawingInfos);
+        }
+
+        public void DrawLightMask(SpriteBatch spriteBatch)
+        {
+            if (!ShouldDraw)
+                return;
+
+            if (!IsGlowEnabled)
+                return;
+
+            spriteBatch.Draw(_specularGlowSprite, _lightMaskDrawingInfos);
         }
     }
 }

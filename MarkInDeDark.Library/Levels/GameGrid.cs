@@ -813,7 +813,7 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D specularMapWithAppliedLightmaskRenderTarget,
             RenderTarget2D appliedNormalMapRenderTarget,
             RenderTarget2D resultRenderTarget,
-            Action<SpriteBatch> drawGlows,
+            Action<SpriteBatch> drawGlowsForSpecular,
             List<MarkLight> lights)
         {
             // Pavimento di base
@@ -850,7 +850,7 @@ namespace MarkInDeDark.Library.Levels
             graphicsDevice.SetRenderTarget(specularMapLightmaskRenderTarget);
             graphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
-            drawGlows(spriteBatch);
+            drawGlowsForSpecular(spriteBatch);
             spriteBatch.End();
 
             // Normal map applicata

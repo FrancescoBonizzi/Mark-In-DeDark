@@ -60,6 +60,7 @@ namespace MarkInDeDark.Library
         private readonly RenderTarget2D _groundLevelSpecularMapRenderTarget;
         private readonly RenderTarget2D _groundLevelSpecularMapLightMaskRenderTarget;
         private readonly RenderTarget2D _groundLevelSpecularMapWithAppliedLightmaskRenderTarget;
+        private readonly RenderTarget2D _groundLevelAdditionalLightMaskRenderTarget;
         private readonly RenderTarget2D _groundLevelAppliedNormalMapRenderTarget;
         private readonly RenderTarget2D _groundLevelResultRenderTarget;
 
@@ -162,6 +163,7 @@ namespace MarkInDeDark.Library
             _groundLevelSpecularMapWithAppliedLightmaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelResultRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _groundLevelAdditionalLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
             // _gameConfig.GodModeDebugMode = true;
 
@@ -695,22 +697,32 @@ namespace MarkInDeDark.Library
                 specularMapWithAppliedLightmaskRenderTarget: _groundLevelSpecularMapWithAppliedLightmaskRenderTarget,
                 resultRenderTarget: _groundLevelResultRenderTarget,
                 appliedNormalMapRenderTarget: _groundLevelAppliedNormalMapRenderTarget,
-                drawGlows: s =>
+                drawGlowsForSpecular: s =>
                 {
-                    _player.SurroundingLight?.DrawGlow(s);
+                    _player.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var e in _enemies)
-                        e.SurroundingLight?.DrawGlow(s);
+                        e.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var l in _gameGrid.LittleLights)
-                        l.SurroundingLight?.DrawGlow(s);
+                        l.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var c in _candlesManager.Candles)
-                        c.SurroundingLight?.DrawGlow(s);
+                        c.SurroundingLight?.DrawGlowForSpecular(s);
                 },
                 lights: _normalMapLights);
+
+            _graphicsDevice.SetRenderTarget(_groundLevelAdditionalLightMaskRenderTarget);
+            _graphicsDevice.Clear(Color.Transparent);
+            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+            foreach (var e in _enemies)
+                e.SurroundingLight?.DrawLightMask(spriteBatch);
+            foreach (var l in _gameGrid.LittleLights)
+                l.SurroundingLight?.DrawLightMask(spriteBatch);
+            foreach (var c in _candlesManager.Candles)
+                c.SurroundingLight?.DrawLightMask(spriteBatch);
+            spriteBatch.End();
 
             _graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
             _penumbra.BeginDraw();
             _graphicsDevice.Clear(Color.Transparent);
-
             spriteBatch.Begin();
             spriteBatch.Draw(_groundLevelResultRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
@@ -719,7 +731,7 @@ namespace MarkInDeDark.Library
             // Disegno altri glow sopra alla lightmap di penumbra
             _graphicsDevice.SetRenderTarget(_penumbra.LightMap);
             spriteBatch.Begin(blendState: BlendState.Additive);
-            spriteBatch.Draw(_groundLevelSpecularMapLightMaskRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(_groundLevelAdditionalLightMaskRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
             _penumbra.BlendAll();
 
@@ -798,7 +810,8 @@ namespace MarkInDeDark.Library
 
             if (!_gameConfig.GodModeDebugMode)
             {
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+                //spriteBatch.Draw(_penumbra.LightMap, Vector2.Zero, Color.White);
                 spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();

@@ -52,10 +52,13 @@ namespace MarkInDeDark.Library.Objects
                 castsShadows: false,
                 penumbraLightScale: 150f)
             {
-                Position = WorldCenter
+                Position = WorldCenter + new Vector2(0, -50f)
             };
 
-            _fireEffectGenerationCenter = _drawingInfos.Center(_animation.FirstFrameSprite.Width, _animation.FirstFrameSprite.Height) - new Vector2(0, 10f);
+            _fireEffectGenerationCenter = _drawingInfos.Center(
+                _animation.FirstFrameSprite.Width, 
+                _animation.FirstFrameSprite.Height) 
+                + new Vector2(0, 50f);
         }
 
         public void Update(TimeSpan elapsed)

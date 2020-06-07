@@ -53,7 +53,7 @@ namespace MarkInDeDark.Library
                 castsShadows: false,
                 penumbraLightScale: 150f)
             {
-                Position = new Vector2(WorldCenter.X, WorldCenter.Y - 15),
+                Position = new Vector2(WorldCenter.X, WorldCenter.Y - 55),
             };
 
             IsDying = false;
@@ -85,7 +85,6 @@ namespace MarkInDeDark.Library
             }
         }
 
-       
         public bool IsAlive
             => _timeToLive > TimeSpan.Zero;
 

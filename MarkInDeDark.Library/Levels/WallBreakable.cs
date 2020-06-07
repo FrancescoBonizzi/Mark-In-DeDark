@@ -19,10 +19,6 @@ namespace MarkInDeDark.Library.Levels
         private readonly DrawingInfos _drawingInfosA;
         private readonly DrawingInfos _drawingInfosB;
 
-        private readonly DrawingInfos _obscurationDrawingInfos;
-        private readonly DrawingInfos _obscurationDrawingInfosA;
-        private readonly DrawingInfos _obscurationDrawingInfosB;
-
         private readonly Sprite _primarySprite;
         private readonly Sprite _primarySpriteNormal;
 
@@ -38,28 +34,6 @@ namespace MarkInDeDark.Library.Levels
         public List<Hull> Hulls { get; }
         public Vector2 Position => _drawingInfos.Position;
         public Vector2 CenterPosition => _drawingInfos.Position + _primarySprite.SpriteCenter;
-
-        private float _obscurationOpacity = 0f;
-        public float ObscurationOpacity
-        {
-            get => _obscurationOpacity;
-            set
-            {
-                _obscurationOpacity = value;
-                if (_obscurationOpacity > 0)
-                {
-                    _obscurationDrawingInfos.OverlayColor = Color.Black.WithAlpha(_obscurationOpacity);
-                    _obscurationDrawingInfosA.OverlayColor = Color.Black.WithAlpha(_obscurationOpacity);
-                    _obscurationDrawingInfosB.OverlayColor = Color.Black.WithAlpha(_obscurationOpacity);
-                }
-                else
-                {
-                    _obscurationDrawingInfos.OverlayColor = Color.White;
-                    _obscurationDrawingInfosA.OverlayColor = Color.White;
-                    _obscurationDrawingInfosB.OverlayColor = Color.White;
-                }
-            }
-        }
 
         private readonly Hull _firstHull;
         private readonly Hull _secondHull;
@@ -91,12 +65,6 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.ForWall(position + primarySprite.SpriteCenter)
             };
 
-            _obscurationDrawingInfos = new DrawingInfos()
-            {
-                Position = position,
-                LayerDepth = _drawingInfos.LayerDepth + 0.00001f
-            };
-
             // Pezzo sud
             _drawingInfosA = new DrawingInfos()
             {
@@ -104,23 +72,11 @@ namespace MarkInDeDark.Library.Levels
                 LayerDepth = ZIndexCalculator.OverAllLayerDepth
             };
 
-            _obscurationDrawingInfosA = new DrawingInfos()
-            {
-                Position = position,
-                LayerDepth = _drawingInfosA.LayerDepth + 0.00001f
-            };
-
             // Pezzo nord
             _drawingInfosB = new DrawingInfos()
             {
                 Position = position,
                 LayerDepth = ZIndexCalculator.ForWall(position + primarySprite.SpriteCenter)
-            };
-
-            _obscurationDrawingInfosB = new DrawingInfos()
-            {
-                Position = position,
-                LayerDepth = _drawingInfosB.LayerDepth + 0.00001f
             };
 
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
@@ -191,22 +147,17 @@ namespace MarkInDeDark.Library.Levels
             if (!_isBroken)
             {
                 spriteBatch.Draw(_primarySprite, _drawingInfos);
-                spriteBatch.Draw(_primarySprite, _obscurationDrawingInfos);
             }
             else
             {
                 if (_brokenSpriteB == null)
                 {
                     spriteBatch.Draw(_brokenSprite, _drawingInfos);
-                    spriteBatch.Draw(_brokenSprite, _obscurationDrawingInfos);
                 }
                 else
                 {
                     spriteBatch.Draw(_brokenSprite, _drawingInfosA);
-                    spriteBatch.Draw(_brokenSprite, _obscurationDrawingInfosA);
-
                     spriteBatch.Draw(_brokenSpriteB, _drawingInfosB);
-                    spriteBatch.Draw(_brokenSpriteB, _obscurationDrawingInfosB);
                 }
             }
         }
