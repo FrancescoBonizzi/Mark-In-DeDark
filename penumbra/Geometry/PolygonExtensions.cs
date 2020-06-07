@@ -101,14 +101,20 @@ namespace Penumbra.Geometry
             int i, j;
             bool contains = false;
             int polyCount = polygon.Count;
+
             for (i = 0, j = polyCount - 1; i < polyCount; j = i++)
             {
-                if ((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y) &&
+                float iy = polygon[i].Y;
+                float jy = polygon[j].Y;
+                float xi = polygon[i].X;
+                float py = point.Y;
+
+                if (iy > py != jy > py &&
                     (point.X <
-                        (polygon[j].X - polygon[i].X) *
-                        (point.Y - polygon[i].Y) /
-                        (polygon[j].Y - polygon[i].Y) +
-                        polygon[i].X))
+                        (polygon[j].X - xi) *
+                        (py - iy) /
+                        (jy - iy) +
+                        xi))
                 {
                     contains = !contains;
                 }
