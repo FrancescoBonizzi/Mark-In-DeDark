@@ -36,7 +36,7 @@ namespace MarkInDeDark.Library.Particles.Snowing
 
         public void Update(TimeSpan elapsed)
         {
-            Position += Velocity;
+            Position += Velocity * (float)elapsed.TotalSeconds;
         }
 
         public void Draw(SpriteBatch spriteBatch)

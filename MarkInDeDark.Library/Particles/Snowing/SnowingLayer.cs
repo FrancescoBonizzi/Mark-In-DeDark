@@ -44,9 +44,9 @@ namespace MarkInDeDark.Library.Particles.Snowing
 
         private void ApplyWindVelocityToAllParticles()
         {
-            var xSway = Numbers.RandomBetween(-20, 20);
+            var xSway = Numbers.RandomBetween(-15, 15);
             foreach (var particle in _snowFlakes)
-                particle.Velocity += new Vector2((xSway * particle.Scale) / 50, 0);
+                particle.Velocity += new Vector2(xSway, 0);
         }
 
         private SnowFlake GenerateParticle()
@@ -55,7 +55,7 @@ namespace MarkInDeDark.Library.Particles.Snowing
 
             var xPosition = Numbers.RandomBetween(_cameraBoundingRectangle.X, _cameraBoundingRectangle.X + _cameraBoundingRectangle.Width);
             var yPosition = _cameraBoundingRectangle.Y;
-            var ySpeed = Numbers.RandomBetween(70, 75) / 100f;
+            var ySpeed = Numbers.RandomBetween(40, 45);
 
             sprite.Position = new Vector2(xPosition, yPosition);
             sprite.Opacity = Numbers.RandomBetween(0f, 1f);

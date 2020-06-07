@@ -337,7 +337,7 @@ namespace MarkInDeDark.Library
 
             if (levelCustomization.IsSnowing)
             {
-                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/particle"], _camera);
+                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
         }
 
