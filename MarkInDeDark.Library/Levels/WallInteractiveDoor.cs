@@ -103,9 +103,9 @@ namespace MarkInDeDark.Library.Levels
             // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
             CollisionRectangle = new Rectangle(
                 (int)doorPosition.X,
-                (int)doorPosition.Y + 100,
+                (int)doorPosition.Y + 136 + 28,
                 _wallDoorDownSprite.Width,
-                40);
+                32);
 
             _openDoorHullWidth = 60f;
             _closedDoorHullWidth = _wallDoorDownSprite.Width / 2;
@@ -117,16 +117,16 @@ namespace MarkInDeDark.Library.Levels
             _hullLeft = new Hull()
             {
                 Origin = Vector2.Zero,
-                Position = new Vector2(doorPosition.X - 5, doorPosition.Y + 135),
-                Scale = new Vector2(_openDoorHullWidth, 5)
+                Position = new Vector2(doorPosition.X - 4, CollisionRectangle.Y),
+                Scale = new Vector2(_openDoorHullWidth, 4)
             };
 
             // Right
             _hullRight = new Hull()
             {
                 Origin = new Vector2(1, 0), // Considera i Points. Mi gioco l'origine per allargare o stringere l'Hull
-                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width + 8, doorPosition.Y + 135),
-                Scale = new Vector2(_openDoorHullWidth, 5)
+                Position = new Vector2(doorPosition.X + _wallDoorDownSprite.Width + 8, CollisionRectangle.Y),
+                Scale = new Vector2(_openDoorHullWidth, 4)
             };
 
             _hullLeft.Points.Add(new Vector2(0, 0));

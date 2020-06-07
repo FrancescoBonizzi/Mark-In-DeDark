@@ -42,7 +42,7 @@ namespace MarkInDeDark.Library.Characters
                         characterTorchConfiguration: new CharacterTorchConfiguration(
                             firstTorchColor: gameConfig.PlayerLightColorRGB1,
                             secondTorchColor: gameConfig.PlayerLightColorRGB2,
-                            torchPositionTraslationUp: new Vector2(-42, -38),
+                            torchPositionTraslationUp: new Vector2(-30, -38),
                             torchPositionTraslationLeft: new Vector2(-38, -38),
                             torchPositionTraslationRight: new Vector2(38, -38),
                             torchPositionTraslationDown: new Vector2(35, -30),
