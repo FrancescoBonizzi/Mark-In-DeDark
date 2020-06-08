@@ -822,7 +822,7 @@ namespace MarkInDeDark.Library.Levels
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
             OnAllVisibleCells(c =>
             {
-                c.DrawGround(spriteBatch);
+                c.DrawGround(spriteBatch, false);
             });
             spriteBatch.End();
 
@@ -902,6 +902,14 @@ namespace MarkInDeDark.Library.Levels
         public void DrawForDebug(SpriteBatch spriteBatch)
         {
             OnAllVisibleCells(c => c.DrawForDebug(spriteBatch));
+        }
+
+        public void DrawRiempitiviGround(SpriteBatch spriteBatch)
+        {
+            OnAllVisibleCells(c =>
+            {
+                c.DrawGround(spriteBatch, true);
+            });
         }
 
         private void OnAllVisibleCells(Action<GameCell> action)

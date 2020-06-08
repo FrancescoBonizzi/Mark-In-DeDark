@@ -344,9 +344,12 @@ namespace MarkInDeDark.Library.Levels
                 w.Update(elapsed);
         }
 
-        public void DrawGround(SpriteBatch spriteBatch)
+        public void DrawGround(SpriteBatch spriteBatch, bool riempitivi)
         {
             if (Sprite == null)
+                return;
+
+            if (riempitivi && !IsRiempitiveWallCell)
                 return;
 
             spriteBatch.Draw(Sprite, _cellDrawingInfos);
