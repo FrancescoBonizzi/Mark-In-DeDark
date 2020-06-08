@@ -64,8 +64,8 @@ namespace MarkInDeDark.Windows
                     windowHeight: height))
                 {
                     // CAP 50 FPS per migliorare l'impatto sulla GPU
-                    //_game.TargetElapsedTime = TimeSpan.FromSeconds(1d / 50d);
-                    // TEST per Marco
+                    // _game.TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond * (1d / 50d)));
+                    // TEST FPS s-cappati
                     _game.IsFixedTimeStep = false;
                     _game.GraphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
                     _game.GraphicsDeviceManager.ApplyChanges();
