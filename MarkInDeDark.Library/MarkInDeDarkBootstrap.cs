@@ -72,7 +72,8 @@ namespace MarkInDeDark.Library
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {
                 SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,
-                IsFullScreen = _gameConfig.IsFullScreen
+                IsFullScreen = _gameConfig.IsFullScreen,
+                GraphicsProfile = GraphicsProfile.HiDef
             };
 
             _localizedStringsRepository = new InMemoryLocalizedStringsRepository(new Dictionary<string, string>());
