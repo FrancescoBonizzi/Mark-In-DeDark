@@ -13,7 +13,7 @@
         IdleDown,
         Candle,
         DoorSwitch,
-        
+
         GameBack
     }
 }

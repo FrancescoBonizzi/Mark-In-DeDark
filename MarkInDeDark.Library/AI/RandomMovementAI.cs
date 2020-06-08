@@ -1,6 +1,5 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.Characters;
-using MarkInDeDark.Library.Levels;
 using System;
 
 namespace MarkInDeDark.Library.AI
@@ -13,6 +12,9 @@ namespace MarkInDeDark.Library.AI
     {
         private readonly IEnemyAI _previousAI;
         private readonly CharacterActions[] _possibleActions;
+        private bool _attackPhase = false;
+        private TimeSpan _phaseDuration = TimeSpan.FromMilliseconds(1000);
+        private TimeSpan _elapsedTime = TimeSpan.Zero;
 
         public RandomMovementAI(IEnemyAI previousAI)
         {
@@ -28,14 +30,39 @@ namespace MarkInDeDark.Library.AI
 
         public CharacterActions Update(Enemy character, TimeSpan elapsed)
         {
-            var previousAIDestination = _previousAI.Update(character, elapsed);
-            if (previousAIDestination != CharacterActions.Idle)
+            if (_attackPhase)
             {
-                character.SetNewAI(_previousAI);
-                return previousAIDestination;
-            }
+                if (_elapsedTime <= _phaseDuration)
+                {
+                    _elapsedTime += elapsed;
+                }
+                else
+                {
+                    _elapsedTime = TimeSpan.Zero;
+                    _attackPhase = false;
+                }
 
-            return _possibleActions[Numbers.RandomBetween(0, _possibleActions.Length)];
+                character.Attack();
+                return CharacterActions.Idle;
+            }
+            else
+            {
+                // Ogni volta che arrivo qui il mostro ha raggiunto una cella.
+                // quindi switccho sull'attack phase
+                _attackPhase = true;
+
+                // Lo faccio solo nella fase in cui dovrebbe muoversi, altrimenti blocco l'attack phase troppo presto
+                // perché un waypoint lo trova se è all'interno della stanza e ritorna al PatrolAI,
+                // resettando il flag dell'attack phase
+                var previousAIDestination = _previousAI.Update(character, elapsed);
+                if (previousAIDestination != CharacterActions.Idle)
+                {
+                    character.SetNewAI(_previousAI);
+                    return previousAIDestination;
+                }
+
+                return _possibleActions[Numbers.RandomBetween(0, _possibleActions.Length)];
+            }
         }
     }
 

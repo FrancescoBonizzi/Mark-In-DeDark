@@ -146,8 +146,8 @@ namespace MarkInDeDark.Library.AI
 
                     enemy.ResetNormalColor();
                     enemy.CellMovementSeconds = _originalSpeed;
-                    if (_nextAI is PatrolAI)
-                        ((PatrolAI)_nextAI).ClearActions();
+                    if (_nextAI is PatrolAI ai)
+                        ai.ClearActions();
                     return enemy.SetNewAI(_nextAI);
             }
 
