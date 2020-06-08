@@ -777,6 +777,7 @@ namespace MarkInDeDark.Library
                 littleLight.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
+
             _player.Draw(spriteBatch);
 
             foreach (Enemy en in _enemies)

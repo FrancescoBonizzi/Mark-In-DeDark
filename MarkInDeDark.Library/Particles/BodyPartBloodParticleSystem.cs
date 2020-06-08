@@ -1,6 +1,8 @@
 ﻿using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
+using MarkInDeDark.Library.Extensions;
 using Microsoft.Xna.Framework;
+using SharpDX.Direct2D1;
 using System;
 
 namespace MarkInDeDark.Library.Particles
@@ -26,6 +28,7 @@ namespace MarkInDeDark.Library.Particles
                   minSpawnAngle: 0f,
                   maxSpawnAngle: 360f)
         {
+            LayerDepth = ZIndexCalculator.OverAllLayerDepth;
             PrimaryParticleOverlayColor = Color.Red;
             SecondaryParticleOverlayColor = Color.DarkRed;
         }

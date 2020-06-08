@@ -46,7 +46,7 @@ namespace MarkInDeDark.Library.Extensions
         public static float ForCharacter(Character character, Vector2 position)
         {
             if (character.IsDead || character.IsDying)
-                return GroundBloodLayerDepth; // Appena sopra al sangue, se è morto
+                return ShadowsLayerDepth + 0.0000001f; // Appena sopra le ombre, se è morto
 
             var startingZIndex = CalculateDependingOnHeight(position.Y);
 
