@@ -73,7 +73,6 @@ namespace MarkInDeDark.Library
             {
                 SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,
                 IsFullScreen = _gameConfig.IsFullScreen
-                //SynchronizeWithVerticalRetrace = false
             };
 
             _localizedStringsRepository = new InMemoryLocalizedStringsRepository(new Dictionary<string, string>());

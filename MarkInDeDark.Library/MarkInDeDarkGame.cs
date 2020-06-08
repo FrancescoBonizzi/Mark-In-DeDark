@@ -812,7 +812,6 @@ namespace MarkInDeDark.Library
             if (!_gameConfig.GodModeDebugMode)
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
-                //spriteBatch.Draw(_penumbra.LightMap, Vector2.Zero, Color.White);
                 spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
                 spriteBatch.End();
