@@ -12,7 +12,10 @@ namespace MarkInDeDark.Library.Levels
                 AmbienceColor = Vector3.Zero,
                 PenumbraAmbientColor = Color.Black,
                 IsSnowing = false,
-                GlowScale = 1
+                GlowScale = 1,
+                WallFixedVerticalOffset = new Rectangle(12, 96, 40, 192),
+                WallFixedHorizontalOffset = new Rectangle(0, 136, 192, 32),
+                PillarOffset = new Rectangle(16, 144, 48, 32)
             };
 
             if (levelId == 1 || levelId == 2)
@@ -21,6 +24,7 @@ namespace MarkInDeDark.Library.Levels
                 l.PenumbraAmbientColor = new Color(0, 0, 3);
                 l.IsSnowing = true;
                 l.GlowScale = 2f;
+                l.PillarOffset = new Rectangle(22, 144, 40, 24);
             }
 
             return l;

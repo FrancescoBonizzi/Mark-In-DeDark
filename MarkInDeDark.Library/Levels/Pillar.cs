@@ -37,10 +37,11 @@ namespace MarkInDeDark.Library.Levels
             _normalSprite = normalSprite;
 
             Hull = Utilities.HullFromRectangle(new Rectangle(
-                (int)position.X + 16,
-                (int)position.Y + 144,
-                48,
-                32));
+                (int)position.X + MarkInDeDarkGame.LevelCustomization.PillarOffset.X,
+                (int)position.Y + MarkInDeDarkGame.LevelCustomization.PillarOffset.Y,
+                MarkInDeDarkGame.LevelCustomization.PillarOffset.Width,
+                MarkInDeDarkGame.LevelCustomization.PillarOffset.Height));
+
             Hull.Points.Add(new Vector2(0, 0));
             Hull.Points.Add(new Vector2(0, 1));
             Hull.Points.Add(new Vector2(1, 1));

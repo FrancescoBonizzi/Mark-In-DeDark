@@ -46,19 +46,19 @@ namespace MarkInDeDark.Library.Levels
             if (direction == LinkDirection.EastLink || direction == LinkDirection.WestLink)
             {
                 CollisionRectangle = new Rectangle(
-                    (int)position.X + 12,
-                    (int)position.Y + 96,
-                    40,
-                    sprite.Height);
+                    (int)position.X + MarkInDeDarkGame.LevelCustomization.WallFixedVerticalOffset.X, 
+                    (int)position.Y + MarkInDeDarkGame.LevelCustomization.WallFixedVerticalOffset.Y,
+                    MarkInDeDarkGame.LevelCustomization.WallFixedVerticalOffset.Width,
+                    MarkInDeDarkGame.LevelCustomization.WallFixedVerticalOffset.Height);
             }
             else
             {
                 // Quelli orizzontali hanno un boundingbox più stretto (alla base del muro)
                 CollisionRectangle = new Rectangle(
-                    (int)position.X,
-                    (int)position.Y + 136,
-                    sprite.Width,
-                    32);
+                    (int)position.X + MarkInDeDarkGame.LevelCustomization.WallFixedHorizontalOffset.X,
+                    (int)position.Y + MarkInDeDarkGame.LevelCustomization.WallFixedHorizontalOffset.Y,
+                    MarkInDeDarkGame.LevelCustomization.WallFixedHorizontalOffset.Width,
+                    MarkInDeDarkGame.LevelCustomization.WallFixedHorizontalOffset.Height);
             }
 
             if (decal != null)
