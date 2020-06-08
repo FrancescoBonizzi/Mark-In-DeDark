@@ -752,7 +752,8 @@ namespace MarkInDeDark.Library.Characters
 
             if (_shadowsDrawingInfos != null)
             {
-                _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForGenericObject(_shadowsDrawingInfos.Position - _shadowsDrawingInfos.Origin);
+                // Sempre a terra?
+                _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForShadow();
             }
         }
 

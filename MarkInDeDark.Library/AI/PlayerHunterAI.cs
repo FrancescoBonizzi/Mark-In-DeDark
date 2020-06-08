@@ -40,12 +40,15 @@ namespace MarkInDeDark.Library.AI
 
             var destination = _gameGrid.GetCellAtPixel(_player.Position);
 
-            if (_oldDestionation != destination || _currentActions == null || !_currentActions.Any())
+            if (destination != null)
             {
-                _oldDestionation = destination;
-                _currentActions = _gameGrid.FindActionsToPath(
-                    character.Position,
-                    destination.TopLeftPosition).ToList();
+                if (_oldDestionation != destination || _currentActions == null || !_currentActions.Any())
+                {
+                    _oldDestionation = destination;
+                    _currentActions = _gameGrid.FindActionsToPath(
+                        character.Position,
+                        destination.TopLeftPosition).ToList();
+                }
             }
 
             if (_currentActions != null && _currentActions.Any())

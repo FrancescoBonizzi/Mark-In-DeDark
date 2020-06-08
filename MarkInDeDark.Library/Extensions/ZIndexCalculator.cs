@@ -39,6 +39,9 @@ namespace MarkInDeDark.Library.Extensions
         public static float ForCandle(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.0001f);
 
+        public static float ForShadow()
+            => GroundObjectsLayerDepth + 0.00001f;
+
         public static float ForCharacter(Character character, Vector2 position)
         {
             if (character.IsDead || character.IsDying)
