@@ -186,7 +186,8 @@ namespace MarkInDeDark.Library.Characters
 
                 _shadowsDrawingInfos = new DrawingInfos()
                 {
-                    OverlayColor = Color.Black.WithAlpha(0.7f)
+                    OverlayColor = Color.Black.WithAlpha(0.7f),
+                    LayerDepth = ZIndexCalculator.ForShadow()
                 };
                 PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
             }
@@ -749,12 +750,6 @@ namespace MarkInDeDark.Library.Characters
             MainFigureDrawingInfos.LayerDepth = ZIndexCalculator.ForCharacter(
                 this,
                 Position);
-
-            if (_shadowsDrawingInfos != null)
-            {
-                // Sempre a terra?
-                _shadowsDrawingInfos.LayerDepth = ZIndexCalculator.ForShadow();
-            }
         }
 
         protected void SetLightPosition(float lerpAmount = 0.2f)

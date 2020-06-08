@@ -12,6 +12,7 @@ namespace MarkInDeDark.Library.Extensions
         public const float GroundDirtyLayerDepth = 0.0000001f;
         public const float GroundBloodLayerDepth = 0.0000002f;
         public const float GroundObjectsLayerDepth = 0.0000003f;
+        public const float ShadowsLayerDepth = 0.0000004f;
         public const float OverAllLayerDepth = 1f;
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace MarkInDeDark.Library.Extensions
             => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.0001f);
 
         public static float ForShadow()
-            => GroundObjectsLayerDepth + 0.00001f;
+            => ShadowsLayerDepth;
 
         public static float ForCharacter(Character character, Vector2 position)
         {

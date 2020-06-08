@@ -76,8 +76,58 @@ namespace MarkInDeDark.Library.Characters
 
         }
 
-        public void Attack()
+        public void Attack(Player player = null)
         {
+            // Se il player non è null, il mostro si deve rivolgere a lui
+            if (player != null)
+            {
+                // No idle perché se il player è fermo è il mostro ad andargli addosso
+                switch(player.CurrentCharacterState)
+                {
+                    case CharacterState.GoingUp:
+                        CurrentCharacterState = CharacterState.Attacking;
+                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackDown.ToString());
+                        _soundManager.ComputeIndexSoundsVolume(
+                            _attackSoundIndex,
+                            _screamSoundIndex,
+                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+                        //PlayAttackSound();
+                        return;
+
+                    case CharacterState.GoingDown:
+                        CurrentCharacterState = CharacterState.Attacking;
+                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackUp.ToString());
+                        _soundManager.ComputeIndexSoundsVolume(
+                            _attackSoundIndex,
+                            _screamSoundIndex,
+                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+                        //PlayAttackSound();
+                        return;
+
+                    case CharacterState.GoingLeft:
+                        CurrentCharacterState = CharacterState.Attacking;
+                        SetDirectionAnimation(CharacterActions.Right);
+                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackRight.ToString());
+                        _soundManager.ComputeIndexSoundsVolume(
+                            _attackSoundIndex,
+                            _screamSoundIndex,
+                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+                        //PlayAttackSound();
+                        return;
+
+                    case CharacterState.GoingRight:
+                        CurrentCharacterState = CharacterState.Attacking;
+                        SetDirectionAnimation(CharacterActions.Left);
+                        MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackLeft.ToString());
+                        _soundManager.ComputeIndexSoundsVolume(
+                            _attackSoundIndex,
+                            _screamSoundIndex,
+                            Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
+                        return;
+                }
+            }
+
+            // Se il player è null, attacca in base a dove stava guardando
             switch (CurrentCharacterState)
             {
                 case CharacterState.GoingUp:
@@ -122,7 +172,6 @@ namespace MarkInDeDark.Library.Characters
                         _screamSoundIndex,
                         Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                     break;
-
             }
         }
 
@@ -234,7 +283,7 @@ namespace MarkInDeDark.Library.Characters
                 && CollisionRectangle.Intersects(_player.CollisionRectangle))
             {
                 CustomActionOnPlayerDead();
-                Attack();
+                Attack(_player);
                 HitPlayer();
                 _player.Die();
                 CurrentAI = new IdleAI();
