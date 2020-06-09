@@ -1,6 +1,7 @@
 ﻿using FbonizziMonoGame;
 using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Levels;
+using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -82,9 +83,14 @@ namespace MarkInDeDark.Library.Characters
             if (player != null)
             {
                 // No idle perché se il player è fermo è il mostro ad andargli addosso
-                switch(player.CurrentCharacterState)
+                if (player.CurrentCharacterState == CharacterState.GoingDown
+                    || player.CurrentCharacterState == CharacterState.GoingLeft
+                    || player.CurrentCharacterState == CharacterState.GoingRight
+                    || player.CurrentCharacterState == CharacterState.GoingUp)
                 {
-                    case CharacterState.GoingUp:
+                    // Se il player è sotto di me, attacco in giù
+                    if (player.Position.Y.GreaterThanInRange(Position.Y, 1))
+                    {
                         CurrentCharacterState = CharacterState.Attacking;
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackDown.ToString());
                         _soundManager.ComputeIndexSoundsVolume(
@@ -93,8 +99,10 @@ namespace MarkInDeDark.Library.Characters
                             Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                         //PlayAttackSound();
                         return;
-
-                    case CharacterState.GoingDown:
+                    }
+                    // Se il player è sopra di me, attacco in su
+                    else if (player.Position.Y.LessThanInRange(Position.Y, 1))
+                    {
                         CurrentCharacterState = CharacterState.Attacking;
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackUp.ToString());
                         _soundManager.ComputeIndexSoundsVolume(
@@ -103,8 +111,10 @@ namespace MarkInDeDark.Library.Characters
                             Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                         //PlayAttackSound();
                         return;
-
-                    case CharacterState.GoingLeft:
+                    }
+                    // Se il player è alla mia destra, attacco a destra
+                    else if (player.Position.X.GreaterThanInRange(Position.X, 1))
+                    {
                         CurrentCharacterState = CharacterState.Attacking;
                         SetDirectionAnimation(CharacterActions.Right);
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackRight.ToString());
@@ -114,8 +124,10 @@ namespace MarkInDeDark.Library.Characters
                             Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                         //PlayAttackSound();
                         return;
-
-                    case CharacterState.GoingRight:
+                    }
+                    // Se il player è alla mia sinistra, attacco a sinistra
+                    else if (player.Position.X.LessThanInRange(Position.X, 1))
+                    {
                         CurrentCharacterState = CharacterState.Attacking;
                         SetDirectionAnimation(CharacterActions.Left);
                         MainAnimationsAnimationManager.PlayAnimation(AnimationsNames.AttackLeft.ToString());
@@ -124,6 +136,7 @@ namespace MarkInDeDark.Library.Characters
                             _screamSoundIndex,
                             Vector2.DistanceSquared(_player.WorldCenter, WorldCenter));
                         return;
+                    }
                 }
             }
 
