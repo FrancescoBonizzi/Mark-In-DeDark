@@ -13,7 +13,7 @@ namespace MarkInDeDark.Library.AI
         private readonly IEnemyAI _previousAI;
         private readonly CharacterActions[] _possibleActions;
         private bool _attackPhase = false;
-        private TimeSpan _phaseDuration = TimeSpan.FromMilliseconds(1000);
+        private TimeSpan _phaseDuration = TimeSpan.FromMilliseconds(500);
         private TimeSpan _elapsedTime = TimeSpan.Zero;
 
         public RandomMovementAI(IEnemyAI previousAI)
