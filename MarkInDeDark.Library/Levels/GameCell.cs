@@ -131,6 +131,8 @@ namespace MarkInDeDark.Library.Levels
         public void SetSpecialWallCell()
         {
             IsRiempitiveWallCell = true;
+
+            // TODO Il fix è qui
             _cellDrawingInfos.LayerDepth = ZIndexCalculator.ForSpecialExternalWall(
                 _cellDrawingInfos.Position);
             _cellDrawingInfos.Origin += new Vector2(0f, +28);
@@ -344,12 +346,12 @@ namespace MarkInDeDark.Library.Levels
                 w.Update(elapsed);
         }
 
-        public void DrawGround(SpriteBatch spriteBatch, bool riempitivi)
+        public void DrawGround(SpriteBatch spriteBatch, bool drawRiempitivi)
         {
             if (Sprite == null)
                 return;
 
-            if (riempitivi && !IsRiempitiveWallCell)
+            if (drawRiempitivi && !IsRiempitiveWallCell)
                 return;
 
             spriteBatch.Draw(Sprite, _cellDrawingInfos);

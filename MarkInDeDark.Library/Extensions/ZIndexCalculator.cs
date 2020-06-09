@@ -30,8 +30,9 @@ namespace MarkInDeDark.Library.Extensions
         public static float ForPillars(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y) + 0.001f);
 
+        // Deve stare sopra ai pilastri
         public static float ForSpecialExternalWall(Vector2 position)
-            => CalculateDependingOnHeight(position.Y) + 0.00099f;
+            => CalculateDependingOnHeight(position.Y) + 0.002f;
 
         public static float ForGenericObject(Vector2 position)
             => ForceMax1(CalculateDependingOnHeight(position.Y));
