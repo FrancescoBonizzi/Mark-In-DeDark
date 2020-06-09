@@ -9,6 +9,7 @@ using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -186,8 +187,7 @@ namespace MarkInDeDark.Library.Characters
 
                 _shadowsDrawingInfos = new DrawingInfos()
                 {
-                    OverlayColor = Color.Black.WithAlpha(0.7f),
-                    LayerDepth = ZIndexCalculator.ForShadow()
+                    OverlayColor = Color.Black.WithAlpha(0.9f)
                 };
                 PlayShadowFor(ShadowsAnimationsNames.WhileIdleDown);
             }
@@ -772,6 +772,24 @@ namespace MarkInDeDark.Library.Characters
             }
         }
 
+        public void DrawShadows(SpriteBatch spriteBatch)
+        {
+            switch (CurrentCharacterState)
+            {
+                case CharacterState.GoingUp:
+                case CharacterState.GoingDown:
+                case CharacterState.GoingLeft:
+                case CharacterState.GoingRight:
+                case CharacterState.IdleUp:
+                case CharacterState.IdleDown:
+                case CharacterState.IdleLeft:
+                case CharacterState.IdleRight:
+                case CharacterState.Attacking:
+                    ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
+                    break;
+            }
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             switch (CurrentCharacterState)
@@ -786,7 +804,6 @@ namespace MarkInDeDark.Library.Characters
                 case CharacterState.IdleRight:
                 case CharacterState.Attacking:
                     MainAnimationsAnimationManager.Draw(spriteBatch, MainFigureDrawingInfos);
-                    ShadowsAnimationManager?.Draw(spriteBatch, _shadowsDrawingInfos);
                     break;
 
                 case CharacterState.Dying:

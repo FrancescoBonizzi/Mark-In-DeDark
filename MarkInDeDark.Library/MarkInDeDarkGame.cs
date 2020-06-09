@@ -708,6 +708,19 @@ namespace MarkInDeDark.Library
                     foreach (var c in _candlesManager.Candles)
                         c.SurroundingLight?.DrawGlowForSpecular(s);
                 },
+                drawOtherGroundObjects: s =>
+                {
+                    if (_triggerObjects != null)
+                    {
+                        foreach (var triggerObject in _triggerObjects)
+                            triggerObject.Draw(spriteBatch);
+                    }
+
+                    _player.DrawShadows(s);
+
+                    foreach (Enemy en in _enemies)
+                        en.DrawShadows(s);
+                },
                 lights: _normalMapLights);
 
             _graphicsDevice.SetRenderTarget(_groundLevelAdditionalLightMaskRenderTarget);
@@ -758,12 +771,6 @@ namespace MarkInDeDark.Library
             if (!_gameConfig.GodModeDebugMode)
                 _gameGrid.DrawWalls(spriteBatch);
             else _gameGrid.DrawForDebug(spriteBatch);
-
-            if (_triggerObjects != null)
-            {
-                foreach (var triggerObject in _triggerObjects)
-                    triggerObject.Draw(spriteBatch);
-            }
 
             _key.Draw(spriteBatch);
 
