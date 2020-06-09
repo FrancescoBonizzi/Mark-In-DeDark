@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.Library.Extensions;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MarkInDeDark.Library.Levels
@@ -8,6 +9,8 @@ namespace MarkInDeDark.Library.Levels
     {
         public static void CleanPillarsAndWallsGrid(GameGrid grid)
         {
+            int removedPillars = 0;
+
             // Elimino le tutti i muri doppi gli angoli doppi
             // Per ogni angolo devo vedere se quell'angolo o quel muro esiste già uguale vicino
             for (int i = 0; i < GameGrid.HorizontalCellsNumber; ++i)
@@ -53,30 +56,31 @@ namespace MarkInDeDark.Library.Levels
                                 }
                             }
                         }
+                    }
 
-                        foreach (var cellAngle in cell.Pillars)
+                    foreach (var cellPillar in cell.Pillars)
+                    {
+                        foreach (var nearCell in nearCells)
                         {
-                            foreach (var nearCell in nearCells)
+                            if (nearCell != null)
                             {
-                                if (nearCell != null)
+                                if (nearCell.Pillars.Count != 0)
                                 {
-                                    if (nearCell.Pillars.Count != 0)
+                                    for (int w = nearCell.Pillars.Count - 1; w >= 0; --w)
                                     {
-                                        for (int w = nearCell.Pillars.Count - 1; w >= 0; --w)
+                                        var nearCellPillar = nearCell.Pillars.ElementAt(w);
+                                        if (cellPillar.Value.DrawingInfos.Position.IsEqualsConvertedToInt(
+                                            nearCellPillar.Value.DrawingInfos.Position))
                                         {
-                                            var nearCellAngle = nearCell.Pillars.ElementAt(w);
-                                            if (cellAngle.Value.DrawingInfos.Position.IsEqualsConvertedToInt(
-                                                nearCellAngle.Value.DrawingInfos.Position))
-                                            {
-                                                nearCell.Pillars.Remove(nearCellAngle.Key);
-                                            }
+                                            nearCell.Pillars.Remove(nearCellPillar.Key);
+                                            ++removedPillars;
                                         }
                                     }
                                 }
                             }
                         }
-
                     }
+
                 }
             }
         }
