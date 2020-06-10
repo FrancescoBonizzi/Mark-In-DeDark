@@ -169,7 +169,7 @@ namespace MarkInDeDark.Library
             _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelAdditionalLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
-            // _gameConfig.GodModeDebugMode = true;
+           // _gameConfig.GodModeDebugMode = true;
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
