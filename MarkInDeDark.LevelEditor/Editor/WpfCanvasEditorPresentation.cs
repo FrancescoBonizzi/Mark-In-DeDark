@@ -55,9 +55,10 @@ namespace MarkInDeDark.LevelEditor.Editor
 
         private void DrawAll()
         {
+            double marginOffset = 0.1;
             _canvas.Children.Clear();
-            _canvas.Width = _gameGrid.Columns * _cellSize;
-            _canvas.Height = _gameGrid.Rows * _cellSize;
+            _canvas.Width = _gameGrid.Columns * (_cellSize + marginOffset);
+            _canvas.Height = _gameGrid.Rows * (_cellSize + marginOffset); 
             _canvasCells = new Border[_gameGrid.Columns, _gameGrid.Rows];
 
             for (int column = 0; column < _gameGrid.Columns; ++column)
