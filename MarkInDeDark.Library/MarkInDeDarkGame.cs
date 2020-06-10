@@ -88,7 +88,7 @@ namespace MarkInDeDark.Library
         private bool? _runGameOverScene;
         private bool _shakeViewport;
         public static LevelCustomization LevelCustomization { get; private set; }
-        private Vector3 _normalMapAmbientColor;
+        private Vector3 _normalMapAmbienceColor;
 
         private Matrix _worldMatrix = Matrix.Identity;
         private Matrix _projectionMatrix = Matrix.Identity;
@@ -334,7 +334,7 @@ namespace MarkInDeDark.Library
                 _penumbra.Hulls.Add(p.Hull);
             }
 
-            _normalMapAmbientColor = LevelCustomization.AmbienceColor;
+            _normalMapAmbienceColor = LevelCustomization.AmbienceColor;
             _penumbra.AmbientColor = LevelCustomization.PenumbraAmbientColor;
             if (LevelCustomization.IsSnowing)
             {
@@ -350,16 +350,19 @@ namespace MarkInDeDark.Library
                 var normalMapParametersTemp = JsonConvert.DeserializeObject<NormalMapParameters>(
                     File.ReadAllText(NormalMapParameters.FileName));
 
-                _normalMapAmbientColor = normalMapParametersTemp.AmbienceColor;
+                _normalMapAmbienceColor = normalMapParametersTemp.AmbienceColor;
 
-                if (_penumbra != null)
+                if (!normalMapParametersTemp.AmbienceColorOnly)
                 {
-                    foreach (var gameLight in _normalMapLights)
+                    if (_penumbra != null)
                     {
-                        gameLight.Z = normalMapParametersTemp.LightDirectionZ;
-                        gameLight.DistanceSquared = normalMapParametersTemp.LightDistance;
-                        gameLight.Opacity = normalMapParametersTemp.LightOpacity;
-                        gameLight.ColorNormal = normalMapParametersTemp.LightColor;
+                        foreach (var gameLight in _normalMapLights)
+                        {
+                            gameLight.Z = normalMapParametersTemp.LightDirectionZ;
+                            gameLight.DistanceSquared = normalMapParametersTemp.LightDistance;
+                            gameLight.Opacity = normalMapParametersTemp.LightOpacity;
+                            gameLight.ColorNormal = normalMapParametersTemp.LightColor;
+                        }
                     }
                 }
 
@@ -679,7 +682,7 @@ namespace MarkInDeDark.Library
             var projectionMatrix = _projectionMatrix;
 
             // 0. Preparo l'effetto NormalMap
-            _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_normalMapAmbientColor);
+            _circularNormalMapShader.Parameters["AmbientColor"].SetValue(_normalMapAmbienceColor);
             _circularNormalMapShader.Parameters["World"].SetValue(Matrix.Identity);
             _circularNormalMapShader.Parameters["ViewProjection"].SetValue(projectionMatrix);
             _circularNormalMapShader.CurrentTechnique.Passes[0].Apply();

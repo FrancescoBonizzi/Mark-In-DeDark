@@ -41,6 +41,14 @@ namespace MarkInDeDark.LevelEditor
 
         private void btnMandaCambiamentiAlGioco_Click(object sender, RoutedEventArgs e)
         {
+            _normalMapParameters.AmbienceColorOnly = false;
+            var serializedConfiguration = JsonConvert.SerializeObject(_normalMapParameters);
+            File.WriteAllText(_tempConfigurationPath, serializedConfiguration);
+        }
+
+        private void btnMandaCambiamentiAlGiocoLuceAmbientale_Click(object sender, RoutedEventArgs e)
+        {
+            _normalMapParameters.AmbienceColorOnly = true;
             var serializedConfiguration = JsonConvert.SerializeObject(_normalMapParameters);
             File.WriteAllText(_tempConfigurationPath, serializedConfiguration);
         }

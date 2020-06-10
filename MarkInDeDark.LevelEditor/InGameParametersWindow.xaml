@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="In game parameters"
     Width="400"
-    Height="600"
+    Height="650"
     ResizeMode="NoResize"
     mc:Ignorable="d">
 
@@ -162,6 +162,20 @@
                 Padding="0,10"
                 Click="btnMandaCambiamentiAlGioco_Click"
                 Content="Manda i cambiamenti al gioco" />
+
+            <Button
+                x:Name="btnMandaCambiamentiAlGiocoLuceAmbientale"
+                Padding="0,10"
+                Margin="0, 10"
+                Click="btnMandaCambiamentiAlGiocoLuceAmbientale_Click">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>
+                        Manda i cambiamenti al gioco <Bold>SOLO</Bold> per la luce ambientale
+                    </TextBlock>
+                </StackPanel>
+
+            </Button>
 
         </StackPanel>
 

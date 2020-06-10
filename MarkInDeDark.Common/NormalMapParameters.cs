@@ -11,5 +11,7 @@ namespace MarkInDeDark.Common
         public float LightDirectionZ;
         public float LightDistance;
         public float LightOpacity;
+
+        public bool AmbienceColorOnly { get; set; }
     }
 }
