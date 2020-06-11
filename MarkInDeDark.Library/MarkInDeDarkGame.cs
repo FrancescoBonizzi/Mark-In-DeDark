@@ -169,7 +169,7 @@ namespace MarkInDeDark.Library
             _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
             _groundLevelAdditionalLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
 
-           // _gameConfig.GodModeDebugMode = true;
+            // _gameConfig.GodModeDebugMode = true;
 
             _penumbra = markInDeDarkBootstrap.CreatePenumbra();
             _penumbra.Initialize();
@@ -351,18 +351,16 @@ namespace MarkInDeDark.Library
                     File.ReadAllText(NormalMapParameters.FileName));
 
                 _normalMapAmbienceColor = normalMapParametersTemp.AmbienceColor;
+                _penumbra.AmbientColor = normalMapParametersTemp.PenumbraAmbienceColor;
 
                 if (!normalMapParametersTemp.AmbienceColorOnly)
                 {
                     if (_penumbra != null)
                     {
-                        foreach (var gameLight in _normalMapLights)
-                        {
-                            gameLight.Z = normalMapParametersTemp.LightDirectionZ;
-                            gameLight.DistanceSquared = normalMapParametersTemp.LightDistance;
-                            gameLight.Opacity = normalMapParametersTemp.LightOpacity;
-                            gameLight.ColorNormal = normalMapParametersTemp.LightColor;
-                        }
+                        _player.SurroundingLight.Z = normalMapParametersTemp.LightDirectionZ;
+                        _player.SurroundingLight.DistanceSquared = normalMapParametersTemp.LightDistance;
+                        _player.SurroundingLight.Opacity = normalMapParametersTemp.LightOpacity;
+                        _player.SurroundingLight.ColorNormal = normalMapParametersTemp.LightColor;
                     }
                 }
 

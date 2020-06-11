@@ -148,6 +148,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\XnaColorsConverter.cs" />
     <Compile Include="Converters\XnaColorToWindowsColor.cs" />
     <Compile Include="Converters\XnaVector2ToX.cs" />
     <Compile Include="Converters\XnaVector2ToY.cs" />

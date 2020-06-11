@@ -13,5 +13,6 @@ namespace MarkInDeDark.Common
         public float LightOpacity;
 
         public bool AmbienceColorOnly { get; set; }
+        public Color PenumbraAmbienceColor { get; set; }
     }
 }
