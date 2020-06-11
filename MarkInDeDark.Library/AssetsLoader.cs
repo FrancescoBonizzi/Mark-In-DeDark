@@ -112,31 +112,25 @@ namespace MarkInDeDark.Library
                 }
             }
 
-            var menuTexture = _contentManager.Load<Texture2D>("menu");
-            var menuSprite = new Sprite(
-                new SpriteDescription()
-                {
-                    X = 0,
-                    Y = 0,
-                    Width = menuTexture.Width,
-                    Height = menuTexture.Height,
-                    Name = menuTexture.Name
-                },
-                menuTexture);
-            Sprites.Add("menu", menuSprite);
+            AddNonSpritesheetSprite("mainpage");
+            AddNonSpritesheetSprite("levels");
+            AddNonSpritesheetSprite("logo");
+        }
 
-            var levelsTexture = _contentManager.Load<Texture2D>("levels");
-            var levelsBackgroundSprite = new Sprite(
-                new SpriteDescription()
-                {
-                    X = 0,
-                    Y = 0,
-                    Width = menuTexture.Width,
-                    Height = menuTexture.Height,
-                    Name = menuTexture.Name
-                },
-                levelsTexture);
-            Sprites.Add("levels", levelsBackgroundSprite);
+        private void AddNonSpritesheetSprite(string name)
+        {
+            var texture = _contentManager.Load<Texture2D>(name);
+            var textureSprite = new Sprite(
+              new SpriteDescription()
+              {
+                  X = 0,
+                  Y = 0,
+                  Width = texture.Width,
+                  Height = texture.Height,
+                  Name = texture.Name
+              },
+              texture);
+            Sprites.Add(name, textureSprite);
         }
 
         private void LoadSounds()

@@ -191,25 +191,25 @@ namespace MarkInDeDark.Library
                 });
         }
 
-        public void HandleMouseInput(Vector2? touchLocation = null)
+        public void HandleMouseInput(Vector2? pointerLocation, bool hasClicked)
         {
             if (IsPaused)
                 return;
 
-            if (touchLocation == null)
+            if (pointerLocation == null)
                 return;
 
             switch (_currentState)
             {
                 case GameStates.Menu:
-                    _menu.HandleInput(touchLocation.Value, this);
+                    _menu.HandleInput(pointerLocation.Value, hasClicked, this);
                     break;
 
                 case GameStates.Playing:
                     break;
 
                 case GameStates.Levels:
-                    _levels.HandleInput(touchLocation.Value, this);
+                    _levels.HandleInput(pointerLocation.Value, hasClicked, this);
                     break;
             }
         }
@@ -247,10 +247,10 @@ namespace MarkInDeDark.Library
             var inputTypeSize = _font.MeasureString(_inputTypeText);
             _inputTypeDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(_matrixScaleProvider.VirtualWidth - 20f, 20f),
+                Position = new Vector2(_matrixScaleProvider.VirtualWidth / 2, _matrixScaleProvider.VirtualHeight - 70f),
                 OverlayColor = Color.White,
-                Scale = 0.3f,
-                Origin = new Vector2(inputTypeSize.X, 0)
+                Scale = 0.2f,
+                Origin = new Vector2(inputTypeSize.X / 2, 0)
             };
         }
 

@@ -131,6 +131,7 @@ namespace MarkInDeDark.Library
             // Mouse
             var mouseListener = new MouseListener(_matrixScaleProvider);
             mouseListener.MouseDown += MouseListener_MouseClicked;
+            mouseListener.MouseMoved += MouseListener_MouseMoved;
             _inputListeners.Add(mouseListener);
 
             // Tastiera
@@ -196,7 +197,10 @@ namespace MarkInDeDark.Library
         }
 
         private void MouseListener_MouseClicked(object sender, MouseEventArgs e)
-            => _orchestrator.HandleMouseInput(e.Position);
+            => _orchestrator.HandleMouseInput(e.Position, true);
+
+        private void MouseListener_MouseMoved(object sender, MouseEventArgs e)
+            => _orchestrator.HandleMouseInput(e.Position, false);
 
         protected override void LoadContent()
         {

@@ -4,6 +4,12 @@
       "PlayButtonString": {
         "Text": "Play"
       },
+      "BackButtonString": {
+        "Text": "Back"
+      },
+      "ExitButtonString": {
+        "Text": "Exit"
+      },
       "InputTypeKeyboardString": {
         "Text": "Keyboard"
       },
@@ -33,8 +39,14 @@
       }
     },
     "Italian": {
+      "BackButtonString": {
+        "Text": "Indietro"
+      },
       "PlayButtonString": {
         "Text": "Gioca"
+      },
+      "ExitButtonString": {
+        "Text": "Esci"
       },
       "InputTypeKeyboardString": {
         "Text": "Tastiera"

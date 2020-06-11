@@ -17,12 +17,13 @@ namespace MarkInDeDark.Library.Menu
         private readonly Sprite _background;
         private readonly SpriteFont _font;
         private readonly IScreenTransformationMatrixProvider _screenTransformationMatrixProvider;
-        private readonly ScalingObject _titleScalingObject;
         private readonly DrawingInfos _titleDrawingInfos;
         private readonly string _titleText;
-        
-        private readonly List<MenuLevelButton> _levelsUi;
+
+        private readonly List<LevelButton> _levelButtons;
         private Vector2 _startingPosition;
+
+        private readonly TextButton _backButton;
 
         public LevelsPage(
             IScreenTransformationMatrixProvider screenTransformationMatrixProvider,
@@ -34,24 +35,23 @@ namespace MarkInDeDark.Library.Menu
             _screenTransformationMatrixProvider = screenTransformationMatrixProvider;
 
             _titleText = localizedStringsRepository.Get("LevelsPageTitleString");
-            _titleScalingObject = new ScalingObject(1f, 1.2f, 1.0f);
             _titleDrawingInfos = new DrawingInfos()
             {
-                Position = new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2f, 120f),
-                Origin = new Vector2(_font.GetTextCenter(_titleText).X, 0),
-                OverlayColor = new Color(138, 7, 7)
+                Position = new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2f, 240f),
+                Origin = _font.GetTextCenter(_titleText),
+                OverlayColor = Color.White
             };
 
             _background = assetsLoader.Sprites["levels"];
-            _levelsUi = assetsLoader.Levels.Select(l => new MenuLevelButton(assetsLoader, l)).ToList();
+            _levelButtons = assetsLoader.Levels.Select(l => new LevelButton(assetsLoader, l)).ToList();
             _startingPosition = new Vector2(240f, 140f);
 
             var startingPosition = _startingPosition;
             const float padding = 100f;
 
-            for (int i = 0; i < _levelsUi.Count; ++i)
+            for (int i = 0; i < _levelButtons.Count; ++i)
             {
-                var levelUi = _levelsUi[i];
+                var levelUi = _levelButtons[i];
 
                 if (i % 4 == 0)
                 {
@@ -62,26 +62,44 @@ namespace MarkInDeDark.Library.Menu
                 levelUi.SetStartingPosition(startingPosition);
                 startingPosition.X += levelUi.BoxRectangle.Width + padding;
             }
+
+            // Back button
+            _backButton = new TextButton(
+               localizedStringsRepository.Get("BackButtonString"),
+               _font,
+               new Vector2(
+                   200,
+                   screenTransformationMatrixProvider.VirtualHeight - 90),
+               new Vector2(0, 0));
         }
 
         public void Update(TimeSpan elapsed)
         {
-            _titleScalingObject.Update(elapsed);
-            _titleDrawingInfos.Scale = _titleScalingObject.Scale;
         }
 
         public void HandleInput(
-            Vector2 touchPoint,
+            Vector2 pointerPosition,
+            bool hasClicked,
             GameOrchestrator orchestrator)
         {
-            foreach (var levelUi in _levelsUi)
+            foreach (var levelUi in _levelButtons)
             {
-                if (levelUi.HitBox.Contains(touchPoint))
-                {
-                    orchestrator.SetGameState(levelUi.Level);
-                    break;
-                }
+                levelUi.HandlePointerPosition(
+                    pointerPosition,
+                    hasClicked,
+                    () =>
+                    {
+                        orchestrator.SetGameState(levelUi.Level);
+                    });
             }
+
+            _backButton.HandlePointerPosition(
+                pointerPosition,
+                hasClicked,
+                () =>
+                {
+                    orchestrator.Back();
+                });
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -91,10 +109,12 @@ namespace MarkInDeDark.Library.Menu
             spriteBatch.Draw(_background);
             spriteBatch.DrawString(_font, _titleText, _titleDrawingInfos);
 
-            foreach (var levelUi in _levelsUi)
+            foreach (var levelUi in _levelButtons)
             {
                 levelUi.Draw(spriteBatch);
             }
+
+            _backButton.Draw(spriteBatch);
 
             spriteBatch.End();
         }
