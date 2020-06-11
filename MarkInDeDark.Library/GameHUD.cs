@@ -99,7 +99,7 @@ namespace MarkInDeDark.Library
                     60f),
                 DrawingInfos = new DrawingInfos()
                 {
-                    Scale = isImportant ? 0.7f : 0.6f,
+                    Scale = isImportant ? 0.7f : 0.3f,
                     Position = messagePosition,
                     Origin = new Vector2(_font.GetTextCenter(text).X, 0)
                 }

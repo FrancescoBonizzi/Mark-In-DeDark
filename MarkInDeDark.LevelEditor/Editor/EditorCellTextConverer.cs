@@ -5,7 +5,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public static class EditorCellTextConverer
     {
-        public static void ManageCellText(Border canvasCell, string text)
+        public static void ManageCellText(Border canvasCell, string text, bool isError = false)
         {
             if (!(canvasCell.Child is Grid container))
             {
@@ -35,7 +35,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                         FontFamily = new FontFamily("Times New Roman"),
                         FontWeight = System.Windows.FontWeights.SemiBold,
                         FontStyle = System.Windows.FontStyles.Italic,
-                        Foreground = new SolidColorBrush(Colors.White),
+                        Foreground = !isError ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Red),
                         HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
                         VerticalAlignment = System.Windows.VerticalAlignment.Top,
                         Margin = new System.Windows.Thickness(4),

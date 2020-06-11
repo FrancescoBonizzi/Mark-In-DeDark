@@ -101,6 +101,27 @@ namespace MarkInDeDark.LevelEditor.Editor
                         editorCell.GroundType,
                         editorCell.ObjectTypeAdditionalData);
 
+                    if (!string.IsNullOrEmpty(editorCell.StringCode))
+                    {
+                        var thisCellText = editorCell.StringCode;
+                        bool isError = false;
+
+                        try
+                        {
+                            thisCellText  = _traslatedStrings.GetString(StringsTraslationLanguages.Italian, editorCell.StringCode);
+                        }
+                        catch
+                        {
+                            // Disallineamento file traduzioni e file livello
+                            isError = true;
+                        }
+
+                        EditorCellTextConverer.ManageCellText(
+                            canvasCell,
+                            thisCellText,
+                            isError);
+                    }
+
                     _canvas.Children.Add(canvasCell);
 
                     if (editorCell.Top != WallTypes.Niente)
@@ -330,12 +351,12 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return string.Empty;
             }
 
-            var cellText = _gameGrid.Grid[column, row].StringCode;
-            if (string.IsNullOrEmpty(cellText))
+            var stringCode = _gameGrid.Grid[column, row].StringCode;
+            if (string.IsNullOrEmpty(stringCode))
                 return string.Empty;
 
             // In questo caso avrò un codice stringa, non una stringa, ma devo ritornare il suo valore
-            return _traslatedStrings.GetString(StringsTraslationLanguages.Italian, cellText);
+            return _traslatedStrings.GetString(StringsTraslationLanguages.Italian, stringCode);
         }
 
         public void SetText(Point where, string text)

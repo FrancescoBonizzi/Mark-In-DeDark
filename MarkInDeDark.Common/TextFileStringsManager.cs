@@ -29,7 +29,7 @@ namespace MarkInDeDark.Common
             if (!_traslatedStrings.Traslations.ContainsKey(language))
                 throw new ArgumentException($"No traslations found for {language}");
             if (!_traslatedStrings.Traslations[language].ContainsKey(key))
-                throw new ArgumentException($"No text found for {language}, {key}");
+                throw new ArgumentException($"No text found for {language}, {key}. Delete the text from the cell!");
 
             return _traslatedStrings.Traslations[language][key].Text;
         }
