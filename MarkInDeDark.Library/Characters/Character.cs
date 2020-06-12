@@ -291,8 +291,8 @@ namespace MarkInDeDark.Library.Characters
             if (SurroundingLight != null)
             {
                 SurroundingLight.IsGlowEnabled = false;
-                if (SurroundingLight.PenumbraLight != null)
-                    SurroundingLight.PenumbraLight.Enabled = false;
+                //if (SurroundingLight.PenumbraLight != null)
+                //    SurroundingLight.PenumbraLight.Enabled = false;
             }
         }
 
