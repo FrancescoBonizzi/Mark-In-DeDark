@@ -275,6 +275,10 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void FallInTrap(Vector2 trapCenter)
         {
+            // Altrimenti cade nella trappola anche mentre stanno volando via i suoi pezzi
+            if (IsDying)
+                return;
+
             _characterFallingATrapAnimation = new CharacterFallingInTrapAnimation(
                 MainAnimationsAnimationManager.GetAnimation(AnimationsNames.IdleDown.ToString()).FirstFrameSprite,
                 trapCenter,
