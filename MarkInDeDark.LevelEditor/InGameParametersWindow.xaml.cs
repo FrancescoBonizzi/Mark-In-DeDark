@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
-using System.Windows.Media;
 
 namespace MarkInDeDark.LevelEditor
 {
@@ -18,30 +17,36 @@ namespace MarkInDeDark.LevelEditor
             InitializeComponent();
 
             _tempConfigurationPath = Path.Combine(Path.GetDirectoryName(gameExecutablePath), NormalMapParameters.FileName);
-            PenumbraAmbienceColor.SelectedColor = Colors.Black;
+            PenumbraAmbienceColor.SelectedColor = new System.Windows.Media.Color()
+            {
+                R = 104,
+                G = 104,
+                B = 104,
+                A = 255
+            };
 
             _normalMapParameters = new NormalMapParameters()
             {
-                LightColor = new Vector3((float)LightColorX.Value, (float)LightColorY.Value, (float)LightColorZ.Value),
+                PlayerLightColor = new Vector3((float)LightColorX.Value, (float)LightColorY.Value, (float)LightColorZ.Value),
                 AmbienceColor = new Vector3((float)AmbienceColorX.Value, (float)AmbienceColorY.Value, (float)AmbienceColorZ.Value),
-                LightDirectionZ = (float)LightDirectionZ.Value,
-                LightDistance = (float)LightDistance.Value,
-                LightOpacity = (float)LightOpacity.Value,
-                AmbienceColorOnly = false,
+                PlayerLightDirectionZ = (float)LightDirectionZ.Value,
+                PlayerLightDistance = (float)LightDistance.Value,
+                PlayerLightOpacity = (float)LightOpacity.Value,
+                EditAmbienceLights = false,
                 PenumbraAmbienceColor = PenumbraAmbienceColor.SelectedColor.Value.ToXnaColor()
             };
 
-            LightColorX.ValueChanged += (obj, args) => _normalMapParameters.LightColor.X = (float)args.NewValue;
-            LightColorY.ValueChanged += (obj, args) => _normalMapParameters.LightColor.Y = (float)args.NewValue;
-            LightColorZ.ValueChanged += (obj, args) => _normalMapParameters.LightColor.Z = (float)args.NewValue;
+            LightColorX.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightColor.X = (float)args.NewValue;
+            LightColorY.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightColor.Y = (float)args.NewValue;
+            LightColorZ.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightColor.Z = (float)args.NewValue;
 
             AmbienceColorX.ValueChanged += (obj, args) => _normalMapParameters.AmbienceColor.X = (float)args.NewValue;
             AmbienceColorY.ValueChanged += (obj, args) => _normalMapParameters.AmbienceColor.Y = (float)args.NewValue;
             AmbienceColorZ.ValueChanged += (obj, args) => _normalMapParameters.AmbienceColor.Z = (float)args.NewValue;
 
-            LightDirectionZ.ValueChanged += (obj, args) => _normalMapParameters.LightDirectionZ = (float)args.NewValue;
-            LightDistance.ValueChanged += (obj, args) => _normalMapParameters.LightDistance = (float)args.NewValue;
-            LightOpacity.ValueChanged += (obj, args) => _normalMapParameters.LightOpacity = (float)args.NewValue;
+            LightDirectionZ.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightDirectionZ = (float)args.NewValue;
+            LightDistance.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightDistance = (float)args.NewValue;
+            LightOpacity.ValueChanged += (obj, args) => _normalMapParameters.PlayerLightOpacity = (float)args.NewValue;
 
             PenumbraAmbienceColor.SelectedColorChanged += PenumbraAmbienceColor_SelectedColorChanged;
         }
@@ -51,16 +56,18 @@ namespace MarkInDeDark.LevelEditor
             _normalMapParameters.PenumbraAmbienceColor = e.NewValue.Value.ToXnaColor();
         }
 
-        private void btnMandaCambiamentiAlGioco_Click(object sender, RoutedEventArgs e)
+        private void btnMandaCambiamentiAlGiocoSoloPlayer_Click(object sender, RoutedEventArgs e)
         {
-            _normalMapParameters.AmbienceColorOnly = false;
+            _normalMapParameters.EditAmbienceLights = false;
+            _normalMapParameters.EditPlayerLights = true;
             var serializedConfiguration = JsonConvert.SerializeObject(_normalMapParameters);
             File.WriteAllText(_tempConfigurationPath, serializedConfiguration);
         }
 
-        private void btnMandaCambiamentiAlGiocoLuceAmbientale_Click(object sender, RoutedEventArgs e)
+        private void btnMandaCambiamentiAlGiocoSoloLuceAmbientale_Click(object sender, RoutedEventArgs e)
         {
-            _normalMapParameters.AmbienceColorOnly = true;
+            _normalMapParameters.EditAmbienceLights = true;
+            _normalMapParameters.EditPlayerLights = false;
             var serializedConfiguration = JsonConvert.SerializeObject(_normalMapParameters);
             File.WriteAllText(_tempConfigurationPath, serializedConfiguration);
         }

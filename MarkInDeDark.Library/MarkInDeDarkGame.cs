@@ -350,18 +350,18 @@ namespace MarkInDeDark.Library
                 var normalMapParametersTemp = JsonConvert.DeserializeObject<NormalMapParameters>(
                     File.ReadAllText(NormalMapParameters.FileName));
 
-                _normalMapAmbienceColor = normalMapParametersTemp.AmbienceColor;
-                _penumbra.AmbientColor = normalMapParametersTemp.PenumbraAmbienceColor;
-
-                if (!normalMapParametersTemp.AmbienceColorOnly)
+                if (normalMapParametersTemp.EditAmbienceLights)
                 {
-                    if (_penumbra != null)
-                    {
-                        _player.SurroundingLight.Z = normalMapParametersTemp.LightDirectionZ;
-                        _player.SurroundingLight.DistanceSquared = normalMapParametersTemp.LightDistance;
-                        _player.SurroundingLight.Opacity = normalMapParametersTemp.LightOpacity;
-                        _player.SurroundingLight.ColorNormal = normalMapParametersTemp.LightColor;
-                    }
+                    _normalMapAmbienceColor = normalMapParametersTemp.AmbienceColor;
+                    _penumbra.AmbientColor = normalMapParametersTemp.PenumbraAmbienceColor;
+                }
+
+                if (normalMapParametersTemp.EditPlayerLights)
+                {
+                    _player.SurroundingLight.Z = normalMapParametersTemp.PlayerLightDirectionZ;
+                    _player.SurroundingLight.DistanceSquared = normalMapParametersTemp.PlayerLightDistance;
+                    _player.SurroundingLight.Opacity = normalMapParametersTemp.PlayerLightOpacity;
+                    _player.SurroundingLight.ColorNormal = normalMapParametersTemp.PlayerLightColor;
                 }
 
                 try

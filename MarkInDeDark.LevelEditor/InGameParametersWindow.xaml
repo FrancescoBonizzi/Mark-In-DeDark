@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:otherControls="http://schemas.xceed.com/wpf/xaml/toolkit"
-    Title="In game parameters"
+    Title="Illuminazione"
     Width="400"
-    Height="730"
+    Height="760"
     ResizeMode="NoResize"
     mc:Ignorable="d">
 
@@ -22,7 +22,7 @@
                 Margin="0,10"
                 FontSize="16"
                 FontWeight="Bold"
-                Text="Lighting parameters"
+                Text="Illuminazione player"
                 TextAlignment="Center"
                 TextWrapping="WrapWithOverflow" />
 
@@ -36,7 +36,7 @@
                     Maximum="1000"
                     Minimum="0"
                     TickFrequency="1"
-                    Value="0" />
+                    Value="90" />
             </StackPanel>
 
             <StackPanel Margin="5" Orientation="Vertical">
@@ -49,7 +49,7 @@
                     Maximum="100000"
                     Minimum="0"
                     TickFrequency="1"
-                    Value="0" />
+                    Value="20600" />
             </StackPanel>
 
             <StackPanel Margin="5" Orientation="Vertical">
@@ -109,10 +109,24 @@
                     Value="1" />
             </StackPanel>
 
+            <Button
+                x:Name="btnMandaCambiamentiAlGiocoSoloPlayer"
+                Padding="0,10"
+                Click="btnMandaCambiamentiAlGiocoSoloPlayer_Click"
+                Content="Manda i cambiamenti al gioco (solo player)" />
+
             <Rectangle
                 Height="2"
                 Margin="10"
                 Fill="DarkGray" />
+
+            <TextBlock
+                Margin="0,10"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Illuminazione ambientale"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
 
             <StackPanel Margin="5" Orientation="Vertical">
                 <TextBlock>
@@ -123,8 +137,8 @@
                     x:Name="AmbienceColorX"
                     Maximum="1"
                     Minimum="0"
-                    TickFrequency="0.001"
-                    Value="0.35" />
+                    TickFrequency="0.01"
+                    Value="0.11" />
             </StackPanel>
 
             <StackPanel Margin="5" Orientation="Vertical">
@@ -136,8 +150,8 @@
                     x:Name="AmbienceColorY"
                     Maximum="1"
                     Minimum="0"
-                    TickFrequency="0.001"
-                    Value="0.35" />
+                    TickFrequency="0.01"
+                    Value="0.14" />
             </StackPanel>
 
             <StackPanel Margin="5" Orientation="Vertical">
@@ -149,8 +163,8 @@
                     x:Name="AmbienceColorZ"
                     Maximum="1"
                     Minimum="0"
-                    TickFrequency="0.001"
-                    Value="0.35" />
+                    TickFrequency="0.01"
+                    Value="0.22" />
             </StackPanel>
 
             <Rectangle
@@ -165,30 +179,12 @@
                 <otherControls:ColorPicker x:Name="PenumbraAmbienceColor" />
             </StackPanel>
 
-            <Rectangle
-                Height="2"
-                Margin="10"
-                Fill="DarkGray" />
-
             <Button
-                x:Name="btnMandaCambiamentiAlGioco"
-                Padding="0,10"
-                Click="btnMandaCambiamentiAlGioco_Click"
-                Content="Manda i cambiamenti al gioco" />
-
-            <Button
-                x:Name="btnMandaCambiamentiAlGiocoLuceAmbientale"
+                x:Name="btnMandaCambiamentiAlGiocoSoloLuceAmbientale"
                 Margin="0,10"
                 Padding="0,10"
-                Click="btnMandaCambiamentiAlGiocoLuceAmbientale_Click">
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock>
-                        Manda i cambiamenti al gioco <Bold>SOLO</Bold>
-                        per la luce ambientale</TextBlock>
-                </StackPanel>
-
-            </Button>
+                Click="btnMandaCambiamentiAlGiocoSoloLuceAmbientale_Click"
+                Content="Manda i cambiamenti al gioco (solo luce ambientale)" />
 
         </StackPanel>
 

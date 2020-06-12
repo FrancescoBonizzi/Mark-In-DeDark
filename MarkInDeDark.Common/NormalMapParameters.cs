@@ -6,13 +6,15 @@ namespace MarkInDeDark.Common
     {
         public const string FileName = "tempNormalMapConfiguration.txt";
 
-        public Vector3 LightColor;
-        public Vector3 AmbienceColor;
-        public float LightDirectionZ;
-        public float LightDistance;
-        public float LightOpacity;
+        public Vector3 PlayerLightColor;
+        public float PlayerLightDirectionZ;
+        public float PlayerLightDistance;
+        public float PlayerLightOpacity;
 
-        public bool AmbienceColorOnly { get; set; }
+        public bool EditAmbienceLights { get; set; }
+        public bool EditPlayerLights { get; set; }
+
+        public Vector3 AmbienceColor;
         public Color PenumbraAmbienceColor { get; set; }
     }
 }

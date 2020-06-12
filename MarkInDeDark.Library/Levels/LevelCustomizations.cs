@@ -20,8 +20,8 @@ namespace MarkInDeDark.Library.Levels
 
             if (levelId == 1 || levelId == 2)
             {
-                l.AmbienceColor = new Vector3(0f, 0.01f, 0.03f);
-                l.PenumbraAmbientColor = new Color(0, 0, 3);
+                l.AmbienceColor = new Vector3(0.11f, 0.10f, 0.22f);
+                l.PenumbraAmbientColor = new Color(104, 104, 104);
                 l.IsSnowing = true;
                 l.GlowScale = 2f;
                 l.PillarOffset = new Rectangle(22, 144, 40, 24);

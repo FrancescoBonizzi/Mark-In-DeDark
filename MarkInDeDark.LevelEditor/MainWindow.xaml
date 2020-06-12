@@ -95,7 +95,7 @@
                 <MenuItem
                     x:Name="btnNormalMapRegulations"
                     Click="btnNormalMapRegulations_Click"
-                    Header="Imposta parametri normal map in game">
+                    Header="Imposta parametri dell'illuminazione in-game">
 
                     <MenuItem.Icon>
                         <TextBlock FontFamily="Segoe UI Symbol" Text="&#xE193;" />
