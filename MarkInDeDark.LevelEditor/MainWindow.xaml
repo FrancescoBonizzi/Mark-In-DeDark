@@ -8,6 +8,7 @@
     xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Mark in DeDark - Level editor"
     Width="1920"
+    Height="1080"
     Closing="Window_Closing"
     Loaded="Window_Loaded"
     PreviewKeyDown="LevelEditorCanvas_PreviewKeyDown"
@@ -21,6 +22,32 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="gridLoader"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Panel.ZIndex="10"
+            Background="Gray"
+            Visibility="Collapsed"
+            Opacity="0.0">
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+
+                <Image Margin="50" VerticalAlignment="Center" Source="Assets/icons/setting.png" Width="200" Height="200" />
+                
+                <TextBlock
+                    FontSize="80"
+                    Foreground="White"
+                    VerticalAlignment="Center"
+                    Text="Caricamento in corso..." />
+
+            </StackPanel>
+
+        </Grid>
 
         <Menu Grid.Row="0">
 

@@ -47,7 +47,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             if (_window.cmbTexturePack.SelectedItem == null)
                 _window.cmbTexturePack.SelectedIndex = 0;
 
-           _window.numDirtyProbability.Value = gameGrid.DirtyProbabilityPercentage;
+            _window.numDirtyProbability.Value = gameGrid.DirtyProbabilityPercentage;
             _traslatedStrings = traslatedStrings;
 
             DrawAll();
@@ -58,7 +58,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             double marginOffset = 0.1;
             _canvas.Children.Clear();
             _canvas.Width = _gameGrid.Columns * (_cellSize + marginOffset);
-            _canvas.Height = _gameGrid.Rows * (_cellSize + marginOffset); 
+            _canvas.Height = _gameGrid.Rows * (_cellSize + marginOffset);
             _canvasCells = new Border[_gameGrid.Columns, _gameGrid.Rows];
 
             for (int column = 0; column < _gameGrid.Columns; ++column)
@@ -108,7 +108,7 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                         try
                         {
-                            thisCellText  = _traslatedStrings.GetString(StringsTraslationLanguages.Italian, editorCell.StringCode);
+                            thisCellText = _traslatedStrings.GetString(StringsTraslationLanguages.Italian, editorCell.StringCode);
                         }
                         catch
                         {
@@ -180,7 +180,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
 
             EditorTypesObjectsConverter.ManageObjectType(canvasCell, type, previousGroundType, quantityInfo);
-       
+
             // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
             // una volta inserto l'oggetto
             switch (type)
@@ -455,8 +455,8 @@ namespace MarkInDeDark.LevelEditor.Editor
                     || type == WallTypes.Speciale3
                     || type == WallTypes.Speciale4
                     || type == WallTypes.Speciale5)
-                // Tipi di muro non ammessi sui muri verticali
-                return;
+                    // Tipi di muro non ammessi sui muri verticali
+                    return;
             }
 
             if (wallPosition == WallPositions.Bottom)
