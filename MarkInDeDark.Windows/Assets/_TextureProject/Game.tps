@@ -759,6 +759,7 @@
             <key type="filename">Game/Grounds/pacco1/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/pacco1/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco1/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco1/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco1/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco1/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco1/wall_uscita_open.png</key>
@@ -820,6 +821,7 @@
             <key type="filename">Game/Grounds/pacco2/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_uscita_closed_spec.png</key>
@@ -891,6 +893,7 @@
             <key type="filename">Game/Grounds/pacco3/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco3/wall_ingresso_open_spec.png</key>
             <key type="filename">Game/Grounds/pacco3/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco3/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco3/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco3/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco3/wall_uscita_closed_spec.png</key>
@@ -955,6 +958,8 @@
             <key type="filename">Game/Grounds/pacco4/cell4_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/cell4_spec.png</key>
             <key type="filename">Game/Grounds/pacco4/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco4/cell5_spec.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_door.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_door_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_door_up.png</key>
@@ -968,6 +973,7 @@
             <key type="filename">Game/Grounds/pacco4/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_ingresso_open_spec.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco4/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_uscita_open.png</key>
@@ -1036,6 +1042,7 @@
             <key type="filename">Game/Grounds/pacco5/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/pacco5/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco5/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco5/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco5/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco5/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco5/wall_uscita_open.png</key>
@@ -1107,6 +1114,7 @@
             <key type="filename">Game/Grounds/pacco6/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/pacco6/wall_ingresso_open_normal.png</key>
             <key type="filename">Game/Grounds/pacco6/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco6/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco6/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco6/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco6/wall_uscita_open.png</key>

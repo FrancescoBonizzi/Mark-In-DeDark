@@ -79,7 +79,8 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.Riempimento:
-                            gameCell.Sprite = level.FillingSprite;
+                            gameCell.Sprite = level.FillingSprite.Base;
+                            gameCell.NormalSprite = level.FillingSprite.Normal;
                             gameCell.SetSpecialWallCell();
                             break;
 
