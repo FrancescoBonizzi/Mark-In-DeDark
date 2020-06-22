@@ -36,6 +36,24 @@
       },
       "LevelCompletedString": {
         "Text": "Level completed!"
+      },
+      "637284382845827427": {
+        "Text": "A door... press CTRL to open or close it"
+      },
+      "637284382983500501": {
+        "Text": "A candle... walk over to collect and press SPACE to place it"
+      },
+      "637284384552007485": {
+        "Text": "That's creepy..."
+      },
+      "637284386793405944": {
+        "Text": "Maybe i should try using a candle"
+      },
+      "637284387001107200": {
+        "Text": "I've done it!"
+      },
+      "637284388013304946": {
+        "Text": "This ...something.... seem to behave strangely"
       }
     },
     "Italian": {
@@ -74,6 +92,24 @@
       },
       "LevelCompletedString": {
         "Text": "Livello completato!"
+      },
+      "637284382845827427": {
+        "Text": "Una porta... premi CTRL per aprirla o chiuderla"
+      },
+      "637284382983500501": {
+        "Text": "Una candela... raccoglila e premi SPAZIO per posizionarla"
+      },
+      "637284384552007485": {
+        "Text": "Non è rassicurante..."
+      },
+      "637284386793405944": {
+        "Text": "Magari dovrei provare con una candela"
+      },
+      "637284387001107200": {
+        "Text": "Ce l'ho fatta!"
+      },
+      "637284388013304946": {
+        "Text": "Questo qualcosa... sembra comportarsi in modo strano"
       }
     }
   }
