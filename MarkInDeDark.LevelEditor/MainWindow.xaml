@@ -865,8 +865,8 @@
                             <Image
                                 Width="20"
                                 Height="20"
-                                Source="Assets/icons/lightobject_1.png" />
-                            <TextBlock Padding="2,2" Text="Lucina" />
+                                Source="Assets/icons/brazier_lit_1.png" />
+                            <TextBlock Padding="2,2" Text="Braciere (F)" />
                         </StackPanel>
                     </RadioButton>
 

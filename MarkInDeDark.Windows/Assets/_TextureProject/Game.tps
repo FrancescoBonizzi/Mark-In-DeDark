@@ -438,6 +438,14 @@
             <key type="filename">Game/Goblin/goblin_side_walking_3_normal.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_4.png</key>
             <key type="filename">Game/Goblin/goblin_side_walking_4_normal.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_1.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_2.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_3.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_4.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_5.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_6.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_lit_7.png</key>
+            <key type="filename">Game/Objects/Brazier/brazier_normal.png</key>
             <key type="filename">Game/Objects/Candle/candle_1.png</key>
             <key type="filename">Game/Objects/Candle/candle_2.png</key>
             <key type="filename">Game/Objects/Candle/candle_3.png</key>
@@ -1488,78 +1496,6 @@
                 <rect>48,52,96,104</rect>
                 <key>scale9Paddings</key>
                 <rect>48,52,96,104</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Game/LightObject/lightobject_1.png</key>
-            <key type="filename">Game/LightObject/lightobject_10.png</key>
-            <key type="filename">Game/LightObject/lightobject_11.png</key>
-            <key type="filename">Game/LightObject/lightobject_12.png</key>
-            <key type="filename">Game/LightObject/lightobject_13.png</key>
-            <key type="filename">Game/LightObject/lightobject_14.png</key>
-            <key type="filename">Game/LightObject/lightobject_15.png</key>
-            <key type="filename">Game/LightObject/lightobject_16.png</key>
-            <key type="filename">Game/LightObject/lightobject_17.png</key>
-            <key type="filename">Game/LightObject/lightobject_18.png</key>
-            <key type="filename">Game/LightObject/lightobject_19.png</key>
-            <key type="filename">Game/LightObject/lightobject_2.png</key>
-            <key type="filename">Game/LightObject/lightobject_20.png</key>
-            <key type="filename">Game/LightObject/lightobject_21.png</key>
-            <key type="filename">Game/LightObject/lightobject_22.png</key>
-            <key type="filename">Game/LightObject/lightobject_23.png</key>
-            <key type="filename">Game/LightObject/lightobject_24.png</key>
-            <key type="filename">Game/LightObject/lightobject_25.png</key>
-            <key type="filename">Game/LightObject/lightobject_26.png</key>
-            <key type="filename">Game/LightObject/lightobject_27.png</key>
-            <key type="filename">Game/LightObject/lightobject_28.png</key>
-            <key type="filename">Game/LightObject/lightobject_29.png</key>
-            <key type="filename">Game/LightObject/lightobject_3.png</key>
-            <key type="filename">Game/LightObject/lightobject_30.png</key>
-            <key type="filename">Game/LightObject/lightobject_31.png</key>
-            <key type="filename">Game/LightObject/lightobject_32.png</key>
-            <key type="filename">Game/LightObject/lightobject_33.png</key>
-            <key type="filename">Game/LightObject/lightobject_34.png</key>
-            <key type="filename">Game/LightObject/lightobject_35.png</key>
-            <key type="filename">Game/LightObject/lightobject_36.png</key>
-            <key type="filename">Game/LightObject/lightobject_37.png</key>
-            <key type="filename">Game/LightObject/lightobject_38.png</key>
-            <key type="filename">Game/LightObject/lightobject_39.png</key>
-            <key type="filename">Game/LightObject/lightobject_4.png</key>
-            <key type="filename">Game/LightObject/lightobject_40.png</key>
-            <key type="filename">Game/LightObject/lightobject_41.png</key>
-            <key type="filename">Game/LightObject/lightobject_42.png</key>
-            <key type="filename">Game/LightObject/lightobject_43.png</key>
-            <key type="filename">Game/LightObject/lightobject_44.png</key>
-            <key type="filename">Game/LightObject/lightobject_45.png</key>
-            <key type="filename">Game/LightObject/lightobject_46.png</key>
-            <key type="filename">Game/LightObject/lightobject_47.png</key>
-            <key type="filename">Game/LightObject/lightobject_48.png</key>
-            <key type="filename">Game/LightObject/lightobject_49.png</key>
-            <key type="filename">Game/LightObject/lightobject_5.png</key>
-            <key type="filename">Game/LightObject/lightobject_50.png</key>
-            <key type="filename">Game/LightObject/lightobject_51.png</key>
-            <key type="filename">Game/LightObject/lightobject_52.png</key>
-            <key type="filename">Game/LightObject/lightobject_53.png</key>
-            <key type="filename">Game/LightObject/lightobject_54.png</key>
-            <key type="filename">Game/LightObject/lightobject_55.png</key>
-            <key type="filename">Game/LightObject/lightobject_56.png</key>
-            <key type="filename">Game/LightObject/lightobject_57.png</key>
-            <key type="filename">Game/LightObject/lightobject_58.png</key>
-            <key type="filename">Game/LightObject/lightobject_59.png</key>
-            <key type="filename">Game/LightObject/lightobject_6.png</key>
-            <key type="filename">Game/LightObject/lightobject_60.png</key>
-            <key type="filename">Game/LightObject/lightobject_7.png</key>
-            <key type="filename">Game/LightObject/lightobject_8.png</key>
-            <key type="filename">Game/LightObject/lightobject_9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>2,6,5,12</rect>
-                <key>scale9Paddings</key>
-                <rect>2,6,5,12</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

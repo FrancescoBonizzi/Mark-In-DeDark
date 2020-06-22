@@ -133,18 +133,6 @@
   "CandleTimeToLiveWhenAttackedSeconds": 3.0,
   "IsFullScreen": false,
   "BreakableTrapBreakingTimeSeconds": 2.0,
-  "LittleLightColorRGB1": {
-    "B": 255,
-    "G": 251,
-    "R": 148,
-    "A": 255
-  },
-  "LittleLightColorRGB2": {
-    "B": 255,
-    "G": 253,
-    "R": 201,
-    "A": 255
-  },
   "NotEnoughCandlesStringColorRGB": {
     "B": 0,
     "G": 0,

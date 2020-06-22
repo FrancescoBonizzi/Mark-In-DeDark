@@ -126,7 +126,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     break;
 
                 case ObjectTypes.Lucina:
-                    imagePath = "Assets/icons/lightobject_1.png";
+                    imagePath = "Assets/icons/brazier_lit_1.png";
                     break;
 
                 case ObjectTypes.Uscita:

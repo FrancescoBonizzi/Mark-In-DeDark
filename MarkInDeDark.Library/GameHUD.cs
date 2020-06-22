@@ -3,7 +3,6 @@ using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
 using FbonizziMonoGame.TransformationObjects;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,6 +26,9 @@ namespace MarkInDeDark.Library
         private readonly DrawingInfos _remainingCandlesDrawingInfos;
         private readonly StringBuilder _remainingCandlesString;
 
+        private readonly DrawingInfos _levelNameDrawingInfos;
+        private readonly string _levelNameString;
+
         private readonly Vector2 _messagesStartPosition;
         private readonly List<PopupText> _messages;
 
@@ -39,7 +41,8 @@ namespace MarkInDeDark.Library
         public GameHUD(
             AssetsLoader assetsLoader,
             IScreenTransformationMatrixProvider scaleMatrixProvider,
-            CandlesManager candlesManager)
+            CandlesManager candlesManager,
+            string levelName)
         {
             _font = assetsLoader.Font;
 
@@ -65,6 +68,14 @@ namespace MarkInDeDark.Library
             {
                 Position = _remainingCandlesDrawingInfos.Position - new Vector2(50f, 0f),
                 Scale = 0.2f,
+            };
+
+            _levelNameString = levelName;
+            _levelNameDrawingInfos = new DrawingInfos()
+            {
+                Position = new Vector2(100, _remainingCandlesDrawingInfos.Position.Y),
+                Scale = 0.2f,
+                OverlayColor = Color.Gray
             };
         }
 
@@ -141,6 +152,8 @@ namespace MarkInDeDark.Library
             {
                 spriteBatch.Draw(_keySprite, _keyDrawingInfos);
             }
+
+            spriteBatch.DrawString(_font, _levelNameString, _levelNameDrawingInfos);
         }
 
     }

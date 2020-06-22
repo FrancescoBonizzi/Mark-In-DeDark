@@ -30,7 +30,7 @@ namespace MarkInDeDark.Library.Levels
         public Vector2 ExitPosition { get; set; }
         public Vector2 KeyPosition { get; set; }
         public List<CandlePack> CandlePacks { get; } = new List<CandlePack>();
-        public List<LittleLight> LittleLights { get; } = new List<LittleLight>();
+        public List<BrazierLit> BraziersLit { get; } = new List<BrazierLit>();
         public List<IDrawableObject> DrawableObjects { get; } = new List<IDrawableObject>();
 
         public Vector2? GoblinStartPosition { get; set; }

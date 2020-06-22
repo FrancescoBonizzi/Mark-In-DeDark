@@ -136,7 +136,7 @@
     <Compile Include="Levels\WallInteractiveDoor.cs" />
     <Compile Include="Objects\IDrawableObject.cs" />
     <Compile Include="Objects\GoblinTriggerTrap.cs" />
-    <Compile Include="Objects\LittleLight.cs" />
+    <Compile Include="Objects\BrazierLit.cs" />
     <Compile Include="Objects\PassableObject.cs" />
     <Compile Include="Objects\ShowTextTriggerObject.cs" />
     <Compile Include="Objects\TimedBreakableTrap.cs" />
@@ -164,7 +164,6 @@
     <Compile Include="Objects\Exit.cs" />
     <Compile Include="Characters\Player.cs" />
     <Compile Include="Particles\CandleFireParticleSystem.cs" />
-    <Compile Include="Particles\LittleLightParticleSystem.cs" />
     <Compile Include="Particles\Snowing\SnowFlake.cs" />
     <Compile Include="Particles\Snowing\SnowingLayer.cs" />
     <Compile Include="Particles\Snowing\SnowingManager.cs" />

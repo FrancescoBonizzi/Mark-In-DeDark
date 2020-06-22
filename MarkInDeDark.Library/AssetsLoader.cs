@@ -254,14 +254,14 @@ namespace MarkInDeDark.Library
 
             // Little Light
             {
-                var littleLightAnimation = new List<Sprite>();
+                var brazierLightAnimation = new List<Sprite>();
                 for (int i = 1; i <= 60; ++i)
                 {
-                    if (Sprites.ContainsKey($"LightObject/lightobject_{i}"))
-                        littleLightAnimation.Add(Sprites[$"LightObject/lightobject_{i}"]);
+                    if (Sprites.ContainsKey($"Objects/Brazier/brazier_lit_{i}"))
+                        brazierLightAnimation.Add(Sprites[$"Objects/Brazier/brazier_lit_{i}"]);
                     else break;
                 }
-                _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
+                _animations["BrazierLit"] = new SpriteAnimation(brazierLightAnimation, TimeSpan.FromMilliseconds(100));
             }
 
             // Shadows

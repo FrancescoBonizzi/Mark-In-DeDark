@@ -284,9 +284,6 @@
     <Resource Include="Assets\icons\bubu_front_walking_1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\icons\lightobject_1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\icons\object_unpassable_1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +294,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icons\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\brazier_lit_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />

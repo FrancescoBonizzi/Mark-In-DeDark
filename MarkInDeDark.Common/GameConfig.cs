@@ -55,9 +55,6 @@ namespace MarkInDeDark.Library.Common
         public bool IsFullScreen { get; set; }
         public float BreakableTrapBreakingTimeSeconds { get; set; }
 
-        public Color LittleLightColorRGB1 { get; set; }
-        public Color LittleLightColorRGB2 { get; set; }
-
         public Color NotEnoughCandlesStringColorRGB { get; set; }
         public Color KeyFoundStringColorRGB { get; set; }
         public Color CandlePackFoundStringColorRGB { get; set; }

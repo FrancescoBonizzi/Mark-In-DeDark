@@ -193,7 +193,7 @@ namespace MarkInDeDark.Library
 
             _candlePacks = _gameGrid.CandlePacks;
             ElapsedGameTime = TimeSpan.Zero;
-            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
+            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager, selectedLevel.LevelTitleToShow);
 
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
             if (_gameGrid.GoblinTriggerRectangle != null && _gameGrid.GoblinStartPosition != null)
@@ -317,7 +317,7 @@ namespace MarkInDeDark.Library
                     _normalMapLights.Add(e.SurroundingLight);
             }
 
-            foreach (var l in _gameGrid.LittleLights)
+            foreach (var l in _gameGrid.BraziersLit)
                 _normalMapLights.Add(l.SurroundingLight);
 
             // Penumbra
@@ -544,7 +544,7 @@ namespace MarkInDeDark.Library
                 }
             }
 
-            foreach (var littleLight in _gameGrid.LittleLights)
+            foreach (var littleLight in _gameGrid.BraziersLit)
             {
                 littleLight.Update(elapsed);
             }
@@ -704,7 +704,7 @@ namespace MarkInDeDark.Library
                     _player.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var e in _enemies)
                         e.SurroundingLight?.DrawGlowForSpecular(s);
-                    foreach (var l in _gameGrid.LittleLights)
+                    foreach (var l in _gameGrid.BraziersLit)
                         l.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var c in _candlesManager.Candles)
                         c.SurroundingLight?.DrawGlowForSpecular(s);
@@ -729,7 +729,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
             foreach (var e in _enemies)
                 e.SurroundingLight?.DrawLightMask(spriteBatch);
-            foreach (var l in _gameGrid.LittleLights)
+            foreach (var l in _gameGrid.BraziersLit)
                 l.SurroundingLight?.DrawLightMask(spriteBatch);
             foreach (var c in _candlesManager.Candles)
                 c.SurroundingLight?.DrawLightMask(spriteBatch);
@@ -758,6 +758,8 @@ namespace MarkInDeDark.Library
             _player.DrawNormalMap(spriteBatch);
             foreach (var e in _enemies)
                 e.DrawNormalMap(spriteBatch);
+            foreach (var littleLight in _gameGrid.BraziersLit)
+                littleLight.DrawNormalMap(spriteBatch);
             spriteBatch.End();
 
             // 2. Disegno il resto
@@ -781,7 +783,7 @@ namespace MarkInDeDark.Library
             foreach (var otherObject in _gameGrid.DrawableObjects)
                 otherObject.Draw(spriteBatch);
 
-            foreach (var littleLight in _gameGrid.LittleLights)
+            foreach (var littleLight in _gameGrid.BraziersLit)
                 littleLight.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
