@@ -230,7 +230,7 @@ namespace MarkInDeDark.Library.Levels
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_door_up"));
             FillingSprite = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento_normal"));
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento"));
 
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 

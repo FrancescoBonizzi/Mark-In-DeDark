@@ -793,7 +793,6 @@ namespace MarkInDeDark.Library
             foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
 
-            // TODO Dare una normal generica ai riempitivi
             _gameGrid.DrawRiempitiviGround(spriteBatch);
 
             spriteBatch.End();
