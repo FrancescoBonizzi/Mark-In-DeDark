@@ -67,7 +67,7 @@ namespace MarkInDeDark.Windows
                     // _game.TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond * (1d / 50d)));
                     // TEST FPS s-cappati
                     _game.IsFixedTimeStep = false;
-                    _game.GraphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
+                  //  _game.GraphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
                     _game.GraphicsDeviceManager.GraphicsProfile = Microsoft.Xna.Framework.Graphics.GraphicsProfile.HiDef;
                     _game.GraphicsDeviceManager.ApplyChanges();
 
