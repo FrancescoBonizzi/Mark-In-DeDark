@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkInDeDark.Windows", "Mar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Penumbra.WindowsDX", "penumbra\MonoGame.Penumbra.WindowsDX.csproj", "{B021F95C-38BC-493A-BB92-C3C575E4B50F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeryStupidLauncher", "VeryStupidLauncher\VeryStupidLauncher.csproj", "{5443CDA7-7E56-4135-B31B-0B5DF3569D02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,14 @@ Global
 		{B021F95C-38BC-493A-BB92-C3C575E4B50F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B021F95C-38BC-493A-BB92-C3C575E4B50F}.Release|x86.ActiveCfg = Release|Any CPU
 		{B021F95C-38BC-493A-BB92-C3C575E4B50F}.Release|x86.Build.0 = Release|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Debug|x86.Build.0 = Debug|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Release|x86.ActiveCfg = Release|Any CPU
+		{5443CDA7-7E56-4135-B31B-0B5DF3569D02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
