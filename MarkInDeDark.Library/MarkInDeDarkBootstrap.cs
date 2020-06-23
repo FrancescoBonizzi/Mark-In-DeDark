@@ -75,6 +75,10 @@ namespace MarkInDeDark.Library
                 IsFullScreen = _gameConfig.IsFullScreen
             };
 
+#if !DEBUG
+            GraphicsDeviceManager.IsFullScreen = true;
+#endif
+
             _localizedStringsRepository = new InMemoryLocalizedStringsRepository(new Dictionary<string, string>());
 
             if (GraphicsDeviceManager.IsFullScreen)

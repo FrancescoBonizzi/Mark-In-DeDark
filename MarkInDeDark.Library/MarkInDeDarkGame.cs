@@ -340,6 +340,8 @@ namespace MarkInDeDark.Library
             {
                 _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
+
+            _markInDeDarkBootstrap.IsMouseVisible = false;
         }
 
         // TODO Levare questa robba quando avremo finito?
@@ -593,6 +595,7 @@ namespace MarkInDeDark.Library
 
         public void OnLeavingPage()
         {
+            _markInDeDarkBootstrap.IsMouseVisible = true;
             _markInDeDarkBootstrap.DisablePenumbra(_penumbra);
         }
 
