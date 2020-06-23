@@ -866,7 +866,7 @@ namespace MarkInDeDark.Library.Levels
 
                 normalMapEffect.Parameters["LightPosition"].SetValue(light.PositionForGround);
                 normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
-                normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+                normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquaredForGround);
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }

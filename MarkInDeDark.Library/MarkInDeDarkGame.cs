@@ -359,7 +359,7 @@ namespace MarkInDeDark.Library
                 if (normalMapParametersTemp.EditPlayerLights)
                 {
                     _player.SurroundingLight.Z = normalMapParametersTemp.PlayerLightDirectionZ;
-                    _player.SurroundingLight.DistanceSquared = normalMapParametersTemp.PlayerLightDistance;
+                    _player.SurroundingLight.DistanceSquaredForGround = normalMapParametersTemp.PlayerLightDistance;
                     _player.SurroundingLight.Opacity = normalMapParametersTemp.PlayerLightOpacity;
                     _player.SurroundingLight.ColorNormal = normalMapParametersTemp.PlayerLightColor;
                 }
@@ -544,9 +544,9 @@ namespace MarkInDeDark.Library
                 }
             }
 
-            foreach (var littleLight in _gameGrid.BraziersLit)
+            foreach (var brazierLit in _gameGrid.BraziersLit)
             {
-                littleLight.Update(elapsed);
+                brazierLit.Update(elapsed);
             }
 
             _gameGrid.Update(elapsed);
@@ -721,6 +721,9 @@ namespace MarkInDeDark.Library
 
                     foreach (Enemy en in _enemies)
                         en.DrawShadows(s);
+
+                    foreach (var brazierLit in _gameGrid.BraziersLit)
+                        brazierLit.DrawShadows(spriteBatch);
                 },
                 lights: _normalMapLights);
 
@@ -783,8 +786,8 @@ namespace MarkInDeDark.Library
             foreach (var otherObject in _gameGrid.DrawableObjects)
                 otherObject.Draw(spriteBatch);
 
-            foreach (var littleLight in _gameGrid.BraziersLit)
-                littleLight.Draw(spriteBatch);
+            foreach (var brazierLit in _gameGrid.BraziersLit)
+                brazierLit.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
 
@@ -812,7 +815,7 @@ namespace MarkInDeDark.Library
                     _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.PositionForWall);
                     _circularNormalMapShader.Parameters["LightColor"].SetValue(light.ColorNormal);
                     _circularNormalMapShader.Parameters["LightOpacity"].SetValue(light.Opacity);
-                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquaredForWall);
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
                 }
                 spriteBatch.End();
@@ -844,37 +847,6 @@ namespace MarkInDeDark.Library
             _candlesManager.DrawEffectsOverDark(spriteBatch);
             _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
-
-            //if (_gameConfig.GodModeDebugMode)
-            //{
-            //    spriteBatch.Begin(transformMatrix: viewMatrix);
-
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
-            //    }
-
-            //    foreach (var e in _enemies)
-            //    {
-            //        spriteBatch.DrawRectangle(e.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
-            //    }
-            //    spriteBatch.DrawRectangle(_player.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
-
-            //    spriteBatch.End();
-
-            //    spriteBatch.Begin();
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
-            //    }
-
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
-            //    }
-
-            //    spriteBatch.End();
-            //}
 
             // 6. HUD
             spriteBatch.Begin();
