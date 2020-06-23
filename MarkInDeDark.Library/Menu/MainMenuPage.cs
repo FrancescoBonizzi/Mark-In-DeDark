@@ -120,6 +120,7 @@ namespace MarkInDeDark.Library.Menu
             spriteBatch.Draw(_logo, _logoDrawingInfos);
             _playButton.Draw(spriteBatch);
             _exitButton.Draw(spriteBatch);
+            spriteBatch.DrawString(_font, _betaText, _betaDrawingInfos);
             spriteBatch.End();
         }
     }
