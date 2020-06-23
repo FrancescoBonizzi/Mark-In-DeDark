@@ -1132,6 +1132,13 @@
             <key type="filename">Game/Objects/Candle/candle_pack_2.png</key>
             <key type="filename">Game/Objects/Candle/candle_pack_3.png</key>
             <key type="filename">Game/Objects/key.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_1.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_2.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_3.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_4.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_5.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_6.png</key>
+            <key type="filename">Game/Shadows/Brazier/brazier_shadow_7.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_1.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_2.png</key>
             <key type="filename">Game/Shadows/Generic/shadow_3.png</key>

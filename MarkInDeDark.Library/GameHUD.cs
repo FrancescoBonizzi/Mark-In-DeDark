@@ -75,7 +75,7 @@ namespace MarkInDeDark.Library
             {
                 Position = new Vector2(100, _remainingCandlesDrawingInfos.Position.Y),
                 Scale = 0.2f,
-                OverlayColor = Color.Gray
+                OverlayColor = Color.White.WithAlpha(0.3f)
             };
         }
 

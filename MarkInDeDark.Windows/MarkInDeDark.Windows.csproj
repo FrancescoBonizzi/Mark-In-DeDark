@@ -124,18 +124,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Spritesheet-0.txt">
+    <None Include="Assets\Spritesheet-0.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Spritesheet-1.txt">
+    </None>
+    <None Include="Assets\Spritesheet-1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Spritesheet-2.txt">
+    </None>
+    <None Include="Assets\Spritesheet-2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Spritesheet-3.txt">
+    </None>
+    <None Include="Assets\Spritesheet-3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Include="Assets\Spritesheet-4.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -154,12 +157,12 @@
     <Content Include="Assets\splashscreen.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Spritesheet-0.xnb">
+    <None Include="Assets\Spritesheet-0.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Spritesheet-1.xnb">
+    </None>
+    <None Include="Assets\Spritesheet-1.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Assets\Translations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -169,15 +172,15 @@
     <Content Include="Assets\Soundtrack\TaurusStartingCharge.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Spritesheet-2.xnb">
+    <None Include="Assets\Spritesheet-2.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Assets\Effects\circularnormalmap.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Spritesheet-3.xnb">
+    <None Include="Assets\Spritesheet-3.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Assets\Effects\specularmap.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -187,28 +190,31 @@
     <Content Include="Assets\mainpage.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Assets\Levels\livello_1.mark">
+    <None Include="Assets\Spritesheet-4.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_2.mark">
+    <None Include="Assets\Levels\Livello 1.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_3.mark">
+    <None Include="Assets\Levels\Livello 2.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_4.mark">
+    <None Include="Assets\Levels\Livello 3.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_5.mark">
+    <None Include="Assets\Levels\Livello 4.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_6.mark">
+    <None Include="Assets\Levels\Livello 5.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_7.mark">
+    <None Include="Assets\Levels\Livello 6.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Levels\livello_8.mark">
+    <None Include="Assets\Levels\Livello 7.mark">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Levels\Livello 8.mark">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

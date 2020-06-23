@@ -17,7 +17,6 @@ namespace MarkInDeDark.Library.Objects
         private readonly Sprite _normal;
 
         private readonly DrawingInfos _brazierAnimationDrawingInfos;
-        private readonly DrawingInfos _shadowLargeAnimationDrawingInfos;
         private readonly DrawingInfos _shadowAnimationDrawingInfos;
 
         public MarkLight SurroundingLight { get; }
@@ -28,7 +27,7 @@ namespace MarkInDeDark.Library.Objects
             Vector2 position)
         {
             _brazierAnimation = assetsLoader.GetAnimation("BrazierLit");
-            _shadowAnimation = assetsLoader.GetAnimation("GenericCharacterWhileIdleUpShadow");
+            _shadowAnimation = assetsLoader.GetAnimation("BrazierShadow");
 
             _brazierAnimationDrawingInfos = new DrawingInfos()
             {
@@ -39,20 +38,10 @@ namespace MarkInDeDark.Library.Objects
 
             _shadowAnimationDrawingInfos = new DrawingInfos()
             {
-                Position = position + new Vector2(0, 40),
+                Position = position,
                 Origin = _shadowAnimation.FirstFrameSprite.SpriteCenter,
                 LayerDepth = ZIndexCalculator.ForShadow(),
-                Scale = 1f,
                 OverlayColor = Color.White.WithAlpha(0.5f)
-            };
-
-            _shadowLargeAnimationDrawingInfos = new DrawingInfos()
-            {
-                Position = position + new Vector2(0, -10),
-                Origin = _shadowAnimationDrawingInfos.Origin,
-                LayerDepth = _shadowAnimationDrawingInfos.LayerDepth,
-                Scale = 2f,
-                OverlayColor = _shadowAnimationDrawingInfos.OverlayColor
             };
 
             _normal = assetsLoader.Sprites["Objects/Brazier/brazier_normal"];
@@ -82,7 +71,6 @@ namespace MarkInDeDark.Library.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_brazierAnimation.CurrentFrame, _brazierAnimationDrawingInfos);
-            spriteBatch.Draw(_shadowAnimation.CurrentFrame, _shadowLargeAnimationDrawingInfos);
             spriteBatch.Draw(_shadowAnimation.CurrentFrame, _shadowAnimationDrawingInfos);
         }
 

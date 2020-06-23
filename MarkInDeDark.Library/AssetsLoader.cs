@@ -252,7 +252,7 @@ namespace MarkInDeDark.Library
                 _animations["TrapIstant"] = new SpriteAnimation(istantlyDieTrapAnimation, TimeSpan.FromMilliseconds(100), false);
             }
 
-            // Little Light
+            // Brazier
             {
                 var brazierLightAnimation = new List<Sprite>();
                 for (int i = 1; i <= 60; ++i)
@@ -279,6 +279,17 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"GenericCharacterWhileIdleUpShadow", $"Shadows/Generic/shadow", true);
                 LoadCharacterAnimation($"GenericCharacterWhileIdleDownShadow", $"Shadows/Generic/shadow", true);
                 LoadCharacterAnimation($"GenericCharacterWhileIdleSideShadow", $"Shadows/Generic/shadow", true);
+
+                {
+                    var brazierShadowAnimation = new List<Sprite>();
+                    for (int i = 1; i <= 60; ++i)
+                    {
+                        if (Sprites.ContainsKey($"Shadows/Brazier/brazier_shadow_{i}"))
+                            brazierShadowAnimation.Add(Sprites[$"Shadows/Brazier/brazier_shadow_{i}"]);
+                        else break;
+                    }
+                    _animations["BrazierShadow"] = new SpriteAnimation(brazierShadowAnimation, TimeSpan.FromMilliseconds(100));
+                }
             }
         }
 
