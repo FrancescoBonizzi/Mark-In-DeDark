@@ -1,13 +1,13 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 
 namespace MarkInDeDark.Library.Objects
 {
@@ -27,7 +27,7 @@ namespace MarkInDeDark.Library.Objects
                   onTriggerLeft: null,
                   shouldFireOnce: false)
         {
-            _animation = assetsLoader.GetAnimation("TrapIstant");
+            _animation = assetsLoader.GetAnimation("Grounds/TrapHole");
             _drawingInfos = new DrawingInfos()
             {
                 Position = collisionRectangle.Center.ToVector2(),
@@ -53,5 +53,8 @@ namespace MarkInDeDark.Library.Objects
 
         public override void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
+
+        public override void DrawNormal(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_animation.CurrentFrameNormalMap, _drawingInfos);
     }
 }

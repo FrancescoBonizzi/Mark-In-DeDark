@@ -80,5 +80,10 @@ namespace MarkInDeDark.Library.Objects
         {
 
         }
+
+        public virtual void DrawNormal(SpriteBatch spriteBatch)
+        {
+
+        }
     }
 }

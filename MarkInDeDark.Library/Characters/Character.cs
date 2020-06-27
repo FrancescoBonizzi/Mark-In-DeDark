@@ -71,6 +71,7 @@ namespace MarkInDeDark.Library.Characters
         public DieAnimationType CurrentDieAnimationType { get; set; }
 
         protected bool _canGoOverWalls = false;
+        public bool StopInput { get; set; } = false;
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
@@ -663,6 +664,11 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void HandleInput(CharacterActions action)
         {
+            if (StopInput)
+            {
+                _nextActionToProcess = CharacterActions.Idle;
+                return;
+            }
             _nextActionToProcess = action;
         }
 

@@ -18,7 +18,7 @@ namespace MarkInDeDark.Library.Characters
         private readonly float _opacityDelta = -0.009f;
         private readonly float _scaleDelta = -0.07f;
         private readonly float _rotationDelta = 0.02f;
-        private readonly float _deltaYPosition = 5f;
+        private readonly float _deltaYPosition = 3f;
         private float _opacity = 1.0f;
 
         private readonly Sprite _frontIdleSprite;
