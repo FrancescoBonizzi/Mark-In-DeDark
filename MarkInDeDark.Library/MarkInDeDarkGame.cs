@@ -224,7 +224,8 @@ namespace MarkInDeDark.Library
                         {
                             trap.AddAffectedCharacter(newGoblin);
                         }
-                    }));
+                    },
+                    gameGrid: _gameGrid));
             }
             // Se non metto il trigger, lo spawno subito
             else if (_gameGrid.GoblinStartPosition != null)
@@ -279,7 +280,8 @@ namespace MarkInDeDark.Library
                     _triggerObjects.Add(new InstantlyDieTrap(
                         assetsLoader,
                         (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        instantlyDieTrapRectangle));
+                        instantlyDieTrapRectangle,
+                        _gameGrid));
                 }
             }
 
@@ -292,7 +294,8 @@ namespace MarkInDeDark.Library
                         _gameConfig,
                         breakableTrapRectangle,
                         (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        () => StartCameraShake(1)));
+                        () => StartCameraShake(1),
+                        _gameGrid));
                 }
             }
 
@@ -304,7 +307,8 @@ namespace MarkInDeDark.Library
                         _localizedStringsRepository.Get(cellTriggerText.Value),
                         _gameHud,
                         cellTriggerText.Key,
-                        _player));
+                        _player,
+                        _gameGrid));
                 }
             }
 
@@ -719,7 +723,17 @@ namespace MarkInDeDark.Library
                         foreach (var triggerObject in _triggerObjects)
                             triggerObject.Draw(spriteBatch);
                     }
-
+                },
+                drawOtherGroundObjectsNormalMap: s =>
+                {
+                    if (_triggerObjects != null)
+                    {
+                        foreach (var triggerObject in _triggerObjects)
+                            triggerObject.DrawNormal(spriteBatch);
+                    }
+                },
+                drawShadows: s =>
+                {
                     _player.DrawShadows(s);
 
                     foreach (Enemy en in _enemies)

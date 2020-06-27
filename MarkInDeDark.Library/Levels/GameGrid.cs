@@ -815,6 +815,8 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D resultRenderTarget,
             Action<SpriteBatch> drawGlowsForSpecular,
             Action<SpriteBatch> drawOtherGroundObjects,
+            Action<SpriteBatch> drawOtherGroundObjectsNormalMap,
+            Action<SpriteBatch> drawShadows,
             List<MarkLight> lights)
         {
             // Pavimento di base
@@ -825,6 +827,7 @@ namespace MarkInDeDark.Library.Levels
             {
                 c.DrawGround(spriteBatch, false);
             });
+            drawOtherGroundObjects(spriteBatch);
             spriteBatch.End();
 
             // Normal map
@@ -835,6 +838,7 @@ namespace MarkInDeDark.Library.Levels
             {
                 c.DrawGroundNormalMap(spriteBatch);
             });
+            drawOtherGroundObjectsNormalMap(spriteBatch);
             spriteBatch.End();
 
             // Specular map
@@ -891,7 +895,7 @@ namespace MarkInDeDark.Library.Levels
 
             // Oggetti sopra le normal
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
-            drawOtherGroundObjects(spriteBatch);
+            drawShadows(spriteBatch);
             spriteBatch.End();
         }
 

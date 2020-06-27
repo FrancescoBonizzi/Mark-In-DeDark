@@ -4,6 +4,7 @@ using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -41,13 +42,15 @@ namespace MarkInDeDark.Library.Objects
             GameConfig gameConfig,
             Rectangle triggerCollisionRectangle,
             IEnumerable<Character> affectedCharacters,
-            Action onGoingToBreakTrapAction)
+            Action onGoingToBreakTrapAction,
+            GameGrid gameGrid)
             : base(
                   triggerCollisionRectangle: triggerCollisionRectangle.WithTolerance(new Rectangle(30, 30, 60, 60)),
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => { },
                   onTriggerLeft: null,
-                  shouldFireOnce: false)
+                  shouldFireOnce: false,
+                  gameGrid: gameGrid)
         {
             _trapTimeToBreak = TimeSpan.FromSeconds(gameConfig.BreakableTrapBreakingTimeSeconds);
             _onGoingToBreakTrapAction = onGoingToBreakTrapAction;
@@ -87,7 +90,8 @@ namespace MarkInDeDark.Library.Objects
             _holeInstantlyDieTrap = new InstantlyDieTrap(
                 assetsLoader,
                 affectedCharacters,
-                triggerCollisionRectangle);
+                triggerCollisionRectangle,
+                gameGrid);
 
             _elapsedSinceTrigger = TimeSpan.Zero;
 

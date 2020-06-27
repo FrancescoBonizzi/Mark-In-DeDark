@@ -1,4 +1,5 @@
 ﻿using MarkInDeDark.Library.Characters;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -13,13 +14,15 @@ namespace MarkInDeDark.Library.Objects
             string textToShow,
             GameHUD gameHUD,
             Rectangle triggerCollisionRectangle,
-            Player player) 
+            Player player,
+            GameGrid gameGrid) 
             : base(
                   triggerCollisionRectangle: triggerCollisionRectangle,
                   affectedCharacters: new List<Character>() { player },
                   onTriggerPressed: (c, t) => { },
                   onTriggerLeft: null,
-                  shouldFireOnce: true)
+                  shouldFireOnce: true,
+                  gameGrid: gameGrid)
         {
             _textToShow = textToShow;
             _gameHUD = gameHUD;

@@ -49,6 +49,8 @@ namespace MarkInDeDark.Library.Levels
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
 
+        public bool HasATriggerObject { get; set; } = false;
+
         public GameCell(
             Vector2 position,
             AssetsLoader assetsLoader,
@@ -373,7 +375,7 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawGroundSpecularMap(SpriteBatch spriteBatch)
         {
-            if (SpecularSprite != null)
+            if (SpecularSprite != null && !HasATriggerObject)
                 spriteBatch.Draw(SpecularSprite, _cellDrawingInfos);
         }
 
