@@ -1,7 +1,6 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Extensions;
@@ -167,7 +166,7 @@ namespace MarkInDeDark.Library.Objects
                     break;
 
                 case TrapStates.Breaking:
-                    spriteBatch.Draw(_trapCoverAnimation.CurrentFrame, _drawingInfos);
+                    spriteBatch.Draw(_trapBroken.Base, _drawingInfos);
                     spriteBatch.Draw(_trapBreakingAnimation.CurrentFrame, _drawingInfos);
                     break;
 
@@ -188,7 +187,7 @@ namespace MarkInDeDark.Library.Objects
                     break;
 
                 case TrapStates.Breaking:
-                    spriteBatch.Draw(_trapCoverAnimation.CurrentFrameNormalMap, _drawingInfos);
+                    spriteBatch.Draw(_trapBroken.Normal, _drawingInfos);
                     spriteBatch.Draw(_trapBreakingAnimation.CurrentFrameNormalMap, _drawingInfos);
                     break;
 
