@@ -33,7 +33,7 @@ namespace MarkInDeDark.Library
         private readonly Func<LevelsPage> _levelsPageFactory;
         private LevelsPage _levels;
 
-        private FadeObject _stateTransition;
+        private readonly FadeObject _stateTransition;
         private Action _afterTransitionAction;
 
         private RenderTarget2D _renderTarget;

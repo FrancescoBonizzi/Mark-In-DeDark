@@ -37,7 +37,9 @@ namespace MarkInDeDark.Library
         public bool IsPaused { get; private set; }
 
         // Tempo per tornare al menù dopo che è tutto finito
-        private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _gameFinishTimerIfDead = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _gameFinishTimerIfWin = TimeSpan.FromSeconds(1);
+        private TimeSpan _gameFinishTimer;
 
         // Tempo prima di fare il fade di tutto il livello a parte il player
         private readonly TimeSpan _gameFinishGameOverSceneTimer = TimeSpan.FromSeconds(1);
@@ -423,6 +425,7 @@ namespace MarkInDeDark.Library
 
                         _markGamePad.Shake(6, TimeSpan.FromSeconds(2));
                         _currentGameState = GameStates.Finishing;
+                        _gameFinishTimer = _gameFinishTimerIfDead;
                     }
 
                     if (!_key.IsCollected)
@@ -448,6 +451,7 @@ namespace MarkInDeDark.Library
                                _gameConfig.LevelCompletedStringColorRGB,
                                true);
                             _currentGameState = GameStates.Finishing;
+                            _gameFinishTimer = _gameFinishTimerIfWin;
                         }
                         else
                         {
