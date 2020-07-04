@@ -289,7 +289,6 @@ Grounds/pacco4/wall_vertical_broken_A|195|857|192|192
 Grounds/pacco4/wall_vertical_broken_B|195|857|192|192
 Grounds/pacco5/cell4|195|857|192|192
 Grounds/pacco5/cell5|195|857|192|192
-Grounds/pacco5/Decals/decal_3|1|1857|192|160
 Grounds/pacco5/Door/door_0|1359|1017|192|192
 Grounds/pacco5/Door/door_0_normal|1165|1029|192|192
 Grounds/pacco5/Door/door_1|971|1165|192|192
