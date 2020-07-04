@@ -143,7 +143,7 @@ namespace MarkInDeDark.Library.Characters
             MainFigureDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(16, 16, 32, 32),
+                HitBoxTolerance = new Rectangle(24, 24, 48, 48),
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
