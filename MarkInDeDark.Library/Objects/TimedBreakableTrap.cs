@@ -170,6 +170,7 @@ namespace MarkInDeDark.Library.Objects
                     break;
 
                 case TrapStates.Breaking:
+                    _holeInstantlyDieTrap.Draw(spriteBatch);
                     spriteBatch.Draw(_trapBroken.Base, _drawingInfos);
                     spriteBatch.Draw(_trapBreakingAnimation.CurrentFrame, _drawingInfos);
                     break;

@@ -281,7 +281,7 @@ namespace MarkInDeDark.Library
                 _animations["Grounds/TrapBreaking"] = new SpriteAnimation(
                     frames: breakingTrapAnimation,
                     normalMapFrames: breakingTrapAnimationNormal,
-                    frameDuration: TimeSpan.FromMilliseconds(60),
+                    frameDuration: TimeSpan.FromMilliseconds(40),
                     isAnimationLooped: false);
             }
 
