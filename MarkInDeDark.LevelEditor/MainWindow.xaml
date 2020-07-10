@@ -1142,6 +1142,7 @@
                                 <ComboBoxItem Tag="4">Pacco 4</ComboBoxItem>
                                 <ComboBoxItem Tag="5">Pacco 5</ComboBoxItem>
                                 <ComboBoxItem Tag="6">Pacco 6</ComboBoxItem>
+                                <ComboBoxItem Tag="7">Pacco 7</ComboBoxItem>
 
                             </ComboBox>
 
