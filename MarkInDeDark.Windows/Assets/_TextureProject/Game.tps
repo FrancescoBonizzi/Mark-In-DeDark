@@ -1196,6 +1196,73 @@
             <key type="filename">Game/Grounds/pacco7/wall_uscita_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_uscita_open.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_uscita_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Decals/decal_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/Decals/decal_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/Decals/decal_3.png</key>
+            <key type="filename">Game/Grounds/pacco8/Decals/decal_4.png</key>
+            <key type="filename">Game/Grounds/pacco8/Decals/decal_5.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_0.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_0_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_3.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_4.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_5.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_6.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_6_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_7.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_7_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_8.png</key>
+            <key type="filename">Game/Grounds/pacco8/Door/door_8_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_3.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_4.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_4_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_5.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_horizontal_5_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/SpecialWalls/wall_special_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/SpecialWalls/wall_special_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/SpecialWalls/wall_special_3.png</key>
+            <key type="filename">Game/Grounds/pacco8/SpecialWalls/wall_special_4.png</key>
+            <key type="filename">Game/Grounds/pacco8/SpecialWalls/wall_special_5.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell1.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell1_spec.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell2.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell2_spec.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell3.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell3_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell3_spec.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell4.png</key>
+            <key type="filename">Game/Grounds/pacco8/cell5.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_door.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_door_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_door_up.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_door_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_horizontal_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_horizontal_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_horizontal_broken.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_horizontal_broken_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_closed.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_open.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_open_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_riempimento_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_closed.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_closed_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_open.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_open_normal.png</key>
             <key type="filename">Game/Grounds/trap/trap_1.png</key>
             <key type="filename">Game/Grounds/trap/trap_1_normal.png</key>
             <key type="filename">Game/Grounds/trap/trap_2.png</key>
@@ -1444,6 +1511,12 @@
             <key type="filename">Game/Grounds/pacco7/RandomPillars/pillar_1_normal.png</key>
             <key type="filename">Game/Grounds/pacco7/RandomPillars/pillar_2.png</key>
             <key type="filename">Game/Grounds/pacco7/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_3.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomPillars/pillar_3_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1502,6 +1575,16 @@
             <key type="filename">Game/Grounds/pacco7/wall_vertical_broken_A_normal.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_vertical_broken_B.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_vertical_broken_B_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_vertical_1.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_vertical_1_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_vertical_2.png</key>
+            <key type="filename">Game/Grounds/pacco8/RandomWalls/wall_vertical_2_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_breakable.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_breakable_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_broken_A.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_broken_A_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_broken_B.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_vertical_broken_B_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1529,6 +1612,8 @@
             <key type="filename">Game/Grounds/pacco7/wall_ingresso_up_normal.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_uscita_up.png</key>
             <key type="filename">Game/Grounds/pacco7/wall_uscita_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_up.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_uscita_up_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1549,6 +1634,8 @@
             <key type="filename">Game/Grounds/pacco3/wall_uscita_up_normal.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_ingresso_up.png</key>
             <key type="filename">Game/Grounds/pacco4/wall_ingresso_up_normal.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_up.png</key>
+            <key type="filename">Game/Grounds/pacco8/wall_ingresso_up_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
