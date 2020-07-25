@@ -104,7 +104,7 @@ namespace MarkInDeDark.Library
             {
                 Text = text,
                 PopupObject = new PopupObject(
-                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(6),
                     messagePosition,
                     color,
                     60f),
