@@ -737,7 +737,7 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/zombie_front_walking_1.png" />
-                                <TextBlock Padding="2,2" Text="Zombie" Width="100" />
+                                <TextBlock Padding="2,2" Text="Zombie" Width="100" Foreground="Green" />
                             </StackPanel>
                         </RadioButton>
 
@@ -756,7 +756,7 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/skeleton_front_iddle.png" />
-                                <TextBlock Padding="2,2" Text="Scheletro" Width="100" />
+                                <TextBlock Padding="2,2" Text="Scheletro" Width="100" Foreground="Fuchsia" />
                             </StackPanel>
                         </RadioButton>
 
@@ -775,7 +775,7 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/goblin_front_dying_1.png" />
-                                <TextBlock Padding="2,2" Text="Goblin" Width="100" />
+                                <TextBlock Padding="2,2" Text="Goblin" Width="100" Foreground="LimeGreen" />
                             </StackPanel>
                         </RadioButton>
 
@@ -794,7 +794,7 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/taurus_front_iddle.png" />
-                                <TextBlock Padding="2,2" Text="Taurus" Width="100" />
+                                <TextBlock Padding="2,2" Text="Taurus" Width="100" Foreground="Red" />
                             </StackPanel>
                         </RadioButton>
 
@@ -813,7 +813,7 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/ghost_back_attack_1.png" />
-                                <TextBlock Padding="2,2" Text="Ghost" Width="100" />
+                                <TextBlock Padding="2,2" Text="Ghost" Width="100" Foreground="Violet" />
                             </StackPanel>
                         </RadioButton>
 
