@@ -49,6 +49,7 @@ namespace MarkInDeDark.LevelEditor
             WindowState = WindowState.Maximized;
 
             _settingsRepository = new FileSettingsRepository("configuration.txt");
+            txtNomeLivello.Text = string.Empty;
         }
 
         private void NewGrid()
@@ -61,6 +62,7 @@ namespace MarkInDeDark.LevelEditor
                 _cellSize,
                 _traslationManager);
             Title = $"{_baseWindowTitle} - Nuovo";
+            txtNomeLivello.Text = "Nuovo livello non ancora salvato";
             _currentLevelSerializedLastSave = null;
         }
 
@@ -145,9 +147,11 @@ namespace MarkInDeDark.LevelEditor
                         _cellSize,
                         _traslationManager);
 
-                    Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
+                    string levelName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                    Title = $"{_baseWindowTitle} - {levelName}";
+                    txtNomeLivello.Text = levelName;
 
-                    // Lo riserializzo così se c'è un cambio di versione del serializzatore l'utente non se ne accorge
+                   // Lo riserializzo così se c'è un cambio di versione del serializzatore l'utente non se ne accorge
                     _currentLevelSerializedLastSave = SerializeLevel();
                 }
                 finally
@@ -182,7 +186,10 @@ namespace MarkInDeDark.LevelEditor
             {
                 SaveLevel(saveFileDialog.FileName, SerializeLevel());
                 _currentLevelFilePath = saveFileDialog.FileName;
-                Title = $"{_baseWindowTitle} - {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}";
+                string levelName = Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                Title = $"{_baseWindowTitle} - {levelName}";
+                txtNomeLivello.Text = levelName;
+
                 MessageBox.Show("Salvataggio completato con successo", "Tutto bene!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -408,31 +415,6 @@ namespace MarkInDeDark.LevelEditor
                     e.Handled = true;
                 }
             }
-        }
-
-        private void HelpWalls_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Seleziona un tipo di muro, posizionati col mouse su una cella, poi utilizzare i tasti freccia della tastiera per posizionare o togliere un muro", "Aiutino!");
-        }
-
-        private void HelpGround_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Seleziona un tipo di terreno e premi col mouse su una cella per impostarlo", "Aiutino!");
-        }
-
-        private void HelpObjects_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Seleziona un oggetto e premi col mouse su una cella per impostarlo", "Aiutino!");
-        }
-
-        private void HelpEnemies_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Seleziona un nemico e premi col mouse su una cella per impostarlo", "Aiutino!");
-        }
-
-        private void HelpTexture_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Da qui puoi impostare alcuni parametri relativi alle texture specifici per questo livello", "Aiutino!");
         }
 
         private void BtnProvaInGame_Click(object sender, RoutedEventArgs e)
