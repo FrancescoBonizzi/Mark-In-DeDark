@@ -131,25 +131,25 @@ namespace MarkInDeDark.LevelEditor.Editor
             switch (wallPosition)
             {
                 case WallPositions.Top:
-                    margins.Top = -7;
+                    margins.Top = -4;
                     horizontalAlignment = HorizontalAlignment.Center;
                     verticalAlignment = VerticalAlignment.Top;
                     break;
 
                 case WallPositions.Right:
-                    margins.Right = -7;
+                    margins.Right = -4;
                     horizontalAlignment = HorizontalAlignment.Right;
                     verticalAlignment = VerticalAlignment.Center;
                     break;
 
                 case WallPositions.Left:
-                    margins.Left = -7;
+                    margins.Left = -4;
                     horizontalAlignment = HorizontalAlignment.Left;
                     verticalAlignment = VerticalAlignment.Center;
                     break;
 
                 case WallPositions.Bottom:
-                    margins.Bottom = -7;
+                    margins.Bottom = -4;
                     horizontalAlignment = HorizontalAlignment.Center;
                     verticalAlignment = VerticalAlignment.Bottom;
                     break;
@@ -233,9 +233,6 @@ namespace MarkInDeDark.LevelEditor.Editor
 
                 case WallTypes.Porta:
                     return "P";
-
-                case WallTypes.Speciale1:
-                    return "M1";
 
                 case WallTypes.Ingresso:
                     return "I";

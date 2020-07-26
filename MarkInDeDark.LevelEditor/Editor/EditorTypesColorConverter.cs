@@ -55,6 +55,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                     return new SolidColorBrush(Colors.Black);
 
                 case WallTypes.Occludente:
+                case WallTypes.Speciale1:
+                case WallTypes.Speciale2:
+                case WallTypes.Speciale3:
+                case WallTypes.Speciale4:
+                case WallTypes.Speciale5:
                     return new SolidColorBrush(Colors.Green);
 
                 case WallTypes.Fragile:
@@ -63,42 +68,16 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case WallTypes.Porta:
                     return new SolidColorBrush(Colors.Blue);
 
-                case WallTypes.Speciale1:
-                    return new SolidColorBrush(Colors.Yellow);
-
-                case WallTypes.Speciale2:
-                    return new SolidColorBrush(Colors.Gold);
-
-                case WallTypes.Speciale3:
-                    return new SolidColorBrush(Colors.Fuchsia);
-
-                case WallTypes.Speciale4:
-                    return new SolidColorBrush(Colors.Coral);
-
-                case WallTypes.Speciale5:
-                    return new SolidColorBrush(Colors.DarkKhaki);
-
                 case WallTypes.Ingresso:
-                    return new SolidColorBrush(Colors.White);
-
                 case WallTypes.Uscita:
                     return new SolidColorBrush(Colors.Aqua);
 
                 case WallTypes.Decal1:
-                    return new SolidColorBrush(Colors.RosyBrown);
-
                 case WallTypes.Decal2:
-                    return new SolidColorBrush(Colors.MistyRose); 
-
                 case WallTypes.Decal3:
-                    return new SolidColorBrush(Colors.CornflowerBlue); 
-
                 case WallTypes.Decal4:
-                    return new SolidColorBrush(Colors.BlueViolet); 
-
                 case WallTypes.Decal5:
                     return new SolidColorBrush(Colors.Violet);
-
             }
 
             throw new NotImplementedException();
