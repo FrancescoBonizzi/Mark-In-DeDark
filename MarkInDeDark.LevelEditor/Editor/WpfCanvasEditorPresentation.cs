@@ -154,8 +154,7 @@ namespace MarkInDeDark.LevelEditor.Editor
         public void SetObjectType(
             Point where,
             ObjectTypes type,
-            string quantityInfo,
-            TextFileStringsManager textFileStringsManager)
+            string quantityInfo)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;
@@ -468,20 +467,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
 
             _gameGrid.SetWallType(row, column, type, wallPosition);
-
-            var currentBorderThickness = _canvasCells[column, row].BorderThickness;
-            int strokeWidth = type == WallTypes.Niente ? 0 : 4;
-
-            _canvasCells[column, row].BorderThickness = new Thickness(
-                left: wallPosition == WallPositions.Left ? strokeWidth : currentBorderThickness.Left,
-                top: wallPosition == WallPositions.Top ? strokeWidth : currentBorderThickness.Top,
-                right: wallPosition == WallPositions.Right ? strokeWidth : currentBorderThickness.Right,
-                bottom: wallPosition == WallPositions.Bottom ? strokeWidth : currentBorderThickness.Bottom);
-
-            if (type != WallTypes.Niente)
-            {
-                _canvasCells[column, row].BorderBrush = EditorTypesColorConverter.Convert(type);
-            }
+            EditorTypesObjectsConverter.ManageWallType(_canvasCells[column, row], type, wallPosition);
         }
     }
 }

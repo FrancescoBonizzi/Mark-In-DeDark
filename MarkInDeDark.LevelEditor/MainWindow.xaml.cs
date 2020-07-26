@@ -316,7 +316,7 @@ namespace MarkInDeDark.LevelEditor
                             quantityInfo = inputDialog.InputString;
                         }
 
-                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo, _traslationManager);
+                        _presentation.SetObjectType(mousePosition, _currentSelectedObjectType, quantityInfo);
 
                         // Gli oggetti che possono esistere solo in una quantità disattivano il pulsante di inserimento 
                         // una volta inserto l'oggetto
