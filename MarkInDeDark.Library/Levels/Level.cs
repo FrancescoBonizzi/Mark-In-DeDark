@@ -58,7 +58,7 @@ namespace MarkInDeDark.Library.Levels
 
         public (Sprite Base, Sprite Normal) WallDoorBaseSprite { get; private set; }
         public (Sprite Base, Sprite Normal) WallDoorArcSprite { get; private set; }
-        public Sprite FillingSprite { get; private set; }
+        public (Sprite Base, Sprite Normal) FillingSprite { get; private set; }
 
         public double DirtyProbability { get; private set; }
 
@@ -228,7 +228,9 @@ namespace MarkInDeDark.Library.Levels
             WallDoorArcSprite = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_door_up"));
-            FillingSprite = assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"];
+            FillingSprite = (
+                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"],
+                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento"));
 
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 

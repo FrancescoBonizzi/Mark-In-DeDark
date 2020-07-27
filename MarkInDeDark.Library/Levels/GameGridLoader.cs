@@ -79,7 +79,8 @@ namespace MarkInDeDark.Library.Levels
                             break;
 
                         case GroundTypes.Riempimento:
-                            gameCell.Sprite = level.FillingSprite;
+                            gameCell.Sprite = level.FillingSprite.Base;
+                            gameCell.NormalSprite = level.FillingSprite.Normal;
                             gameCell.SetSpecialWallCell();
                             break;
 
@@ -127,7 +128,7 @@ namespace MarkInDeDark.Library.Levels
                                 break;
 
                             case ObjectTypes.Lucina:
-                                grid.LittleLights.Add(new LittleLight(assetsLoader, gameConfig, grid.GetPixelBy_ij(i, j)));
+                                grid.BraziersLit.Add(new BrazierLit(assetsLoader, gameConfig, grid.GetPixelBy_ij(i, j)));
                                 break;
 
                             case ObjectTypes.OggettoNonPassabile1:

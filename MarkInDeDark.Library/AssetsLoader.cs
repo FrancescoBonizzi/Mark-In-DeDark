@@ -13,6 +13,7 @@ using System.Linq;
 
 namespace MarkInDeDark.Library
 {
+    // TODO: ha più senso che le animazioni vengano create nella classe che le usa, IMHO
     public class AssetsLoader
     {
         private readonly IDictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>();
@@ -244,24 +245,56 @@ namespace MarkInDeDark.Library
                 _animations["Candle"] = new SpriteAnimation(candleAnimation, TimeSpan.FromMilliseconds(200));
             }
 
-            // Instantly die trap
+            // Traps - bottom
             {
                 var istantlyDieTrapAnimation = new List<Sprite>();
+                var istantlyDieTrapAnimationNormal = new List<Sprite>();
                 for (int i = 1; i <= 10; ++i)
-                    istantlyDieTrapAnimation.Add(Sprites[$"TrapIstant/{i}"]);
-                _animations["TrapIstant"] = new SpriteAnimation(istantlyDieTrapAnimation, TimeSpan.FromMilliseconds(100), false);
+                {
+                    istantlyDieTrapAnimation.Add(Sprites[$"Grounds/trapHole/{i}"]);
+                    istantlyDieTrapAnimationNormal.Add(Sprites[$"Grounds/trapHole/{i}_normal"]);
+                }
+
+                _animations["Grounds/TrapHole"] = new SpriteAnimation(
+                    frames: istantlyDieTrapAnimation,
+                    normalMapFrames: istantlyDieTrapAnimationNormal,
+                    frameDuration: TimeSpan.FromMilliseconds(100),
+                    isAnimationLooped: false);
             }
 
-            // Little Light
+            // Traps - up
             {
-                var littleLightAnimation = new List<Sprite>();
+                _animations["Grounds/TrapCover"] = new SpriteAnimation(
+                    frames: new List<Sprite>() { Sprites["Grounds/trap/trap_1"], Sprites["Grounds/trap/trap_2"] },
+                    normalMapFrames: new List<Sprite>() { Sprites["Grounds/trap/trap_1_normal"], Sprites["Grounds/trap/trap_2_normal"] },
+                    frameDuration: TimeSpan.FromMilliseconds(100),
+                    isAnimationLooped: true);
+
+                var breakingTrapAnimation = new List<Sprite>();
+                var breakingTrapAnimationNormal = new List<Sprite>();
+                for (int i = 1; i <= 7; ++i)
+                {
+                    breakingTrapAnimation.Add(Sprites[$"Grounds/trap/trap_breaking_{i}"]);
+                    breakingTrapAnimationNormal.Add(Sprites[$"Grounds/trap/trap_breaking_{i}_normal"]);
+                }
+
+                _animations["Grounds/TrapBreaking"] = new SpriteAnimation(
+                    frames: breakingTrapAnimation,
+                    normalMapFrames: breakingTrapAnimationNormal,
+                    frameDuration: TimeSpan.FromMilliseconds(40),
+                    isAnimationLooped: false);
+            }
+
+            // Brazier
+            {
+                var brazierLightAnimation = new List<Sprite>();
                 for (int i = 1; i <= 60; ++i)
                 {
-                    if (Sprites.ContainsKey($"LightObject/lightobject_{i}"))
-                        littleLightAnimation.Add(Sprites[$"LightObject/lightobject_{i}"]);
+                    if (Sprites.ContainsKey($"Objects/Brazier/brazier_lit_{i}"))
+                        brazierLightAnimation.Add(Sprites[$"Objects/Brazier/brazier_lit_{i}"]);
                     else break;
                 }
-                _animations["LittleLight"] = new SpriteAnimation(littleLightAnimation, TimeSpan.FromMilliseconds(100));
+                _animations["BrazierLit"] = new SpriteAnimation(brazierLightAnimation, TimeSpan.FromMilliseconds(100));
             }
 
             // Shadows
@@ -279,6 +312,17 @@ namespace MarkInDeDark.Library
                 LoadCharacterAnimation($"GenericCharacterWhileIdleUpShadow", $"Shadows/Generic/shadow", true);
                 LoadCharacterAnimation($"GenericCharacterWhileIdleDownShadow", $"Shadows/Generic/shadow", true);
                 LoadCharacterAnimation($"GenericCharacterWhileIdleSideShadow", $"Shadows/Generic/shadow", true);
+
+                {
+                    var brazierShadowAnimation = new List<Sprite>();
+                    for (int i = 1; i <= 60; ++i)
+                    {
+                        if (Sprites.ContainsKey($"Shadows/Brazier/brazier_shadow_{i}"))
+                            brazierShadowAnimation.Add(Sprites[$"Shadows/Brazier/brazier_shadow_{i}"]);
+                        else break;
+                    }
+                    _animations["BrazierShadow"] = new SpriteAnimation(brazierShadowAnimation, TimeSpan.FromMilliseconds(100));
+                }
             }
         }
 

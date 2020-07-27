@@ -1,13 +1,14 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 
 namespace MarkInDeDark.Library.Objects
 {
@@ -19,15 +20,17 @@ namespace MarkInDeDark.Library.Objects
         public InstantlyDieTrap(
             AssetsLoader assetsLoader,
             IEnumerable<Character> affectedCharacters,
-            Rectangle collisionRectangle)
+            Rectangle collisionRectangle,
+            GameGrid gameGrid)
             : base(
                   triggerCollisionRectangle: collisionRectangle.WithTolerance(new Rectangle(70, 70, 140, 140)),
                   affectedCharacters: affectedCharacters,
                   onTriggerPressed: (character, elapsed) => { },
                   onTriggerLeft: null,
-                  shouldFireOnce: false)
+                  shouldFireOnce: false,
+                  gameGrid: gameGrid)
         {
-            _animation = assetsLoader.GetAnimation("TrapIstant");
+            _animation = assetsLoader.GetAnimation("Grounds/TrapHole");
             _drawingInfos = new DrawingInfos()
             {
                 Position = collisionRectangle.Center.ToVector2(),
@@ -53,5 +56,8 @@ namespace MarkInDeDark.Library.Objects
 
         public override void Draw(SpriteBatch spriteBatch)
             => spriteBatch.Draw(_animation.CurrentFrame, _drawingInfos);
+
+        public override void DrawNormal(SpriteBatch spriteBatch)
+            => spriteBatch.Draw(_animation.CurrentFrameNormalMap, _drawingInfos);
     }
 }

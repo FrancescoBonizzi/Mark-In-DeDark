@@ -6,10 +6,8 @@ using MarkInDeDark.GameGridCommon;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Extensions;
 using MarkInDeDark.Library.Maths;
-using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 
@@ -50,6 +48,8 @@ namespace MarkInDeDark.Library.Levels
 
         private readonly GameGrid _gameGrid;
         private readonly MarkInDeDarkGame _game;
+
+        public bool HasATriggerObject { get; set; } = false;
 
         public GameCell(
             Vector2 position,
@@ -132,10 +132,9 @@ namespace MarkInDeDark.Library.Levels
         {
             IsRiempitiveWallCell = true;
 
-            // TODO Il fix è qui
             _cellDrawingInfos.LayerDepth = ZIndexCalculator.ForSpecialExternalWall(
                 _cellDrawingInfos.Position);
-            _cellDrawingInfos.Origin += new Vector2(0f, +28);
+            _cellDrawingInfos.Origin += new Vector2(0f, +48);
             IsUnLinked = true;
         }
 
@@ -376,12 +375,14 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawGroundSpecularMap(SpriteBatch spriteBatch)
         {
-            if (SpecularSprite != null)
+            if (SpecularSprite != null && !HasATriggerObject)
                 spriteBatch.Draw(SpecularSprite, _cellDrawingInfos);
         }
 
         public void DrawNormalMapButGrounds(SpriteBatch spriteBatch)
         {
+            if (IsRiempitiveWallCell)
+                spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
             foreach (var w in Walls)
                 w.Value.DrawNormalMap(spriteBatch);
             foreach (var a in Pillars)

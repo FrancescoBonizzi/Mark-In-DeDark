@@ -1,9 +1,9 @@
 ﻿using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
-
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Extensions;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,13 +20,15 @@ namespace MarkInDeDark.Library.Objects
             AssetsLoader assetsLoader,
             IEnumerable<Character> affectedCharacters,
             Rectangle triggerCollisionRectangle,
-            Action<Character, TimeSpan> onTriggerPressed)
+            Action<Character, TimeSpan> onTriggerPressed,
+            GameGrid gameGrid)
             : base(
                 triggerCollisionRectangle: triggerCollisionRectangle,
                 affectedCharacters: affectedCharacters,
                 onTriggerPressed: onTriggerPressed,
                 onTriggerLeft: null,
-                shouldFireOnce: true)
+                shouldFireOnce: true,
+                gameGrid: gameGrid)
         {
             _trapSprite = assetsLoader.Sprites["Grounds/goblin_trigger"];
             _drawingInfos = new DrawingInfos()

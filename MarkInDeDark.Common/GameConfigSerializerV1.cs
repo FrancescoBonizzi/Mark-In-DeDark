@@ -70,9 +70,6 @@ namespace MarkInDeDark.Common
             gameConfig.IsFullScreen = LoadBoolean(gameConfigDictionary[nameof(gameConfig.IsFullScreen)]);
             gameConfig.BreakableTrapBreakingTimeSeconds = LoadFloat(gameConfigDictionary[nameof(gameConfig.BreakableTrapBreakingTimeSeconds)]);
 
-            gameConfig.LittleLightColorRGB1 = LoadColor(gameConfigDictionary[nameof(gameConfig.LittleLightColorRGB1)]);
-            gameConfig.LittleLightColorRGB2 = LoadColor(gameConfigDictionary[nameof(gameConfig.LittleLightColorRGB2)]);
-
             gameConfig.NotEnoughCandlesStringColorRGB = LoadColor(gameConfigDictionary[nameof(gameConfig.NotEnoughCandlesStringColorRGB)]);
             gameConfig.KeyFoundStringColorRGB = LoadColor(gameConfigDictionary[nameof(gameConfig.KeyFoundStringColorRGB)]);
             gameConfig.CandlePackFoundStringColorRGB = LoadColor(gameConfigDictionary[nameof(gameConfig.CandlePackFoundStringColorRGB)]);

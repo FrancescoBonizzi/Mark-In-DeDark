@@ -1,4 +1,5 @@
 ﻿using MarkInDeDark.Library.Characters;
+using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -24,13 +25,19 @@ namespace MarkInDeDark.Library.Objects
             IEnumerable<Character> affectedCharacters,
             Action<Character, TimeSpan> onTriggerPressed,
             Action onTriggerLeft,
-            bool shouldFireOnce)
+            bool shouldFireOnce,
+            GameGrid gameGrid)
         {
             _triggerArea = triggerCollisionRectangle;
             _affectedCharacters = new List<Character>(affectedCharacters);
             _onTriggerPressed = onTriggerPressed;
             _shouldFireOnce = shouldFireOnce;
             _onTriggerLeft = onTriggerLeft;
+
+            // Così non disegna la specular sopra
+            var thisObjectCell = gameGrid.GetCellAtPixel(_triggerArea.X, _triggerArea.Y);
+            if (thisObjectCell != null)
+                thisObjectCell.HasATriggerObject = true;
         }
 
         public virtual void AddAffectedCharacter(Character character)
@@ -77,6 +84,11 @@ namespace MarkInDeDark.Library.Objects
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        public virtual void DrawNormal(SpriteBatch spriteBatch)
         {
 
         }

@@ -21,7 +21,8 @@ namespace MarkInDeDark.Library.Lighting
 
         public float Z { get; set; }
         public float Opacity { get; set; }
-        public float DistanceSquared { get; set; }
+        public float DistanceSquaredForGround { get; set; }
+        public float DistanceSquaredForWall { get; set; }
         public Vector3 PositionForGround { get; set; }
         public Vector3 PositionForWall { get; set; }
         public Vector3 ColorNormal { get; set; } = Vector3.One;
@@ -36,7 +37,6 @@ namespace MarkInDeDark.Library.Lighting
         public bool IsOutOfScreen { get; set; }
 
         public bool ShouldDraw => IsEnabled && !IsOutOfScreen;
-        
 
         private readonly DrawingInfos _specularGlowDrawingInfos;
         private readonly DrawingInfos _lightMaskDrawingInfos;
@@ -70,7 +70,8 @@ namespace MarkInDeDark.Library.Lighting
         {
             Z = z;
             Opacity = opacity;
-            DistanceSquared = distanceSquared;
+            DistanceSquaredForGround = distanceSquared;
+            DistanceSquaredForWall = distanceSquared;
             //       _originalDistanceSquared = distanceSquared;
 
             _specularGlowSprite = assetsLoader.Sprites["Effects/glow"];
@@ -112,6 +113,11 @@ namespace MarkInDeDark.Library.Lighting
                 Intensity = 1,
                 ShadowType = ShadowType.Solid
             };
+        }
+
+        public void SetGlowOpacity(float opacity)
+        {
+            _specularGlowDrawingInfos.OverlayColor = Color.White.WithAlpha(opacity);
         }
 
         public void SetTemporaryColorForAnimation(Color color)

@@ -109,6 +109,7 @@ namespace MarkInDeDark.Library.Characters
         {
             MainFigureDrawingInfos.Position = exit.Position;
             _currentPlayerState = PlayerStates.Exiting;
+            ShadowsAnimationManager = null;
             //_soundManager.PlayLadder();
             _winAnimation.SetPosition(Position);
         }
@@ -140,6 +141,7 @@ namespace MarkInDeDark.Library.Characters
                     break;
 
                 case PlayerStates.Exiting:
+                    
                     SetLightPosition(0.2f, _winAnimation.DrawingInfos.Position + _torchPositionTraslation);
                     SurroundingLight?.Update(elapsed);
                     _playerCandleFireParticleSystem.AddParticles(TorchPosition);

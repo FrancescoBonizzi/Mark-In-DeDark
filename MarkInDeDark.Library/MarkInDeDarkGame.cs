@@ -37,7 +37,9 @@ namespace MarkInDeDark.Library
         public bool IsPaused { get; private set; }
 
         // Tempo per tornare al menù dopo che è tutto finito
-        private readonly TimeSpan _gameFinishTimer = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _gameFinishTimerIfDead = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _gameFinishTimerIfWin = TimeSpan.FromSeconds(1);
+        private TimeSpan _gameFinishTimer;
 
         // Tempo prima di fare il fade di tutto il livello a parte il player
         private readonly TimeSpan _gameFinishGameOverSceneTimer = TimeSpan.FromSeconds(1);
@@ -193,7 +195,7 @@ namespace MarkInDeDark.Library
 
             _candlePacks = _gameGrid.CandlePacks;
             ElapsedGameTime = TimeSpan.Zero;
-            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager);
+            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager, selectedLevel.LevelTitleToShow);
 
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
             if (_gameGrid.GoblinTriggerRectangle != null && _gameGrid.GoblinStartPosition != null)
@@ -224,7 +226,8 @@ namespace MarkInDeDark.Library
                         {
                             trap.AddAffectedCharacter(newGoblin);
                         }
-                    }));
+                    },
+                    gameGrid: _gameGrid));
             }
             // Se non metto il trigger, lo spawno subito
             else if (_gameGrid.GoblinStartPosition != null)
@@ -279,7 +282,8 @@ namespace MarkInDeDark.Library
                     _triggerObjects.Add(new InstantlyDieTrap(
                         assetsLoader,
                         (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        instantlyDieTrapRectangle));
+                        instantlyDieTrapRectangle,
+                        _gameGrid));
                 }
             }
 
@@ -292,7 +296,8 @@ namespace MarkInDeDark.Library
                         _gameConfig,
                         breakableTrapRectangle,
                         (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        () => StartCameraShake(1)));
+                        () => StartCameraShake(1),
+                        _gameGrid));
                 }
             }
 
@@ -304,7 +309,8 @@ namespace MarkInDeDark.Library
                         _localizedStringsRepository.Get(cellTriggerText.Value),
                         _gameHud,
                         cellTriggerText.Key,
-                        _player));
+                        _player,
+                        _gameGrid));
                 }
             }
 
@@ -317,7 +323,7 @@ namespace MarkInDeDark.Library
                     _normalMapLights.Add(e.SurroundingLight);
             }
 
-            foreach (var l in _gameGrid.LittleLights)
+            foreach (var l in _gameGrid.BraziersLit)
                 _normalMapLights.Add(l.SurroundingLight);
 
             // Penumbra
@@ -340,6 +346,8 @@ namespace MarkInDeDark.Library
             {
                 _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
             }
+
+            _markInDeDarkBootstrap.IsMouseVisible = false;
         }
 
         // TODO Levare questa robba quando avremo finito?
@@ -359,7 +367,7 @@ namespace MarkInDeDark.Library
                 if (normalMapParametersTemp.EditPlayerLights)
                 {
                     _player.SurroundingLight.Z = normalMapParametersTemp.PlayerLightDirectionZ;
-                    _player.SurroundingLight.DistanceSquared = normalMapParametersTemp.PlayerLightDistance;
+                    _player.SurroundingLight.DistanceSquaredForGround = normalMapParametersTemp.PlayerLightDistance;
                     _player.SurroundingLight.Opacity = normalMapParametersTemp.PlayerLightOpacity;
                     _player.SurroundingLight.ColorNormal = normalMapParametersTemp.PlayerLightColor;
                 }
@@ -417,6 +425,7 @@ namespace MarkInDeDark.Library
 
                         _markGamePad.Shake(6, TimeSpan.FromSeconds(2));
                         _currentGameState = GameStates.Finishing;
+                        _gameFinishTimer = _gameFinishTimerIfDead;
                     }
 
                     if (!_key.IsCollected)
@@ -442,6 +451,7 @@ namespace MarkInDeDark.Library
                                _gameConfig.LevelCompletedStringColorRGB,
                                true);
                             _currentGameState = GameStates.Finishing;
+                            _gameFinishTimer = _gameFinishTimerIfWin;
                         }
                         else
                         {
@@ -544,9 +554,9 @@ namespace MarkInDeDark.Library
                 }
             }
 
-            foreach (var littleLight in _gameGrid.LittleLights)
+            foreach (var brazierLit in _gameGrid.BraziersLit)
             {
-                littleLight.Update(elapsed);
+                brazierLit.Update(elapsed);
             }
 
             _gameGrid.Update(elapsed);
@@ -593,6 +603,7 @@ namespace MarkInDeDark.Library
 
         public void OnLeavingPage()
         {
+            _markInDeDarkBootstrap.IsMouseVisible = true;
             _markInDeDarkBootstrap.DisablePenumbra(_penumbra);
         }
 
@@ -704,7 +715,7 @@ namespace MarkInDeDark.Library
                     _player.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var e in _enemies)
                         e.SurroundingLight?.DrawGlowForSpecular(s);
-                    foreach (var l in _gameGrid.LittleLights)
+                    foreach (var l in _gameGrid.BraziersLit)
                         l.SurroundingLight?.DrawGlowForSpecular(s);
                     foreach (var c in _candlesManager.Candles)
                         c.SurroundingLight?.DrawGlowForSpecular(s);
@@ -716,11 +727,24 @@ namespace MarkInDeDark.Library
                         foreach (var triggerObject in _triggerObjects)
                             triggerObject.Draw(spriteBatch);
                     }
-
+                },
+                drawOtherGroundObjectsNormalMap: s =>
+                {
+                    if (_triggerObjects != null)
+                    {
+                        foreach (var triggerObject in _triggerObjects)
+                            triggerObject.DrawNormal(spriteBatch);
+                    }
+                },
+                drawShadows: s =>
+                {
                     _player.DrawShadows(s);
 
                     foreach (Enemy en in _enemies)
                         en.DrawShadows(s);
+
+                    foreach (var brazierLit in _gameGrid.BraziersLit)
+                        brazierLit.DrawShadows(spriteBatch);
                 },
                 lights: _normalMapLights);
 
@@ -729,7 +753,7 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
             foreach (var e in _enemies)
                 e.SurroundingLight?.DrawLightMask(spriteBatch);
-            foreach (var l in _gameGrid.LittleLights)
+            foreach (var l in _gameGrid.BraziersLit)
                 l.SurroundingLight?.DrawLightMask(spriteBatch);
             foreach (var c in _candlesManager.Candles)
                 c.SurroundingLight?.DrawLightMask(spriteBatch);
@@ -758,6 +782,8 @@ namespace MarkInDeDark.Library
             _player.DrawNormalMap(spriteBatch);
             foreach (var e in _enemies)
                 e.DrawNormalMap(spriteBatch);
+            foreach (var littleLight in _gameGrid.BraziersLit)
+                littleLight.DrawNormalMap(spriteBatch);
             spriteBatch.End();
 
             // 2. Disegno il resto
@@ -781,8 +807,8 @@ namespace MarkInDeDark.Library
             foreach (var otherObject in _gameGrid.DrawableObjects)
                 otherObject.Draw(spriteBatch);
 
-            foreach (var littleLight in _gameGrid.LittleLights)
-                littleLight.Draw(spriteBatch);
+            foreach (var brazierLit in _gameGrid.BraziersLit)
+                brazierLit.Draw(spriteBatch);
 
             _candlesManager.Draw(spriteBatch);
 
@@ -791,7 +817,6 @@ namespace MarkInDeDark.Library
             foreach (Enemy en in _enemies)
                 en.Draw(spriteBatch);
 
-            // TODO Dare una normal generica ai riempitivi
             _gameGrid.DrawRiempitiviGround(spriteBatch);
 
             spriteBatch.End();
@@ -811,7 +836,7 @@ namespace MarkInDeDark.Library
                     _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.PositionForWall);
                     _circularNormalMapShader.Parameters["LightColor"].SetValue(light.ColorNormal);
                     _circularNormalMapShader.Parameters["LightOpacity"].SetValue(light.Opacity);
-                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquaredForWall);
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
                 }
                 spriteBatch.End();
@@ -843,37 +868,6 @@ namespace MarkInDeDark.Library
             _candlesManager.DrawEffectsOverDark(spriteBatch);
             _snowingManager?.Draw(spriteBatch);
             spriteBatch.End();
-
-            //if (_gameConfig.GodModeDebugMode)
-            //{
-            //    spriteBatch.Begin(transformMatrix: viewMatrix);
-
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(l.BoundingRectangle, Color.Yellow.WithAlpha(0.5f));
-            //    }
-
-            //    foreach (var e in _enemies)
-            //    {
-            //        spriteBatch.DrawRectangle(e.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
-            //    }
-            //    spriteBatch.DrawRectangle(_player.CollisionRectangle, Color.Blue.WithAlpha(0.5f));
-
-            //    spriteBatch.End();
-
-            //    spriteBatch.Begin();
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Red.WithAlpha(0.5f));
-            //    }
-
-            //    foreach (var l in _normalMapLights)
-            //    {
-            //        spriteBatch.DrawRectangle(new Rectangle((int)l.Position.X, (int)l.Position.Y, 10, 10), Color.Yellow.WithAlpha(0.5f));
-            //    }
-
-            //    spriteBatch.End();
-            //}
 
             // 6. HUD
             spriteBatch.Begin();

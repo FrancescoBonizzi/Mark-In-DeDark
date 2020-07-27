@@ -70,7 +70,9 @@ namespace MarkInDeDark.Library.Characters
         public CharacterState CurrentCharacterState { get; set; }
         public DieAnimationType CurrentDieAnimationType { get; set; }
 
+        public bool DontDrawShadows { get; set; } = false;
         protected bool _canGoOverWalls = false;
+        public bool StopInput { get; set; } = false;
 
         public bool IsDead => CurrentCharacterState == CharacterState.Dead;
         public bool IsDying => CurrentCharacterState == CharacterState.Dying;
@@ -111,7 +113,7 @@ namespace MarkInDeDark.Library.Characters
         private CharacterActions? _nextActionToProcess;
 
         public AnimationsManager MainAnimationsAnimationManager { get; }
-        public AnimationsManager ShadowsAnimationManager { get; }
+        public AnimationsManager ShadowsAnimationManager { get; protected set; }
 
         private CharacterFallingInTrapAnimation _characterFallingATrapAnimation;
 
@@ -142,7 +144,7 @@ namespace MarkInDeDark.Library.Characters
             MainFigureDrawingInfos = new DrawingInfos()
             {
                 Position = configuration.StartingPosition,
-                HitBoxTolerance = new Rectangle(16, 16, 32, 32),
+                HitBoxTolerance = new Rectangle(24, 24, 48, 48),
                 Origin = configuration.WalkUpAnimation.FirstFrameSprite.SpriteCenter
             };
 
@@ -663,6 +665,11 @@ namespace MarkInDeDark.Library.Characters
 
         public virtual void HandleInput(CharacterActions action)
         {
+            if (StopInput)
+            {
+                _nextActionToProcess = CharacterActions.Idle;
+                return;
+            }
             _nextActionToProcess = action;
         }
 

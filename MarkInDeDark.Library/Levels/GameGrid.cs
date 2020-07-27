@@ -30,7 +30,7 @@ namespace MarkInDeDark.Library.Levels
         public Vector2 ExitPosition { get; set; }
         public Vector2 KeyPosition { get; set; }
         public List<CandlePack> CandlePacks { get; } = new List<CandlePack>();
-        public List<LittleLight> LittleLights { get; } = new List<LittleLight>();
+        public List<BrazierLit> BraziersLit { get; } = new List<BrazierLit>();
         public List<IDrawableObject> DrawableObjects { get; } = new List<IDrawableObject>();
 
         public Vector2? GoblinStartPosition { get; set; }
@@ -815,6 +815,8 @@ namespace MarkInDeDark.Library.Levels
             RenderTarget2D resultRenderTarget,
             Action<SpriteBatch> drawGlowsForSpecular,
             Action<SpriteBatch> drawOtherGroundObjects,
+            Action<SpriteBatch> drawOtherGroundObjectsNormalMap,
+            Action<SpriteBatch> drawShadows,
             List<MarkLight> lights)
         {
             // Pavimento di base
@@ -825,6 +827,7 @@ namespace MarkInDeDark.Library.Levels
             {
                 c.DrawGround(spriteBatch, false);
             });
+            drawOtherGroundObjects(spriteBatch);
             spriteBatch.End();
 
             // Normal map
@@ -835,6 +838,7 @@ namespace MarkInDeDark.Library.Levels
             {
                 c.DrawGroundNormalMap(spriteBatch);
             });
+            drawOtherGroundObjectsNormalMap(spriteBatch);
             spriteBatch.End();
 
             // Specular map
@@ -866,7 +870,7 @@ namespace MarkInDeDark.Library.Levels
 
                 normalMapEffect.Parameters["LightPosition"].SetValue(light.PositionForGround);
                 normalMapEffect.Parameters["LightColor"].SetValue(light.ColorNormal);
-                normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquared);
+                normalMapEffect.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquaredForGround);
                 normalMapEffect.Parameters["LightOpacity"].SetValue(light.Opacity);
                 spriteBatch.Draw(baseRenderTarget, Vector2.Zero, Color.White);
             }
@@ -891,7 +895,7 @@ namespace MarkInDeDark.Library.Levels
 
             // Oggetti sopra le normal
             spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
-            drawOtherGroundObjects(spriteBatch);
+            drawShadows(spriteBatch);
             spriteBatch.End();
         }
 
