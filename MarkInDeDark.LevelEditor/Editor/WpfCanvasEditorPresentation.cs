@@ -175,7 +175,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
             if (previousGroundType == GroundTypes.NonCella)
             {
-                previousGroundType = GroundTypes.Terra;
+                previousGroundType = GroundTypes.Terra1;
             }
 
             EditorTypesObjectsConverter.ManageObjectType(canvasCell, type, previousGroundType, quantityInfo);
@@ -374,7 +374,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
             if (previousGroundType == GroundTypes.NonCella)
             {
-                canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra);
+                canvasCell.Background = EditorTypesColorConverter.Convert(GroundTypes.Terra1);
             }
 
             // Devo generare un codice per la stringa, salvare la stringa, e

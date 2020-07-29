@@ -4,6 +4,7 @@ using MarkInDeDark.Library.Maths;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -52,7 +53,7 @@ namespace MarkInDeDark.Library.Levels
         {
             var topType = cellConfig.Top;
             var direction = LinkDirection.NorthLink;
-            var cellSpriteCenter = level.GroundSpriteType1.Base.SpriteCenter;
+            var cellSpriteCenter = level.GroundSprites.Values.First().Base.SpriteCenter;
 
             switch (topType)
             {

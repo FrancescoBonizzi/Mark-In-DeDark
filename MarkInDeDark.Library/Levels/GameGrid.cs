@@ -75,8 +75,9 @@ namespace MarkInDeDark.Library.Levels
             _position = Vector2.Zero;
             _camera = camera;
 
-            CellWidth = levelToLoad.GroundSpriteType1.Base.Width;
-            CellHeight = levelToLoad.GroundSpriteType1.Base.Height;
+            var defaultCell = levelToLoad.GroundSprites.Values.First();
+            CellWidth = defaultCell.Base.Width;
+            CellHeight = defaultCell.Base.Height;
 
             _cells = new GameCell[HorizontalCellsNumber, VerticalCellsNumber];
 
@@ -100,14 +101,13 @@ namespace MarkInDeDark.Library.Levels
                     _cells[i, j] = new GameCell(
                         position: nextCellPosition,
                         assetsLoader: assetsLoader,
-                        cell: levelToLoad.GroundSpriteType1.Base,
                         dirty: thisCellDirtySprite,
-                        normalSprite: levelToLoad.GroundSpriteType1.Normal,
-                        specularSprite: levelToLoad.GroundSpriteType1.Specular,
                         soundManager: soundManager,
                         iIndex: i, jIndex: j,
                         gameGrid: this,
-                        game: game);
+                        game: game,
+                        width: CellWidth,
+                        height: CellHeight);
 
                     nextCellPosition.Y += CellHeight;
                 }

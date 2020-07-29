@@ -16,20 +16,35 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case GroundTypes.Buio:
                     return new SolidColorBrush(Colors.Gray);
 
-                case GroundTypes.Terra:
-                    return new SolidColorBrush(Colors.Brown);
+                case GroundTypes.Terra1:
+                    return App.Current.Resources["ColoreTerra"] as SolidColorBrush;
 
                 case GroundTypes.Terra2:
-                    return new SolidColorBrush(Colors.SandyBrown);
+                    return App.Current.Resources["ColoreTerra2"] as SolidColorBrush;
 
                 case GroundTypes.Terra3:
-                    return new SolidColorBrush(Colors.RosyBrown);
+                    return App.Current.Resources["ColoreTerra3"] as SolidColorBrush;
 
                 case GroundTypes.Terra4:
-                    return new SolidColorBrush(Colors.LightCoral);
+                    return App.Current.Resources["ColoreTerra4"] as SolidColorBrush;
 
                 case GroundTypes.Terra5:
-                    return new SolidColorBrush(Colors.BlanchedAlmond);
+                    return App.Current.Resources["ColoreTerra5"] as SolidColorBrush;
+
+                case GroundTypes.Terra6:
+                    return App.Current.Resources["ColoreTerra6"] as SolidColorBrush;
+
+                case GroundTypes.Terra7:
+                    return App.Current.Resources["ColoreTerra7"] as SolidColorBrush;
+
+                case GroundTypes.Terra8:
+                    return App.Current.Resources["ColoreTerra8"] as SolidColorBrush;
+
+                case GroundTypes.Terra9:
+                    return App.Current.Resources["ColoreTerra9"] as SolidColorBrush;
+
+                case GroundTypes.Terra10:
+                    return App.Current.Resources["ColoreTerra10"] as SolidColorBrush;
 
                 case GroundTypes.Riempimento:
                     return new SolidColorBrush(Colors.Navy);

@@ -19,7 +19,7 @@ namespace MarkInDeDark.GameGridCommon
             {
                 var rigaParts = riga.Split(':');
 
-                gameGrid.SetGroundType(j, i, GroundTypes.Terra);
+                gameGrid.SetGroundType(j, i, GroundTypes.Terra1);
                 if (rigaParts[0] == "NULL")
                 {
                     gameGrid.SetGroundType(j, i, GroundTypes.NonCella);

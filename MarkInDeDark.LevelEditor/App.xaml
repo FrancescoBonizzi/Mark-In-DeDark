@@ -7,6 +7,17 @@
 
     <Application.Resources>
 
+        <SolidColorBrush x:Key="ColoreTerra" Color="#6E2233" />
+        <SolidColorBrush x:Key="ColoreTerra2" Color="#831d1c" />
+        <SolidColorBrush x:Key="ColoreTerra3" Color="#940000" />
+        <SolidColorBrush x:Key="ColoreTerra4" Color="#960018" />
+        <SolidColorBrush x:Key="ColoreTerra5" Color="#B20000" />
+        <SolidColorBrush x:Key="ColoreTerra6" Color="#D21F1B" />
+        <SolidColorBrush x:Key="ColoreTerra7" Color="#DC143C" />
+        <SolidColorBrush x:Key="ColoreTerra8" Color="#E30022" />
+        <SolidColorBrush x:Key="ColoreTerra9" Color="#FF4040" />
+        <SolidColorBrush x:Key="ColoreTerra10" Color="#CA411F" />
+
         <Style TargetType="{x:Type RadioButton}">
             <Setter Property="FocusVisualStyle">
                 <Setter.Value>

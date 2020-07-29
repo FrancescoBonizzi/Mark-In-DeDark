@@ -1,8 +1,10 @@
 ﻿using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGridCommon;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -14,11 +16,7 @@ namespace MarkInDeDark.Library.Levels
         public int? RecordUsedCandles { get; private set; }
         public TimeSpan? RecordCompletionTime { get; private set; }
 
-        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType1 { get; private set; }
-        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType2 { get; private set; }
-        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType3 { get; private set; }
-        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType4 { get; private set; }
-        public (Sprite Base, Sprite Normal, Sprite Specular) GroundSpriteType5 { get; private set; }
+        public Dictionary<GroundTypes, (Sprite Base, Sprite Normal, Sprite Specular)> GroundSprites;
         public Sprite DarkSprite { get; private set; }
 
         public (Sprite Base, Sprite Normal) Decal1 { get; private set; }
@@ -81,24 +79,22 @@ namespace MarkInDeDark.Library.Levels
             LevelEditorDeserializedGrid = serializer.DeserializeLevel();
 
             string groundTextureLevelSelector = $"Grounds/pacco{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
-            GroundSpriteType1 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell1"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell1"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell1"));
-            GroundSpriteType2 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell2"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell2"));
-            GroundSpriteType3 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell3"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell3"));
-            GroundSpriteType4 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell4"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell4"));
-            GroundSpriteType5 = (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell5"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"),
-                GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell5"));
+
+            // Carico le texture pavimento basandomi sul fatto che si chiamano cellx
+            GroundSprites = new Dictionary<GroundTypes, (Sprite Base, Sprite Normal, Sprite Specular)>();
+            foreach (var groundType in ((GroundTypes[])Enum.GetValues(typeof(GroundTypes))).Where(g => g.ToString().StartsWith("Terra")))
+            {
+                char terraNumber = groundType.ToString().Last();
+
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/cell{terraNumber}"))
+                {
+                    GroundSprites.Add(
+                        groundType,
+                        (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell{terraNumber}"],
+                        GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}"),
+                        GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}")));
+                }
+            }
 
             Decal1 = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"],

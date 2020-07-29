@@ -326,7 +326,7 @@ namespace MarkInDeDark.LevelEditor
                             || _currentSelectedObjectType == ObjectTypes.Goblin)
                         {
                             _currentEditorAction = EditorActions.Ground;
-                            _currentSelectedCellType = GroundTypes.Terra;
+                            _currentSelectedCellType = GroundTypes.Terra1;
                             BtnGroundType_Ground.IsChecked = true;
                         }
 
@@ -350,7 +350,7 @@ namespace MarkInDeDark.LevelEditor
             {
                 // Terra 
                 BtnGroundType_Ground.IsChecked = true;
-                _currentSelectedCellType = GroundTypes.Terra;
+                _currentSelectedCellType = GroundTypes.Terra1;
                 _currentEditorAction = EditorActions.Ground;
                 _presentation.ClearHover();
                 e.Handled = true;

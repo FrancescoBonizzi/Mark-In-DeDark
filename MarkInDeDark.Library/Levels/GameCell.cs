@@ -54,31 +54,26 @@ namespace MarkInDeDark.Library.Levels
         public GameCell(
             Vector2 position,
             AssetsLoader assetsLoader,
-            Sprite cell,
             Sprite dirty,
-            Sprite normalSprite,
-            Sprite specularSprite,
             SoundManager soundManager,
             int iIndex,
             int jIndex,
             GameGrid gameGrid,
-            MarkInDeDarkGame game)
+            MarkInDeDarkGame game,
+            int width,
+            int height)
         {
             _bloodDecal = assetsLoader.Sprites["Effects/blood_decal"];
 
             IIndex = iIndex;
             JIndex = jIndex;
 
-            Sprite = cell;
-            NormalSprite = normalSprite;
-            SpecularSprite = specularSprite;
-
             IsUnLinked = false;
             IsUnwalkableForEnemies = false;
             IsUnwalkable = false;
 
-            Width = cell.Width;
-            Height = cell.Height;
+            Width = width;
+            Height = height;
 
             _soundManager = soundManager;
 
