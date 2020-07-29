@@ -6,7 +6,7 @@
         Occludente = 1,
         Fragile = 2,
         Porta = 3,
-        Speciale1 = 4,
+        Muro1 = 4,
         Ingresso = 5,
         Uscita  = 6,
 
@@ -16,9 +16,9 @@
         Decal4 = 10,
         Decal5 = 11,
 
-        Speciale2 = 12,
-        Speciale3 = 13,
-        Speciale4 = 14,
-        Speciale5 = 15
+        Muro2 = 12,
+        Muro3 = 13,
+        Muro4 = 14,
+        Muro5 = 15
     }
 }

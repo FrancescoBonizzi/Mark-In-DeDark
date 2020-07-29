@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.GameGridCommon;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,6 +8,8 @@ using System.Windows.Media.Imaging;
 
 namespace MarkInDeDark.LevelEditor.Editor
 {
+    // TODO possibile ottimizzazione: precostruire tutte le celle con gli oggetti che servono e riempirli solamente
+
     public static class EditorTypesObjectsConverter
     {
         public static void ManageObjectType(
@@ -23,11 +26,12 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             canvasCell.Background = EditorTypesColorConverter.Convert(groundType);
 
-            // Per convenzione le textblock sono per il numero di candele ecc
+            // Per convenzione le textblock senza Tag sono per il numero di candele ecc
             TextBlock textBlock = null;
             foreach (var c in container.Children)
             {
-                if (c is TextBlock thisGridTextLabel)
+                if (c is TextBlock thisGridTextLabel
+                    && string.IsNullOrWhiteSpace(thisGridTextLabel.Tag as string))
                 {
                     textBlock = thisGridTextLabel;
                     break;
@@ -178,44 +182,52 @@ namespace MarkInDeDark.LevelEditor.Editor
                 container.Children.Add(wallNameTextblock);
             }
 
-            //Panel.SetZIndex(wallNameTextblock, 10);
-
             if (type != WallTypes.Niente)
             {
                 canvasCell.BorderBrush = EditorTypesColorConverter.Convert(type);
             }
+
+            ReorderControls(container);
         }
 
         public static void ReorderControls(Grid grid)
         {
             Image image = null;
-            TextBlock textBlock = null;
+            TextBlock textBlockObjectQuantity = null;
+            List<TextBlock> textBlocksWallType = new List<TextBlock>();
             Label label = null;
 
             foreach (var control in grid.Children)
             {
                 if (control is Image)
                     image = (Image)control;
-                else if (control is TextBlock)
-                    textBlock = (TextBlock)control;
                 else if (control is Label)
                     label = (Label)control;
+                else if (control is TextBlock t)
+                {
+                    if (t.Tag is string tag && string.IsNullOrEmpty(tag))
+                        textBlockObjectQuantity = (TextBlock)control;
+                    else textBlocksWallType.Add(t);
+                }
+                
             }
 
-#warning Non si può sistemare con lo Zindex?
+            // Con lo Zindex purtroppo non si riesce
             grid.Children.Clear();
             if (image != null)
                 grid.Children.Add(image);
+            if (textBlockObjectQuantity != null)
+                grid.Children.Add(textBlockObjectQuantity);
             if (label != null)
                 grid.Children.Add(label);
-            if (textBlock != null)
-                grid.Children.Add(textBlock);
+            foreach (var tWallType in textBlocksWallType)
+                grid.Children.Add(tWallType);
         }
 
         public static string GetWallCode(WallTypes wallType)
         {
             string wallTypeString = wallType.ToString();
-            if (wallTypeString.Contains("Decal") || wallTypeString.Contains("Speciale"))
+            if (wallTypeString.Contains("Decal") || wallTypeString.Contains("Muro"))
             {
                 return $"{wallTypeString[0]}{wallTypeString[wallTypeString.Length - 1]}";
             }
@@ -229,7 +241,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                     return "M0";
 
                 case WallTypes.Fragile:
-                    return "MR";
+                    return "MB";
 
                 case WallTypes.Porta:
                     return "P";

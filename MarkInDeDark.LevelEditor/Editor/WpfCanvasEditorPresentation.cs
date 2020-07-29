@@ -441,21 +441,13 @@ namespace MarkInDeDark.LevelEditor.Editor
         {
             if (wallPosition == WallPositions.Left || wallPosition == WallPositions.Right)
             {
-                if (type == WallTypes.Porta
-                    || type == WallTypes.Decal1
-                    || type == WallTypes.Decal2
-                    || type == WallTypes.Decal3
-                    || type == WallTypes.Decal4
-                    || type == WallTypes.Decal5
-                    || type == WallTypes.Ingresso
-                    || type == WallTypes.Uscita
-                    || type == WallTypes.Speciale1
-                    || type == WallTypes.Speciale2
-                    || type == WallTypes.Speciale3
-                    || type == WallTypes.Speciale4
-                    || type == WallTypes.Speciale5)
+                if (type != WallTypes.Fragile
+                    && type != WallTypes.Niente
+                    && type != WallTypes.Occludente)
+                {
                     // Tipi di muro non ammessi sui muri verticali
                     return;
+                }
             }
 
             if (wallPosition == WallPositions.Bottom)

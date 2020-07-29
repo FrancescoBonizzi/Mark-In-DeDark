@@ -51,105 +51,108 @@
                             Margin="10,2"
                             Padding="5,2"
                             Background="Black"
-                            Foreground="White"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="0"
                             ToolTip="Una non cella. Non verrà disegnato nulla all'interno.">
-                            <TextBlock Text="Non cella" Width="100" />
+                            <TextBlock Width="100" Text="Non cella" />
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             x:Name="btnBuio"
                             Margin="10,2"
                             Padding="5,2"
-                            Click="BtnGroundType_Click"
                             Background="Gray"
+                            Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="7"
                             ToolTip="Una cella buia. I muri vengono disegnati intorno.">
-                            <TextBlock Text="Buio" Width="100" />
+                            <TextBlock Width="100" Text="Buio" />
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnGroundType_Ground"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="Brown"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
-                            Background="Brown"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="1"
-                            Foreground="White"
                             ToolTip="Disegna una cella sui il personaggio può camminare">
-                            <TextBlock Text="Terra 1" Width="100" />
+                            <TextBlock Width="100" Text="Terra 1" />
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnGroundType_Ground2"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="SandyBrown"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
-                            Background="SandyBrown"
                             Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="6"
                             ToolTip="Disegna una cella di tipo 2 sui il personaggio può camminare">
-                            <TextBlock Text="Terra 2" Width="100" />
+                            <TextBlock Width="100" Text="Terra 2" />
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnGroundType_Ground3"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="RosyBrown"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
-                            Background="RosyBrown"
                             Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="9"
                             ToolTip="Disegna una cella di tipo 3 sui il personaggio può camminare">
-                            <TextBlock Text="Terra 3" Width="100" />
+                            <TextBlock Width="100" Text="Terra 3" />
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnGroundType_Ground4"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="LightCoral"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
-                            Background="LightCoral"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="10"
-                            Foreground="White"
                             ToolTip="Disegna una cella di tipo 4 sui il personaggio può camminare">
-                            <TextBlock Text="Terra 4" Width="100" />
+                            <TextBlock Width="100" Text="Terra 4" />
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnGroundType_Ground5"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="BlanchedAlmond"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="11"
-                            Background="BlanchedAlmond"
                             ToolTip="Disegna una cella di tipo 5 sui il personaggio può camminare">
-                            <TextBlock Text="Terra 5" Width="100" />
+                            <TextBlock Width="100" Text="Terra 5" />
                         </RadioButton>
 
 
@@ -157,55 +160,55 @@
                             x:Name="BtnGroundType_Ground8"
                             Margin="10,2"
                             Padding="5,2"
+                            Background="Navy"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="8"
-                            Background="Navy"
-                            Foreground="White"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Text="Riempimento" Width="100" />
+                            <TextBlock Width="100" Text="Riempimento" />
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
+                            Background="Fuchsia"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="3"
-                            Background="Fuchsia"
-                            Foreground="White"
                             ToolTip="Imposta una trappola a morte istantanea">
-                            <TextBlock Text="Trappola scoperta" Width="100" />
+                            <TextBlock Width="100" Text="Trappola scoperta" />
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
+                            Background="Aqua"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="4"
-                            Background="Aqua"
                             ToolTip="Imposta una trappola con botola">
-                            <TextBlock Text="Trappola a botola" Width="100" />
+                            <TextBlock Width="100" Text="Trappola a botola" />
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
+                            Background="Lime"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
-                            Background="Lime"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="5"
                             ToolTip="Trigger per far apparire il Goblin">
-                            <TextBlock Text="Trigger goblin" Width="100" />
+                            <TextBlock Width="100" Text="Trigger goblin" />
                         </RadioButton>
 
                     </StackPanel>
@@ -231,11 +234,17 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Black" />
-                                <TextBlock Padding="2,2" Text="No muro" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="No muro" />
                             </StackPanel>
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             x:Name="BtnWallType_Standard"
@@ -252,7 +261,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M0 - Muro 0" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M0 - Muro 0" />
                             </StackPanel>
                         </RadioButton>
 
@@ -271,7 +283,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M1 - Muro 1" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M1 - Muro 1" />
                             </StackPanel>
                         </RadioButton>
 
@@ -290,7 +305,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M2 - Muro 2" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M2 - Muro 2" />
                             </StackPanel>
                         </RadioButton>
 
@@ -309,7 +327,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M3 - Muro 3" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M3 - Muro 3" />
                             </StackPanel>
                         </RadioButton>
 
@@ -328,7 +349,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M4 - Muro 4" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M4 - Muro 4" />
                             </StackPanel>
                         </RadioButton>
 
@@ -347,7 +371,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Green" />
-                                <TextBlock Padding="2,2" Text="M5 - Muro 5" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="M5 - Muro 5" />
                             </StackPanel>
                         </RadioButton>
 
@@ -365,7 +392,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Red" />
-                                <TextBlock Padding="2,2" Text="MR - Muro break" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="MB - Muro break" />
                             </StackPanel>
                         </RadioButton>
 
@@ -383,7 +413,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Blue" />
-                                <TextBlock Padding="2,2" Text="P - Porta" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="P - Porta" />
                             </StackPanel>
                         </RadioButton>
 
@@ -401,7 +434,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Aqua" />
-                                <TextBlock Padding="2,2" Text="I - Muro ingresso" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="I - Ingresso" />
                             </StackPanel>
                         </RadioButton>
 
@@ -419,11 +455,17 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Aqua" />
-                                <TextBlock Padding="2,2" Text="U - Muro uscita" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="U - Uscita" />
                             </StackPanel>
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             Margin="10,2"
@@ -439,7 +481,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Violet" />
-                                <TextBlock Padding="2,2" Text="D1 - Decal 1" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D1 - Decal 1" />
                             </StackPanel>
                         </RadioButton>
 
@@ -457,7 +502,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Violet" />
-                                <TextBlock Padding="2,2" Text="D2- Decal 2" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D2- Decal 2" />
                             </StackPanel>
                         </RadioButton>
 
@@ -475,7 +523,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Violet" />
-                                <TextBlock Padding="2,2" Text="D3- Decal 3" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D3- Decal 3" />
                             </StackPanel>
                         </RadioButton>
 
@@ -493,7 +544,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Violet" />
-                                <TextBlock Padding="2,2" Text="D4 -Decal 4" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D4 -Decal 4" />
                             </StackPanel>
                         </RadioButton>
 
@@ -511,7 +565,10 @@
                                     Width="4"
                                     Height="15"
                                     Fill="Violet" />
-                                <TextBlock Padding="2,2" Text="D5 - Decal 5" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D5 - Decal 5" />
                             </StackPanel>
                         </RadioButton>
 
@@ -531,13 +588,19 @@
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="0"
-                            ToolTip="Cancella oggetto">
+                            ToolTip="Cancella oggetto o testo">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Padding="2,2" Text="Cancella oggetto" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Cancella oggetto" />
                             </StackPanel>
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             x:Name="BtnObjectType_Player"
@@ -554,7 +617,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/player_front_iddle.png" />
-                                <TextBlock Padding="2,2" Text="Giocatore" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Giocatore" />
                             </StackPanel>
                         </RadioButton>
 
@@ -573,7 +639,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/key.png" />
-                                <TextBlock Padding="2,2" Text="Chiave" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Chiave" />
                             </StackPanel>
                         </RadioButton>
 
@@ -592,7 +661,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/win_closed.png" />
-                                <TextBlock Padding="2,2" Text="Uscita" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Uscita" />
                             </StackPanel>
                         </RadioButton>
 
@@ -610,7 +682,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/candle6.png" />
-                                <TextBlock Padding="2,2" Text="Candele" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Candele" />
                             </StackPanel>
                         </RadioButton>
 
@@ -628,11 +703,17 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/brazier_lit_1.png" />
-                                <TextBlock Padding="2,2" Text="Braciere (F)" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Braciere (F)" />
                             </StackPanel>
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             Margin="10,2"
@@ -652,15 +733,21 @@
                                     FontStyle="Italic"
                                     FontWeight="Bold"
                                     Text="A" />
-                                <TextBlock Padding="2,2" Text="Testo" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Testo" />
                             </StackPanel>
                         </RadioButton>
 
-                        <Rectangle Height="2" Fill="LightGray" Margin="10, 5" />
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             x:Name="BtnObjectType_1"
-                            Margin="10, 2"
+                            Margin="10,2"
                             Background="LightCoral"
                             Click="BtnObjectType_Click"
                             Cursor="Hand"
@@ -673,13 +760,16 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/object_unpassable_1.png" />
-                                <TextBlock Padding="2,2" Text="Colonna larga" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Colonna larga" />
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnObjectType_2"
-                            Margin="10, 2"
+                            Margin="10,2"
                             Background="LightCoral"
                             Click="BtnObjectType_Click"
                             Cursor="Hand"
@@ -692,13 +782,16 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/object_unpassable_2.png" />
-                                <TextBlock Padding="2,2" Text="Colonna stretta" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Colonna stretta" />
                             </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             x:Name="BtnObjectType_3"
-                            Margin="10, 2"
+                            Margin="10,2"
                             Background="LightGreen"
                             Click="BtnObjectType_Click"
                             Cursor="Hand"
@@ -711,7 +804,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/object_passable_1.png" />
-                                <TextBlock Padding="2,2" Text="Vaso" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Vaso" />
                             </StackPanel>
                         </RadioButton>
 
@@ -737,7 +833,11 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/zombie_front_walking_1.png" />
-                                <TextBlock Padding="2,2" Text="Zombie" Width="100" Foreground="Green" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Foreground="Green"
+                                    Text="Zombie" />
                             </StackPanel>
                         </RadioButton>
 
@@ -756,7 +856,11 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/skeleton_front_iddle.png" />
-                                <TextBlock Padding="2,2" Text="Scheletro" Width="100" Foreground="Fuchsia" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Foreground="Fuchsia"
+                                    Text="Scheletro" />
                             </StackPanel>
                         </RadioButton>
 
@@ -775,7 +879,11 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/goblin_front_dying_1.png" />
-                                <TextBlock Padding="2,2" Text="Goblin" Width="100" Foreground="LimeGreen" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Foreground="LimeGreen"
+                                    Text="Goblin" />
                             </StackPanel>
                         </RadioButton>
 
@@ -794,7 +902,11 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/taurus_front_iddle.png" />
-                                <TextBlock Padding="2,2" Text="Taurus" Width="100" Foreground="Red" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Foreground="Red"
+                                    Text="Taurus" />
                             </StackPanel>
                         </RadioButton>
 
@@ -813,7 +925,11 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/ghost_back_attack_1.png" />
-                                <TextBlock Padding="2,2" Text="Ghost" Width="100" Foreground="Violet" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Foreground="Violet"
+                                    Text="Ghost" />
                             </StackPanel>
                         </RadioButton>
 
@@ -832,7 +948,10 @@
                                     Width="20"
                                     Height="20"
                                     Source="Assets/icons/bubu_front_walking_1.png" />
-                                <TextBlock Padding="2,2" Text="Bubu" Width="100" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Bubu" />
                             </StackPanel>
                         </RadioButton>
 

@@ -55,11 +55,11 @@ namespace MarkInDeDark.LevelEditor.Editor
                     return new SolidColorBrush(Colors.Black);
 
                 case WallTypes.Occludente:
-                case WallTypes.Speciale1:
-                case WallTypes.Speciale2:
-                case WallTypes.Speciale3:
-                case WallTypes.Speciale4:
-                case WallTypes.Speciale5:
+                case WallTypes.Muro1:
+                case WallTypes.Muro2:
+                case WallTypes.Muro3:
+                case WallTypes.Muro4:
+                case WallTypes.Muro5:
                     return new SolidColorBrush(Colors.Green);
 
                 case WallTypes.Fragile:

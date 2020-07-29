@@ -57,11 +57,11 @@ namespace MarkInDeDark.Library.Levels
             switch (topType)
             {
                 case WallTypes.Occludente:
-                case WallTypes.Speciale1:
-                case WallTypes.Speciale2:
-                case WallTypes.Speciale3:
-                case WallTypes.Speciale4:
-                case WallTypes.Speciale5:
+                case WallTypes.Muro1:
+                case WallTypes.Muro2:
+                case WallTypes.Muro3:
+                case WallTypes.Muro4:
+                case WallTypes.Muro5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
@@ -71,15 +71,15 @@ namespace MarkInDeDark.Library.Levels
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     (Sprite Base, Sprite Normal) decal = (null, null);
 
-                    if (topType == WallTypes.Speciale1)
+                    if (topType == WallTypes.Muro1)
                         horizontalWallSprite = level.WallSpecial1HorizontalSprite;
-                    else if (topType == WallTypes.Speciale2)
+                    else if (topType == WallTypes.Muro2)
                         horizontalWallSprite = level.WallSpecial2HorizontalSprite;
-                    else if (topType == WallTypes.Speciale3)
+                    else if (topType == WallTypes.Muro3)
                         horizontalWallSprite = level.WallSpecial3HorizontalSprite;
-                    else if (topType == WallTypes.Speciale4)
+                    else if (topType == WallTypes.Muro4)
                         horizontalWallSprite = level.WallSpecial4HorizontalSprite;
-                    else if (topType == WallTypes.Speciale5)
+                    else if (topType == WallTypes.Muro5)
                         horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (topType == WallTypes.Decal1)
@@ -162,11 +162,11 @@ namespace MarkInDeDark.Library.Levels
             switch (bottomType)
             {
                 case WallTypes.Occludente:
-                case WallTypes.Speciale1:
-                case WallTypes.Speciale2:
-                case WallTypes.Speciale3:
-                case WallTypes.Speciale4:
-                case WallTypes.Speciale5:
+                case WallTypes.Muro1:
+                case WallTypes.Muro2:
+                case WallTypes.Muro3:
+                case WallTypes.Muro4:
+                case WallTypes.Muro5:
                 case WallTypes.Decal1:
                 case WallTypes.Decal2:
                 case WallTypes.Decal3:
@@ -176,15 +176,15 @@ namespace MarkInDeDark.Library.Levels
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     (Sprite Base, Sprite Normal) decal = (null, null);
 
-                    if (bottomType == WallTypes.Speciale1)
+                    if (bottomType == WallTypes.Muro1)
                         horizontalWallSprite = level.WallSpecial1HorizontalSprite;
-                    else if (bottomType == WallTypes.Speciale2)
+                    else if (bottomType == WallTypes.Muro2)
                         horizontalWallSprite = level.WallSpecial2HorizontalSprite;
-                    else if (bottomType == WallTypes.Speciale3)
+                    else if (bottomType == WallTypes.Muro3)
                         horizontalWallSprite = level.WallSpecial3HorizontalSprite;
-                    else if (bottomType == WallTypes.Speciale4)
+                    else if (bottomType == WallTypes.Muro4)
                         horizontalWallSprite = level.WallSpecial4HorizontalSprite;
-                    else if (bottomType == WallTypes.Speciale5)
+                    else if (bottomType == WallTypes.Muro5)
                         horizontalWallSprite = level.WallSpecial5HorizontalSprite;
 
                     if (bottomType == WallTypes.Decal1)
