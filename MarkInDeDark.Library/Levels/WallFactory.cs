@@ -68,6 +68,9 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Decal3:
                 case WallTypes.Decal4:
                 case WallTypes.Decal5:
+                case WallTypes.Decal6:
+                case WallTypes.Decal7:
+                case WallTypes.Decal8:
 
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     (Sprite Base, Sprite Normal) decal = (null, null);
@@ -82,17 +85,11 @@ namespace MarkInDeDark.Library.Levels
                         horizontalWallSprite = level.WallSpecial4HorizontalSprite;
                     else if (topType == WallTypes.Muro5)
                         horizontalWallSprite = level.WallSpecial5HorizontalSprite;
-
-                    if (topType == WallTypes.Decal1)
-                        decal = level.Decal1;
-                    else if (topType == WallTypes.Decal2)
-                        decal = level.Decal2;
-                    else if (topType == WallTypes.Decal3)
-                        decal = level.Decal3;
-                    else if (topType == WallTypes.Decal4)
-                        decal = level.Decal4;
-                    else if (topType == WallTypes.Decal5)
-                        decal = level.Decal5;
+                    else
+                    {
+                        if (level.Decals.ContainsKey(topType))
+                            decal = level.Decals[topType];
+                    }
 
                     return new WallFixed(
                         direction: direction,
@@ -173,6 +170,9 @@ namespace MarkInDeDark.Library.Levels
                 case WallTypes.Decal3:
                 case WallTypes.Decal4:
                 case WallTypes.Decal5:
+                case WallTypes.Decal6:
+                case WallTypes.Decal7:
+                case WallTypes.Decal8:
 
                     var horizontalWallSprite = Utilities.RandomBetween(level.RandomHorizontalWallSprites);
                     (Sprite Base, Sprite Normal) decal = (null, null);
@@ -187,18 +187,12 @@ namespace MarkInDeDark.Library.Levels
                         horizontalWallSprite = level.WallSpecial4HorizontalSprite;
                     else if (bottomType == WallTypes.Muro5)
                         horizontalWallSprite = level.WallSpecial5HorizontalSprite;
-
-                    if (bottomType == WallTypes.Decal1)
-                        decal = level.Decal1;
-                    else if (bottomType == WallTypes.Decal2)
-                        decal = level.Decal2;
-                    else if (bottomType == WallTypes.Decal3)
-                        decal = level.Decal3;
-                    else if (bottomType == WallTypes.Decal4)
-                        decal = level.Decal4;
-                    else if (bottomType == WallTypes.Decal5)
-                        decal = level.Decal5;
-
+                    else
+                    {
+                        if (level.Decals.ContainsKey(bottomType))
+                            decal = level.Decals[bottomType];
+                    }
+                 
                     return new WallFixed(
                         direction: direction,
                         position: new Vector2(cellPosition.X, cellPosition.Y + SouthWallYOffset),

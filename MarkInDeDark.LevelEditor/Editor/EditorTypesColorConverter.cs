@@ -92,6 +92,9 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case WallTypes.Decal3:
                 case WallTypes.Decal4:
                 case WallTypes.Decal5:
+                case WallTypes.Decal6:
+                case WallTypes.Decal7:
+                case WallTypes.Decal8:
                     return new SolidColorBrush(Colors.Violet);
             }
 

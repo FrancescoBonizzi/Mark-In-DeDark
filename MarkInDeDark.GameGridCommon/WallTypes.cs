@@ -19,6 +19,10 @@
         Muro2 = 12,
         Muro3 = 13,
         Muro4 = 14,
-        Muro5 = 15
+        Muro5 = 15,
+
+        Decal6 = 16,
+        Decal7 = 17,
+        Decal8 = 18,
     }
 }

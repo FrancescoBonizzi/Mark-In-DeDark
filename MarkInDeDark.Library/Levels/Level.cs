@@ -1,7 +1,6 @@
 ﻿using FbonizziMonoGame.PlatformAbstractions;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.GameGridCommon;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +18,7 @@ namespace MarkInDeDark.Library.Levels
         public Dictionary<GroundTypes, (Sprite Base, Sprite Normal, Sprite Specular)> GroundSprites;
         public Sprite DarkSprite { get; private set; }
 
-        public (Sprite Base, Sprite Normal) Decal1 { get; private set; }
-        public (Sprite Base, Sprite Normal) Decal2 { get; private set; }
-        public (Sprite Base, Sprite Normal) Decal3 { get; private set; }
-        public (Sprite Base, Sprite Normal) Decal4 { get; private set; }
-        public (Sprite Base, Sprite Normal) Decal5 { get; private set; }
+        public Dictionary<WallTypes, (Sprite Base, Sprite Normal)> Decals;
 
         public List<Sprite> DirtySprites { get; private set; }
         public List<(Sprite Base, Sprite Normal)> RandomHorizontalWallSprites { get; private set; }
@@ -96,22 +91,21 @@ namespace MarkInDeDark.Library.Levels
                 }
             }
 
-            Decal1 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_1"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_1"));
-            Decal2 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_2"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_2"));
-            Decal3 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_3"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_3"));
-            Decal4 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_4"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_4"));
-            Decal5 = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_5"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_5"));
+            // Carico le texture decal basandomi sul fatto che si chiamano decal_x
+            Decals = new Dictionary<WallTypes, (Sprite Base, Sprite Normal)>();
+            foreach (var decalType in ((WallTypes[])Enum.GetValues(typeof(WallTypes))).Where(w => w.ToString().StartsWith("Decal")))
+            {
+                char decalNumber = decalType.ToString().Last();
 
+                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"))
+                {
+                    Decals.Add(
+                        decalType,
+                        (assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"],
+                        GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_{decalNumber}")));
+                }
+            }
+       
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
             {

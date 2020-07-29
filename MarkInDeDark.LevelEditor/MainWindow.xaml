@@ -175,10 +175,10 @@
                             x:Name="BtnGroundType_Ground7"
                             Margin="10,2"
                             Padding="5,2"
-                            Foreground="White"
                             Background="{StaticResource ColoreTerra7}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="13"
@@ -190,10 +190,10 @@
                             x:Name="BtnGroundType_Ground8"
                             Margin="10,2"
                             Padding="5,2"
-                            Foreground="White"
                             Background="{StaticResource ColoreTerra8}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="14"
@@ -206,9 +206,9 @@
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra9}"
-                            Foreground="White"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="15"
@@ -221,9 +221,9 @@
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra10}"
-                            Foreground="White"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
+                            Foreground="White"
                             GroupName="PulsantiEditor"
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="16"
@@ -629,6 +629,69 @@
                                     Width="100"
                                     Padding="2,2"
                                     Text="D5 - Decal 5" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Click="BtnWallType_Click"
+                            Cursor="Hand"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="16"
+                            ToolTip="Decal 6">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle
+                                    Width="4"
+                                    Height="15"
+                                    Fill="Violet" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D6 - Decal 6" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Click="BtnWallType_Click"
+                            Cursor="Hand"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="17"
+                            ToolTip="Decal 7">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle
+                                    Width="4"
+                                    Height="15"
+                                    Fill="Violet" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D7 - Decal 7" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Click="BtnWallType_Click"
+                            Cursor="Hand"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="18"
+                            ToolTip="Decal 8">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle
+                                    Width="4"
+                                    Height="15"
+                                    Fill="Violet" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="D8 - Decal 8" />
                             </StackPanel>
                         </RadioButton>
 
