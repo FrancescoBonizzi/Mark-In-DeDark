@@ -61,13 +61,7 @@
                             <TextBlock Width="100" Text="Non cella" />
                         </RadioButton>
 
-                        <Rectangle
-                            Height="2"
-                            Margin="10,5"
-                            Fill="LightGray" />
-
                         <RadioButton
-                            x:Name="btnBuio"
                             Margin="10,2"
                             Padding="5,2"
                             Background="Gray"
@@ -81,11 +75,16 @@
                             <TextBlock Width="100" Text="Buio" />
                         </RadioButton>
 
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
+
                         <RadioButton
-                            x:Name="BtnGroundType_Ground"
+                            x:Name="btnFirstGround"
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreTerra}"
+                            Background="{StaticResource ColoreTerra1}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -97,7 +96,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground2"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra2}"
@@ -112,7 +110,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground3"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra3}"
@@ -127,7 +124,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground4"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra4}"
@@ -142,7 +138,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground5"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra5}"
@@ -157,7 +152,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground6"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra6}"
@@ -172,7 +166,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground7"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra7}"
@@ -187,7 +180,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground8"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra8}"
@@ -202,7 +194,6 @@
                         </RadioButton>
 
                         <RadioButton
-                            x:Name="BtnGroundType_Ground9"
                             Margin="10,2"
                             Padding="5,2"
                             Background="{StaticResource ColoreTerra9}"
@@ -230,6 +221,11 @@
                             ToolTip="Disegna una cella di tipo 10 sui il personaggio può camminare">
                             <TextBlock Width="100" Text="Terra 10" />
                         </RadioButton>
+
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                         <RadioButton
                             Margin="10,2"
@@ -270,6 +266,184 @@
                             ToolTip="Trigger per far apparire il Goblin">
                             <TextBlock Width="100" Text="Trigger goblin" />
                         </RadioButton>
+
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
+
+                        <RadioButton
+                            x:Name="btnFirstRiempimento"
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento1}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="8"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 1" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento2}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="17"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 2" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento3}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="18"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 3" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento4}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="19"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 4" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento5}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="20"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 5" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento6}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="21"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 6" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento7}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="22"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 7" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento8}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="23"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 8" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento9}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="24"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 9" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento10}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="25"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 10" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento11}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="26"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 11" />
+                        </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento12}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="27"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 12" />
+                        </RadioButton>
+                        <Rectangle
+                            Height="2"
+                            Margin="10,5"
+                            Fill="LightGray" />
 
                     </StackPanel>
 

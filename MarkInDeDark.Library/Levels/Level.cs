@@ -4,6 +4,7 @@ using MarkInDeDark.GameGridCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace MarkInDeDark.Library.Levels
 {
@@ -19,6 +20,7 @@ namespace MarkInDeDark.Library.Levels
         public Sprite DarkSprite { get; private set; }
 
         public Dictionary<WallTypes, (Sprite Base, Sprite Normal)> Decals;
+        public Dictionary<GroundTypes, (Sprite Base, Sprite Normal)> Riempitives;
 
         public List<Sprite> DirtySprites { get; private set; }
         public List<(Sprite Base, Sprite Normal)> RandomHorizontalWallSprites { get; private set; }
@@ -51,7 +53,6 @@ namespace MarkInDeDark.Library.Levels
 
         public (Sprite Base, Sprite Normal) WallDoorBaseSprite { get; private set; }
         public (Sprite Base, Sprite Normal) WallDoorArcSprite { get; private set; }
-        public (Sprite Base, Sprite Normal) FillingSprite { get; private set; }
 
         public double DirtyProbability { get; private set; }
 
@@ -76,36 +77,59 @@ namespace MarkInDeDark.Library.Levels
             string groundTextureLevelSelector = $"Grounds/pacco{LevelEditorDeserializedGrid.EnvironmentTexturePackId}";
 
             // Carico le texture pavimento basandomi sul fatto che si chiamano cellx
-            GroundSprites = new Dictionary<GroundTypes, (Sprite Base, Sprite Normal, Sprite Specular)>();
-            foreach (var groundType in ((GroundTypes[])Enum.GetValues(typeof(GroundTypes))).Where(g => g.ToString().StartsWith("Terra")))
             {
-                char terraNumber = groundType.ToString().Last();
-
-                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/cell{terraNumber}"))
+                int terraNumber = 1;
+                GroundSprites = new Dictionary<GroundTypes, (Sprite Base, Sprite Normal, Sprite Specular)>();
+                foreach (var groundType in ((GroundTypes[])Enum.GetValues(typeof(GroundTypes))).Where(g => g.ToString().StartsWith("Terra")))
                 {
-                    GroundSprites.Add(
-                        groundType,
-                        (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell{terraNumber}"],
-                        GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}"),
-                        GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}")));
+                    if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/cell{terraNumber}"))
+                    {
+                        GroundSprites.Add(
+                            groundType,
+                            (assetsLoader.Sprites[$"{groundTextureLevelSelector}/cell{terraNumber}"],
+                            GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}"),
+                            GetSpecularOrNull(assetsLoader, $"{groundTextureLevelSelector}/cell{terraNumber}")));
+                    }
+                    ++terraNumber;
                 }
             }
 
             // Carico le texture decal basandomi sul fatto che si chiamano decal_x
-            Decals = new Dictionary<WallTypes, (Sprite Base, Sprite Normal)>();
-            foreach (var decalType in ((WallTypes[])Enum.GetValues(typeof(WallTypes))).Where(w => w.ToString().StartsWith("Decal")))
             {
-                char decalNumber = decalType.ToString().Last();
-
-                if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"))
+                int decalNumber = 1;
+                Decals = new Dictionary<WallTypes, (Sprite Base, Sprite Normal)>();
+                foreach (var decalType in ((WallTypes[])Enum.GetValues(typeof(WallTypes))).Where(w => w.ToString().StartsWith("Decal")))
                 {
-                    Decals.Add(
-                        decalType,
-                        (assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"],
-                        GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_{decalNumber}")));
+                    if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"))
+                    {
+                        Decals.Add(
+                            decalType,
+                            (assetsLoader.Sprites[$"{groundTextureLevelSelector}/Decals/decal_{decalNumber}"],
+                            GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Decals/decal_{decalNumber}")));
+                    }
+
+                    ++decalNumber;
                 }
             }
-       
+
+            // Carico le texture riempitive basandomi sul fatto che si chiamano wall_riempimento_x
+            {
+                int riempitiveNumber = 1;
+                Riempitives = new Dictionary<GroundTypes, (Sprite Base, Sprite Normal)>();
+                foreach (var riempitiveType in ((GroundTypes[])Enum.GetValues(typeof(GroundTypes))).Where(r => r.ToString().StartsWith("Riempimento")))
+                {
+                    if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}"))
+                    {
+                        Riempitives.Add(
+                            riempitiveType,
+                            (assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}"],
+                            GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}")));
+                    }
+
+                    ++riempitiveNumber;
+                }
+            }
+
             DirtySprites = new List<Sprite>();
             for (int i = 1; i < 20; ++i)
             {
@@ -218,9 +242,6 @@ namespace MarkInDeDark.Library.Levels
             WallDoorArcSprite = (
                 assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_door_up"],
                 GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_door_up"));
-            FillingSprite = (
-                assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento"],
-                GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento"));
 
             DirtyProbability = LevelEditorDeserializedGrid.DirtyProbabilityPercentage / 100.0;
 

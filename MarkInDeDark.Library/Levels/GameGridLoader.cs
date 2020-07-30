@@ -58,7 +58,6 @@ namespace MarkInDeDark.Library.Levels
                         case GroundTypes.Terra8:
                         case GroundTypes.Terra9:
                         case GroundTypes.Terra10:
-                            char terraNumber = levelEditorCell.GroundType.ToString().Last();
                             if (level.GroundSprites.ContainsKey(levelEditorCell.GroundType))
                             {
                                 var (Base, Normal, Specular) = level.GroundSprites[levelEditorCell.GroundType];
@@ -77,9 +76,32 @@ namespace MarkInDeDark.Library.Levels
 
                             break;
 
-                        case GroundTypes.Riempimento:
-                            gameCell.Sprite = level.FillingSprite.Base;
-                            gameCell.NormalSprite = level.FillingSprite.Normal;
+                        case GroundTypes.Riempimento1:
+                        case GroundTypes.Riempimento2:
+                        case GroundTypes.Riempimento3:
+                        case GroundTypes.Riempimento4:
+                        case GroundTypes.Riempimento5:
+                        case GroundTypes.Riempimento6:
+                        case GroundTypes.Riempimento7:
+                        case GroundTypes.Riempimento8:
+                        case GroundTypes.Riempimento9:
+                        case GroundTypes.Riempimento10:
+                        case GroundTypes.Riempimento11:
+                        case GroundTypes.Riempimento12:
+                            if (level.Riempitives.ContainsKey(levelEditorCell.GroundType))
+                            {
+                                var (Base, Normal) = level.Riempitives[levelEditorCell.GroundType];
+                                gameCell.Sprite = Base;
+                                gameCell.NormalSprite = Normal;
+                            }
+                            else
+                            {
+                                // Questo c'è sempre
+                                var (Base, Normal) = level.Riempitives[GroundTypes.Riempimento1];
+                                gameCell.Sprite = Base;
+                                gameCell.NormalSprite = Normal;
+                            }
+
                             gameCell.SetSpecialWallCell();
                             break;
 

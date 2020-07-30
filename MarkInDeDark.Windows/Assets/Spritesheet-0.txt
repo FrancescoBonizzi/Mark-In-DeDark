@@ -72,8 +72,8 @@ Grounds/pacco1/wall_ingresso_closed|583|389|192|192
 Grounds/pacco1/wall_ingresso_closed_normal|777|389|192|192
 Grounds/pacco1/wall_ingresso_open|971|389|192|192
 Grounds/pacco1/wall_ingresso_open_normal|1165|389|192|192
-Grounds/pacco1/wall_riempimento|1359|389|192|192
-Grounds/pacco1/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco1/wall_riempimento_1|1359|389|192|192
+Grounds/pacco1/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco1/wall_uscita_closed|583|389|192|192
 Grounds/pacco1/wall_uscita_closed_normal|777|389|192|192
 Grounds/pacco1/wall_uscita_open|971|389|192|192
@@ -221,8 +221,8 @@ Grounds/pacco3/wall_horizontal_breakable|195|1269|192|192
 Grounds/pacco3/wall_horizontal_broken|195|1269|192|192
 Grounds/pacco3/wall_ingresso_up|1|735|192|236
 Grounds/pacco3/wall_ingresso_up_normal|1|973|192|236
-Grounds/pacco3/wall_riempimento|1359|389|192|192
-Grounds/pacco3/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco3/wall_riempimento_1|1359|389|192|192
+Grounds/pacco3/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco3/wall_uscita_up|1|735|192|236
 Grounds/pacco3/wall_uscita_up_normal|1|973|192|236
 Grounds/pacco3/wall_vertical_breakable|195|1269|192|192
@@ -238,8 +238,8 @@ Grounds/pacco4/wall_horizontal_breakable|195|1269|192|192
 Grounds/pacco4/wall_horizontal_broken|195|1269|192|192
 Grounds/pacco4/wall_ingresso_up|1|735|192|236
 Grounds/pacco4/wall_ingresso_up_normal|1|973|192|236
-Grounds/pacco4/wall_riempimento|1359|389|192|192
-Grounds/pacco4/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco4/wall_riempimento_1|1359|389|192|192
+Grounds/pacco4/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco4/wall_vertical_breakable|195|1269|192|192
 Grounds/pacco4/wall_vertical_broken_A|195|1269|192|192
 Grounds/pacco4/wall_vertical_broken_B|195|1269|192|192
@@ -251,8 +251,8 @@ Grounds/pacco5/SpecialWalls/wall_special_3|259|1|192|208
 Grounds/pacco5/SpecialWalls/wall_special_3_normal|195|477|192|208
 Grounds/pacco5/SpecialWalls/wall_special_4|195|1269|192|192
 Grounds/pacco5/SpecialWalls/wall_special_5|195|1269|192|192
-Grounds/pacco5/wall_riempimento|1359|389|192|192
-Grounds/pacco5/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco5/wall_riempimento_1|1359|389|192|192
+Grounds/pacco5/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco6/cell4|195|1269|192|192
 Grounds/pacco6/cell5|195|1269|192|192
 Grounds/pacco6/RandomPillars/pillar_1|1941|1659|80|192
@@ -261,8 +261,8 @@ Grounds/pacco6/SpecialWalls/wall_special_3|259|1|192|208
 Grounds/pacco6/SpecialWalls/wall_special_3_normal|195|477|192|208
 Grounds/pacco6/SpecialWalls/wall_special_4|195|1269|192|192
 Grounds/pacco6/SpecialWalls/wall_special_5|195|1269|192|192
-Grounds/pacco6/wall_riempimento|1359|389|192|192
-Grounds/pacco6/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco6/wall_riempimento_1|1359|389|192|192
+Grounds/pacco6/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco7/cell4|195|1269|192|192
 Grounds/pacco7/cell5|195|1269|192|192
 Grounds/pacco7/SpecialWalls/wall_special_2_normal|1359|971|192|192
@@ -270,7 +270,7 @@ Grounds/pacco7/SpecialWalls/wall_special_3|259|1|192|208
 Grounds/pacco7/SpecialWalls/wall_special_3_normal|195|477|192|208
 Grounds/pacco7/SpecialWalls/wall_special_4|195|1269|192|192
 Grounds/pacco7/SpecialWalls/wall_special_5|195|1269|192|192
-Grounds/pacco7/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco7/wall_riempimento_1_normal|1553|389|192|192
 Grounds/pacco8/cell4|195|1269|192|192
 Grounds/pacco8/cell5|195|1269|192|192
 Grounds/pacco8/Decals/decal_1|195|1269|192|192
@@ -285,7 +285,7 @@ Grounds/pacco8/SpecialWalls/wall_special_4|195|1269|192|192
 Grounds/pacco8/SpecialWalls/wall_special_5|195|1269|192|192
 Grounds/pacco8/wall_ingresso_up|1|1211|192|236
 Grounds/pacco8/wall_ingresso_up_normal|1|1449|192|236
-Grounds/pacco8/wall_riempimento_normal|1553|389|192|192
+Grounds/pacco8/wall_riempimento_1_normal|1553|389|192|192
 Objects/object_passable_1|1771|583|64|64
 Objects/object_unpassable_1|1941|1853|76|190
 Objects/object_unpassable_2|2005|59|38|190

@@ -327,7 +327,7 @@ namespace MarkInDeDark.LevelEditor
                         {
                             _currentEditorAction = EditorActions.Ground;
                             _currentSelectedCellType = GroundTypes.Terra1;
-                            BtnGroundType_Ground.IsChecked = true;
+                            btnFirstGround.IsChecked = true;
                         }
 
                         break;
@@ -349,7 +349,7 @@ namespace MarkInDeDark.LevelEditor
             if (e.Key == Key.F)
             {
                 // Terra 
-                BtnGroundType_Ground.IsChecked = true;
+                btnFirstGround.IsChecked = true;
                 _currentSelectedCellType = GroundTypes.Terra1;
                 _currentEditorAction = EditorActions.Ground;
                 _presentation.ClearHover();
@@ -385,8 +385,8 @@ namespace MarkInDeDark.LevelEditor
             else if (e.Key == Key.R)
             {
                 // Terra riempimento
-                BtnGroundType_Ground8.IsChecked = true;
-                _currentSelectedCellType = GroundTypes.Riempimento;
+                btnFirstRiempimento.IsChecked = true;
+                _currentSelectedCellType = GroundTypes.Riempimento1;
                 _currentEditorAction = EditorActions.Ground;
                 _presentation.ClearHover();
                 e.Handled = true;

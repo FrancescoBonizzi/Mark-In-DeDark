@@ -59,7 +59,7 @@ Grounds/pacco7/wall_ingresso_closed|195|1553|192|192
 Grounds/pacco7/wall_ingresso_closed_normal|195|1747|192|192
 Grounds/pacco7/wall_ingresso_open|389|195|192|192
 Grounds/pacco7/wall_ingresso_open_normal|583|195|192|192
-Grounds/pacco7/wall_riempimento|777|195|192|192
+Grounds/pacco7/wall_riempimento_1|777|195|192|192
 Grounds/pacco7/wall_uscita_closed|195|1553|192|192
 Grounds/pacco7/wall_uscita_closed_normal|195|1747|192|192
 Grounds/pacco7/wall_uscita_open|389|195|192|192
@@ -89,7 +89,7 @@ Grounds/pacco8/wall_ingresso_closed|1553|389|192|192
 Grounds/pacco8/wall_ingresso_closed_normal|1747|389|192|192
 Grounds/pacco8/wall_ingresso_open|389|195|192|192
 Grounds/pacco8/wall_ingresso_open_normal|583|195|192|192
-Grounds/pacco8/wall_riempimento|777|195|192|192
+Grounds/pacco8/wall_riempimento_1|777|195|192|192
 Grounds/pacco8/wall_uscita_closed|195|1553|192|192
 Grounds/pacco8/wall_uscita_closed_normal|195|1747|192|192
 Grounds/pacco8/wall_uscita_open|389|195|192|192

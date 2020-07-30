@@ -15,7 +15,9 @@ namespace MarkInDeDark.GameGridCommon
         TriggerGoblin = 5,
         Terra2 = 6,
         Buio = 7,
-        Riempimento = 8,
+
+        Riempimento1 = 8,
+
         Terra3 = 9,
         Terra4 = 10,
         Terra5 = 11,
@@ -25,5 +27,16 @@ namespace MarkInDeDark.GameGridCommon
         Terra9 = 15,
         Terra10 = 16,
 
+        Riempimento2 = 17,
+        Riempimento3 = 18,
+        Riempimento4 = 19,
+        Riempimento5 = 20,
+        Riempimento6 = 21,
+        Riempimento7 = 22,
+        Riempimento8 = 23,
+        Riempimento9 = 24,
+        Riempimento10 = 25,
+        Riempimento11 = 26,
+        Riempimento12 = 27
     }
 }

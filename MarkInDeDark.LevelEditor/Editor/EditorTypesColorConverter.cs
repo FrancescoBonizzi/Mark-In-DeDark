@@ -1,5 +1,6 @@
 ﻿using MarkInDeDark.GameGridCommon;
 using System;
+using System.Linq;
 using System.Windows.Media;
 
 namespace MarkInDeDark.LevelEditor.Editor
@@ -17,37 +18,38 @@ namespace MarkInDeDark.LevelEditor.Editor
                     return new SolidColorBrush(Colors.Gray);
 
                 case GroundTypes.Terra1:
-                    return App.Current.Resources["ColoreTerra"] as SolidColorBrush;
-
                 case GroundTypes.Terra2:
-                    return App.Current.Resources["ColoreTerra2"] as SolidColorBrush;
-
                 case GroundTypes.Terra3:
-                    return App.Current.Resources["ColoreTerra3"] as SolidColorBrush;
-
                 case GroundTypes.Terra4:
-                    return App.Current.Resources["ColoreTerra4"] as SolidColorBrush;
-
                 case GroundTypes.Terra5:
-                    return App.Current.Resources["ColoreTerra5"] as SolidColorBrush;
-
                 case GroundTypes.Terra6:
-                    return App.Current.Resources["ColoreTerra6"] as SolidColorBrush;
-
                 case GroundTypes.Terra7:
-                    return App.Current.Resources["ColoreTerra7"] as SolidColorBrush;
-
                 case GroundTypes.Terra8:
-                    return App.Current.Resources["ColoreTerra8"] as SolidColorBrush;
-
                 case GroundTypes.Terra9:
-                    return App.Current.Resources["ColoreTerra9"] as SolidColorBrush;
+                    return App.Current.Resources[$"ColoreTerra{type.ToString().Last()}"] as SolidColorBrush;
 
                 case GroundTypes.Terra10:
                     return App.Current.Resources["ColoreTerra10"] as SolidColorBrush;
 
-                case GroundTypes.Riempimento:
-                    return new SolidColorBrush(Colors.Navy);
+                case GroundTypes.Riempimento1:
+                case GroundTypes.Riempimento2:
+                case GroundTypes.Riempimento3:
+                case GroundTypes.Riempimento4:
+                case GroundTypes.Riempimento5:
+                case GroundTypes.Riempimento6:
+                case GroundTypes.Riempimento7:
+                case GroundTypes.Riempimento8:
+                case GroundTypes.Riempimento9:
+                    return App.Current.Resources[$"ColoreRiempimento{type.ToString().Last()}"] as SolidColorBrush;
+
+                case GroundTypes.Riempimento10:
+                    return App.Current.Resources["ColoreRiempimento10"] as SolidColorBrush;
+
+                case GroundTypes.Riempimento11:
+                    return App.Current.Resources["ColoreRiempimento11"] as SolidColorBrush;
+
+                case GroundTypes.Riempimento12:
+                    return App.Current.Resources["ColoreRiempimento12"] as SolidColorBrush;
 
                 case GroundTypes.TrappolaMorteIstantanea:
                     return new SolidColorBrush(Colors.Fuchsia);
