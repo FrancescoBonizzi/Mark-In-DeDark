@@ -67,7 +67,11 @@ namespace MarkInDeDark.Library.Levels
                             }
                             else
                             {
-                                // Questo c'è sempre
+                                if (!level.Riempitives.ContainsKey(GroundTypes.Terra1))
+                                {
+                                    throw new Exception("Nessun texture terra trovata per questo pacco");
+                                }
+
                                 var (Base, Normal, Specular) = level.GroundSprites[GroundTypes.Terra1];
                                 gameCell.Sprite = Base;
                                 gameCell.NormalSprite = Normal;
@@ -96,7 +100,11 @@ namespace MarkInDeDark.Library.Levels
                             }
                             else
                             {
-                                // Questo c'è sempre
+                                if (!level.Riempitives.ContainsKey(GroundTypes.Riempimento1))
+                                {
+                                    throw new Exception("Nessun texture riempimento trovata per questo pacco");
+                                }
+
                                 var (Base, Normal) = level.Riempitives[GroundTypes.Riempimento1];
                                 gameCell.Sprite = Base;
                                 gameCell.NormalSprite = Normal;
