@@ -198,7 +198,7 @@ Grounds/pacco2/wall_ingresso_closed|583|389|192|192
 Grounds/pacco2/wall_ingresso_closed_normal|777|389|192|192
 Grounds/pacco2/wall_ingresso_open|971|389|192|192
 Grounds/pacco2/wall_ingresso_open_normal|1165|389|192|192
-Grounds/pacco2/wall_riempimento|195|1269|192|192
+Grounds/pacco2/wall_riempimento_1|195|1269|192|192
 Grounds/pacco2/wall_riempimento_normal|1553|389|192|192
 Grounds/pacco2/wall_uscita_up|1|259|192|236
 Grounds/pacco2/wall_uscita_up_normal|1|497|192|236

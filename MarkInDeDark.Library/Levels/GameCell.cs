@@ -376,8 +376,11 @@ namespace MarkInDeDark.Library.Levels
 
         public void DrawNormalMapButGrounds(SpriteBatch spriteBatch)
         {
-            if (IsRiempitiveWallCell)
-                spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
+            if (NormalSprite != null)
+            {
+                if (IsRiempitiveWallCell)
+                    spriteBatch.Draw(NormalSprite, _cellDrawingInfos);
+            }
             foreach (var w in Walls)
                 w.Value.DrawNormalMap(spriteBatch);
             foreach (var a in Pillars)

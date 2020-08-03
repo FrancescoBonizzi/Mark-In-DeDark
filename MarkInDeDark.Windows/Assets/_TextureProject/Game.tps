@@ -892,7 +892,7 @@
             <key type="filename">Game/Grounds/pacco2/wall_ingresso_closed_normal.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_ingresso_open.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_ingresso_open_normal.png</key>
-            <key type="filename">Game/Grounds/pacco2/wall_riempimento.png</key>
+            <key type="filename">Game/Grounds/pacco2/wall_riempimento_1.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_riempimento_normal.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_uscita_closed.png</key>
             <key type="filename">Game/Grounds/pacco2/wall_uscita_closed_normal.png</key>
