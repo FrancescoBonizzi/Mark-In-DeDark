@@ -112,18 +112,18 @@ namespace MarkInDeDark.Library.Levels
                 }
             }
 
-            // Carico le texture riempitive basandomi sul fatto che si chiamano wall_riempimento_x
+            // Carico le texture riempitive basandomi sul fatto che si chiamano Riempimento/riempimento_x
             {
                 int riempitiveNumber = 1;
                 Riempitives = new Dictionary<GroundTypes, (Sprite Base, Sprite Normal)>();
                 foreach (var riempitiveType in ((GroundTypes[])Enum.GetValues(typeof(GroundTypes))).Where(r => r.ToString().StartsWith("Riempimento")))
                 {
-                    if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}"))
+                    if (assetsLoader.Sprites.ContainsKey($"{groundTextureLevelSelector}/Riempimento/riempimento_{riempitiveNumber}"))
                     {
                         Riempitives.Add(
                             riempitiveType,
-                            (assetsLoader.Sprites[$"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}"],
-                            GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/wall_riempimento_{riempitiveNumber}")));
+                            (assetsLoader.Sprites[$"{groundTextureLevelSelector}/Riempimento/riempimento_{riempitiveNumber}"],
+                            GetNormalOrNull(assetsLoader, $"{groundTextureLevelSelector}/Riempimento/riempimento_{riempitiveNumber}")));
                     }
 
                     ++riempitiveNumber;

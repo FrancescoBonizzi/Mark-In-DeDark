@@ -37,6 +37,7 @@ namespace MarkInDeDark.GameGridCommon
         Riempimento9 = 24,
         Riempimento10 = 25,
         Riempimento11 = 26,
-        Riempimento12 = 27
+        Riempimento12 = 27,
+        Riempimento13 = 28
     }
 }

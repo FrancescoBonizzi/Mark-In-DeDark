@@ -92,6 +92,7 @@ namespace MarkInDeDark.Library.Levels
                         case GroundTypes.Riempimento10:
                         case GroundTypes.Riempimento11:
                         case GroundTypes.Riempimento12:
+                        case GroundTypes.Riempimento13:
                             if (level.Riempitives.ContainsKey(levelEditorCell.GroundType))
                             {
                                 var (Base, Normal) = level.Riempitives[levelEditorCell.GroundType];

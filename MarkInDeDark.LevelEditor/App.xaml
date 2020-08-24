@@ -30,6 +30,7 @@
         <SolidColorBrush x:Key="ColoreRiempimento10" Color="#9ACD32" />
         <SolidColorBrush x:Key="ColoreRiempimento11" Color="#006400" />
         <SolidColorBrush x:Key="ColoreRiempimento12" Color="#228B22" />
+        <SolidColorBrush x:Key="ColoreRiempimento13" Color="#20d620" />
 
         <Style TargetType="{x:Type RadioButton}">
             <Setter Property="FocusVisualStyle">

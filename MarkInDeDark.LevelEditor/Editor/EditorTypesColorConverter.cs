@@ -51,6 +51,9 @@ namespace MarkInDeDark.LevelEditor.Editor
                 case GroundTypes.Riempimento12:
                     return App.Current.Resources["ColoreRiempimento12"] as SolidColorBrush;
 
+                case GroundTypes.Riempimento13:
+                    return App.Current.Resources["ColoreRiempimento13"] as SolidColorBrush;
+
                 case GroundTypes.TrappolaMorteIstantanea:
                     return new SolidColorBrush(Colors.Fuchsia);
 

@@ -440,6 +440,21 @@
                             ToolTip="Disegna una cella per riempimento">
                             <TextBlock Width="100" Text="Riempimento 12" />
                         </RadioButton>
+
+                        <RadioButton
+                            Margin="10,2"
+                            Padding="5,2"
+                            Background="{StaticResource ColoreRiempimento13}"
+                            Click="BtnGroundType_Click"
+                            Cursor="Hand"
+                            Foreground="White"
+                            GroupName="PulsantiEditor"
+                            Style="{StaticResource {x:Type ToggleButton}}"
+                            Tag="28"
+                            ToolTip="Disegna una cella per riempimento">
+                            <TextBlock Width="100" Text="Riempimento 13" />
+                        </RadioButton>
+
                         <Rectangle
                             Height="2"
                             Margin="10,5"
