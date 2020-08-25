@@ -1,4 +1,4 @@
-﻿using FbonizziMonoGameWindowsDesktop;
+﻿using FbonizziMonoGame.Implementations;
 using MarkInDeDark.Library;
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,7 @@ namespace MarkInDeDark.Windows
                 using (_game = new MarkInDeDarkBootstrap(
                     textFileAssetsLoader: new WindowsTextFileImporter(),
                     settingsRepository: new FileWindowsSettingsRepository(levelSettingsPath),
-                    gameCulture: new CultureInfo("en-us"), // CultureInfo.CurrentCulture,
+                    gameCulture: CultureInfo.CurrentCulture,
                     levelPaths: levelsToLoad,
                     windowWidth: width,
                     windowHeight: height))

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -10,9 +10,8 @@
     <ProjectReference Include="..\penumbra\MonoGame.Penumbra.WindowsDX.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FbonizziMonoGame" Version="1.11.0" />
+    <PackageReference Include="FbonizziMonoGame" Version="2.1.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="MonoGame.Framework.Portable" Version="3.7.1.189" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
