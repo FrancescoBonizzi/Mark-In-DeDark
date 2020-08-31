@@ -271,6 +271,11 @@ namespace MarkInDeDark.LevelEditor
                         break;
 
                     case EditorActions.Ground:
+                        // Per cancellare eventuali oggetti sotto al riempimento
+                        if (GridObjectsHelpers.IsRiempimento(_currentSelectedCellType))
+                        {
+                            _presentation.SetObjectType(mousePosition, ObjectTypes.Cancella, null);
+                        }
                         _presentation.SetGroundType(mousePosition, _currentSelectedCellType);
                         break;
 

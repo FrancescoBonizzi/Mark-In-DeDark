@@ -10,23 +10,34 @@ namespace MarkInDeDark.LevelEditor.Editor
 {
     public static class EditorTypesObjectsConverter
     {
+        public static void RemoveGroundTypeImage(Border canvasCell)
+        {
+            if (!(canvasCell.Child is Grid container))
+                return;
+
+            Image image = null;
+            foreach (var i in container.Children)
+            {
+                if (i is Image thisImage)
+                {
+                    image = thisImage;
+                    break;
+                }
+            }
+
+            if (image != null)
+            {
+                container.Children.Remove(image);
+            }
+
+            ReorderControls(container);
+        }
+
         public static void ManageGroundTypeWithImage(
             Border canvasCell,
             GroundTypes groundType)
         {
-            if (groundType != GroundTypes.Riempimento1
-                && groundType != GroundTypes.Riempimento2
-                && groundType != GroundTypes.Riempimento3
-                && groundType != GroundTypes.Riempimento4
-                && groundType != GroundTypes.Riempimento5
-                && groundType != GroundTypes.Riempimento6
-                && groundType != GroundTypes.Riempimento7
-                && groundType != GroundTypes.Riempimento8
-                && groundType != GroundTypes.Riempimento9
-                && groundType != GroundTypes.Riempimento10
-                && groundType != GroundTypes.Riempimento11
-                && groundType != GroundTypes.Riempimento12
-                && groundType != GroundTypes.Riempimento13)
+            if (!GridObjectsHelpers.IsRiempimento(groundType))
             {
                 throw new Exception("GroundType with image is only for 'riempimento'");
             }
@@ -84,6 +95,20 @@ namespace MarkInDeDark.LevelEditor.Editor
             {
                 container = new Grid();
                 canvasCell.Child = container;
+            }
+
+            if (GridObjectsHelpers.IsRiempimento(groundType))
+            {
+                if (type != null)
+                {
+                    groundType = GroundTypes.Terra1;
+                    RemoveGroundTypeImage(canvasCell);
+                }
+                else
+                {
+                    ManageGroundTypeWithImage(canvasCell, groundType);
+                    return;
+                }
             }
 
             canvasCell.Background = EditorTypesColorConverter.Convert(groundType);

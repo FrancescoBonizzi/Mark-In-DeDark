@@ -1,6 +1,7 @@
 ﻿using MarkInDeDark.Common;
 using MarkInDeDark.GameGridCommon;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -136,7 +137,7 @@ namespace MarkInDeDark.LevelEditor.Editor
             }
         }
 
-        public void SetGroundType(Point where, GroundTypes type)
+        public void SetGroundType(Point where, GroundTypes newGroundType)
         {
             int column = (int)where.X / _cellSize;
             int row = (int)where.Y / _cellSize;
@@ -147,25 +148,18 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return;
             }
 
-            _gameGrid.SetGroundType(row, column, type);
-            _canvasCells[column, row].Background = EditorTypesColorConverter.Convert(type);
+            var previousGroundType = _gameGrid.Grid[column, row].GroundType;
+            _gameGrid.SetGroundType(row, column, newGroundType);
+            var canvasCell = _canvasCells[column, row];
+            canvasCell.Background = EditorTypesColorConverter.Convert(newGroundType);
 
-            if (type == GroundTypes.Riempimento1
-                || type == GroundTypes.Riempimento2
-                || type == GroundTypes.Riempimento3
-                || type == GroundTypes.Riempimento4
-                || type == GroundTypes.Riempimento5
-                || type == GroundTypes.Riempimento6
-                || type == GroundTypes.Riempimento7
-                || type == GroundTypes.Riempimento8
-                || type == GroundTypes.Riempimento9
-                || type == GroundTypes.Riempimento10
-                || type == GroundTypes.Riempimento11
-                || type == GroundTypes.Riempimento12
-                || type == GroundTypes.Riempimento13)
+            if (GridObjectsHelpers.IsRiempimento(newGroundType))
             {
-                var canvasCell = _canvasCells[column, row];
-                EditorTypesObjectsConverter.ManageGroundTypeWithImage(canvasCell, type);
+                EditorTypesObjectsConverter.ManageGroundTypeWithImage(canvasCell, newGroundType);
+            }
+            else if (GridObjectsHelpers.IsRiempimento(previousGroundType))
+            {
+                EditorTypesObjectsConverter.RemoveGroundTypeImage(canvasCell);
             }
         }
 
@@ -193,6 +187,12 @@ namespace MarkInDeDark.LevelEditor.Editor
             // Mantengo gli altri tipi di ground type con il colore corretto, in modo da poter mettere una chiave su una trappola per esempio
             if (previousGroundType == GroundTypes.NonCella)
             {
+                previousGroundType = GroundTypes.Terra1;
+            }
+
+            if (GridObjectsHelpers.IsRiempimento(previousGroundType))
+            {
+                SetGroundType(where, GroundTypes.Terra1);
                 previousGroundType = GroundTypes.Terra1;
             }
 
