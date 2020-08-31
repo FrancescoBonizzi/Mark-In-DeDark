@@ -236,22 +236,14 @@ namespace MarkInDeDark.Library.Levels
 
         public bool IsPassableWithAction(CharacterActions action)
         {
-            switch (action)
+            return action switch
             {
-                case CharacterActions.Up:
-                    return IsNorthPassable && IsNorthDoorPassable;
-
-                case CharacterActions.Down:
-                    return IsSouthPassable && IsSouthDoorPassable;
-
-                case CharacterActions.Right:
-                    return IsEastPassable && IsEastDoorPassable;
-
-                case CharacterActions.Left:
-                    return IsWestPassable && IsWestDoorPassable;
-            }
-
-            return false;
+                CharacterActions.Up => IsNorthPassable && IsNorthDoorPassable,
+                CharacterActions.Down => IsSouthPassable && IsSouthDoorPassable,
+                CharacterActions.Right => IsEastPassable && IsEastDoorPassable,
+                CharacterActions.Left => IsWestPassable && IsWestDoorPassable,
+                _ => false,
+            };
         }
 
         /// <summary>

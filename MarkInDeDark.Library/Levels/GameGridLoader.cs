@@ -34,7 +34,7 @@ namespace MarkInDeDark.Library.Levels
                 {
                     var gameCell = grid.GetCellByIndex(i, j);
                     var levelEditorCell = levelEditorGrid.Grid[i, j];
-
+                    
                     switch (levelEditorCell.GroundType)
                     {
                         case GroundTypes.NonCella:

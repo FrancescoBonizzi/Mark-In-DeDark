@@ -276,7 +276,7 @@
                             x:Name="btnFirstRiempimento"
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento1}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -284,13 +284,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="8"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 1" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_1.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 1" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento2}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -298,13 +307,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="17"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 2" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_2.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 2" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento3}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -312,13 +330,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="18"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 3" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_3.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 3" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento4}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -326,13 +353,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="19"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 4" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_4.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 4" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento5}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -340,13 +376,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="20"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 5" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_5.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 5" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento6}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -354,13 +399,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="21"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 6" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_6.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 6" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento7}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -368,13 +422,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="22"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 7" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_7.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 7" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento8}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -382,13 +445,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="23"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 8" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_8.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 8" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento9}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -396,13 +468,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="24"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 9" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_9.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 9" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento10}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -410,13 +491,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="25"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 10" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_10.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 10" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento11}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -424,13 +514,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="26"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 11" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_11.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 11" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento12}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -438,13 +537,22 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="27"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 12" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_12.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 12" />
+                            </StackPanel>
                         </RadioButton>
 
                         <RadioButton
                             Margin="10,2"
                             Padding="5,2"
-                            Background="{StaticResource ColoreRiempimento13}"
+                            Background="{StaticResource ColoreRiempimento}"
                             Click="BtnGroundType_Click"
                             Cursor="Hand"
                             Foreground="White"
@@ -452,7 +560,16 @@
                             Style="{StaticResource {x:Type ToggleButton}}"
                             Tag="28"
                             ToolTip="Disegna una cella per riempimento">
-                            <TextBlock Width="100" Text="Riempimento 13" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="Assets/icons/Riempimento/riempimento_13.png" />
+                                <TextBlock
+                                    Width="100"
+                                    Padding="2,2"
+                                    Text="Riempimento 13" />
+                            </StackPanel>
                         </RadioButton>
 
                         <Rectangle

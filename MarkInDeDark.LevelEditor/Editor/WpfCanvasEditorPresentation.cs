@@ -149,6 +149,24 @@ namespace MarkInDeDark.LevelEditor.Editor
 
             _gameGrid.SetGroundType(row, column, type);
             _canvasCells[column, row].Background = EditorTypesColorConverter.Convert(type);
+
+            if (type == GroundTypes.Riempimento1
+                || type == GroundTypes.Riempimento2
+                || type == GroundTypes.Riempimento3
+                || type == GroundTypes.Riempimento4
+                || type == GroundTypes.Riempimento5
+                || type == GroundTypes.Riempimento6
+                || type == GroundTypes.Riempimento7
+                || type == GroundTypes.Riempimento8
+                || type == GroundTypes.Riempimento9
+                || type == GroundTypes.Riempimento10
+                || type == GroundTypes.Riempimento11
+                || type == GroundTypes.Riempimento12
+                || type == GroundTypes.Riempimento13)
+            {
+                var canvasCell = _canvasCells[column, row];
+                EditorTypesObjectsConverter.ManageGroundTypeWithImage(canvasCell, type);
+            }
         }
 
         public void SetObjectType(

@@ -18,19 +18,7 @@
         <SolidColorBrush x:Key="ColoreTerra9" Color="#FF4040" />
         <SolidColorBrush x:Key="ColoreTerra10" Color="#CA411F" />
 
-        <SolidColorBrush x:Key="ColoreRiempimento1" Color="#191970" />
-        <SolidColorBrush x:Key="ColoreRiempimento2" Color="#0000CD" />
-        <SolidColorBrush x:Key="ColoreRiempimento3" Color="#4169E1" />
-        <SolidColorBrush x:Key="ColoreRiempimento4" Color="#1E90FF" />
-        <SolidColorBrush x:Key="ColoreRiempimento5" Color="#00BFFF" />
-        <SolidColorBrush x:Key="ColoreRiempimento6" Color="#87CEEB" />
-        <SolidColorBrush x:Key="ColoreRiempimento7" Color="#87CEFA" />
-        <SolidColorBrush x:Key="ColoreRiempimento8" Color="#B0C4DE" />
-        <SolidColorBrush x:Key="ColoreRiempimento9" Color="#6B8E23" />
-        <SolidColorBrush x:Key="ColoreRiempimento10" Color="#9ACD32" />
-        <SolidColorBrush x:Key="ColoreRiempimento11" Color="#006400" />
-        <SolidColorBrush x:Key="ColoreRiempimento12" Color="#228B22" />
-        <SolidColorBrush x:Key="ColoreRiempimento13" Color="#20d620" />
+        <SolidColorBrush x:Key="ColoreRiempimento" Color="Black" />
 
         <Style TargetType="{x:Type RadioButton}">
             <Setter Property="FocusVisualStyle">

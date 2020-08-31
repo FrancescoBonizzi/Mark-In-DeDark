@@ -37,17 +37,12 @@ namespace Penumbra.Graphics
 
         protected void CalculatePrimitiveCount()
         {
-            switch (PrimitiveTopology)
+            PrimitiveCount = PrimitiveTopology switch
             {
-                case PrimitiveType.TriangleStrip:
-                    PrimitiveCount = VertexCount - 2;
-                    break;
-                case PrimitiveType.TriangleList:
-                    PrimitiveCount = HasIndices ? IndexCount / 3 : VertexCount / 3;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+                PrimitiveType.TriangleStrip => VertexCount - 2,
+                PrimitiveType.TriangleList => HasIndices ? IndexCount / 3 : VertexCount / 3,
+                _ => throw new NotImplementedException(),
+            };
         }
     }
 

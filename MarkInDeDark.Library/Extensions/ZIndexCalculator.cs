@@ -51,40 +51,17 @@ namespace MarkInDeDark.Library.Extensions
 
             var startingZIndex = CalculateDependingOnHeight(position.Y);
 
-            switch(character)
+            startingZIndex += character switch
             {
-                case Player _:
-                    startingZIndex += 0.00050f;
-                    break;
-
-                case Zombie _:
-                    startingZIndex += 0.00051f;
-                    break;
-
-                case Ghost _:
-                    startingZIndex += 0.00052f;
-                    break;
-
-                case Skeletron _:
-                    startingZIndex += 0.00053f;
-                    break;
-
-                case Goblin _:
-                    startingZIndex += 0.00054f;
-                    break;
-
-                case Bubu _:
-                    startingZIndex += 0.00055f;
-                    break;
-
-                case Taurus _:
-                    startingZIndex += 0.00056f;
-                    break;
-
-                default:
-                    throw new NotImplementedException($"Impostare un layer depth per questo personaggio: {character.GetType().Name}");
-            }
-
+                Player _ => 0.00050f,
+                Zombie _ => 0.00051f,
+                Ghost _ => 0.00052f,
+                Skeletron _ => 0.00053f,
+                Goblin _ => 0.00054f,
+                Bubu _ => 0.00055f,
+                Taurus _ => 0.00056f,
+                _ => throw new NotImplementedException($"Impostare un layer depth per questo personaggio: {character.GetType().Name}"),
+            };
             return ForceMax1(startingZIndex);
         }
 

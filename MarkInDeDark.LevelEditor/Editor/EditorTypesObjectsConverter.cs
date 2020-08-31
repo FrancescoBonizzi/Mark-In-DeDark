@@ -8,10 +8,72 @@ using System.Windows.Media.Imaging;
 
 namespace MarkInDeDark.LevelEditor.Editor
 {
-    // TODO possibile ottimizzazione: precostruire tutte le celle con gli oggetti che servono e riempirli solamente
-
     public static class EditorTypesObjectsConverter
     {
+        public static void ManageGroundTypeWithImage(
+            Border canvasCell,
+            GroundTypes groundType)
+        {
+            if (groundType != GroundTypes.Riempimento1
+                && groundType != GroundTypes.Riempimento2
+                && groundType != GroundTypes.Riempimento3
+                && groundType != GroundTypes.Riempimento4
+                && groundType != GroundTypes.Riempimento5
+                && groundType != GroundTypes.Riempimento6
+                && groundType != GroundTypes.Riempimento7
+                && groundType != GroundTypes.Riempimento8
+                && groundType != GroundTypes.Riempimento9
+                && groundType != GroundTypes.Riempimento10
+                && groundType != GroundTypes.Riempimento11
+                && groundType != GroundTypes.Riempimento12
+                && groundType != GroundTypes.Riempimento13)
+            {
+                throw new Exception("GroundType with image is only for 'riempimento'");
+            }
+
+            if (!(canvasCell.Child is Grid container))
+            {
+                container = new Grid();
+                canvasCell.Child = container;
+            }
+
+            canvasCell.Background = EditorTypesColorConverter.Convert(groundType);
+
+            // Per convenzione le textblock senza Tag sono per il numero di candele ecc
+            TextBlock textBlock = null;
+            foreach (var c in container.Children)
+            {
+                if (c is TextBlock thisGridTextLabel
+                    && string.IsNullOrWhiteSpace(thisGridTextLabel.Tag as string))
+                {
+                    textBlock = thisGridTextLabel;
+                    break;
+                }
+            }
+
+            Image image = null;
+            foreach (var i in container.Children)
+            {
+                if (i is Image thisImage)
+                {
+                    image = thisImage;
+                    break;
+                }
+            }
+
+            if (image == null)
+            {
+                container.Children.Add(GetImage(groundType));
+            }
+            else
+            {
+                container.Children.Remove(image);
+                container.Children.Add(GetImage(groundType));
+            }
+
+            ReorderControls(container);
+        }
+
         public static void ManageObjectType(
             Border canvasCell,
             ObjectTypes? type,
@@ -209,7 +271,7 @@ namespace MarkInDeDark.LevelEditor.Editor
                         textBlockObjectQuantity = (TextBlock)control;
                     else textBlocksWallType.Add(t);
                 }
-                
+
             }
 
             // Con lo Zindex purtroppo non si riesce
@@ -232,28 +294,47 @@ namespace MarkInDeDark.LevelEditor.Editor
                 return $"{wallTypeString[0]}{wallTypeString[wallTypeString.Length - 1]}";
             }
 
-            switch (wallType)
+            return wallType switch
             {
-                case WallTypes.Niente:
-                    return string.Empty;
+                WallTypes.Niente => string.Empty,
+                WallTypes.Occludente => "M0",
+                WallTypes.Fragile => "MB",
+                WallTypes.Porta => "P",
+                WallTypes.Ingresso => "I",
+                WallTypes.Uscita => "U",
+                _ => throw new Exception($"Tipo di muro {wallType} non gestito"),
+            };
+        }
 
-                case WallTypes.Occludente:
-                    return "M0";
+        public static Image GetImage(GroundTypes groundType)
+        {
+            switch (groundType)
+            {
+                case GroundTypes.Riempimento1:
+                case GroundTypes.Riempimento2:
+                case GroundTypes.Riempimento3:
+                case GroundTypes.Riempimento4:
+                case GroundTypes.Riempimento5:
+                case GroundTypes.Riempimento6:
+                case GroundTypes.Riempimento7:
+                case GroundTypes.Riempimento8:
+                case GroundTypes.Riempimento9:
+                case GroundTypes.Riempimento10:
+                case GroundTypes.Riempimento11:
+                case GroundTypes.Riempimento12:
+                case GroundTypes.Riempimento13:
 
-                case WallTypes.Fragile:
-                    return "MB";
-
-                case WallTypes.Porta:
-                    return "P";
-
-                case WallTypes.Ingresso:
-                    return "I";
-
-                case WallTypes.Uscita:
-                    return "U";
+                    string number = groundType.ToString().Replace("Riempimento", string.Empty);
+                    return new Image()
+                    {
+                        Source = new BitmapImage(
+                            new Uri($"Assets/icons/Riempimento/riempimento_{number}.png", 
+                            UriKind.RelativeOrAbsolute)),
+                        Margin = new Thickness(2)
+                    };
             }
 
-            throw new Exception($"Tipo di muro {wallType} non gestito");
+            throw new Exception($"Image not found for GroundType {groundType}");
         }
 
         public static Image GetImage(ObjectTypes type)
