@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="FbonizziMonoGame/FbonizziMonoGame.csproj" />
+  <Project Path="MarkInDeDark.Common/MarkInDeDark.Common.csproj" />
+  <Project Path="MarkInDeDark.Desktop/MarkInDeDark.Desktop.csproj" />
+  <Project Path="MarkInDeDark.GameGridCommon/MarkInDeDark.GameGridCommon.csproj" />
+  <Project Path="MarkInDeDark.LevelEditor/MarkInDeDark.LevelEditor.csproj" />
+  <Project Path="MarkInDeDark.Library/MarkInDeDark.Library.csproj" />
+  <Project Path="MarkInDeDark.Windows/MarkInDeDark.Windows.csproj">
+    <Platform Solution="Release|x86" Project="x86" />
+  </Project>
+  <Project Path="penumbra/MonoGame.Penumbra.WindowsDX.csproj" />
+  <Project Path="VeryStupidLauncher/VeryStupidLauncher.csproj" />
+</Solution>
