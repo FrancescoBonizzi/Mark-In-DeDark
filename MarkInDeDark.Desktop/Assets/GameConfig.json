@@ -1,0 +1,177 @@
+{
+  "PlayerLightColorRGB1": {
+    "B": 214,
+    "G": 237,
+    "R": 255,
+    "A": 255
+  },
+  "PlayerLightColorRGB2": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "PlayerSpeed": 0.6,
+  "ZombieLightColorRGB1": {
+    "B": 90,
+    "G": 239,
+    "R": 139,
+    "A": 255
+  },
+  "ZombieLightColorRGB2": {
+    "B": 69,
+    "G": 188,
+    "R": 109,
+    "A": 255
+  },
+  "ZombieSpeed": 0.8,
+  "BubuSpeed": 0.6,
+  "BubuMaxCellsForNearCandle": 3,
+  "GhostLightColorRGB1": {
+    "B": 192,
+    "G": 238,
+    "R": 156,
+    "A": 255
+  },
+  "GhostLightColorRGB2": {
+    "B": 227,
+    "G": 192,
+    "R": 239,
+    "A": 255
+  },
+  "GhostSpeed": 1.0,
+  "SkeletronLightColorRGB1": {
+    "B": 240,
+    "G": 118,
+    "R": 196,
+    "A": 255
+  },
+  "SkeletronLightColorRGB2": {
+    "B": 178,
+    "G": 89,
+    "R": 145,
+    "A": 255
+  },
+  "SkeletronSpeed": 0.6,
+  "SkeletronMaxCellsForNearCandle": 3,
+  "SkeletronRageColorRGB": {
+    "B": 0,
+    "G": 0,
+    "R": 255,
+    "A": 255
+  },
+  "SkeletronHuntingSpeed": 0.5,
+  "GoblinLightColorRGB1": {
+    "B": 118,
+    "G": 240,
+    "R": 202,
+    "A": 255
+  },
+  "GoblinLightColorRGB2": {
+    "B": 124,
+    "G": 226,
+    "R": 195,
+    "A": 255
+  },
+  "GoblinSpeed": 0.8,
+  "GoblinMaxCellsForNearCandle": 3,
+  "GoblinSpeedIncrementForEachCandleTaken": 0.1,
+  "WerewolfLightColorRGB1": {
+    "B": 118,
+    "G": 137,
+    "R": 240,
+    "A": 255
+  },
+  "WerewolfLightColorRGB2": {
+    "B": 90,
+    "G": 106,
+    "R": 196,
+    "A": 255
+  },
+  "WerewolfSpeed": 1.0,
+  "WerewolfMaxCellsForNearCandle": 3,
+  "TaurusLightColorRGB1": {
+    "B": 0,
+    "G": 38,
+    "R": 255,
+    "A": 255
+  },
+  "TaurusLightColorRGB2": {
+    "B": 26,
+    "G": 52,
+    "R": 201,
+    "A": 255
+  },
+  "TaurusSpeed": 1.5,
+  "TaurusMaxCellsForNearCandle": 3,
+  "TaurusTimeToStartSeconds": 1.0,
+  "TaurusTimeStunnedSeconds": 2.0,
+  "TaurusChargeSpeed": 0.1,
+  "TaurusChargeColorRGB": {
+    "B": 255,
+    "G": 0,
+    "R": 0,
+    "A": 255
+  },
+  "CandleColorRGB1": {
+    "B": 163,
+    "G": 195,
+    "R": 255,
+    "A": 255
+  },
+  "CandleColorRGB2": {
+    "B": 207,
+    "G": 247,
+    "R": 255,
+    "A": 255
+  },
+  "CameraOffsetFromPlayer": {
+    "X": 960.0,
+    "Y": 540.0
+  },
+  "DoMonstersAttackTheSameCandle": true,
+  "CandleTimeToLiveWhenAttackedSeconds": 3.0,
+  "IsFullScreen": false,
+  "BreakableTrapBreakingTimeSeconds": 2.0,
+  "NotEnoughCandlesStringColorRGB": {
+    "B": 0,
+    "G": 0,
+    "R": 255,
+    "A": 255
+  },
+  "KeyFoundStringColorRGB": {
+    "B": 32,
+    "G": 165,
+    "R": 218,
+    "A": 255
+  },
+  "CandlePackFoundStringColorRGB": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "GameOverStringColorRGB": {
+    "B": 0,
+    "G": 0,
+    "R": 255,
+    "A": 255
+  },
+  "LevelCompletedStringColorRGB": {
+    "B": 32,
+    "G": 165,
+    "R": 218,
+    "A": 255
+  },
+  "ClosedDoorStringColorRGB": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "GodModeInfiniteCandles": false,
+  "GodModePlayerDoesntDie": false,
+  "GodModePlayerSeesEverything": false,
+  "GodModeDebugMode": false,
+  "CharactersAnimationsMillisecondsBetweenFrames": 150
+}

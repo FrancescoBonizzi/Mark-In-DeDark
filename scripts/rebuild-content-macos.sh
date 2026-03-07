@@ -6,8 +6,12 @@ cd "$REPO_ROOT"
 
 export MGFXC_WINE_PATH="${MGFXC_WINE_PATH:-$HOME/.wine-mgfx}"
 
+echo "[0/3] Clean content intermediates..."
+rm -rf MarkInDeDark.Desktop/Assets/ContentBuilder/obj
+rm -rf penumbra/Content/obj/DesktopGL
+
 echo "[1/3] Rebuild game content (DesktopGL)..."
-cd MarkInDeDark.Windows/Assets/ContentBuilder
+cd MarkInDeDark.Desktop/Assets/ContentBuilder
 dotnet mgcb --@=ContentBuilder.DesktopGL.mgcb /rebuild
 
 cd "$REPO_ROOT"

@@ -28,6 +28,8 @@ export MGFXC_WINE_PATH="$HOME/.wine-mgfx"
 
 ## Script macOS
 
+Nota: gli asset runtime sono sotto `MarkInDeDark.Desktop/Assets`.
+
 ### Solo rigenerazione content
 
 ```bash

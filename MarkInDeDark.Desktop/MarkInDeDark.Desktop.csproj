@@ -16,8 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\MarkInDeDark.Windows\Assets\**\*">
-      <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    <None Include="Assets\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
