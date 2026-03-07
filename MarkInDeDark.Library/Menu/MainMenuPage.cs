@@ -1,4 +1,6 @@
-﻿using FbonizziMonoGame.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
 using FbonizziMonoGame.Sprites;
@@ -6,9 +8,6 @@ using FbonizziMonoGame.StringsLocalization.Abstractions;
 using FbonizziMonoGame.TransformationObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
-using System;
-using System.Collections.Generic;
 
 namespace MarkInDeDark.Library.Menu
 {
@@ -32,7 +31,8 @@ namespace MarkInDeDark.Library.Menu
             AssetsLoader assetsLoader,
             SoundManager soundManager,
             IScreenTransformationMatrixProvider screenTransformationMatrixProvider,
-            ILocalizedStringsRepository localizedStringsRepository)
+            ILocalizedStringsRepository localizedStringsRepository
+        )
         {
             _soundManager = soundManager;
             _font = assetsLoader.Font;
@@ -46,7 +46,7 @@ namespace MarkInDeDark.Library.Menu
             {
                 Position = new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2, 280f),
                 Origin = _logo.SpriteCenter,
-                Scale = 1.8f
+                Scale = 1.8f,
             };
 
             _betaText = "Beta Ver.";
@@ -55,26 +55,32 @@ namespace MarkInDeDark.Library.Menu
             _betaDrawingInfos = new DrawingInfos()
             {
                 Position = new Vector2(
-                    _logoDrawingInfos.Position.X + _logo.Width - betaTextSize.X - betaTextSize.X / 2,
-                    _logoDrawingInfos.Position.Y + _logo.Height / 2 + 30),
+                    _logoDrawingInfos.Position.X
+                        + _logo.Width
+                        - betaTextSize.X
+                        - betaTextSize.X / 2,
+                    _logoDrawingInfos.Position.Y + _logo.Height / 2 + 30
+                ),
                 OverlayColor = new Color(186, 119, 75),
-                Scale = betaScale
+                Scale = betaScale,
             };
 
             // Buttons
-            var lastButtonY = _logoDrawingInfos.Position.Y + (screenTransformationMatrixProvider.VirtualHeight - _logoDrawingInfos.Position.Y) / 2f - 70f;
+            var lastButtonY =
+                _logoDrawingInfos.Position.Y
+                + (screenTransformationMatrixProvider.VirtualHeight - _logoDrawingInfos.Position.Y)
+                    / 2f
+                - 70f;
             _playButton = new TextButton(
                 localizedStringsRepository.Get("PlayButtonString"),
                 _font,
-                new Vector2(
-                    screenTransformationMatrixProvider.VirtualWidth / 2,
-                    lastButtonY));
+                new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2, lastButtonY)
+            );
             _exitButton = new TextButton(
                 localizedStringsRepository.Get("ExitButtonString"),
                 _font,
-                new Vector2(
-                    screenTransformationMatrixProvider.VirtualWidth / 2,
-                    lastButtonY + 80));
+                new Vector2(screenTransformationMatrixProvider.VirtualWidth / 2, lastButtonY + 80)
+            );
 
             // Background menu music play
             // TODO About, Settings - if any
@@ -88,7 +94,8 @@ namespace MarkInDeDark.Library.Menu
         public void HandleInput(
             Vector2 pointerPosition,
             bool hasClicked,
-            GameOrchestrator orchestrator)
+            GameOrchestrator orchestrator
+        )
         {
             _playButton.HandlePointerPosition(
                 pointerPosition,
@@ -97,7 +104,8 @@ namespace MarkInDeDark.Library.Menu
                 {
                     _soundManager.StopAll();
                     orchestrator.SetLevelState();
-                });
+                }
+            );
 
             _exitButton.HandlePointerPosition(
                 pointerPosition,
@@ -105,12 +113,11 @@ namespace MarkInDeDark.Library.Menu
                 () =>
                 {
                     Environment.Exit(0);
-                });
+                }
+            );
         }
 
-        public void Update(TimeSpan elapsed)
-        {
-        }
+        public void Update(TimeSpan elapsed) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {

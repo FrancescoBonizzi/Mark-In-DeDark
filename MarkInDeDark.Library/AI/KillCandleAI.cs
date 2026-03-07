@@ -1,11 +1,10 @@
-﻿using MarkInDeDark.Library;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MarkInDeDark.Library;
 using MarkInDeDark.Library.Characters;
 using MarkInDeDark.Library.Levels;
 using Microsoft.Xna.Framework;
-using SharpDX.MediaFoundation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MarkInDeDark.Library.AI
 {
@@ -19,7 +18,7 @@ namespace MarkInDeDark.Library.AI
         {
             WalkingToCandle,
             Smashing,
-            Ended
+            Ended,
         }
 
         private KillCandleStatus _currentKillCandleStatus;
@@ -27,7 +26,8 @@ namespace MarkInDeDark.Library.AI
         public KillCandleAI(
             Candle targetCandle,
             IEnumerable<CharacterActions> actionsToCandle,
-            IEnemyAI nextAI)
+            IEnemyAI nextAI
+        )
         {
             _targetCandle = targetCandle;
             targetCandle.AreSomeMonsterIsFollowingMe = true;
@@ -37,9 +37,7 @@ namespace MarkInDeDark.Library.AI
             _currentKillCandleStatus = KillCandleStatus.WalkingToCandle;
         }
 
-        public CharacterActions Update(
-            Enemy character,
-            TimeSpan elapsed)
+        public CharacterActions Update(Enemy character, TimeSpan elapsed)
         {
             switch (_currentKillCandleStatus)
             {
@@ -90,18 +88,21 @@ namespace MarkInDeDark.Library.AI
 
         public static SearchForNearCandlePathResult SearchForNearCandlePath(
             Enemy character,
-            CandlesManager candlesManager)
+            CandlesManager candlesManager
+        )
         {
             var pathToNearestCandle = candlesManager.GetNearestCandleActionsPath(
                 character.Position,
-                character.NCellsCandleFindingRange.Value);
+                character.NCellsCandleFindingRange.Value
+            );
 
             if (pathToNearestCandle.Key == null || !pathToNearestCandle.Value.Any())
                 return null;
 
             return new SearchForNearCandlePathResult(
                 pathToNearestCandle.Key,
-                pathToNearestCandle.Value);
+                pathToNearestCandle.Value
+            );
         }
     }
 }

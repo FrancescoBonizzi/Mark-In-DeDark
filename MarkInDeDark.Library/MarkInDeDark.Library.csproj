@@ -10,19 +10,15 @@
     <ProjectReference Include="..\penumbra\MonoGame.Penumbra.WindowsDX.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FbonizziMonoGame" Version="2.1.1" />
+    <FrameworkReference Remove="Microsoft.WindowsDesktop.App.WindowsForms" />
+    <Reference Include="FbonizziMonoGame">
+      <HintPath>$(NuGetPackageRoot)fbonizzimonogame/2.1.1/lib/netcoreapp3.1/FbonizziMonoGame.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="SharpDX" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
-    <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
-    <PackageReference Include="SharpDX.MediaFoundation" Version="4.2.0" />
-    <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
-    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
 </Project>

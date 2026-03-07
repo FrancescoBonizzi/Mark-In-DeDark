@@ -1,9 +1,8 @@
-﻿using FbonizziMonoGame.Particles;
+﻿using System;
+using FbonizziMonoGame.Particles;
 using FbonizziMonoGame.Sprites;
 using MarkInDeDark.Library.Extensions;
 using Microsoft.Xna.Framework;
-using SharpDX.Direct2D1;
-using System;
 
 namespace MarkInDeDark.Library.Particles
 {
@@ -11,22 +10,23 @@ namespace MarkInDeDark.Library.Particles
     {
         public BodyPartBloodParticleSystem(Sprite bloodParticle)
             : base(
-                  bloodParticle,
-                  density: 1,
-                  minNumParticles: 6,
-                  maxNumParticles: 7,
-                  minInitialSpeed: 50f,
-                  maxInitialSpeed: 106f,
-                  minAcceleration: 1f,
-                  maxAcceleration: 10f,
-                  minRotationSpeed: -0.8f,
-                  maxRotationSpeed: 0.2f,
-                  minLifetime: TimeSpan.FromMilliseconds(250),
-                  maxLifetime: TimeSpan.FromMilliseconds(800),
-                  minScale: 0.1f,
-                  maxScale: 0.4f,
-                  minSpawnAngle: 0f,
-                  maxSpawnAngle: 360f)
+                bloodParticle,
+                density: 1,
+                minNumParticles: 6,
+                maxNumParticles: 7,
+                minInitialSpeed: 50f,
+                maxInitialSpeed: 106f,
+                minAcceleration: 1f,
+                maxAcceleration: 10f,
+                minRotationSpeed: -0.8f,
+                maxRotationSpeed: 0.2f,
+                minLifetime: TimeSpan.FromMilliseconds(250),
+                maxLifetime: TimeSpan.FromMilliseconds(800),
+                minScale: 0.1f,
+                maxScale: 0.4f,
+                minSpawnAngle: 0f,
+                maxSpawnAngle: 360f
+            )
         {
             LayerDepth = ZIndexCalculator.OverAllLayerDepth;
             PrimaryParticleOverlayColor = Color.Red;

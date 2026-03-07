@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <StartupObject>MarkInDeDark.Desktop.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarkInDeDark.Library\MarkInDeDark.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Remove="Microsoft.WindowsDesktop.App.WindowsForms" />
+    <Reference Include="FbonizziMonoGame">
+      <HintPath>$(NuGetPackageRoot)fbonizzimonogame/2.1.1/lib/netcoreapp3.1/FbonizziMonoGame.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\MarkInDeDark.Windows\Assets\**\*">
+      <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
