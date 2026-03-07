@@ -48,13 +48,11 @@ Fa in ordine:
 ./scripts/run-desktop-macos.sh
 ```
 
-### Workflow completo (wrapper)
+### Check ambiente/runtime
 
 ```bash
-./scripts/run-macos-desktop.sh
+./scripts/check-macos-runtime.sh
 ```
-
-Il wrapper esegue prima `rebuild-content-macos.sh` e poi `run-desktop-macos.sh`.
 
 ## Note utili
 
