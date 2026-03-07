@@ -17,6 +17,9 @@ namespace MarkInDeDark.Desktop
             const int width = 1422;
             const int height = 800;
 
+            // Force all relative asset paths to resolve from the build output folder.
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+
             string levelSettingsDirectory = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "MarkInDeDark"
