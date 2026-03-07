@@ -79,7 +79,7 @@ technique PointLightNormalMap
 {
     pass Pass1
     {
-        VertexShader = compile vs_4_0_level_9_1 VS();
-        PixelShader = compile ps_4_0_level_9_1 PS();
+        VertexShader = compile vs_3_0 VS();
+        PixelShader = compile ps_3_0 PS();
     }
 }

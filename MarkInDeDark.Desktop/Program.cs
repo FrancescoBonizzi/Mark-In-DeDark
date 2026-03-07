@@ -73,7 +73,7 @@ namespace MarkInDeDark.Desktop
                         .Framework
                         .Graphics
                         .GraphicsProfile
-                        .Reach;
+                        .HiDef;
                     _game.GraphicsDeviceManager.ApplyChanges();
 
                     if (forcedLevelPath != null)
