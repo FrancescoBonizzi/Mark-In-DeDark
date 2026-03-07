@@ -1,6 +1,6 @@
-# Mark-In-DeDark
+## Shader
 
-You have only a fire torch and some candles to light the road...
+Non toccare mai più gli shader e non provare a ricompilarli, nessuna parte del content builder/assets direi, perché è stato un incubo compilarli per mac
 
 ## Build su MacOs
 
