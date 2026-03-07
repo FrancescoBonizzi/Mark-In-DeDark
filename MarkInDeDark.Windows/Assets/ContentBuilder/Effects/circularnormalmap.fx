@@ -49,18 +49,20 @@ VertexShaderOutput VS(VertexShaderInput input)
 float4 PS(VertexShaderOutput input) : COLOR0
 {
     // input.PosWorld how has the Position of this Pixel in World Space
-    float3 lightdir = normalize(input.PosWorld - LightPosition); // this is now the direction of light for this pixel
+    float3 posWorld = input.PosWorld.xyz;
+    float3 lightdir = normalize(posWorld - LightPosition); // this is now the direction of light for this pixel
 
     // Look up the texture value
     float4 tex = tex2D(ScreenTexture, input.TexCoords);
 
     // Look up the normalmap value
-    float3 normal = normalize((2 * tex2D(NormalSampler, input.TexCoords)) - 1);
+    float3 normal = normalize((2 * tex2D(NormalSampler, input.TexCoords).xyz) - 1);
     normal.y *= -1;
 
     // Introduce fall-off of light intensity
     float diffuseLighting = saturate(dot(normal, -lightdir));
-    diffuseLighting *= (LightDistanceSquared / dot(LightPosition - input.PosWorld, LightPosition - input.PosWorld));
+    float3 lightVector = LightPosition - posWorld;
+    diffuseLighting *= (LightDistanceSquared / dot(lightVector, lightVector));
 
     // Compute lighting
     float lightAmount = saturate(dot(normal, -lightdir));

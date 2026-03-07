@@ -1,19 +1,60 @@
-## Shader
+## macOS Setup
 
-Non toccare mai più gli shader e non provare a ricompilarli, nessuna parte del content builder/assets direi, perché è stato un incubo compilarli per mac
+### Prerequisiti
 
-## Build su MacOs
+1. Installa `wine` e `winetricks`.
+2. Crea un prefix dedicato per MGFXC.
+3. Installa nel prefix:
+   - `d3dcompiler_47`
+   - `dotnet8`
 
-### MGCB - Autorizzazione forzata via Impostazioni
+Comandi consigliati:
 
-Se l'errore appare ancora durante la build:
+```bash
+export WINEPREFIX="$HOME/.wine-mgfx"
+export WINEARCH=win64
+wineboot -i
+winetricks -q d3dcompiler_47
+winetricks -q dotnet8
+```
 
-Lascia che l'errore appaia (non chiudere la finestra di avviso di macOS).
+### Variabile ambiente
 
-Vai in Impostazioni di Sistema > Privacy e Sicurezza.
+MGCB/MGFXC su macOS usa Wine per compilare gli `.fx`.
 
-Scorri fino in fondo. Sotto la sezione "Sicurezza", dovresti vedere un testo che dice: "L'uso di 'Wine Stable.app' è stato bloccato...".
+```bash
+export MGFXC_WINE_PATH="$HOME/.wine-mgfx"
+```
 
-Clicca sul pulsante Apri comunque proprio lì accanto.
+## Script macOS
 
-Torna nel terminale e riprova a lanciare la build.
+### Solo rigenerazione content
+
+```bash
+./scripts/rebuild-content-macos.sh
+```
+
+Fa in ordine:
+
+1. Rebuild content gioco (`ContentBuilder.DesktopGL.mgcb`)
+2. Rebuild content Penumbra (`Content.DesktopGL.mgcb`)
+3. Clean del progetto Penumbra (per riallineare le risorse embeddate)
+
+### Solo build + run del progetto
+
+```bash
+./scripts/run-desktop-macos.sh
+```
+
+### Workflow completo (wrapper)
+
+```bash
+./scripts/run-macos-desktop.sh
+```
+
+Il wrapper esegue prima `rebuild-content-macos.sh` e poi `run-desktop-macos.sh`.
+
+## Note utili
+
+1. Se macOS blocca Wine al primo avvio: `Impostazioni di Sistema > Privacy e Sicurezza > Apri comunque`.
+2. Se ritorna un errore MGFX: rilancia lo script completo, non solo `dotnet run`.
