@@ -9,15 +9,9 @@ float LightOpacity = 1.0;
 float4x4 World;
 float4x4 ViewProjection;
 
-Texture2D ScreenTexture;
-Texture2D NormalTexture;
-
-SamplerState TextureSampler = sampler_state
-{
-    Texture = <ScreenTexture>;
-};
-
-SamplerState NormalSampler = sampler_state
+sampler2D ScreenTexture : register(s0);
+texture NormalTexture;
+sampler2D NormalSampler = sampler_state
 {
     Texture = <NormalTexture>;
 };
@@ -32,7 +26,7 @@ struct VertexShaderInput
 struct VertexShaderOutput
 {
     float4 Position: POSITION0;
-    float4 PosWorld: POSITION1;
+    float4 PosWorld: TEXCOORD1;
     float2 TexCoords : TEXCOORD0;
     float4 Color : COLOR0;
 };
@@ -58,10 +52,10 @@ float4 PS(VertexShaderOutput input) : COLOR0
     float3 lightdir = normalize(input.PosWorld - LightPosition); // this is now the direction of light for this pixel
 
     // Look up the texture value
-    float4 tex = ScreenTexture.Sample(TextureSampler, input.TexCoords);
+    float4 tex = tex2D(ScreenTexture, input.TexCoords);
 
     // Look up the normalmap value
-    float3 normal = normalize((2 * NormalTexture.Sample(NormalSampler, input.TexCoords)) - 1);
+    float3 normal = normalize((2 * tex2D(NormalSampler, input.TexCoords)) - 1);
     normal.y *= -1;
 
     // Introduce fall-off of light intensity
