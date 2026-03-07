@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using MarkInDeDark.Shadows.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MarkInDeDark.Shadows.Utilities;
 using Polygon = MarkInDeDark.Shadows.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
 
 namespace MarkInDeDark.Shadows.Graphics.Renderers
@@ -24,7 +24,8 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
         private readonly FastList<Vector2> _hullVertices = new FastList<Vector2>();
         private readonly FastList<int> _shadowIndices = new FastList<int>();
         private readonly FastList<int> _hullIndices = new FastList<int>();
-        private readonly Dictionary<Light, LightVaos> _lightsVaos = new Dictionary<Light, LightVaos>();
+        private readonly Dictionary<Light, LightVaos> _lightsVaos =
+            new Dictionary<Light, LightVaos>();
 
         private PenumbraEngine _engine;
 
@@ -77,9 +78,10 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
 
             _engine.Device.RasterizerState = _engine.Rs;
             _engine.Device.DepthStencilState = DepthStencilState.None;
-            _engine.Device.DepthStencilState = light.ShadowType == ShadowType.Occluded
-                ? _dsOccludedShadow
-                : DepthStencilState.None;
+            _engine.Device.DepthStencilState =
+                light.ShadowType == ShadowType.Occluded
+                    ? _dsOccludedShadow
+                    : DepthStencilState.None;
 
             if (light.CastsShadows)
             {
@@ -91,7 +93,12 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 _engine.Device.BlendState = _bsShadow;
                 _engine.Device.SetVertexArrayObject(shadowVao);
                 _fxShadowTech.Passes[0].Apply();
-                _engine.Device.DrawIndexedPrimitives(shadowVao.PrimitiveTopology, 0, 0, shadowVao.PrimitiveCount);
+                _engine.Device.DrawIndexedPrimitives(
+                    shadowVao.PrimitiveTopology,
+                    0,
+                    0,
+                    shadowVao.PrimitiveCount
+                );
 
                 // Draw shadows borders if debugging.
                 if (_engine.Debug)
@@ -99,7 +106,12 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                     _engine.Device.RasterizerState = _engine.RsDebug;
                     _engine.Device.BlendState = BlendState.Opaque;
                     _fxShadowTechDebug.Passes[0].Apply();
-                    _engine.Device.DrawIndexedPrimitives(shadowVao.PrimitiveTopology, 0, 0, shadowVao.PrimitiveCount);
+                    _engine.Device.DrawIndexedPrimitives(
+                        shadowVao.PrimitiveTopology,
+                        0,
+                        0,
+                        shadowVao.PrimitiveCount
+                    );
                 }
             }
 
@@ -117,7 +129,12 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 _fxHullParamColor.SetValue(isShadowTypeSolid ? TransparentColor : WhiteColor);
                 _engine.Device.SetVertexArrayObject(hullVao);
                 _fxHullTech.Passes[0].Apply();
-                _engine.Device.DrawIndexedPrimitives(hullVao.PrimitiveTopology, 0, 0, hullVao.PrimitiveCount);
+                _engine.Device.DrawIndexedPrimitives(
+                    hullVao.PrimitiveTopology,
+                    0,
+                    0,
+                    hullVao.PrimitiveCount
+                );
             }
         }
 
@@ -162,10 +179,13 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
             for (int i = 0; i < hullCount; i++)
             {
                 Hull hull = _engine.Hulls[i];
-                if (!hull.Enabled ||
-                    !hull.Valid ||
-            //        light.IgnoredHulls.Contains(hull) ||
-                    !light.Intersects(hull))
+                if (
+                    !hull.Enabled
+                    || !hull.Valid
+                    ||
+                    //        light.IgnoredHulls.Contains(hull) ||
+                    !light.Intersects(hull)
+                )
                 {
                     continue;
                 }
@@ -180,10 +200,18 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 {
                     Vector2 currentPoint = points[j];
 
-                    _shadowVertices.Add(new VertexShadow(prevPoint, currentPoint, new Vector2(0.0f, 0.0f)));
-                    _shadowVertices.Add(new VertexShadow(prevPoint, currentPoint, new Vector2(1.0f, 0.0f)));
-                    _shadowVertices.Add(new VertexShadow(prevPoint, currentPoint, new Vector2(0.0f, 1.0f)));
-                    _shadowVertices.Add(new VertexShadow(prevPoint, currentPoint, new Vector2(1.0f, 1.0f)));
+                    _shadowVertices.Add(
+                        new VertexShadow(prevPoint, currentPoint, new Vector2(0.0f, 0.0f))
+                    );
+                    _shadowVertices.Add(
+                        new VertexShadow(prevPoint, currentPoint, new Vector2(1.0f, 0.0f))
+                    );
+                    _shadowVertices.Add(
+                        new VertexShadow(prevPoint, currentPoint, new Vector2(0.0f, 1.0f))
+                    );
+                    _shadowVertices.Add(
+                        new VertexShadow(prevPoint, currentPoint, new Vector2(1.0f, 1.0f))
+                    );
 
                     _shadowIndices.Add(shadowIndexOffset * 4 + 0);
                     _shadowIndices.Add(shadowIndexOffset * 4 + 1);
@@ -217,14 +245,16 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                     PrimitiveType.TriangleList,
                     _shadowVertices.Count,
                     _shadowIndices.Count,
-                    useIndices: true);
+                    useIndices: true
+                );
                 lightVaos.HullVao = DynamicVao.New(
                     _engine.Device,
                     VertexPosition2.Layout,
                     PrimitiveType.TriangleList,
                     _hullVertices.Count,
                     _hullIndices.Count,
-                    useIndices: true);
+                    useIndices: true
+                );
             }
 
             lightVaos.ShadowVao.SetVertices(_shadowVertices);
@@ -240,14 +270,14 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 ColorWriteChannels = ColorWriteChannels.Alpha,
                 AlphaBlendFunction = BlendFunction.ReverseSubtract,
                 AlphaSourceBlend = Blend.One,
-                AlphaDestinationBlend = Blend.One
+                AlphaDestinationBlend = Blend.One,
             };
             _bsHull = new BlendState
             {
                 ColorWriteChannels = ColorWriteChannels.Alpha,
                 AlphaBlendFunction = BlendFunction.Add,
                 AlphaSourceBlend = Blend.One,
-                AlphaDestinationBlend = Blend.Zero
+                AlphaDestinationBlend = Blend.Zero,
             };
             _dsOccludedShadow = new DepthStencilState
             {
@@ -258,7 +288,7 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 StencilMask = 0x00,
                 StencilFunction = CompareFunction.Always,
                 StencilPass = StencilOperation.Replace,
-                ReferenceStencil = 1
+                ReferenceStencil = 1,
             };
             _dsOccludedHull = new DepthStencilState
             {
@@ -270,7 +300,7 @@ namespace MarkInDeDark.Shadows.Graphics.Renderers
                 StencilFunction = CompareFunction.Less,
                 StencilPass = StencilOperation.Keep,
                 StencilFail = StencilOperation.Keep,
-                ReferenceStencil = 1
+                ReferenceStencil = 1,
             };
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Polygon = MarkInDeDark.Shadows.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
 using Indices = MarkInDeDark.Shadows.Utilities.FastList<int>;
+using Polygon = MarkInDeDark.Shadows.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
 
 namespace MarkInDeDark.Shadows.Graphics
 {
@@ -23,9 +23,9 @@ namespace MarkInDeDark.Shadows.Graphics
             int nv = n;
 
             /*  remove nv-2 Vertices, creating 1 triangle every time */
-            int count = 2*nv; /* error detection */
+            int count = 2 * nv; /* error detection */
 
-            for (int v = nv - 1; nv > 2;)
+            for (int v = nv - 1; nv > 2; )
             {
                 /* if we loop, it is probably a non-simple polygon */
                 if (0 >= (count--))
@@ -34,15 +34,19 @@ namespace MarkInDeDark.Shadows.Graphics
 
                 /* three consecutive vertices in current polygon, <u,v,w> */
                 int u = v;
-                if (nv <= u) u = 0; /* previous */
+                if (nv <= u)
+                    u = 0; /* previous */
                 v = u + 1;
-                if (nv <= v) v = 0; /* new v    */
+                if (nv <= v)
+                    v = 0; /* new v    */
                 int w = v + 1;
-                if (nv <= w) w = 0; /* next     */
+                if (nv <= w)
+                    w = 0; /* next     */
 
                 if (Snip(contour, u, v, w, nv, intermediaryIndices))
                 {
-                    int s, t;
+                    int s,
+                        t;
 
                     /* true names of the vertices */
                     int a = intermediaryIndices[u];
@@ -69,7 +73,7 @@ namespace MarkInDeDark.Shadows.Graphics
                     nv--;
 
                     /* resest error detection counter */
-                    count = 2*nv;
+                    count = 2 * nv;
                 }
             }
 
@@ -91,9 +95,9 @@ namespace MarkInDeDark.Shadows.Graphics
             float cpx = p.X - c.X;
             float cpy = p.Y - c.Y;
 
-            var aCROSSbp = ax*bpy - ay*bpx;
-            var cCROSSap = cx*apy - cy*apx;
-            var bCROSScp = bx*cpy - by*cpx;
+            var aCROSSbp = ax * bpy - ay * bpx;
+            var cCROSSap = cx * apy - cy * apx;
+            var bCROSScp = bx * cpy - by * cpx;
 
             return aCROSSbp >= 0.0f && bCROSScp >= 0.0f && cCROSSap >= 0.0f;
         }
@@ -104,13 +108,16 @@ namespace MarkInDeDark.Shadows.Graphics
             Vector2 b = contour[indices[v]];
             Vector2 c = contour[indices[w]];
 
-            if (Epsilon > (b.X - a.X)*(c.Y - a.Y) - (b.Y - a.Y)*(c.X - a.X)) return false;
+            if (Epsilon > (b.X - a.X) * (c.Y - a.Y) - (b.Y - a.Y) * (c.X - a.X))
+                return false;
 
             for (int i = 0; i < n; i++)
             {
-                if (i == u || i == v || i == w) continue;
+                if (i == u || i == v || i == w)
+                    continue;
                 Vector2 p = contour[indices[i]];
-                if (InsideTriangle(a, b, c, p)) return false;
+                if (InsideTriangle(a, b, c, p))
+                    return false;
             }
 
             return true;

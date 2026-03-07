@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MarkInDeDark.Shadows.Geometry;
 using MarkInDeDark.Shadows.Graphics;
 using MarkInDeDark.Shadows.Utilities;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Microsoft.Xna.Framework;
 using Indices = MarkInDeDark.Shadows.Utilities.FastList<int>;
 using Polygon = MarkInDeDark.Shadows.Utilities.FastList<Microsoft.Xna.Framework.Vector2>;
 
@@ -31,8 +31,8 @@ namespace MarkInDeDark.Shadows
         /// <item><description>A simple polygon (no two edges intersect with each other).</description></item>
         /// </list>
         /// </param>
-        public Hull(params Vector2[] points) : this((IEnumerable<Vector2>)points)
-        { }
+        public Hull(params Vector2[] points)
+            : this((IEnumerable<Vector2>)points) { }
 
         /// <summary>
         /// Constructs a new instance of <see cref="Hull"/>.
@@ -72,7 +72,7 @@ namespace MarkInDeDark.Shadows
         /// Shadows are only cast from enabled hulls.
         /// </summary>
         private bool _enabled = true;
-        public bool Enabled 
+        public bool Enabled
         {
             get => _enabled;
             set
@@ -91,6 +91,7 @@ namespace MarkInDeDark.Shadows
         public bool Valid { get; private set; }
 
         private Vector2 _position;
+
         /// <summary>
         /// Gets or sets the position of the hull in world space.
         /// </summary>
@@ -108,6 +109,7 @@ namespace MarkInDeDark.Shadows
         }
 
         private Vector2 _origin;
+
         /// <summary>
         /// Gets or sets the origin ((0, 0) point) of the hull's local space.
         /// </summary>
@@ -125,6 +127,7 @@ namespace MarkInDeDark.Shadows
         }
 
         private float _rotation;
+
         /// <summary>
         /// Gets or sets the rotation of the hull in radians.
         /// </summary>
@@ -142,6 +145,7 @@ namespace MarkInDeDark.Shadows
         }
 
         private Vector2 _scale = Vector2.One;
+
         /// <summary>
         /// Gets or sets the scale (width and height) along X and Y axes.
         /// </summary>
@@ -214,7 +218,13 @@ namespace MarkInDeDark.Shadows
         private void UpdateWorld()
         {
             // Calculate local to world transform.
-            Calculate.Transform(ref _position, ref _origin, ref _scale, _rotation, out LocalToWorld);
+            Calculate.Transform(
+                ref _position,
+                ref _origin,
+                ref _scale,
+                _rotation,
+                out LocalToWorld
+            );
 
             // Calculate points in world space.
             WorldPoints.Clear();
@@ -270,13 +280,23 @@ namespace MarkInDeDark.Shadows
         /// <param name="rotation">Optional initial rotation in radians. Default is 0.0.</param>
         /// <param name="origin">Optional initial origin. Default is (0.5, 0.5).</param>
         /// <returns>A rectangular <see cref="Hull"/>.</returns>
-        public static Hull CreateRectangle(Vector2? position = null, Vector2? scale = null, float rotation = 0.0f, Vector2? origin = null) =>
-            new Hull(new Vector2(1.0f), new Vector2(0.0f, 1.0f), new Vector2(0.0f), new Vector2(1.0f, 0.0f))
+        public static Hull CreateRectangle(
+            Vector2? position = null,
+            Vector2? scale = null,
+            float rotation = 0.0f,
+            Vector2? origin = null
+        ) =>
+            new Hull(
+                new Vector2(1.0f),
+                new Vector2(0.0f, 1.0f),
+                new Vector2(0.0f),
+                new Vector2(1.0f, 0.0f)
+            )
             {
                 Position = position ?? Vector2.Zero,
                 Origin = origin ?? new Vector2(0.5f),
                 Scale = scale ?? new Vector2(1.0f),
-                Rotation = rotation
+                Rotation = rotation,
             };
     }
 
@@ -311,16 +331,17 @@ namespace MarkInDeDark.Shadows
                 // If hull is not ignored by light, valid and enabled:
                 // 1. test AABB intersection
                 // 2. test point is contained in polygon
-                if (//!light.IgnoredHulls.Contains(hull) 
-                    hull.Enabled &&
-                    hull.Valid &&
+                if ( //!light.IgnoredHulls.Contains(hull)
+                    hull.Enabled
+                    && hull.Valid
+                    &&
                     // MODIFICA SPERIMENTALE CHE POTREBBE SPACCARE TUTTO
-               //     light.Bounds.Intersects(ref hull.Bounds) &&
-                    hull.WorldPoints.Contains(ref light._position))
+                    //     light.Bounds.Intersects(ref hull.Bounds) &&
+                    hull.WorldPoints.Contains(ref light._position)
+                )
                     return true;
             }
             return false;
         }
     }
 }
-
