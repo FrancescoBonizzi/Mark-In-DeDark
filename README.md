@@ -28,7 +28,7 @@ export MGFXC_WINE_PATH="$HOME/.wine-mgfx"
 
 ## Script macOS
 
-Nota: gli asset runtime sono sotto `MarkInDeDark.Desktop/Assets`.
+Nota: gli asset runtime sono sotto `MarkInDeDark.Game/Assets`.
 
 ### Solo rigenerazione content
 
@@ -39,8 +39,8 @@ Nota: gli asset runtime sono sotto `MarkInDeDark.Desktop/Assets`.
 Fa in ordine:
 
 1. Rebuild content gioco (`ContentBuilder.DesktopGL.mgcb`)
-2. Rebuild content Penumbra (`Content.DesktopGL.mgcb`)
-3. Clean del progetto Penumbra (per riallineare le risorse embeddate)
+2. Rebuild content Shadows (`Content.DesktopGL.mgcb`)
+3. Clean del progetto Shadows (per riallineare le risorse embeddate)
 
 ### Solo build + run del progetto
 

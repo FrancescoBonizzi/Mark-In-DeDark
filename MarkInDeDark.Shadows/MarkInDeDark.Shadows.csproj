@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MarkInDeDark.Shadows</RootNamespace>
+    <AssemblyName>MarkInDeDark.Shadows</AssemblyName>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <MonoGameContentBuilderExe></MonoGameContentBuilderExe>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\DesktopGL\</OutputPath>
+    <IntermediateOutputPath>obj\Debug\DesktopGL\</IntermediateOutputPath>
+    <DocumentationFile></DocumentationFile>
+    <DefineConstants>TRACE;DEBUG;MONOGAME;DESKTOPGL</DefineConstants>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\DesktopGL\</OutputPath>
+    <IntermediateOutputPath>obj\Release\DesktopGL\</IntermediateOutputPath>
+    <DocumentationFile>bin\Release\DesktopGL\MarkInDeDark.Shadows.xml</DocumentationFile>
+    <DefineConstants>TRACE;MONOGAME;DESKTOPGL</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Resource.WindowsDX.resx" />
+  </ItemGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+</Project>

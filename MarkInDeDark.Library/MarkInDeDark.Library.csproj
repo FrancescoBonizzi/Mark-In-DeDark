@@ -8,7 +8,7 @@
     <ProjectReference Include="..\FbonizziMonoGame\FbonizziMonoGame.csproj" />
     <ProjectReference Include="..\MarkInDeDark.Common\MarkInDeDark.Common.csproj" />
     <ProjectReference Include="..\MarkInDeDark.GameGridCommon\MarkInDeDark.GameGridCommon.csproj" />
-    <ProjectReference Include="..\penumbra\MonoGame.Penumbra.WindowsDX.csproj" />
+    <ProjectReference Include="..\MarkInDeDark.Shadows\MarkInDeDark.Shadows.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

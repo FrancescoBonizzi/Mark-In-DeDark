@@ -87,19 +87,19 @@ else
   warn "No winetricks.log found in prefix"
 fi
 
-check_file "MarkInDeDark.Desktop/MarkInDeDark.Desktop.csproj"
-check_file "MarkInDeDark.Desktop/Assets/ContentBuilder/ContentBuilder.DesktopGL.mgcb"
-check_file "penumbra/Content/Content.DesktopGL.mgcb"
+check_file "MarkInDeDark.Game/MarkInDeDark.Game.csproj"
+check_file "MarkInDeDark.Game/Assets/ContentBuilder/ContentBuilder.DesktopGL.mgcb"
+check_file "MarkInDeDark.Shadows/Content/Content.DesktopGL.mgcb"
 check_executable_file "scripts/rebuild-content-macos.sh"
 check_executable_file "scripts/run-desktop-macos.sh"
 
-if dotnet restore MarkInDeDark.Desktop/MarkInDeDark.Desktop.csproj --disable-parallel -v minimal >/dev/null 2>&1; then
+if dotnet restore MarkInDeDark.Game/MarkInDeDark.Game.csproj --disable-parallel -v minimal >/dev/null 2>&1; then
   pass "Desktop restore OK"
 else
   fail "Desktop restore failed"
 fi
 
-if dotnet build MarkInDeDark.Desktop/MarkInDeDark.Desktop.csproj -v minimal >/dev/null 2>&1; then
+if dotnet build MarkInDeDark.Game/MarkInDeDark.Game.csproj -v minimal >/dev/null 2>&1; then
   pass "Desktop build OK"
 else
   fail "Desktop build failed"
