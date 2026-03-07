@@ -50,3 +50,10 @@ Note finali:
   le tue primitive per lo sviluppo
 - Troverai alcuni progetti che avevo usato per compilare multipiattaform (Windows Desktop, UWP,
   Android - fregatene)
+
+## Fase 3 - Erogarlo sul mio sito
+
+- [ ] Sistemare i livelli demo, e magari chiedere a Marco
+- [ ] Fare in modo che funzioni online
+- [ ] Post LinkedIn e tutto il resto
+- [ ] Open source
