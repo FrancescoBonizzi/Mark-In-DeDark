@@ -12,7 +12,7 @@ Read it at the start of every conversation before writing a single line of code.
 | Task | Description | Status |
 |------|-------------|--------|
 | Specs | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md | ✅ Done (2026-03-18) |
-| Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | ⬜ Pending |
+| Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | ✅ Done (2026-03-18) |
 | Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | ⬜ Pending |
 | Task 2 | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion) | ⬜ Pending |
 | Task 3 | Grid System (GameGrid, GameCell, Wall types, GridLoader) | ⬜ Pending |
@@ -29,6 +29,7 @@ Read it at the start of every conversation before writing a single line of code.
 ### Last session notes
 <!-- Replace this with a short summary at the end of each session -->
 - 2026-03-18: Created all spec files. Migration not yet started. Awaiting approval to begin Task 0.
+- 2026-03-18: Task 0 completed. Scaffold created: package.json, tsconfig, vite.config, index.html, main.ts, router (4 routes with Navigo hash mode), menu/levelselect/gameover placeholders, gamebootstrap (1280x720 canvas with resize), styles.css, AudioUnlocker. `npm run build` passes cleanly.
 
 ---
 
