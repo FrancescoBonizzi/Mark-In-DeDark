@@ -9,20 +9,20 @@ Read it at the start of every conversation before writing a single line of code.
 
 > **Update this section at the end of every session.**
 
-| Task | Description | Status |
-|------|-------------|--------|
-| Specs | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md | ✅ Done (2026-03-18) |
-| Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | ✅ Done (2026-03-18) |
-| Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | ⬜ Pending |
-| Task 2 | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion) | ⬜ Pending |
-| Task 3 | Grid System (GameGrid, GameCell, Wall types, GridLoader) | ⬜ Pending |
-| Task 4 | Shadow System (ShadowSystem, Light, Hull, WGSL shaders) | ⬜ Pending |
-| Task 5 | Normal Mapping (NormalMapFilter WGSL/GLSL) | ⬜ Pending |
-| Task 6 | Characters Base (Character abstract, Player) | ⬜ Pending |
-| Task 7 | Enemy AI (IEnemyAI + all implementations, Enemy + concrete types) | ⬜ Pending |
-| Task 8 | Objects & Traps (Candle, CandlesManager, Exit, traps) | ⬜ Pending |
-| Task 9 | HUD & Pages (GameHud, menu, levelselect, gameover, router) | ⬜ Pending |
-| Task 10 | Integration & Polish (Game.ts loop, audio unlock, responsive, GameConfig) | ⬜ Pending |
+| Task | Description | Check manuale | Status |
+|------|-------------|---------------|--------|
+| Specs | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md | — | ✅ Done (2026-03-18) |
+| Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | `npm run dev` → navigare menu → levels → game/1 (canvas nero) → gameover → menu. Canvas si ridimensiona al resize. | ✅ Done (2026-03-18) |
+| Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | Console: ScoreRepository salva/legge da localStorage. Controller risponde a tastiera/touch. Camera si può spostare via codice di test. | ⬜ Pending |
+| Task 2 | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion) | game/1: spritesheet caricato, almeno uno sprite visibile su canvas. File `.mark` parsato senza errori in console. | ⬜ Pending |
+| Task 3 | Grid System (GameGrid, GameCell, Wall types, GridLoader) | game/1: griglia disegnata con celle e muri visibili. Navigare la griglia con la camera. | ⬜ Pending |
+| Task 4 | Shadow System (ShadowSystem, Light, Hull, WGSL shaders) | game/1: una luce visibile, ombre proiettate dai muri. Muovere la luce e vedere le ombre aggiornarsi. | ⬜ Pending |
+| Task 5 | Normal Mapping (NormalMapFilter WGSL/GLSL) | game/1: normal map attivo, superfici reagiscono alla posizione della luce con effetto 3D. | ⬜ Pending |
+| Task 6 | Characters Base (Character abstract, Player) | game/1: player visibile, si muove con tastiera/touch, collide con i muri, camera lo segue. | ⬜ Pending |
+| Task 7 | Enemy AI (IEnemyAI + all implementations, Enemy + concrete types) | game/1: almeno 2 tipi di nemico con AI diversa (patrol + hunter). Il player muore al contatto. | ⬜ Pending |
+| Task 8 | Objects & Traps (Candle, CandlesManager, Exit, traps) | game/1: candele accese visibili, si spengono all'interazione. Uscita livello funziona. Trappole danneggiano il player. | ⬜ Pending |
+| Task 9 | HUD & Pages (GameHud, menu, levelselect, gameover, router) | Flusso completo: menu → seleziona livello → gioca → muori → gameover con punteggio → menu. HUD mostra candele/tempo. | ⬜ Pending |
+| Task 10 | Integration & Polish (Game.ts loop, audio unlock, responsive, GameConfig) | Giocare un livello intero dall'inizio alla fine. Audio funziona. Resize/orientamento gestiti. Nessun errore in console. | ⬜ Pending |
 
 **Legend:** ⬜ Pending · 🔄 In Progress · ✅ Done · ❌ Blocked
 
