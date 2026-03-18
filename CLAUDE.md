@@ -13,7 +13,7 @@ Read it at the start of every conversation before writing a single line of code.
 |------|-------------|---------------|--------|
 | Specs | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md | — | ✅ Done (2026-03-18) |
 | Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | `npm run dev` → navigare menu → levels → game/1 (canvas nero) → gameover → menu. Canvas si ridimensiona al resize. | ✅ Done (2026-03-18) |
-| Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | Console: ScoreRepository salva/legge da localStorage. Controller risponde a tastiera/touch. Camera si può spostare via codice di test. | ⬜ Pending |
+| Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | Console: ScoreRepository salva/legge da localStorage. Controller risponde a tastiera/touch. Camera si può spostare via codice di test. | ✅ Done (2026-03-18) |
 | Task 2 | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion) | game/1: spritesheet caricato, almeno uno sprite visibile su canvas. File `.mark` parsato senza errori in console. | ⬜ Pending |
 | Task 3 | Grid System (GameGrid, GameCell, Wall types, GridLoader) | game/1: griglia disegnata con celle e muri visibili. Navigare la griglia con la camera. | ⬜ Pending |
 | Task 4 | Shadow System (ShadowSystem, Light, Hull, WGSL shaders) | game/1: una luce visibile, ombre proiettate dai muri. Muovere la luce e vedere le ombre aggiornarsi. | ⬜ Pending |
@@ -30,6 +30,7 @@ Read it at the start of every conversation before writing a single line of code.
 <!-- Replace this with a short summary at the end of each session -->
 - 2026-03-18: Created all spec files. Migration not yet started. Awaiting approval to begin Task 0.
 - 2026-03-18: Task 0 completed. Scaffold created: package.json, tsconfig, vite.config, index.html, main.ts, router (4 routes with Navigo hash mode), menu/levelselect/gameover placeholders, gamebootstrap (1280x720 canvas with resize), styles.css, AudioUnlocker. `npm run build` passes cleanly.
+- 2026-03-18: Task 1 completed. 14 files created: Interval, StringHelper, Numbers, IHasCollisionRectangle, CharacterActions, constants, CollisionSolver, ScoreRepository, SoundManager, SoundInstance, Camera (worldHeight param), Controller (4-dir keyboard-only), Particle, ParticleSystem. Keyboard-only overlay added to gamebootstrap. `npm run build` passes cleanly.
 
 ---
 

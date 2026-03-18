@@ -321,3 +321,17 @@ canvas { display: block; }
         transform: none !important;
     }
 }
+
+#keyboard-overlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--background);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    color: white;
+    font: 400 20px "VT323", monospace;
+}
