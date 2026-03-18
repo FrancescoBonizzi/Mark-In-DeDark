@@ -1,12 +1,6 @@
 # TODO
 
-## Fase 1
-
-- [x] Farlo funzionare su MacOs
-  - [ ] L'audio non va
-- [ ] Far funzionare il LevelEditor con Avalonia UI
-
-## Fase 2 - Migrazione PixiJs
+## Migrazione PixiJs
 
 - Prompt per iniziare
   Contesto: sto migrando videogiochi da MonoGame (C#) a PixiJS (TypeScript).
@@ -48,8 +42,13 @@ Note finali:
 - Ricordati che tutta la base "tecnica" del gioco probabilmente sarà riutilizzabile al 99% per il
   gioco che stai per migrare, quindi non reinventare la ruota, copiala di peso nel caso. Considerale
   le tue primitive per lo sviluppo
+
+Informazioni sul progetto as is:
 - Troverai alcuni progetti che avevo usato per compilare multipiattaform (Windows Desktop, UWP,
-  Android - fregatene)
+  Android - fregatene, puoi eliminarli tranquillamente)
+- Il gioco utilizza anche un LevelEditor che attualmente NON tocchiamo, è un'applicazione standalone che non ci interessa in questo momento
+- Il gioco utilizza una libreria che si chiama MarkInDeDark.Shadows che è una libreria per generare ombre in tempo reale con alcuni shader, anche questa andrà tradotta. Puoi integrarla nello stesso progetto senza bisogno di separarla come ho fatto nella versione c#.
+- 
 
 ## Fase 3 - Erogarlo sul mio sito
 
