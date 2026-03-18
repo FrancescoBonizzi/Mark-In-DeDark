@@ -5,6 +5,33 @@ Read it at the start of every conversation before writing a single line of code.
 
 ---
 
+## Current Migration Status
+
+> **Update this section at the end of every session.**
+
+| Task | Description | Status |
+|------|-------------|--------|
+| Specs | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md | ✅ Done (2026-03-18) |
+| Task 0 | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton) | ⬜ Pending |
+| Task 1 | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem) | ⬜ Pending |
+| Task 2 | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion) | ⬜ Pending |
+| Task 3 | Grid System (GameGrid, GameCell, Wall types, GridLoader) | ⬜ Pending |
+| Task 4 | Shadow System (ShadowSystem, Light, Hull, WGSL shaders) | ⬜ Pending |
+| Task 5 | Normal Mapping (NormalMapFilter WGSL/GLSL) | ⬜ Pending |
+| Task 6 | Characters Base (Character abstract, Player) | ⬜ Pending |
+| Task 7 | Enemy AI (IEnemyAI + all implementations, Enemy + concrete types) | ⬜ Pending |
+| Task 8 | Objects & Traps (Candle, CandlesManager, Exit, traps) | ⬜ Pending |
+| Task 9 | HUD & Pages (GameHud, menu, levelselect, gameover, router) | ⬜ Pending |
+| Task 10 | Integration & Polish (Game.ts loop, audio unlock, responsive, GameConfig) | ⬜ Pending |
+
+**Legend:** ⬜ Pending · 🔄 In Progress · ✅ Done · ❌ Blocked
+
+### Last session notes
+<!-- Replace this with a short summary at the end of each session -->
+- 2026-03-18: Created all spec files. Migration not yet started. Awaiting approval to begin Task 0.
+
+---
+
 ## Tech Stack (fixed)
 
 | Tool | Version | Notes |
