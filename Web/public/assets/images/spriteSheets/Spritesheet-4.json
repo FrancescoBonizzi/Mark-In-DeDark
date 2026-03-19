@@ -1,0 +1,1877 @@
+{
+  "frames": {
+    "Goblin/goblin_back_attack_2": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_2_normal": {
+      "frame": {
+        "x": 1,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_3": {
+      "frame": {
+        "x": 1,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_3_normal": {
+      "frame": {
+        "x": 1,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_4": {
+      "frame": {
+        "x": 1,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_4_normal": {
+      "frame": {
+        "x": 1,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_5": {
+      "frame": {
+        "x": 1,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_attack_5_normal": {
+      "frame": {
+        "x": 1,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_1": {
+      "frame": {
+        "x": 1,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_2": {
+      "frame": {
+        "x": 1,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_2_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_3": {
+      "frame": {
+        "x": 1,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_3_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_4": {
+      "frame": {
+        "x": 1,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_back_walking_4_normal": {
+      "frame": {
+        "x": 131,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_1": {
+      "frame": {
+        "x": 261,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_1_normal": {
+      "frame": {
+        "x": 391,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_2": {
+      "frame": {
+        "x": 521,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_2_normal": {
+      "frame": {
+        "x": 651,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_3": {
+      "frame": {
+        "x": 781,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_3_normal": {
+      "frame": {
+        "x": 911,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_4": {
+      "frame": {
+        "x": 1041,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_4_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_5": {
+      "frame": {
+        "x": 1301,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_attack_5_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_1": {
+      "frame": {
+        "x": 1561,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_1_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_2": {
+      "frame": {
+        "x": 1821,
+        "y": 1,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_2_normal": {
+      "frame": {
+        "x": 131,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_3": {
+      "frame": {
+        "x": 131,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_3_normal": {
+      "frame": {
+        "x": 131,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_4": {
+      "frame": {
+        "x": 131,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_front_walking_4_normal": {
+      "frame": {
+        "x": 131,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_1": {
+      "frame": {
+        "x": 131,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_1_normal": {
+      "frame": {
+        "x": 131,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_2": {
+      "frame": {
+        "x": 131,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_2_normal": {
+      "frame": {
+        "x": 131,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_3": {
+      "frame": {
+        "x": 131,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_3_normal": {
+      "frame": {
+        "x": 131,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_4": {
+      "frame": {
+        "x": 131,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_4_normal": {
+      "frame": {
+        "x": 131,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_5": {
+      "frame": {
+        "x": 131,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_attack_5_normal": {
+      "frame": {
+        "x": 261,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_1": {
+      "frame": {
+        "x": 391,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_1_normal": {
+      "frame": {
+        "x": 521,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_2": {
+      "frame": {
+        "x": 651,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_2_normal": {
+      "frame": {
+        "x": 781,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_3": {
+      "frame": {
+        "x": 911,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_3_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_4": {
+      "frame": {
+        "x": 1171,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Goblin/goblin_side_walking_4_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_1": {
+      "frame": {
+        "x": 1431,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_2": {
+      "frame": {
+        "x": 1561,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_3": {
+      "frame": {
+        "x": 1691,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_4": {
+      "frame": {
+        "x": 1821,
+        "y": 131,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_5": {
+      "frame": {
+        "x": 261,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_6": {
+      "frame": {
+        "x": 261,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_lit_7": {
+      "frame": {
+        "x": 261,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Brazier/brazier_normal": {
+      "frame": {
+        "x": 261,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_1": {
+      "frame": {
+        "x": 261,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_2": {
+      "frame": {
+        "x": 261,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_3": {
+      "frame": {
+        "x": 261,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_4": {
+      "frame": {
+        "x": 261,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_5": {
+      "frame": {
+        "x": 261,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_6": {
+      "frame": {
+        "x": 261,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_7": {
+      "frame": {
+        "x": 261,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_8": {
+      "frame": {
+        "x": 261,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Objects/Candle/candle_9": {
+      "frame": {
+        "x": 261,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_1": {
+      "frame": {
+        "x": 391,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_1_normal": {
+      "frame": {
+        "x": 521,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_2": {
+      "frame": {
+        "x": 651,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_2_normal": {
+      "frame": {
+        "x": 781,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_3": {
+      "frame": {
+        "x": 911,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_3_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_4": {
+      "frame": {
+        "x": 1171,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_iddle_4_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_1": {
+      "frame": {
+        "x": 1431,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_1_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_2": {
+      "frame": {
+        "x": 1691,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_2_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 261,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_3": {
+      "frame": {
+        "x": 391,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_3_normal": {
+      "frame": {
+        "x": 391,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_4": {
+      "frame": {
+        "x": 391,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_back_walking_4_normal": {
+      "frame": {
+        "x": 391,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_1": {
+      "frame": {
+        "x": 391,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_1_normal": {
+      "frame": {
+        "x": 391,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_2": {
+      "frame": {
+        "x": 391,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_2_normal": {
+      "frame": {
+        "x": 391,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_3": {
+      "frame": {
+        "x": 391,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_3_normal": {
+      "frame": {
+        "x": 391,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_4": {
+      "frame": {
+        "x": 391,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_iddle_4_normal": {
+      "frame": {
+        "x": 391,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_1": {
+      "frame": {
+        "x": 521,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_1_normal": {
+      "frame": {
+        "x": 651,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_2": {
+      "frame": {
+        "x": 781,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_2_normal": {
+      "frame": {
+        "x": 911,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_3": {
+      "frame": {
+        "x": 1041,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_3_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_4": {
+      "frame": {
+        "x": 1301,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_front_walking_4_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_1": {
+      "frame": {
+        "x": 1561,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_1_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_2": {
+      "frame": {
+        "x": 1821,
+        "y": 391,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_2_normal": {
+      "frame": {
+        "x": 521,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_3": {
+      "frame": {
+        "x": 521,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_3_normal": {
+      "frame": {
+        "x": 521,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_4": {
+      "frame": {
+        "x": 521,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_iddle_4_normal": {
+      "frame": {
+        "x": 521,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_1": {
+      "frame": {
+        "x": 521,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_1_normal": {
+      "frame": {
+        "x": 521,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_2": {
+      "frame": {
+        "x": 521,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_2_normal": {
+      "frame": {
+        "x": 521,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_3": {
+      "frame": {
+        "x": 521,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_3_normal": {
+      "frame": {
+        "x": 521,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_4": {
+      "frame": {
+        "x": 651,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Player/player_side_walking_4_normal": {
+      "frame": {
+        "x": 781,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Shadows/TorchCharacter/shadow_front_walking_1": {
+      "frame": {
+        "x": 911,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Shadows/TorchCharacter/shadow_front_walking_2": {
+      "frame": {
+        "x": 1041,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Shadows/TorchCharacter/shadow_front_walking_3": {
+      "frame": {
+        "x": 1171,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Shadows/TorchCharacter/shadow_front_walking_4": {
+      "frame": {
+        "x": 1301,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_1": {
+      "frame": {
+        "x": 1431,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_1_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_2": {
+      "frame": {
+        "x": 1691,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_2_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_3": {
+      "frame": {
+        "x": 651,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_3_normal": {
+      "frame": {
+        "x": 651,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_4": {
+      "frame": {
+        "x": 651,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_attack_4_normal": {
+      "frame": {
+        "x": 651,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_1": {
+      "frame": {
+        "x": 651,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_1_normal": {
+      "frame": {
+        "x": 651,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_2": {
+      "frame": {
+        "x": 651,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_2_normal": {
+      "frame": {
+        "x": 651,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_3": {
+      "frame": {
+        "x": 651,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_3_normal": {
+      "frame": {
+        "x": 651,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_4": {
+      "frame": {
+        "x": 781,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_back_walking_4_normal": {
+      "frame": {
+        "x": 911,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_1": {
+      "frame": {
+        "x": 1041,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_1_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_2": {
+      "frame": {
+        "x": 1301,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_2_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_3": {
+      "frame": {
+        "x": 1561,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_3_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_4": {
+      "frame": {
+        "x": 1821,
+        "y": 651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_attack_4_normal": {
+      "frame": {
+        "x": 781,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_1": {
+      "frame": {
+        "x": 781,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_1_normal": {
+      "frame": {
+        "x": 781,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_2": {
+      "frame": {
+        "x": 781,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_2_normal": {
+      "frame": {
+        "x": 781,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_3": {
+      "frame": {
+        "x": 781,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_3_normal": {
+      "frame": {
+        "x": 781,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_4": {
+      "frame": {
+        "x": 781,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_front_walking_4_normal": {
+      "frame": {
+        "x": 781,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_1": {
+      "frame": {
+        "x": 911,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_1_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_2": {
+      "frame": {
+        "x": 1171,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_2_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_3": {
+      "frame": {
+        "x": 1431,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_3_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_4": {
+      "frame": {
+        "x": 1691,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_attack_4_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_1": {
+      "frame": {
+        "x": 911,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_1_normal": {
+      "frame": {
+        "x": 911,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_2": {
+      "frame": {
+        "x": 911,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_2_normal": {
+      "frame": {
+        "x": 911,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_3": {
+      "frame": {
+        "x": 911,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_3_normal": {
+      "frame": {
+        "x": 911,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_4": {
+      "frame": {
+        "x": 911,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Skeleton/skeleton_side_walking_4_normal": {
+      "frame": {
+        "x": 911,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_attack_1": {
+      "frame": {
+        "x": 1041,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_attack_1_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_attack_2": {
+      "frame": {
+        "x": 1301,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_attack_2_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_1": {
+      "frame": {
+        "x": 1561,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_1_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_2": {
+      "frame": {
+        "x": 1041,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_2_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_3": {
+      "frame": {
+        "x": 1301,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_3_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_4": {
+      "frame": {
+        "x": 1821,
+        "y": 911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_charge_4_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_1": {
+      "frame": {
+        "x": 1041,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_1_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_2": {
+      "frame": {
+        "x": 1041,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_2_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_3": {
+      "frame": {
+        "x": 1041,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_3_normal": {
+      "frame": {
+        "x": 1041,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_4": {
+      "frame": {
+        "x": 1171,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_4_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_5": {
+      "frame": {
+        "x": 1431,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_run_5_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_1": {
+      "frame": {
+        "x": 1691,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_1_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 1041,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_2": {
+      "frame": {
+        "x": 1171,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_2_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_3": {
+      "frame": {
+        "x": 1171,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_3_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_4": {
+      "frame": {
+        "x": 1171,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_4_normal": {
+      "frame": {
+        "x": 1171,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_5": {
+      "frame": {
+        "x": 1301,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_5_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_6": {
+      "frame": {
+        "x": 1561,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_back_walking_6_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_attack_1": {
+      "frame": {
+        "x": 1821,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_attack_1_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_attack_2": {
+      "frame": {
+        "x": 1301,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_attack_2_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_1": {
+      "frame": {
+        "x": 1301,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_1_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_2": {
+      "frame": {
+        "x": 1821,
+        "y": 1171,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_2_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_3": {
+      "frame": {
+        "x": 1301,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_3_normal": {
+      "frame": {
+        "x": 1301,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_4": {
+      "frame": {
+        "x": 1431,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_charge_4_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_1": {
+      "frame": {
+        "x": 1691,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_1_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 1301,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_2": {
+      "frame": {
+        "x": 1431,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_2_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_3": {
+      "frame": {
+        "x": 1431,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_3_normal": {
+      "frame": {
+        "x": 1431,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_4": {
+      "frame": {
+        "x": 1561,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_4_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_5": {
+      "frame": {
+        "x": 1821,
+        "y": 1431,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_run_5_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_1": {
+      "frame": {
+        "x": 1561,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_1_normal": {
+      "frame": {
+        "x": 1561,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_2": {
+      "frame": {
+        "x": 1691,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_2_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 1561,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_3": {
+      "frame": {
+        "x": 1691,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_3_normal": {
+      "frame": {
+        "x": 1691,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_4": {
+      "frame": {
+        "x": 1821,
+        "y": 1691,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Taurus/taurus_front_walking_4_normal": {
+      "frame": {
+        "x": 1821,
+        "y": 1821,
+        "w": 128,
+        "h": 128
+      }
+    }
+  },
+  "meta": {
+    "image": "Spritesheet-4.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": 1
+  }
+}
