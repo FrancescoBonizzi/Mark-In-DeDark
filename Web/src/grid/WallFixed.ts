@@ -2,7 +2,7 @@ import { Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import { LinkDirection } from './enums';
 import type { IWall } from './IWall';
 import type { CollisionOffset } from './LevelCustomization';
-import { zForWall } from './ZIndexCalculator';
+import { zForWall, zForWallDecal } from './ZIndexCalculator';
 
 export class WallFixed implements IWall {
     readonly direction: LinkDirection;
@@ -12,6 +12,7 @@ export class WallFixed implements IWall {
     readonly hullRects: Rectangle[] = [];
 
     private readonly _sprite: Sprite;
+    private readonly _decalSprite: Sprite | null = null;
 
     constructor(
         direction: LinkDirection,
@@ -19,12 +20,14 @@ export class WallFixed implements IWall {
         spriteY: number,
         texture: Texture,
         offset: CollisionOffset,
+        decalTexture?: Texture,
     ) {
         this.direction = direction;
         this._sprite = new Sprite(texture);
         this._sprite.x = spriteX;
         this._sprite.y = spriteY;
-        this._sprite.zIndex = zForWall(spriteY + texture.height / 2);
+        const wallZ = zForWall(spriteY + texture.height / 2);
+        this._sprite.zIndex = wallZ;
 
         this.position = { x: spriteX, y: spriteY };
         this.centerPosition = {
@@ -47,15 +50,24 @@ export class WallFixed implements IWall {
                 offset.h,
             ),
         ];
+
+        if (decalTexture) {
+            this._decalSprite = new Sprite(decalTexture);
+            this._decalSprite.x = spriteX + texture.width / 2 - decalTexture.width / 2;
+            this._decalSprite.y = spriteY + texture.height / 2 - decalTexture.height / 2;
+            this._decalSprite.zIndex = zForWallDecal(wallZ);
+        }
     }
 
     update(_deltaMS: number): void { /* static wall */ }
 
     addToContainer(container: Container): void {
         container.addChild(this._sprite);
+        if (this._decalSprite) container.addChild(this._decalSprite);
     }
 
     removeFromContainer(container: Container): void {
         container.removeChild(this._sprite);
+        if (this._decalSprite) container.removeChild(this._decalSprite);
     }
 }

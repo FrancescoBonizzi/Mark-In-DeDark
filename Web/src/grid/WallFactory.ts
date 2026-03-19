@@ -143,14 +143,8 @@ export function createWall(
         case WallTypes.Decal8: {
             const baseTex = pickWallTexture(direction, config);
             const pos = wallSpritePos(direction, cellX, cellY, baseTex.width);
-            const wall = new WallFixed(direction, pos.x, pos.y, baseTex, offset);
-            // Decal overlay: use the decal texture as the base (the decal IS the wall visual)
-            const decalTex = config.decalTextures[decalIndex(wallType)];
-            if (decalTex) {
-                // Return a WallFixed with the decal texture instead
-                return new WallFixed(direction, pos.x, pos.y, decalTex, offset);
-            }
-            return wall;
+            const decalTex = config.decalTextures[decalIndex(wallType)] ?? undefined;
+            return new WallFixed(direction, pos.x, pos.y, baseTex, offset, decalTex);
         }
 
         default:
