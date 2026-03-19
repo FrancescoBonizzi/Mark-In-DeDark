@@ -135,13 +135,22 @@ export class ShadowSystem {
 
         // 1. Render groundContainer (with camera transform) → _groundRT
         {
+            // Clear to opaque black so areas outside the grid stay black under
+            // the multiply blend (black * lightColor = black → no light leak).
+            // Matches C# graphicsDevice.Clear(Color.Black).
+            const blackFill = new Graphics();
+            blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+            renderer.render({ container: blackFill, target: this._groundRT, clear: true });
+            blackFill.destroy();
+
+            // Render ground tiles on top in camera space (clear: false to preserve black background)
             const tempContainer = new Container();
             tempContainer.position.copyFrom(cw.position);
             tempContainer.scale.copyFrom(cw.scale);
             tempContainer.pivot.copyFrom(cw.pivot);
             tempContainer.addChild(this._groundContainer);
 
-            renderer.render({ container: tempContainer, target: this._groundRT, clear: true });
+            renderer.render({ container: tempContainer, target: this._groundRT, clear: false });
 
             // Remove without destroying (groundContainer must survive)
             tempContainer.removeChild(this._groundContainer);
