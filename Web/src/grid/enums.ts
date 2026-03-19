@@ -75,3 +75,17 @@ export const enum WallPositions {
     Left = 2,
     Bottom = 3,
 }
+
+export const enum LinkDirection {
+    NorthLink = 0,
+    EastLink = 1,
+    SouthLink = 2,
+    WestLink = 3,
+}
+
+export const enum PillarPositions {
+    NE = 0,
+    NW = 1,
+    SE = 2,
+    SW = 3,
+}

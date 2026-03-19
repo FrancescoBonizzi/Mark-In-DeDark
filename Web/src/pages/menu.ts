@@ -1,5 +1,6 @@
 import router from './router';
 import { unlockHowler, isAudioUnlocked } from '../services/AudioUnlocker';
+import ScoreRepository from '../services/ScoreRepository';
 
 export function renderMenuPage(container: HTMLElement) {
     container.innerHTML = `
@@ -10,6 +11,7 @@ export function renderMenuPage(container: HTMLElement) {
             <nav class="menu-actions">
                 <a href="/levels" class="button primary" data-navigo>GIOCA</a>
                 <a class="button" id="audio-button">ATTIVA AUDIO</a>
+                <a class="button" id="unlock-all-button">SBLOCCA TUTTI I LIVELLI</a>
             </nav>
         </div>
     </section>
@@ -17,6 +19,15 @@ export function renderMenuPage(container: HTMLElement) {
 `;
 
     router.updatePageLinks();
+
+    const unlockButton = container.querySelector<HTMLAnchorElement>('#unlock-all-button');
+    if (unlockButton) {
+        unlockButton.addEventListener('click', () => {
+            for (let i = 1; i <= 8; i++) ScoreRepository.setLevelCompleted(i);
+            unlockButton.textContent = 'Tutti i livelli sbloccati \u2713';
+            unlockButton.classList.add('disabled');
+        });
+    }
 
     const audioButton = container.querySelector<HTMLAnchorElement>('#audio-button');
     if (audioButton) {

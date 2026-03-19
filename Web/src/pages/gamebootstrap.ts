@@ -1,4 +1,11 @@
 import { Application } from 'pixi.js';
+import { loadAssets } from '../assets/AssetsLoader';
+import { loadAndParseLevel } from '../grid/GridLoader';
+import { createLevelConfig } from '../grid/LevelConfig';
+import { createLevelCustomization } from '../grid/LevelCustomization';
+import { GameGrid, GRID_MAX_HEIGHT } from '../grid/GameGrid';
+import { CELL_SIZE } from '../grid/GameCell';
+import Camera from '../world/Camera';
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -7,11 +14,17 @@ let app: Application | null = null;
 let gameContainer: HTMLDivElement | null = null;
 let orientationOverlay: HTMLDivElement | null = null;
 let resizeObserver: ResizeObserver | null = null;
+let camera: Camera | null = null;
+let grid: GameGrid | null = null;
+let keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+
+const CAMERA_SPEED = 300; // pixels per second
+const pressedKeys = new Set<string>();
 
 const hasPhysicalKeyboard = (): boolean =>
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-export async function initGame(container: HTMLElement, _levelId: string) {
+export async function initGame(container: HTMLElement, levelIdParam: string) {
     if (app) {
         destroyGame();
     }
@@ -71,7 +84,7 @@ export async function initGame(container: HTMLElement, _levelId: string) {
     });
 
     try {
-        await (screen.orientation as any).lock('landscape');
+        await (screen.orientation as unknown as { lock: (o: string) => Promise<void> }).lock('landscape');
     } catch { /* not supported on all browsers */ }
 
     resizeObserver = new ResizeObserver(resize);
@@ -79,6 +92,63 @@ export async function initGame(container: HTMLElement, _levelId: string) {
     resize();
 
     gameContainer.appendChild(app.canvas);
+
+    // Load assets and level
+    const levelId = parseInt(levelIdParam, 10) || 1;
+
+    try {
+        const [assets, bundle] = await Promise.all([
+            loadAssets(),
+            loadAndParseLevel(levelId),
+        ]);
+
+        const levelConfig = createLevelConfig(bundle.envTexturePackId, assets.spriteSheets);
+        const levelCustomization = createLevelCustomization(levelId);
+
+        camera = new Camera(app, GRID_MAX_HEIGHT);
+        grid = new GameGrid(bundle, levelConfig, levelCustomization);
+
+        camera.addToWorld(grid.gridContainer);
+
+        // Center camera on player start
+        const playerStartX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
+        const playerStartY = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
+        const zoom = camera.getZoom();
+        camera.x = playerStartX - GAME_W / 2 / zoom;
+        camera.y = playerStartY + GAME_H / 2 / zoom;
+
+        console.log(
+            `[Task3] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
+            `Player start: col=${grid.playerStartCol}, row=${grid.playerStartRow}. ` +
+            `Camera: x=${camera.x.toFixed(0)}, y=${camera.y.toFixed(0)}`
+        );
+
+        // Arrow key camera navigation for verification
+        keydownHandler = (e: KeyboardEvent) => {
+            pressedKeys.add(e.key);
+        };
+        const keyupHandler = (e: KeyboardEvent) => {
+            pressedKeys.delete(e.key);
+        };
+        window.addEventListener('keydown', keydownHandler);
+        window.addEventListener('keyup', keyupHandler);
+
+        app.ticker.add((ticker) => {
+            if (!camera) return;
+            const dt = ticker.deltaMS / 1000;
+            const step = CAMERA_SPEED * dt;
+
+            if (pressedKeys.has('ArrowLeft')) camera.x -= step;
+            if (pressedKeys.has('ArrowRight')) camera.x += step;
+            if (pressedKeys.has('ArrowUp')) camera.y -= step;
+            if (pressedKeys.has('ArrowDown')) camera.y += step;
+
+            if (grid) grid.update(ticker.deltaMS);
+        });
+
+    } catch (err) {
+        console.error('[Task3] Failed to load level:', err);
+    }
 }
 
 function resize() {
@@ -118,11 +188,20 @@ export function destroyGame() {
         return;
     }
 
+    if (keydownHandler) {
+        window.removeEventListener('keydown', keydownHandler);
+        keydownHandler = null;
+    }
+    pressedKeys.clear();
+
     resizeObserver?.disconnect();
     resizeObserver = null;
     orientationOverlay = null;
+    camera = null;
+    grid = null;
+
     try {
-        (screen.orientation as any).unlock();
+        (screen.orientation as unknown as { unlock: () => void }).unlock();
     } catch { /* not supported on all browsers */ }
     app.destroy(true, { children: true });
     app = null;
