@@ -8,7 +8,7 @@ import { createPillarsForCell } from './PillarFactory';
 import { removeDuplicatePillars, removeDuplicateWalls } from './GameGridCleaner';
 import type { IWall } from './IWall';
 import type { Pillar } from './Pillar';
-import type { WallInteractiveDoor } from './WallInteractiveDoor';
+import { WallEsteticDoor } from './WallEsteticDoor';
 import { Z_GROUND, zForRiempimento } from './ZIndexCalculator';
 
 export const GRID_COLS = 45;
@@ -59,8 +59,8 @@ export class GameGrid {
     allWalls: IWall[] = [];
     allPillars: Pillar[] = [];
 
-    entranceDoor: WallInteractiveDoor | null = null;
-    exitDoor: WallInteractiveDoor | null = null;
+    entranceDoor: WallEsteticDoor | null = null;
+    exitDoor: WallEsteticDoor | null = null;
 
     playerStartCol = 0;
     playerStartRow = 0;
@@ -118,6 +118,14 @@ export class GameGrid {
 
                 // Initialize walls
                 cell.initializeWalls(data, this._config, this._customization);
+
+                // Assign entrance/exit door references
+                for (const wall of cell.walls.values()) {
+                    if (wall instanceof WallEsteticDoor) {
+                        if (cell.isEntrance) this.entranceDoor = wall;
+                        if (cell.isExit) this.exitDoor = wall;
+                    }
+                }
 
                 // Store object placements
                 if (data.objectType !== null) {
@@ -181,6 +189,7 @@ export class GameGrid {
             case GroundTypes.TriggerGoblin: {
                 const trapTex = this._config.groundTextures[Math.floor(Math.random() * this._config.groundTextures.length)];
                 if (trapTex) cell.setGroundSprite(trapTex, Z_GROUND);
+                cell.noDecals = true;
                 break;
             }
 
@@ -194,7 +203,7 @@ export class GameGrid {
     private _assignDirtySprite(cell: GameCell): void {
         const { dirtyTextures } = this._config;
         if (dirtyTextures.length === 0) return;
-        if (!cell.groundSprite || cell.isUnLinked) return;
+        if (!cell.groundSprite || cell.isUnLinked || cell.noDecals) return;
         if (Math.random() > this._bundle.dirtyProbabilityPct / 100) return;
 
         const tex = dirtyTextures[this._dirtyTextureIndex % dirtyTextures.length]!;

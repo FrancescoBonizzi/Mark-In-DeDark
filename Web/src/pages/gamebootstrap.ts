@@ -1,4 +1,4 @@
-import { Application } from 'pixi.js';
+import { Application, TextureSource } from 'pixi.js';
 import { loadAssets } from '../assets/AssetsLoader';
 import { loadAndParseLevel } from '../grid/GridLoader';
 import { createLevelConfig } from '../grid/LevelConfig';
@@ -17,6 +17,7 @@ let resizeObserver: ResizeObserver | null = null;
 let camera: Camera | null = null;
 let grid: GameGrid | null = null;
 let keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+let keyupHandler: ((e: KeyboardEvent) => void) | null = null;
 
 const CAMERA_SPEED = 300; // pixels per second
 const pressedKeys = new Set<string>();
@@ -73,6 +74,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
 
     app = new Application();
 
+    TextureSource.defaultOptions.scaleMode = 'nearest';
+
     await app.init({
         background: '#0a0a0a',
         width: GAME_W,
@@ -127,7 +130,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         keydownHandler = (e: KeyboardEvent) => {
             pressedKeys.add(e.key);
         };
-        const keyupHandler = (e: KeyboardEvent) => {
+        keyupHandler = (e: KeyboardEvent) => {
             pressedKeys.delete(e.key);
         };
         window.addEventListener('keydown', keydownHandler);
@@ -191,6 +194,10 @@ export function destroyGame() {
     if (keydownHandler) {
         window.removeEventListener('keydown', keydownHandler);
         keydownHandler = null;
+    }
+    if (keyupHandler) {
+        window.removeEventListener('keyup', keyupHandler);
+        keyupHandler = null;
     }
     pressedKeys.clear();
 

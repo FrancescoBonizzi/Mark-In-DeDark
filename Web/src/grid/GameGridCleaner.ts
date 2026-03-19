@@ -10,7 +10,7 @@ export function removeDuplicateWalls(walls: IWall[]): IWall[] {
     const seen = new Map<string, IWall>();
 
     for (const wall of walls) {
-        const key = `${Math.round(wall.position.x)},${Math.round(wall.position.y)},${wall.direction}`;
+        const key = `${Math.round(wall.position.x)},${Math.round(wall.position.y)}`;
         const existing = seen.get(key);
         if (!existing) {
             seen.set(key, wall);

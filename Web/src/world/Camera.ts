@@ -21,7 +21,7 @@ class Camera {
         this._world.y = app.screen.height;
         this._world.pivot.x = 0;
         this._world.pivot.y = this._world.height;
-        this.setZoom(0.9);
+        this.setZoom(0.8);
 
         app.stage.addChild(this._world);
     }

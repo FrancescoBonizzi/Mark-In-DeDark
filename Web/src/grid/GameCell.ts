@@ -44,6 +44,7 @@ export class GameCell {
     southDestroyable = false;
     westDestroyable = false;
 
+    noDecals = false;
     isDoor = false;
     isNorthDoor = false;
     isSouthDoor = false;

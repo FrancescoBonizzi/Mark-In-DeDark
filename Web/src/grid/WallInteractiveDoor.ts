@@ -22,9 +22,9 @@ export class WallInteractiveDoor implements IWall {
     private readonly _sprite: AnimatedSprite;
     private readonly _baseSprite: Sprite;
     private readonly _arcSprite: Sprite | null;
-    private _state: DoorState = DoorState.Closed;
+    private _state: DoorState = DoorState.Open;
     private _frameTimer = 0;
-    private _frameIndex = 0;
+    private _frameIndex: number;
     private readonly _frames: Texture[];
 
     constructor(
@@ -37,6 +37,7 @@ export class WallInteractiveDoor implements IWall {
     ) {
         this.direction = direction;
         this._frames = frames;
+        this._frameIndex = frames.length > 0 ? frames.length - 1 : 0;
 
         this._baseSprite = new Sprite(closedTexture);
         this._baseSprite.x = x;
@@ -46,7 +47,7 @@ export class WallInteractiveDoor implements IWall {
         if (arcTexture) {
             this._arcSprite = new Sprite(arcTexture);
             this._arcSprite.x = x;
-            this._arcSprite.y = y - 40;
+            this._arcSprite.y = y;
             this._arcSprite.zIndex = Z_OVERALL;
         } else {
             this._arcSprite = null;
@@ -57,10 +58,14 @@ export class WallInteractiveDoor implements IWall {
         this._sprite = new AnimatedSprite(allFrames);
         this._sprite.x = x;
         this._sprite.y = y - 11;
-        this._sprite.zIndex = zForWall(y + closedTexture.height / 2);
+        this._sprite.zIndex = zForWall(y + closedTexture.height / 2) + 0.0001;
         this._sprite.stop();
-        this._sprite.currentFrame = 0;
+        this._sprite.currentFrame = this._frameIndex;
         this._sprite.loop = false;
+        // Start at open frame
+        if (frames.length > 0) {
+            this._sprite.texture = frames[this._frameIndex]!;
+        }
 
         this.position = { x, y };
         this.centerPosition = {
@@ -72,6 +77,8 @@ export class WallInteractiveDoor implements IWall {
     }
 
     get state(): DoorState { return this._state; }
+    get isOpen(): boolean { return this._state === DoorState.Open; }
+    get isMoving(): boolean { return this._state === DoorState.Opening || this._state === DoorState.Closing; }
 
     open(): void {
         if (this._state === DoorState.Open || this._state === DoorState.Opening) return;
