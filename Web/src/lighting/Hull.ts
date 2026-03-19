@@ -9,6 +9,7 @@ const FAR = 5000;
  */
 export class Hull {
     enabled = true;
+    readonly bounds: Rectangle;
 
     readonly vertices: [
         { x: number; y: number },
@@ -18,6 +19,7 @@ export class Hull {
     ];
 
     constructor(rect: Rectangle) {
+        this.bounds = rect;
         // Clockwise in screen coords (y-down): TL, BL, BR, TR
         this.vertices = [
             { x: rect.x,              y: rect.y              },

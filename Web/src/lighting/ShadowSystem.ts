@@ -2,7 +2,6 @@ import {
     Application,
     Container,
     Graphics,
-    Rectangle,
     RenderTexture,
     Sprite,
 } from 'pixi.js';
@@ -78,96 +77,13 @@ export class ShadowSystem {
         if (i !== -1) this.hulls.splice(i, 1);
     }
 
-    /** Creates Hull objects from each wall's current hullRects (snapshot).
-     *  Static walls (WallFixed) have their rects merged to eliminate light
-     *  leaks between adjacent blocks. Dynamic walls are added individually
-     *  so they can update their hull at runtime. */
+    /** Creates Hull objects from each wall's current hullRects (snapshot). */
     addHullsFromWalls(walls: IWall[]): void {
-        const staticRects: Rectangle[] = [];
-
         for (const wall of walls) {
-            const isDynamic = 'isOpen' in wall || 'break' in wall;
-            if (isDynamic) {
-                for (const rect of wall.hullRects) {
-                    this.hulls.push(Hull.fromRectangle(rect));
-                }
-            } else {
-                for (const rect of wall.hullRects) {
-                    staticRects.push(rect);
-                }
+            for (const rect of wall.hullRects) {
+                this.hulls.push(Hull.fromRectangle(rect));
             }
         }
-
-        const merged = ShadowSystem._mergeRects(staticRects);
-        for (const rect of merged) {
-            this.hulls.push(Hull.fromRectangle(rect));
-        }
-    }
-
-    /**
-     * Iteratively merges axis-aligned rectangles that share an edge.
-     * Merge rules (within 2px epsilon):
-     *  - Horizontal: same y and h, adjacent x edges.
-     *  - Vertical:   same x and w, adjacent y edges.
-     */
-    private static _mergeRects(rects: Rectangle[]): Rectangle[] {
-        const EPS = 2;
-        let list = rects.map(r => new Rectangle(r.x, r.y, r.width, r.height));
-        let merged = true;
-
-        while (merged) {
-            merged = false;
-            const next: Rectangle[] = [];
-            const used = new Uint8Array(list.length);
-
-            for (let i = 0; i < list.length; i++) {
-                if (used[i]) continue;
-                let a = list[i]!;
-
-                for (let j = i + 1; j < list.length; j++) {
-                    if (used[j]) continue;
-                    const b = list[j]!;
-
-                    // Horizontal merge: same y/h, b starts where a ends
-                    if (Math.abs(a.y - b.y) < EPS && Math.abs(a.height - b.height) < EPS) {
-                        if (Math.abs((a.x + a.width) - b.x) < EPS) {
-                            a = new Rectangle(a.x, a.y, a.width + b.width, a.height);
-                            used[j] = 1;
-                            merged = true;
-                            continue;
-                        }
-                        if (Math.abs((b.x + b.width) - a.x) < EPS) {
-                            a = new Rectangle(b.x, a.y, b.width + a.width, a.height);
-                            used[j] = 1;
-                            merged = true;
-                            continue;
-                        }
-                    }
-
-                    // Vertical merge: same x/w, b starts where a ends
-                    if (Math.abs(a.x - b.x) < EPS && Math.abs(a.width - b.width) < EPS) {
-                        if (Math.abs((a.y + a.height) - b.y) < EPS) {
-                            a = new Rectangle(a.x, a.y, a.width, a.height + b.height);
-                            used[j] = 1;
-                            merged = true;
-                            continue;
-                        }
-                        if (Math.abs((b.y + b.height) - a.y) < EPS) {
-                            a = new Rectangle(a.x, b.y, a.width, b.height + a.height);
-                            used[j] = 1;
-                            merged = true;
-                            continue;
-                        }
-                    }
-                }
-
-                next.push(a);
-            }
-
-            list = next;
-        }
-
-        return list;
     }
 
     /** Creates Hull objects from each pillar's current hullRects (snapshot). */
@@ -237,6 +153,17 @@ export class ShadowSystem {
                     }
                 }
                 perLightContainer.addChild(shadowGfx);
+
+                // Hull fill — erase light from hull surfaces (ShadowType.Solid).
+                // Prevents cross-hull shadow artifacts between adjacent wall blocks.
+                const hullFillGfx = new Graphics();
+                hullFillGfx.blendMode = 'erase';
+                for (const hull of this.hulls) {
+                    if (!hull.enabled) continue;
+                    const b = hull.bounds;
+                    hullFillGfx.rect(b.x, b.y, b.width, b.height).fill(0xffffff);
+                }
+                perLightContainer.addChild(hullFillGfx);
             }
 
             // 2c. Render per-light container → perLightRT
