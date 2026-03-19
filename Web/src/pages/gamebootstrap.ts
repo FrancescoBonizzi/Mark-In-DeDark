@@ -114,7 +114,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera = new Camera(app, GRID_MAX_HEIGHT);
         grid = new GameGrid(bundle, levelConfig, levelCustomization);
 
-        camera.addToWorld(grid.gridContainer);
+        // objectsContainer holds walls, pillars, Riempimento — Y-sorted, unaffected by lightmap
+        camera.addToWorld(grid.objectsContainer);
 
         // Center camera on player start
         const playerStartX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
@@ -123,8 +124,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera.x = playerStartX - GAME_W / 2 / zoom;
         camera.y = playerStartY + GAME_H / 2 / zoom;
 
-        // Shadow system
-        shadowSystem = new ShadowSystem(app, camera);
+        // Shadow system owns groundContainer and inserts the lit ground sprite at stage index 0
+        shadowSystem = new ShadowSystem(app, camera, grid.groundContainer);
         shadowSystem.ambientColor = levelCustomization.penumbraAmbientColor;
         shadowSystem.ambientAlpha = levelCustomization.penumbraAmbientAlpha;
         shadowSystem.addHullsFromWalls(grid.allWalls);

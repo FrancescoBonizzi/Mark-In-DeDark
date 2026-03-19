@@ -1,5 +1,6 @@
 import {
     Application,
+    BlurFilter,
     Container,
     Graphics,
     RenderTexture,
@@ -17,17 +18,23 @@ const GAME_H = 720;
 const LIGHT_TEX_SIZE = 256;
 
 /**
- * Renders a per-frame lightmap (GAME_W×GAME_H RenderTexture) and overlays it
- * on the scene with blendMode='multiply', producing the "dark dungeon with
- * coloured lights" effect.
+ * Two-layer shadow system:
  *
- * Algorithm per frame:
- *   1. Fill _lightmap with ambientColor (black/grey).
- *   2. For each enabled light:
- *      a. Render light circle + shadow trapezoids → _perLightRT (erase blend
- *         cuts shadows from the circle).
- *      b. Composite _perLightRT → _lightmap (add blend).
- *   3. _lightmapSprite (multiply blend) sits atop the camera world.
+ *  Stage layout after construction:
+ *    [0] _groundLitSprite  — fullscreen sprite showing the lit ground pass
+ *    [1] camera._world     — walls, pillars, Riempimento (no lightmap)
+ *
+ * Per-frame pipeline:
+ *   1. Render groundContainer (with camera transform) → _groundRT.
+ *   2. Fill _lightmap with ambient colour.
+ *   3. For each light: build per-light container → _perLightRT, then
+ *      blur-composite _perLightRT → _lightmap (additive).
+ *   4. Multiply _lightmap over _groundRT.
+ *   5. _groundLitSprite auto-shows the updated _groundRT.
+ *
+ * Walls/pillars are never touched by the lightmap, so they are always fully
+ * visible (lit by normal mapping in Task 5). Door arcs are in objectsContainer
+ * and are therefore unaffected.
  */
 export class ShadowSystem {
     lights: MarkLight[] = [];
@@ -38,25 +45,33 @@ export class ShadowSystem {
 
     private readonly _app:    Application;
     private readonly _camera: Camera;
+    private readonly _groundContainer: Container;
 
-    private readonly _lightmap:      RenderTexture;
-    private readonly _perLightRT:    RenderTexture;
-    private readonly _lightmapSprite: Sprite;
-    private readonly _lightTexture:  RenderTexture;
+    private readonly _groundRT:        RenderTexture;
+    private readonly _lightmap:        RenderTexture;
+    private readonly _perLightRT:      RenderTexture;
+    private readonly _blurredRT:       RenderTexture;
+    private readonly _lightTexture:    RenderTexture;
+    private readonly _groundLitSprite: Sprite;
 
-    constructor(app: Application, camera: Camera) {
+    /** Cached blur filter — updated per-light, never recreated. */
+    private readonly _blurFilter = new BlurFilter({ strength: 3, quality: 2 });
+
+    constructor(app: Application, camera: Camera, groundContainer: Container) {
         this._app    = app;
         this._camera = camera;
+        this._groundContainer = groundContainer;
 
+        this._groundRT   = RenderTexture.create({ width: GAME_W, height: GAME_H });
         this._lightmap   = RenderTexture.create({ width: GAME_W, height: GAME_H });
         this._perLightRT = RenderTexture.create({ width: GAME_W, height: GAME_H });
+        this._blurredRT  = RenderTexture.create({ width: GAME_W, height: GAME_H });
 
         this._lightTexture = this._createLightTexture(LIGHT_TEX_SIZE);
 
-        this._lightmapSprite = new Sprite(this._lightmap);
-        this._lightmapSprite.blendMode = 'multiply';
-        // Add after the camera world so it composites on top
-        app.stage.addChild(this._lightmapSprite);
+        // Insert ground lit sprite BEFORE camera world (index 0)
+        this._groundLitSprite = new Sprite(this._groundRT);
+        app.stage.addChildAt(this._groundLitSprite, 0);
     }
 
     // -------------------------------------------------------------------------
@@ -108,15 +123,32 @@ export class ShadowSystem {
             light.update(deltaMS);
         }
 
-        // 1. Fill lightmap with ambient colour
-        const ambientGfx = new Graphics();
-        ambientGfx
-            .rect(0, 0, GAME_W, GAME_H)
-            .fill({ color: this.ambientColor, alpha: this.ambientAlpha });
-        renderer.render({ container: ambientGfx, target: this._lightmap, clear: true });
-        ambientGfx.destroy();
+        // 1. Render groundContainer (with camera transform) → _groundRT
+        {
+            const tempContainer = new Container();
+            tempContainer.position.copyFrom(cw.position);
+            tempContainer.scale.copyFrom(cw.scale);
+            tempContainer.pivot.copyFrom(cw.pivot);
+            tempContainer.addChild(this._groundContainer);
 
-        // 2. Per-light pass
+            renderer.render({ container: tempContainer, target: this._groundRT, clear: true });
+
+            // Remove without destroying (groundContainer must survive)
+            tempContainer.removeChild(this._groundContainer);
+            tempContainer.destroy();
+        }
+
+        // 2. Fill lightmap with ambient colour
+        {
+            const ambientGfx = new Graphics();
+            ambientGfx
+                .rect(0, 0, GAME_W, GAME_H)
+                .fill({ color: this.ambientColor, alpha: this.ambientAlpha });
+            renderer.render({ container: ambientGfx, target: this._lightmap, clear: true });
+            ambientGfx.destroy();
+        }
+
+        // 3. Per-light pass
         for (const light of this.lights) {
             if (!light.enabled) continue;
 
@@ -127,7 +159,7 @@ export class ShadowSystem {
             perLightContainer.scale.copyFrom(cw.scale);
             perLightContainer.pivot.copyFrom(cw.pivot);
 
-            // 2a. Light circle sprite (world coords, tinted to current colour)
+            // 3a. Light circle sprite (world coords, tinted to current colour)
             const lightSprite = new Sprite(this._lightTexture);
             lightSprite.scale.set(light.radius / LIGHT_TEX_SIZE);
             lightSprite.anchor.set(0.5);
@@ -137,7 +169,7 @@ export class ShadowSystem {
             lightSprite.alpha = light.opacity;
             perLightContainer.addChild(lightSprite);
 
-            // 2b. Shadow trapezoids (erase blend removes light behind occluders)
+            // 3b. Shadow trapezoids (erase blend removes light behind occluders)
             if (light.castsShadows && this.hulls.length > 0) {
                 const shadowGfx = new Graphics();
                 shadowGfx.blendMode = 'erase';
@@ -155,7 +187,6 @@ export class ShadowSystem {
                 perLightContainer.addChild(shadowGfx);
 
                 // Hull fill — erase light from hull surfaces (ShadowType.Solid).
-                // Prevents cross-hull shadow artifacts between adjacent wall blocks.
                 const hullFillGfx = new Graphics();
                 hullFillGfx.blendMode = 'erase';
                 for (const hull of this.hulls) {
@@ -166,8 +197,6 @@ export class ShadowSystem {
                 perLightContainer.addChild(hullFillGfx);
 
                 // Hull restore — re-draw light gradient only on hull surfaces.
-                // After hull fill erased all light from hulls, this restores
-                // correct illumination so walls facing the light are visible.
                 const hullMask = new Graphics();
                 for (const hull of this.hulls) {
                     if (!hull.enabled) continue;
@@ -188,7 +217,7 @@ export class ShadowSystem {
                 perLightContainer.addChild(lightRestore);
             }
 
-            // 2c. Render per-light container → perLightRT
+            // 3c. Render per-light container → _perLightRT
             renderer.render({
                 container: perLightContainer,
                 target: this._perLightRT,
@@ -196,23 +225,57 @@ export class ShadowSystem {
             });
             perLightContainer.destroy({ children: true });
 
-            // 2d. Composite perLightRT → lightmap (additive)
-            const perLightSprite = new Sprite(this._perLightRT);
-            perLightSprite.blendMode = 'add';
+            // 3d-i. Blur pass: _perLightRT → _blurredRT (normal blend, filter applied)
+            {
+                this._blurFilter.strength = light.sourceRadius * 0.15;
+                const filterContainer = new Container();
+                filterContainer.filters = [this._blurFilter];
+                const perLightSprite = new Sprite(this._perLightRT);
+                filterContainer.addChild(perLightSprite);
+                renderer.render({
+                    container: filterContainer,
+                    target: this._blurredRT,
+                    clear: true,
+                });
+                filterContainer.destroy({ children: true });
+            }
+
+            // 3d-ii. Composite pass: _blurredRT → _lightmap (additive, no filter)
+            {
+                const blurredSprite = new Sprite(this._blurredRT);
+                blurredSprite.blendMode = 'add';
+                renderer.render({
+                    container: blurredSprite,
+                    target: this._lightmap,
+                    clear: false,
+                });
+                blurredSprite.destroy();
+            }
+        }
+
+        // 4. Multiply lightmap over ground RT
+        {
+            const lightmapSprite = new Sprite(this._lightmap);
+            lightmapSprite.blendMode = 'multiply';
             renderer.render({
-                container: perLightSprite,
-                target: this._lightmap,
+                container: lightmapSprite,
+                target: this._groundRT,
                 clear: false,
             });
-            perLightSprite.destroy();
+            lightmapSprite.destroy();
         }
+
+        // _groundLitSprite automatically shows the updated _groundRT
     }
 
     destroy(): void {
+        this._groundRT.destroy();
         this._lightmap.destroy();
         this._perLightRT.destroy();
+        this._blurredRT.destroy();
         this._lightTexture.destroy();
-        this._lightmapSprite.destroy();
+        this._groundLitSprite.destroy();
+        this._blurFilter.destroy();
     }
 
     // -------------------------------------------------------------------------

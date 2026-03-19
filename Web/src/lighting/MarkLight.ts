@@ -14,6 +14,8 @@ export class MarkLight {
     enabled: boolean;
     /** Height above ground plane — used by normal mapping (Task 5). */
     z: number;
+    /** Radius of the physical light source — controls penumbra softness. */
+    sourceRadius: number;
 
     private _t = 0;
     private _direction = 1;
@@ -29,6 +31,7 @@ export class MarkLight {
         radius?: number;
         castsShadows?: boolean;
         z?: number;
+        sourceRadius?: number;
     } = {}) {
         this.position    = { x: options.x ?? 0, y: options.y ?? 0 };
         this.color1      = options.color1 ?? 0xffaa44;
@@ -39,6 +42,7 @@ export class MarkLight {
         this.castsShadows = options.castsShadows ?? true;
         this.enabled     = true;
         this.z           = options.z ?? 75;
+        this.sourceRadius = options.sourceRadius ?? 20;
     }
 
     update(deltaMS: number): void {

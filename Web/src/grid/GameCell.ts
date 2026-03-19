@@ -135,10 +135,21 @@ export class GameCell {
         }
     }
 
-    /** Adds only the ground sprite. Walls and pillars are added separately by GameGrid after deduplication. */
-    addToContainer(container: Container): void {
-        if (this.groundSprite) container.addChild(this.groundSprite);
-        if (this.dirtySprite) container.addChild(this.dirtySprite);
+    /**
+     * Adds ground/dirty sprites to the appropriate layer.
+     * Sprites with zIndex >= 1 (Riempimento fill blocks) go into objectsContainer
+     * so they sort correctly with walls and pillars. Pure ground tiles go into
+     * groundContainer which is rendered separately for the lighting pass.
+     */
+    addToContainer(groundContainer: Container, objectsContainer: Container): void {
+        if (this.groundSprite) {
+            if (this.groundSprite.zIndex >= 1) {
+                objectsContainer.addChild(this.groundSprite);
+            } else {
+                groundContainer.addChild(this.groundSprite);
+            }
+        }
+        if (this.dirtySprite) groundContainer.addChild(this.dirtySprite);
     }
 
     setVisible(visible: boolean): void {

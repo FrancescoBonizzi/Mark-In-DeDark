@@ -48,7 +48,10 @@ export interface PatrolPath {
 }
 
 export class GameGrid {
-    readonly gridContainer: Container;
+    /** Ground tiles and dirty decals — rendered by ShadowSystem for the lit ground pass. */
+    readonly groundContainer: Container;
+    /** Walls, pillars, and Riempimento fill blocks — Y-sorted, rendered by camera world. */
+    readonly objectsContainer: Container;
 
     /** cells[col][row] */
     private readonly _cells: (GameCell | null)[][];
@@ -79,8 +82,9 @@ export class GameGrid {
         this._config = config;
         this._customization = customization;
 
-        this.gridContainer = new Container();
-        this.gridContainer.sortableChildren = true;
+        this.groundContainer = new Container();
+        this.objectsContainer = new Container();
+        this.objectsContainer.sortableChildren = true;
 
         // Initialize empty cell array [col][row]
         this._cells = Array.from({ length: bundle.columns }, () =>
@@ -388,16 +392,16 @@ export class GameGrid {
         for (const col of this._cells) {
             for (const cell of col) {
                 if (!cell) continue;
-                cell.addToContainer(this.gridContainer);
+                cell.addToContainer(this.groundContainer, this.objectsContainer);
             }
         }
 
-        // Add deduplicated walls and pillars
+        // Walls and pillars go into objectsContainer (Y-sorted with Riempimento)
         for (const wall of this.allWalls) {
-            wall.addToContainer(this.gridContainer);
+            wall.addToContainer(this.objectsContainer);
         }
         for (const pillar of this.allPillars) {
-            pillar.addToContainer(this.gridContainer);
+            pillar.addToContainer(this.objectsContainer);
         }
     }
 
