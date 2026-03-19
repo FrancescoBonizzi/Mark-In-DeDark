@@ -354,7 +354,7 @@ export class GameGrid {
                 const cell = this._cells[col]?.[row];
                 if (!cell || cell.isUnLinked) continue;
 
-                const pillars = createPillarsForCell(col, row, cell, this._cells, this._config);
+                const pillars = createPillarsForCell(col, row, cell, this._cells, this._config, this._customization.pillarOffset);
 
                 for (const pillar of pillars) {
                     cell.pillars.set(pillar.position, pillar);

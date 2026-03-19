@@ -49,12 +49,7 @@ export class WallEsteticDoor implements IWall {
         };
 
         this.collisionRectangle = new Rectangle(x, y + 100, textureClosed.width, 40);
-        this.hullRects = [new Rectangle(
-            this.collisionRectangle.x,
-            this.collisionRectangle.y,
-            this.collisionRectangle.width,
-            this.collisionRectangle.height,
-        )];
+        this.hullRects = [new Rectangle(x, y, textureClosed.width, textureClosed.height)];
     }
 
     get isOpen(): boolean { return this._isOpen; }

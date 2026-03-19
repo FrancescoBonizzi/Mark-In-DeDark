@@ -1,17 +1,23 @@
 import { Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import type { PillarPositions } from './enums';
+import type { CollisionOffset } from './LevelCustomization';
 import { zForPillar } from './ZIndexCalculator';
 
 export class Pillar {
     readonly position: PillarPositions;
     readonly x: number;
     readonly y: number;
-    /** Shadow hull rects — stub for Task 4 */
-    readonly hullRects: Rectangle[] = [];
+    readonly hullRects: Rectangle[];
 
     private readonly _sprite: Sprite;
 
-    constructor(position: PillarPositions, x: number, y: number, texture: Texture) {
+    constructor(
+        position: PillarPositions,
+        x: number,
+        y: number,
+        texture: Texture,
+        collisionOffset: CollisionOffset,
+    ) {
         this.position = position;
         this.x = x;
         this.y = y;
@@ -19,6 +25,15 @@ export class Pillar {
         this._sprite.x = x;
         this._sprite.y = y;
         this._sprite.zIndex = zForPillar(y);
+
+        this.hullRects = [
+            new Rectangle(
+                x + collisionOffset.x,
+                y + collisionOffset.y,
+                collisionOffset.w,
+                collisionOffset.h,
+            ),
+        ];
     }
 
     addToContainer(container: Container): void {

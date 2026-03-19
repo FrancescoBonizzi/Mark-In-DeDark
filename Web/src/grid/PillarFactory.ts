@@ -2,6 +2,7 @@ import { LinkDirection, PillarPositions } from './enums';
 import { Pillar } from './Pillar';
 import type { GameCell } from './GameCell';
 import type { LevelConfig } from './LevelConfig';
+import type { CollisionOffset } from './LevelCustomization';
 
 const CELL_SIZE = 192;
 /** Y offset from cell top to north wall centre (C# NorthWallYOffset) */
@@ -33,6 +34,7 @@ export function createPillarsForCell(
     cell: GameCell,
     _cells: (GameCell | null)[][],
     config: LevelConfig,
+    pillarOffset: CollisionOffset,
 ): Pillar[] {
     if (config.pillarTextures.length === 0) return [];
 
@@ -52,7 +54,7 @@ export function createPillarsForCell(
         added.add(pos);
         const tex = pickRandom(config.pillarTextures);
         if (!tex) return;
-        pillars.push(new Pillar(pos, px, py, tex));
+        pillars.push(new Pillar(pos, px, py, tex, pillarOffset));
     };
 
     const addNE = (): void => addPillar(PillarPositions.NE, eastEdgeX, cellY + NORTH_WALL_Y);

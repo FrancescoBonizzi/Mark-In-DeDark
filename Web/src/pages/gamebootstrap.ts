@@ -6,6 +6,8 @@ import { createLevelCustomization } from '../grid/LevelCustomization';
 import { GameGrid, GRID_MAX_HEIGHT } from '../grid/GameGrid';
 import { CELL_SIZE } from '../grid/GameCell';
 import Camera from '../world/Camera';
+import { ShadowSystem } from '../lighting/ShadowSystem';
+import { MarkLight } from '../lighting/MarkLight';
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -16,6 +18,7 @@ let orientationOverlay: HTMLDivElement | null = null;
 let resizeObserver: ResizeObserver | null = null;
 let camera: Camera | null = null;
 let grid: GameGrid | null = null;
+let shadowSystem: ShadowSystem | null = null;
 let keydownHandler: ((e: KeyboardEvent) => void) | null = null;
 let keyupHandler: ((e: KeyboardEvent) => void) | null = null;
 
@@ -120,9 +123,28 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera.x = playerStartX - GAME_W / 2 / zoom;
         camera.y = playerStartY + GAME_H / 2 / zoom;
 
+        // Shadow system
+        shadowSystem = new ShadowSystem(app, camera);
+        shadowSystem.ambientColor = levelCustomization.penumbraAmbientColor;
+        shadowSystem.ambientAlpha = levelCustomization.penumbraAmbientAlpha;
+        shadowSystem.addHullsFromWalls(grid.allWalls);
+        shadowSystem.addHullsFromPillars(grid.allPillars);
+
+        // Test light at player start position
+        const testLight = new MarkLight({
+            x: playerStartX,
+            y: playerStartY,
+            radius: 1200,
+            castsShadows: true,
+            color1: 0xffaa44,
+            color2: 0xff6600,
+        });
+        shadowSystem.addLight(testLight);
+
         console.log(
-            `[Task3] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
+            `[Task4] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
             `Player start: col=${grid.playerStartCol}, row=${grid.playerStartRow}. ` +
+            `Hulls: ${shadowSystem.hulls.length}. ` +
             `Camera: x=${camera.x.toFixed(0)}, y=${camera.y.toFixed(0)}`
         );
 
@@ -146,7 +168,12 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             if (pressedKeys.has('ArrowUp')) camera.y -= step;
             if (pressedKeys.has('ArrowDown')) camera.y += step;
 
+            // TODO Task 6: rimuovere — luce segue il centro della camera per il debug
+            testLight.position.x = camera.x + GAME_W / 2 / camera.getZoom();
+            testLight.position.y = camera.y - GAME_H / 2 / camera.getZoom();
+
             if (grid) grid.update(ticker.deltaMS);
+            if (shadowSystem) shadowSystem.update(app!, ticker.deltaMS);
         });
 
     } catch (err) {
@@ -206,6 +233,8 @@ export function destroyGame() {
     orientationOverlay = null;
     camera = null;
     grid = null;
+    shadowSystem?.destroy();
+    shadowSystem = null;
 
     try {
         (screen.orientation as unknown as { unlock: () => void }).unlock();

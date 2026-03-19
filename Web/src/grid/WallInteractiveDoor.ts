@@ -17,11 +17,12 @@ export class WallInteractiveDoor implements IWall {
     readonly collisionRectangle: Rectangle;
     readonly position: { x: number; y: number };
     readonly centerPosition: { x: number; y: number };
-    readonly hullRects: Rectangle[] = [];
+    hullRects: Rectangle[] = [];
 
     private readonly _sprite: AnimatedSprite;
     private readonly _baseSprite: Sprite;
     private readonly _arcSprite: Sprite | null;
+    private readonly _hullRect: Rectangle;
     private _state: DoorState = DoorState.Open;
     private _frameTimer = 0;
     private _frameIndex: number;
@@ -74,6 +75,7 @@ export class WallInteractiveDoor implements IWall {
         };
 
         this.collisionRectangle = new Rectangle(x, y + 164, closedTexture.width, 32);
+        this._hullRect = new Rectangle(x, y, closedTexture.width, closedTexture.height);
     }
 
     get state(): DoorState { return this._state; }
@@ -85,6 +87,7 @@ export class WallInteractiveDoor implements IWall {
         this._state = DoorState.Opening;
         this._frameIndex = 0;
         this._frameTimer = 0;
+        this.hullRects = [];
     }
 
     close(): void {
@@ -92,6 +95,7 @@ export class WallInteractiveDoor implements IWall {
         this._state = DoorState.Closing;
         this._frameIndex = this._frames.length - 1;
         this._frameTimer = 0;
+        this.hullRects = [this._hullRect];
     }
 
     update(deltaMS: number): void {

@@ -30,6 +30,11 @@ class Camera {
         return this._worldHeight;
     }
 
+    /** Exposes the internal world Container for ShadowSystem transform mirroring. */
+    get worldContainer(): Container {
+        return this._world;
+    }
+
     get width() {
         return this._width / this._world.scale.x;
     }

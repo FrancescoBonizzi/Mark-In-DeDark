@@ -8,7 +8,7 @@ export class WallBreakable implements IWall {
     readonly collisionRectangle: Rectangle;
     readonly position: { x: number; y: number };
     readonly centerPosition: { x: number; y: number };
-    readonly hullRects: Rectangle[] = [];
+    hullRects: Rectangle[] = [];
 
     private readonly _spriteIntact: Sprite;
     private readonly _spriteBrokenA: Sprite;
@@ -69,12 +69,7 @@ export class WallBreakable implements IWall {
             this.collisionRectangle = new Rectangle(x, y + 100, textureIntact.width, 40);
         }
 
-        this.hullRects = [new Rectangle(
-            this.collisionRectangle.x,
-            this.collisionRectangle.y,
-            this.collisionRectangle.width,
-            this.collisionRectangle.height,
-        )];
+        this.hullRects = [new Rectangle(x, y, textureIntact.width, textureIntact.height)];
     }
 
     break(): void {
@@ -83,6 +78,7 @@ export class WallBreakable implements IWall {
         this._spriteIntact.visible = false;
         this._spriteBrokenA.visible = true;
         if (this._spriteBrokenB) this._spriteBrokenB.visible = true;
+        this.hullRects = [];
     }
 
     update(_deltaMS: number): void { /* no tick logic */ }

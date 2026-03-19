@@ -42,14 +42,7 @@ export class WallFixed implements IWall {
             offset.h,
         );
 
-        this.hullRects = [
-            new Rectangle(
-                spriteX + offset.x,
-                spriteY + offset.y,
-                offset.w,
-                offset.h,
-            ),
-        ];
+        this.hullRects = [new Rectangle(spriteX, spriteY, texture.width, texture.height)];
 
         if (decalTexture) {
             this._decalSprite = new Sprite(decalTexture);
