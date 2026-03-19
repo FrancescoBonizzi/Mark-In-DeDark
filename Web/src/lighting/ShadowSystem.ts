@@ -21,20 +21,23 @@ const LIGHT_TEX_SIZE = 256;
  * Two-layer shadow system:
  *
  *  Stage layout after construction:
- *    [0] _groundLitSprite  — fullscreen sprite showing the lit ground pass
- *    [1] camera._world     — walls, pillars, Riempimento (no lightmap)
+ *    [0] _groundLitSprite  — fullscreen sprite showing the ground pass
+ *    [1] _lightmapSprite   — lightmap composited with 'multiply' blend
+ *    [2] camera._world     — walls, pillars, objects (always fully visible)
  *
  * Per-frame pipeline:
  *   1. Render groundContainer (with camera transform) → _groundRT.
  *   2. Fill _lightmap with ambient colour.
  *   3. For each light: build per-light container → _perLightRT, then
  *      blur-composite _perLightRT → _lightmap (additive).
- *   4. Multiply _lightmap over _groundRT.
- *   5. _groundLitSprite auto-shows the updated _groundRT.
+ *      Shadows are black-filled polygons (normal blend) that overwrite
+ *      light pixels with black; black adds 0 when composited → no light
+ *      behind occluders.
+ *   4. _lightmapSprite (multiply) composites lightmap over ground in the
+ *      display list — PixiJS 8 advanced blend modes work correctly here.
  *
- * Walls/pillars are never touched by the lightmap, so they are always fully
- * visible (lit by normal mapping in Task 5). Door arcs are in objectsContainer
- * and are therefore unaffected.
+ * Walls/pillars live above the lightmap sprite ([2]), so they are always
+ * fully visible regardless of lighting.
  */
 export class ShadowSystem {
     lights: MarkLight[] = [];
@@ -53,6 +56,7 @@ export class ShadowSystem {
     private readonly _blurredRT:       RenderTexture;
     private readonly _lightTexture:    RenderTexture;
     private readonly _groundLitSprite: Sprite;
+    private readonly _lightmapSprite:  Sprite;
 
     /** Cached blur filter — updated per-light, never recreated. */
     private readonly _blurFilter = new BlurFilter({ strength: 3, quality: 2 });
@@ -69,9 +73,15 @@ export class ShadowSystem {
 
         this._lightTexture = this._createLightTexture(LIGHT_TEX_SIZE);
 
-        // Insert ground lit sprite BEFORE camera world (index 0)
+        // [0] Ground pass (lit by lightmap sprite above it)
         this._groundLitSprite = new Sprite(this._groundRT);
         app.stage.addChildAt(this._groundLitSprite, 0);
+
+        // [1] Lightmap — multiply blend composites lighting over ground in
+        //     the display list (PixiJS 8 advanced blends work on screen FB).
+        this._lightmapSprite = new Sprite(this._lightmap);
+        this._lightmapSprite.blendMode = 'multiply';
+        app.stage.addChildAt(this._lightmapSprite, 1);
     }
 
     // -------------------------------------------------------------------------
@@ -169,10 +179,11 @@ export class ShadowSystem {
             lightSprite.alpha = light.opacity;
             perLightContainer.addChild(lightSprite);
 
-            // 3b. Shadow trapezoids (erase blend removes light behind occluders)
+            // 3b. Shadow trapezoids — black normal-blend polygons overwrite
+            //     lit pixels with black. When composited additively onto the
+            //     lightmap, black adds 0 → no light contribution behind walls.
             if (light.castsShadows && this.hulls.length > 0) {
                 const shadowGfx = new Graphics();
-                shadowGfx.blendMode = 'erase';
 
                 for (const hull of this.hulls) {
                     if (!hull.enabled) continue;
@@ -181,40 +192,19 @@ export class ShadowSystem {
                         light.position.y,
                     );
                     for (const poly of polys) {
-                        shadowGfx.poly(poly).fill(0xffffff);
+                        shadowGfx.poly(poly).fill(0x000000);
                     }
                 }
                 perLightContainer.addChild(shadowGfx);
 
-                // Hull fill — erase light from hull surfaces (ShadowType.Solid).
+                // Hull fill — black out hull surfaces (ShadowType.Solid).
                 const hullFillGfx = new Graphics();
-                hullFillGfx.blendMode = 'erase';
                 for (const hull of this.hulls) {
                     if (!hull.enabled) continue;
                     const b = hull.bounds;
-                    hullFillGfx.rect(b.x, b.y, b.width, b.height).fill(0xffffff);
+                    hullFillGfx.rect(b.x, b.y, b.width, b.height).fill(0x000000);
                 }
                 perLightContainer.addChild(hullFillGfx);
-
-                // Hull restore — re-draw light gradient only on hull surfaces.
-                const hullMask = new Graphics();
-                for (const hull of this.hulls) {
-                    if (!hull.enabled) continue;
-                    const b = hull.bounds;
-                    hullMask.rect(b.x, b.y, b.width, b.height).fill(0xffffff);
-                }
-
-                const lightRestore = new Sprite(this._lightTexture);
-                lightRestore.scale.set(light.radius / LIGHT_TEX_SIZE);
-                lightRestore.anchor.set(0.5);
-                lightRestore.x = light.position.x;
-                lightRestore.y = light.position.y;
-                lightRestore.tint = light.currentColor;
-                lightRestore.alpha = light.opacity;
-                lightRestore.mask = hullMask;
-
-                perLightContainer.addChild(hullMask);
-                perLightContainer.addChild(lightRestore);
             }
 
             // 3c. Render per-light container → _perLightRT
@@ -253,19 +243,7 @@ export class ShadowSystem {
             }
         }
 
-        // 4. Multiply lightmap over ground RT
-        {
-            const lightmapSprite = new Sprite(this._lightmap);
-            lightmapSprite.blendMode = 'multiply';
-            renderer.render({
-                container: lightmapSprite,
-                target: this._groundRT,
-                clear: false,
-            });
-            lightmapSprite.destroy();
-        }
-
-        // _groundLitSprite automatically shows the updated _groundRT
+        // _lightmapSprite in the display list handles the final multiply composite.
     }
 
     destroy(): void {
@@ -275,6 +253,7 @@ export class ShadowSystem {
         this._blurredRT.destroy();
         this._lightTexture.destroy();
         this._groundLitSprite.destroy();
+        this._lightmapSprite.destroy();
         this._blurFilter.destroy();
     }
 
