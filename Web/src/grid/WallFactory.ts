@@ -90,6 +90,13 @@ export function createWall(
     const vert = isVertical(direction);
     const offset = vert ? customization.wallFixedVerticalOffset : customization.wallFixedHorizontalOffset;
 
+    // C# treats all east/west walls (except Fragile) as plain random vertical walls
+    if (vert && wallType !== WallTypes.Fragile) {
+        const tex = pickWallTexture(direction, config);
+        const pos = wallSpritePos(direction, cellX, cellY, tex.width);
+        return new WallFixed(direction, pos.x, pos.y, tex, offset);
+    }
+
     switch (wallType) {
         case WallTypes.Occludente:
         case WallTypes.Muro1:

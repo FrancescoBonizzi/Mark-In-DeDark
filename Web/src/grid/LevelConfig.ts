@@ -74,7 +74,7 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
 
     const randomHorizontalWalls: Texture[] = [];
     const randomHorizontalWallsNormal: (Texture | null)[] = [];
-    for (let n = 1; n <= 10; n++) {
+    for (let n = 1; n <= 19; n++) {
         const tex = tryGetTexture(sheets, `${p}/RandomWalls/wall_horizontal_${n}`);
         if (!tex) break;
         randomHorizontalWalls.push(tex);
@@ -83,7 +83,7 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
 
     const randomVerticalWalls: Texture[] = [];
     const randomVerticalWallsNormal: (Texture | null)[] = [];
-    for (let n = 1; n <= 10; n++) {
+    for (let n = 1; n <= 19; n++) {
         const tex = tryGetTexture(sheets, `${p}/RandomWalls/wall_vertical_${n}`);
         if (!tex) break;
         randomVerticalWalls.push(tex);
@@ -92,7 +92,7 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
 
     const pillarTextures: Texture[] = [];
     const pillarNormalTextures: (Texture | null)[] = [];
-    for (let n = 1; n <= 10; n++) {
+    for (let n = 1; n <= 19; n++) {
         const tex = tryGetTexture(sheets, `${p}/RandomPillars/pillar_${n}`);
         if (!tex) break;
         pillarTextures.push(tex);
