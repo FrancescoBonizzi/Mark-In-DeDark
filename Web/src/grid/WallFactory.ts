@@ -116,21 +116,21 @@ export function createWall(
             const closedTex = config.wallDoor;
             if (!closedTex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, closedTex.width);
-            return new WallInteractiveDoor(direction, pos.x, pos.y, closedTex, config.doorFrames);
+            return new WallInteractiveDoor(direction, pos.x, pos.y, closedTex, config.doorFrames, config.wallDoorUp ?? undefined);
         }
 
         case WallTypes.Ingresso: {
             const tex = config.ingressoClosed;
             if (!tex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex);
+            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.ingressoUp ?? undefined);
         }
 
         case WallTypes.Uscita: {
             const tex = config.uscitaClosed;
             if (!tex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex);
+            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.uscitaUp ?? undefined);
         }
 
         case WallTypes.Decal1:

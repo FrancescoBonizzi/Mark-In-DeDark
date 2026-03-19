@@ -1,7 +1,7 @@
-import { AnimatedSprite, Container, Rectangle, Texture } from 'pixi.js';
+import { AnimatedSprite, Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import { LinkDirection } from './enums';
 import type { IWall } from './IWall';
-import { zForWall } from './ZIndexCalculator';
+import { Z_OVERALL, zForWall } from './ZIndexCalculator';
 
 export const enum DoorState {
     Closed = 0,
@@ -20,6 +20,8 @@ export class WallInteractiveDoor implements IWall {
     readonly hullRects: Rectangle[] = [];
 
     private readonly _sprite: AnimatedSprite;
+    private readonly _baseSprite: Sprite;
+    private readonly _arcSprite: Sprite | null;
     private _state: DoorState = DoorState.Closed;
     private _frameTimer = 0;
     private _frameIndex = 0;
@@ -31,15 +33,30 @@ export class WallInteractiveDoor implements IWall {
         y: number,
         closedTexture: Texture,
         frames: Texture[],
+        arcTexture?: Texture,
     ) {
         this.direction = direction;
         this._frames = frames;
+
+        this._baseSprite = new Sprite(closedTexture);
+        this._baseSprite.x = x;
+        this._baseSprite.y = y;
+        this._baseSprite.zIndex = zForWall(y + closedTexture.height / 2);
+
+        if (arcTexture) {
+            this._arcSprite = new Sprite(arcTexture);
+            this._arcSprite.x = x;
+            this._arcSprite.y = y - 40;
+            this._arcSprite.zIndex = Z_OVERALL;
+        } else {
+            this._arcSprite = null;
+        }
 
         // Build full animation: closed → open → closed
         const allFrames = frames.length > 0 ? frames : [closedTexture];
         this._sprite = new AnimatedSprite(allFrames);
         this._sprite.x = x;
-        this._sprite.y = y;
+        this._sprite.y = y - 11;
         this._sprite.zIndex = zForWall(y + closedTexture.height / 2);
         this._sprite.stop();
         this._sprite.currentFrame = 0;
@@ -96,10 +113,14 @@ export class WallInteractiveDoor implements IWall {
     }
 
     addToContainer(container: Container): void {
+        container.addChild(this._baseSprite);
+        if (this._arcSprite) container.addChild(this._arcSprite);
         container.addChild(this._sprite);
     }
 
     removeFromContainer(container: Container): void {
+        container.removeChild(this._baseSprite);
+        if (this._arcSprite) container.removeChild(this._arcSprite);
         container.removeChild(this._sprite);
     }
 }
