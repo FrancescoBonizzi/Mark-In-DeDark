@@ -9,19 +9,24 @@ export class WallEsteticDoor implements IWall {
     readonly collisionRectangle: Rectangle;
     readonly position: { x: number; y: number };
     readonly centerPosition: { x: number; y: number };
-    readonly hullRects: Rectangle[] = [];
+    hullRects: Rectangle[];
 
     private readonly _sprite: Sprite;
     private readonly _arcSprite: Sprite | null;
+    private readonly _textureOpen: Texture | undefined;
+    private _isOpen = false;
 
     constructor(
         direction: LinkDirection,
         x: number,
         y: number,
         textureClosed: Texture,
+        openTexture?: Texture,
         arcTexture?: Texture,
+        arcX?: number,
     ) {
         this.direction = direction;
+        this._textureOpen = openTexture;
 
         this._sprite = new Sprite(textureClosed);
         this._sprite.x = x;
@@ -30,7 +35,7 @@ export class WallEsteticDoor implements IWall {
 
         if (arcTexture) {
             this._arcSprite = new Sprite(arcTexture);
-            this._arcSprite.x = x;
+            this._arcSprite.x = arcX ?? x;
             this._arcSprite.y = y - 40;
             this._arcSprite.zIndex = Z_OVERALL;
         } else {
@@ -44,6 +49,21 @@ export class WallEsteticDoor implements IWall {
         };
 
         this.collisionRectangle = new Rectangle(x, y + 100, textureClosed.width, 40);
+        this.hullRects = [new Rectangle(
+            this.collisionRectangle.x,
+            this.collisionRectangle.y,
+            this.collisionRectangle.width,
+            this.collisionRectangle.height,
+        )];
+    }
+
+    get isOpen(): boolean { return this._isOpen; }
+
+    setOpen(): void {
+        if (this._isOpen) return;
+        this._isOpen = true;
+        if (this._textureOpen) this._sprite.texture = this._textureOpen;
+        this.hullRects = [];
     }
 
     update(_deltaMS: number): void { /* static */ }

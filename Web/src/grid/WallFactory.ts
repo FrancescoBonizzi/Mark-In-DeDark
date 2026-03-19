@@ -123,14 +123,20 @@ export function createWall(
             const tex = config.ingressoClosed;
             if (!tex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.ingressoUp ?? undefined);
+            pos.x = cellX + CELL_SIZE / 2 - tex.width / 2;
+            const arcTex = config.ingressoUp ?? undefined;
+            const arcX = arcTex ? cellX + CELL_SIZE / 2 - arcTex.width / 2 : undefined;
+            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.ingressoOpen ?? undefined, arcTex, arcX);
         }
 
         case WallTypes.Uscita: {
             const tex = config.uscitaClosed;
             if (!tex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.uscitaUp ?? undefined);
+            pos.x = cellX + CELL_SIZE / 2 - tex.width / 2;
+            const arcTex = config.uscitaUp ?? undefined;
+            const arcX = arcTex ? cellX + CELL_SIZE / 2 - arcTex.width / 2 : undefined;
+            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.uscitaOpen ?? undefined, arcTex, arcX);
         }
 
         case WallTypes.Decal1:

@@ -6,6 +6,7 @@ import type { CellData } from './GridTypes';
 import type { LevelConfig } from './LevelConfig';
 import type { LevelCustomization } from './LevelCustomization';
 import { createWall } from './WallFactory';
+import { Z_GROUND_DIRTY } from './ZIndexCalculator';
 
 export const CELL_SIZE = 192;
 
@@ -18,6 +19,7 @@ export class GameCell {
     readonly centerY: number;
 
     groundSprite: Sprite | null = null;
+    dirtySprite: Sprite | null = null;
 
     /** Neighbour cells by direction */
     links: Map<LinkDirection, GameCell | null> = new Map([
@@ -57,6 +59,17 @@ export class GameCell {
         this.y = row * CELL_SIZE;
         this.centerX = this.x + CELL_SIZE / 2;
         this.centerY = this.y + CELL_SIZE / 2;
+    }
+
+    setDirtySprite(texture: Texture): void {
+        const ROTATIONS = [0, Math.PI / 2, Math.PI, 3 * Math.PI / 2];
+        const sprite = new Sprite(texture);
+        sprite.anchor.set(0.5, 0.5);
+        sprite.x = this.x + CELL_SIZE / 2 + (Math.random() - 0.5) * (CELL_SIZE - texture.width);
+        sprite.y = this.y + CELL_SIZE / 2 + (Math.random() - 0.5) * (CELL_SIZE - texture.height);
+        sprite.rotation = ROTATIONS[Math.floor(Math.random() * ROTATIONS.length)]!;
+        sprite.zIndex = Z_GROUND_DIRTY;
+        this.dirtySprite = sprite;
     }
 
     setGroundSprite(texture: Texture, zIndex: number, yOffset = 0): void {
@@ -124,10 +137,12 @@ export class GameCell {
     /** Adds only the ground sprite. Walls and pillars are added separately by GameGrid after deduplication. */
     addToContainer(container: Container): void {
         if (this.groundSprite) container.addChild(this.groundSprite);
+        if (this.dirtySprite) container.addChild(this.dirtySprite);
     }
 
     setVisible(visible: boolean): void {
         if (this.groundSprite) this.groundSprite.visible = visible;
+        if (this.dirtySprite) this.dirtySprite.visible = visible;
     }
 
     updateWalls(deltaMS: number): void {

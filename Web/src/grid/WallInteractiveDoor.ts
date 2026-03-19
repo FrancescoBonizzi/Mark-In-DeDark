@@ -68,7 +68,7 @@ export class WallInteractiveDoor implements IWall {
             y: y + closedTexture.height / 2,
         };
 
-        this.collisionRectangle = new Rectangle(x, y + 100, closedTexture.width, 40);
+        this.collisionRectangle = new Rectangle(x, y + 164, closedTexture.width, 32);
     }
 
     get state(): DoorState { return this._state; }

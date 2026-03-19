@@ -113,6 +113,9 @@ export class GameGrid {
                 // Assign ground sprite based on GroundType
                 this._assignGroundSprite(cell, data.groundType, row);
 
+                // Assign dirty overlay sprite
+                this._assignDirtySprite(cell);
+
                 // Initialize walls
                 cell.initializeWalls(data, this._config, this._customization);
 
@@ -173,15 +176,30 @@ export class GameGrid {
                 break;
             }
 
-            // Traps: no ground sprite (collision data only)
             case GroundTypes.TrappolaMorteIstantanea:
             case GroundTypes.TrappolaTemporizzata:
-            case GroundTypes.TriggerGoblin:
+            case GroundTypes.TriggerGoblin: {
+                const trapTex = this._config.groundTextures[Math.floor(Math.random() * this._config.groundTextures.length)];
+                if (trapTex) cell.setGroundSprite(trapTex, Z_GROUND);
                 break;
+            }
 
             default:
                 break;
         }
+    }
+
+    private _dirtyTextureIndex = 0;
+
+    private _assignDirtySprite(cell: GameCell): void {
+        const { dirtyTextures } = this._config;
+        if (dirtyTextures.length === 0) return;
+        if (!cell.groundSprite || cell.isUnLinked) return;
+        if (Math.random() > this._bundle.dirtyProbabilityPct / 100) return;
+
+        const tex = dirtyTextures[this._dirtyTextureIndex % dirtyTextures.length]!;
+        this._dirtyTextureIndex++;
+        cell.setDirtySprite(tex);
     }
 
     private _storeObjectPlacement(

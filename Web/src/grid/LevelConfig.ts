@@ -46,6 +46,7 @@ export interface LevelConfig {
     wallDoorUp: Texture | null;
     doorFrames: Texture[];
     decalTextures: (Texture | null)[];
+    dirtyTextures: Texture[];
 }
 
 export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): LevelConfig {
@@ -114,6 +115,13 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         decalTextures.push(tryGetTexture(sheets, `${p}/Decals/decal_${n}`));
     }
 
+    const dirtyTextures: Texture[] = [];
+    for (let n = 1; n <= 20; n++) {
+        const tex = tryGetTexture(sheets, `${p}/Dirty/dirty_${n}`);
+        if (!tex) break;
+        dirtyTextures.push(tex);
+    }
+
     // Map each GroundType enum value to its specific texture (Terra1→cell1, Terra2→cell2, …)
     // Terra enum values in order: 1, 6, 9, 10, 11, 12, 13, 14, 15, 16
     const terraEnumValues = [1, 6, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -160,6 +168,7 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         wallDoorUp: tryGetTexture(sheets, `${p}/wall_door_up`),
         doorFrames,
         decalTextures,
+        dirtyTextures,
         groundTypeToTexture,
     };
 }
