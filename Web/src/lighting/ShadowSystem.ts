@@ -164,6 +164,28 @@ export class ShadowSystem {
                     hullFillGfx.rect(b.x, b.y, b.width, b.height).fill(0xffffff);
                 }
                 perLightContainer.addChild(hullFillGfx);
+
+                // Hull restore — re-draw light gradient only on hull surfaces.
+                // After hull fill erased all light from hulls, this restores
+                // correct illumination so walls facing the light are visible.
+                const hullMask = new Graphics();
+                for (const hull of this.hulls) {
+                    if (!hull.enabled) continue;
+                    const b = hull.bounds;
+                    hullMask.rect(b.x, b.y, b.width, b.height).fill(0xffffff);
+                }
+
+                const lightRestore = new Sprite(this._lightTexture);
+                lightRestore.scale.set(light.radius / LIGHT_TEX_SIZE);
+                lightRestore.anchor.set(0.5);
+                lightRestore.x = light.position.x;
+                lightRestore.y = light.position.y;
+                lightRestore.tint = light.currentColor;
+                lightRestore.alpha = light.opacity;
+                lightRestore.mask = hullMask;
+
+                perLightContainer.addChild(hullMask);
+                perLightContainer.addChild(lightRestore);
             }
 
             // 2c. Render per-light container → perLightRT
