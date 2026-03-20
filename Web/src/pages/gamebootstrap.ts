@@ -114,9 +114,6 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera = new Camera(app, GRID_MAX_HEIGHT);
         grid = new GameGrid(bundle, levelConfig, levelCustomization);
 
-        // objectsContainer holds walls, pillars, Riempimento — Y-sorted, unaffected by lightmap
-        camera.addToWorld(grid.objectsContainer);
-
         // Center camera on player start
         const playerStartX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
         const playerStartY = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
@@ -124,10 +121,18 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera.x = playerStartX - GAME_W / 2 / zoom;
         camera.y = playerStartY + GAME_H / 2 / zoom;
 
-        // Shadow system owns groundContainer and inserts the lit ground sprite at stage index 0
-        shadowSystem = new ShadowSystem(app, camera, grid.groundContainer);
+        // ShadowSystem owns all containers and renders them offline.
+        // camera._world stays on stage but has no children (renders nothing).
+        shadowSystem = new ShadowSystem(
+            app, camera,
+            grid.groundContainer,
+            grid.groundNormalContainer,
+            grid.objectsContainer,
+            grid.objectsNormalContainer,
+        );
         shadowSystem.ambientColor = levelCustomization.penumbraAmbientColor;
         shadowSystem.ambientAlpha = levelCustomization.penumbraAmbientAlpha;
+        shadowSystem.normalMapAmbienceColor = levelCustomization.normalMapAmbienceColor;
         shadowSystem.addHullsFromWalls(grid.allWalls);
         shadowSystem.addHullsFromPillars(grid.allPillars);
 
@@ -143,7 +148,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         shadowSystem.addLight(testLight);
 
         console.log(
-            `[Task4] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
+            `[Task5] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
             `Player start: col=${grid.playerStartCol}, row=${grid.playerStartRow}. ` +
             `Hulls: ${shadowSystem.hulls.length}. ` +
             `Camera: x=${camera.x.toFixed(0)}, y=${camera.y.toFixed(0)}`

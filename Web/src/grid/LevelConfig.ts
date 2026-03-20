@@ -23,6 +23,8 @@ export interface LevelConfig {
     riempimentoNormalTextures: (Texture | null)[];
     /** Maps GroundType enum value → specific texture (Terra1→cell1, Riempimento1→riempimento_1, …) */
     groundTypeToTexture: Map<number, Texture>;
+    /** Maps GroundType enum value → normal map texture (null if missing). */
+    groundTypeToNormalTexture: Map<number, Texture | null>;
     darkCellTexture: Texture;
     randomHorizontalWalls: Texture[];
     randomHorizontalWallsNormal: (Texture | null)[];
@@ -128,14 +130,17 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
     // Riempimento enum values in order: 8, 17–28
     const riempimentoEnumValues = [8, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
     const groundTypeToTexture = new Map<number, Texture>();
+    const groundTypeToNormalTexture = new Map<number, Texture | null>();
     const fallbackTex = groundTextures[0];
     for (let i = 0; i < terraEnumValues.length; i++) {
         const tex = groundTextures[i] ?? fallbackTex;
         if (tex) groundTypeToTexture.set(terraEnumValues[i]!, tex);
+        groundTypeToNormalTexture.set(terraEnumValues[i]!, groundNormalTextures[i] ?? null);
     }
     for (let i = 0; i < riempimentoEnumValues.length; i++) {
         const tex = riempimentoTextures[i];
         if (tex) groundTypeToTexture.set(riempimentoEnumValues[i]!, tex);
+        groundTypeToNormalTexture.set(riempimentoEnumValues[i]!, riempimentoNormalTextures[i] ?? null);
     }
 
     return {
@@ -170,5 +175,6 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         decalTextures,
         dirtyTextures,
         groundTypeToTexture,
+        groundTypeToNormalTexture,
     };
 }

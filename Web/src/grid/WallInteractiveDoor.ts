@@ -123,6 +123,8 @@ export class WallInteractiveDoor implements IWall {
         this._sprite.texture = this._frames[this._frameIndex]!;
     }
 
+    addNormalToContainer(_container: Container): void { /* no normal map for interactive doors */ }
+
     addToContainer(container: Container): void {
         container.addChild(this._baseSprite);
         if (this._arcSprite) container.addChild(this._arcSprite);

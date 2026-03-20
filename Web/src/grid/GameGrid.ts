@@ -50,8 +50,12 @@ export interface PatrolPath {
 export class GameGrid {
     /** Ground tiles and dirty decals — rendered by ShadowSystem for the lit ground pass. */
     readonly groundContainer: Container;
-    /** Walls, pillars, and Riempimento fill blocks — Y-sorted, rendered by camera world. */
+    /** Normal map sprites for ground tiles — used by ShadowSystem normal map pass. */
+    readonly groundNormalContainer: Container;
+    /** Walls, pillars, and Riempimento fill blocks — Y-sorted, rendered offline by ShadowSystem. */
     readonly objectsContainer: Container;
+    /** Normal map sprites for walls, pillars, and Riempimento — used by ShadowSystem normal map pass. */
+    readonly objectsNormalContainer: Container;
 
     /** cells[col][row] */
     private readonly _cells: (GameCell | null)[][];
@@ -83,8 +87,11 @@ export class GameGrid {
         this._customization = customization;
 
         this.groundContainer = new Container();
+        this.groundNormalContainer = new Container();
         this.objectsContainer = new Container();
         this.objectsContainer.sortableChildren = true;
+        this.objectsNormalContainer = new Container();
+        this.objectsNormalContainer.sortableChildren = true;
 
         // Initialize empty cell array [col][row]
         this._cells = Array.from({ length: bundle.columns }, () =>
@@ -144,6 +151,7 @@ export class GameGrid {
 
     private _assignGroundSprite(cell: GameCell, groundType: GroundTypes, _row: number): void {
         const map = this._config.groundTypeToTexture;
+        const normalMap = this._config.groundTypeToNormalTexture;
 
         switch (groundType) {
             case GroundTypes.Buio:
@@ -164,6 +172,8 @@ export class GameGrid {
                 const tex = map.get(groundType) ?? this._config.groundTextures[0];
                 if (!tex) break;
                 cell.setGroundSprite(tex, Z_GROUND);
+                const normalTex = normalMap.get(groundType) ?? null;
+                if (normalTex) cell.setGroundNormalSprite(normalTex, Z_GROUND);
                 break;
             }
 
@@ -184,6 +194,8 @@ export class GameGrid {
                 if (!tex) break;
                 // Riempimento shifted up 48px (matches C# Origin.Y += 48), z based on Y position
                 cell.setGroundSprite(tex, zForRiempimento(cell.y), -48);
+                const normalTex = normalMap.get(groundType) ?? null;
+                if (normalTex) cell.setGroundNormalSprite(normalTex, zForRiempimento(cell.y), -48);
                 cell.isUnLinked = true;
                 break;
             }
@@ -392,16 +404,23 @@ export class GameGrid {
         for (const col of this._cells) {
             for (const cell of col) {
                 if (!cell) continue;
-                cell.addToContainer(this.groundContainer, this.objectsContainer);
+                cell.addToContainer(
+                    this.groundContainer,
+                    this.objectsContainer,
+                    this.groundNormalContainer,
+                    this.objectsNormalContainer,
+                );
             }
         }
 
         // Walls and pillars go into objectsContainer (Y-sorted with Riempimento)
         for (const wall of this.allWalls) {
             wall.addToContainer(this.objectsContainer);
+            wall.addNormalToContainer(this.objectsNormalContainer);
         }
         for (const pillar of this.allPillars) {
             pillar.addToContainer(this.objectsContainer);
+            pillar.addNormalToContainer(this.objectsNormalContainer);
         }
     }
 

@@ -17,6 +17,11 @@ export class MarkLight {
     /** Radius of the physical light source — controls penumbra softness. */
     sourceRadius: number;
 
+    /** World-space position offset applied when computing the light for ground tiles. */
+    deltaForGround: { x: number; y: number } = { x: 0, y: 100 };
+    /** World-space position offset applied when computing the light for wall/pillar tiles. */
+    deltaForWall: { x: number; y: number } = { x: 0, y: -60 };
+
     private _t = 0;
     private _direction = 1;
     /** Full ping-pong cycle duration in ms. */
@@ -55,6 +60,22 @@ export class MarkLight {
             this._direction = 1;
         }
         this.currentColor = lerpColor(this.color1, this.color2, this._t / this._period);
+    }
+
+    /** Distance squared for ground normal map pass (derived from radius). */
+    get distanceSquaredForGround(): number { return this.radius * this.radius; }
+
+    /** Distance squared for wall/pillar normal map pass (derived from radius). */
+    get distanceSquaredForWall(): number { return this.radius * this.radius; }
+
+    /** Current light colour as linear RGB [0-1] triple for the normal map shader. */
+    get colorNormalVec3(): { r: number; g: number; b: number } {
+        const c = this.currentColor;
+        return {
+            r: ((c >> 16) & 0xff) / 255,
+            g: ((c >>  8) & 0xff) / 255,
+            b: ( c        & 0xff) / 255,
+        };
     }
 
     /** World-space position with the penumbra offset applied (C# getPenumbraPosition). */

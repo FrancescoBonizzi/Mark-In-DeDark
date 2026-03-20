@@ -63,6 +63,8 @@ export class WallEsteticDoor implements IWall {
 
     update(_deltaMS: number): void { /* static */ }
 
+    addNormalToContainer(_container: Container): void { /* no normal map for estetic doors */ }
+
     addToContainer(container: Container): void {
         container.addChild(this._sprite);
         if (this._arcSprite) container.addChild(this._arcSprite);

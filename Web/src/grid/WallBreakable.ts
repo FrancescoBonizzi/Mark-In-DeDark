@@ -83,6 +83,8 @@ export class WallBreakable implements IWall {
 
     update(_deltaMS: number): void { /* no tick logic */ }
 
+    addNormalToContainer(_container: Container): void { /* no normal map for breakable walls */ }
+
     addToContainer(container: Container): void {
         container.addChild(this._spriteIntact);
         container.addChild(this._spriteBrokenA);

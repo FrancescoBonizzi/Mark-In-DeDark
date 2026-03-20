@@ -13,6 +13,8 @@ export interface LevelCustomization {
     penumbraAmbientColor: number;
     /** Lightmap ambient opacity (0–1). */
     penumbraAmbientAlpha: number;
+    /** Ambient colour for the normal map pass (0–1 per channel). */
+    normalMapAmbienceColor: { r: number; g: number; b: number };
 }
 
 export function createLevelCustomization(levelId: number): LevelCustomization {
@@ -25,5 +27,6 @@ export function createLevelCustomization(levelId: number): LevelCustomization {
         pillarOffset: levelId <= 2 ? smallPillar : defaultPillar,
         penumbraAmbientColor: levelId <= 2 ? 0x686868 : 0x000000,
         penumbraAmbientAlpha: 1.0,
+        normalMapAmbienceColor: { r: 0.35, g: 0.35, b: 0.35 },
     };
 }

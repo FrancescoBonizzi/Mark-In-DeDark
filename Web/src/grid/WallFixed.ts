@@ -12,6 +12,7 @@ export class WallFixed implements IWall {
     readonly hullRects: Rectangle[] = [];
 
     private readonly _sprite: Sprite;
+    private readonly _normalSprite: Sprite | null = null;
     private readonly _decalSprite: Sprite | null = null;
 
     constructor(
@@ -21,6 +22,7 @@ export class WallFixed implements IWall {
         texture: Texture,
         offset: CollisionOffset,
         decalTexture?: Texture,
+        normalTexture?: Texture,
     ) {
         this.direction = direction;
         this._sprite = new Sprite(texture);
@@ -28,6 +30,13 @@ export class WallFixed implements IWall {
         this._sprite.y = spriteY;
         const wallZ = zForWall(spriteY + texture.height / 2);
         this._sprite.zIndex = wallZ;
+
+        if (normalTexture) {
+            this._normalSprite = new Sprite(normalTexture);
+            this._normalSprite.x = spriteX;
+            this._normalSprite.y = spriteY;
+            this._normalSprite.zIndex = wallZ;
+        }
 
         this.position = { x: spriteX, y: spriteY };
         this.centerPosition = {
@@ -57,6 +66,10 @@ export class WallFixed implements IWall {
     addToContainer(container: Container): void {
         container.addChild(this._sprite);
         if (this._decalSprite) container.addChild(this._decalSprite);
+    }
+
+    addNormalToContainer(container: Container): void {
+        if (this._normalSprite) container.addChild(this._normalSprite);
     }
 
     removeFromContainer(container: Container): void {

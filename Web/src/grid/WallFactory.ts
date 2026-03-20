@@ -10,8 +10,9 @@ import { WallInteractiveDoor } from './WallInteractiveDoor';
 
 const CELL_SIZE = 192;
 
-function pickRandom<T>(arr: T[]): T {
-    return arr[Math.floor(Math.random() * arr.length)]!;
+function pickRandomWithIndex<T>(arr: T[]): { item: T; index: number } {
+    const index = Math.floor(Math.random() * arr.length);
+    return { item: arr[index]!, index };
 }
 
 /**
@@ -40,13 +41,19 @@ function isVertical(direction: LinkDirection): boolean {
     return direction === LinkDirection.EastLink || direction === LinkDirection.WestLink;
 }
 
-function pickWallTexture(direction: LinkDirection, config: LevelConfig): Texture {
+function pickWallTextureWithIndex(direction: LinkDirection, config: LevelConfig): { texture: Texture; normalTexture: Texture | null } {
     if (isVertical(direction)) {
-        if (config.randomVerticalWalls.length > 0) return pickRandom(config.randomVerticalWalls);
-        return config.randomHorizontalWalls[0] ?? config.darkCellTexture;
+        if (config.randomVerticalWalls.length > 0) {
+            const { item, index } = pickRandomWithIndex(config.randomVerticalWalls);
+            return { texture: item, normalTexture: config.randomVerticalWallsNormal[index] ?? null };
+        }
+        return { texture: config.randomHorizontalWalls[0] ?? config.darkCellTexture, normalTexture: null };
     }
-    if (config.randomHorizontalWalls.length > 0) return pickRandom(config.randomHorizontalWalls);
-    return config.darkCellTexture;
+    if (config.randomHorizontalWalls.length > 0) {
+        const { item, index } = pickRandomWithIndex(config.randomHorizontalWalls);
+        return { texture: item, normalTexture: config.randomHorizontalWallsNormal[index] ?? null };
+    }
+    return { texture: config.darkCellTexture, normalTexture: null };
 }
 
 function pickSpecialWallTexture(wallType: WallTypes, config: LevelConfig): Texture {
@@ -60,7 +67,7 @@ function pickSpecialWallTexture(wallType: WallTypes, config: LevelConfig): Textu
             default: return 0;
         }
     })();
-    return config.specialWalls[index] ?? pickWallTexture(LinkDirection.NorthLink, config);
+    return config.specialWalls[index] ?? pickWallTextureWithIndex(LinkDirection.NorthLink, config).texture;
 }
 
 function decalIndex(wallType: WallTypes): number {
@@ -92,9 +99,9 @@ export function createWall(
 
     // C# treats all east/west walls (except Fragile) as plain random vertical walls
     if (vert && wallType !== WallTypes.Fragile) {
-        const tex = pickWallTexture(direction, config);
+        const { texture: tex, normalTexture } = pickWallTextureWithIndex(direction, config);
         const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-        return new WallFixed(direction, pos.x, pos.y, tex, offset);
+        return new WallFixed(direction, pos.x, pos.y, tex, offset, undefined, normalTexture ?? undefined);
     }
 
     switch (wallType) {
@@ -104,11 +111,11 @@ export function createWall(
         case WallTypes.Muro3:
         case WallTypes.Muro4:
         case WallTypes.Muro5: {
-            const tex = wallType === WallTypes.Occludente
-                ? pickWallTexture(direction, config)
-                : pickSpecialWallTexture(wallType, config);
+            const { texture: tex, normalTexture } = wallType === WallTypes.Occludente
+                ? pickWallTextureWithIndex(direction, config)
+                : { texture: pickSpecialWallTexture(wallType, config), normalTexture: null };
             const pos = wallSpritePos(direction, cellX, cellY, tex.width);
-            return new WallFixed(direction, pos.x, pos.y, tex, offset);
+            return new WallFixed(direction, pos.x, pos.y, tex, offset, undefined, normalTexture ?? undefined);
         }
 
         case WallTypes.Fragile: {
@@ -154,10 +161,10 @@ export function createWall(
         case WallTypes.Decal6:
         case WallTypes.Decal7:
         case WallTypes.Decal8: {
-            const baseTex = pickWallTexture(direction, config);
+            const { texture: baseTex, normalTexture } = pickWallTextureWithIndex(direction, config);
             const pos = wallSpritePos(direction, cellX, cellY, baseTex.width);
             const decalTex = config.decalTextures[decalIndex(wallType)] ?? undefined;
-            return new WallFixed(direction, pos.x, pos.y, baseTex, offset, decalTex);
+            return new WallFixed(direction, pos.x, pos.y, baseTex, offset, decalTex, normalTexture ?? undefined);
         }
 
         default:

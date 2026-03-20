@@ -10,9 +10,10 @@ const NORTH_WALL_Y = -96;
 /** Y offset from cell top to south wall centre (C# SouthWallYOffset) */
 const SOUTH_WALL_Y = 96;
 
-function pickRandom<T>(arr: T[]): T | null {
+function pickRandomWithIndex<T>(arr: T[]): { item: T; index: number } | null {
     if (arr.length === 0) return null;
-    return arr[Math.floor(Math.random() * arr.length)]!;
+    const index = Math.floor(Math.random() * arr.length);
+    return { item: arr[index]!, index };
 }
 
 /**
@@ -52,9 +53,10 @@ export function createPillarsForCell(
     const addPillar = (pos: PillarPositions, px: number, py: number): void => {
         if (added.has(pos)) return;
         added.add(pos);
-        const tex = pickRandom(config.pillarTextures);
-        if (!tex) return;
-        pillars.push(new Pillar(pos, px, py, tex, pillarOffset));
+        const result = pickRandomWithIndex(config.pillarTextures);
+        if (!result) return;
+        const normalTex = config.pillarNormalTextures[result.index] ?? undefined;
+        pillars.push(new Pillar(pos, px, py, result.item, pillarOffset, normalTex));
     };
 
     const addNE = (): void => addPillar(PillarPositions.NE, eastEdgeX, cellY + NORTH_WALL_Y);

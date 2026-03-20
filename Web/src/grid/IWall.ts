@@ -10,5 +10,6 @@ export interface IWall {
     hullRects: Rectangle[];
     update(deltaMS: number): void;
     addToContainer(container: Container): void;
+    addNormalToContainer(container: Container): void;
     removeFromContainer(container: Container): void;
 }

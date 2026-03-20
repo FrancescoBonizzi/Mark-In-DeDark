@@ -19,6 +19,7 @@ export class GameCell {
     readonly centerY: number;
 
     groundSprite: Sprite | null = null;
+    groundNormalSprite: Sprite | null = null;
     dirtySprite: Sprite | null = null;
 
     /** Neighbour cells by direction */
@@ -78,6 +79,13 @@ export class GameCell {
         this.groundSprite.x = this.x;
         this.groundSprite.y = this.y + yOffset;
         this.groundSprite.zIndex = zIndex;
+    }
+
+    setGroundNormalSprite(texture: Texture, zIndex: number, yOffset = 0): void {
+        this.groundNormalSprite = new Sprite(texture);
+        this.groundNormalSprite.x = this.x;
+        this.groundNormalSprite.y = this.y + yOffset;
+        this.groundNormalSprite.zIndex = zIndex;
     }
 
     initializeWalls(data: CellData, config: LevelConfig, customization: LevelCustomization): void {
@@ -141,12 +149,19 @@ export class GameCell {
      * so they sort correctly with walls and pillars. Pure ground tiles go into
      * groundContainer which is rendered separately for the lighting pass.
      */
-    addToContainer(groundContainer: Container, objectsContainer: Container): void {
+    addToContainer(
+        groundContainer: Container,
+        objectsContainer: Container,
+        groundNormalContainer: Container,
+        objectsNormalContainer: Container,
+    ): void {
         if (this.groundSprite) {
             if (this.groundSprite.zIndex >= 1) {
                 objectsContainer.addChild(this.groundSprite);
+                if (this.groundNormalSprite) objectsNormalContainer.addChild(this.groundNormalSprite);
             } else {
                 groundContainer.addChild(this.groundSprite);
+                if (this.groundNormalSprite) groundNormalContainer.addChild(this.groundNormalSprite);
             }
         }
         if (this.dirtySprite) groundContainer.addChild(this.dirtySprite);

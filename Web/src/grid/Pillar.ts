@@ -10,6 +10,7 @@ export class Pillar {
     readonly hullRects: Rectangle[];
 
     private readonly _sprite: Sprite;
+    private readonly _normalSprite: Sprite | null = null;
 
     constructor(
         position: PillarPositions,
@@ -17,6 +18,7 @@ export class Pillar {
         y: number,
         texture: Texture,
         collisionOffset: CollisionOffset,
+        normalTexture?: Texture,
     ) {
         this.position = position;
         this.x = x;
@@ -25,6 +27,13 @@ export class Pillar {
         this._sprite.x = x;
         this._sprite.y = y;
         this._sprite.zIndex = zForPillar(y);
+
+        if (normalTexture) {
+            this._normalSprite = new Sprite(normalTexture);
+            this._normalSprite.x = x;
+            this._normalSprite.y = y;
+            this._normalSprite.zIndex = zForPillar(y);
+        }
 
         this.hullRects = [
             new Rectangle(
@@ -38,6 +47,10 @@ export class Pillar {
 
     addToContainer(container: Container): void {
         container.addChild(this._sprite);
+    }
+
+    addNormalToContainer(container: Container): void {
+        if (this._normalSprite) container.addChild(this._normalSprite);
     }
 
     removeFromContainer(container: Container): void {
