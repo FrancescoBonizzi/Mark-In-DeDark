@@ -26,6 +26,8 @@ export class MarkLight {
     private _direction = 1;
     /** Full ping-pong cycle duration in ms. */
     private readonly _period = 3000;
+    private readonly _distanceSquared: number;
+    private readonly _distanceSquaredForWall: number;
 
     constructor(options: {
         x?: number;
@@ -37,6 +39,8 @@ export class MarkLight {
         castsShadows?: boolean;
         z?: number;
         sourceRadius?: number;
+        distanceSquared?: number;
+        distanceSquaredForWall?: number;
     } = {}) {
         this.position    = { x: options.x ?? 0, y: options.y ?? 0 };
         this.color1      = options.color1 ?? 0xffaa44;
@@ -48,6 +52,8 @@ export class MarkLight {
         this.enabled     = true;
         this.z           = options.z ?? 75;
         this.sourceRadius = options.sourceRadius ?? 20;
+        this._distanceSquared = options.distanceSquared ?? 20_600;
+        this._distanceSquaredForWall = options.distanceSquaredForWall ?? this._distanceSquared;
     }
 
     update(deltaMS: number): void {
@@ -62,11 +68,11 @@ export class MarkLight {
         this.currentColor = lerpColor(this.color1, this.color2, this._t / this._period);
     }
 
-    /** Distance squared for ground normal map pass (derived from radius). */
-    get distanceSquaredForGround(): number { return this.radius * this.radius; }
+    /** Distance squared for ground normal map pass. */
+    get distanceSquaredForGround(): number { return this._distanceSquared; }
 
-    /** Distance squared for wall/pillar normal map pass (derived from radius). */
-    get distanceSquaredForWall(): number { return this.radius * this.radius; }
+    /** Distance squared for wall/pillar normal map pass. */
+    get distanceSquaredForWall(): number { return this._distanceSquaredForWall; }
 
     /** Current light colour as linear RGB [0-1] triple for the normal map shader. */
     get colorNormalVec3(): { r: number; g: number; b: number } {

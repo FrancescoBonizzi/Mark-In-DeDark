@@ -75,7 +75,7 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let actualDistSq = dot(lightVec, lightVec);
     let attenuation  = clamp(nmu.uLightParams.x / max(actualDistSq, 1.0), 0.0, 1.0);
 
-    let lit = diffuse.rgb * nmu.uLightColor.rgb * nDotL * attenuation * nmu.uLightParams.y;
+    let lit = diffuse.rgb * nmu.uLightColor.rgb * nDotL * nDotL * attenuation * nmu.uLightParams.y;
     return vec4<f32>(lit, diffuse.a);
 }
 `;
@@ -146,7 +146,7 @@ void main(void) {
     float actualDistSq = dot(lightVec, lightVec);
     float attenuation  = clamp(uLightParams.x / max(actualDistSq, 1.0), 0.0, 1.0);
 
-    vec3 lit = diffuse.rgb * uLightColor.rgb * nDotL * attenuation * uLightParams.y;
+    vec3 lit = diffuse.rgb * uLightColor.rgb * nDotL * nDotL * attenuation * uLightParams.y;
     finalColor = vec4(lit, diffuse.a);
 }
 `;

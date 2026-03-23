@@ -144,15 +144,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             castsShadows: true,
             color1: 0xffaa44,
             color2: 0xff6600,
+            distanceSquared: 20_600,
         });
         shadowSystem.addLight(testLight);
-
-        console.log(
-            `[Task5] Level ${levelId} loaded. Grid: ${bundle.columns}x${bundle.rows}. ` +
-            `Player start: col=${grid.playerStartCol}, row=${grid.playerStartRow}. ` +
-            `Hulls: ${shadowSystem.hulls.length}. ` +
-            `Camera: x=${camera.x.toFixed(0)}, y=${camera.y.toFixed(0)}`
-        );
 
         // Arrow key camera navigation for verification
         keydownHandler = (e: KeyboardEvent) => {
