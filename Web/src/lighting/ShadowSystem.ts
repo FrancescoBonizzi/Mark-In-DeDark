@@ -234,12 +234,19 @@ export class ShadowSystem {
                     light.opacity,
                 );
 
+                // Phase 1: render filter output to temp RT
                 const filterContainer = new Container();
                 filterContainer.filters = [this._normalMapFilter];
                 const diffuseSprite = new Sprite(this._groundRT);
                 filterContainer.addChild(diffuseSprite);
-                renderer.render({ container: filterContainer, target: this._normalMappedGroundRT, clear: false });
+                renderer.render({ container: filterContainer, target: this._perLightRT, clear: true });
                 filterContainer.destroy({ children: true });
+
+                // Phase 2: additive composite onto final RT
+                const addSprite = new Sprite(this._perLightRT);
+                addSprite.blendMode = 'add';
+                renderer.render({ container: addSprite, target: this._normalMappedGroundRT, clear: false });
+                addSprite.destroy();
             }
         }
 
@@ -306,12 +313,19 @@ export class ShadowSystem {
                     light.opacity,
                 );
 
+                // Phase 1: render filter output to temp RT
                 const filterContainer = new Container();
                 filterContainer.filters = [this._normalMapFilter];
                 const diffuseSprite = new Sprite(this._objectsRT);
                 filterContainer.addChild(diffuseSprite);
-                renderer.render({ container: filterContainer, target: this._normalMappedObjectsRT, clear: false });
+                renderer.render({ container: filterContainer, target: this._perLightRT, clear: true });
                 filterContainer.destroy({ children: true });
+
+                // Phase 2: additive composite onto final RT
+                const addSprite = new Sprite(this._perLightRT);
+                addSprite.blendMode = 'add';
+                renderer.render({ container: addSprite, target: this._normalMappedObjectsRT, clear: false });
+                addSprite.destroy();
             }
         }
 

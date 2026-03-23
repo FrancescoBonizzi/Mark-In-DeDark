@@ -51,12 +51,18 @@ fn mainVertex(@location(0) aPosition: vec2<f32>) -> VSOutput {
 @fragment
 fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let clampedUv = clamp(uv, gfu.uInputClamp.xy, gfu.uInputClamp.zw);
-
-    let diffuse      = textureSample(uTexture,   uSampler,        clampedUv);
-    let normalSample = textureSample(uNormalMap, uNormalMapSampler, clampedUv);
+    let diffuse = textureSample(uTexture, uSampler, clampedUv);
 
     // Early-out for transparent pixels
     if (diffuse.a < 0.01) { return vec4<f32>(0.0); }
+
+    // Pixel position in screen-space — correct regardless of filter pool texture size
+    let pixelPos = clampedUv * gfu.uInputSize.xy;
+
+    // Sample normal map with corrected UV for the separate RenderTexture (1280×720)
+    let normalMapSize = vec2<f32>(textureDimensions(uNormalMap, 0));
+    let normalMapUv   = pixelPos / normalMapSize;
+    let normalSample  = textureSample(uNormalMap, uNormalMapSampler, normalMapUv);
 
     // Decode normal from [0,1] → [-1,1], flip Y for screen-space convention
     var n = normalSample.rgb * 2.0 - 1.0;
@@ -64,7 +70,6 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     n = normalize(n);
 
     // Light vector from pixel to light in screen-space (xy in pixels, z = height)
-    let pixelPos = clampedUv * gfu.uInputSize.xy;
     let lightVec = vec3<f32>(nmu.uLightPosition.xy - pixelPos, nmu.uLightPosition.z);
     let lightDir = normalize(lightVec);
 
@@ -127,17 +132,22 @@ uniform vec4 uLightParams;     // x = distanceSq, y = opacity
 
 void main(void) {
     vec2 uv = clamp(vTextureCoord, uInputClamp.xy, uInputClamp.zw);
-
-    vec4 diffuse      = texture(uTexture,   uv);
-    vec4 normalSample = texture(uNormalMap, uv);
+    vec4 diffuse = texture(uTexture, uv);
 
     if (diffuse.a < 0.01) { finalColor = vec4(0.0); return; }
+
+    // Pixel position in screen-space — correct regardless of filter pool texture size
+    vec2 pixelPos = uv * uInputSize.xy;
+
+    // Sample normal map with corrected UV for the separate RenderTexture (1280×720)
+    vec2 normalMapSize = vec2(textureSize(uNormalMap, 0));
+    vec2 normalMapUv   = pixelPos / normalMapSize;
+    vec4 normalSample  = texture(uNormalMap, normalMapUv);
 
     vec3 n = normalSample.rgb * 2.0 - 1.0;
     n.y = -n.y;
     n = normalize(n);
 
-    vec2 pixelPos = uv * uInputSize.xy;
     vec3 lightVec = vec3(uLightPosition.xy - pixelPos, uLightPosition.z);
     vec3 lightDir = normalize(lightVec);
 
@@ -186,7 +196,6 @@ export class NormalMapFilter extends Filter {
                 uNormalMap:        emptySource,
                 uNormalMapSampler: emptySource.style,
             },
-            blendMode: 'add',
         });
 
         this._normalMapUniforms = normalMapUniforms;
