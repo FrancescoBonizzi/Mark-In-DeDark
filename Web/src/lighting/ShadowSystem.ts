@@ -226,10 +226,9 @@ export class ShadowSystem {
                     light.position.y + light.deltaForGround.y,
                     cw,
                 );
-                const zoom = cw.scale.x;
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z * zoom,
+                    light.z,
                     light.colorNormalVec3,
                     light.distanceSquaredForGround,
                     light.opacity,
@@ -299,10 +298,9 @@ export class ShadowSystem {
                     light.position.y + light.deltaForWall.y,
                     cw,
                 );
-                const zoom = cw.scale.x;
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z * zoom,
+                    light.z,
                     light.colorNormalVec3,
                     light.distanceSquaredForWall,
                     light.opacity,

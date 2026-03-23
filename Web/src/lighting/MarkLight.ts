@@ -50,7 +50,7 @@ export class MarkLight {
         this.radius      = options.radius  ?? 800;
         this.castsShadows = options.castsShadows ?? true;
         this.enabled     = true;
-        this.z           = options.z ?? 75;
+        this.z           = options.z ?? 90;
         this.sourceRadius = options.sourceRadius ?? 20;
         this._distanceSquared = options.distanceSquared ?? 20_600;
         this._distanceSquaredForWall = options.distanceSquaredForWall ?? this._distanceSquared;
