@@ -228,7 +228,7 @@ export class ShadowSystem {
                 );
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z,
+                    light.z * Math.abs(cw.scale.x),
                     light.colorNormalVec3,
                     light.distanceSquaredForGround,
                     light.opacity,
@@ -307,7 +307,7 @@ export class ShadowSystem {
                 );
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z,
+                    light.z * Math.abs(cw.scale.x),
                     light.colorNormalVec3,
                     light.distanceSquaredForWall,
                     light.opacity,

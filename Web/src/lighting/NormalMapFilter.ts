@@ -23,7 +23,7 @@ struct NormalMapUniforms {
 @group(0) @binding(1) var uTexture:  texture_2d<f32>;
 @group(0) @binding(2) var uSampler:  sampler;
 
-@group(1) @binding(0) var<uniform> nmu: NormalMapUniforms;
+@group(1) @binding(0) var<uniform> normalMapUniforms: NormalMapUniforms;
 @group(1) @binding(1) var uNormalMap:        texture_2d<f32>;
 @group(1) @binding(2) var uNormalMapSampler: sampler;
 
@@ -70,7 +70,7 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     n = normalize(n);
 
     // Light vector from pixel to light in screen-space (xy in pixels, z = height)
-    let lightVec = vec3<f32>(nmu.uLightPosition.xy - pixelPos, nmu.uLightPosition.z);
+    let lightVec = vec3<f32>(normalMapUniforms.uLightPosition.xy - pixelPos, normalMapUniforms.uLightPosition.z);
     let lightDir = normalize(lightVec);
 
     // Lambertian diffuse
@@ -78,9 +78,9 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
     // Inverse-square attenuation (unclamped — mirrors C# shader behaviour)
     let actualDistSq = dot(lightVec, lightVec);
-    let attenuation  = max(nmu.uLightParams.x / max(actualDistSq, 1.0), 0.0);
+    let attenuation  = max(normalMapUniforms.uLightParams.x / max(actualDistSq, 1.0), 0.0);
 
-    let lit = diffuse.rgb * nmu.uLightColor.rgb * nDotL * nDotL * attenuation * nmu.uLightParams.y;
+    let lit = diffuse.rgb * normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y;
     return vec4<f32>(lit, diffuse.a);
 }
 `;
