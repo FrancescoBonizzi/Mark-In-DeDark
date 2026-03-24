@@ -5,6 +5,7 @@ import { AnimationsManager } from '../animation/AnimationsManager';
 import { SpriteAnimation } from '../animation/SpriteAnimation';
 import { MarkLight } from '../lighting/MarkLight';
 import { GameGrid } from '../grid/GameGrid';
+import { CandlesManager } from '../objects/CandlesManager';
 import { getTexture } from '../assets/AssetsLoader';
 
 const PLAYER_SPEED = 0.6;      // seconds per cell (from C# GameConfig.PlayerSpeed)
@@ -45,12 +46,10 @@ function buildPlayerAnimations(sheets: Spritesheet[]): AnimationsManager {
     return mgr;
 }
 
-/**
- * Concrete Player class (port of C# Player.cs).
- * Wraps Character with player-specific torch configuration and
- * stubs for door/candle actions (implemented in Task 8).
- */
+/** Concrete Player class (port of C# Player.cs). */
 export class Player extends Character {
+    private _candlesManager: CandlesManager | null = null;
+
     constructor(
         grid: GameGrid,
         sheets: Spritesheet[],
@@ -82,10 +81,29 @@ export class Player extends Character {
         });
     }
 
+    /** Wire up the CandlesManager so the player can place candles. */
+    setCandlesManager(mgr: CandlesManager): void {
+        this._candlesManager = mgr;
+    }
+
     override handleInput(action: CharacterActions): void {
-        // Stubs for Task 8
-        if (action === CharacterActions.DoorSwitch) return;
-        if (action === CharacterActions.Candle) return;
+        if (this.isDead || this.isDying) return;
+
+        if (action === CharacterActions.DoorSwitch) {
+            if (!this.isMoving) {
+                this._grid.switchDoorIfAny(this.currentCell);
+            }
+            return;
+        }
+
+        if (action === CharacterActions.Candle) {
+            if (!this.isMoving && this._candlesManager) {
+                const c = this.worldCenter;
+                this._candlesManager.placeCandle(c.x, c.y);
+            }
+            return;
+        }
+
         super.handleInput(action);
     }
 }

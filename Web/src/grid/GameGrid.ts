@@ -9,6 +9,7 @@ import { removeDuplicatePillars, removeDuplicateWalls } from './GameGridCleaner'
 import type { IWall } from './IWall';
 import type { Pillar } from './Pillar';
 import { WallEsteticDoor } from './WallEsteticDoor';
+import { WallInteractiveDoor } from './WallInteractiveDoor';
 import { Z_GROUND, zForRiempimento } from './ZIndexCalculator';
 
 export const GRID_COLS = 45;
@@ -73,6 +74,8 @@ export class GameGrid {
     playerStartRow = 0;
     exitCol = 0;
     exitRow = 0;
+    keyCol = 0;
+    keyRow = 0;
 
     enemyPlacements: EnemyPlacement[] = [];
     candlePlacements: CandlePlacement[] = [];
@@ -243,6 +246,11 @@ export class GameGrid {
             case ObjectTypes.Uscita:
                 this.exitCol = col;
                 this.exitRow = row;
+                break;
+
+            case ObjectTypes.Chiave:
+                this.keyCol = col;
+                this.keyRow = row;
                 break;
 
             case ObjectTypes.Candele: {
@@ -508,6 +516,113 @@ export class GameGrid {
                 if (!cell) continue;
                 cell.updateWalls(deltaMS);
             }
+        }
+    }
+
+    /**
+     * Closes all interactive doors after grid initialization (port of C# CloseAllDoors).
+     * Called once after the grid is built.
+     */
+    closeAllDoors(): void {
+        for (const wall of this.allWalls) {
+            if (wall instanceof WallInteractiveDoor) {
+                if (wall.isOpen) {
+                    wall.close();
+                    // Remove graph links for this door
+                    this._setDoorPassability(wall, false);
+                }
+            }
+        }
+        this._pathCache.clear();
+    }
+
+    /**
+     * Toggles the interactive door(s) adjacent to the given cell
+     * (port of C# GameGrid.SwitchDoorIfAny).
+     */
+    switchDoorIfAny(cell: GameCell | null): void {
+        if (!cell) return;
+
+        const doorsToggled = new Set<WallInteractiveDoor>();
+
+        // Check walls in the current cell and adjacent cells
+        const cellsToCheck: [GameCell, LinkDirection][] = [
+            [cell, LinkDirection.NorthLink],
+            [cell, LinkDirection.SouthLink],
+            [cell, LinkDirection.EastLink],
+            [cell, LinkDirection.WestLink],
+        ];
+
+        for (const [c, dir] of cellsToCheck) {
+            const wall = c.walls.get(dir);
+            if (wall instanceof WallInteractiveDoor && !doorsToggled.has(wall)) {
+                doorsToggled.add(wall);
+                if (wall.isOpen) {
+                    wall.close();
+                    this._setDoorPassability(wall, false);
+                } else {
+                    wall.open();
+                    this._setDoorPassability(wall, true);
+                }
+            }
+        }
+
+        if (doorsToggled.size > 0) this._pathCache.clear();
+    }
+
+    private _setDoorPassability(door: WallInteractiveDoor, passable: boolean): void {
+        // Find which two cells this door separates
+        const dir = door.direction;
+        const opposite = this._opposite(dir);
+
+        for (const col of this._cells) {
+            for (const cell of col) {
+                if (!cell) continue;
+                if (cell.walls.get(dir) !== door) continue;
+
+                const neighbor = this._cellInDirection(cell, dir);
+                if (!neighbor) continue;
+
+                // Update graph links and passability flags
+                cell.links.set(dir, passable ? neighbor : null);
+                neighbor.links.set(opposite, passable ? cell : null);
+
+                this._setPassability(cell, dir, passable);
+                this._setPassability(neighbor, opposite, passable);
+                return;
+            }
+        }
+    }
+
+    private _cellInDirection(cell: GameCell, dir: LinkDirection): GameCell | null {
+        const [dc, dr] = this._dirDelta(dir);
+        return this._cells[cell.col + dc]?.[cell.row + dr] ?? null;
+    }
+
+    private _dirDelta(dir: LinkDirection): [number, number] {
+        switch (dir) {
+            case LinkDirection.NorthLink: return [0, -1];
+            case LinkDirection.SouthLink: return [0, 1];
+            case LinkDirection.EastLink:  return [1, 0];
+            case LinkDirection.WestLink:  return [-1, 0];
+        }
+    }
+
+    private _opposite(dir: LinkDirection): LinkDirection {
+        switch (dir) {
+            case LinkDirection.NorthLink: return LinkDirection.SouthLink;
+            case LinkDirection.SouthLink: return LinkDirection.NorthLink;
+            case LinkDirection.EastLink:  return LinkDirection.WestLink;
+            case LinkDirection.WestLink:  return LinkDirection.EastLink;
+        }
+    }
+
+    private _setPassability(cell: GameCell, dir: LinkDirection, passable: boolean): void {
+        switch (dir) {
+            case LinkDirection.NorthLink: cell.northPassable = passable; break;
+            case LinkDirection.SouthLink: cell.southPassable = passable; break;
+            case LinkDirection.EastLink:  cell.eastPassable = passable; break;
+            case LinkDirection.WestLink:  cell.westPassable = passable; break;
         }
     }
 

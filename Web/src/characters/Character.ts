@@ -71,6 +71,14 @@ export abstract class Character {
     readonly surroundingLight: MarkLight | null;
     private readonly _torchOffsets: TorchOffsets | null;
 
+    // Falling-in-trap animation state
+    private _isFallingInTrap = false;
+    // Rates per ms (from C#: step every 35ms with per-step deltas)
+    private static readonly TRAP_OPACITY_RATE  = 0.009 / 35;   // → 0 in ~3.9s
+    private static readonly TRAP_SCALE_RATE    = 0.07  / 35;   // → 0 in ~0.5s
+    private static readonly TRAP_ROTATION_RATE = 0.02  / 35;
+    private static readonly TRAP_Y_RATE        = 3     / 35;   // px per ms
+
     // HitBox tolerance (matches C# Rectangle(24, 24, 48, 48))
     private static readonly HIT_X = 24;
     private static readonly HIT_Y = 24;
@@ -145,6 +153,11 @@ export abstract class Character {
     update(deltaMS: number): void {
         if (this.isDead) return;
 
+        if (this._isFallingInTrap) {
+            this._updateFallingAnimation(deltaMS);
+            return;
+        }
+
         if (!this.isDying) {
             this._handleBufferedInput();
             this._advanceLerp(deltaMS);
@@ -191,15 +204,53 @@ export abstract class Character {
         return this._state === CharacterState.Dead;
     }
 
-    /** Stub — full implementation in Task 7. */
     die(): void {
         if (this.isDead || this.isDying) return;
         this._state = CharacterState.Dying;
     }
 
-    /** Stub — full implementation in Task 7. */
-    fallInTrap(): void {
-        this.die();
+    /**
+     * Starts the falling-in-trap animation (port of C# CharacterFallingInTrapAnimation).
+     * Character shrinks, rotates, moves toward trapCenter, and fades out.
+     */
+    fallInTrap(trapCenterX: number, trapCenterY: number): void {
+        if (this.isDead || this._isFallingInTrap) return;
+        this._isFallingInTrap = true;
+        this._state = CharacterState.Dying;
+        // Snap to trap center
+        this._x = trapCenterX;
+        this._y = trapCenterY;
+        this._mainSprite.x = this._x;
+        this._mainSprite.y = this._y;
+        this._normalSprite.x = this._x;
+        this._normalSprite.y = this._y;
+    }
+
+    private _updateFallingAnimation(deltaMS: number): void {
+        const curAlpha = this._mainSprite.alpha;
+        const newAlpha = Math.max(0, curAlpha - Character.TRAP_OPACITY_RATE * deltaMS);
+        const newScale = Math.max(0, this._mainSprite.scale.x - Character.TRAP_SCALE_RATE * deltaMS);
+        const newRot = this._mainSprite.rotation + Character.TRAP_ROTATION_RATE * deltaMS;
+        this._y += Character.TRAP_Y_RATE * deltaMS;
+
+        this._mainSprite.alpha = newAlpha;
+        this._mainSprite.scale.set(newScale);
+        this._mainSprite.rotation = newRot;
+        this._mainSprite.y = this._y;
+
+        this._normalSprite.alpha = newAlpha;
+        this._normalSprite.scale.set(newScale);
+        this._normalSprite.rotation = newRot;
+        this._normalSprite.y = this._y;
+
+        if (this.surroundingLight) {
+            this.surroundingLight.opacity = newAlpha;
+        }
+
+        if (newAlpha <= 0) {
+            this._state = CharacterState.Dead;
+            if (this.surroundingLight) this.surroundingLight.enabled = false;
+        }
     }
 
     destroy(): void {
