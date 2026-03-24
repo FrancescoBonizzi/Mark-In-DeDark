@@ -15,6 +15,10 @@ export class AnimationsManager {
         return this;
     }
 
+    has(name: string): boolean {
+        return this._animations.has(name);
+    }
+
     /** Switch to animation by name, resetting it to frame 0. No-op if already playing. */
     play(name: string): void {
         if (this._currentName === name) return;

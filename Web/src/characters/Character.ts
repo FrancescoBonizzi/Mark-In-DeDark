@@ -59,7 +59,7 @@ export abstract class Character {
     private _nextY: number;
     private _lerpAmount = 1; // 1 = idle (arrived)
     private _elapsedMS = 0;
-    private readonly _movementSpeedMS: number; // ms per cell
+    protected _movementSpeedMS: number; // ms per cell
 
     // Buffered input
     private _nextAction: CharacterActions = CharacterActions.Idle;
@@ -70,6 +70,9 @@ export abstract class Character {
     // Torch
     readonly surroundingLight: MarkLight | null;
     private readonly _torchOffsets: TorchOffsets | null;
+
+    /** When true, _playWalkAnimation and _playIdleAnimation are no-ops (used by Taurus charge). */
+    dontPlayDefaultAnimations = false;
 
     // Falling-in-trap animation state
     private _isFallingInTrap = false;
@@ -196,6 +199,11 @@ export abstract class Character {
         return this._lerpAmount < 1 && !this.isDead && !this.isDying;
     }
 
+    get state(): CharacterState { return this._state; }
+
+    get movementSpeedMS(): number { return this._movementSpeedMS; }
+    set movementSpeedMS(value: number) { this._movementSpeedMS = value; }
+
     get isDying(): boolean {
         return this._state === CharacterState.Dying;
     }
@@ -250,6 +258,30 @@ export abstract class Character {
         if (newAlpha <= 0) {
             this._state = CharacterState.Dead;
             if (this.surroundingLight) this.surroundingLight.enabled = false;
+        }
+    }
+
+    /** Snaps character to current position and resets movement (used by Enemy after killing player). */
+    protected _stopCurrentMovement(): void {
+        this._lerpAmount = 1;
+        this._startX = this._x;
+        this._startY = this._y;
+        this._nextX = this._x;
+        this._nextY = this._y;
+        this._elapsedMS = 0;
+    }
+
+    /** Plays the idle animation for a given direction action (used by Enemy.attack and ChargeDirectionAI). */
+    setDirectionAnimation(action: CharacterActions): void {
+        switch (action) {
+            case CharacterActions.Up:    this._playIdleAnimation(CharacterState.IdleUp);    break;
+            case CharacterActions.Down:  this._playIdleAnimation(CharacterState.IdleDown);  break;
+            case CharacterActions.Left:  this._playIdleAnimation(CharacterState.IdleLeft);  break;
+            case CharacterActions.Right: this._playIdleAnimation(CharacterState.IdleRight); break;
+            case CharacterActions.IdleUp:    this._playIdleAnimation(CharacterState.IdleUp);    break;
+            case CharacterActions.IdleDown:  this._playIdleAnimation(CharacterState.IdleDown);  break;
+            case CharacterActions.IdleLeft:  this._playIdleAnimation(CharacterState.IdleLeft);  break;
+            case CharacterActions.IdleRight: this._playIdleAnimation(CharacterState.IdleRight); break;
         }
     }
 
@@ -360,6 +392,7 @@ export abstract class Character {
     // -------------------------------------------------------------------------
 
     private _playWalkAnimation(state: CharacterState): void {
+        if (this.dontPlayDefaultAnimations) return;
         switch (state) {
             case CharacterState.GoingUp:    this._animations.play('WalkUp');   this._setFlip(false); break;
             case CharacterState.GoingDown:  this._animations.play('WalkDown'); this._setFlip(false); break;
@@ -369,6 +402,7 @@ export abstract class Character {
     }
 
     private _playIdleAnimation(state: CharacterState): void {
+        if (this.dontPlayDefaultAnimations) return;
         switch (state) {
             case CharacterState.IdleUp:    this._animations.play('IdleUp');   this._setFlip(false); break;
             case CharacterState.IdleDown:  this._animations.play('IdleDown'); this._setFlip(false); break;

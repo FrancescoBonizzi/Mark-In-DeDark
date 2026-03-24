@@ -20,7 +20,10 @@ export class Candle {
     private readonly _animation: SpriteAnimation;
     private _isDying = false;
     private _dyingElapsed = 0;
-    private readonly _DYING_DURATION_MS = 3000;
+    private _DYING_DURATION_MS = 3000;
+
+    /** True when an enemy is already heading toward this candle (prevents double-targeting). */
+    isBeingFollowed = false;
 
     constructor(
         sheets: Spritesheet[],
@@ -60,10 +63,11 @@ export class Candle {
     get isAlive(): boolean { return !this._isDying || this._dyingElapsed < this._DYING_DURATION_MS; }
     get isDead(): boolean { return this._isDying && this._dyingElapsed >= this._DYING_DURATION_MS; }
 
-    /** Called by enemies in Task 8. Starts the fade-out death sequence. */
-    die(): void {
+    /** Starts the fade-out death sequence. Optional durationMS overrides the default 3000ms. */
+    die(durationMS = 3000): void {
         if (this._isDying) return;
         this._isDying = true;
+        this._DYING_DURATION_MS = durationMS;
     }
 
     update(deltaMS: number): void {

@@ -28,6 +28,7 @@ export class MarkLight {
     private readonly _period = 3000;
     private readonly _distanceSquared: number;
     private readonly _distanceSquaredForWall: number;
+    private _originalColor2: number;
 
     constructor(options: {
         x?: number;
@@ -45,6 +46,7 @@ export class MarkLight {
         this.position    = { x: options.x ?? 0, y: options.y ?? 0 };
         this.color1      = options.color1 ?? 0xffaa44;
         this.color2      = options.color2 ?? 0xff6600;
+        this._originalColor2 = this.color2;
         this.currentColor = this.color1;
         this.opacity     = options.opacity ?? 1;
         this.radius      = options.radius  ?? 800;
@@ -82,6 +84,16 @@ export class MarkLight {
             g: ((c >>  8) & 0xff) / 255,
             b: ( c        & 0xff) / 255,
         };
+    }
+
+    /** Sets a temporary color2 (used for Skeleton rage / Taurus charge tinting). */
+    setTemporaryColor(color: number): void {
+        this.color2 = color;
+    }
+
+    /** Restores the original color2. */
+    resetColor(): void {
+        this.color2 = this._originalColor2;
     }
 
     /** World-space position with the penumbra offset applied (C# getPenumbraPosition). */

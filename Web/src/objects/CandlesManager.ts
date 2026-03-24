@@ -1,7 +1,10 @@
 import { Container, Spritesheet } from 'pixi.js';
 import { Candle } from './Candle';
 import { GameCell } from '../grid/GameCell';
+import { CELL_SIZE } from '../grid/GameCell';
 import { ShadowSystem } from '../lighting/ShadowSystem';
+import { GameGrid } from '../grid/GameGrid';
+import { CharacterActions } from '../interaction/CharacterActions';
 
 /** Manages placed candles and the player's candle inventory (port of C# CandlesManager.cs). */
 export class CandlesManager {
@@ -63,6 +66,44 @@ export class CandlesManager {
                 this.candles.splice(i, 1);
             }
         }
+    }
+
+    /**
+     * Returns the nearest alive candle reachable within maxCellRange cells from fromCell.
+     * Used by KillCandleAI to find a candle target.
+     */
+    getNearestCandlePath(
+        fromCell: GameCell,
+        maxCellRange: number,
+        grid: GameGrid,
+    ): { candle: Candle; actions: CharacterActions[] } | null {
+        const maxDistSq = (CELL_SIZE * (maxCellRange + 1)) ** 2;
+        let best: { candle: Candle; actions: CharacterActions[] } | null = null;
+        let bestLen = Infinity;
+
+        for (const candle of this.candles) {
+            if (!candle.isAlive || candle.isBeingFollowed) continue;
+
+            const cx = candle.collisionRectangle.x + candle.collisionRectangle.width / 2;
+            const cy = candle.collisionRectangle.y + candle.collisionRectangle.height / 2;
+            const dx = cx - fromCell.centerX;
+            const dy = cy - fromCell.centerY;
+            if (dx * dx + dy * dy > maxDistSq) continue;
+
+            const targetCell = grid.getCellAtPixel(cx, cy);
+            if (!targetCell) continue;
+
+            const actions = grid.findActionsToPath(fromCell, targetCell);
+            if (actions.length === 0 || actions.length > maxCellRange) continue;
+
+            if (actions.length < bestLen) {
+                bestLen = actions.length;
+                best = { candle, actions };
+                if (bestLen === 1) break;
+            }
+        }
+
+        return best;
     }
 
     destroy(): void {

@@ -17,6 +17,9 @@ import { Exit } from '../objects/Exit';
 import { InstantlyDieTrap } from '../objects/InstantlyDieTrap';
 import { TimedBreakableTrap } from '../objects/TimedBreakableTrap';
 import { GoblinTriggerTrap } from '../objects/GoblinTriggerTrap';
+import { Enemy } from '../characters/Enemy';
+import { createEnemiesFromGrid } from '../characters/enemies/EnemyFactory';
+import { Goblin } from '../characters/enemies/Goblin';
 import Numbers from '../services/Numbers';
 
 const GAME_W = 1280;
@@ -36,6 +39,7 @@ let candlePacks: CandlePack[] = [];
 let key: Key | null = null;
 let exit: Exit | null = null;
 let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
+let enemies: Enemy[] = [];
 
 const hasPhysicalKeyboard = (): boolean =>
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -192,12 +196,32 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             } else if (t.groundType === GroundTypes.TrappolaTemporizzata) {
                 return new TimedBreakableTrap(assets.spriteSheets, cx, cy, CELL_SIZE, grid!.groundContainer);
             } else {
-                // TriggerGoblin — stub callback for Task 8
+                // TriggerGoblin — spawns a Goblin on trigger
+                const triggerCol = t.col;
+                const triggerRow = t.row;
                 return new GoblinTriggerTrap(assets.spriteSheets, cx, cy, CELL_SIZE, grid!.groundContainer, () => {
-                    console.log('[GoblinTrigger] fired — goblin spawn in Task 8');
+                    if (!grid || !shadowSystem || !player || !candlesManager) return;
+                    const cell = grid.getCell(triggerCol, triggerRow);
+                    if (!cell) return;
+                    const goblin = new Goblin(
+                        grid, assets.spriteSheets,
+                        grid.objectsContainer, grid.objectsNormalContainer,
+                        cell.centerX, cell.centerY,
+                        player, candlesManager,
+                    );
+                    if (goblin.surroundingLight) shadowSystem.addLight(goblin.surroundingLight);
+                    enemies.push(goblin);
+                    console.log('[GoblinTrigger] goblin spawned');
                 });
             }
         });
+
+        // Create enemies from grid placements
+        enemies = createEnemiesFromGrid(
+            grid, assets.spriteSheets,
+            grid.objectsContainer, grid.objectsNormalContainer,
+            player, candlesManager, shadowSystem,
+        );
 
         // Center camera on player start
         const zoom = camera.getZoom();
@@ -213,6 +237,11 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             // Input + player update
             player.handleInput(controller.currentAction);
             player.update(dt);
+
+            // Enemies
+            for (const enemy of enemies) {
+                enemy.update(dt);
+            }
 
             // CandlesManager
             candlesManager?.update(dt);
@@ -317,6 +346,11 @@ export function destroyGame() {
     player = null;
     controller?.dispose();
     controller = null;
+    for (const enemy of enemies) {
+        if (enemy.surroundingLight) shadowSystem?.removeLight(enemy.surroundingLight);
+        enemy.destroy();
+    }
+    enemies = [];
     candlesManager?.destroy();
     candlesManager = null;
     candlePacks = [];

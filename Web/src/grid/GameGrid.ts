@@ -1,5 +1,6 @@
 import { Container } from 'pixi.js';
 import { GroundTypes, LinkDirection, ObjectTypes } from './enums';
+import { CharacterActions } from '../interaction/CharacterActions';
 import { CELL_SIZE, GameCell } from './GameCell';
 import type { GridBundle } from './GridTypes';
 import type { LevelConfig } from './LevelConfig';
@@ -469,19 +470,25 @@ export class GameGrid {
             const current = queue.shift()!;
             if (current === to) break;
 
-            for (const [dir, neighbour] of current.links) {
-                if (!neighbour) continue;
-                if (visited.has(neighbour)) continue;
-
-                if (!ignoreWalls) {
-                    // Check if passable in this direction
-                    const passable = this._isPassable(current, dir);
-                    if (!passable) continue;
+            if (ignoreWalls) {
+                // Ghost pathfinding: traverse raw grid neighbors ignoring wall links
+                for (const [dc, dr] of [[0,-1],[0,1],[1,0],[-1,0]] as [number,number][]) {
+                    const neighbour = this._cells[current.col + dc]?.[current.row + dr] ?? null;
+                    if (!neighbour || neighbour.isUnLinked) continue;
+                    if (visited.has(neighbour)) continue;
+                    visited.add(neighbour);
+                    parent.set(neighbour, current);
+                    queue.push(neighbour);
                 }
-
-                visited.add(neighbour);
-                parent.set(neighbour, current);
-                queue.push(neighbour);
+            } else {
+                for (const [dir, neighbour] of current.links) {
+                    if (!neighbour) continue;
+                    if (visited.has(neighbour)) continue;
+                    if (!this._isPassable(current, dir)) continue;
+                    visited.add(neighbour);
+                    parent.set(neighbour, current);
+                    queue.push(neighbour);
+                }
             }
         }
 
@@ -508,6 +515,77 @@ export class GameGrid {
 
     invalidatePathCache(): void {
         this._pathCache.clear();
+    }
+
+    /** Converts a BFS cell path to a sequence of directional CharacterActions. */
+    pathToActions(path: GameCell[]): CharacterActions[] {
+        const actions: CharacterActions[] = [];
+        for (let i = 0; i < path.length - 1; i++) {
+            const a = path[i]!;
+            const b = path[i + 1]!;
+            const dc = b.col - a.col;
+            const dr = b.row - a.row;
+            if (dc === 1)       actions.push(CharacterActions.Right);
+            else if (dc === -1) actions.push(CharacterActions.Left);
+            else if (dr === 1)  actions.push(CharacterActions.Down);
+            else if (dr === -1) actions.push(CharacterActions.Up);
+        }
+        return actions;
+    }
+
+    /** BFS path respecting walls, converted to CharacterActions[]. */
+    findActionsToPath(from: GameCell, to: GameCell): CharacterActions[] {
+        return this.pathToActions(this.findPath(from, to));
+    }
+
+    /** BFS path ignoring walls (Ghost), converted to CharacterActions[]. */
+    findActionsToPathIgnoringWalls(from: GameCell, to: GameCell): CharacterActions[] {
+        return this.pathToActions(this.findPathIgnoringWalls(from, to));
+    }
+
+    /** Returns true if the cell is passable in the given direction. */
+    isPassableWithAction(cell: GameCell, action: CharacterActions): boolean {
+        switch (action) {
+            case CharacterActions.Up:    return cell.northPassable;
+            case CharacterActions.Down:  return cell.southPassable;
+            case CharacterActions.Right: return cell.eastPassable;
+            case CharacterActions.Left:  return cell.westPassable;
+            default: return false;
+        }
+    }
+
+    /**
+     * Breaks the wall in the given direction from the given cell (Taurus charge).
+     * Removes the wall visually, updates graph links and passability, clears path cache.
+     */
+    breakWall(cell: GameCell, direction: CharacterActions): void {
+        const dir = this._actionToLinkDir(direction);
+        if (dir === null) return;
+
+        const wall = cell.walls.get(dir);
+        if (!wall) return;
+
+        const neighbor = this._cellInDirection(cell, dir);
+        if (!neighbor) return;
+
+        const opposite = this._opposite(dir);
+        cell.links.set(dir, neighbor);
+        neighbor.links.set(opposite, cell);
+        this._setPassability(cell, dir, true);
+        this._setPassability(neighbor, opposite, true);
+        cell.walls.delete(dir);
+
+        this._pathCache.clear();
+    }
+
+    private _actionToLinkDir(action: CharacterActions): LinkDirection | null {
+        switch (action) {
+            case CharacterActions.Up:    return LinkDirection.NorthLink;
+            case CharacterActions.Down:  return LinkDirection.SouthLink;
+            case CharacterActions.Right: return LinkDirection.EastLink;
+            case CharacterActions.Left:  return LinkDirection.WestLink;
+            default: return null;
+        }
     }
 
     /**
