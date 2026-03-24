@@ -73,9 +73,6 @@ export class ShadowSystem {
     private readonly _blurFilter = new BlurFilter({ strength: 3, quality: 2 });
     /** Reused normal-map filter (blendMode = 'add' always). */
     private readonly _normalMapFilter = new NormalMapFilter();
-    /** [DEBUG] flag per log una-tantum del per-light pass. */
-    private _debugLogged = false;
-
     constructor(
         app: Application,
         camera: Camera,
@@ -235,18 +232,6 @@ export class ShadowSystem {
                     light.distanceSquaredForGround,
                     light.opacity,
                 );
-
-                if (!this._debugLogged) {
-                    console.log('[NormalMap] light screen pos:', sx.toFixed(1), sy.toFixed(1),
-                        'z:', (light.z * Math.abs(cw.scale.x)).toFixed(1));
-                    console.log('[NormalMap] light color:', light.colorNormalVec3,
-                        'distanceSq:', light.distanceSquaredForGround,
-                        'opacity:', light.opacity);
-                    console.log('[NormalMap] cw scale:', cw.scale.x.toFixed(3), cw.scale.y.toFixed(3),
-                        'pos:', cw.position.x.toFixed(1), cw.position.y.toFixed(1),
-                        'pivot:', cw.pivot.x.toFixed(1), cw.pivot.y.toFixed(1));
-                    this._debugLogged = true;
-                }
 
                 // Phase 1: render filter output to temp RT
                 const filterContainer = new Container();

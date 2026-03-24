@@ -7,6 +7,8 @@ import type { CandlesManager } from '../objects/CandlesManager';
 import type { PatrolAI } from './PatrolAI';
 import { KillCandleAI } from './KillCandleAI';
 import { checkLineOfSight } from './LineOfSight';
+import { SoundManagerInstance } from '../services/SoundInstance';
+import { AssetsRoot } from '../assets/constants';
 
 /** Speed (ms/cell) used when hunting (Skeleton spec from GameConfig). */
 const HUNTING_SPEED_MS = 500;
@@ -52,6 +54,7 @@ export class PlayerHunterLineOfSightAI implements IEnemyAI {
         // Speed up and tint
         enemy.movementSpeedMS = HUNTING_SPEED_MS;
         enemy.surroundingLight?.setTemporaryColor(RAGE_COLOR);
+        SoundManagerInstance.play('patrolSeenYou', `${AssetsRoot}sounds/effects/PatrolSeenYou.wav`, { volume: 0.7 });
     }
 
     update(enemy: Enemy, deltaMS: number): CharacterActions {

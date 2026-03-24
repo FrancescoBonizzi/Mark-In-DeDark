@@ -23,6 +23,7 @@ import { Goblin } from '../characters/enemies/Goblin';
 import Numbers from '../services/Numbers';
 import ScoreRepository from '../services/ScoreRepository';
 import { GameHud } from '../ui/GameHud';
+import { SoundManagerInstance } from '../services/SoundInstance';
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -44,9 +45,11 @@ let exit: Exit | null = null;
 let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
 let enemies: Enemy[] = [];
 let hud: GameHud | null = null;
+let deathOverlay: HTMLDivElement | null = null;
 let elapsedMs = 0;
 let gameEnded = false;
 let currentLevelId = 1;
+let visibilityHandler: (() => void) | null = null;
 
 const hasPhysicalKeyboard = (): boolean =>
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -225,22 +228,25 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                     );
                     if (goblin.surroundingLight) shadowSystem.addLight(goblin.surroundingLight);
                     enemies.push(goblin);
-                    console.log('[GoblinTrigger] goblin spawned');
                 });
             }
         });
 
         // Create enemies from grid placements
+        const onShake = (intensity: number) => camera?.startShake(intensity);
         enemies = createEnemiesFromGrid(
             grid, assets.spriteSheets,
             grid.objectsContainer, grid.objectsNormalContainer,
-            player, candlesManager, shadowSystem,
+            player, candlesManager, shadowSystem, onShake,
         );
 
-        // HUD
+        // HUD + death overlay
         const gameWrapper = container.querySelector<HTMLDivElement>('#game-wrapper');
         if (gameWrapper) {
             hud = new GameHud(gameWrapper);
+            deathOverlay = document.createElement('div');
+            deathOverlay.id = 'game-death-overlay';
+            gameWrapper.appendChild(deathOverlay);
         }
 
         // Center camera on player start
@@ -284,7 +290,6 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 if (intersects(playerRect, key.collisionRectangle)) {
                     key.collect();
                     exit?.setOpen();
-                    console.log('[Key] raccolta — uscita aperta');
                 }
             } else {
                 key?.update(dt);
@@ -296,7 +301,6 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 if (!pack.isCollected && intersects(player.collisionRectangle, pack.collisionRectangle)) {
                     pack.collect();
                     candlesManager?.addCandles(pack.count);
-                    console.log(`[CandlePack] raccolto (${pack.count} candele)`);
                 }
                 if (pack.isGone) candlePacks.splice(i, 1);
             }
@@ -304,7 +308,6 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             // Exit collision — win
             if (exit?.isOpen && !player.isDead) {
                 if (intersects(player.collisionRectangle, exit.collisionRectangle)) {
-                    console.log('[Exit] livello completato!');
                     gameEnded = true;
                     const used = candlesManager?.playerUsedCandles ?? 0;
                     ScoreRepository.setLevelCompleted(currentLevelId);
@@ -329,6 +332,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             // Player death check (triggered by enemy or trap)
             if (player.isDead) {
                 gameEnded = true;
+                deathOverlay?.classList.add('active');
                 sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
                     levelId: currentLevelId,
                     isWin: false,
@@ -347,9 +351,24 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             const targetY = player.worldCenter.y + GAME_H / 2 / z;
             camera.x = Numbers.lerp(camera.x, targetX, 0.1);
             camera.y = Numbers.lerp(camera.y, targetY, 0.1);
+            camera.updateShake();
 
             if (shadowSystem) shadowSystem.update(app!, dt);
         });
+
+        // Pause/resume on tab visibility change
+        visibilityHandler = () => {
+            if (!app) return;
+            if (document.hidden) {
+                app.ticker.stop();
+                SoundManagerInstance.pauseAll();
+            } else {
+                const isPortrait = orientationOverlay?.classList.contains('visible') ?? false;
+                if (!isPortrait) app.ticker.start();
+                SoundManagerInstance.resumeAll();
+            }
+        };
+        document.addEventListener('visibilitychange', visibilityHandler);
 
     } catch (err) {
         console.error('[gamebootstrap] Failed to load level:', err);
@@ -396,8 +415,14 @@ function resize() {
 export function destroyGame() {
     if (!app) return;
 
+    if (visibilityHandler) {
+        document.removeEventListener('visibilitychange', visibilityHandler);
+        visibilityHandler = null;
+    }
+    SoundManagerInstance.stopAll();
     hud?.destroy();
     hud = null;
+    deathOverlay = null;
     player?.destroy();
     player = null;
     controller?.dispose();

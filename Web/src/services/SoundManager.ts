@@ -15,14 +15,15 @@ class SoundManager {
                 src: [`${AssetsRoot}sounds/music/menu.mp3`],
                 loop: true,
                 volume: 0.4,
+                onloaderror: () => { delete this.sounds[key]; },
             });
         }
 
-        if (this.sounds[key].playing())
+        if (this.sounds[key]?.playing())
             return;
 
         this.stopAllMusic();
-        this.sounds[key].play();
+        this.sounds[key]?.play();
     }
 
     playGameMusic() {
@@ -32,11 +33,12 @@ class SoundManager {
                 src: [`${AssetsRoot}sounds/music/game.mp3`],
                 loop: true,
                 volume: 0.4,
+                onloaderror: () => { delete this.sounds[key]; },
             });
         }
 
         this.stopAllMusic();
-        this.sounds[key].play();
+        this.sounds[key]?.play();
     }
 
     stopAllMusic() {
@@ -50,9 +52,11 @@ class SoundManager {
                 src: [src],
                 loop: options?.loop ?? false,
                 volume: options?.volume ?? 1,
+                onloaderror: () => { delete this.sounds[name]; },
             });
         }
-        this.sounds[name].play();
+        if (this.sounds[name]?.playing()) return;
+        this.sounds[name]?.play();
     }
 
     stop(name: string): void {

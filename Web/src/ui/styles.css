@@ -367,3 +367,17 @@ canvas { display: block; }
 .title-win {
     color: #4ade80;
 }
+
+/* Death fade overlay */
+#game-death-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    transition: background 1.2s ease-in;
+}
+
+#game-death-overlay.active {
+    background: rgba(0, 0, 0, 0.85);
+}

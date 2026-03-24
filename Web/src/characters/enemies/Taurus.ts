@@ -36,6 +36,7 @@ export class Taurus extends Enemy {
         waypoints: GameCell[],
         player: Player,
         candlesManager: CandlesManager,
+        onShake?: (intensity: number) => void,
     ) {
         const animations = buildEnemyAnimations(
             sheets, 'Taurus/taurus',
@@ -60,7 +61,7 @@ export class Taurus extends Enemy {
             color1: 0xFF2600, color2: 0xC9341A, distanceSquared: 4950,
         });
 
-        const ai = new PatrolChargeAI(waypoints, grid, candlesManager, player);
+        const ai = new PatrolChargeAI(waypoints, grid, candlesManager, player, onShake);
 
         const config: EnemyConfig = {
             startX, startY,

@@ -3,6 +3,8 @@ import type { IEnemyAI } from './IEnemyAI';
 import type { Enemy } from '../characters/Enemy';
 import type { GameGrid } from '../grid/GameGrid';
 import type { CandlesManager } from '../objects/CandlesManager';
+import { SoundManagerInstance } from '../services/SoundInstance';
+import { AssetsRoot } from '../assets/constants';
 
 const CHARGE_SPEED_MS = 100;       // 0.1s per cell
 const START_DURATION_MS = 1000;    // Wind-up time
@@ -19,6 +21,7 @@ export class ChargeDirectionAI implements IEnemyAI {
     private readonly _grid: GameGrid;
     private readonly _candlesManager: CandlesManager;
     private readonly _nextAI: IEnemyAI;
+    private readonly _onShake: ((intensity: number) => void) | undefined;
     private _status = ChargeStatus.Starting;
     private _elapsed = 0;
     private readonly _originalSpeedMS: number;
@@ -29,11 +32,13 @@ export class ChargeDirectionAI implements IEnemyAI {
         candlesManager: CandlesManager,
         nextAI: IEnemyAI,
         enemy: Enemy,
+        onShake?: (intensity: number) => void,
     ) {
         this._direction = direction;
         this._grid = grid;
         this._candlesManager = candlesManager;
         this._nextAI = nextAI;
+        this._onShake = onShake;
         this._originalSpeedMS = enemy.movementSpeedMS;
 
         enemy.movementSpeedMS = CHARGE_SPEED_MS;
@@ -42,6 +47,7 @@ export class ChargeDirectionAI implements IEnemyAI {
 
         // Play charge wind-up animation
         enemy.playAnimationIfExists(this._chargeAnimName());
+        SoundManagerInstance.play('taurusCharge', `${AssetsRoot}sounds/effects/TaurusStartingCharge.wav`, { volume: 0.6 });
     }
 
     update(enemy: Enemy, deltaMS: number): CharacterActions {
@@ -77,10 +83,12 @@ export class ChargeDirectionAI implements IEnemyAI {
                     if (!this._grid.isPassableWithAction(cell, this._direction)) {
                         // Hit a wall — break it if breakable
                         this._grid.breakWall(cell, this._direction);
+                        this._onShake?.(15);
                         this._transitionToStunned(enemy);
                         return CharacterActions.Idle;
                     }
                 }
+                this._onShake?.(5);
                 return this._direction;
             }
 

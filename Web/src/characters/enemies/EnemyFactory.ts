@@ -34,6 +34,7 @@ export function createEnemiesFromGrid(
     player: Player,
     candlesManager: CandlesManager,
     shadowSystem: ShadowSystem,
+    onShake?: (intensity: number) => void,
 ): Enemy[] {
     const enemies: Enemy[] = [];
 
@@ -72,7 +73,7 @@ export function createEnemiesFromGrid(
             case ObjectTypes.Taurus:
                 enemy = new Taurus(
                     grid, sheets, objectsContainer, objectsNormalContainer,
-                    startX, startY, waypoints, player, candlesManager,
+                    startX, startY, waypoints, player, candlesManager, onShake,
                 );
                 break;
             case ObjectTypes.Ghost:
