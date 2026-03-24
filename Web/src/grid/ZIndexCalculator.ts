@@ -21,3 +21,7 @@ export function zForPillar(spriteY: number): number {
 export function zForRiempimento(cellY: number): number {
     return 1 + Math.min(Math.max(cellY / GRID_MAX_HEIGHT, 0), 1) + 0.002;
 }
+
+export function zForCharacter(spriteCenterY: number): number {
+    return 1 + Math.min(Math.max(spriteCenterY / GRID_MAX_HEIGHT, 0), 1) + 0.0005;
+}

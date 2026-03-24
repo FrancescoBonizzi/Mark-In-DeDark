@@ -7,7 +7,9 @@ import { GameGrid, GRID_MAX_HEIGHT } from '../grid/GameGrid';
 import { CELL_SIZE } from '../grid/GameCell';
 import Camera from '../world/Camera';
 import { ShadowSystem } from '../lighting/ShadowSystem';
-import { MarkLight } from '../lighting/MarkLight';
+import Controller from '../interaction/Controller';
+import { Player } from '../characters/Player';
+import Numbers from '../services/Numbers';
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -19,11 +21,8 @@ let resizeObserver: ResizeObserver | null = null;
 let camera: Camera | null = null;
 let grid: GameGrid | null = null;
 let shadowSystem: ShadowSystem | null = null;
-let keydownHandler: ((e: KeyboardEvent) => void) | null = null;
-let keyupHandler: ((e: KeyboardEvent) => void) | null = null;
-
-const CAMERA_SPEED = 300; // pixels per second
-const pressedKeys = new Set<string>();
+let controller: Controller | null = null;
+let player: Player | null = null;
 
 const hasPhysicalKeyboard = (): boolean =>
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -114,15 +113,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         camera = new Camera(app, GRID_MAX_HEIGHT);
         grid = new GameGrid(bundle, levelConfig, levelCustomization);
 
-        // Center camera on player start
-        const playerStartX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
-        const playerStartY = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
-        const zoom = camera.getZoom();
-        camera.x = playerStartX - GAME_W / 2 / zoom;
-        camera.y = playerStartY + GAME_H / 2 / zoom;
-
         // ShadowSystem owns all containers and renders them offline.
-        // camera._world stays on stage but has no children (renders nothing).
         shadowSystem = new ShadowSystem(
             app, camera,
             grid.groundContainer,
@@ -136,48 +127,46 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         shadowSystem.addHullsFromWalls(grid.allWalls);
         shadowSystem.addHullsFromPillars(grid.allPillars);
 
-        // Test light at player start position
-        const testLight = new MarkLight({
-            x: playerStartX,
-            y: playerStartY,
-            radius: 1200,
-            castsShadows: true,
-            color1: 0xffaa44,
-            color2: 0xff6600,
-            distanceSquared: 20_600,
-        });
-        shadowSystem.addLight(testLight);
+        // Create player and controller
+        controller = new Controller();
+        player = new Player(
+            grid,
+            assets.spriteSheets,
+            grid.objectsContainer,
+            grid.objectsNormalContainer,
+        );
 
-        // Arrow key camera navigation for verification
-        keydownHandler = (e: KeyboardEvent) => {
-            pressedKeys.add(e.key);
-        };
-        keyupHandler = (e: KeyboardEvent) => {
-            pressedKeys.delete(e.key);
-        };
-        window.addEventListener('keydown', keydownHandler);
-        window.addEventListener('keyup', keyupHandler);
+        if (player.surroundingLight) {
+            shadowSystem.addLight(player.surroundingLight);
+        }
+
+        // Center camera instantly on player start position
+        const zoom = camera.getZoom();
+        const startX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
+        const startY = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
+        camera.x = startX - GAME_W / 2 / zoom;
+        camera.y = startY + GAME_H / 2 / zoom;
 
         app.ticker.add((ticker) => {
-            if (!camera) return;
-            const dt = ticker.deltaMS / 1000;
-            const step = CAMERA_SPEED * dt;
+            if (!camera || !grid || !player || !controller) return;
+            const dt = ticker.deltaMS;
 
-            if (pressedKeys.has('ArrowLeft')) camera.x -= step;
-            if (pressedKeys.has('ArrowRight')) camera.x += step;
-            if (pressedKeys.has('ArrowUp')) camera.y -= step;
-            if (pressedKeys.has('ArrowDown')) camera.y += step;
+            player.handleInput(controller.currentAction);
+            player.update(dt);
+            grid.update(dt);
 
-            // TODO Task 6: rimuovere — luce segue il centro della camera per il debug
-            testLight.position.x = camera.x + GAME_W / 2 / camera.getZoom();
-            testLight.position.y = camera.y - GAME_H / 2 / camera.getZoom();
+            // Smooth camera follow (lerp factor 0.1)
+            const z = camera.getZoom();
+            const targetX = player.worldCenter.x - GAME_W / 2 / z;
+            const targetY = player.worldCenter.y + GAME_H / 2 / z;
+            camera.x = Numbers.lerp(camera.x, targetX, 0.1);
+            camera.y = Numbers.lerp(camera.y, targetY, 0.1);
 
-            if (grid) grid.update(ticker.deltaMS);
-            if (shadowSystem) shadowSystem.update(app!, ticker.deltaMS);
+            if (shadowSystem) shadowSystem.update(app!, dt);
         });
 
     } catch (err) {
-        console.error('[Task3] Failed to load level:', err);
+        console.error('[Task6] Failed to load level:', err);
     }
 }
 
@@ -218,15 +207,10 @@ export function destroyGame() {
         return;
     }
 
-    if (keydownHandler) {
-        window.removeEventListener('keydown', keydownHandler);
-        keydownHandler = null;
-    }
-    if (keyupHandler) {
-        window.removeEventListener('keyup', keyupHandler);
-        keyupHandler = null;
-    }
-    pressedKeys.clear();
+    player?.destroy();
+    player = null;
+    controller?.dispose();
+    controller = null;
 
     resizeObserver?.disconnect();
     resizeObserver = null;
