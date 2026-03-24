@@ -164,7 +164,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             p.col * CELL_SIZE + CELL_SIZE / 2,
             p.row * CELL_SIZE + CELL_SIZE / 2,
             p.count,
-            grid!.groundContainer,
+            grid!.objectsContainer,
         ));
 
         // Key
@@ -172,7 +172,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             assets.spriteSheets,
             grid.keyCol * CELL_SIZE + CELL_SIZE / 2,
             grid.keyRow * CELL_SIZE + CELL_SIZE / 2,
-            grid.groundContainer,
+            grid.objectsContainer,
         );
 
         // Exit
@@ -180,6 +180,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             grid.exitCol * CELL_SIZE + CELL_SIZE / 2,
             grid.exitRow * CELL_SIZE + CELL_SIZE / 2,
             grid.exitDoor,
+            grid,
         );
 
         // Traps

@@ -1,6 +1,6 @@
 import { Container, Rectangle, Sprite, Spritesheet } from 'pixi.js';
 import { getTexture } from '../assets/AssetsLoader';
-import { Z_GROUND_OBJECTS } from '../grid/ZIndexCalculator';
+import { zForCharacter } from '../grid/ZIndexCalculator';
 
 /** Collectible key that unlocks the level exit (port of C# CollectableObject for key). */
 export class Key {
@@ -26,7 +26,7 @@ export class Key {
         this._sprite.anchor.set(0.5);
         this._sprite.x = x;
         this._sprite.y = y;
-        this._sprite.zIndex = Z_GROUND_OBJECTS;
+        this._sprite.zIndex = zForCharacter(y);
 
         // HitBoxTolerance(50, 50, 100, 100)
         this.collisionRectangle = new Rectangle(x - 50, y - 50, 100, 100);

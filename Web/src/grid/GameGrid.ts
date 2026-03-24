@@ -510,6 +510,31 @@ export class GameGrid {
         this._pathCache.clear();
     }
 
+    /**
+     * Opens the exit passage by restoring graph links and passability for the
+     * WallEsteticDoor in the exit cell (port of C# behavior after key pickup).
+     */
+    openExitPassage(): void {
+        const exitCell = this.getCell(this.exitCol, this.exitRow);
+        if (!exitCell) return;
+
+        for (const [dir, wall] of exitCell.walls) {
+            if (!(wall instanceof WallEsteticDoor)) continue;
+
+            const neighbor = this._cellInDirection(exitCell, dir);
+            if (!neighbor) continue;
+
+            const opposite = this._opposite(dir);
+            exitCell.links.set(dir, neighbor);
+            neighbor.links.set(opposite, exitCell);
+            this._setPassability(exitCell, dir, true);
+            this._setPassability(neighbor, opposite, true);
+
+            this._pathCache.clear();
+            return;
+        }
+    }
+
     update(deltaMS: number): void {
         for (const col of this._cells) {
             for (const cell of col) {

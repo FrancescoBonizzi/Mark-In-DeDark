@@ -1,6 +1,6 @@
 import { Container, Rectangle, Sprite, Spritesheet } from 'pixi.js';
 import { getTexture } from '../assets/AssetsLoader';
-import { Z_GROUND_OBJECTS } from '../grid/ZIndexCalculator';
+import { zForCharacter } from '../grid/ZIndexCalculator';
 
 /** Collectable candle pack on the ground (port of C# CandlePack.cs). */
 export class CandlePack {
@@ -34,7 +34,7 @@ export class CandlePack {
         this._sprite.anchor.set(0.5);
         this._sprite.x = x;
         this._sprite.y = y;
-        this._sprite.zIndex = Z_GROUND_OBJECTS;
+        this._sprite.zIndex = zForCharacter(y);
 
         // HitBoxTolerance(50, 50, 100, 100) from C#
         this.collisionRectangle = new Rectangle(
