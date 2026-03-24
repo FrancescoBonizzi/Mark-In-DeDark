@@ -21,9 +21,12 @@ import { Enemy } from '../characters/Enemy';
 import { createEnemiesFromGrid } from '../characters/enemies/EnemyFactory';
 import { Goblin } from '../characters/enemies/Goblin';
 import Numbers from '../services/Numbers';
+import ScoreRepository from '../services/ScoreRepository';
+import { GameHud } from '../ui/GameHud';
 
 const GAME_W = 1280;
 const GAME_H = 720;
+const GAMEOVER_KEY = 'mark-in-dedark-gameover';
 
 let app: Application | null = null;
 let gameContainer: HTMLDivElement | null = null;
@@ -40,14 +43,27 @@ let key: Key | null = null;
 let exit: Exit | null = null;
 let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
 let enemies: Enemy[] = [];
+let hud: GameHud | null = null;
+let elapsedMs = 0;
+let gameEnded = false;
+let currentLevelId = 1;
 
 const hasPhysicalKeyboard = (): boolean =>
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+function navigateToGameOver(): void {
+    // Avoids circular import with router.ts — Navigo listens to hashchange
+    window.location.hash = '#/gameover';
+}
 
 export async function initGame(container: HTMLElement, levelIdParam: string) {
     if (app) {
         destroyGame();
     }
+
+    currentLevelId = parseInt(levelIdParam, 10) || 1;
+    elapsedMs = 0;
+    gameEnded = false;
 
     if (!hasPhysicalKeyboard()) {
         container.innerHTML = `
@@ -115,16 +131,14 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
 
     gameContainer.appendChild(app.canvas);
 
-    const levelId = parseInt(levelIdParam, 10) || 1;
-
     try {
         const [assets, bundle] = await Promise.all([
             loadAssets(),
-            loadAndParseLevel(levelId),
+            loadAndParseLevel(currentLevelId),
         ]);
 
         const levelConfig = createLevelConfig(bundle.envTexturePackId, assets.spriteSheets);
-        const levelCustomization = createLevelCustomization(levelId);
+        const levelCustomization = createLevelCustomization(currentLevelId);
 
         camera = new Camera(app, GRID_MAX_HEIGHT);
         grid = new GameGrid(bundle, levelConfig, levelCustomization);
@@ -223,6 +237,12 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             player, candlesManager, shadowSystem,
         );
 
+        // HUD
+        const gameWrapper = container.querySelector<HTMLDivElement>('#game-wrapper');
+        if (gameWrapper) {
+            hud = new GameHud(gameWrapper);
+        }
+
         // Center camera on player start
         const zoom = camera.getZoom();
         const startX = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
@@ -233,6 +253,17 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         app.ticker.add((ticker) => {
             if (!camera || !grid || !player || !controller) return;
             const dt = ticker.deltaMS;
+
+            // After game ends: keep rendering animations until navigation
+            if (gameEnded) {
+                player.update(dt);
+                for (const enemy of enemies) enemy.update(dt);
+                if (shadowSystem) shadowSystem.update(app!, dt);
+                return;
+            }
+
+            elapsedMs += dt;
+            hud?.update(candlesManager?.leftCandles ?? 0, elapsedMs);
 
             // Input + player update
             player.handleInput(controller.currentAction);
@@ -270,11 +301,22 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 if (pack.isGone) candlePacks.splice(i, 1);
             }
 
-            // Exit collision
+            // Exit collision — win
             if (exit?.isOpen && !player.isDead) {
                 if (intersects(player.collisionRectangle, exit.collisionRectangle)) {
                     console.log('[Exit] livello completato!');
-                    // TODO Task 9: navigate to gameover/win screen
+                    gameEnded = true;
+                    const used = candlesManager?.playerUsedCandles ?? 0;
+                    ScoreRepository.setLevelCompleted(currentLevelId);
+                    ScoreRepository.setLevelTime(currentLevelId, Math.floor(elapsedMs));
+                    ScoreRepository.setLevelCandles(currentLevelId, used);
+                    sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
+                        levelId: currentLevelId,
+                        isWin: true,
+                        timeMs: Math.floor(elapsedMs),
+                        candlesUsed: used,
+                    }));
+                    setTimeout(navigateToGameOver, 500);
                 }
             }
 
@@ -282,6 +324,18 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             for (const trap of traps) {
                 trap.checkAndTrigger(player);
                 trap.update(dt);
+            }
+
+            // Player death check (triggered by enemy or trap)
+            if (player.isDead) {
+                gameEnded = true;
+                sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
+                    levelId: currentLevelId,
+                    isWin: false,
+                    timeMs: Math.floor(elapsedMs),
+                    candlesUsed: candlesManager?.playerUsedCandles ?? 0,
+                }));
+                setTimeout(navigateToGameOver, 1500);
             }
 
             // Grid (door animations etc.)
@@ -298,7 +352,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         });
 
     } catch (err) {
-        console.error('[Task7] Failed to load level:', err);
+        console.error('[gamebootstrap] Failed to load level:', err);
     }
 }
 
@@ -342,6 +396,8 @@ function resize() {
 export function destroyGame() {
     if (!app) return;
 
+    hud?.destroy();
+    hud = null;
     player?.destroy();
     player = null;
     controller?.dispose();
