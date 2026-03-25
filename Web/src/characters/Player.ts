@@ -98,8 +98,11 @@ export class Player extends Character {
 
         if (action === CharacterActions.Candle) {
             if (!this.isMoving && this._candlesManager) {
-                const c = this.worldCenter;
-                this._candlesManager.placeCandle(c.x, c.y);
+                const cell = this.currentCell;
+                if (cell && !this._candlesManager.isThereACandle(cell)) {
+                    const c = this.worldCenter;
+                    this._candlesManager.placeCandle(c.x, c.y);
+                }
             }
             return;
         }
