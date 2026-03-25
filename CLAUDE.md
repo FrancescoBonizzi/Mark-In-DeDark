@@ -1,266 +1,60 @@
-# CLAUDE.md — Mark In DeDark Migration Rules
+# CLAUDE.md — Mark In DeDark
 
-This file governs every session working on the MonoGame → PixiJS migration.
-Read it at the start of every conversation before writing a single line of code.
+Letto all'inizio di ogni sessione prima di scrivere codice.
 
 ---
 
-## Current Migration Status
+## Stato del progetto
 
-Each time you start a task, be sure to make a plan to have a deep understanding of the original game behaviour.
+Tasks 0-10 completati. Il gioco gira. Ora siamo in fase bug-fix + feature.
 
-> **Update this section at the end of every session.**
+> **Aggiorna questa tabella a fine sessione.**
 
-| Task    | Description                                                                                                                             | Status               |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| Specs   | CLAUDE.md, ARCHITECTURE_MAP.md, PATTERN_COOKBOOK.md                                                                                     | ✅ Done (2026-03-18) |
-| Task 0  | Project scaffold (package.json, tsconfig, vite.config, index.html, main.ts, router skeleton)                                            | ✅ Done (2026-03-18) |
-| Task 1  | Core Primitives & Services (Camera, Controller, CollisionSolver, ScoreRepository, SoundManager, Numbers, Interval, ParticleSystem)      | ✅ Done (2026-03-18) |
-| Task 2  | Asset Pipeline (AssetsLoader, MarkInDeDarkAssets, spritesheet + level conversion)                                                       | ✅ Done (2026-03-19) |
-| Task 3  | Grid System (GameGrid, GameCell, Wall types, GridLoader)                                                                                | ✅ Done (2026-03-19) |
-| Task 4  | Shadow System (ShadowSystem, Light, Hull, WGSL shaders)                                                                                 | ✅ Done (2026-03-19) |
-| Task 5  | Normal Mapping (NormalMapFilter WGSL/GLSL)                                                                                              | ✅ Done (2026-03-20) |
-| Task 5b | Fix Normal Mapping visivo (debug + calibrazione)                                                                                        | ✅ Done (2026-03-23) |
-| Task 6  | Characters Base (Character abstract, Player)                                                                                            | ✅ Done (2026-03-24) |
-| Task 7  | Objects & Traps (Candle, CandlesManager, Exit, traps)                                                                                   | ✅ Done (2026-03-24) |
-| Task 8  | Enemy AI (IEnemyAI + all implementations, Enemy + concrete types)                                                                       | ✅ Done (2026-03-24) |
-| Task 9  | HUD & Pages (GameHud, menu, levelselect, gameover, router). Font: Google Fonts monospace (stile programmatore).                         | ✅ Done (2026-03-24) |
-| Task 10 | Integration & Polish (audio, camera shake, pause/resume, debug cleanup, death overlay)                                                  | ✅ Done (2026-03-25) |
-| Task 12 | Bug: porte interattive non si aprono con Space. Premendo Space davanti a una porta apribile la porta deve aprirsi.                      | ⬜ Pending           |
-| Task 13 | Bug: animazione morte mancante. Effetto "esplosione parti del corpo" + schermo nero a parte il player.                                  | ⬜ Pending           |
-| Task 14 | Bug: i nemici non attaccano visivamente il player (animazione attacco mancante).                                                        | ⬜ Pending           |
-| Task 15 | Bug: alla morte del player non si naviga alla schermata gameover.                                                                       | ⬜ Pending           |
-| Task 16 | HUD: popup testuali contestuali (tutorial/aiuto: "premi Space", "chiave raccolta", "candele insufficienti", etc.).                      | ⬜ Pending           |
-| Task 17 | Oggetti mancanti: braceri (BrazierLit) non renderizzati nelle mappe.                                                                    | ⬜ Pending           |
-| Task 18 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo).                                                  | ⬜ Pending           |
-| Task 11 | Normal map completamente rotta: luci fioche, nessun effetto 3D. Prima MD di analisi del rendering C# originale, poi bugfix sistematico. | ⬜ Pending           |
+| Task    | Descrizione                                                                                                                          | Status               |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------- |
+| Task 12 | Bug: porte interattive non si aprono con Space. Premendo Space davanti a una porta apribile deve aprirsi.                           | ⬜ Pending           |
+| Task 13 | Bug: animazione morte mancante. Effetto "esplosione parti del corpo" + schermo che diventa nero tranne il player.                   | ⬜ Pending           |
+| Task 14 | Bug: i nemici non attaccano visivamente il player (animazione attacco mancante).                                                    | ⬜ Pending           |
+| Task 15 | Bug: alla morte del player non si naviga alla schermata gameover.                                                                   | ⬜ Pending           |
+| Task 16 | HUD: popup testuali contestuali (tutorial/aiuto: "premi Space", "chiave raccolta", "candele insufficienti", etc.).                  | ⬜ Pending           |
+| Task 17 | Oggetti mancanti: braceri (BrazierLit) non renderizzati nelle mappe.                                                                | ⬜ Pending           |
+| Task 18 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo).                                              | ⬜ Pending           |
+| Task 11 | Normal map rotta: luci fioche, nessun effetto 3D. Prima analisi MD del rendering C# originale, poi bugfix sistematico.              | ⬜ Pending           |
 
 **Legend:** ⬜ Pending · 🔄 In Progress · ✅ Done · ❌ Blocked
 
-### Last session notes
+### Note ultima sessione (2026-03-25)
 
-<!-- Replace this with a short summary at the end of each session -->
-
-- 2026-03-18: Created all spec files. Migration not yet started. Awaiting approval to begin Task 0.
-- 2026-03-18: Task 0 completed. Scaffold created: package.json, tsconfig, vite.config, index.html, main.ts, router (4 routes with Navigo hash mode), menu/levelselect/gameover placeholders, gamebootstrap (1280x720 canvas with resize), styles.css, AudioUnlocker. `npm run build` passes cleanly.
-- 2026-03-18: Task 1 completed. 14 files created: Interval, StringHelper, Numbers, IHasCollisionRectangle, CharacterActions, constants, CollisionSolver, ScoreRepository, SoundManager, SoundInstance, Camera (worldHeight param), Controller (4-dir keyboard-only), Particle, ParticleSystem. Keyboard-only overlay added to gamebootstrap. `npm run build` passes cleanly.
-- 2026-03-19: Task 2 completed. Asset pipeline: convert-spritesheets.mjs script converts 6 C# .txt metadata files to PixiJS JSON format (1528 total frames), copies PNGs/menu images/levels/font/sounds to Web/public/assets/. Created: grid/enums.ts (GroundTypes, ObjectTypes, WallTypes, WallPositions), assets/MarkInDeDarkAssets.ts (interface), assets/AssetsLoader.ts (loads 6 spritesheets + menu images + font), assets/LevelLoader.ts (fetch .mark text). `npm run build` passes cleanly.
-- 2026-03-19: Task 3 completed. Grid system: 16 files created/modified. enums.ts: added LinkDirection, PillarPositions. GridTypes.ts (CellData, GridBundle). GridLoader.ts (parseLevel, loadAndParseLevel). LevelConfig.ts (createLevelConfig, texture lookups). LevelCustomization.ts (collision offsets). IWall.ts (interface). WallFixed.ts, WallBreakable.ts, WallEsteticDoor.ts, WallInteractiveDoor.ts. WallFactory.ts. Pillar.ts, PillarFactory.ts. GameGridCleaner.ts. GameCell.ts. GameGrid.ts (full pipeline: ground sprites, wall init, graph, pillars, dedup, rendering). gamebootstrap.ts updated: loads level, builds grid, camera centered on player start, arrow keys move camera. `npm run build` passes cleanly. Key design: cells[col][row] matching C# convention, camera.y = playerY + GAME_H/2/zoom formula for correct centering.
-- 2026-03-19: Task 4 completed. Shadow system: 3 files created (Hull.ts, MarkLight.ts, ShadowSystem.ts). 7 files modified: LevelCustomization.ts (penumbraAmbientColor/Alpha), Pillar.ts (hullRects populated from collisionOffset), PillarFactory.ts (passes pillarOffset), GameGrid.ts (passes customization.pillarOffset), WallInteractiveDoor.ts (mutable hullRects, updated in open/close), Camera.ts (worldContainer getter), gamebootstrap.ts (ShadowSystem integrated: test light at player start, hulls from walls+pillars, update+destroy lifecycle). Algorithm: lightmap RT cleared to ambient, per-light RT composited (light circle + erase shadows) then added to lightmap, lightmap multiplied over scene. `npm run build` passes cleanly.
-- 2026-03-20: Task 5 completed. Normal mapping: 1 new file (NormalMapFilter.ts — dual WGSL/GLSL shader). 13 files modified: LevelConfig.ts (groundTypeToNormalTexture map), LevelCustomization.ts (normalMapAmbienceColor), GameCell.ts (groundNormalSprite, addToContainer 4-param), IWall.ts (addNormalToContainer), WallFixed.ts (optional normalTexture, \_normalSprite), WallBreakable/EsteticDoor/InteractiveDoor.ts (stubs), Pillar.ts (optional normalTexture, \_normalSprite), WallFactory.ts (pickRandomWithIndex, pass normals), PillarFactory.ts (same), GameGrid.ts (groundNormalContainer, objectsNormalContainer), MarkLight.ts (deltaForGround/Wall, distanceSq getters, colorNormalVec3), ShadowSystem.ts (full pipeline rewrite: 10 RTs, normal map filter, camera.\_world empty on stage). `npm run build` passes cleanly.
-- 2026-03-23: Task 5b completed. Fixed 2 critical bugs in normal mapping: (1) shader formula corrected from nDotL¹ to nDotL² in both WGSL and GLSL (NormalMapFilter.ts lines 78, 149); (2) distanceSquared decoupled from radius in MarkLight.ts — new constructor params `distanceSquared` (default 20_600) and `distanceSquaredForWall`; (3) test light in gamebootstrap.ts updated with `distanceSquared: 20_600`, removed [Task5] console.log. `npm run build` passes cleanly.
-- 2026-03-23: Task 5c completed. Fixed rendering piatto (normal map non visibile). Root cause: variabile WGSL `nmu` non corrispondeva alla chiave JS `normalMapUniforms` → PixiJS Shader.mjs metteva gli uniforms nel group 99 anziché group 1 binding 0 → shader su WebGPU leggeva zeri → nessuna illuminazione. Fix: (1) rinominata variabile WGSL `nmu` → `normalMapUniforms` in NormalMapFilter.ts (5 occorrenze); (2) normalMapAmbienceColor differenziato per livello in LevelCustomization.ts (livelli 1-2: {r:0.11,g:0.10,b:0.22}, livelli 3+: zero); (3) light.z scalato per camera zoom in ShadowSystem.ts. `npm run build` passes cleanly.
-- 2026-03-24: Task 7 completed. Objects & Traps: 8 nuovi file (CandlePack, Candle, CandlesManager, Key, Exit, TriggerObject, InstantlyDieTrap, TimedBreakableTrap, GoblinTriggerTrap). GameGrid: aggiunto keyCol/keyRow, ObjectTypes.Chiave handler, closeAllDoors(), switchDoorIfAny() con aggiornamento graph links. Character: fallInTrap() con animazione (shrink+rotate+fade, port di CharacterFallingInTrapAnimation.cs). Player: DoorSwitch e Candle actions implementati. gamebootstrap.ts: integrati CandlesManager, CandlePacks, Key, Exit, Traps nel game loop con collision detection. Player inizia con 3 candele. `npm run build` passes cleanly.
-- 2026-03-24: Task 6 completed. Characters Base: 5 nuovi file (SpriteAnimation.ts, AnimationsManager.ts, CharacterState.ts, Character.ts, Player.ts). ZIndexCalculator.ts: aggiunta `zForCharacter()`. gamebootstrap.ts riscritto: rimossi arrow-key debug handlers, aggiunto Controller + Player, torcia player → ShadowSystem, camera follow con lerp 0.1. Sistema movimento cell-to-cell con lerp temporale (0.6s/cella), input bufferizzato, reversal direzione, 6 animazioni direzionali (WalkUp/Down/Side + IdleUp/Down/Side) con normal map sync, flip per direzione sinistra, Y-sorting tramite zForCharacter. `npm run build` passes cleanly.
-- 2026-03-24: Task 8 completed. Enemy AI: 20 nuovi file, 6 modificati. Infrastruttura: Character espone movementSpeedMS setter, state getter, dontPlayDefaultAnimations, \_stopCurrentMovement; GameGrid aggiunge pathToActions/findActionsToPath/breakWall/isPassableWithAction e fix BFS ignoreWalls (ora usa raw grid per Ghost); Candle.die(durationMS?), Candle.isBeingFollowed; CandlesManager.getNearestCandlePath; MarkLight.setTemporaryColor/resetColor. AI: IEnemyAI, IdleAI, LineOfSight, PatrolAI, PatrolGhostAI, PlayerHunterAI, PatrolHunterLineOfSightAI, PlayerHunterLineOfSightAI, KillCandleAI, ChargeDirectionAI, PatrolChargeAI, RandomMovementAI. Nemici: Enemy base class, Zombie, Skeleton, GhostEnemy, Goblin, Taurus, Bubu, EnemyFactory. gamebootstrap.ts: enemy creation/update/destroy, GoblinTriggerTrap callback attivo. `npm run build` passes cleanly. Semplificazioni MVP: death explosion, suoni, camera shake, particle systems rimandati a Task 10.
-- 2026-03-24: Task 9 completed. HUD & Pages: 1 nuovo file (GameHud.ts — overlay timer + candele). 3 file modificati: styles.css (stili #game-hud, .gameover-stats, .title-win); gameover.ts (legge sessionStorage, mostra livello/tempo/candele, bottoni RIPROVA/LIVELLO SUCCESSIVO/MENU); gamebootstrap.ts (GameHud integrato, timer elapsedMs, flag gameEnded, navigazione win con salvataggio ScoreRepository, navigazione death con 1.5s delay via window.location.hash). Nessun import circolare (usa window.location.hash invece di router.navigate). `npm run build` passes cleanly.
-- 2026-03-24: Task 10 completed. Integration & Polish: 10 file modificati. Audio: SoundManager graceful onloaderror per file mancanti, playing() guard contro stacking; PatrolSeenYou.wav in PlayerHunterLineOfSightAI, TaurusStartingCharge.wav in ChargeDirectionAI. Pause/Resume: visibilitychange listener in gamebootstrap (stop/start ticker + audio). Camera shake: Camera.startShake/updateShake (sinusoidale con decay); callback threading da EnemyFactory → Taurus → PatrolChargeAI → ChargeDirectionAI (5=carica, 15=impatto muro). Debug cleanup: 4 console.log da gamebootstrap, blocco debug (3 log + flag) da ShadowSystem. Death overlay: #game-death-overlay (CSS transition fade-in su active). `npm run build` passes cleanly.
+Task 9 e 10 completati. Flusso completo: menu → livello → gameover. Audio funziona (Howler, graceful failure su file mancanti). Camera shake (sinusoidale con decay). Pause/resume su visibilitychange. Death overlay con CSS fade-in. 4 debug console.log rimossi. `npm run build` passa.
 
 ---
 
-## Tech Stack (fixed)
+## Tech Stack
 
-| Tool       | Version    | Notes                                   |
+| Tool       | Version    | Note                                    |
 | ---------- | ---------- | --------------------------------------- |
-| Vite       | 7.x        | Build tool, `base` = `/mark-in-dedark/` |
-| TypeScript | 5.7 strict | `"strict": true`, no implicit any       |
-| PixiJS     | 8.6.x      | WebGPU primary, WebGL fallback          |
-| Howler     | 2.2.x      | Audio; singleton `SoundManager`         |
+| Vite       | 7.x        | `base` = `/mark-in-dedark/`             |
+| TypeScript | 5.7 strict | `exactOptionalPropertyTypes: true`      |
+| PixiJS     | 8.6.x      | WebGPU primario, WebGL fallback         |
+| Howler     | 2.2.x      | Audio; singleton `SoundManagerInstance` |
 | Navigo     | 8.x        | Hash router (`{ hash: true }`)          |
 
-All dependencies live in `Web/`. No other runtime dependencies are permitted
-without explicit approval.
+---
+
+## Regole invarianti
+
+- Ogni shader deve avere sia WGSL (WebGPU) che GLSL (WebGL). Mai GLSL-only.
+- Nessun tipo `any` TypeScript.
+- `destroyGame()` prima di ogni `initGame()`.
+- I campi opzionali nelle classi vanno dichiarati come `T | undefined` (non `?: T`) a causa di `exactOptionalPropertyTypes`.
+- Navigazione tra pagine: `window.location.hash = '#/route'` (evita import cicolari con router.ts).
+- `npm run build` deve passare senza errori dopo ogni task.
 
 ---
 
-## Migration order (bottom-up)
+## Riferimenti utili
 
-Implement in this order. Never start a layer before its dependencies compile.
-
-```
-0. Scaffold (package.json, tsconfig, vite.config, index.html, main.ts)
-1. Core Primitives & Services   (Camera, Controller, CollisionSolver,
-                                  ScoreRepository, SoundManager,
-                                  Numbers, Interval, StringHelper,
-                                  ParticleSystem, Particle, AudioUnlocker)
-2. Asset Pipeline               (AssetsLoader, MarkInDeDarkAssets types,
-                                  spritesheet conversion, level conversion)
-3. Grid System                  (GameGrid, GameCell, Wall types, GridLoader)
-4. Shadow System                (ShadowSystem, Light, Hull, shaders)
-5. Normal Mapping               (NormalMapFilter WGSL/GLSL)
-6. Characters Base              (Character abstract, Player)
-7. Enemy AI                     (IEnemyAI interface + all implementations,
-                                  Enemy abstract + Zombie/Ghost/Goblin/…)
-8. Objects & Traps              (Candle, CandlesManager, Exit, traps)
-9. HUD & Pages                  (GameHud, menu, levelselect, gameover,
-                                  router with lifecycle)
-10. Integration & Polish        (Game.ts main loop, responsive, GameConfig)
-```
-
-**Dependency-first rule:** a class may only be written after all its
-constructor/import dependencies are already in a compilable state.
-
----
-
-## Copy-first policy
-
-The following files must be **copied verbatim from `progetto-riferimento/Web/src/`**
-and then adapted (rename identifiers, change asset paths, adjust types):
-
-- `world/Camera.ts`
-- `interaction/Controller.ts`
-- `services/CollisionSolver.ts`
-- `services/ScoreRepository.ts`
-- `services/SoundManager.ts`
-- `services/Numbers.ts`
-- `services/StringHelper.ts`
-- `services/AudioUnlocker.ts`
-- `primitives/Interval.ts`
-- `particleEmitters/ParticleSystem.ts`
-- `particleEmitters/Particle.ts`
-- `pages/router.ts` (structure only — routes differ)
-- `pages/gamebootstrap.ts` (structure only — game dimensions differ: 1280×720)
-
-Do not rewrite these from scratch. Copy first, then adapt.
-
----
-
-## Asset pipeline
-
-- Spritesheets: TexturePacker JSON format + PNG atlas (same as `progetto-riferimento`)
-- Fonts: loaded via `Assets.addBundle` / `Assets.loadBundle`
-- Sounds: MP3, loaded lazily by `SoundManager` via Howler
-- Level files: **`.mark` files are plain-text** (pipe-delimited, serialized by
-  `GameGridSerializerV4`). Port the deserializer to TypeScript as
-  `grid/GridLoader.ts`. Do NOT treat them as binary.
-
-### Level file format (V4)
-
-```
-Line 0:  "GameGridSerializerV4"          ← version tag
-Line 1:  rows|columns
-Line 2:  environmentTexturePackId|dirtyProbabilityPercentage
-Line 3+: row|col|groundType|objectType|objectAdditionalData|top|right|bottom|left|stringCode
-```
-
-Only non-empty cells (groundType ≠ 0) are written. All enum values are stored
-as their integer codes. See `migration-specs/ARCHITECTURE_MAP.md` for the enum
-tables.
-
----
-
-## Shadow system rules
-
-- Implement as `lighting/ShadowSystem.ts` — **no external shadow library**.
-- Architecture: RenderTexture lightmap, composited over the scene with
-  `PIXI.BlendMode.MULTIPLY`.
-- Shadow hull geometry: `PIXI.Mesh` with trapezoid vertices computed in JS
-  from wall segments.
-- Shaders: always write **both** `{ gpu: wgslSource, gl: glslSource }` using
-  PixiJS 8 dual-shader objects. WGSL for WebGPU, GLSL for WebGL fallback.
-- One `ShadowSystem` instance per scene; it owns all `RenderTexture` resources.
-- `MarkLight` properties to preserve: `position`, `color` (animated between two
-  colors), `opacity`, `radius` (was `distanceSquared` — convert to linear),
-  `castsShadows`, `z` (height for normal mapping).
-
----
-
-## Shader strategy
-
-```
-// PixiJS 8 dual-shader pattern
-import { GlProgram, GpuProgram } from 'pixi.js';
-
-const program = new GpuProgram({            // WebGPU
-  vertex: { source: vertWgsl, entryPoint: 'main' },
-  fragment: { source: fragWgsl, entryPoint: 'main' },
-});
-// OR use the helper:
-const glProgram = GlProgram.from({          // WebGL fallback
-  vertex: vertGlsl,
-  fragment: fragGlsl,
-});
-```
-
-Never write GLSL-only shaders. Every shader file must have a WGSL twin.
-
----
-
-## Game resolution
-
-- Logical canvas: **1280 × 720** (16:9)
-- CSS scaling via `ResizeObserver` (same pattern as `gamebootstrap.ts` in
-  reference, with `GAME_W = 1280`, `GAME_H = 720`)
-- Camera coordinate system: **bottom-up** (y=0 at bottom, positive y goes up),
-  matching `Camera.ts` from the reference
-
----
-
-## Anti-patterns (forbidden)
-
-| Forbidden                              | Reason                                     |
-| -------------------------------------- | ------------------------------------------ |
-| `XNA.Rectangle` wrapper class          | `PIXI.Rectangle` is sufficient             |
-| `BinaryFormatter` deserialization      | `.mark` files are text, not binary         |
-| External Penumbra/shadow library       | Reimplement in WGSL/GLSL                   |
-| GLSL-only shaders                      | PixiJS 8 needs dual shaders                |
-| `any` TypeScript type                  | `"strict": true` — use proper types        |
-| Polyfills for MonoGame patterns        | Adapt to web idioms directly               |
-| Mixing scene teardown and construction | Always `destroyGame()` before `initGame()` |
-
----
-
-## Validation checkpoint (end of each Task)
-
-At the end of every significant Task, output a checkpoint block:
-
-```
-## Checkpoint — Task N
-- Files created/modified: …
-- Dependencies satisfied: …
-- TypeScript compiles: ✓ / ✗
-- Known gaps: …
-- Next task: …
-```
-
----
-
-## Enemy AI implementations
-
-Port all `IEnemyAI` implementations from `MarkInDeDark.Library/AI/`:
-
-| C# class                    | TS file                           | Behaviour                                |
-| --------------------------- | --------------------------------- | ---------------------------------------- |
-| `IdleAI`                    | `ai/IdleAI.ts`                    | Does nothing                             |
-| `PatrolAI`                  | `ai/PatrolAI.ts`                  | Follows a predefined path in cell coords |
-| `PlayerHunterAI`            | `ai/PlayerHunterAI.ts`            | Pathfinds toward player                  |
-| `PatrolHunterLineOfSightAI` | `ai/PatrolHunterLineOfSightAI.ts` | Patrol + aggro on LoS                    |
-| `PlayerHunterLineOfSightAI` | `ai/PlayerHunterLineOfSightAI.ts` | Hunt only when LoS                       |
-| `KillCandleAI`              | `ai/KillCandleAI.ts`              | Seeks and extinguishes candles           |
-| `ChargeDirectionAI`         | `ai/ChargeDirectionAI.ts`         | Charges in a fixed direction             |
-| `PatrolChargeAI`            | `ai/PatrolChargeAI.ts`            | Patrol then charge                       |
-| `PatrolGhostAI`             | `ai/PatrolGhostAI.ts`             | Ghost variant (walks through walls)      |
-| `RandomMovementAI`          | `ai/RandomMovementAI.ts`          | Random walk                              |
-
----
-
-## Pages / Routes
-
-| Route            | Page                     |
-| ---------------- | ------------------------ |
-| `/`              | Main menu                |
-| `/levels`        | Level select             |
-| `/game/:levelId` | Game (loads level by ID) |
-| `/gameover`      | Game over + score        |
-
-Router uses Navigo 8 with `{ hash: true }`.
-Each route with a game must implement `leave` lifecycle to call `destroyGame()`.
-
----
-
-## Score / Persistence
-
-Key prefix: `mark-in-dedark-` (not `infart-score-`).
-Keys: `level-{n}-completed`, `level-{n}-time`, `level-{n}-candles`.
-Implementation: adapt `ScoreRepository.ts` from reference (same localStorage
-pattern, different key schema).
+- Sorgente C# originale: `progetto-riferimento/` (per capire il comportamento atteso)
+- Spec di migrazione: `migration-specs/ARCHITECTURE_MAP.md`, `migration-specs/PATTERN_COOKBOOK.md`
+- Assets pubblici: `Web/public/assets/` (spritesheets, sounds, levels)
+- Livelli `.mark`: testo pipe-delimited, parsati da `grid/GridLoader.ts`
