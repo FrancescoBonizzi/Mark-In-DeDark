@@ -13,10 +13,11 @@ Siamo nella fase **Bug-fix + Feature**.
 
 ### Fase 1: UI, Routing e Layout
 
-| Task   | Descrizione                                                                            | Status  |
-| ------ | -------------------------------------------------------------------------------------- | ------- |
-| Task 1 | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done |
-| Task 2 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done |
+| Task    | Descrizione                                                                            | Status     |
+| ------- | -------------------------------------------------------------------------------------- | ---------- |
+| Task 1  | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done    |
+| Task 2  | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done    |
+| Task 3b | I livelli sono già tutti sbloccati, non ha senso il pulsante per sbloccarli            | ⬜ Pending |
 
 ### Fase 2: Interazioni, HUD e Scena Static
 
