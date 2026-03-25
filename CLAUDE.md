@@ -55,6 +55,6 @@ Task 9 e 10 completati. Flusso completo: menu → livello → gameover. Audio fu
 ## Riferimenti utili
 
 - Sorgente C# originale: `progetto-riferimento/` (per capire il comportamento atteso)
-- Spec di migrazione: `migration-specs/ARCHITECTURE_MAP.md`, `migration-specs/PATTERN_COOKBOOK.md`
+- **`migration-specs/ARCHITECTURE_MAP.md`** — enum tables (`ObjectTypes`, `GroundTypes`, `WallTypes` con valori interi), lista classi C# ancora da portare (BrazierLit, particle systems, etc.). Leggi quando lavori su oggetti o trappole mancanti.
 - Assets pubblici: `Web/public/assets/` (spritesheets, sounds, levels)
 - Livelli `.mark`: testo pipe-delimited, parsati da `grid/GridLoader.ts`
