@@ -30,8 +30,8 @@ Siamo nella fase **Bug-fix + Feature**.
 
 | Task   | Descrizione                                                                                                       | Status     |
 | ------ | ----------------------------------------------------------------------------------------------------------------- | ---------- |
-| Task 6 | Bug: animazione morte mancante. Effetto "esplosione parti del corpo" + schermo che diventa nero tranne il player. | ⬜ Pending |
-| Task 7 | Bug: i nemici non attaccano visivamente il player (animazione attacco mancante).                                  | ⬜ Pending |
+| Task 6 | Bug: animazione morte mancante. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`** — risolve anche Task 1. | ⬜ Pending |
+| Task 7 | Bug: i nemici non attaccano visivamente. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`**.               | ⬜ Pending |
 
 ### Fase 4: Rendering Avanzato
 
