@@ -1,5 +1,12 @@
 import {CharacterActions} from "./CharacterActions.ts";
 
+// Actions that must fire once per keypress, not every frame while held.
+const ONE_SHOT_ACTIONS = new Set<CharacterActions>([
+    CharacterActions.Candle,
+    CharacterActions.DoorSwitch,
+    CharacterActions.GameBack,
+]);
+
 const KEY_MAP: Record<string, CharacterActions> = {
     'ArrowUp': CharacterActions.Up,
     'ArrowDown': CharacterActions.Down,
@@ -29,6 +36,8 @@ class Controller {
     private _currentAction: CharacterActions = CharacterActions.Idle;
     private _lastDirection: CharacterActions = CharacterActions.Down;
     private _pressedKeys = new Set<string>();
+    // Keys whose one-shot action has already been reported this press cycle.
+    private _reportedOneShotKeys = new Set<string>();
 
     constructor(target: EventTarget = window) {
         target.addEventListener('keydown', this.onKeyDown as EventListener);
@@ -44,11 +53,13 @@ class Controller {
 
     private onKeyUp = (e: KeyboardEvent) => {
         this._pressedKeys.delete(e.key);
+        this._reportedOneShotKeys.delete(e.key);
         this.updateAction();
     };
 
     private reset = () => {
         this._pressedKeys.clear();
+        this._reportedOneShotKeys.clear();
         this._currentAction = DIRECTION_TO_IDLE[this._lastDirection] ?? CharacterActions.Idle;
     };
 
@@ -77,7 +88,20 @@ class Controller {
     }
 
     get currentAction(): CharacterActions {
-        return this._currentAction;
+        const action = this._currentAction;
+        if (ONE_SHOT_ACTIONS.has(action)) {
+            // Find the key responsible and check if already reported this press.
+            for (const key of this._pressedKeys) {
+                if (KEY_MAP[key] === action) {
+                    if (this._reportedOneShotKeys.has(key)) {
+                        return DIRECTION_TO_IDLE[this._lastDirection] ?? CharacterActions.Idle;
+                    }
+                    this._reportedOneShotKeys.add(key);
+                    return action;
+                }
+            }
+        }
+        return action;
     }
 
     dispose() {
