@@ -22,9 +22,9 @@ Siamo nella fase **Bug-fix + Feature**.
 
 | Task   | Descrizione                                                                                                        | Status     |
 | ------ | ------------------------------------------------------------------------------------------------------------------ | ---------- |
-| Task 3 | Bug: porte interattive non si aprono con Space. Premendo Space davanti a una porta apribile deve aprirsi.          | ⬜ Pending |
-| Task 4 | HUD: popup testuali contestuali (tutorial/aiuto: "premi Space", "chiave raccolta", "candele insufficienti", etc.). | ⬜ Pending |
-| Task 5 | Oggetti mancanti: braceri (BrazierLit) non renderizzati nelle mappe (check z-index e GridLoader.ts).               | ⬜ Pending |
+| Task 3 | Bug: porte interattive non si aprono con Space. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.          | ⬜ Pending |
+| Task 4 | HUD: popup testuali contestuali. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.                         | ⬜ Pending |
+| Task 5 | Oggetti mancanti: braceri (BrazierLit) non renderizzati. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**. | ⬜ Pending |
 
 ### Fase 3: Entità e Animazioni
 
