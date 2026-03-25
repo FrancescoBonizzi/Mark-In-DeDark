@@ -13,10 +13,10 @@ Siamo nella fase **Bug-fix + Feature**.
 
 ### Fase 1: UI, Routing e Layout
 
-| Task   | Descrizione                                                                            | Status     |
-| ------ | -------------------------------------------------------------------------------------- | ---------- |
-| Task 1 | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done    |
-| Task 2 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done    |
+| Task   | Descrizione                                                                            | Status  |
+| ------ | -------------------------------------------------------------------------------------- | ------- |
+| Task 1 | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done |
+| Task 2 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done |
 
 ### Fase 2: Interazioni, HUD e Scena Static
 
@@ -28,15 +28,15 @@ Siamo nella fase **Bug-fix + Feature**.
 
 ### Fase 3: Entità e Animazioni
 
-| Task   | Descrizione                                                                                                       | Status     |
-| ------ | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| Task   | Descrizione                                                                                                     | Status     |
+| ------ | --------------------------------------------------------------------------------------------------------------- | ---------- |
 | Task 6 | Bug: animazione morte mancante. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`** — risolve anche Task 1. | ⬜ Pending |
 | Task 7 | Bug: i nemici non attaccano visivamente. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`**.               | ⬜ Pending |
 
 ### Fase 4: Rendering Avanzato
 
-| Task   | Descrizione                                                                                                            | Status     |
-| ------ | ---------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Task   | Descrizione                                                                                                                       | Status     |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | Task 8 | Normal map rotta: luci fioche, nessun effetto 3D. **Leggere `migration-specs/RENDERING_PIPELINE.md`** prima di toccare il codice. | ⬜ Pending |
 
 ---
