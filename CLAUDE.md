@@ -7,6 +7,8 @@ Read it at the start of every conversation before writing a single line of code.
 
 ## Current Migration Status
 
+Each time you start a task, be sure to make a plan to have a deep understanding of the original game behaviour.
+
 > **Update this section at the end of every session.**
 
 | Task    | Description                                                                                                                             | Status               |
