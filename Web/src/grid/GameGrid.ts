@@ -648,29 +648,53 @@ export class GameGrid {
 
         const doorsToggled = new Set<WallInteractiveDoor>();
 
-        // Check walls in the current cell and adjacent cells
-        const cellsToCheck: [GameCell, LinkDirection][] = [
-            [cell, LinkDirection.NorthLink],
-            [cell, LinkDirection.SouthLink],
-            [cell, LinkDirection.EastLink],
-            [cell, LinkDirection.WestLink],
+        // A door in the level file is stored only in ONE cell's walls map.
+        // Check both this cell's walls AND the mirror wall on each adjacent cell,
+        // so the door is reachable from either side.
+        const pairs: [LinkDirection, LinkDirection][] = [
+            [LinkDirection.NorthLink, LinkDirection.SouthLink],
+            [LinkDirection.SouthLink, LinkDirection.NorthLink],
+            [LinkDirection.EastLink,  LinkDirection.WestLink],
+            [LinkDirection.WestLink,  LinkDirection.EastLink],
         ];
 
-        for (const [c, dir] of cellsToCheck) {
-            const wall = c.walls.get(dir);
+        for (const [dir, opposite] of pairs) {
+            // Check this cell's own wall
+            const wall = cell.walls.get(dir);
             if (wall instanceof WallInteractiveDoor && !doorsToggled.has(wall)) {
                 doorsToggled.add(wall);
-                if (wall.isOpen) {
-                    wall.close();
-                    this._setDoorPassability(wall, false);
-                } else {
-                    wall.open();
-                    this._setDoorPassability(wall, true);
+                if (wall.isOpen) { wall.close(); this._setDoorPassability(wall, false); }
+                else             { wall.open();  this._setDoorPassability(wall, true);  }
+            }
+            // Check the neighbor's mirror wall (same physical door, stored on the other side)
+            const neighbor = this._cellInDirection(cell, dir);
+            if (neighbor) {
+                const mirrorWall = neighbor.walls.get(opposite);
+                if (mirrorWall instanceof WallInteractiveDoor && !doorsToggled.has(mirrorWall)) {
+                    doorsToggled.add(mirrorWall);
+                    if (mirrorWall.isOpen) { mirrorWall.close(); this._setDoorPassability(mirrorWall, false); }
+                    else                  { mirrorWall.open();  this._setDoorPassability(mirrorWall, true);  }
                 }
             }
         }
 
         if (doorsToggled.size > 0) this._pathCache.clear();
+    }
+
+    /** Returns true if the cell has at least one interactive door reachable from it (own walls or adjacent mirror walls). */
+    hasDoorOnCell(cell: GameCell): boolean {
+        const pairs: [LinkDirection, LinkDirection][] = [
+            [LinkDirection.NorthLink, LinkDirection.SouthLink],
+            [LinkDirection.SouthLink, LinkDirection.NorthLink],
+            [LinkDirection.EastLink,  LinkDirection.WestLink],
+            [LinkDirection.WestLink,  LinkDirection.EastLink],
+        ];
+        for (const [dir, opposite] of pairs) {
+            if (cell.walls.get(dir) instanceof WallInteractiveDoor) return true;
+            const neighbor = this._cellInDirection(cell, dir);
+            if (neighbor?.walls.get(opposite) instanceof WallInteractiveDoor) return true;
+        }
+        return false;
     }
 
     private _setDoorPassability(door: WallInteractiveDoor, passable: boolean): void {

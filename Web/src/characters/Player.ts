@@ -89,17 +89,15 @@ export class Player extends Character {
     override handleInput(action: CharacterActions): void {
         if (this.isDead || this.isDying) return;
 
-        if (action === CharacterActions.DoorSwitch) {
-            if (!this.isMoving) {
-                this._grid.switchDoorIfAny(this.currentCell);
-            }
-            return;
-        }
-
+        // Space is the universal interact key (port of C# behaviour):
+        // priority 1 — toggle a door if standing on a door cell;
+        // priority 2 — place a candle otherwise.
         if (action === CharacterActions.Candle) {
-            if (!this.isMoving && this._candlesManager) {
+            if (!this.isMoving) {
                 const cell = this.currentCell;
-                if (cell && !this._candlesManager.isThereACandle(cell)) {
+                if (cell && this._grid.hasDoorOnCell(cell)) {
+                    this._grid.switchDoorIfAny(cell);
+                } else if (cell && this._candlesManager && !this._candlesManager.isThereACandle(cell)) {
                     const c = this.worldCenter;
                     this._candlesManager.placeCandle(c.x, c.y);
                 }

@@ -3,7 +3,6 @@ import {CharacterActions} from "./CharacterActions.ts";
 // Actions that must fire once per keypress, not every frame while held.
 const ONE_SHOT_ACTIONS = new Set<CharacterActions>([
     CharacterActions.Candle,
-    CharacterActions.DoorSwitch,
     CharacterActions.GameBack,
 ]);
 
@@ -21,7 +20,6 @@ const KEY_MAP: Record<string, CharacterActions> = {
     'd': CharacterActions.Right,
     'D': CharacterActions.Right,
     ' ': CharacterActions.Candle,
-    'Control': CharacterActions.DoorSwitch,
     'Escape': CharacterActions.GameBack,
 };
 
