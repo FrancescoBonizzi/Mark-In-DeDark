@@ -15,8 +15,8 @@ Siamo nella fase **Bug-fix + Feature**.
 
 | Task   | Descrizione                                                                            | Status     |
 | ------ | -------------------------------------------------------------------------------------- | ---------- |
-| Task 1 | Bug: alla morte del player non si naviga alla schermata gameover.                      | ⬜ Pending |
-| Task 2 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ⬜ Pending |
+| Task 1 | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done    |
+| Task 2 | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done    |
 
 ### Fase 2: Interazioni, HUD e Scena Static
 
