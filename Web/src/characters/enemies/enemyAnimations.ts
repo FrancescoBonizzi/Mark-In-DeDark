@@ -9,6 +9,7 @@ function buildAnim(
     sheets: Spritesheet[],
     baseName: string,
     frameCount: number,
+    loop = true,
 ): SpriteAnimation {
     const frames: Texture[] = [];
     const normals: Texture[] = [];
@@ -16,7 +17,7 @@ function buildAnim(
         frames.push(getTexture(sheets, `${baseName}_${i}`));
         try { normals.push(getTexture(sheets, `${baseName}_${i}_normal`)); } catch { /* no normal */ }
     }
-    return new SpriteAnimation(frames, normals, FRAME_DURATION_MS, true);
+    return new SpriteAnimation(frames, normals, FRAME_DURATION_MS, loop);
 }
 
 function buildSingleFrame(sheets: Spritesheet[], baseName: string): SpriteAnimation {
@@ -46,9 +47,10 @@ export function buildEnemyAnimations(
     mgr.add('IdleUp',    buildSingleFrame(sheets, `${type}_back_walking`));
     mgr.add('IdleSide',  buildSingleFrame(sheets, `${type}_side_walking`));
 
-    mgr.add('AttackDown', buildAnim(sheets, `${type}_front_attack`, attackFrames.front));
-    mgr.add('AttackUp',   buildAnim(sheets, `${type}_back_attack`,  attackFrames.back));
-    mgr.add('AttackSide', buildAnim(sheets, `${type}_side_attack`,  attackFrames.side));
+    // Attack animations play once (loop=false) so isFinished signals when to return to idle.
+    mgr.add('AttackDown', buildAnim(sheets, `${type}_front_attack`, attackFrames.front, false));
+    mgr.add('AttackUp',   buildAnim(sheets, `${type}_back_attack`,  attackFrames.back,  false));
+    mgr.add('AttackSide', buildAnim(sheets, `${type}_side_attack`,  attackFrames.side,  false));
 
     return mgr;
 }

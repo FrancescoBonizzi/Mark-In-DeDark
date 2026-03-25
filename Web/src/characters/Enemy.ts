@@ -162,13 +162,22 @@ export abstract class Enemy extends Character {
             this._stopCurrentMovement();
         }
 
-        // 3. AI-driven movement
+        // 3. Wait for attack animation to finish, then return to idle
+        if (this._state === CharacterState.Attacking) {
+            if (this._animations.currentAnimation?.isFinished) {
+                this.stopAttacking();
+            }
+            super.update(deltaMS);
+            return;
+        }
+
+        // 4. AI-driven movement
         if (!this.isMoving && !this.isDying) {
             const action = this.currentAI.update(this, deltaMS);
             this.handleInput(action);
         }
 
-        // 4. Base Character update (lerp, sprites, torch)
+        // 5. Base Character update (lerp, sprites, torch)
         super.update(deltaMS);
     }
 }
