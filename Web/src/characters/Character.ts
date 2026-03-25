@@ -82,6 +82,11 @@ export abstract class Character {
     private static readonly TRAP_ROTATION_RATE = 0.02  / 35;
     private static readonly TRAP_Y_RATE        = 3     / 35;   // px per ms
 
+    // Placeholder dying timer: transitions Dying → Dead after a fixed delay.
+    // Task 6 will replace this with a proper death animation check (animation.isFinished).
+    private _dyingTimerMs = 0;
+    private static readonly DYING_DURATION_MS = 1000;
+
     // HitBox tolerance (matches C# Rectangle(24, 24, 48, 48))
     private static readonly HIT_X = 24;
     private static readonly HIT_Y = 24;
@@ -166,6 +171,14 @@ export abstract class Character {
             this._advanceLerp(deltaMS);
         }
 
+        if (this.isDying && !this._isFallingInTrap) {
+            this._dyingTimerMs -= deltaMS;
+            if (this._dyingTimerMs <= 0) {
+                this._state = CharacterState.Dead;
+                if (this.surroundingLight) this.surroundingLight.enabled = false;
+            }
+        }
+
         this._animations.update(deltaMS);
         this._syncSprites();
         this._recalculateZIndex();
@@ -215,6 +228,7 @@ export abstract class Character {
     die(): void {
         if (this.isDead || this.isDying) return;
         this._state = CharacterState.Dying;
+        this._dyingTimerMs = Character.DYING_DURATION_MS;
     }
 
     /**

@@ -108,6 +108,21 @@ main, .menu, .gameover {
     max-width: 300px;
 }
 
+/* Level select 4-column grid (mirrors the C# LevelsPage 4-column layout) */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 900px;
+    justify-self: center;
+    align-self: center;
+}
+
+.level-grid .button {
+    max-width: none;
+}
+
 .button {
     appearance: none;
     border: 2px solid #475569;
@@ -275,6 +290,11 @@ canvas { display: block; }
         font-size: 24px;
         padding: 10px 14px;
     }
+
+    .level-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
 }
 
 @media (max-width: 400px) {
@@ -313,6 +333,16 @@ canvas { display: block; }
         font-size: 18px;
         padding: 6px 10px;
         max-width: 200px;
+    }
+
+    .level-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .level-grid .button {
+        font-size: 16px;
+        padding: 4px 8px;
     }
 }
 

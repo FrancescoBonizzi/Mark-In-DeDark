@@ -18,8 +18,10 @@ export function renderLevelSelectPage(container: HTMLElement) {
     <section class="menu">
         <div class="menu-content">
             <h1 class="title">LIVELLI</h1>
-            <nav class="menu-actions">
+            <div class="level-grid">
                 ${levelButtons}
+            </div>
+            <nav class="menu-actions">
                 <a href="/" class="button" data-navigo>MENU</a>
             </nav>
         </div>
