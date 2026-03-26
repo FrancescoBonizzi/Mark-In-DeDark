@@ -24,6 +24,7 @@ import Numbers from '../services/Numbers';
 import ScoreRepository from '../services/ScoreRepository';
 import { GameHud } from '../ui/GameHud';
 import { SoundManagerInstance } from '../services/SoundInstance';
+import { GameTexts, getStringCodeText } from '../ui/GameTexts';
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -48,6 +49,8 @@ let hud: GameHud | null = null;
 let deathOverlay: HTMLDivElement | null = null;
 let elapsedMs = 0;
 let gameEnded = false;
+let triggeredCells = new Set<object>();
+let lockedExitNotified = false;
 let currentLevelId = 1;
 let visibilityHandler: (() => void) | null = null;
 
@@ -67,6 +70,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
     currentLevelId = parseInt(levelIdParam, 10) || 1;
     elapsedMs = 0;
     gameEnded = false;
+    triggeredCells = new Set();
+    lockedExitNotified = false;
 
     if (!hasPhysicalKeyboard()) {
         container.innerHTML = `
@@ -178,6 +183,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         // CandlesManager (player starts with 3 candles)
         candlesManager = new CandlesManager(assets.spriteSheets, grid.objectsContainer, shadowSystem, 3);
         player.setCandlesManager(candlesManager);
+        player.onMessage = (text, color) => hud?.showMessage(text, color);
 
         // CandlePacks from grid placements
         candlePacks = grid.candlePlacements.map(p => new CandlePack(
@@ -260,8 +266,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             if (!camera || !grid || !player || !controller) return;
             const dt = ticker.deltaMS;
 
-            // After game ends: keep rendering animations until navigation
+            // After game ends: keep rendering animations and popups until navigation
             if (gameEnded) {
+                hud?.updatePopups(dt);
                 player.update(dt);
                 for (const enemy of enemies) enemy.update(dt);
                 if (shadowSystem) shadowSystem.update(app!, dt);
@@ -270,6 +277,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
 
             elapsedMs += dt;
             hud?.update(candlesManager?.leftCandles ?? 0, elapsedMs);
+            hud?.updatePopups(dt);
 
             // Input + player update
             player.handleInput(controller.currentAction);
@@ -290,6 +298,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 if (intersects(playerRect, key.collisionRectangle)) {
                     key.collect();
                     exit?.setOpen();
+                    hud?.showMessage(GameTexts.keyFound, '#ffd700');
                 }
             } else {
                 key?.update(dt);
@@ -301,25 +310,34 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 if (!pack.isCollected && intersects(player.collisionRectangle, pack.collisionRectangle)) {
                     pack.collect();
                     candlesManager?.addCandles(pack.count);
+                    hud?.showMessage(GameTexts.candlePackFound(pack.count), '#ffa500');
                 }
                 if (pack.isGone) candlePacks.splice(i, 1);
             }
 
-            // Exit collision — win
-            if (exit?.isOpen && !player.isDead) {
+            // Exit collision — locked feedback or win
+            if (exit && !player.isDead) {
                 if (intersects(player.collisionRectangle, exit.collisionRectangle)) {
-                    gameEnded = true;
-                    const used = candlesManager?.playerUsedCandles ?? 0;
-                    ScoreRepository.setLevelCompleted(currentLevelId);
-                    ScoreRepository.setLevelTime(currentLevelId, Math.floor(elapsedMs));
-                    ScoreRepository.setLevelCandles(currentLevelId, used);
-                    sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
-                        levelId: currentLevelId,
-                        isWin: true,
-                        timeMs: Math.floor(elapsedMs),
-                        candlesUsed: used,
-                    }));
-                    setTimeout(navigateToGameOver, 500);
+                    if (exit.isOpen) {
+                        gameEnded = true;
+                        hud?.showMessage(GameTexts.levelCompleted, '#4ade80', true);
+                        const used = candlesManager?.playerUsedCandles ?? 0;
+                        ScoreRepository.setLevelCompleted(currentLevelId);
+                        ScoreRepository.setLevelTime(currentLevelId, Math.floor(elapsedMs));
+                        ScoreRepository.setLevelCandles(currentLevelId, used);
+                        sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
+                            levelId: currentLevelId,
+                            isWin: true,
+                            timeMs: Math.floor(elapsedMs),
+                            candlesUsed: used,
+                        }));
+                        setTimeout(navigateToGameOver, 1200);
+                    } else if (!lockedExitNotified) {
+                        lockedExitNotified = true;
+                        hud?.showMessage(GameTexts.closedDoor, '#aaaaaa');
+                    }
+                } else {
+                    lockedExitNotified = false;
                 }
             }
 
@@ -332,6 +350,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             // Player death check (triggered by enemy or trap)
             if (player.isDead) {
                 gameEnded = true;
+                hud?.showMessage(GameTexts.gameOver, '#ff4444', true);
                 deathOverlay?.classList.add('active');
                 sessionStorage.setItem(GAMEOVER_KEY, JSON.stringify({
                     levelId: currentLevelId,
@@ -340,6 +359,17 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                     candlesUsed: candlesManager?.playerUsedCandles ?? 0,
                 }));
                 setTimeout(navigateToGameOver, 1500);
+            }
+
+            // Cell text triggers (tutorial / ambient hints)
+            const playerCell = player.currentCell;
+            if (playerCell && !triggeredCells.has(playerCell)) {
+                const code = grid.cellTriggerTexts.get(playerCell);
+                if (code) {
+                    const text = getStringCodeText(code);
+                    if (text) hud?.showMessage(text, '#ffff00');
+                    triggeredCells.add(playerCell);
+                }
             }
 
             // Grid (door animations etc.)

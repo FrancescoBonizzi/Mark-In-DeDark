@@ -367,6 +367,22 @@ canvas { display: block; }
     font: 400 20px "VT323", monospace;
 }
 
+/* HUD popups */
+.hud-popup {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 700 20px/1 "VT323", monospace;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    z-index: 101;
+    white-space: nowrap;
+}
+
+.hud-popup.important {
+    font-size: 32px;
+}
+
 /* HUD */
 #game-hud {
     position: fixed;

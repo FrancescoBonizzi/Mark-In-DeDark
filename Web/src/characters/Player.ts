@@ -7,6 +7,7 @@ import { MarkLight } from '../lighting/MarkLight';
 import { GameGrid } from '../grid/GameGrid';
 import { CandlesManager } from '../objects/CandlesManager';
 import { getTexture } from '../assets/AssetsLoader';
+import { GameTexts } from '../ui/GameTexts';
 
 const PLAYER_SPEED = 0.6;      // seconds per cell (from C# GameConfig.PlayerSpeed)
 const FRAME_DURATION_MS = 150; // ms per frame (from C# CharactersAnimationsMillisecondsBetweenFrames)
@@ -49,6 +50,8 @@ function buildPlayerAnimations(sheets: Spritesheet[]): AnimationsManager {
 /** Concrete Player class (port of C# Player.cs). */
 export class Player extends Character {
     private _candlesManager: CandlesManager | null = null;
+    /** Called when the player tries to interact but gets a feedback message. */
+    onMessage: ((text: string, color: string) => void) | undefined = undefined;
 
     constructor(
         grid: GameGrid,
@@ -93,13 +96,15 @@ export class Player extends Character {
         // priority 1 — toggle a door if standing on a door cell;
         // priority 2 — place a candle otherwise.
         if (action === CharacterActions.Candle) {
-            if (!this.isMoving) {
-                const cell = this.currentCell;
-                if (cell && this._grid.hasDoorOnCell(cell)) {
-                    this._grid.switchDoorIfAny(cell);
-                } else if (cell && this._candlesManager && !this._candlesManager.isThereACandle(cell)) {
-                    const c = this.worldCenter;
-                    this._candlesManager.placeCandle(c.x, c.y);
+            const cell = this.currentCell;
+            // Door toggle requires the player to be still (avoid accidental triggers while walking)
+            if (!this.isMoving && cell && this._grid.hasDoorOnCell(cell)) {
+                this._grid.switchDoorIfAny(cell);
+            } else if (this._candlesManager) {
+                if (!this._candlesManager.doIHaveACandleLeft) {
+                    this.onMessage?.(GameTexts.notEnoughCandles, '#ff6b6b');
+                } else if (cell && !this._candlesManager.isThereACandle(cell)) {
+                    this._candlesManager.placeCandle(cell.centerX, cell.centerY);
                 }
             }
             return;

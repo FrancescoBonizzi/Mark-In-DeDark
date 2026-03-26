@@ -83,6 +83,9 @@ export class GameGrid {
     trapPlacements: TrapPlacement[] = [];
     patrolPaths: PatrolPath[] = [];
 
+    /** Maps cells that carry a text trigger (stringCode) to the raw code string. */
+    readonly cellTriggerTexts = new Map<GameCell, string>();
+
     private readonly _pathCache = new Map<string, GameCell[]>();
 
     constructor(bundle: GridBundle, config: LevelConfig, customization: LevelCustomization) {
@@ -145,6 +148,11 @@ export class GameGrid {
                 // Store object placements
                 if (data.objectType !== null) {
                     this._storeObjectPlacement(col, row, data.objectType, data.objectAdditionalData, data.stringCode);
+                }
+
+                // Store cell text trigger (tutorial/ambient hint)
+                if (data.stringCode) {
+                    this.cellTriggerTexts.set(cell, data.stringCode);
                 }
 
                 // Store trap placements
