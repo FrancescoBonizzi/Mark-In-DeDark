@@ -36,6 +36,17 @@ function buildAnimation(
     return new SpriteAnimation(frames, normalFrames, FRAME_DURATION_MS, loop);
 }
 
+// Some death frames are absent from the spritesheets (2, 4, 6, 8 missing) —
+// load only existing ones via try/catch, matching C# AssetsLoader frame-skip logic.
+function buildDeathAnimation(sheets: Spritesheet[]): SpriteAnimation {
+    const frames: ReturnType<typeof getTexture>[] = [];
+    for (let i = 1; i <= 26; i++) {
+        try { frames.push(getTexture(sheets, `Player/Death/player_front_dying_${i}`)); }
+        catch { /* frame not in spritesheet, skip */ }
+    }
+    return new SpriteAnimation(frames, [], FRAME_DURATION_MS, false);
+}
+
 function buildPlayerAnimations(sheets: Spritesheet[]): AnimationsManager {
     const mgr = new AnimationsManager();
     mgr.add('WalkDown',  buildAnimation(sheets, 'Player/player_front_walking', 4));
@@ -44,6 +55,7 @@ function buildPlayerAnimations(sheets: Spritesheet[]): AnimationsManager {
     mgr.add('IdleDown',  buildAnimation(sheets, 'Player/player_front_iddle',   4));
     mgr.add('IdleUp',    buildAnimation(sheets, 'Player/player_back_iddle',    4));
     mgr.add('IdleSide',  buildAnimation(sheets, 'Player/player_side_iddle',    4));
+    mgr.add('Dying',     buildDeathAnimation(sheets));
     return mgr;
 }
 

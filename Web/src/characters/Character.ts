@@ -172,10 +172,19 @@ export abstract class Character {
         }
 
         if (this.isDying && !this._isFallingInTrap) {
-            this._dyingTimerMs -= deltaMS;
-            if (this._dyingTimerMs <= 0) {
-                this._state = CharacterState.Dead;
-                if (this.surroundingLight) this.surroundingLight.enabled = false;
+            if (this._animations.has('Dying')) {
+                // Animation-driven: wait for death animation to finish.
+                if (this._animations.currentAnimation?.isFinished) {
+                    this._state = CharacterState.Dead;
+                    if (this.surroundingLight) this.surroundingLight.enabled = false;
+                }
+            } else {
+                // Timer fallback for entities without a death animation.
+                this._dyingTimerMs -= deltaMS;
+                if (this._dyingTimerMs <= 0) {
+                    this._state = CharacterState.Dead;
+                    if (this.surroundingLight) this.surroundingLight.enabled = false;
+                }
             }
         }
 
@@ -228,7 +237,13 @@ export abstract class Character {
     die(): void {
         if (this.isDead || this.isDying) return;
         this._state = CharacterState.Dying;
-        this._dyingTimerMs = Character.DYING_DURATION_MS;
+        if (this._animations.has('Dying')) {
+            // Animation-driven death: transition to Dead when animation completes.
+            this._animations.forcePlay('Dying');
+        } else {
+            // Fallback timer for entities without a death animation (enemies).
+            this._dyingTimerMs = Character.DYING_DURATION_MS;
+        }
     }
 
     /**
