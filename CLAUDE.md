@@ -25,7 +25,7 @@ Siamo nella fase **Bug-fix + Feature**.
 | ------ | ------------------------------------------------------------------------------------------------------------------ | ---------- |
 | Task 3 | Bug: porte interattive non si aprono con Space. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.          | ✅ Done    |
 | Task 4 | HUD: popup testuali contestuali. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.                         | ✅ Done    |
-| Task 5 | Oggetti mancanti: braceri (BrazierLit) non renderizzati. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**. | ⬜ Pending |
+| Task 5 | Oggetti mancanti: braceri (BrazierLit) non renderizzati. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**. | ✅ Done    |
 
 ### Fase 3: Entità e Animazioni
 

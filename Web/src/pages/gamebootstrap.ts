@@ -14,6 +14,7 @@ import { CandlesManager } from '../objects/CandlesManager';
 import { CandlePack } from '../objects/CandlePack';
 import { Key } from '../objects/Key';
 import { Exit } from '../objects/Exit';
+import { BrazierLit } from '../objects/BrazierLit';
 import { InstantlyDieTrap } from '../objects/InstantlyDieTrap';
 import { TimedBreakableTrap } from '../objects/TimedBreakableTrap';
 import { GoblinTriggerTrap } from '../objects/GoblinTriggerTrap';
@@ -44,6 +45,7 @@ let candlePacks: CandlePack[] = [];
 let key: Key | null = null;
 let exit: Exit | null = null;
 let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
+let braziers: BrazierLit[] = [];
 let enemies: Enemy[] = [];
 let hud: GameHud | null = null;
 let deathOverlay: HTMLDivElement | null = null;
@@ -193,6 +195,19 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             p.count,
             grid!.objectsContainer,
         ));
+
+        // Braziers
+        braziers = grid.brazierPlacements.map(p => {
+            const b = new BrazierLit(
+                assets.spriteSheets,
+                p.col * CELL_SIZE + CELL_SIZE / 2,
+                p.row * CELL_SIZE + CELL_SIZE / 2,
+                grid!.objectsContainer,
+                grid!.objectsNormalContainer,
+            );
+            shadowSystem!.addLight(b.surroundingLight);
+            return b;
+        });
 
         // Key
         key = new Key(
@@ -372,6 +387,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
                 }
             }
 
+            // Braziers
+            for (const b of braziers) b.update(dt);
+
             // Grid (door animations etc.)
             grid.update(dt);
 
@@ -468,6 +486,11 @@ export function destroyGame() {
     key = null;
     exit = null;
     traps = [];
+    for (const b of braziers) {
+        shadowSystem?.removeLight(b.surroundingLight);
+        if (grid) b.destroy(grid.objectsContainer);
+    }
+    braziers = [];
 
     resizeObserver?.disconnect();
     resizeObserver = null;

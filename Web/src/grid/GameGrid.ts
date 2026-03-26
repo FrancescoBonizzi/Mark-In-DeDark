@@ -37,6 +37,11 @@ export interface TrapPlacement {
     row: number;
 }
 
+export interface BrazierPlacement {
+    col: number;
+    row: number;
+}
+
 export interface PatrolWaypoint {
     col: number;
     row: number;
@@ -81,6 +86,7 @@ export class GameGrid {
     enemyPlacements: EnemyPlacement[] = [];
     candlePlacements: CandlePlacement[] = [];
     trapPlacements: TrapPlacement[] = [];
+    brazierPlacements: BrazierPlacement[] = [];
     patrolPaths: PatrolPath[] = [];
 
     /** Maps cells that carry a text trigger (stringCode) to the raw code string. */
@@ -268,13 +274,16 @@ export class GameGrid {
                 break;
             }
 
+            case ObjectTypes.Lucina:
+                this.brazierPlacements.push({ col, row });
+                break;
+
             case ObjectTypes.Zombie:
             case ObjectTypes.Scheletro:
             case ObjectTypes.Goblin:
             case ObjectTypes.Taurus:
             case ObjectTypes.Ghost:
             case ObjectTypes.Bubu:
-            case ObjectTypes.Lucina:
                 this.enemyPlacements.push({
                     objectType: objectType as ObjectTypes,
                     col,
