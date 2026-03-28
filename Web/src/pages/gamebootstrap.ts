@@ -182,8 +182,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             shadowSystem.addLight(player.surroundingLight);
         }
 
-        // CandlesManager (player starts with 3 candles)
-        candlesManager = new CandlesManager(assets.spriteSheets, grid.objectsContainer, shadowSystem, 3);
+        // CandlesManager: start with 0 — candles come from CandlePacks placed in the level (C# behavior)
+        candlesManager = new CandlesManager(assets.spriteSheets, grid.objectsContainer, shadowSystem, 0);
         player.setCandlesManager(candlesManager);
         player.onMessage = (text, color) => hud?.showMessage(text, color);
 
