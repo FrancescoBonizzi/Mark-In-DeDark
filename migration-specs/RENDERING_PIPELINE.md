@@ -296,3 +296,73 @@ group(1) binding(2) → uNormalMapSampler
 | 🟢 BASSO | D4: culling luci fuori schermo | `ShadowSystem.ts` | ~5 |
 
 **Il fix D1 da solo dovrebbe risolvere sia "luci fioche" che "nessun effetto 3D".**
+
+---
+
+## 6. Analisi di Sicurezza — "Il mondo non diventa buio"
+
+Questa sezione documenta perché il fix D1 è sicuro e non oscura il mondo.
+
+### 6.1 Cosa cambia con la fix
+
+In `ShadowSystem.update()`, i passi 3 (ground) e 6 (oggetti) funzionano così:
+
+1. **Pre-pass ambient**: si tinge la RT diffuse con `_ambienceColorHex(normalMapAmbienceColor)` e la scrive sul render target finale (clear=true).
+2. **Per-light additive**: per ogni luce attiva in `shadowSystem.lights` → `NormalMapFilter` → blend additivo sopra.
+
+Con `normalMapAmbienceColor = { r: 0, g: 0, b: 0 }` (livelli 3+), la pre-pass produce una RT nera. Solo le luci attive aggiungono colore. **Il mondo appare buio tranne vicino alle sorgenti di luce: è il comportamento intenzionale.**
+
+### 6.2 Wiring di tutte le sorgenti di luce
+
+| Sorgente | Dove viene aggiunta | Quando `enabled = false` |
+|---|---|---|
+| **Player torch** | `gamebootstrap.ts:181–183` | Solo alla morte (`Character.ts:179, 186, 289`) |
+| **Bracieri** | `gamebootstrap.ts:208` | Mai (permanenti) |
+| **Nemici** | `EnemyFactory.ts:94` e `gamebootstrap.ts:250` | Alla loro morte |
+| **Candele piazzate** | `CandlesManager.ts:68` (add), `:79` (remove) | Quando si spengono |
+
+Parametri luce player (`Player.ts:78–88`): `z=90, radius=1200, distanceSquared=20_600, opacity=1` — identici ai valori C#.
+
+### 6.3 Perché player/nemici/bracieri rimangono visibili
+
+La `_objectsNormalRT` viene riempita con `0x8080ff` (normale neutra `(0,0,1)`, punta verso lo schermo). Per pixel con normale neutra e luce frontale, `nDotL = 1` → illuminazione massima. Quindi player, nemici e bracieri ricevono sempre illuminazione piena dal normal-map pass degli oggetti. Le normal texture reali dei singoli sprite si sovrascrivono solo dove c'è un pixel non trasparente.
+
+Per il ground invece: tile **senza** normal texture rimangono al colore di clear `0x000000` → decodificato `(-1,-1,-1)` → `nDotL ≈ 0` → buie. Solo le tile con `cell1_normal` (e simili) ricevono luce. Questo è intenzionale (D8).
+
+### 6.4 Shadow lightmap e ordine di stage
+
+```
+[0] _normalMappedGroundSprite   (ground illuminato dal normal-map pass)
+[1] _lightmapSprite (multiply)  ← oscura solo il ground
+[2] _normalMappedObjectsSprite  ← NON viene moltiplicato dalla penumbra
+```
+
+Il `_lightmapSprite` (multiply) è inserito tra ground e oggetti. Per livelli 3+, `penumbraAmbientColor = 0x000000` → il lightmap parte da nero → il ground è nero lontano dalle luci, illuminato vicino. Gli oggetti (player, nemici, bracieri) sono a index [2], **sopra** il multiply, quindi **non vengono oscurati dalla penumbra**. Piccola differenza dal C# (dove Penumbra.BlendAll applicava a tutto il frame), ma è il comportamento attuale e non è una regressione di questa fix.
+
+### 6.5 Checklist di verifica post-fix
+
+- [ ] Livello 1–2: tint blu-viola `(0.11, 0.10, 0.22)` visibile come base ambient.
+- [ ] Livello 3+: mondo buio al caricamento, ma area attorno al player illuminata dalla torcia.
+- [ ] Piazzare una candela → cerchio di luce sul pavimento.
+- [ ] Avvicinarsi a un braciere → luce statica sempre visibile.
+- [ ] Nemico che si avvicina → la sua luce è visibile.
+- [ ] Player muore → torcia si disabilita, l'area diventa buia.
+
+### 6.6 Cosa NON toccare
+
+- **Parametri `distanceSquared` e `z` delle luci** — già calibrati sui valori C# (`20_600` px², `z=90`).
+- **NormalMapFilter** — formula nDotL², Y-flip e coordinate sono corretti (D5–D7).
+- **D2 (ambient dentro il filter)** — opzionale, non un bug bloccante.
+- **D3 (specular/glow)** — futura iterazione.
+
+### 6.7 Riepilogo: unica modifica necessaria
+
+```ts
+// Web/src/grid/LevelCustomization.ts, riga 30
+// PRIMA:
+normalMapAmbienceColor: { r: 0.35, g: 0.35, b: 0.35 },
+// DOPO:
+normalMapAmbienceColor: levelId <= 2 ? { r: 0.11, g: 0.10, b: 0.22 } : { r: 0, g: 0, b: 0 },
+```
+
+Non sono necessarie modifiche ai tipi TypeScript (la struttura `{ r, g, b }` rimane identica). `npm run build` deve passare senza errori.
