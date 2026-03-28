@@ -25,13 +25,15 @@ export class PlayerHunterAI implements IEnemyAI {
         this._candlesManager = candlesManager;
     }
 
-    update(enemy: Enemy, _deltaMS: number): CharacterActions {
+    update(enemy: Enemy, deltaMS: number): CharacterActions {
         // Check candles first
         const cell = enemy.currentCell;
         if (cell && enemy.nCellsCandleRange !== null) {
             const result = this._candlesManager.getNearestCandlePath(cell, enemy.nCellsCandleRange, this._grid);
             if (result) {
-                return enemy.setNewAI(new KillCandleAI(result.candle, result.actions, this));
+                // C#: immediately invoke the new AI on the same frame (no one-tick delay)
+                enemy.setNewAI(new KillCandleAI(result.candle, result.actions, this));
+                return enemy.currentAI.update(enemy, deltaMS);
             }
         }
 

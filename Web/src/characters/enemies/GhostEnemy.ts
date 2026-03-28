@@ -4,6 +4,7 @@ import { MarkLight } from '../../lighting/MarkLight';
 import { GameGrid } from '../../grid/GameGrid';
 import { Player } from '../Player';
 import { CandlesManager } from '../../objects/CandlesManager';
+import type { Candle } from '../../objects/Candle';
 import { PatrolGhostAI } from '../../ai/PatrolGhostAI';
 import { GameCell } from '../../grid/GameCell';
 import { buildEnemyAnimations } from './enemyAnimations';
@@ -71,17 +72,8 @@ export class GhostEnemy extends Enemy {
         return this._player.isMoving;
     }
 
-    /** Ghost instantly kills candle (250ms). */
-    protected override killCandleLogic(_grid: GameGrid): void {
-        const cell = this.currentCell;
-        if (!cell) return;
-        for (const candle of this._candlesManager.candles) {
-            if (candle.isAlive &&
-                Math.abs(candle.collisionRectangle.x + 24 - cell.centerX) < 10 &&
-                Math.abs(candle.collisionRectangle.y + 24 - cell.centerY) < 10) {
-                candle.die(250);
-                return;
-            }
-        }
+    /** Ghost instantly kills candle (250ms) without walking. C#: Ghost.KillCandleLogic calls possibleCandle.Die directly. */
+    protected override killCandleLogic(candle: Candle): void {
+        candle.die(250);
     }
 }

@@ -3,6 +3,7 @@ import { Enemy, EnemyConfig } from '../Enemy';
 import { GameGrid } from '../../grid/GameGrid';
 import { Player } from '../Player';
 import { CandlesManager } from '../../objects/CandlesManager';
+import type { Candle } from '../../objects/Candle';
 import { PatrolAI } from '../../ai/PatrolAI';
 import { KillCandleAI } from '../../ai/KillCandleAI';
 import { GameCell } from '../../grid/GameCell';
@@ -48,13 +49,8 @@ export class Bubu extends Enemy {
         super(grid, objectsContainer, objectsNormalContainer, config);
     }
 
-    /** Bubu kills candle with 500ms duration. */
-    protected override killCandleLogic(grid: GameGrid): void {
-        const cell = this.currentCell;
-        if (!cell) return;
-        const result = this._candlesManager.getNearestCandlePath(cell, 0, grid);
-        if (result) {
-            this.setNewAI(new KillCandleAI(result.candle, [], this.currentAI, 500));
-        }
+    /** Bubu kills candle with 500ms duration. C#: same as Enemy base but with custom duration. */
+    protected override killCandleLogic(candle: Candle): void {
+        this.setNewAI(new KillCandleAI(candle, [], this.currentAI, 500));
     }
 }

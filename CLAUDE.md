@@ -33,7 +33,7 @@ Siamo nella fase **Bug-fix + Feature**.
 | ------- | ---------------------------------------------------------------------------------------------------------------------- | ---------- |
 | Task 6  | Bug: animazione morte mancante. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`** — risolve anche Task 1.        | ✅ Done    |
 | Task 7  | Bug: i nemici non attaccano visivamente. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`**.                      | ✅ Done    |
-| Task 7b | Bug: i nemici non inseguono/spengono le candele del player. Verificare `KillCandleAI.ts` e il wiring in gamebootstrap. | ⬜ Pending |
+| Task 7b | Bug: i nemici non inseguono/spengono le candele del player. Verificare `KillCandleAI.ts` e il wiring in gamebootstrap. | ✅ Done    |
 
 ### Fase 4: Rendering Avanzato
 

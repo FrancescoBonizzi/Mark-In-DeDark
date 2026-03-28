@@ -45,6 +45,21 @@ export class CandlesManager {
         );
     }
 
+    /**
+     * Returns the first alive candle on the given cell (C#: IsThereACandle returns Candle).
+     * Uses cell-reference comparison via grid, matching the C# GetCellAtPixel approach.
+     * Does NOT filter by isBeingFollowed — collision-based kill should work on any alive candle.
+     */
+    getCandleAtCell(cell: GameCell, grid: GameGrid): Candle | null {
+        for (const candle of this.candles) {
+            if (!candle.isAlive) continue;
+            const cx = candle.collisionRectangle.x + candle.collisionRectangle.width / 2;
+            const cy = candle.collisionRectangle.y + candle.collisionRectangle.height / 2;
+            if (grid.getCellAtPixel(cx, cy) === cell) return candle;
+        }
+        return null;
+    }
+
     placeCandle(x: number, y: number): boolean {
         if (!this.doIHaveACandleLeft) return false;
 
@@ -94,7 +109,8 @@ export class CandlesManager {
             if (!targetCell) continue;
 
             const actions = grid.findActionsToPath(fromCell, targetCell);
-            if (actions.length === 0 || actions.length > maxCellRange) continue;
+            // actions.length === 0 means same cell — valid when within range (C# fix: don't skip zero-length paths)
+            if (actions.length > maxCellRange) continue;
 
             if (actions.length < bestLen) {
                 bestLen = actions.length;

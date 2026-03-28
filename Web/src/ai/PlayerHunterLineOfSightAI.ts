@@ -65,7 +65,9 @@ export class PlayerHunterLineOfSightAI implements IEnemyAI {
                 if (cell && enemy.nCellsCandleRange !== null) {
                     const result = this._candlesManager.getNearestCandlePath(cell, enemy.nCellsCandleRange, this._grid);
                     if (result) {
-                        return enemy.setNewAI(new KillCandleAI(result.candle, result.actions, this));
+                        // C#: immediately invoke the new AI on the same frame (no one-tick delay)
+                        enemy.setNewAI(new KillCandleAI(result.candle, result.actions, this));
+                        return enemy.currentAI.update(enemy, deltaMS);
                     }
                 }
 

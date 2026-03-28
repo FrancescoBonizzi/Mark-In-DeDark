@@ -43,7 +43,7 @@ export class PatrolAI implements IEnemyAI {
         this._actions = [];
     }
 
-    update(enemy: Enemy, _deltaMS: number): CharacterActions {
+    update(enemy: Enemy, deltaMS: number): CharacterActions {
         // Optional candle search
         if (this._searchesCandles) {
             const cell = enemy.currentCell;
@@ -51,7 +51,9 @@ export class PatrolAI implements IEnemyAI {
                 const result = this._candlesManager.getNearestCandlePath(cell, enemy.nCellsCandleRange ?? 3, this._grid);
                 if (result) {
                     const killAI = new KillCandleAI(result.candle, result.actions, this, this._killDurationMS);
-                    return enemy.setNewAI(killAI);
+                    // C#: immediately invoke the new AI on the same frame (no one-tick delay)
+                    enemy.setNewAI(killAI);
+                    return enemy.currentAI.update(enemy, deltaMS);
                 }
             }
         }

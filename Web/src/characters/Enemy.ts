@@ -5,6 +5,7 @@ import { CharacterState } from './CharacterState';
 import type { GameGrid } from '../grid/GameGrid';
 import type { Player } from './Player';
 import type { CandlesManager } from '../objects/CandlesManager';
+import type { Candle } from '../objects/Candle';
 import type { IEnemyAI } from '../ai/IEnemyAI';
 import { IdleAI } from '../ai/IdleAI';
 import { KillCandleAI } from '../ai/KillCandleAI';
@@ -99,6 +100,10 @@ export abstract class Enemy extends Character {
         }
     }
 
+    get isAttacking(): boolean {
+        return this._state === CharacterState.Attacking;
+    }
+
     /** Returns to idle animation after smashing. */
     stopAttacking(): void {
         if (this._state === CharacterState.Attacking) {
@@ -121,14 +126,13 @@ export abstract class Enemy extends Character {
         // no-op by default
     }
 
-    /** Default candle kill logic: walk-to-candle via KillCandleAI. Override in Ghost. */
-    protected killCandleLogic(grid: GameGrid): void {
-        const cell = this.currentCell;
-        if (!cell) return;
-        const result = this._candlesManager.getNearestCandlePath(cell, 0, grid);
-        if (result) {
-            this.setNewAI(new KillCandleAI(result.candle, [], this.currentAI, this._killCandleDurationMS));
-        }
+    /**
+     * Default candle kill logic: switch to KillCandleAI with the candle already in hand.
+     * C# Enemy.KillCandleLogic passes the candle directly — no extra pathfinding needed
+     * since collision detection already confirmed the enemy is on the candle's cell.
+     */
+    protected killCandleLogic(candle: Candle): void {
+        this.setNewAI(new KillCandleAI(candle, [], this.currentAI, this._killCandleDurationMS));
     }
 
     // -------------------------------------------------------------------------
@@ -143,8 +147,11 @@ export abstract class Enemy extends Character {
             !(this.currentAI instanceof ChargeDirectionAI) &&
             !(this.currentAI instanceof KillCandleAI)) {
             const cell = this.currentCell;
-            if (cell && this._candlesManager.isThereACandle(cell)) {
-                this.killCandleLogic(this._grid);
+            if (cell) {
+                const candle = this._candlesManager.getCandleAtCell(cell, this._grid);
+                if (candle) {
+                    this.killCandleLogic(candle);
+                }
             }
         }
 
@@ -162,10 +169,15 @@ export abstract class Enemy extends Character {
             this._stopCurrentMovement();
         }
 
-        // 3. Wait for attack animation to finish, then return to idle
+        // 3. Wait for attack animation to finish, then return to idle.
+        //    C#: AI keeps running during Attacking (e.g. KillCandleAI.Smashing polls candle.isAlive).
         if (this._state === CharacterState.Attacking) {
             if (this._animations.currentAnimation?.isFinished) {
                 this.stopAttacking();
+            }
+            // AI still runs for state transitions, but movement input is ignored
+            if (!this.isMoving && !this.isDying) {
+                this.currentAI.update(this, deltaMS);
             }
             super.update(deltaMS);
             return;

@@ -50,6 +50,9 @@ export class KillCandleAI implements IEnemyAI {
                 if (!this._candle.isAlive) {
                     enemy.stopAttacking();
                     this._status = KillCandleStatus.Ended;
+                } else if (!enemy.isAttacking) {
+                    // Previous attack animation finished but candle still alive — loop it
+                    enemy.attack();
                 }
                 return CharacterActions.Idle;
             }
