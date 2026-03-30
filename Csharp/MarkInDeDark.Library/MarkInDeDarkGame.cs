@@ -1,4 +1,9 @@
-﻿using FbonizziMonoGame;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Timers;
+using FbonizziMonoGame;
 using FbonizziMonoGame.Drawing;
 using FbonizziMonoGame.Drawing.Abstractions;
 using FbonizziMonoGame.Extensions;
@@ -11,15 +16,10 @@ using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Lighting;
 using MarkInDeDark.Library.Objects;
 using MarkInDeDark.Library.Particles.Snowing;
+using MarkInDeDark.Shadows;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using MarkInDeDark.Shadows;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Timers;
 
 namespace MarkInDeDark.Library
 {
@@ -101,7 +101,7 @@ namespace MarkInDeDark.Library
         {
             Playing,
             Finishing,
-            Finished
+            Finished,
         }
 
         private GameStates _currentGameState;
@@ -125,7 +125,8 @@ namespace MarkInDeDark.Library
             SoundManager soundManager,
             ILocalizedStringsRepository localizedStringsRepository,
             MarkGamePad markGamePad,
-            MarkInDeDarkBootstrap markInDeDarkBootstrap)
+            MarkInDeDarkBootstrap markInDeDarkBootstrap
+        )
         {
             _markInDeDarkBootstrap = markInDeDarkBootstrap;
             _graphicsDevice = graphicsDevice;
@@ -153,23 +154,81 @@ namespace MarkInDeDark.Library
             }
 
             _currentLevel = selectedLevel;
-            LevelCustomization = LevelCustomizations.CustomizeForLevel(_currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId);
+            LevelCustomization = LevelCustomizations.CustomizeForLevel(
+                _currentLevel.LevelEditorDeserializedGrid.EnvironmentTexturePackId
+            );
 
             var presentationParameters = graphicsDevice.PresentationParameters;
-            _gameOverBackgroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _gameOverForegroundRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _baseSceneRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _normalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _baseSceneItemsWithNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevel0RenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelSpecularMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelSpecularMapLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelSpecularMapWithAppliedLightmaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelResultRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
-            _groundLevelAdditionalLightMaskRenderTarget = new RenderTarget2D(graphicsDevice, presentationParameters.BackBufferWidth, presentationParameters.BackBufferHeight);
+            _gameOverBackgroundRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _gameOverForegroundRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _baseSceneRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _normalMapRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _baseSceneItemsWithNormalMapRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevel0RenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelNormalMapRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelSpecularMapRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelSpecularMapLightMaskRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelSpecularMapWithAppliedLightmaskRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelResultRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelAppliedNormalMapRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
+            _groundLevelAdditionalLightMaskRenderTarget = new RenderTarget2D(
+                graphicsDevice,
+                presentationParameters.BackBufferWidth,
+                presentationParameters.BackBufferHeight
+            );
 
             // _gameConfig.GodModeDebugMode = true;
 
@@ -179,67 +238,129 @@ namespace MarkInDeDark.Library
 
             _markGamePad = markGamePad;
 
-            _camera = new Camera2D(_matrixScaleProvider)
-            {
-                Zoom = 0.8f
-            };
+            _camera = new Camera2D(_matrixScaleProvider) { Zoom = 0.8f };
 
-            _gameGrid = new GameGrid(_currentLevel, assetsLoader, _camera, _soundManager, gameConfig, this);
-            _candlesManager = new CandlesManager(0, assetsLoader, _soundManager, _gameGrid, gameConfig, _normalMapLights, _penumbra);
-            _player = new Player(assetsLoader, _gameGrid, gameConfig, _candlesManager, _soundManager, this);
-            _exit = new Exit(_gameGrid.ExitPosition, new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight), _gameGrid.ExitDoor);
-            _key = new CollectableObject(assetsLoader.Sprites["Objects/key"], _gameGrid.KeyPosition, _soundManager);
+            _gameGrid = new GameGrid(
+                _currentLevel,
+                assetsLoader,
+                _camera,
+                _soundManager,
+                gameConfig,
+                this
+            );
+            _candlesManager = new CandlesManager(
+                0,
+                assetsLoader,
+                _soundManager,
+                _gameGrid,
+                gameConfig,
+                _normalMapLights,
+                _penumbra
+            );
+            _player = new Player(
+                assetsLoader,
+                _gameGrid,
+                gameConfig,
+                _candlesManager,
+                _soundManager,
+                this
+            );
+            _exit = new Exit(
+                _gameGrid.ExitPosition,
+                new Vector2(_gameGrid.CellWidth, _gameGrid.CellHeight),
+                _gameGrid.ExitDoor
+            );
+            _key = new CollectableObject(
+                assetsLoader.Sprites["Objects/key"],
+                _gameGrid.KeyPosition,
+                _soundManager
+            );
 
             _enemies = new List<Enemy>();
             _triggerObjects = new List<TriggerObject>();
 
             _candlePacks = _gameGrid.CandlePacks;
             ElapsedGameTime = TimeSpan.Zero;
-            _gameHud = new GameHUD(assetsLoader, matrixScaleProvider, _candlesManager, selectedLevel.LevelTitleToShow);
+            _gameHud = new GameHUD(
+                assetsLoader,
+                matrixScaleProvider,
+                _candlesManager,
+                selectedLevel.LevelTitleToShow
+            );
 
             // Se c'è il trigger, il goblin spawna solo quando viene azionato
             if (_gameGrid.GoblinTriggerRectangle != null && _gameGrid.GoblinStartPosition != null)
             {
-                _triggerObjects.Add(new GoblinTriggerTrap(
-                    assetsLoader: assetsLoader,
-                    triggerCollisionRectangle: _gameGrid.GoblinTriggerRectangle.Value,
-                    affectedCharacters: new Character[] { _player },
-                    onTriggerPressed: (character, elapsed) =>
-                    {
-                        var newGoblin = new Goblin(
-                            assetsLoader,
-                            _gameGrid.GoblinStartPosition.Value,
-                            _gameGrid,
-                            _candlesManager,
-                            _soundManager,
-                            _player,
-                            gameConfig,
-                            this);
-                        _enemies.Add(newGoblin);
-                        _normalMapLights.Add(newGoblin.SurroundingLight);
-                        _penumbra.Lights.Add(newGoblin.SurroundingLight.PenumbraLight);
-                        //_soundManager.PlayBreakWallSound();
-                        StartCameraShake(4);
-
-                        // Aggiungo il goblin al controllo delle trappole
-                        foreach (var trap in _triggerObjects.Where(t => t is InstantlyDieTrap || t is TimedBreakableTrap))
+                _triggerObjects.Add(
+                    new GoblinTriggerTrap(
+                        assetsLoader: assetsLoader,
+                        triggerCollisionRectangle: _gameGrid.GoblinTriggerRectangle.Value,
+                        affectedCharacters: new Character[] { _player },
+                        onTriggerPressed: (character, elapsed) =>
                         {
-                            trap.AddAffectedCharacter(newGoblin);
-                        }
-                    },
-                    gameGrid: _gameGrid));
+                            var newGoblin = new Goblin(
+                                assetsLoader,
+                                _gameGrid.GoblinStartPosition.Value,
+                                _gameGrid,
+                                _candlesManager,
+                                _soundManager,
+                                _player,
+                                gameConfig,
+                                this
+                            );
+                            _enemies.Add(newGoblin);
+                            _normalMapLights.Add(newGoblin.SurroundingLight);
+                            _penumbra.Lights.Add(newGoblin.SurroundingLight.PenumbraLight);
+                            //_soundManager.PlayBreakWallSound();
+                            StartCameraShake(4);
+
+                            // Aggiungo il goblin al controllo delle trappole
+                            foreach (
+                                var trap in _triggerObjects.Where(t =>
+                                    t is InstantlyDieTrap || t is TimedBreakableTrap
+                                )
+                            )
+                            {
+                                trap.AddAffectedCharacter(newGoblin);
+                            }
+                        },
+                        gameGrid: _gameGrid
+                    )
+                );
             }
             // Se non metto il trigger, lo spawno subito
             else if (_gameGrid.GoblinStartPosition != null)
             {
-                _enemies.Add(new Goblin(assetsLoader, _gameGrid.GoblinStartPosition.Value, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
+                _enemies.Add(
+                    new Goblin(
+                        assetsLoader,
+                        _gameGrid.GoblinStartPosition.Value,
+                        _gameGrid,
+                        _candlesManager,
+                        _soundManager,
+                        _player,
+                        gameConfig,
+                        this
+                    )
+                );
             }
 
             if (_gameGrid.ZombiesPath != null)
             {
                 foreach (var zombiePath in _gameGrid.ZombiesPath)
                 {
-                    _enemies.Add(new Zombie(assetsLoader, zombiePath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
+                    _enemies.Add(
+                        new Zombie(
+                            assetsLoader,
+                            zombiePath,
+                            _gameGrid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig,
+                            this
+                        )
+                    );
                 }
             }
 
@@ -247,7 +368,18 @@ namespace MarkInDeDark.Library
             {
                 foreach (var ghostPath in _gameGrid.GhostsPath)
                 {
-                    _enemies.Add(new Ghost(assetsLoader, ghostPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
+                    _enemies.Add(
+                        new Ghost(
+                            assetsLoader,
+                            ghostPath,
+                            _gameGrid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig,
+                            this
+                        )
+                    );
                 }
             }
 
@@ -255,7 +387,18 @@ namespace MarkInDeDark.Library
             {
                 foreach (var bubuPath in _gameGrid.BubusPath)
                 {
-                    _enemies.Add(new Bubu(assetsLoader, bubuPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
+                    _enemies.Add(
+                        new Bubu(
+                            assetsLoader,
+                            bubuPath,
+                            _gameGrid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig,
+                            this
+                        )
+                    );
                 }
             }
 
@@ -263,7 +406,18 @@ namespace MarkInDeDark.Library
             {
                 foreach (var skeletronPath in _gameGrid.SkeletronsPath)
                 {
-                    _enemies.Add(new Skeletron(assetsLoader, skeletronPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, this));
+                    _enemies.Add(
+                        new Skeletron(
+                            assetsLoader,
+                            skeletronPath,
+                            _gameGrid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig,
+                            this
+                        )
+                    );
                 }
             }
 
@@ -271,19 +425,38 @@ namespace MarkInDeDark.Library
             {
                 foreach (var taurusPath in _gameGrid.TaurusPath)
                 {
-                    _enemies.Add(new Taurus(assetsLoader, taurusPath, _gameGrid, _candlesManager, _soundManager, _player, gameConfig, _enemies, this));
+                    _enemies.Add(
+                        new Taurus(
+                            assetsLoader,
+                            taurusPath,
+                            _gameGrid,
+                            _candlesManager,
+                            _soundManager,
+                            _player,
+                            gameConfig,
+                            _enemies,
+                            this
+                        )
+                    );
                 }
             }
 
             if (_gameGrid.InstantlyDieTrapCollisionRectangles != null)
             {
-                foreach (var instantlyDieTrapRectangle in _gameGrid.InstantlyDieTrapCollisionRectangles)
+                foreach (
+                    var instantlyDieTrapRectangle in _gameGrid.InstantlyDieTrapCollisionRectangles
+                )
                 {
-                    _triggerObjects.Add(new InstantlyDieTrap(
-                        assetsLoader,
-                        (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        instantlyDieTrapRectangle,
-                        _gameGrid));
+                    _triggerObjects.Add(
+                        new InstantlyDieTrap(
+                            assetsLoader,
+                            (new List<Character> { _player })
+                                .Concat(_enemies.Where(e => !(e is Ghost)))
+                                .ToList(),
+                            instantlyDieTrapRectangle,
+                            _gameGrid
+                        )
+                    );
                 }
             }
 
@@ -291,13 +464,18 @@ namespace MarkInDeDark.Library
             {
                 foreach (var breakableTrapRectangle in _gameGrid.BrekableTrapCollisionRectangles)
                 {
-                    _triggerObjects.Add(new TimedBreakableTrap(
-                        assetsLoader,
-                        _gameConfig,
-                        breakableTrapRectangle,
-                        (new List<Character> { _player }).Concat(_enemies.Where(e => !(e is Ghost))).ToList(),
-                        () => StartCameraShake(1),
-                        _gameGrid));
+                    _triggerObjects.Add(
+                        new TimedBreakableTrap(
+                            assetsLoader,
+                            _gameConfig,
+                            breakableTrapRectangle,
+                            (new List<Character> { _player })
+                                .Concat(_enemies.Where(e => !(e is Ghost)))
+                                .ToList(),
+                            () => StartCameraShake(1),
+                            _gameGrid
+                        )
+                    );
                 }
             }
 
@@ -305,12 +483,15 @@ namespace MarkInDeDark.Library
             {
                 foreach (var cellTriggerText in _gameGrid.CellTriggerText)
                 {
-                    _triggerObjects.Add(new ShowTextTriggerObject(
-                        _localizedStringsRepository.Get(cellTriggerText.Value),
-                        _gameHud,
-                        cellTriggerText.Key,
-                        _player,
-                        _gameGrid));
+                    _triggerObjects.Add(
+                        new ShowTextTriggerObject(
+                            _localizedStringsRepository.Get(cellTriggerText.Value),
+                            _gameHud,
+                            cellTriggerText.Key,
+                            _player,
+                            _gameGrid
+                        )
+                    );
                 }
             }
 
@@ -344,7 +525,10 @@ namespace MarkInDeDark.Library
             _penumbra.AmbientColor = LevelCustomization.PenumbraAmbientColor;
             if (LevelCustomization.IsSnowing)
             {
-                _snowingManager = new SnowingManager(assetsLoader.Sprites["Effects/snowflake"], _camera);
+                _snowingManager = new SnowingManager(
+                    assetsLoader.Sprites["Effects/snowflake"],
+                    _camera
+                );
             }
 
             _markInDeDarkBootstrap.IsMouseVisible = false;
@@ -356,7 +540,8 @@ namespace MarkInDeDark.Library
             if (File.Exists(NormalMapParameters.FileName))
             {
                 var normalMapParametersTemp = JsonConvert.DeserializeObject<NormalMapParameters>(
-                    File.ReadAllText(NormalMapParameters.FileName));
+                    File.ReadAllText(NormalMapParameters.FileName)
+                );
 
                 if (normalMapParametersTemp.EditAmbienceLights)
                 {
@@ -367,7 +552,8 @@ namespace MarkInDeDark.Library
                 if (normalMapParametersTemp.EditPlayerLights)
                 {
                     _player.SurroundingLight.Z = normalMapParametersTemp.PlayerLightDirectionZ;
-                    _player.SurroundingLight.DistanceSquaredForGround = normalMapParametersTemp.PlayerLightDistance;
+                    _player.SurroundingLight.DistanceSquaredForGround =
+                        normalMapParametersTemp.PlayerLightDistance;
                     _player.SurroundingLight.Opacity = normalMapParametersTemp.PlayerLightOpacity;
                     _player.SurroundingLight.ColorNormal = normalMapParametersTemp.PlayerLightColor;
                 }
@@ -376,10 +562,7 @@ namespace MarkInDeDark.Library
                 {
                     File.Delete(NormalMapParameters.FileName);
                 }
-                catch
-                {
-
-                }
+                catch { }
             }
         }
 
@@ -389,7 +572,8 @@ namespace MarkInDeDark.Library
             {
                 _gameHud.ShowMessage(
                     _localizedStringsRepository.Get("NotEnoughCandlesString"),
-                    _gameConfig.NotEnoughCandlesStringColorRGB);
+                    _gameConfig.NotEnoughCandlesStringColorRGB
+                );
             }
 
             _player.HandleInput(action);
@@ -400,7 +584,8 @@ namespace MarkInDeDark.Library
             var newCameraPosition = _player.Position - _playerCameraOffset;
             _camera.Position = new Vector2(
                 MathHelper.Lerp(_camera.Position.X, newCameraPosition.X, 0.1f),
-                MathHelper.Lerp(_camera.Position.Y, newCameraPosition.Y, 0.1f));
+                MathHelper.Lerp(_camera.Position.Y, newCameraPosition.Y, 0.1f)
+            );
         }
 
         public void Update(TimeSpan elapsed)
@@ -419,9 +604,10 @@ namespace MarkInDeDark.Library
                     if (_player.IsDying)
                     {
                         _gameHud.ShowMessage(
-                             string.Format(_localizedStringsRepository.Get("GameOverString")),
-                             _gameConfig.GameOverStringColorRGB,
-                             true);
+                            string.Format(_localizedStringsRepository.Get("GameOverString")),
+                            _gameConfig.GameOverStringColorRGB,
+                            true
+                        );
 
                         _markGamePad.Shake(6, TimeSpan.FromSeconds(2));
                         _currentGameState = GameStates.Finishing;
@@ -435,7 +621,8 @@ namespace MarkInDeDark.Library
                             _key.Collect();
                             _gameHud.ShowMessage(
                                 string.Format(_localizedStringsRepository.Get("KeyFoundString")),
-                                _gameConfig.KeyFoundStringColorRGB);
+                                _gameConfig.KeyFoundStringColorRGB
+                            );
                             _exit.SetOpen();
                             _gameHud.DrawKey = true;
                         }
@@ -447,9 +634,12 @@ namespace MarkInDeDark.Library
                         {
                             _player.Win(_exit);
                             _gameHud.ShowMessage(
-                               string.Format(_localizedStringsRepository.Get("LevelCompletedString")),
-                               _gameConfig.LevelCompletedStringColorRGB,
-                               true);
+                                string.Format(
+                                    _localizedStringsRepository.Get("LevelCompletedString")
+                                ),
+                                _gameConfig.LevelCompletedStringColorRGB,
+                                true
+                            );
                             _currentGameState = GameStates.Finishing;
                             _gameFinishTimer = _gameFinishTimerIfWin;
                         }
@@ -457,7 +647,8 @@ namespace MarkInDeDark.Library
                         {
                             _gameHud.ShowMessage(
                                 string.Format(_localizedStringsRepository.Get("ClosedDoorString")),
-                                _gameConfig.ClosedDoorStringColorRGB);
+                                _gameConfig.ClosedDoorStringColorRGB
+                            );
                         }
                     }
 
@@ -467,13 +658,24 @@ namespace MarkInDeDark.Library
                         if (candlePack.IsActive)
                         {
                             candlePack.Update(elapsed);
-                            if (!candlePack.IsCollected && _player.CollisionRectangle.Intersects(candlePack.CollisionRectangle))
+                            if (
+                                !candlePack.IsCollected
+                                && _player.CollisionRectangle.Intersects(
+                                    candlePack.CollisionRectangle
+                                )
+                            )
                             {
                                 candlePack.Collect();
-                                _candlesManager.AddCandlesToInventory(candlePack.NCandlesInThisPack);
+                                _candlesManager.AddCandlesToInventory(
+                                    candlePack.NCandlesInThisPack
+                                );
                                 _gameHud.ShowMessage(
-                                    string.Format(_localizedStringsRepository.Get("CandlePackFoundString"), candlePack.NCandlesInThisPack),
-                                    _gameConfig.CandlePackFoundStringColorRGB);
+                                    string.Format(
+                                        _localizedStringsRepository.Get("CandlePackFoundString"),
+                                        candlePack.NCandlesInThisPack
+                                    ),
+                                    _gameConfig.CandlePackFoundStringColorRGB
+                                );
                             }
                         }
                         else
@@ -495,7 +697,10 @@ namespace MarkInDeDark.Library
                             _runGameOverScene = !_player.HasWon;
                             if (_runGameOverScene == true)
                             {
-                                _gameOverFadeObject = new FadeObject(TimeSpan.FromSeconds(1.5), Color.White);
+                                _gameOverFadeObject = new FadeObject(
+                                    TimeSpan.FromSeconds(1.5),
+                                    Color.White
+                                );
                                 _gameOverFadeObject.FadeOut();
                             }
                         }
@@ -522,7 +727,6 @@ namespace MarkInDeDark.Library
                             e.GameFinished();
                     }
 
-
                     break;
 
                 case GameStates.Finished:
@@ -530,15 +734,20 @@ namespace MarkInDeDark.Library
                     return;
             }
 
-
             // Effetto shake della viewport
             if (_shakeViewport)
             {
                 _shakeStart += elapsed;
-                var offset = new Vector2((float)(Math.Sin(_shakeStartAngle) * _shakeIntensity), (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity));
+                var offset = new Vector2(
+                    (float)(Math.Sin(_shakeStartAngle) * _shakeIntensity),
+                    (float)(Math.Cos(_shakeStartAngle) * _shakeIntensity)
+                );
                 _shakeIntensity -= 0.25f;
                 _shakeStartAngle += (150 + Numbers.RandomBetween(0, 60));
-                if (elapsed.TotalSeconds - _shakeStart.TotalSeconds > _shakeDuration.TotalSeconds || _shakeIntensity <= 0)
+                if (
+                    elapsed.TotalSeconds - _shakeStart.TotalSeconds > _shakeDuration.TotalSeconds
+                    || _shakeIntensity <= 0
+                )
                 {
                     _shakeViewport = false;
                 }
@@ -577,16 +786,25 @@ namespace MarkInDeDark.Library
 
             foreach (var gameLight in _normalMapLights)
             {
-                gameLight.IsOutOfScreen = _camera.Contains(gameLight.BoundingRectangle) == ContainmentType.Disjoint;
+                gameLight.IsOutOfScreen =
+                    _camera.Contains(gameLight.BoundingRectangle) == ContainmentType.Disjoint;
 
                 if (gameLight.ShouldDraw)
                 {
                     gameLight.PositionForWall = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + gameLight.DeltaForWall, viewMatrix),
-                        gameLight.Z);
+                        WorldToScreenForLights(
+                            gameLight.Position + gameLight.DeltaForWall,
+                            viewMatrix
+                        ),
+                        gameLight.Z
+                    );
                     gameLight.PositionForGround = new Vector3(
-                        WorldToScreenForLights(gameLight.Position + gameLight.DeltaForGround, viewMatrix),
-                        gameLight.Z);
+                        WorldToScreenForLights(
+                            gameLight.Position + gameLight.DeltaForGround,
+                            viewMatrix
+                        ),
+                        gameLight.Z
+                    );
                 }
             }
 
@@ -619,8 +837,7 @@ namespace MarkInDeDark.Library
             IsPaused = false;
         }
 
-        public void StopMusic()
-            => _soundManager.StopAll();
+        public void StopMusic() => _soundManager.StopAll();
 
         /// <summary>
         /// Scala da 1 a 15
@@ -644,7 +861,8 @@ namespace MarkInDeDark.Library
         public void Draw(
             SpriteBatch spriteBatch,
             RenderTarget2D virtualDrawTarget,
-            GameTime gameTime)
+            GameTime gameTime
+        )
         {
             if (_runGameOverScene == true)
             {
@@ -654,15 +872,26 @@ namespace MarkInDeDark.Library
 
                 _graphicsDevice.SetRenderTarget(_gameOverForegroundRenderTarget);
                 _graphicsDevice.Clear(Color.Black);
-                spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp);
+                spriteBatch.Begin(
+                    transformMatrix: viewMatrix,
+                    samplerState: SamplerState.PointClamp
+                );
                 _player.Draw(spriteBatch);
                 spriteBatch.End();
 
                 _graphicsDevice.SetRenderTarget(virtualDrawTarget);
                 _graphicsDevice.Clear(Color.Black);
                 spriteBatch.Begin();
-                spriteBatch.Draw(_gameOverBackgroundRenderTarget, Vector2.Zero, _gameOverFadeObject.OverlayColor);
-                spriteBatch.Draw(_gameOverForegroundRenderTarget, Vector2.Zero, Color.White.WithAlpha(1 - _gameOverFadeObject.CurrentAlpha));
+                spriteBatch.Draw(
+                    _gameOverBackgroundRenderTarget,
+                    Vector2.Zero,
+                    _gameOverFadeObject.OverlayColor
+                );
+                spriteBatch.Draw(
+                    _gameOverForegroundRenderTarget,
+                    Vector2.Zero,
+                    Color.White.WithAlpha(1 - _gameOverFadeObject.CurrentAlpha)
+                );
                 spriteBatch.End();
 
                 return;
@@ -676,8 +905,14 @@ namespace MarkInDeDark.Library
         private Matrix GetProjectionMatrixForNormalMap()
         {
             // TODO Correggerlo anche nella libreria FbonizziMonoGame
-            var projection = Matrix.CreateOrthographicOffCenter(0, _matrixScaleProvider.RealScreenWidth,
-                _matrixScaleProvider.RealScreenHeight, 0, -1, 0);
+            var projection = Matrix.CreateOrthographicOffCenter(
+                0,
+                _matrixScaleProvider.RealScreenWidth,
+                _matrixScaleProvider.RealScreenHeight,
+                0,
+                -1,
+                0
+            );
             Matrix.Multiply(ref _worldMatrix, ref projection, out projection);
             return projection;
         }
@@ -685,7 +920,8 @@ namespace MarkInDeDark.Library
         public void DrawPlayingScene(
             SpriteBatch spriteBatch,
             RenderTarget2D finalRenderTarget,
-            GameTime gameTime)
+            GameTime gameTime
+        )
         {
             var viewMatrix = _camera.GetViewMatrix();
             var projectionMatrix = _projectionMatrix;
@@ -746,11 +982,16 @@ namespace MarkInDeDark.Library
                     foreach (var brazierLit in _gameGrid.BraziersLit)
                         brazierLit.DrawShadows(spriteBatch);
                 },
-                lights: _normalMapLights);
+                lights: _normalMapLights
+            );
 
             _graphicsDevice.SetRenderTarget(_groundLevelAdditionalLightMaskRenderTarget);
             _graphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
+                blendState: BlendState.NonPremultiplied
+            );
             foreach (var e in _enemies)
                 e.SurroundingLight?.DrawLightMask(spriteBatch);
             foreach (var l in _gameGrid.BraziersLit)
@@ -770,14 +1011,22 @@ namespace MarkInDeDark.Library
             // Disegno altri glow sopra alla lightmap di penumbra
             _graphicsDevice.SetRenderTarget(_penumbra.LightMap);
             spriteBatch.Begin(blendState: BlendState.Additive);
-            spriteBatch.Draw(_groundLevelAdditionalLightMaskRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(
+                _groundLevelAdditionalLightMaskRenderTarget,
+                Vector2.Zero,
+                Color.White
+            );
             spriteBatch.End();
             _penumbra.BlendAll();
 
             // 2. Disegno la normal map di muri e pilastri
             _graphicsDevice.SetRenderTarget(_normalMapRenderTarget);
             _graphicsDevice.Clear(_normalMapNeutralColor);
-            spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+            spriteBatch.Begin(
+                transformMatrix: viewMatrix,
+                samplerState: SamplerState.PointClamp,
+                sortMode: SpriteSortMode.FrontToBack
+            );
             _gameGrid.DrawAllNormalMapsButGround(spriteBatch);
             _player.DrawNormalMap(spriteBatch);
             foreach (var e in _enemies)
@@ -793,11 +1042,13 @@ namespace MarkInDeDark.Library
             spriteBatch.Begin(
                 transformMatrix: viewMatrix,
                 samplerState: SamplerState.PointClamp,
-                sortMode: SpriteSortMode.FrontToBack);
+                sortMode: SpriteSortMode.FrontToBack
+            );
 
             if (!_gameConfig.GodModeDebugMode)
                 _gameGrid.DrawWalls(spriteBatch);
-            else _gameGrid.DrawForDebug(spriteBatch);
+            else
+                _gameGrid.DrawForDebug(spriteBatch);
 
             _key.Draw(spriteBatch);
 
@@ -826,17 +1077,30 @@ namespace MarkInDeDark.Library
             {
                 _graphicsDevice.SetRenderTarget(_baseSceneItemsWithNormalMapRenderTarget);
                 _graphicsDevice.Clear(Color.Transparent);
-                _circularNormalMapShader.Parameters["NormalTexture"].SetValue(_normalMapRenderTarget);
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, _circularNormalMapShader);
+                _circularNormalMapShader
+                    .Parameters["NormalTexture"]
+                    .SetValue(_normalMapRenderTarget);
+                spriteBatch.Begin(
+                    SpriteSortMode.Immediate,
+                    BlendState.Additive,
+                    SamplerState.PointClamp,
+                    null,
+                    null,
+                    _circularNormalMapShader
+                );
                 foreach (var light in _normalMapLights)
                 {
                     if (!light.ShouldDraw)
                         continue;
 
-                    _circularNormalMapShader.Parameters["LightPosition"].SetValue(light.PositionForWall);
+                    _circularNormalMapShader
+                        .Parameters["LightPosition"]
+                        .SetValue(light.PositionForWall);
                     _circularNormalMapShader.Parameters["LightColor"].SetValue(light.ColorNormal);
                     _circularNormalMapShader.Parameters["LightOpacity"].SetValue(light.Opacity);
-                    _circularNormalMapShader.Parameters["LightDistanceSquared"].SetValue(light.DistanceSquaredForWall);
+                    _circularNormalMapShader
+                        .Parameters["LightDistanceSquared"]
+                        .SetValue(light.DistanceSquaredForWall);
                     spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White);
                 }
                 spriteBatch.End();
@@ -848,9 +1112,17 @@ namespace MarkInDeDark.Library
 
             if (!_gameConfig.GodModeDebugMode)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+                spriteBatch.Begin(
+                    SpriteSortMode.Immediate,
+                    BlendState.AlphaBlend,
+                    SamplerState.PointClamp
+                );
                 spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
-                spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);
+                spriteBatch.Draw(
+                    _baseSceneItemsWithNormalMapRenderTarget,
+                    Vector2.Zero,
+                    Color.White
+                );
                 spriteBatch.End();
             }
             else
@@ -876,4 +1148,3 @@ namespace MarkInDeDark.Library
         }
     }
 }
-
