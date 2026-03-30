@@ -1,368 +1,1047 @@
-# RENDERING_PIPELINE.md — Analisi Normal Map & Lighting
+# Rendering Pipeline — Mark In DeDark (C# / MonoGame originale)
 
-Creato come prerequisito al Task 8 (normal map rotta).
-Confronto tra il rendering C# originale e l'implementazione TypeScript attuale.
+Documento di riferimento per la migrazione a TypeScript/PixiJS.
+Descrive meticolosamente ogni passo, ogni render target, ogni shader e ogni blend state
+della pipeline originale XNA/MonoGame.
 
 ---
 
-## 1. Core Logic (C#) — Pipeline originale
+## Panoramica concettuale
 
-La pipeline si trova in `MarkInDeDarkGame.DrawPlayingScene()` e in
-`GameGrid.DrawGroundWithNormalMap()`.
-Entrambe usano lo shader `circularnormalmap.fx` e (per il pavimento) anche
-`specularmap.fx`.
+Il gioco è un labirinto buio. La pipeline di rendering costruisce questo effetto attraverso
+**quattro livelli concettuali** sovrapposti:
 
-### 1.1 Passo-per-passo in `DrawPlayingScene`
+1. **Layer Pavimento** — La texture del pavimento, illuminata con normal mapping e specular
+2. **Layer Ombre Software** — Il motore Penumbra genera ombre morbide con penombra reale
+3. **Layer Scena** — Muri, personaggi, oggetti, illuminati con normal mapping
+4. **Layer Effetti & HUD** — Particelle, neve, effetti nemici, interfaccia utente
 
-```
-[0] Preparazione shader
-    _circularNormalMapShader["AmbientColor"]    = _normalMapAmbienceColor  (Vector3)
-    _circularNormalMapShader["World"]           = Matrix.Identity
-    _circularNormalMapShader["ViewProjection"]  = orthographic(0, W, H, 0)
+Il tutto è governato da **16 RenderTarget2D** intermedi (14 nel codice principale + 2 interni
+a Penumbra) e **5 shader HLSL**.
 
-[1] DrawGroundWithNormalMap → _groundLevelResultRenderTarget
-    a. baseRT                  = clear Black  + draw ground sprites
-    b. normalMapRT             = clear Black  + draw ground _normal_ sprites
-    c. specularMapRT           = clear Black  + draw ground _specular_ sprites
-    d. specularLightmaskRT     = clear Black  + draw glow sprites per light (additive)
-    e. appliedNormalMapRT      = clear Black
-         per light (additive, BlendState.Additive):
-           set LightPosition = light.PositionForGround   (screen-space Vector3, z=Z)
-           set LightColor    = light.ColorNormal         (Vector3 [0-1])
-           set LightDistSq   = light.DistSquaredForGround
-           set LightOpacity  = light.Opacity
-           spriteBatch.Draw(baseRT)  ← shader scrive ambient+lighting
-    f. specularWithLightmaskRT = specularRT * specularLightmaskRT  (multiply shader)
-    g. resultRT                = additive(appliedNormalMapRT + specularWithLightmaskRT)
-    h. Draw shadows (Character.DrawShadows — sprite-based, NON hull-based)
+---
 
-[2] Penumbra (lightmap moltiplicativa)
-    _penumbra.BeginDraw()
-    draw(groundLevelResultRT)
-    _penumbra.Draw(gameTime)           ← shadow lightmap con PenumbraLight per sorgente
-    draw(additionalLightmaskRT) additive sul penumbra.LightMap
-    _penumbra.BlendAll()               ← MULTIPLY finale sul frame
+## Punto di ingresso: `Draw()` e `DrawPlayingScene()`
 
-[3] Normal map per muri / pilastri / player / nemici
-    normalMapRT = clear (128, 128, 255)    ← neutral pointing-toward-viewer
-    draw all walls, pillars, player, enemies con le loro normal map (FrontToBack sort)
+**File**: `Csharp/MarkInDeDark.Library/MarkInDeDarkGame.cs`
 
-[4] Base scene (muri, oggetti, candele, player, nemici)
-    baseSceneRT = clear Transparent
-    draw in FrontToBack order
+Il metodo `Draw()` (riga 861) distingue due scenari:
 
-[5] Applica normal map alla base scene
-    baseSceneItemsRT = clear Transparent
-    per light (additive, BlendState.Additive):
-      set LightPosition = light.PositionForWall   (screen-space, z=Z)
-      ...
-      spriteBatch.Draw(baseSceneRT)
+- **Game Over attivo**: chiama `DrawPlayingScene()` sul render target `_gameOverBackgroundRenderTarget`,
+  poi disegna il player separatamente su `_gameOverForegroundRenderTarget`, e li compone
+  sul `virtualDrawTarget` finale con fade alpha. Il player è disegnato sopra con
+  `Color.White.WithAlpha(1 - _gameOverFadeObject.CurrentAlpha)`.
+- **Gameplay normale**: chiama direttamente `DrawPlayingScene(spriteBatch, virtualDrawTarget, gameTime)`.
 
-[6] Composizione finale
-    draw(groundLevelRT)           (pavimento con ombre Penumbra)
-    draw(baseSceneItemsRT)        (oggetti/personaggi con lighting)
+`DrawPlayingScene()` (riga 920) è il cuore dell'intera pipeline.
 
-[7] Effetti "over dark" (particelle candela, neve, etc.)
+---
 
-[8] HUD
+## Matrice di proiezione per la Normal Map
+
+**Metodo**: `GetProjectionMatrixForNormalMap()` (riga 905)
+
+Crea una matrice ortografica per passare le coordinate mondo agli shader di normal mapping:
+
+```csharp
+Matrix.CreateOrthographicOffCenter(
+    0, RealScreenWidth,
+    RealScreenHeight, 0,   // Y invertito (asse Y verso il basso, tipico 2D)
+    -1, 0
+)
+* _worldMatrix   // matrice world (tipicamente Identity)
 ```
 
-### 1.2 Formula esatta dello shader HLSL (`circularnormalmap.fx`)
+Viene calcolata una volta per livello durante l'inizializzazione.
+Usata come parametro `ViewProjection` dello shader `circularnormalmap.fx`.
+
+---
+
+## FASE 0 — Preparazione shader normal map
+
+**Riga 929–933 di `DrawPlayingScene()`**
+
+Prima di qualsiasi draw call, si impostano i parametri globali del shader `_circularNormalMapShader`:
+
+| Parametro        | Valore                  | Note                                        |
+|------------------|-------------------------|---------------------------------------------|
+| `AmbientColor`   | `_normalMapAmbienceColor` | Colore di base del livello (per-livello)  |
+| `World`          | `Matrix.Identity`       | Nessuna trasformazione aggiuntiva           |
+| `ViewProjection` | `_projectionMatrix`     | Matrice ortografica calcolata sopra         |
+
+`_normalMapAmbienceColor` è configurato per livello tramite `LevelCustomization.AmbienceColor`.
+Nei livelli iniziali è più chiaro (penombra), negli ultimi è nero puro (buio totale).
+
+---
+
+## FASE 1 — Pipeline del Pavimento con Normal Map
+
+**Riga 936–986 di `DrawPlayingScene()`**
+**Metodo**: `GameGrid.DrawGroundWithNormalMap()` (`GameGrid.cs` riga 803)
+
+Questa è la sotto-pipeline più complessa. Produce `_groundLevelResultRenderTarget`, che
+contiene il pavimento completamente illuminato con normal map e specular highlights,
+prima ancora che vengano applicate le ombre Penumbra.
+
+### Render Target coinvolti (in ordine di produzione)
+
+| Nome RT                                                   | Contenuto                                     | Clear |
+|-----------------------------------------------------------|-----------------------------------------------|-------|
+| `_groundLevel0RenderTarget`                               | Texture base del pavimento                    | Nero  |
+| `_groundLevelNormalMapRenderTarget`                       | Normal map del pavimento                      | Nero  |
+| `_groundLevelSpecularMapRenderTarget`                     | Specular map del pavimento                    | Nero  |
+| `_groundLevelSpecularMapLightMaskRenderTarget`            | Glow delle luci (maschera per specular)       | Nero  |
+| `_groundLevelAppliedNormalMapRenderTarget`                | Pavimento + lighting calcolato dallo shader NM | Nero |
+| `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget` | Specular map modulata dal glow                | Nero  |
+| `_groundLevelResultRenderTarget`                          | Composizione finale normal+specular+ombre     | Nero  |
+
+---
+
+### Passo 1A — Texture base pavimento
+
+**Target**: `_groundLevel0RenderTarget`
+**BlendState**: default (AlphaBlend)
+**SamplerState**: PointClamp
+
+Per ogni cella visibile nella viewport (`OnAllVisibleCells`):
+- `c.DrawGround(spriteBatch, false)` — disegna la sprite del pavimento della cella
+- Eventualmente disegna oggetti trigger sovrapposti al pavimento (`drawOtherGroundObjects`)
+
+Il `false` nel parametro indica di disegnare il layer "base" (non i riempitivi decorativi).
+
+---
+
+### Passo 1B — Normal map del pavimento
+
+**Target**: `_groundLevelNormalMapRenderTarget`
+**BlendState**: default
+**SamplerState**: PointClamp
+
+Per ogni cella visibile:
+- `c.DrawGroundNormalMap(spriteBatch)` — disegna la texture di normal map della cella
+
+La normal map codifica le normali superficiali nei canali RGB secondo la convenzione tangent-space standard:
+- **R** → componente X della normale, range [-1,1] mappato in [0,255]
+- **G** → componente Y della normale, range [-1,1] mappato in [0,255]
+- **B** → componente Z della normale (≥ 128 per superfici rivolte verso la camera)
+
+Colore neutro "piatta verso camera" = `(128, 128, 255)`.
+
+---
+
+### Passo 1C — Specular map del pavimento
+
+**Target**: `_groundLevelSpecularMapRenderTarget`
+**BlendState**: default
+**SamplerState**: PointClamp
+
+Per ogni cella visibile:
+- `c.DrawGroundSpecularMap(spriteBatch)` — disegna la texture di specular map della cella
+
+Le celle con oggetti trigger **non** contribuiscono alla specular map.
+
+La specular map definisce l'intensità dei riflessi punto per punto sulla superficie del pavimento.
+Le zone bianche riflettono di più, le zone nere non riflettono.
+
+---
+
+### Passo 1D — Light mask per lo specular
+
+**Target**: `_groundLevelSpecularMapLightMaskRenderTarget`
+**BlendState**: `BlendState.NonPremultiplied`
+**SamplerState**: PointClamp
+
+Si disegnano i glow luminosi di tutte le sorgenti di luce attive:
+- `_player.SurroundingLight?.DrawGlowForSpecular(s)`
+- `e.SurroundingLight?.DrawGlowForSpecular(s)` per ogni nemico
+- `l.SurroundingLight?.DrawGlowForSpecular(s)` per ogni braciere acceso
+- `c.SurroundingLight?.DrawGlowForSpecular(s)` per ogni candela
+
+`DrawGlowForSpecular()` (in `MarkLight.cs`) disegna la sprite `Effects/glow` centrata in
+`Position + (0, 100)` (leggermente sotto la sorgente per simulare luce che cade sul pavimento).
+La scala è `LevelCustomization.GlowScale`.
+
+Il risultato è una **maschera luminosa** che indica dove la luce brilla sul pavimento.
+
+---
+
+### Passo 1E — Applicazione shader Normal Map al pavimento
+
+**Target**: `_groundLevelAppliedNormalMapRenderTarget`
+**BlendState**: `BlendState.Additive`
+**SamplerState**: PointClamp
+**Effect**: `_circularNormalMapShader` (`circularnormalmap.fx`)
+
+Questo è il calcolo centrale del lighting. Per ogni luce nella lista `_normalMapLights`
+(se `light.ShouldDraw == true`, cioè `IsEnabled && !IsOutOfScreen`):
+
+```
+normalMapEffect.Parameters["NormalTexture"]      = _groundLevelNormalMapRenderTarget
+normalMapEffect.Parameters["LightPosition"]      = light.PositionForGround   (Vector3)
+normalMapEffect.Parameters["LightColor"]         = light.ColorNormal          (Vector3)
+normalMapEffect.Parameters["LightDistanceSquared"] = light.DistanceSquaredForGround
+normalMapEffect.Parameters["LightOpacity"]       = light.Opacity
+
+spriteBatch.Draw(_groundLevel0RenderTarget, Vector2.Zero, Color.White)  // 1 draw call per luce
+```
+
+**`PositionForGround`** = `Position + DeltaForGround` dove `DeltaForGround = (0, +100)` di default.
+La luce è spostata in basso di 100px per simulare che illumina il pavimento "dall'alto" rispetto
+alla sorgente visiva 2D (finto effetto di profondità Z).
+
+Il risultato viene accumulato in **additive blending**: ogni luce aggiunge la propria contribuzione
+all'illuminazione totale. Il target parte da nero (Clear) e si illumina a ogni draw call.
+
+---
+
+### Passo 1F — Applicazione light mask allo specular
+
+**Target**: `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget`
+**Effect**: `_specularMapShader` (`specularmap.fx`)
+
+```
+specularMapEffect.Parameters["SpecularTexture"] = _groundLevelSpecularMapLightMaskRenderTarget
+spriteBatch.Draw(_groundLevelSpecularMapRenderTarget, Vector2.Zero, Color.White)
+```
+
+Lo shader moltiplica pixel per pixel: `specularMapPixel * lightMaskPixel`.
+Il risultato mostra i riflessi speculari **solo dove c'è luce**.
+
+---
+
+### Passo 1G — Composizione finale pavimento
+
+**Target**: `_groundLevelResultRenderTarget`
+**BlendState**: `BlendState.Additive`
+
+Si sommano additivamente i due layer:
+1. `_groundLevelAppliedNormalMapRenderTarget` — pavimento illuminato via normal map
+2. `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget` — riflessi speculari
+
+Poi, **senza BlendState speciale** (default), si disegnano le ombre sprite:
+- `_player.DrawShadows(s)` — silhouette d'ombra del player
+- `en.DrawShadows(s)` per ogni nemico
+- `brazierLit.DrawShadows(s)` per ogni braciere
+
+**Nota**: queste ombre sono sprite 2D pre-renderizzate come silhouette, **non** ombre
+calcolate geometricamente. Le ombre calcolate sono gestite da Penumbra (Fase 2).
+
+---
+
+## FASE 1-bis — Light mask addizionale
+
+**Riga 988–1001 di `DrawPlayingScene()`**
+**Target**: `_groundLevelAdditionalLightMaskRenderTarget`
+**BlendState**: `BlendState.NonPremultiplied`
+**Clear**: `Color.Transparent`
+
+Separato dalla pipeline del pavimento, si disegna una seconda light mask con i glow di:
+- Nemici: `e.SurroundingLight?.DrawLightMask(spriteBatch)`
+- Bracieri: `l.SurroundingLight?.DrawLightMask(spriteBatch)`
+- Candele: `c.SurroundingLight?.DrawLightMask(spriteBatch)`
+
+`DrawLightMask()` usa la stessa sprite `Effects/glow` ma con scala fissa `2f`
+(più grande del glow specular che usa `LevelCustomization.GlowScale`).
+Posizione identica: `Position + (0, 100)`.
+
+**Il player non è incluso qui.** La sua luce è gestita esclusivamente da Penumbra
+(è l'unica luce con `castsShadows: true`).
+
+Questo render target viene poi additivamente blendato **dentro la lightmap di Penumbra** (Fase 2).
+
+---
+
+## FASE 2 — Penumbra: ombre soft con penombra reale
+
+**Riga 1003–1020 di `DrawPlayingScene()`**
+
+Usa il motore Penumbra, una libreria custom GPU-based per ombre 2D con transizione di penombra reale.
+
+### Struttura dati
+
+- **`Lights`**: `ObservableCollection<Light>` — ogni `MarkLight` espone un `PenumbraLight`
+  che è un `PointLight` con `Scale = new Vector2(penumbraLightScale)`.
+  Il player ha `Scale = Vector2(1200f)`, le candele e bracieri `Scale = Vector2(150f)`.
+- **`Hulls`**: `HullList` — poligoni convessi che occludono la luce (muri, pilastri).
+- **`AmbientColor`**: `Color.DarkSlateGray` di default — il colore del "buio ambientale".
+
+### Sequenza di rendering Penumbra
+
+**Step 2.1 — `_penumbra.BeginDraw()`** → `PenumbraEngine.PreRender()`
+- Salva i render target correnti (per ripristinarli dopo)
+- Switcha il device su `Textures.DiffuseMap` (render target interno di Penumbra)
+  tramite `Device.SetRenderTargets(Textures.DiffuseMapBindings)`
+
+**Step 2.2 — Copia del pavimento nel DiffuseMap**
+```csharp
+_graphicsDevice.SetRenderTarget(_groundLevelRenderTarget);
+_penumbra.BeginDraw();                         // PreRender → switch su DiffuseMap
+_graphicsDevice.Clear(Color.Transparent);
+spriteBatch.Begin();
+spriteBatch.Draw(_groundLevelResultRenderTarget, Vector2.Zero, Color.White);
+spriteBatch.End();
+```
+Il pavimento già illuminato (normal+specular) viene copiato nel DiffuseMap di Penumbra.
+Nota: `SetRenderTarget(_groundLevelRenderTarget)` prima di `BeginDraw()` registra
+`_groundLevelRenderTarget` come destinazione finale della composizione Penumbra.
+
+**Step 2.3 — `_penumbra.Draw(gameTime)`** → `PenumbraEngine.RenderLightMap()`
+
+```
+// Init lightmap
+Device.SetRenderTargets(Textures.LightmapBindings)
+Device.Clear(AmbientColor | DepthBuffer | Stencil)  // il buio parte dall'ambient
+Device.SamplerStates[0] = SamplerState.LinearClamp
+
+// Per ogni luce abilitata che interseca la camera viewport:
+for each light in Lights where (light.Enabled && !Hulls.Contains(light) && light.Intersects(Camera)):
+    Camera.GetScissorRectangle(light) → Device.SetScissorRectangle
+    ShadowRenderer.Render(light)   // passo ombre
+    LightRenderer.Render(light)    // passo luce
+```
+
+**`ShadowRenderer.Render(light)`** — due sotto-passi:
+
+*Sotto-passo ombre* — shader `PenumbraShadow.fx`, tecnica `Main`:
+- BlendState `_bsShadow`:
+  - `ColorWriteChannels = Alpha` (scrive **solo** il canale alpha)
+  - `AlphaBlendFunction = ReverseSubtract`
+  - `AlphaSourceBlend = One`, `AlphaDestinationBlend = One`
+  - Effetto: sottrae dall'alpha corrente → zone d'ombra hanno alpha bassa
+- Disegna i quad di proiezione ombra per ogni bordo degli hull visibili
+
+*Sotto-passo hull fill* — shader `PenumbraHull.fx`, tecnica `Main`:
+- BlendState `_bsHull`:
+  - `ColorWriteChannels = Alpha`
+  - `AlphaBlendFunction = Add`
+  - `AlphaSourceBlend = One`, `AlphaDestinationBlend = Zero`
+  - Effetto: ristabilisce alpha = 1 dentro gli hull stessi (evita auto-ombra)
+- Disegna i poligoni degli hull come solidi
+
+**`LightRenderer.Render(light)`** — shader `PenumbraLight.fx`, tecnica `PointLight`:
+- BlendState `_bsLight`:
+  - `ColorBlendFunction = Add`
+  - `ColorSourceBlend = DestinationAlpha` → la luce viene modulata dall'alpha residua
+    (aree in ombra hanno alpha bassa → pochissima luce passa)
+  - `ColorDestinationBlend = One` → additive verso la lightmap
+  - `AlphaBlendFunction = Add`
+  - `AlphaSourceBlend = One`, `AlphaDestinationBlend = Zero` → azzera l'alpha per la prossima luce
+- Disegna un quad leggermente più grande di `1/√2` (per gestire rotazioni camera)
+- La luce ha falloff radiale lineare: `alpha = saturate(1 - distance * 2)`
+
+La lightmap risultante contiene: `AmbientColor` nelle zone scure + colori luce nelle zone illuminate.
+
+**Step 2.4 — Aggiunta della light mask addizionale alla lightmap**
+```csharp
+_graphicsDevice.SetRenderTarget(_penumbra.LightMap);   // lightmap interna Penumbra
+spriteBatch.Begin(blendState: BlendState.Additive);
+spriteBatch.Draw(_groundLevelAdditionalLightMaskRenderTarget, Vector2.Zero, Color.White);
+spriteBatch.End();
+```
+Il glow di nemici, bracieri e candele viene **additivamente sommato** alla lightmap.
+Questo aggiunge alone visivo oltre le ombre fisiche calcolate da Penumbra.
+
+**Step 2.5 — `_penumbra.BlendAll()`** → `PenumbraEngine.BlendLightMap()`
+
+Ripristina i render target originali.
+Usa `LightMapRenderer` con shader `PenumbraTexture.fx`:
+```
+output = DiffuseMap.Sample(uv) * Lightmap.Sample(uv)
+```
+Il DiffuseMap (pavimento con normal+specular) viene moltiplicato per la lightmap
+(buio + contribuzioni luci). Il risultato va nel render target corrente: `_groundLevelRenderTarget`.
+
+---
+
+## FASE 3A — Normal map di muri, pilastri e personaggi
+
+**Riga 1022–1036 di `DrawPlayingScene()`**
+**Target**: `_normalMapRenderTarget`
+**Clear**: `_normalMapNeutralColor` = `new Color(128, 128, 255)` = normale neutra piatta
+**SortMode**: `SpriteSortMode.FrontToBack`
+**SamplerState**: PointClamp
+
+In questo render target vengono composte le normal map di tutti gli elementi "verticali":
+
+- `_gameGrid.DrawAllNormalMapsButGround(spriteBatch)` → `c.DrawNormalMapButGrounds(spriteBatch)`
+  per ogni cella (muri, pilastri)
+- `_player.DrawNormalMap(spriteBatch)` — normal map sprite del player
+- `e.DrawNormalMap(spriteBatch)` per ogni nemico
+- `littleLight.DrawNormalMap(spriteBatch)` per ogni braciere
+
+Il clear con `(128, 128, 255)` garantisce che le aree senza normal map abbiano una normale
+neutra (piatta, rivolta verso la camera) invece di zero/nero (che darebbe lighting nullo).
+
+---
+
+## FASE 3B — Scena base (muri, oggetti, personaggi)
+
+**Riga 1039–1073 di `DrawPlayingScene()`**
+**Target**: `_baseSceneRenderTarget`
+**Clear**: `Color.Transparent`
+**SortMode**: `SpriteSortMode.FrontToBack`
+**SamplerState**: PointClamp
+
+Ordine di draw (Z-order dal più distante al più vicino, front-to-back):
+1. `_gameGrid.DrawWalls(spriteBatch)` — muri e pilastri (in debug: `DrawForDebug`)
+2. `_key.Draw(spriteBatch)` — chiave collezionabile
+3. Candle packs — oggetti candela raccoglibili
+4. `_gameGrid.DrawableObjects` — oggetti decorativi generici (`otherObject.Draw`)
+5. Bracieri accesi (`brazierLit.Draw`)
+6. `_candlesManager.Draw(spriteBatch)` — candele del player e nemici
+7. `_player.Draw(spriteBatch)` — sprite player con animazione corrente
+8. Nemici (`en.Draw`)
+9. `_gameGrid.DrawRiempitiviGround(spriteBatch)` → `c.DrawGround(spriteBatch, true)` —
+   decorazioni del pavimento che vanno **sopra** i personaggi (bordure, angoli, overlay)
+
+---
+
+## FASE 4 — Applicazione normal map a muri e personaggi
+
+**Riga 1075–1107 di `DrawPlayingScene()`** (solo in modalità non-debug)
+**Target**: `_baseSceneItemsWithNormalMapRenderTarget`
+**BlendState**: `BlendState.Additive`
+**SortMode**: `SpriteSortMode.Immediate`
+**Effect**: `_circularNormalMapShader`
+**Clear**: `Color.Transparent`
+
+Stesso shader del pavimento, ma con parametri di posizione e distanza diversi per le superfici verticali:
+
+```
+normalMapEffect.Parameters["NormalTexture"] = _normalMapRenderTarget   // NM muri+chars
+for each light in _normalMapLights (se light.ShouldDraw):
+    normalMapEffect.Parameters["LightPosition"]       = light.PositionForWall
+    normalMapEffect.Parameters["LightColor"]          = light.ColorNormal
+    normalMapEffect.Parameters["LightOpacity"]        = light.Opacity
+    normalMapEffect.Parameters["LightDistanceSquared"] = light.DistanceSquaredForWall
+    spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White)  // 1 draw call per luce
+```
+
+**`PositionForWall`** = `Position + DeltaForWall` dove `DeltaForWall = (0, -60)` di default.
+La luce è spostata di 60px **in su** rispetto alla posizione 2D della sorgente,
+simulando che illumina le superfici verticali da un angolo più frontale.
+
+**`DistanceSquaredForWall`**: per BrazierLit è `17_000f`, diverso da `DistanceSquaredForGround`
+(`7_280f`). Questo regola il raggio di attenuation separatamente per le due superfici.
+
+Il risultato in additive blending accumula tutte le contribuzioni luminose sulla scena.
+
+---
+
+## FASE 5 — Composizione finale
+
+**Riga 1109–1134 di `DrawPlayingScene()`**
+**Target**: `finalRenderTarget`
+**Clear**: `Color.Black`
+
+**Modalità normale** (non GodMode):
+```csharp
+spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, ...);
+spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);                   // 1° layer
+spriteBatch.Draw(_baseSceneItemsWithNormalMapRenderTarget, Vector2.Zero, Color.White);   // 2° layer
+spriteBatch.End();
+```
+
+**Modalità GodMode** (debug):
+```csharp
+spriteBatch.Begin();
+spriteBatch.Draw(_groundLevelRenderTarget, Vector2.Zero, Color.White);
+spriteBatch.Draw(_baseSceneRenderTarget, Vector2.Zero, Color.White.WithAlpha(0.2f));  // 20% alpha
+spriteBatch.End();
+```
+
+---
+
+## FASE 6 — Effetti sopra il buio
+
+**Riga 1136–1142 di `DrawPlayingScene()`**
+**Transform**: `_camera.GetViewMatrix()`
+**SamplerState**: PointClamp
+
+Disegnati sopra la composizione finale (visibili anche nel buio):
+- `en.DrawEffectsOverDark(spriteBatch)` per ogni nemico (es. effetti di attacco, particelle)
+- `_candlesManager.DrawEffectsOverDark(spriteBatch)` — effetti candele (flamme, particelle)
+- `_snowingManager?.Draw(spriteBatch)` — neve (se abilitata per il livello)
+
+---
+
+## FASE 7 — HUD
+
+**Riga 1144–1147 di `DrawPlayingScene()`**
+Nessuna trasformazione camera (coordinate schermo assolute).
+
+```csharp
+spriteBatch.Begin();
+_gameHud.Draw(spriteBatch);
+spriteBatch.End();
+```
+
+---
+
+## Tabella completa dei Render Target
+
+| Nome                                                      | Dimensione  | Uso                                                |
+|-----------------------------------------------------------|-------------|----------------------------------------------------|
+| `_groundLevel0RenderTarget`                               | Back buffer | Texture base pavimento                             |
+| `_groundLevelNormalMapRenderTarget`                       | Back buffer | Normal map pavimento                               |
+| `_groundLevelSpecularMapRenderTarget`                     | Back buffer | Specular map pavimento                             |
+| `_groundLevelSpecularMapLightMaskRenderTarget`            | Back buffer | Glow luci per specular highlight                   |
+| `_groundLevelAppliedNormalMapRenderTarget`                | Back buffer | Pavimento illuminato via shader NM (additive)      |
+| `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget` | Back buffer | Specular modulato dalla light mask                 |
+| `_groundLevelAdditionalLightMaskRenderTarget`             | Back buffer | Glow addizionale nemici/candele/bracieri           |
+| `_groundLevelResultRenderTarget`                          | Back buffer | Pavimento finale (NM+specular+ombre sprite)        |
+| `_groundLevelRenderTarget`                                | Back buffer | Pavimento + Penumbra blendato (output finale fase) |
+| `_normalMapRenderTarget`                                  | Back buffer | NM muri+personaggi (clear neutro 128,128,255)      |
+| `_baseSceneRenderTarget`                                  | Back buffer | Scena completa senza lighting (muri+chars+oggetti) |
+| `_baseSceneItemsWithNormalMapRenderTarget`                | Back buffer | Scena con lighting NM applicato (additive)         |
+| `_gameOverBackgroundRenderTarget`                         | Back buffer | Scena congelata per schermata game over            |
+| `_gameOverForegroundRenderTarget`                         | Back buffer | Solo il player per schermata game over             |
+| `Penumbra.DiffuseMap` (interno)                           | Viewport    | DiffuseMap interno Penumbra (riceve il pavimento)  |
+| `Penumbra.LightMap` (interno)                             | Viewport    | LightMap calcolata da Penumbra                     |
+
+---
+
+## Sorgenti di Luce: la classe MarkLight
+
+**File**: `Csharp/MarkInDeDark.Library/Lighting/MarkLight.cs`
+
+Ogni sorgente luminosa è rappresentata da un `MarkLight` che incapsula sia la logica
+per gli shader custom (normal map, specular) sia il `PointLight` per il motore Penumbra.
+
+### Proprietà geometriche
+
+| Proprietà           | Valore default  | Descrizione                                         |
+|---------------------|-----------------|-----------------------------------------------------|
+| `Position`          | —               | Posizione 2D nel mondo (aggiornata ogni frame)      |
+| `DeltaForGround`    | `(0, +100)`     | Offset Z simulato verso il basso (pavimento)        |
+| `DeltaForWall`      | `(0, -60)`      | Offset Z simulato verso l'alto (pareti)             |
+| `PositionForGround` | `Position + Delta` | Posizione passata allo shader per il pavimento   |
+| `PositionForWall`   | `Position + Delta` | Posizione passata allo shader per muri/chars     |
+
+### Proprietà luminose
+
+| Proprietà                  | Descrizione                                              |
+|----------------------------|----------------------------------------------------------|
+| `ColorNormal`              | `Vector3` RGB, aggiornato ogni frame dall'animazione     |
+| `Opacity`                  | Moltiplicatore intensità [0,1]                           |
+| `DistanceSquaredForGround` | Raggio² attenuation per lo shader del pavimento          |
+| `DistanceSquaredForWall`   | Raggio² attenuation per lo shader dei muri               |
+| `PenumbraLight`            | `PointLight` di Penumbra, `Scale = Vector2(penumbraLightScale)` |
+| `IsEnabled`                | Abilita/disabilita la luce completamente                 |
+| `IsGlowEnabled`            | Abilita/disabilita solo il disegno del glow sprite       |
+| `IsOutOfScreen`            | Culling: non disegna se fuori dalla viewport             |
+| `ShouldDraw`               | `IsEnabled && !IsOutOfScreen`                            |
+
+### Animazione colore
+
+Il colore oscilla continuamente tra `firstAnimationColor` e `secondAnimationColor`
+tramite `ColorChangingObject` con velocità `2.5`. Simula il flickering di torce/candele.
+L'animazione aggiorna sia `ColorNormal` (per gli shader NM/specular) sia `PenumbraLight.Color`.
+
+### Posizione del PenumbraLight
+
+```csharp
+PenumbraLight.Position = Position + new Vector2(-10f, 75f);
+```
+
+Il `PointLight` di Penumbra è posizionato 10px a sinistra e 75px sotto la posizione 2D della sorgente.
+
+### Parametri per tipo di sorgente
+
+| Entità      | `penumbraLightScale` | `distanceSquared` | `castsShadows` |
+|-------------|----------------------|-------------------|----------------|
+| Player      | 1200f                | 20_600f           | `true`         |
+| Nemici      | varia per tipo       | varia             | `false` (tipico) |
+| Candele     | 150f                 | 7_280f            | `false`        |
+| BrazierLit  | 150f                 | 7_280f (`ForWall`: 17_000f) | `false` |
+
+---
+
+## Shader 1: circularnormalmap.fx — Analisi completa
+
+**File**: `Csharp/MarkInDeDark.Game/Assets/ContentBuilder/Effects/circularnormalmap.fx`
+**Shader model**: `vs_3_0` / `ps_3_0` (DirectX 9 Shader Model 3, HLSL)
+**Tecnica**: `PointLightNormalMap`
+
+### Parametri (uniforms)
 
 ```hlsl
-// VERTEX: World = Identity → posWorld = screen-pixel coordinate (SpriteBatch coords)
-float3 posWorld = input.PosWorld.xyz;  // ← screen pixels, NON world units
+float3 LightPosition;           // posizione della luce in world space
+float3 LightColor = 1.0;        // colore RGB della luce (default bianco puro)
+float3 AmbientColor = 0.35;     // luce ambientale (default grigio ~35%)
+float  LightDistanceSquared;    // raggio² per il calcolo di attenuation
+float  LightOpacity = 1.0;      // moltiplicatore globale intensità
 
-float3 lightdir = normalize(posWorld - LightPosition);   // da luce → pixel
-float3 normal   = normalize(2 * normalMap.rgb - 1);
-normal.y *= -1;
+float4x4 World;                 // matrice World (in uso: Identity)
+float4x4 ViewProjection;        // matrice ortografica viewport
 
-float nDotL           = saturate(dot(normal, -lightdir));       // da pixel → luce
-float3 lightVector    = LightPosition - posWorld;
-float attenuation     = LightDistanceSquared / dot(lightVector, lightVector);
-float diffuseLighting = nDotL * attenuation;
-
-float lightAmount = nDotL;   // = nDotL di prima (stessa variabile)
-
-// Contributo per pixel per questa luce:
-float3 contribution = AmbientColor + lightAmount * LightColor * diffuseLighting * LightOpacity;
-//                  = AmbientColor + nDotL²        * LightColor * attenuation   * Opacity
-
-output = input.Color * tex * contribution;
-// Con BlendState.Additive e N luci:
-// pixel_final = tex * ( N * AmbientColor + Σᵢ nDotLᵢ² * Colorᵢ * attᵢ * opᵢ )
+sampler2D ScreenTexture : register(s0);  // texture base (pavimento o scena)
+texture   NormalTexture;
+sampler2D NormalSampler = sampler_state { Texture = <NormalTexture>; };
 ```
 
----
+### Vertex Shader
 
-## 2. Texture Specs
+Input:
+- `float4 Position : POSITION0` — posizione locale vertex
+- `float2 TexCoords : TEXCOORD0`
+- `float4 Color : COLOR0`
 
-### 2.1 Normal map: encoding e canali
+```hlsl
+VertexShaderOutput VS(VertexShaderInput input) {
+    float4 pos = mul(input.Position, World);
+    output.PosWorld = pos;                      // world space → interpolato al PS
+    output.Position = mul(pos, ViewProjection); // clip space
+    output.TexCoords = input.TexCoords;
+    output.Color = input.Color;
+    return output;
+}
+```
 
-| Canale | Significato         | Valore neutro | Note                                 |
-|--------|---------------------|---------------|--------------------------------------|
-| R      | Normale X (+destra) | 0.5 = 128     |                                      |
-| G      | Normale Y (+su)     | 0.5 = 128     | flip Y in shader: `n.y *= -1`        |
-| B      | Normale Z (+fuori)  | 1.0 = 255     | B=255 → punta direttamente allo schermo |
-| A      | (non usato)         | —             |                                      |
+La posizione world space viene passata al pixel shader tramite `TEXCOORD1`.
 
-**Valore neutro per pixel senza normale**: `(128, 128, 255)` = RGB. Decodificato: `(0, 0, 1)` → nDotL è alto per luci frontali → pixel riceve illuminazione normale.
+### Pixel Shader
 
-**Clear color usato per ground normal RT**: `Color.Black` = `(0, 0, 0)`. Decodificato: `(-1, -1, -1)` normalizzato = `(-0.577, -0.577, -0.577)`. Per luci dall'alto, `nDotL ≈ 0` → nessuna illuminazione. **Questo è intenzionale in C#**: le tile senza normal map sono quasi nere.
+```hlsl
+float4 PS(VertexShaderOutput input) : COLOR0 {
+    float3 posWorld = input.PosWorld.xyz;
 
-### 2.2 Parametri luci — valori empirici C#
+    // Vettore direzione luce: dal pixel verso la sorgente (normalizzato)
+    float3 lightdir = normalize(posWorld - LightPosition);
 
-| Parametro              | Esempio giocatore / candela  | Note                                     |
-|------------------------|------------------------------|------------------------------------------|
-| `Z`                    | ~90 world units              | Altezza della sorgente sopra il pavimento |
-| `DistanceSquaredForGround` | ~20 600               | Unità² schermo (calibrate per zoom=0.8)  |
-| `DistanceSquaredForWall`   | ~20 600               | Può differire dal ground               |
-| `DeltaForGround`       | (0, +100)                    | Offset applicato prima di WorldToScreen  |
-| `DeltaForWall`         | (0, -60)                     | Offset verso l'alto per le pareti        |
-| `Opacity`              | 1.0                          | Scalare finale                           |
-| `ColorNormal`          | vettore RGB animato tra C1/C2|                                          |
+    // Campionamento texture base
+    float4 tex = tex2D(ScreenTexture, input.TexCoords);
 
-### 2.3 AmbientColor per livello
+    // Decodifica normal map tangent-space: [0,1] → [-1,1]
+    float3 normal = normalize((2 * tex2D(NormalSampler, input.TexCoords).xyz) - 1);
+    normal.y *= -1;   // flip Y: MonoGame ha Y verso il basso, normal map assume Y verso l'alto
 
-| Livelli | `AmbientColor` (C#)            | `PenumbraAmbientColor` (C#) |
-|---------|--------------------------------|------------------------------|
-| 1–2     | `(0.11, 0.10, 0.22)` blu-viola | `Color(104, 104, 104)` grigio|
-| 3+      | `(0, 0, 0)` → nessun ambient   | `Color.Black`                |
+    // Diffuse Lambertian: coseno tra normale e direzione luce invertita
+    float diffuseLighting = saturate(dot(normal, -lightdir));
 
-### 2.4 Presence normale map nelle spritesheets
+    // Attenuation inverse-square: LightDistanceSquared / |lightVector|²
+    // → quando distance = sqrt(LightDistanceSquared), attenuation = 1.0
+    float3 lightVector = LightPosition - posWorld;
+    diffuseLighting *= (LightDistanceSquared / dot(lightVector, lightVector));
 
-Le normal map **esistono** negli asset. Grep su `cell1_normal` trova corrispondenze in
-`Spritesheet-0.json`, `Spritesheet-1.json`, `Spritesheet-2.json`. Anche pareti, pilastri
-e `riempimento` hanno varianti `_normal`.
+    // Calcolo lightAmount separato (double-saturate per sicurezza)
+    float lightAmount = saturate(dot(normal, -lightdir));
 
----
+    // Output: colore sprite modulato per (ambient + contribuzione luce)
+    input.Color.rgb *= AmbientColor + (lightAmount * LightColor * diffuseLighting * LightOpacity);
+    return input.Color * tex;
+}
+```
 
-## 3. Discrepancy Report
+**Dettaglio flip Y**: `normal.y *= -1` compensa l'inversione dell'asse Y in MonoGame.
+In XNA/MonoGame l'asse Y cresce verso il basso, mentre le normal map standard
+(e la matematica di lighting) assumono Y verso l'alto. Senza flip, le zone
+illuminate e quelle in ombra sarebbero specchiate verticalmente.
 
-### D1 — `normalMapAmbienceColor` errato per tutti i livelli (**CRITICO**)
-
-| | Valore |
-|-|--------|
-| **TS attuale** | `{r: 0.35, g: 0.35, b: 0.35}` — **per tutti i livelli** |
-| **C# corretto** | Livelli 1–2: `{r: 0.11, g: 0.10, b: 0.22}` · Livelli 3+: `{r: 0, g: 0, b: 0}` |
-
-**Effetto osservato:**
-- Livelli 3+ (la maggior parte del gioco): ambient 35% → le tile *senza* normal texture
-  ricevono `tex * 0.35` invece di 0. Il contrasto buio/illuminato crolla.
-- La differenza tra una tile illuminata da luce direzionale e una in ombra è ridotta,
-  rendendo l'effetto 3D quasi impercettibile.
-
-**Root cause**: task 5c menzionava la correzione nei commenti, ma il file
-`LevelCustomization.ts` non è mai stato aggiornato; la riga è rimasta `0.35`.
-
-**File da modificare**: `Web/src/grid/LevelCustomization.ts` riga 30.
-**Fix**: `normalMapAmbienceColor: levelId <= 2 ? { r: 0.11, g: 0.10, b: 0.22 } : { r: 0, g: 0, b: 0 }`
+**Dettaglio attenuation**: il fattore `LightDistanceSquared / dot(lightVector, lightVector)`
+è una legge di attenuazione inversa del quadrato scalata. Non scende a zero in modo netto:
+a distanza maggiore di `sqrt(LightDistanceSquared)` il valore è < 1.0 (attenuazione),
+ma `diffuseLighting *= ...` lo lascia agire moltiplicativamente sul termine diffuse.
 
 ---
 
-### D2 — Ambient applicato una volta vs. N volte per luce (**MEDIO**)
+## Shader 2: specularmap.fx — Analisi completa
 
-| | Comportamento |
-|-|---------------|
-| **C#** | `AmbientColor` è nel corpo dello shader, blend additivo per N luci → ambient finale = `N × AmbientColor × tex` |
-| **TS** | Ambient applicato come *pre-pass* separato (una sola volta), poi per-light additive senza ambient |
+**File**: `Csharp/MarkInDeDark.Game/Assets/ContentBuilder/Effects/specularmap.fx`
+**Shader model**: `ps_3_0` (solo pixel shader, nessun vertex shader esplicito)
+**Tecnica**: `Technique1`
 
-**Effetto**: TS produce ambient `1×` vs. C# che produce `N×`. Con 3 luci attive e ambient `(0.11,0.10,0.22)`, C# arriva a `(0.33,0.30,0.66)` mentre TS resta a `(0.11,0.10,0.22)`. Per livelli 3+ (ambient=0) non fa differenza.
+```hlsl
+sampler s0;                      // binding automatico SpriteBatch → registro s0
 
-**Fix (opzionale)**: aggiungere `uAmbientColor` come uniform nel NormalMapFilter e includerlo nella formula: `output = diffuse * (ambient + nDotL² * lightColor * att * op)`. Rimuovere la pre-pass ambient da ShadowSystem.
+texture SpecularTexture;
+sampler lightSampler : register(s1) = sampler_state { Texture = <SpecularTexture>; };
 
----
+float4 PixelShaderFunction(
+    float4 pos    : SV_Position,
+    float4 color1 : COLOR0,
+    float2 coords : TEXCOORD0) : COLOR0
+{
+    float4 color      = tex2D(s0, coords);          // testo specular map
+    float4 lightColor = tex2D(lightSampler, coords); // testo light mask glow
+    return color * lightColor;                      // moltiplicazione diretta
+}
+```
 
-### D3 — Mancante: specular map + glow pass (**MEDIO**)
-
-In C#, il rendering del pavimento include:
-1. **Specular map texture** (canale speculare separato per ogni tile `cell1_spec`)
-2. **Glow lightmask**: ogni sorgente di luce disegna lo sprite `Effects/glow` sopra la specular, poi il risultato (specular × glow) viene addato alla scena.
-
-Questo produce riflessi brillanti sul pavimento vicino alle candele e ai bracieri.
-
-**TS**: il passaggio specular non è implementato. Le spritesheets hanno già i frame
-`cell1_spec`, ma non vengono usati.
-
-**Fix (futura iterazione)**: aggiungere `_groundSpecRT`, render glow sprites per luce
-(`Effects/glow` con deltaForGround), `specularResult = specularRT × glowRT`,
-additive blend su `_normalMappedGroundRT`.
-
----
-
-### D4 — Culling luci fuori schermo: mancante (**PERFORMANCE**)
-
-C#: `light.IsOutOfScreen = camera.Contains(light.BoundingRectangle) == Disjoint` →
-le luci fuori dal frustum vengono saltate.
-
-TS: tutte le luci vengono processate ogni frame, anche quando fuori schermo.
-
-Non causa difetti visivi ma impatta le performance con molte sorgenti di luce.
+**Come viene usato in pratica**:
+- `s0` riceve `_groundLevelSpecularMapRenderTarget` (la specular map del pavimento)
+- `SpecularTexture` è impostato a `_groundLevelSpecularMapLightMaskRenderTarget` (il glow)
+- La moltiplicazione `specular * glow` produce i riflessi visibili solo dove c'è luce
 
 ---
 
-### D5 — Coordinate system: CORRETTO in TS (**nessun bug**)
+## Shader 3: PenumbraShadow.fx — Analisi completa
 
-SpriteBatch in MonoGame passa posizioni in screen-pixel (con `World=Identity`).
-Lo shader TS opera anch'esso in screen-pixel tramite `_worldToScreen`. Entrambi
-usano le stesse unità: consistente.
+**File**: `Csharp/MarkInDeDark.Shadows/Content/PenumbraShadow.fx`
+**Shader model**: `vs_4_0_level_9_1` / `ps_4_0_level_9_1` (via macro `TECHNIQUE`)
+**Tecniche**: `Main`, `Debug`
 
-Zoom camera = **0.8 in entrambi** (`setZoom(0.8)` in Camera.ts, `Zoom=0.8f` in C#).
-Il `distanceSquared` è calibrato per zoom 0.8 → funziona uguale in TS.
+### Parametri
 
----
+```hlsl
+cbuffer cbConstant  { float4 Color; }                                    // usato solo in debug
+cbuffer cbPerFrame  { float4x4 ViewProjection; }
+cbuffer cbPerObject { float2 LightPosition; float LightRadius; }
+```
 
-### D6 — Formula nDotL²: CORRETTA in TS (**nessun bug**)
+### Vertex Input — una struttura per ogni bordo di hull
 
-C# usa `nDotL * diffuseLighting = nDotL * (nDotL * att) = nDotL² * att`.
-TS usa `nDotL * nDotL * attenuation`. Identici.
-
----
-
-### D7 — Y-flip normal map: CORRETTO in TS (**nessun bug**)
-
-C#: `normal.y *= -1`. TS: `n.y = -n.y`. Identici.
-
----
-
-### D8 — Ground normal RT clear color: INTENZIONALE, uguale in C# e TS
-
-C#: `graphicsDevice.Clear(Color.Black)` prima di disegnare le ground normal map.
-TS: `fill(0x000000)`. Stesso comportamento.
-Le tile senza normal map sono scure → effetto atmosferico voluto.
-
----
-
-## 4. WGSL/GLSL Blueprint — Shader corretto
-
-Il NormalMapFilter attuale è matematicamente corretto per la parte nDotL².
-Le modifiche necessarie sono **due**:
-
-### 4.1 Aggiungere `uAmbientColor` allo shader (opzionale, per parità con C#)
-
-```wgsl
-struct NormalMapUniforms {
-    uLightPosition: vec4<f32>,     // xy = screen pos, z = height
-    uLightColor:    vec4<f32>,     // rgb = [0-1]
-    uLightParams:   vec4<f32>,     // x = distanceSq, y = opacity
-    uAmbientColor:  vec4<f32>,     // rgb = [0-1] ambient (aggiungi questo)
+```hlsl
+struct VertexIn {
+    float2 SegmentA : TEXCOORD0;    // vertice A del bordo dell'hull occludente
+    float2 SegmentB : TEXCOORD1;    // vertice B del bordo dell'hull occludente
+    float2 Stencil  : SV_POSITION0; // X ∈ {0,1}: seleziona seg A o B
+                                    // Y ∈ {0,1}: 0=posizione sull'edge, 1=proiettato
 };
-
-// Fragment:
-let lit = diffuse.rgb * (
-    normalMapUniforms.uAmbientColor.rgb +
-    normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y
-);
-return vec4<f32>(lit, diffuse.a);
 ```
 
-Se si aggiunge questo, eliminare il pre-pass ambient tint in `ShadowSystem.ts`
-(righe che creano `ambientSprite` con `ambientTint`).
+Ogni bordo genera 4 vertici (un quad) con combinazioni `(Stencil.x, Stencil.y)` = (0,0),(1,0),(0,1),(1,1).
 
-### 4.2 Cambiamenti minimi per D1 (senza modificare il shader)
+### Vertex Shader — Costruzione penombra
 
-Con la fix di `normalMapAmbienceColor` in `LevelCustomization.ts` e la formula
-attuale (ambient come pre-pass), il comportamento per i livelli 3+ diventa:
-- Ambient = 0 → pre-pass produce una RT nera
-- Per-light additive: tile lit = `tex * nDotL² * color * att * op`, tile dark = 0
-- Contrasto forte → effetto 3D visibile
+```hlsl
+VertexOut VS(VertexIn vin) {
+    float2 toSegmentA = vin.SegmentA - LightPosition;
+    float2 toSegmentB = vin.SegmentB - LightPosition;
 
-Per i livelli 1-2:
-- Ambient = `(0.11, 0.10, 0.22)` → leggero blue-viola sulle tile non illuminate
-- Per-light additive: aggiunge la componente direzionale
-- C# avrebbe `N × (0.11,...)` — se il risultato è troppo buio, si può aumentare
-  leggermente il valore o adottare la soluzione D2.
+    // Offset perpendicolari, scalati per LightRadius (ampiezza penombra)
+    // CCW 90°: (x,y) → (-y,x)
+    float2 toLightOffsetA = float2(-LightRadius, LightRadius) * normalize(toSegmentA).yx;
+    float2 toLightOffsetB = float2( LightRadius,-LightRadius) * normalize(toSegmentB).yx;
+    float2 lightOffsetA = LightPosition + toLightOffsetA;  // sorgente spostata CCW
+    float2 lightOffsetB = LightPosition + toLightOffsetB;  // sorgente spostata CW
 
-### 4.3 Uniform layout (invariato) — nessuna modifica al binding
+    // Selezione vertice del quad tramite Stencil.x
+    float2 position         = lerp(vin.SegmentA, vin.SegmentB, vin.Stencil.x);
+    float2 projectionOffset = lerp(lightOffsetA, lightOffsetB, vin.Stencil.x);
 
+    // projected.w = 1 - Stencil.y:
+    //   Stencil.y=0 → w=1, vertice sull'edge (non proiettato)
+    //   Stencil.y=1 → w=0, divisione prospettica porta all'infinito (volume d'ombra)
+    float4 projected = float4(position - projectionOffset * vin.Stencil.y, 0.0, 1.0 - vin.Stencil.y);
+
+    float4 clipPosition = mul(projected, ViewProjection);
+
+    // Coordinate penombra: interpolazione nello spazio del triangolo di penombra
+    float2 penumbraA = mul(projected.xy - vin.SegmentA * projected.w,
+                           Invert(float2x2(toLightOffsetA, toSegmentA)));
+    float2 penumbraB = mul(projected.xy - vin.SegmentB * projected.w,
+                           Invert(float2x2(toLightOffsetB, toSegmentB)));
+
+    // Backface clipping: normale CW 90° del bordo
+    float2 clipNormal = (vin.SegmentB - vin.SegmentA).yx * float2(1.0, -1.0);
+    float  clipValue  = dot(clipNormal, projected.xy - projected.w * position);
+    // clipValue < 0 → bordo rivolto verso la luce, non deve generare ombra
+
+    vout.Position  = clipPosition;
+    vout.Penumbra  = float4(penumbraA, penumbraB);
+    vout.ClipValue = clipValue;
+}
 ```
-group(0) binding(0) → GlobalFilterUniforms (PixiJS)
-group(0) binding(1) → uTexture    (diffuse RT)
-group(0) binding(2) → uSampler
-group(1) binding(0) → normalMapUniforms
-group(1) binding(1) → uNormalMap  (normal RT)
-group(1) binding(2) → uNormalMapSampler
+
+### Pixel Shader — Interpolazione penombra Hermite
+
+```hlsl
+float4 PS(VertexOut pin) : SV_TARGET {
+    clip(pin.ClipValue);   // scarta pixel dei bordi rivolti verso la luce
+
+    // Normalizza in [-1,1]: dentro l'ombra dura → -1, fuori → +1
+    float2 p = clamp(pin.Penumbra.xz / pin.Penumbra.yw, -1.0, 1.0);
+
+    // Hermite cubico smooth: f(p) = p*(3 - p²)*0.25 + 0.5
+    // Va da 0.0 (luce piena) a 1.0 (ombra piena) in modo continuo
+    // Se Penumbra.yw <= 0 (proiezione non valida) → forza a 1.0 (piena occlusione)
+    float2 value = lerp(p * (3.0 - p * p) * 0.25 + 0.5, 1.0, step(pin.Penumbra.yw, 0.0));
+
+    float occlusion = value.x + value.y - 1.0;   // [0,1]: 0=luce, 1=ombra totale
+    return float4(0.0, 0.0, 0.0, occlusion);     // solo canale alpha
+}
+```
+
+Il valore di occlusione finisce nell'**alpha channel** della lightmap.
+Il `ShadowRenderer` usa `_bsShadow` con `AlphaBlendFunction = ReverseSubtract`:
+l'alpha della lightmap viene ridotta nelle zone d'ombra, e il successivo `LightRenderer`
+usa `ColorSourceBlend = DestinationAlpha` per disegnare la luce solo dove alpha è alta.
+
+---
+
+## Shader 4: PenumbraLight.fx — Analisi completa
+
+**File**: `Csharp/MarkInDeDark.Shadows/Content/PenumbraLight.fx`
+**Shader model**: `vs_4_0_level_9_1` / `ps_4_0_level_9_1`
+**Tecniche**: `PointLight`, `Spotlight`, `TexturedLight`, `DebugLight`
+
+### Parametri
+
+```hlsl
+Texture2D    Texture;
+SamplerState TextureSampler;
+
+cbuffer cbConstant    { float4 Color; }                         // debug
+cbuffer cbPerLight    {
+    float4x4 WorldViewProjection;
+    float3   LightColor;
+    float    LightIntensity;
+}
+cbuffer cbPerSpotlight {
+    float ConeHalfAngle;
+    float ConeDecay;
+}
+```
+
+### Vertex Shader (condiviso)
+
+```hlsl
+VertexOut VS(VertexIn vin) {
+    vout.Position = mul(float4(vin.Position, 0.0, 1.0), WorldViewProjection);
+    vout.TexCoord = vin.TexCoord;
+}
+```
+
+Il quad viene costruito dal `LightRenderer` con vertici leggermente più grandi di `1/√2 ≈ 0.707`
+per coprire la rotazione della camera senza tagliare il cono di luce.
+
+### Helper colore
+
+```hlsl
+float4 GetComputedColor(float alpha) {
+    alpha = abs(alpha);
+    float3 lightColor = LightColor * alpha;
+    lightColor = pow(abs(lightColor), LightIntensity);  // curva gamma-like per LightIntensity
+    return float4(lightColor, 1.0);
+}
+```
+
+### Tecnica PointLight (usata nel gioco per tutte le luci)
+
+```hlsl
+float4 PSPointLight(VertexOut pin) : SV_TARGET {
+    // TexCoord in [0,1]: il centro è (0.5, 0.5)
+    float halfMagnitude = length(pin.TexCoord - float2(0.5, 0.5));
+    float alpha = saturate(1.0 - halfMagnitude * 2.0);  // falloff lineare: 1 al centro, 0 al bordo
+    return GetComputedColor(alpha);
+}
+```
+
+### Tecnica Spotlight (non usata nel gioco ma disponibile)
+
+```hlsl
+float4 PSSpotLight(VertexOut pin) : SV_TARGET {
+    float2 lightVector = pin.TexCoord - float2(0.0, 0.5);
+    float  magnitude   = length(lightVector);
+    float2 lightDir    = lightVector / magnitude;
+
+    float halfAngle = acos(dot(lightDir, float2(1.0, 0.0)));  // angolo dal centro cono
+    float occlusion          = step(halfAngle, ConeHalfAngle); // fuori dal cono: 0
+    float distanceAttenuation = saturate(1.0 - magnitude);
+    float coneAttenuation     = 1.0 - pow(abs(halfAngle / ConeHalfAngle), ConeDecay);
+    float alpha = distanceAttenuation * coneAttenuation;
+    return GetComputedColor(alpha * occlusion);
+}
 ```
 
 ---
 
-## 5. Piano di bugfix (ordinato per impatto)
+## Shader 5: PenumbraTexture.fx — Analisi completa
 
-| Priorità | Fix | File | Righe |
-|----------|-----|------|-------|
-| 🔴 CRITICO | D1: correggere `normalMapAmbienceColor` per livello | `Web/src/grid/LevelCustomization.ts` | 30 |
-| 🟡 MEDIO | D2: spostare ambient DENTRO il filter per parità C# | `NormalMapFilter.ts` + `ShadowSystem.ts` | ~10 |
-| 🟢 BASSO | D3: aggiungere specular + glow pass | `ShadowSystem.ts` | ~30 |
-| 🟢 BASSO | D4: culling luci fuori schermo | `ShadowSystem.ts` | ~5 |
+**File**: `Csharp/MarkInDeDark.Shadows/Content/PenumbraTexture.fx`
+**Shader model**: `vs_4_0_level_9_1` / `ps_4_0_level_9_1`
+**Tecnica**: `Main`
 
-**Il fix D1 da solo dovrebbe risolvere sia "luci fioche" che "nessun effetto 3D".**
+```hlsl
+Texture2D    DiffuseMap;
+Texture2D    Lightmap;
+SamplerState TextureSampler;
+
+VertexOut VS(VertexIn vin) {
+    // Pass-through: clip space diretto senza trasformazione
+    vout.Position = float4(vin.Position, 0.0, 1.0);
+    vout.TexCoord = vin.TexCoord;
+}
+
+float4 PS(VertexOut pin) : SV_TARGET {
+    float4 diffuse = DiffuseMap.Sample(TextureSampler, pin.TexCoord);
+    float4 light   = Lightmap.Sample(TextureSampler, pin.TexCoord);
+    return diffuse * light;  // moltiplicazione diretta: luce scura → scurisce il diffuse
+}
+```
+
+Composizione finale di Penumbra:
+- **DiffuseMap** = il pavimento con normal+specular (copiato in Step 2.2)
+- **Lightmap** = distribuzione delle luci calcolata dal motore Penumbra
+- Output: il pavimento correttamente illuminato con ombre
 
 ---
 
-## 6. Analisi di Sicurezza — "Il mondo non diventa buio"
+## Macros.fxh — Astrazione shader model
 
-Questa sezione documenta perché il fix D1 è sicuro e non oscura il mondo.
+**File**: `Csharp/MarkInDeDark.Shadows/Content/Macros.fxh`
 
-### 6.1 Cosa cambia con la fix
+Fornisce astrazione tra SM4 (DX11/XNA4) e SM2 (DX9/XNA3.1):
 
-In `ShadowSystem.update()`, i passi 3 (ground) e 6 (oggetti) funzionano così:
-
-1. **Pre-pass ambient**: si tinge la RT diffuse con `_ambienceColorHex(normalMapAmbienceColor)` e la scrive sul render target finale (clear=true).
-2. **Per-light additive**: per ogni luce attiva in `shadowSystem.lights` → `NormalMapFilter` → blend additivo sopra.
-
-Con `normalMapAmbienceColor = { r: 0, g: 0, b: 0 }` (livelli 3+), la pre-pass produce una RT nera. Solo le luci attive aggiungono colore. **Il mondo appare buio tranne vicino alle sorgenti di luce: è il comportamento intenzionale.**
-
-### 6.2 Wiring di tutte le sorgenti di luce
-
-| Sorgente | Dove viene aggiunta | Quando `enabled = false` |
-|---|---|---|
-| **Player torch** | `gamebootstrap.ts:181–183` | Solo alla morte (`Character.ts:179, 186, 289`) |
-| **Bracieri** | `gamebootstrap.ts:208` | Mai (permanenti) |
-| **Nemici** | `EnemyFactory.ts:94` e `gamebootstrap.ts:250` | Alla loro morte |
-| **Candele piazzate** | `CandlesManager.ts:68` (add), `:79` (remove) | Quando si spengono |
-
-Parametri luce player (`Player.ts:78–88`): `z=90, radius=1200, distanceSquared=20_600, opacity=1` — identici ai valori C#.
-
-### 6.3 Perché player/nemici/bracieri rimangono visibili
-
-La `_objectsNormalRT` viene riempita con `0x8080ff` (normale neutra `(0,0,1)`, punta verso lo schermo). Per pixel con normale neutra e luce frontale, `nDotL = 1` → illuminazione massima. Quindi player, nemici e bracieri ricevono sempre illuminazione piena dal normal-map pass degli oggetti. Le normal texture reali dei singoli sprite si sovrascrivono solo dove c'è un pixel non trasparente.
-
-Per il ground invece: tile **senza** normal texture rimangono al colore di clear `0x000000` → decodificato `(-1,-1,-1)` → `nDotL ≈ 0` → buie. Solo le tile con `cell1_normal` (e simili) ricevono luce. Questo è intenzionale (D8).
-
-### 6.4 Shadow lightmap e ordine di stage
-
-```
-[0] _normalMappedGroundSprite   (ground illuminato dal normal-map pass)
-[1] _lightmapSprite (multiply)  ← oscura solo il ground
-[2] _normalMappedObjectsSprite  ← NON viene moltiplicato dalla penumbra
+```hlsl
+#ifdef SM4
+    // DX11: cbuffer, Texture2D, register(t#/s#/b#)
+    #define TECHNIQUE(name, vsname, psname) \
+        technique name { pass { \
+            VertexShader = compile vs_4_0_level_9_1 vsname(); \
+            PixelShader  = compile ps_4_0_level_9_1 psname(); } }
+    #define DECLARE_TEXTURE(Name, index) \
+        Texture2D<float4> Name : register(t##index); \
+        sampler Name##Sampler : register(s##index)
+    #define SAMPLE_TEXTURE(Name, texCoord)  Name.Sample(Name##Sampler, texCoord)
+#else
+    // DX9: globali, sampler2D, register(s#)
+    #define TECHNIQUE(name, vsname, psname) \
+        technique name { pass { \
+            VertexShader = compile vs_2_0 vsname(); \
+            PixelShader  = compile ps_2_0 psname(); } }
+    #define DECLARE_TEXTURE(Name, index)  sampler2D Name : register(s##index)
+    #define SAMPLE_TEXTURE(Name, texCoord)  tex2D(Name, texCoord)
+#endif
 ```
 
-Il `_lightmapSprite` (multiply) è inserito tra ground e oggetti. Per livelli 3+, `penumbraAmbientColor = 0x000000` → il lightmap parte da nero → il ground è nero lontano dalle luci, illuminato vicino. Gli oggetti (player, nemici, bracieri) sono a index [2], **sopra** il multiply, quindi **non vengono oscurati dalla penumbra**. Piccola differenza dal C# (dove Penumbra.BlendAll applicava a tutto il frame), ma è il comportamento attuale e non è una regressione di questa fix.
+**Nota**: `circularnormalmap.fx` e `specularmap.fx` **non usano queste macro** e compilano
+direttamente per `vs_3_0`/`ps_3_0`. Sono shader indipendenti dal sistema Penumbra.
 
-### 6.5 Checklist di verifica post-fix
+---
 
-- [ ] Livello 1–2: tint blu-viola `(0.11, 0.10, 0.22)` visibile come base ambient.
-- [ ] Livello 3+: mondo buio al caricamento, ma area attorno al player illuminata dalla torcia.
-- [ ] Piazzare una candela → cerchio di luce sul pavimento.
-- [ ] Avvicinarsi a un braciere → luce statica sempre visibile.
-- [ ] Nemico che si avvicina → la sua luce è visibile.
-- [ ] Player muore → torcia si disabilita, l'area diventa buia.
+## Tabella riassuntiva Blend State
 
-### 6.6 Cosa NON toccare
+| Contesto                                    | ColorSrc      | ColorDst     | AlphaSrc | AlphaDst | ColorFunc | AlphaFunc       |
+|---------------------------------------------|---------------|--------------|----------|----------|-----------|-----------------|
+| Normal map pav. (additive accumulo)         | One           | One          | One      | One      | Add       | Add             |
+| Specular light mask (NonPremultiplied)      | One           | InvSrcAlpha  | One      | InvSrcAlpha | Add    | Add             |
+| Composizione NM+specular (additive)         | One           | One          | One      | One      | Add       | Add             |
+| Penumbra `_bsShadow` (solo alpha, ombra)    | —             | —            | One      | One      | —         | ReverseSubtract |
+| Penumbra `_bsHull`  (solo alpha, fill hull) | —             | —            | One      | Zero     | —         | Add             |
+| Penumbra `_bsLight` (colore luce + alpha)   | DestAlpha     | One          | One      | Zero     | Add       | Add             |
+| Glow additivo su lightmap Penumbra          | One           | One          | One      | One      | Add       | Add             |
+| Composizione finale (AlphaBlend normale)    | SrcAlpha      | InvSrcAlpha  | One      | InvSrcAlpha | Add    | Add             |
 
-- **Parametri `distanceSquared` e `z` delle luci** — già calibrati sui valori C# (`20_600` px², `z=90`).
-- **NormalMapFilter** — formula nDotL², Y-flip e coordinate sono corretti (D5–D7).
-- **D2 (ambient dentro il filter)** — opzionale, non un bug bloccante.
-- **D3 (specular/glow)** — futura iterazione.
+---
 
-### 6.7 Riepilogo: unica modifica necessaria
+## Flusso dati — Diagramma
 
-```ts
-// Web/src/grid/LevelCustomization.ts, riga 30
-// PRIMA:
-normalMapAmbienceColor: { r: 0.35, g: 0.35, b: 0.35 },
-// DOPO:
-normalMapAmbienceColor: levelId <= 2 ? { r: 0.11, g: 0.10, b: 0.22 } : { r: 0, g: 0, b: 0 },
+```
+══════════════════════════════════════════════════════════════
+ PIPELINE PAVIMENTO (DrawGroundWithNormalMap)
+══════════════════════════════════════════════════════════════
+
+[Celle visibili]
+  DrawGround(false)       → _groundLevel0RT           (clear nero)
+  DrawGroundNormalMap()   → _groundLevelNormalMapRT    (clear nero)
+  DrawGroundSpecularMap() → _groundLevelSpecularMapRT  (clear nero)
+
+[Tutte le luci: player, nemici, bracieri, candele]
+  DrawGlowForSpecular()   → _groundLevelSpecularMapLightMaskRT (NonPremultiplied)
+
+[Shader circularnormalmap.fx, NormalTexture=NormalMapRT]
+  per ogni luce (ShouldDraw):
+    LightPosition=PositionForGround, LightColor, LightDistanceSquared(Ground), Opacity
+    Draw(groundLevel0RT) → accumula in _groundLevelAppliedNormalMapRT (Additive)
+
+[Shader specularmap.fx, SpecularTexture=LightMaskRT]
+  Draw(specularMapRT) → _groundLevelSpecularMapWithAppliedLightmaskRT
+
+[Additive blend]
+  groundLevelAppliedNormalMapRT
+  + groundLevelSpecularMapWithAppliedLightmaskRT
+  → _groundLevelResultRT (clear nero)
+
+[Sprite ombre 2D: player, nemici, bracieri]
+  DrawShadows() sopra _groundLevelResultRT (default blend)
+
+══════════════════════════════════════════════════════════════
+ PIPELINE LIGHT MASK ADDIZIONALE
+══════════════════════════════════════════════════════════════
+
+[Nemici + bracieri + candele]
+  DrawLightMask() → _groundLevelAdditionalLightMaskRT (NonPremultiplied, clear transparent)
+
+══════════════════════════════════════════════════════════════
+ PIPELINE PENUMBRA
+══════════════════════════════════════════════════════════════
+
+penumbra.BeginDraw()
+  → salva RT corrente (_groundLevelRenderTarget)
+  → switch GraphicsDevice su Penumbra.DiffuseMap
+
+Draw(groundLevelResultRT) → Penumbra.DiffuseMap  (copia pavimento illuminato)
+
+penumbra.Draw() → RenderLightMap()
+  lightmap.Clear(AmbientColor)  ← il "buio base"
+  per ogni luce:
+    Scissor = bounding rect luce
+    ShadowRenderer (PenumbraShadow.fx):
+      bsShadow → sottrae alpha nelle zone d'ombra (ReverseSubtract)
+      bsHull   → ristabilisce alpha dentro gli hull (Add, One, Zero)
+    LightRenderer (PenumbraLight.fx, PointLight):
+      bsLight  → aggiunge luce * DestAlpha (solo aree con alpha alta)
+               → azzera alpha per prossimo giro (AlphaDst=Zero)
+  → Penumbra.LightMap
+
+[Additive blend]
+  Draw(additionalLightMaskRT) → Penumbra.LightMap  (glow nemici/candele/bracieri)
+
+penumbra.BlendAll() → LightMapRenderer (PenumbraTexture.fx)
+  Penumbra.DiffuseMap * Penumbra.LightMap → _groundLevelRenderTarget
+
+══════════════════════════════════════════════════════════════
+ PIPELINE SCENA (muri, personaggi, oggetti)
+══════════════════════════════════════════════════════════════
+
+[Celle + player + nemici + bracieri]
+  DrawNormalMapButGrounds(), DrawNormalMap()
+  → _normalMapRT  (clear Color(128,128,255))
+
+[Muri + oggetti + candele + player + nemici + riempitivi]
+  → _baseSceneRT  (clear transparent, FrontToBack sort)
+
+[Shader circularnormalmap.fx, NormalTexture=normalMapRT]
+  per ogni luce (ShouldDraw):
+    LightPosition=PositionForWall, LightDistanceSquared(Wall)
+    Draw(baseSceneRT) → accumula in _baseSceneItemsWithNormalMapRT (Additive)
+
+══════════════════════════════════════════════════════════════
+ COMPOSIZIONE FINALE
+══════════════════════════════════════════════════════════════
+
+finalRenderTarget.Clear(Black)
+Draw(_groundLevelRenderTarget)                  → pavimento + Penumbra
+Draw(_baseSceneItemsWithNormalMapRenderTarget)  → scena + lighting NM
+                                                  (AlphaBlend)
+
+[Effects over dark: camera transform]
+  enemy effects + candles + snow → finalRT
+
+[HUD: nessuna camera transform]
+  GameHUD → finalRT
 ```
 
-Non sono necessarie modifiche ai tipi TypeScript (la struttura `{ r, g, b }` rimane identica). `npm run build` deve passare senza errori.
+---
+
+## Note implementative per la migrazione PixiJS
+
+1. **Il flip Y della normal map** (`normal.y *= -1`) è necessario anche in WebGL/WebGPU
+   se le coordinate texture Y partono dall'alto (come in PixiJS di default).
+
+2. **Additive blending multi-luce**: il ciclo "una draw call per luce" con blending additivo
+   è il pattern core. In PixiJS va riprodotto con un render texture e un filtro custom
+   per ogni luce, accumulando con `BLEND_MODES.ADD`.
+
+3. **Il parametro `LightDistanceSquared`**: non è il quadrato della distanza della luce,
+   è un parametro di scala per l'attenuazione. Corrisponde al quadrato del raggio in cui
+   l'attenuazione vale esattamente 1.0.
+
+4. **Le due posizioni** (`PositionForGround` e `PositionForWall`) simulano la profondità Z:
+   la stessa luce 2D viene passata con offset Y diverso per pavimento e pareti.
+
+5. **Il motore Penumbra** gestisce solo la luce del player (l'unica con `castsShadows=true`).
+   Le luci di candele e bracieri non proiettano ombre calcolate geometricamente,
+   ma solo il loro glow visivo viene aggiunto alla lightmap di Penumbra.
