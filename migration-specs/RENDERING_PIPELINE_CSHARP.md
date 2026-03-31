@@ -119,11 +119,19 @@ prima ancora che vengano applicate le ombre Penumbra.
 
 ---
 
+> **Pattern `transformMatrix: viewMatrix`**: tutti i passi 1A–1D, la Fase 1-bis, la Fase 3A e la Fase 3B
+> usano `SpriteBatch.Begin(transformMatrix: viewMatrix, ...)` — il contenuto di scena viene quindi
+> disegnato in **spazio camera** (con zoom 0.8x e traslazione). Al contrario, i passi di
+> lighting/compositing (1E, 1F, 1G composizione, Fase 4, Fase 5) **non** usano viewMatrix:
+> disegnano full-screen quad su cui lo shader lavora in screen space direttamente.
+> Questa asimmetria è fondamentale per la migrazione PixiJS.
+
 ### Passo 1A — Texture base pavimento
 
 **Target**: `_groundLevel0RenderTarget`
 **BlendState**: default (AlphaBlend)
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Per ogni cella visibile nella viewport (`OnAllVisibleCells`):
 - `c.DrawGround(spriteBatch, false)` — disegna la sprite del pavimento della cella
@@ -136,11 +144,17 @@ Il `false` nel parametro indica di disegnare il layer "base" (non i riempitivi d
 ### Passo 1B — Normal map del pavimento
 
 **Target**: `_groundLevelNormalMapRenderTarget`
-**BlendState**: default
+**BlendState**: default (AlphaBlend)
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Per ogni cella visibile:
 - `c.DrawGroundNormalMap(spriteBatch)` — disegna la texture di normal map della cella
+
+Dopo il loop celle, viene chiamato anche `drawOtherGroundObjectsNormalMap(spriteBatch)`
+che disegna le normal map dei **TriggerObject** presenti sul pavimento (stessa action passata
+da `MarkInDeDarkGame` al metodo `DrawGroundWithNormalMap`). A differenza del Passo 1C
+(specular), i trigger contribuiscono anche alla normal map.
 
 La normal map codifica le normali superficiali nei canali RGB secondo la convenzione tangent-space standard:
 - **R** → componente X della normale, range [-1,1] mappato in [0,255]
@@ -154,8 +168,9 @@ Colore neutro "piatta verso camera" = `(128, 128, 255)`.
 ### Passo 1C — Specular map del pavimento
 
 **Target**: `_groundLevelSpecularMapRenderTarget`
-**BlendState**: default
+**BlendState**: default (AlphaBlend)
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Per ogni cella visibile:
 - `c.DrawGroundSpecularMap(spriteBatch)` — disegna la texture di specular map della cella
@@ -172,6 +187,7 @@ Le zone bianche riflettono di più, le zone nere non riflettono.
 **Target**: `_groundLevelSpecularMapLightMaskRenderTarget`
 **BlendState**: `BlendState.NonPremultiplied`
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Si disegnano i glow luminosi di tutte le sorgenti di luce attive:
 - `_player.SurroundingLight?.DrawGlowForSpecular(s)`
@@ -221,6 +237,7 @@ all'illuminazione totale. Il target parte da nero (Clear) e si illumina a ogni d
 ### Passo 1F — Applicazione light mask allo specular
 
 **Target**: `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget`
+**Clear**: `Color.Black`
 **BlendState**: default (`BlendState.AlphaBlend`) — non specificato esplicitamente nel codice
 **Effect**: `_specularMapShader` (`specularmap.fx`)
 
@@ -263,6 +280,7 @@ calcolate geometricamente. Le ombre calcolate sono gestite da Penumbra (Fase 2).
 **Target**: `_groundLevelAdditionalLightMaskRenderTarget`
 **BlendState**: `BlendState.NonPremultiplied`
 **Clear**: `Color.Transparent`
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Separato dalla pipeline del pavimento, si disegna una seconda light mask con i glow di:
 - Nemici: `e.SurroundingLight?.DrawLightMask(spriteBatch)`
@@ -399,6 +417,7 @@ Il DiffuseMap (pavimento con normal+specular) viene moltiplicato per la lightmap
 **Clear**: `_normalMapNeutralColor` = `new Color(128, 128, 255)` = normale neutra piatta
 **SortMode**: `SpriteSortMode.FrontToBack`
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 In questo render target vengono composte le normal map di tutti gli elementi "verticali":
 
@@ -420,6 +439,7 @@ neutra (piatta, rivolta verso la camera) invece di zero/nero (che darebbe lighti
 **Clear**: `Color.Transparent`
 **SortMode**: `SpriteSortMode.FrontToBack`
 **SamplerState**: PointClamp
+**TransformMatrix**: `viewMatrix` (spazio camera)
 
 Ordine di draw (Z-order dal più distante al più vicino, front-to-back):
 1. `_gameGrid.DrawWalls(spriteBatch)` — muri e pilastri (in debug: `DrawForDebug`)
@@ -640,7 +660,8 @@ Note override per entità specifiche:
 ### Parametri (uniforms)
 
 ```hlsl
-float3 LightPosition;           // posizione della luce in SCREEN space (post viewMatrix) + Z
+float3 LightPosition;           // commento originale dice "World Space" ma è ERRATO:
+                                // in pratica viene passata la posizione in SCREEN space (post viewMatrix) + Z
 float3 LightColor = 1.0;        // colore RGB della luce (default bianco puro)
 float3 AmbientColor = 0.35;     // luce ambientale (default shader, sovrascritta da LevelCustomization)
 float  LightDistanceSquared;    // raggio² per il calcolo di attenuation
