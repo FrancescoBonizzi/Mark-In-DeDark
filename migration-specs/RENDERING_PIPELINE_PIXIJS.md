@@ -114,9 +114,12 @@ _objectsNormalContainer   Sprites normal map muri, pilastri
 
 ---
 
-## Pipeline per-frame: `ShadowSystem.update()`
+## Pipeline per-frame: `ShadowSystem.update(app, deltaMS)`
 
 **File**: `ShadowSystem.ts:156`
+
+Firma: `update(app: Application, deltaMS: number): void`
+Il renderer viene ottenuto da `app.renderer` all'interno del metodo.
 
 ### Fase 0 — Animazione luci
 
@@ -172,6 +175,9 @@ c) Per ogni light (enabled=true):
    _normalMapFilter.setLight(sx, sy, z, light.colorNormalVec3,
                               light.distanceSquaredForGround, light.opacity)
 
+   filterContainer = Container con:
+     - filters = [_normalMapFilter]
+     - child: Sprite(_groundRT)   ← la RT diffuse già in screen-space
    Render filterContainer → _perLightRT (clear=true)     ← per-light buffer
    Sprite(_perLightRT).blendMode='add'
    Render → _normalMappedGroundRT (clear=false)           ← accumulo additivo
@@ -185,10 +191,12 @@ Simula che la luce stia sopra e dietro la sorgente visiva rispetto al piano del 
 ### Fase 4 — Objects base → `_objectsRT`
 
 ```
-Render _objectsContainer (sortableChildren=true) con camera transform → _objectsRT (clear=true)
+Render _objectsContainer con camera transform → _objectsRT (clear=true)
 ```
 
-Uguale alla fase 1 ma per il layer oggetti.
+Pattern identico alla fase 1 ma per il layer oggetti. Il Container temporaneo usato
+per wrappare `_objectsContainer` ha `sortableChildren=true` (vedi nota nella sezione
+"Container interni").
 
 ---
 
@@ -209,12 +217,13 @@ C# spec (comportamento intenzionale: candele e chiave hanno aspetto piatto).
 
 ### Fase 6 — Normal-map objects → `_normalMappedObjectsRT`
 
-Identica alla fase 3, con due differenze:
+Identica alla fase 3, con tre differenze:
 
 ```
 - setNormalMap: _objectsNormalRT (invece di _groundNormalRT) — chiamato UNA VOLTA prima del loop
 - light offset: light.deltaForWall (invece di light.deltaForGround)
 - distance: light.distanceSquaredForWall (invece di distanceSquaredForGround)
+- filterContainer child: Sprite(_objectsRT) (invece di Sprite(_groundRT))
 ```
 
 **delta offset muri**: `deltaForWall = { x:0, y:-60 }` (default).
@@ -410,6 +419,21 @@ resetColor(): void                      // Ripristina _originalColor2 in color2
 getPenumbraPosition(): { x, y }         // Ritorna { x: position.x - 10, y: position.y + 75 }
 ```
 
+**Valori default del costruttore** (usati quando l'opzione non è specificata):
+
+```typescript
+x, y:         0
+color1:       0xffaa44
+color2:       0xff6600
+opacity:      1
+radius:       800
+castsShadows: true
+z:            90
+sourceRadius: 20          // blur = 20 * 0.15 = 3.0
+distanceSquared:        20_600
+distanceSquaredForWall: = distanceSquared (se non specificato)
+```
+
 **Animazione colore**: linear ping-pong tra `color1` e `color2`, periodo 3000ms.
 
 **Z scaling**: `z * abs(cameraWorld.scale.x)` → con zoom 0.8x, lo Z viene moltiplicato per 0.8.
@@ -463,7 +487,11 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
   - Se back-facing (dot(normal, midpoint-light) > 0):
     - Proietta i vertici dell'edge di `FAR = 5000` pixel dalla luce
     - Restituisce trapezoid `[p1, p2, far2, far1]` come flat array
-- Disegna shadowGfx + hullFillGfx neri sul `_perLightRT`
+- Ritorna `number[][]` (array di poligoni flat) — il **disegno** è responsabilità di ShadowSystem (fase 7)
+
+**Proprietà**:
+- `enabled: boolean` — toggle per escludere l'hull dal calcolo
+- `bounds: Rectangle` — usato da ShadowSystem per il fill anti-self-shadow (hullFillGfx)
 
 ---
 
@@ -528,11 +556,15 @@ Viene scalata per ogni luce: `lightSprite.scale = light.radius / 256`.
 **File**: `Camera.ts`
 
 ```
-zoom:    0.8 fisso (setZoom(0.8) in costruttore)
-x pivot: 0
-y pivot: worldHeight (coordinate Y-up — bottom del mondo = origine)
-position: aggiornato ogni frame dal GameBootstrap
-shake:   delta additivo su position, attenuazione con decremento intensity 0.25/frame
+worldHeight: 1500 (default, passato al costruttore)
+zoom:        0.8 fisso (setZoom(0.8) in costruttore)
+x pivot:     0
+y pivot:     worldHeight  (Y-up: bottom-left del mondo = origine schermo)
+posizione iniziale: _world.x = 0, _world.y = app.screen.height (= 720)
+posizione runtime:  aggiornata ogni frame dal GameBootstrap tramite camera.x / camera.y setter
+shake:       offset additivo su _world.x/_world.y
+             attenuazione: _shakeIntensity -= 0.25 per frame
+             angolo: incremento random 150–210° per frame
 ```
 
 ---
@@ -541,7 +573,7 @@ shake:   delta additivo su position, attenuazione con decremento intensity 0.25/
 
 | Operazione | Blend Mode | Formula |
 |-----------|------------|---------|
-| Accumulo NM per-luce su _normalMappedGroundRT / _objectsRT | `add` | `dst + src` |
+| Accumulo NM per-luce su _normalMappedGroundRT / _normalMappedObjectsRT | `add` | `dst + src` |
 | Accumulo luce su _lightmap | `add` | `dst + src` |
 | _lightmapSprite sullo stage | `multiply` | `dst × src` |
 | Light texture pre-render (256×256) | `add` | `dst + src` |
@@ -607,7 +639,7 @@ Stage compositing (automatico PixiJS):
    rispetto alla posizione visiva della luce.
 
 3. **Coseno al quadrato** (`nDotL * nDotL`): non è un'ottimizzazione, è scelta di design
-   visiva eredit ata dal C#. Produce una caduta di luce più brusca all'aumentare
+   visiva ereditata dal C#. Produce una caduta di luce più brusca all'aumentare
    dell'angolo di incidenza rispetto a Lambertian puro.
 
 4. **Normal map UV ricalcolati**: il filter pool di PixiJS potrebbe usare atlas texture
