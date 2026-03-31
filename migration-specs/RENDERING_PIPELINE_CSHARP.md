@@ -1189,3 +1189,42 @@ Draw(_baseSceneItemsWithNormalMapRenderTarget)  → scena + lighting NM
 
 10. **Bubu non ha luce**: è l'unico nemico con `characterTorchConfiguration: null`.
     Non partecipa a nessun passo della pipeline NM né alla lightmap Penumbra.
+
+11. **Formula lighting effettiva: coseno AL QUADRATO, non Lambertian standard** — questo è
+    il dettaglio più critico per riprodurre il look visivo esatto.
+
+    Nel pixel shader (`circularnormalmap.fx` righe 63-69), il dot product viene calcolato DUE VOLTE:
+    ```hlsl
+    float diffuseLighting = saturate(dot(normal, -lightdir));            // [1] Lambertian
+    diffuseLighting *= (LightDistanceSquared / dot(lightVector, lightVector)); // × attenuation
+    float lightAmount  = saturate(dot(normal, -lightdir));               // [2] SECONDO Lambertian
+    color.rgb *= AmbientColor + (lightAmount * LightColor * diffuseLighting * LightOpacity);
+    ```
+
+    La formula effettiva è:
+    ```
+    output_factor = AmbientColor + dot(N, -L)² × (D² / |r|²) × LightColor × opacity
+    ```
+
+    Ovvero: **coseno al quadrato** (squared cosine) moltiplicato per l'attenuazione.
+    Non è Lambertian puro (`dot(N,-L)`) ma `dot(N,-L)²`.
+
+    **Conseguenza visiva**: la luce cade più bruscamente al variare dell'angolo di incidenza
+    rispetto a un diffuse standard. Superfici quasi-parallele alla direzione della luce
+    ricevono molto meno luce di quanto farebbe un Lambertian classico.
+
+    **Per la migrazione PixiJS**: lo shader WGSL/GLSL deve replicare esattamente
+    `lightAmount * diffuseLighting` = `dot² × attenuation`, non solo `dot × attenuation`.
+    Usare solo il termine Lambertian standard produce un'illuminazione troppo "piatta" e
+    mancanza di contrasto — probabilmente una delle cause dei problemi visivi attuali.
+
+12. **Culling luci tramite BoundingRectangle**: in `MarkInDeDarkGame.Update()` (righe 794-807),
+    prima di aggiornare `PositionForGround`/`PositionForWall`, il gioco verifica se la luce
+    è fuori viewport:
+    ```csharp
+    gameLight.IsOutOfScreen =
+        _camera.Contains(gameLight.BoundingRectangle) == ContainmentType.Disjoint;
+    ```
+    `ShouldDraw = IsEnabled && !IsOutOfScreen` — le luci fuori viewport non eseguono
+    nessuna draw call. Questo è un ottimizzazione importante da replicare in PixiJS per
+    evitare pass shader inutili quando la sorgente è lontana dalla camera.
