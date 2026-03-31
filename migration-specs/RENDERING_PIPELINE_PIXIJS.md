@@ -139,13 +139,14 @@ a) Tint ambient:
    Sprite(_groundRT).tint = ambientTint
    Render → _normalMappedGroundRT (clear=true)
 
-b) Per ogni light (enabled=true):
+b) _normalMapFilter.setNormalMap(_groundNormalRT)   ← UNA VOLTA prima del loop
+
+c) Per ogni light (enabled=true):
    sx, sy = _worldToScreen(light.position + light.deltaForGround, cameraWorld)
    z = light.z * abs(cameraWorld.scale.x)   ← Z scalato per lo zoom camera!
 
    _normalMapFilter.setLight(sx, sy, z, light.colorNormalVec3,
                               light.distanceSquaredForGround, light.opacity)
-   _normalMapFilter.setNormalMap(_groundNormalRT)
 
    Render filterContainer → _perLightRT (clear=true)     ← per-light buffer
    Sprite(_perLightRT).blendMode='add'
@@ -187,7 +188,7 @@ C# spec (comportamento intenzionale: candele e chiave hanno aspetto piatto).
 Identica alla fase 3, con due differenze:
 
 ```
-- Normal map: _objectsNormalRT (invece di _groundNormalRT)
+- setNormalMap: _objectsNormalRT (invece di _groundNormalRT) — chiamato UNA VOLTA prima del loop
 - light offset: light.deltaForWall (invece di light.deltaForGround)
 - distance: light.distanceSquaredForWall (invece di distanceSquaredForGround)
 ```
@@ -295,7 +296,7 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     n = normalize(n);
 
     // Vettore luce: da pixel a luce in screen-space (xy in pixel, z = altezza)
-    let lightVec = vec3<f32>(uLightPosition.xy - pixelPos, uLightPosition.z);
+    let lightVec = vec3<f32>(normalMapUniforms.uLightPosition.xy - pixelPos, normalMapUniforms.uLightPosition.z);
     let lightDir = normalize(lightVec);
 
     // Lambertian
@@ -303,10 +304,10 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
     // Attenuazione inverse-square (non clamped — replica comportamento C#)
     let actualDistSq = dot(lightVec, lightVec);
-    let attenuation  = max(uLightParams.x / max(actualDistSq, 1.0), 0.0);
+    let attenuation  = max(normalMapUniforms.uLightParams.x / max(actualDistSq, 1.0), 0.0);
 
     // Formula finale: COSENO AL QUADRATO (non Lambertian puro)
-    let lit = diffuse.rgb * uLightColor.rgb * nDotL * nDotL * attenuation * uLightParams.y;
+    let lit = diffuse.rgb * normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y;
     return vec4<f32>(lit, diffuse.a);
 }
 ```
@@ -381,7 +382,7 @@ _distanceSquaredForWall: number            // Attenuation per wall NM (default =
 | **Taurus** | 46 | 300 | 4950 | 4950 | false | 0.5 | (0,-60) |
 | **Ghost** | 46 | 300 | 4950 | 4950 | false | 1.0 | **(0,-30)** |
 | **Candle** | 67 | 150 | 7280 | 7280 | false | 1.0 | (0,-60) |
-| **BrazierLit** | 67 | 150 | 7280 | **17000** | false | 1.0 | **(0,+4)** |
+| **BrazierLit** | 67 | 150 | 7280 | **17000** | false | 1.0 | (0,-60) |
 
 > ¹ **Bug noto**: Player.ts:84 imposta `castsShadows: false`. In C# il player era l'unica
 > sorgente con shadow casting. Il default del costruttore `MarkLight` è `true`,
@@ -397,7 +398,7 @@ _distanceSquaredForWall: number            // Attenuation per wall NM (default =
 | Goblin | 0xCAF076 (giallo-verde) | 0xC3E27C (giallo-verde scuro) |
 | Taurus | 0xFF2600 (rosso) | 0xC9341A (rosso scuro) |
 | Ghost | 0x9CEEC0 (verde menta) | 0xEFC0E3 (rosa) |
-| Candle/Brazier | 0xFFAA44 (arancio) | 0xFF6600 (arancio scuro) |
+| Candle/Brazier | 0xFFC3A3 (bianco rosato) | 0xFFF7CF (bianco caldo) |
 
 ---
 
@@ -513,9 +514,9 @@ update()
 │
 ├── Fase 3: normal-map ground → _normalMappedGroundRT
 │   ├── ambient tint(_groundRT) → _normalMappedGroundRT  (clear)
+│   ├── setNormalMap(_groundNormalRT)  ← UNA VOLTA prima del loop
 │   └── for each enabled light:
 │       ├── setLight(screenX+deltaGround, screenY+deltaGround, z×zoom, color, distSqGround, opacity)
-│       ├── setNormalMap(_groundNormalRT)
 │       ├── filter(_groundRT) → _perLightRT  (clear)
 │       └── additive Sprite(_perLightRT) → _normalMappedGroundRT  (no clear)
 │
@@ -525,9 +526,9 @@ update()
 │
 ├── Fase 6: normal-map objects → _normalMappedObjectsRT
 │   ├── ambient tint(_objectsRT) → _normalMappedObjectsRT  (clear)
+│   ├── setNormalMap(_objectsNormalRT)  ← UNA VOLTA prima del loop
 │   └── for each enabled light:
 │       ├── setLight(screenX+deltaWall, screenY+deltaWall, z×zoom, color, distSqWall, opacity)
-│       ├── setNormalMap(_objectsNormalRT)
 │       ├── filter(_objectsRT) → _perLightRT  (clear)
 │       └── additive Sprite(_perLightRT) → _normalMappedObjectsRT  (no clear)
 │
