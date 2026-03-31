@@ -22,7 +22,7 @@ Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila pri
 
 ## Protocollo di Risoluzione Task (Leggere prima di agire)
 
-Per task complessi (specialmente **Task 11** e logiche core), applica questo workflow rigoroso:
+Per task complessi, applica questo workflow rigoroso, salvo diverse indicazioni:
 
 1. **Analisi:** Leggi i file C# originali responsabili del comportamento atteso (in `progetto-riferimento/`).
 2. **Ispezione:** Leggi l'attuale implementazione TypeScript/Shader.
