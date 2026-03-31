@@ -6,40 +6,17 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 ## Stato del progetto & Piano di Attacco
 
-Tasks 0-10 completati (Flusso completo: menu → livello → gameover. Audio ok. Build passa).
-Siamo nella fase **Bug-fix + Feature**.
+Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-> **Regola operativa:** Affronta i task rigorosamente nell'ordine delle Fasi sottostanti per minimizzare il context-switching. Aggiorna lo status (✅/🔄/❌) a fine sessione.
+### Task 1 - Pipeline di rendering non conformo | ⬜ Pending
 
-### Fase 1: UI, Routing e Layout
+Sembra che la pipeline di rendering non sia conforme, infatti:
 
-| Task    | Descrizione                                                                            | Status  |
-| ------- | -------------------------------------------------------------------------------------- | ------- |
-| Task 1  | Bug: alla morte del player non si naviga alla schermata gameover.                      | ✅ Done |
-| Task 2  | UI: level select — griglia responsive (gli 8 livelli non devono uscire dallo schermo). | ✅ Done |
-| Task 3b | I livelli sono già tutti sbloccati, non ha senso il pulsante per sbloccarli            | ✅ Done |
+- La normal map non si vede proprio nessun effetto 3D)
+- Le luci fioche (non c'è contrasto)
+- Le ombre sembrano agire correttamente
 
-### Fase 2: Interazioni, HUD e Scena Static
-
-| Task   | Descrizione                                                                                                        | Status  |
-| ------ | ------------------------------------------------------------------------------------------------------------------ | ------- |
-| Task 3 | Bug: porte interattive non si aprono con Space. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.          | ✅ Done |
-| Task 4 | HUD: popup testuali contestuali. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**.                         | ✅ Done |
-| Task 5 | Oggetti mancanti: braceri (BrazierLit) non renderizzati. **Leggere `migration-specs/INTERACTION_AND_OBJECTS.md`**. | ✅ Done |
-
-### Fase 3: Entità e Animazioni
-
-| Task    | Descrizione                                                                                                            | Status  |
-| ------- | ---------------------------------------------------------------------------------------------------------------------- | ------- |
-| Task 6  | Bug: animazione morte mancante. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`** — risolve anche Task 1.        | ✅ Done |
-| Task 7  | Bug: i nemici non attaccano visivamente. **Leggere `migration-specs/ENTITY_ANIMATION_LOGIC.md`**.                      | ✅ Done |
-| Task 7b | Bug: i nemici non inseguono/spengono le candele del player. Verificare `KillCandleAI.ts` e il wiring in gamebootstrap. | ✅ Done |
-
-### Fase 4: Rendering Avanzato
-
-| Task   | Descrizione                                                                                                                       | Status     |
-| ------ | --------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| Task 8 | Normal map rotta: luci fioche, nessun effetto 3D. **Leggere `migration-specs/RENDERING_PIPELINE.md`** prima di toccare il codice. | ⬜ Pending |
+Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
 
 ---
 
