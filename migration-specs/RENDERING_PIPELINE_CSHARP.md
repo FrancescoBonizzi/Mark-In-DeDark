@@ -91,6 +91,17 @@ Prima di qualsiasi draw call, si impostano i parametri globali del shader `_circ
 | `World`          | `Matrix.Identity`       | Nessuna trasformazione aggiuntiva           |
 | `ViewProjection` | `_projectionMatrix`     | Matrice ortografica calcolata sopra         |
 
+Dopo aver impostato i parametri, viene chiamato esplicitamente:
+```csharp
+_circularNormalMapShader.CurrentTechnique.Passes[0].Apply();
+```
+
+> **Critico per la migrazione**: questa chiamata committà lo stato GPU per `AmbientColor`,
+> `World` e `ViewProjection`. Questi tre parametri **NON vengono mai re-impostati**
+> nelle fasi successive (1E e 4): persistono per l'intera durata di `DrawPlayingScene()`.
+> Solo `NormalTexture`, `LightPosition`, `LightColor`, `LightDistanceSquared` e `LightOpacity`
+> vengono aggiornati per luce nel loop.
+
 `_normalMapAmbienceColor` è configurato per livello tramite `LevelCustomization.AmbienceColor`.
 Nei livelli iniziali è più chiaro (penombra), negli ultimi è nero puro (buio totale).
 
@@ -430,6 +441,12 @@ In questo render target vengono composte le normal map di tutti gli elementi "ve
 Il clear con `(128, 128, 255)` garantisce che le aree senza normal map abbiano una normale
 neutra (piatta, rivolta verso la camera) invece di zero/nero (che darebbe lighting nullo).
 
+> **Oggetti senza normal map**: candele (`_candlesManager`), chiave (`_key`) e candle packs
+> **non** vengono disegnati qui — appaiono solo nella Fase 3B (`_baseSceneRenderTarget`).
+> Quando la Fase 4 applica il shader NM a questi pixel, usa la normale neutra `(128,128,255)`
+> del clear: ricevono solo la luce ambientale di FASE 0 (`AmbientColor`), senza effetto 3D.
+> Si tratta di un comportamento intenzionale: candele e chiave hanno un aspetto piatto.
+
 ---
 
 ## FASE 3B — Scena base (muri, oggetti, personaggi)
@@ -577,6 +594,10 @@ per gli shader custom (normal map, specular) sia il `PointLight` per il motore P
 | `PositionForGround` | calcolata in `Update()` | **Screen space**: `Vector2.Transform(Position + DeltaForGround, viewMatrix)` + Z |
 | `PositionForWall`   | calcolata in `Update()` | **Screen space**: `Vector2.Transform(Position + DeltaForWall, viewMatrix)` + Z |
 
+> **Nota**: il componente **Z è identico** per `PositionForGround` e `PositionForWall` —
+> entrambi usano `gameLight.Z` senza offset. Solo X e Y cambiano grazie ai delta.
+> Codice di riferimento: `MarkInDeDarkGame.cs:794-808`.
+
 > **Attenzione critica per la migrazione**: le posizioni luce passate allo shader
 > sono in **screen space** (dopo applicazione della viewMatrix della camera), non in world space.
 > Il calcolo avviene in `MarkInDeDarkGame.Update()` tramite `WorldToScreenForLights()` = `Vector2.Transform()`.
@@ -643,9 +664,11 @@ più frontale sulle superfici verticali, meno differenziato sull'asse X/Y.
 Note override per entità specifiche:
 - **Ghost**: `DeltaForWall = (0, -30)` invece del default `(0, -60)` — Ghost.cs:71
 - **BrazierLit**: `DeltaForWall = (0, +4)` invece del default `(0, -60)` — BrazierLit.cs:72
-- **Candle**: la posizione iniziale è `WorldCenter + (0, -55)` (Candle.cs:56),
-  diversa da quanto potresti aspettarti — il `DeltaForGround = (0, +100)` si applica
-  dopo in screen-space transform, partendo da questa posizione world.
+- **Candle**: la posizione iniziale è `WorldCenter + (0, -55)` (Candle.cs:56).
+  La posizione del glow per specular è `Position + (0, +100)` = `WorldCenter + (0, +45)`.
+  Diversamente dal player e dai nemici (il cui glow arriva a `Position + (0, +100)` direttamente),
+  le candele emettono il glow **45px sotto** il loro centro mondo, non 100px.
+  Il `DeltaForGround = (0, +100)` si applica a `Position` (già -55) in screen-space transform.
 - Le **candele** sono aggiunte a `_normalMapLights` e a `_penumbra.Lights` dinamicamente al
   momento del piazzamento (CandlesManager.cs:145), non durante l'inizializzazione del livello.
 
@@ -1036,7 +1059,7 @@ direttamente per `vs_3_0`/`ps_3_0`. Sono shader indipendenti dal sistema Penumbr
 | Contesto                                    | ColorSrc      | ColorDst     | AlphaSrc | AlphaDst | ColorFunc | AlphaFunc       |
 |---------------------------------------------|---------------|--------------|----------|----------|-----------|-----------------|
 | Normal map pav. (additive accumulo)         | One           | One          | One      | One      | Add       | Add             |
-| Specular light mask (NonPremultiplied)      | One           | InvSrcAlpha  | One      | InvSrcAlpha | Add    | Add             |
+| Specular light mask (NonPremultiplied)      | SrcAlpha      | InvSrcAlpha  | SrcAlpha | InvSrcAlpha | Add    | Add             |
 | Composizione NM+specular (additive)         | One           | One          | One      | One      | Add       | Add             |
 | Penumbra `_bsShadow` (solo alpha, ombra)    | —             | —            | One      | One      | —         | ReverseSubtract |
 | Penumbra `_bsHull`  (solo alpha, fill hull) | —             | —            | One      | Zero     | —         | Add             |
