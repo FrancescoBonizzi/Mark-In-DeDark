@@ -44,12 +44,13 @@ Il metodo `Draw()` (riga 861) distingue due scenari:
 Crea una matrice ortografica per passare le coordinate mondo agli shader di normal mapping:
 
 ```csharp
+// Codice reale: Matrix.Multiply(ref _worldMatrix, ref projection, out projection)
+// = _worldMatrix * projection (con _worldMatrix = Identity, il risultato è identico)
 Matrix.CreateOrthographicOffCenter(
     0, RealScreenWidth,
     RealScreenHeight, 0,   // Y invertito (asse Y verso il basso, tipico 2D)
     -1, 0
 )
-* _worldMatrix   // matrice world (tipicamente Identity)
 ```
 
 Viene calcolata una volta per livello durante l'inizializzazione.
@@ -159,7 +160,9 @@ Si disegnano i glow luminosi di tutte le sorgenti di luce attive:
 
 `DrawGlowForSpecular()` (in `MarkLight.cs`) disegna la sprite `Effects/glow` centrata in
 `Position + (0, 100)` (leggermente sotto la sorgente per simulare luce che cade sul pavimento).
-La scala è `LevelCustomization.GlowScale`.
+La scala è `LevelCustomization.GlowScale`:
+- **Livelli 1-2**: `GlowScale = 2f` (glow grande, livelli con penombra)
+- **Livelli 3-8**: `GlowScale = 1f` (glow standard, livelli nel buio totale)
 
 Il risultato è una **maschera luminosa** che indica dove la luce brilla sul pavimento.
 
@@ -218,7 +221,9 @@ Si sommano additivamente i due layer:
 1. `_groundLevelAppliedNormalMapRenderTarget` — pavimento illuminato via normal map
 2. `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget` — riflessi speculari
 
-Poi, **senza BlendState speciale** (default), si disegnano le ombre sprite:
+Poi, in un **secondo SpriteBatch separato** (`BlendState` default AlphaBlend,
+`transformMatrix: viewMatrix`, `samplerState: SamplerState.PointClamp`), si disegnano le ombre sprite
+sempre sullo stesso `_groundLevelResultRenderTarget`:
 - `_player.DrawShadows(s)` — silhouette d'ombra del player
 - `en.DrawShadows(s)` per ogni nemico
 - `brazierLit.DrawShadows(s)` per ogni braciere
@@ -245,7 +250,12 @@ Separato dalla pipeline del pavimento, si disegna una seconda light mask con i g
 Posizione identica: `Position + (0, 100)`.
 
 **Il player non è incluso qui.** La sua luce è gestita esclusivamente da Penumbra
-(è l'unica luce con `castsShadows: true`).
+(è l'unica luce con `castsShadows: true` e con `PenumbraLight.Enabled = true`).
+
+**Importante**: nemici, candele e bracieri hanno `PenumbraLight.Enabled = false` (default nel
+costruttore di `MarkLight`). Vengono aggiunti a `_penumbra.Lights` ma non contribuiscono al
+rendering Penumbra diretto. La loro presenza visiva nella lightmap di Penumbra avviene
+**esclusivamente** tramite questa light mask addizionale.
 
 Questo render target viene poi additivamente blendato **dentro la lightmap di Penumbra** (Fase 2).
 
@@ -263,7 +273,12 @@ Usa il motore Penumbra, una libreria custom GPU-based per ombre 2D con transizio
   che è un `PointLight` con `Scale = new Vector2(penumbraLightScale)`.
   Il player ha `Scale = Vector2(1200f)`, le candele e bracieri `Scale = Vector2(150f)`.
 - **`Hulls`**: `HullList` — poligoni convessi che occludono la luce (muri, pilastri).
-- **`AmbientColor`**: `Color.DarkSlateGray` di default — il colore del "buio ambientale".
+- **`AmbientColor`**: sovrascritta ogni livello da `LevelCustomization.PenumbraAmbientColor`:
+  - **Livelli 1-2**: `new Color(104, 104, 104)` — grigio, ombre meno marcate (livelli con penombra)
+  - **Livelli 3-8**: `Color.Black` — buio totale, massimo contrasto ombre
+  (Il motore Penumbra ha default interno `Color.DarkSlateGray`, ma il gioco lo sovrascrive sempre.)
+- **`Transform`**: impostato ogni frame in `Update()` con `viewMatrix` (`_penumbra.Transform = viewMatrix`),
+  così Penumbra conosce la trasformazione camera corrente.
 
 ### Sequenza di rendering Penumbra
 
@@ -514,9 +529,19 @@ per gli shader custom (normal map, specular) sia il `PointLight` per il motore P
 |---------------------|-----------------|-----------------------------------------------------|
 | `Position`          | —               | Posizione 2D nel mondo (aggiornata ogni frame)      |
 | `DeltaForGround`    | `(0, +100)`     | Offset Z simulato verso il basso (pavimento)        |
-| `DeltaForWall`      | `(0, -60)`      | Offset Z simulato verso l'alto (pareti)             |
-| `PositionForGround` | `Position + Delta` | Posizione passata allo shader per il pavimento   |
-| `PositionForWall`   | `Position + Delta` | Posizione passata allo shader per muri/chars     |
+| `DeltaForWall`      | `(0, -60)`      | Offset Z simulato verso l'alto (pareti) — **sovrascrivibile per entità** |
+| `PositionForGround` | calcolata in `Update()` | **Screen space**: `Vector2.Transform(Position + DeltaForGround, viewMatrix)` + Z |
+| `PositionForWall`   | calcolata in `Update()` | **Screen space**: `Vector2.Transform(Position + DeltaForWall, viewMatrix)` + Z |
+
+> **Attenzione critica per la migrazione**: le posizioni luce passate allo shader
+> sono in **screen space** (dopo applicazione della viewMatrix della camera), non in world space.
+> Il calcolo avviene in `MarkInDeDarkGame.Update()` tramite `WorldToScreenForLights()` = `Vector2.Transform()`.
+> Questo è coerente con il fatto che anche i vertici della sprite batch non usano viewMatrix
+> nel passo NM (SpriteBatch senza transformMatrix), quindi entrambi sono nello stesso spazio.
+
+**Override DeltaForWall per entità specifiche**:
+- **Ghost**: `DeltaForWall = (0, -30)` — luce più vicina al centro (Ghost.cs:71)
+- **BrazierLit**: `DeltaForWall = (0, +4)` — luce quasi a livello del pavimento (BrazierLit.cs:72)
 
 ### Proprietà luminose
 
@@ -525,12 +550,16 @@ per gli shader custom (normal map, specular) sia il `PointLight` per il motore P
 | `ColorNormal`              | `Vector3` RGB, aggiornato ogni frame dall'animazione     |
 | `Opacity`                  | Moltiplicatore intensità [0,1]                           |
 | `DistanceSquaredForGround` | Raggio² attenuation per lo shader del pavimento          |
-| `DistanceSquaredForWall`   | Raggio² attenuation per lo shader dei muri               |
-| `PenumbraLight`            | `PointLight` di Penumbra, `Scale = Vector2(penumbraLightScale)` |
+| `DistanceSquaredForWall`   | Raggio² attenuation per lo shader dei muri — **inizializzato uguale a `ForGround`**; solo BrazierLit lo sovrascrive a 17_000f |
+| `PenumbraLight`            | `PointLight` di Penumbra, `Scale = Vector2(penumbraLightScale)`, **`Enabled = false` di default** |
 | `IsEnabled`                | Abilita/disabilita la luce completamente                 |
 | `IsGlowEnabled`            | Abilita/disabilita solo il disegno del glow sprite       |
 | `IsOutOfScreen`            | Culling: non disegna se fuori dalla viewport             |
 | `ShouldDraw`               | `IsEnabled && !IsOutOfScreen`                            |
+
+> **Solo il Player** imposta `PenumbraLight.Enabled = true` (Player.cs:76) e `PenumbraLight.CastsShadows = true`.
+> Tutti gli altri hanno il `PenumbraLight` disabilitato — partecipano alla lightmap Penumbra solo
+> tramite la light mask addizionale (Fase 1-bis).
 
 ### Animazione colore
 
@@ -548,12 +577,22 @@ Il `PointLight` di Penumbra è posizionato 10px a sinistra e 75px sotto la posiz
 
 ### Parametri per tipo di sorgente
 
-| Entità      | `penumbraLightScale` | `distanceSquared` | `castsShadows` |
-|-------------|----------------------|-------------------|----------------|
-| Player      | 1200f                | 20_600f           | `true`         |
-| Nemici      | varia per tipo       | varia             | `false` (tipico) |
-| Candele     | 150f                 | 7_280f            | `false`        |
-| BrazierLit  | 150f                 | 7_280f (`ForWall`: 17_000f) | `false` |
+| Entità           | `penumbraLightScale` | `distanceSquared` (Ground=Wall salvo note) | `opacity` | `castsShadows` | `PenumbraLight.Enabled` |
+|------------------|----------------------|-------------------------------------------|-----------|----------------|-------------------------|
+| Player           | 1200f                | 20_600f                                   | 1f        | `true`         | `true`                  |
+| Goblin           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Zombie           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Ghost            | 300f                 | 4_950f                                    | 1f        | `false`        | `false`                 |
+| Skeletron        | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Taurus           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Candele          | 150f                 | 7_280f                                    | 1f        | `false`        | `false`                 |
+| BrazierLit       | 150f                 | Ground: 7_280f / **Wall: 17_000f**        | 1f        | `false`        | `false`                 |
+
+Note override per entità specifiche:
+- **Ghost**: `DeltaForWall = (0, -30)` invece del default `(0, -60)` — Ghost.cs:71
+- **BrazierLit**: `DeltaForWall = (0, +4)` invece del default `(0, -60)` — BrazierLit.cs:72
+- Le **candele** sono aggiunte a `_normalMapLights` e a `_penumbra.Lights` dinamicamente al
+  momento del piazzamento (CandlesManager.cs:145), non durante l'inizializzazione del livello.
 
 ---
 
@@ -566,9 +605,9 @@ Il `PointLight` di Penumbra è posizionato 10px a sinistra e 75px sotto la posiz
 ### Parametri (uniforms)
 
 ```hlsl
-float3 LightPosition;           // posizione della luce in world space
+float3 LightPosition;           // posizione della luce in SCREEN space (post viewMatrix) + Z
 float3 LightColor = 1.0;        // colore RGB della luce (default bianco puro)
-float3 AmbientColor = 0.35;     // luce ambientale (default grigio ~35%)
+float3 AmbientColor = 0.35;     // luce ambientale (default shader, sovrascritta da LevelCustomization)
 float  LightDistanceSquared;    // raggio² per il calcolo di attenuation
 float  LightOpacity = 1.0;      // moltiplicatore globale intensità
 
@@ -1041,7 +1080,16 @@ Draw(_baseSceneItemsWithNormalMapRenderTarget)  → scena + lighting NM
 
 4. **Le due posizioni** (`PositionForGround` e `PositionForWall`) simulano la profondità Z:
    la stessa luce 2D viene passata con offset Y diverso per pavimento e pareti.
+   **Entrambe sono in screen space** (post viewMatrix), non world space — vedi sezione MarkLight.
 
-5. **Il motore Penumbra** gestisce solo la luce del player (l'unica con `castsShadows=true`).
-   Le luci di candele e bracieri non proiettano ombre calcolate geometricamente,
-   ma solo il loro glow visivo viene aggiunto alla lightmap di Penumbra.
+5. **Il motore Penumbra** gestisce solo la luce del player (l'unica con `castsShadows=true`
+   e `PenumbraLight.Enabled=true`). Le luci di nemici, candele e bracieri hanno il PenumbraLight
+   disabilitato: la loro presenza nella lightmap viene dalla light mask addizionale (Fase 1-bis).
+
+6. **Penumbra AmbientColor per livello**: non è fisso ma dipende da `LevelCustomization`:
+   - Livelli 1-2: `Color(104, 104, 104)` — grigio, penombra visibile anche lontano dalle luci
+   - Livelli 3-8: `Color.Black` — buio assoluto fuori dai coni di luce
+
+7. **Candele: aggiunta dinamica**: le candele vengono aggiunte alla lista `_normalMapLights`
+   e a `_penumbra.Lights` al momento del piazzamento dal player, non all'inizializzazione.
+   Questo significa che il numero di luci nella pipeline cresce durante il gioco.
