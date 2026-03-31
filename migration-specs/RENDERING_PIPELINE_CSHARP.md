@@ -273,7 +273,7 @@ Si sommano additivamente i due layer:
 1. `_groundLevelAppliedNormalMapRenderTarget` — pavimento illuminato via normal map
 2. `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget` — riflessi speculari
 
-Poi, in un **secondo SpriteBatch separato** (`BlendState` default AlphaBlend,
+Poi, in un **secondo SpriteBatch separato** (`BlendState` default **AlphaBlend** — non Additive,
 `transformMatrix: viewMatrix`, `samplerState: SamplerState.PointClamp`), si disegnano le ombre sprite
 sempre sullo stesso `_groundLevelResultRenderTarget`:
 - `_player.DrawShadows(s)` — silhouette d'ombra del player
@@ -282,6 +282,12 @@ sempre sullo stesso `_groundLevelResultRenderTarget`:
 
 **Nota**: queste ombre sono sprite 2D pre-renderizzate come silhouette, **non** ombre
 calcolate geometricamente. Le ombre calcolate sono gestite da Penumbra (Fase 2).
+
+> **Perché AlphaBlend e non Additive**: le ombre devono scurire il pavimento sottostante,
+> non sommarsi ad esso. Con AlphaBlend, i pixel semitrasparenti delle ombre si blendano
+> correttamente sulla texture del pavimento già illuminato.
+> `GameGrid.cs:896–899` — `spriteBatch.Begin(transformMatrix: viewMatrix, samplerState: SamplerState.PointClamp)`
+> (nessun BlendState esplicito → default AlphaBlend).
 
 ---
 
@@ -533,6 +539,7 @@ spriteBatch.End();
 **Riga 1136–1142 di `DrawPlayingScene()`**
 **Transform**: `_camera.GetViewMatrix()`
 **SamplerState**: PointClamp
+**BlendState**: default `AlphaBlend` (nessun parametro esplicito nel codice)
 
 Disegnati sopra la composizione finale (visibili anche nel buio):
 - `en.DrawEffectsOverDark(spriteBatch)` per ogni nemico (es. effetti di attacco, particelle)
@@ -663,7 +670,10 @@ più frontale sulle superfici verticali, meno differenziato sull'asse X/Y.
 
 Note override per entità specifiche:
 - **Ghost**: `DeltaForWall = (0, -30)` invece del default `(0, -60)` — Ghost.cs:71
-- **BrazierLit**: `DeltaForWall = (0, +4)` invece del default `(0, -60)` — BrazierLit.cs:72
+- **BrazierLit**: `DeltaForWall = (0, +4)` invece del default `(0, -60)` — BrazierLit.cs:72.
+  La posizione iniziale è `WorldCenter + (0, -50)` (BrazierLit.cs:71).
+  Quindi: glow specular (ground) = `WorldCenter + (0, -50) + (0, +100)` = `WorldCenter + (0, +50)`;
+  shader wall: `WorldCenter + (0, -50) + (0, +4)` = `WorldCenter + (0, -46)`.
 - **Candle**: la posizione iniziale è `WorldCenter + (0, -55)` (Candle.cs:56).
   La posizione del glow per specular è `Position + (0, +100)` = `WorldCenter + (0, +45)`.
   Diversamente dal player e dai nemici (il cui glow arriva a `Position + (0, +100)` direttamente),
