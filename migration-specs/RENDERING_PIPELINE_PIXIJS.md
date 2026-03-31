@@ -31,6 +31,18 @@ Il tutto è gestito da **10 RenderTexture** (`1280×720` ciascuna) e **1 filter 
 
 ---
 
+## Campi di default di ShadowSystem
+
+Valori dichiarati nella classe (prima che `LevelCustomization` li sovrascriva):
+
+```typescript
+ambientColor          = 0x000000   // colore ambient lightmap
+ambientAlpha          = 1.0        // opacità ambient lightmap
+normalMapAmbienceColor = { r: 0.35, g: 0.35, b: 0.35 }
+```
+
+---
+
 ## Parametri globali
 
 | Parametro | Valore | Note |
@@ -62,6 +74,11 @@ _lightTexture          256×256   Gradient radiale bianco pre-renderizzato (stat
 
 ## Stage layout finale
 
+> **Dipendenza di costruzione**: `Camera` deve essere costruita **prima** di `ShadowSystem`.
+> Il costruttore di Camera chiama `app.stage.addChild(this._world)` (posizione 0).
+> Il costruttore di ShadowSystem usa `addChildAt(x, 0/1/2)`, spostando `_world` in
+> posizione [3]. Se l'ordine fosse invertito, il layout sarebbe errato.
+
 Dopo la costruzione di `ShadowSystem`, `app.stage` contiene:
 
 ```
@@ -84,9 +101,16 @@ app.stage
 _groundContainer          Sprites pavimento (aggiunto da GameGrid)
 _groundNormalContainer    Sprites normal map pavimento (aggiunto da GameGrid)
 
-_objectsContainer         Sprites muri, pilastri, personaggi (sortableChildren=true)
-_objectsNormalContainer   Sprites normal map muri, pilastri (sortableChildren=true)
+_objectsContainer         Sprites muri, pilastri, personaggi
+_objectsNormalContainer   Sprites normal map muri, pilastri
 ```
+
+> **Nota**: nelle fasi 4 e 5 il codice crea un Container temporaneo (`tmp`) con
+> `sortableChildren=true` che wrappa `_objectsContainer` / `_objectsNormalContainer`
+> per il render. La proprietà è sul `tmp`, non sui container originali. Poiché `tmp`
+> ha un unico figlio, `sortableChildren` non ha effetto pratico sul sorting interno;
+> l'ordinamento degli sprite dentro `_objectsContainer` dipende dalla proprietà
+> `sortableChildren` del container stesso, impostata da chi lo crea (es. `GameGrid`).
 
 ---
 
@@ -223,7 +247,7 @@ b) Per ogni light (enabled=true):
    4. Render perLightContainer → _perLightRT (clear=true)
 
    5. Blur pass:
-      _blurFilter.strength = light.sourceRadius * 0.15
+      _blurFilter.strength = light.sourceRadius * 0.15   (quality fisso a 2)
       Render filterContainer con BlurFilter → _blurredRT (clear=true)
 
    6. Sprite(_blurredRT).blendMode='add'
@@ -237,6 +261,16 @@ b) Per ogni light (enabled=true):
 **File**: `NormalMapFilter.ts`
 
 Unico filter — riusato per tutti i pass NM (cambia solo la normal map texture tramite `setNormalMap()`).
+
+**Valori default degli uniform alla costruzione**:
+
+```typescript
+uLightPosition: [0, 0, 75, 0]      // z=75 default
+uLightColor:    [1, 1, 1, 0]       // bianco
+uLightParams:   [640000, 1, 0, 0]  // distanceSq=640000, opacity=1
+```
+
+Questi vengono sovrascritti ad ogni frame da `setLight()` prima di ogni render per-luce.
 
 ### WGSL (WebGPU)
 
@@ -365,6 +399,15 @@ deltaForWall:   { x:0, y:-60  }           // Default offset per normal map muri
 
 _distanceSquared:        number            // Attenuation per ground NM
 _distanceSquaredForWall: number            // Attenuation per wall NM (default = _distanceSquared)
+_originalColor2:         number            // Backup del color2 originale
+```
+
+**Metodi**:
+
+```typescript
+setTemporaryColor(color: number): void  // Sovrascrive color2 (Skeleton rage, Taurus charge)
+resetColor(): void                      // Ripristina _originalColor2 in color2
+getPenumbraPosition(): { x, y }         // Ritorna { x: position.x - 10, y: position.y + 75 }
 ```
 
 **Animazione colore**: linear ping-pong tra `color1` e `color2`, periodo 3000ms.
@@ -387,6 +430,10 @@ _distanceSquaredForWall: number            // Attenuation per wall NM (default =
 > ¹ **Bug noto**: Player.ts:84 imposta `castsShadows: false`. In C# il player era l'unica
 > sorgente con shadow casting. Il default del costruttore `MarkLight` è `true`,
 > ma viene esplicitamente disabilitato. Le ombre del player sono quindi assenti.
+>
+> ² **Candle opacity dinamica**: durante l'animazione di morte della candela,
+> `this.surroundingLight.opacity` viene abbassato gradualmente fino a 0 (`Candle.ts:85`).
+> Il valore 1.0 in tabella è il valore iniziale.
 
 ### Colori luci per entità
 
@@ -430,10 +477,10 @@ penumbraAmbientAlpha:  number   // Opacità base lightmap
 normalMapAmbienceColor: { r, g, b }  // Tint ambient sul layer NM
 ```
 
-| Livello | penumbraAmbientColor | normalMapAmbienceColor |
-|---------|---------------------|------------------------|
-| 1-2 | 0x686868 (grigio) | { r:0.35, g:0.35, b:0.35 } |
-| 3-8 | 0x000000 (nero) | { r:0.35, g:0.35, b:0.35 } |
+| Livello | penumbraAmbientColor | penumbraAmbientAlpha | normalMapAmbienceColor |
+|---------|---------------------|----------------------|------------------------|
+| 1-2 | 0x686868 (grigio) | 1.0 | { r:0.35, g:0.35, b:0.35 } |
+| 3-8 | 0x000000 (nero) | 1.0 | { r:0.35, g:0.35, b:0.35 } |
 
 > **Discrepanza con C#**: la spec C# indica `normalMapAmbienceColor`:
 > - Livelli 1-2: `(0.11, 0.10, 0.22)` — grigio-blu
@@ -587,6 +634,9 @@ Stage compositing (automatico PixiJS):
    PixiJS non permette di passare una transform matrix direttamente a `renderer.render()`.
    Si crea un Container temporaneo con `position/scale/pivot` clonati da `_camera.worldContainer`,
    si aggiunge il child, si renderizza, si rimuove il child, si distrugge il Container.
+   Le fasi 1 e 2 usano l'helper `renderWithCameraTransform`; le fasi 4 e 5 replicano
+   lo stesso pattern manualmente (aggiungendo `tmp.sortableChildren = true` sul wrapper,
+   che però non ha effetto pratico poiché il wrapper ha un solo figlio).
 
 10. **ShadowSystem non aggiunge figli al `camera._world`**: tutti gli sprite di output
     vengono aggiunti direttamente ad `app.stage` (posizioni [0],[1],[2]).
