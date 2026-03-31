@@ -17,7 +17,7 @@ Il gioco è un labirinto buio. La pipeline di rendering costruisce questo effett
 4. **Layer Effetti & HUD** — Particelle, neve, effetti nemici, interfaccia utente
 
 Il tutto è governato da **16 RenderTarget2D** intermedi (14 nel codice principale + 2 interni
-a Penumbra) e **5 shader HLSL**.
+a Penumbra) e **6 shader HLSL** (2 custom + 4 Penumbra: Hull, Light, Shadow, Texture).
 
 ---
 
@@ -34,6 +34,27 @@ Il metodo `Draw()` (riga 861) distingue due scenari:
 - **Gameplay normale**: chiama direttamente `DrawPlayingScene(spriteBatch, virtualDrawTarget, gameTime)`.
 
 `DrawPlayingScene()` (riga 920) è il cuore dell'intera pipeline.
+
+---
+
+## Camera e zoom
+
+**File**: `MarkInDeDarkGame.cs:241`
+
+```csharp
+_camera = new Camera2D(_matrixScaleProvider) { Zoom = 0.8f };
+```
+
+La camera ha un **zoom fisso di 0.8x** applicato alla viewMatrix. Questo valore scala tutte
+le coordinate in `_camera.GetViewMatrix()`, che viene usata per:
+- Il `transformMatrix` di SpriteBatch nei draw call con la camera
+- Il `_penumbra.Transform` (aggiornato ogni frame in `Update()`)
+- Il calcolo delle posizioni luce in screen-space (`WorldToScreenForLights`)
+
+> **Per la migrazione**: la viewMatrix di PixiJS (`container.worldTransform`) deve replicare
+> questo zoom 0.8x. Le posizioni luce screen-space devono essere calcolate post-zoom.
+
+La risoluzione virtuale è **1920×1080** (`MarkInDeDarkBootstrap:116`).
 
 ---
 
@@ -200,11 +221,14 @@ all'illuminazione totale. Il target parte da nero (Clear) e si illumina a ogni d
 ### Passo 1F — Applicazione light mask allo specular
 
 **Target**: `_groundLevelSpecularMapWithAppliedLightmaskRenderTarget`
+**BlendState**: default (`BlendState.AlphaBlend`) — non specificato esplicitamente nel codice
 **Effect**: `_specularMapShader` (`specularmap.fx`)
 
-```
-specularMapEffect.Parameters["SpecularTexture"] = _groundLevelSpecularMapLightMaskRenderTarget
-spriteBatch.Draw(_groundLevelSpecularMapRenderTarget, Vector2.Zero, Color.White)
+```csharp
+specularMapEffect.Parameters["SpecularTexture"].SetValue(specularMapLightmaskRenderTarget);
+specularMapEffect.CurrentTechnique.Passes[0].Apply();   // chiamata esplicita prima del Begin
+spriteBatch.Begin(effect: specularMapEffect);            // BlendState omesso → AlphaBlend di default
+spriteBatch.Draw(specularMapRenderTarget, Vector2.Zero, Color.White);
 ```
 
 Lo shader moltiplica pixel per pixel: `specularMapPixel * lightMaskPixel`.
@@ -577,20 +601,31 @@ Il `PointLight` di Penumbra è posizionato 10px a sinistra e 75px sotto la posiz
 
 ### Parametri per tipo di sorgente
 
-| Entità           | `penumbraLightScale` | `distanceSquared` (Ground=Wall salvo note) | `opacity` | `castsShadows` | `PenumbraLight.Enabled` |
-|------------------|----------------------|-------------------------------------------|-----------|----------------|-------------------------|
-| Player           | 1200f                | 20_600f                                   | 1f        | `true`         | `true`                  |
-| Goblin           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
-| Zombie           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
-| Ghost            | 300f                 | 4_950f                                    | 1f        | `false`        | `false`                 |
-| Skeletron        | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
-| Taurus           | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
-| Candele          | 150f                 | 7_280f                                    | 1f        | `false`        | `false`                 |
-| BrazierLit       | 150f                 | Ground: 7_280f / **Wall: 17_000f**        | 1f        | `false`        | `false`                 |
+| Entità           | `z`   | `penumbraLightScale` | `distanceSquared` (Ground=Wall salvo note) | `opacity` | `castsShadows` | `PenumbraLight.Enabled` |
+|------------------|-------|----------------------|-------------------------------------------|-----------|----------------|-------------------------|
+| Player           | 90f   | 1200f                | 20_600f                                   | 1f        | `true`         | `true`                  |
+| Goblin           | 46f   | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Zombie           | 46f   | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Ghost            | 46f   | 300f                 | 4_950f                                    | 1f        | `false`        | `false`                 |
+| Skeletron        | 46f   | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| Taurus           | 46f   | 300f                 | 4_950f                                    | 0.5f      | `false`        | `false`                 |
+| **Bubu**         | —     | —                    | —                                         | —         | —              | — (**nessuna luce**)    |
+| Candele          | 67f   | 150f                 | 7_280f                                    | 1f        | `false`        | `false`                 |
+| BrazierLit       | 67f   | 150f                 | Ground: 7_280f / **Wall: 17_000f**        | 1f        | `false`        | `false`                 |
+
+> **Bubu** ha `characterTorchConfiguration: null` (`Bubu.cs:32`): nessun `SurroundingLight`,
+> non contribuisce alla pipeline NM né alla lightmap Penumbra. È l'unico nemico senza luce.
+
+La colonna `z` rappresenta la componente Z passata come `LightPosition.z` allo shader.
+Simula la profondità della sorgente: valori più alti = luce più "in aria" = angolo di incidenza
+più frontale sulle superfici verticali, meno differenziato sull'asse X/Y.
 
 Note override per entità specifiche:
 - **Ghost**: `DeltaForWall = (0, -30)` invece del default `(0, -60)` — Ghost.cs:71
 - **BrazierLit**: `DeltaForWall = (0, +4)` invece del default `(0, -60)` — BrazierLit.cs:72
+- **Candle**: la posizione iniziale è `WorldCenter + (0, -55)` (Candle.cs:56),
+  diversa da quanto potresti aspettarti — il `DeltaForGround = (0, +100)` si applica
+  dopo in screen-space transform, partendo da questa posizione world.
 - Le **candele** sono aggiunte a `_normalMapLights` e a `_penumbra.Lights` dinamicamente al
   momento del piazzamento (CandlesManager.cs:145), non durante l'inizializzazione del livello.
 
@@ -917,6 +952,31 @@ Composizione finale di Penumbra:
 
 ---
 
+## Shader 6: PenumbraHull.fx — Analisi
+
+**File**: `Csharp/MarkInDeDark.Shadows/Content/PenumbraHull.fx`
+**Shader model**: `vs_4_0_level_9_1` / `ps_4_0_level_9_1`
+**Tecnica**: `Main`, `Debug`
+
+Usato nel sotto-passo "hull fill" di `ShadowRenderer.Render()`.
+Non calcola shading, serve solo a **ristabilire alpha = 1** all'interno dei poligoni hull
+(muri, pilastri) dopo che `PenumbraShadow.fx` ha sottratto alpha nelle zone d'ombra.
+Senza questo passo, gli hull stessi sembrerebbero in ombra (auto-ombra errata).
+
+### BlendState (`_bsHull`)
+```
+ColorWriteChannels = Alpha          // scrive SOLO il canale alpha
+AlphaBlendFunction = Add
+AlphaSourceBlend   = One
+AlphaDestinationBlend = Zero        // sovrascrive l'alpha con 1 (il PS restituisce 1.0)
+```
+
+### Vertex/Pixel Shader
+- VS: trasforma i vertici degli hull in clip space con `ViewProjection`
+- PS: restituisce `float4(0.0, 0.0, 0.0, 1.0)` — nessun colore, solo alpha piena
+
+---
+
 ## Macros.fxh — Astrazione shader model
 
 **File**: `Csharp/MarkInDeDark.Shadows/Content/Macros.fxh`
@@ -1093,3 +1153,18 @@ Draw(_baseSceneItemsWithNormalMapRenderTarget)  → scena + lighting NM
 7. **Candele: aggiunta dinamica**: le candele vengono aggiunte alla lista `_normalMapLights`
    e a `_penumbra.Lights` al momento del piazzamento dal player, non all'inizializzazione.
    Questo significa che il numero di luci nella pipeline cresce durante il gioco.
+
+8. **AmbientColor nello shader NM**: il parametro `AmbientColor` di `circularnormalmap.fx`
+   viene moltiplicato per il colore della sprite e sommato alla contribuzione luminosa.
+   Con blending additivo e N luci, il termine ambient si accumula N volte.
+   - Livelli 1-2: `AmbientColor = (0.11, 0.10, 0.22)` → contribuisce N volte (accettabile)
+   - Livelli 3-8: `AmbientColor = Vector3.Zero` → termine ambient = 0, nessun accumulo
+   L'implementazione PixiJS attuale (`NormalMapFilter.ts`) **non include AmbientColor**,
+   il che è corretto per i livelli 3-8 ma differisce per i livelli 1-2.
+
+9. **Camera zoom 0.8x**: la `Camera2D` ha `Zoom = 0.8f` fisso. Le posizioni luce
+   in screen-space vengono calcolate post-zoom (`Vector2.Transform` con viewMatrix scalata).
+   La risoluzione virtuale è 1920×1080 ma il contenuto è visualizzato all'80% di quella.
+
+10. **Bubu non ha luce**: è l'unico nemico con `characterTorchConfiguration: null`.
+    Non partecipa a nessun passo della pipeline NM né alla lightmap Penumbra.
