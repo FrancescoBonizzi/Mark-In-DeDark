@@ -20,14 +20,14 @@ Il tutto è gestito da **10 RenderTexture** (`1280×720` ciascuna) e **1 filter 
 
 ## File principali
 
-| File | Responsabilità |
-|------|---------------|
-| `Web/src/lighting/ShadowSystem.ts` | Orchestratore pipeline — gestisce tutte le RT e il loop per-frame |
-| `Web/src/lighting/NormalMapFilter.ts` | Filter PixiJS con shader WGSL (WebGPU) + GLSL (WebGL2) |
-| `Web/src/lighting/MarkLight.ts` | Sorgente luminosa — posizione, colore animato, parametri shader |
-| `Web/src/lighting/Hull.ts` | Occluder rettangolare — calcola poligoni shadow per la lightmap |
-| `Web/src/grid/LevelCustomization.ts` | Configurazione per-livello dei colori ambient |
-| `Web/src/world/Camera.ts` | Camera 2D — zoom 0.8x, pivot bottom-left, espone worldContainer |
+| File                                  | Responsabilità                                                    |
+| ------------------------------------- | ----------------------------------------------------------------- |
+| `Web/src/lighting/ShadowSystem.ts`    | Orchestratore pipeline — gestisce tutte le RT e il loop per-frame |
+| `Web/src/lighting/NormalMapFilter.ts` | Filter PixiJS con shader WGSL (WebGPU) + GLSL (WebGL2)            |
+| `Web/src/lighting/MarkLight.ts`       | Sorgente luminosa — posizione, colore animato, parametri shader   |
+| `Web/src/lighting/Hull.ts`            | Occluder rettangolare — calcola poligoni shadow per la lightmap   |
+| `Web/src/grid/LevelCustomization.ts`  | Configurazione per-livello dei colori ambient                     |
+| `Web/src/world/Camera.ts`             | Camera 2D — zoom 0.8x, pivot bottom-left, espone worldContainer   |
 
 ---
 
@@ -36,22 +36,22 @@ Il tutto è gestito da **10 RenderTexture** (`1280×720` ciascuna) e **1 filter 
 Valori dichiarati nella classe (prima che `LevelCustomization` li sovrascriva):
 
 ```typescript
-ambientColor          = 0x000000   // colore ambient lightmap
-ambientAlpha          = 1.0        // opacità ambient lightmap
-normalMapAmbienceColor = { r: 0.35, g: 0.35, b: 0.35 }
+ambientColor = 0x000000; // colore ambient lightmap
+ambientAlpha = 1.0; // opacità ambient lightmap
+normalMapAmbienceColor = { r: 0, g: 0, b: 0 };
 ```
 
 ---
 
 ## Parametri globali
 
-| Parametro | Valore | Note |
-|-----------|--------|------|
-| Canvas | 1280×720 px | (C#: 1920×1080) |
-| Tutte le RenderTexture | 1280×720 px | Stessa dimensione canvas |
-| Camera zoom | 0.8x fisso | `setZoom(0.8)` in `Camera.ts:30` |
-| Camera pivot | (0, worldHeight) | Y-up: bottom-left del mondo |
-| Light texture size | 256×256 px | Gradient radiale pre-renderizzato |
+| Parametro              | Valore           | Note                              |
+| ---------------------- | ---------------- | --------------------------------- |
+| Canvas                 | 1280×720 px      | (C#: 1920×1080)                   |
+| Tutte le RenderTexture | 1280×720 px      | Stessa dimensione canvas          |
+| Camera zoom            | 0.8x fisso       | `setZoom(0.8)` in `Camera.ts:30`  |
+| Camera pivot           | (0, worldHeight) | Y-up: bottom-left del mondo       |
+| Light texture size     | 256×256 px       | Gradient radiale pre-renderizzato |
 
 ---
 
@@ -144,6 +144,7 @@ Ogni luce fa ping-pong del colore tra `color1` e `color2` con periodo 3000ms.
 
 Background opaco nero garantisce che i pixel non coperti dal pavimento siano neri.
 La camera transform viene replicata su un Container temporaneo clonando:
+
 - `position`, `scale`, `pivot` da `camera.worldContainer`
 
 ---
@@ -181,7 +182,7 @@ posizioni dei tile diffuse (`Z_GROUND`).
 1. Fill nero (0x000000) → _specularLightmaskRT (clear=true)
 2. Per ogni light con isGlowEnabled=true:
    - Sprite(Effects/glow) a position + deltaForGround (world space)
-   - anchor(0.5), scale(glowScale=2.0), blendMode='normal'
+   - anchor(0.5), scale(glowScale per-livello), blendMode='normal'
    - Render con camera transform → _specularLightmaskRT (clear=false)
 ```
 
@@ -311,7 +312,7 @@ b) Per ogni light (enabled=true):
       Render → _lightmap (clear=false)   ← accumulo additivo
 
 c) Glow mask additivi sulla lightmap [C#: enemy/brazier/candle DrawLightMask() additivi su Penumbra.LightMap]:
-   Per ogni light con isGlowEnabled=true:
+   Per ogni light con isGlowEnabled=true e drawInAdditionalLightMask=true:
    - Sprite(Effects/glow) a position + deltaForGround, scale=lightMaskScale, blendMode='add'
    Render glowContainer con camera transform → _lightmap (clear=false)
 ```
@@ -330,9 +331,9 @@ Unico filter — riusato per tutti i pass NM (cambia solo la normal map texture 
 **Valori default degli uniform alla costruzione**:
 
 ```typescript
-uLightPosition: [0, 0, 75, 0]      // z=75 default
-uLightColor:    [1, 1, 1, 0]       // bianco
-uLightParams:   [640000, 1, 0, 0]  // distanceSq=640000, opacity=1
+uLightPosition: [0, 0, 75, 0]; // z=75 default
+uLightColor: [1, 1, 1, 0]; // bianco
+uLightParams: [640000, 1, 0, 0]; // distanceSq=640000, opacity=1
 ```
 
 Questi vengono sovrascritti ad ogni frame da `setLight()` prima di ogni render per-luce.
@@ -361,6 +362,7 @@ struct NormalMapUniforms {
 ```
 
 **Bindings**:
+
 - `@group(0) @binding(0)` — GlobalFilterUniforms
 - `@group(0) @binding(1)` — uTexture (diffuse — la RT del layer)
 - `@group(0) @binding(2)` — uSampler
@@ -416,6 +418,7 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 Identica logica del fragment WGSL, tradotta in GLSL ES 3.0.
 
 Uniforms flat (nessun UBO struct):
+
 ```glsl
 uniform sampler2D uTexture;
 uniform sampler2D uNormalMap;
@@ -431,16 +434,17 @@ uniform vec4 uLightParams;     // x=distanceSq, y=opacity
 ## Formula di illuminazione (critica)
 
 ```
-output_rgb = diffuse.rgb × lightColor × nDotL² × (distanceSq / max(|lightVec|², 1)) × opacity
+output_rgb = diffuse.rgb × (ambientColor + lightColor × nDotL² × (distanceSq / max(|lightVec|², 1)) × opacity)
 ```
 
 Dove:
+
 - `nDotL = max(dot(normal, lightDir), 0)` — coseno dell'angolo luce-normale
 - `nDotL²` — **coseno al quadrato**: contrasto più marcato rispetto a Lambertian puro
 - `distanceSq / |lightVec|²` — attenuazione inverse-square non clamped
 
-> **Nota**: Nessun termine ambient nello shader. L'ambient è gestito come tint sull'intera
-> RT base prima del loop per-luce (fase 3a e 6a). Non si accumula per numero di luci.
+> **Nota**: il termine ambient è presente nello shader (`uAmbientColor`) e viene impostato
+> prima del loop per-luce tramite `setAmbientColor()`.
 
 ---
 
@@ -461,6 +465,7 @@ sourceRadius:   number                     // Raggio sorgente — blur = sourceR
 
 deltaForGround: { x:0, y:+100 }           // Default offset per normal map pavimento
 deltaForWall:   { x:0, y:-60  }           // Default offset per normal map muri
+drawInAdditionalLightMask: boolean         // Contribuisce alla fase 7c (default: true)
 
 _distanceSquared:        number            // Attenuation per ground NM
 _distanceSquaredForWall: number            // Attenuation per wall NM (default = _distanceSquared)
@@ -492,24 +497,24 @@ distanceSquaredForWall: = distanceSquared (se non specificato)
 
 **Animazione colore**: linear ping-pong tra `color1` e `color2`, periodo 3000ms.
 
-**Z scaling**: `z * abs(cameraWorld.scale.x)` → con zoom 0.8x, lo Z viene moltiplicato per 0.8.
+**Z scaling**: nessuno. `z` viene passato invariato; solo XY vengono trasformati in screen-space.
 
 ### Parametri per entità
 
-| Entità | z | radius | distanceSq | distanceSqWall | castsShadows | opacity | deltaForWall |
-|--------|---|--------|------------|----------------|--------------|---------|--------------|
-| **Player** | 90 | 1200 | 20600 | 20600 | false¹ | 1.0 | (0,-60) |
-| **Skeleton** | 46 | 300 | 4950 | 4950 | false | 0.5 | (0,-60) |
-| **Zombie** | 46 | 300 | 4950 | 4950 | false | 0.5 | (0,-60) |
-| **Goblin** | 46 | 300 | 4950 | 4950 | false | 0.5 | (0,-60) |
-| **Taurus** | 46 | 300 | 4950 | 4950 | false | 0.5 | (0,-60) |
-| **Ghost** | 46 | 300 | 4950 | 4950 | false | 1.0 | **(0,-30)** |
-| **Candle** | 67 | 150 | 7280 | 7280 | false | 1.0 | (0,-60) |
-| **BrazierLit** | 67 | 150 | 7280 | **17000** | false | 1.0 | (0,-60) |
+| Entità         | z   | radius | distanceSq | distanceSqWall | castsShadows | opacity | deltaForWall |
+| -------------- | --- | ------ | ---------- | -------------- | ------------ | ------- | ------------ |
+| **Player**     | 90  | 1200   | 20600      | 20600          | true         | 1.0     | (0,-60)      |
+| **Skeleton**   | 46  | 300    | 4950       | 4950           | false        | 0.5     | (0,-60)      |
+| **Zombie**     | 46  | 300    | 4950       | 4950           | false        | 0.5     | (0,-60)      |
+| **Goblin**     | 46  | 300    | 4950       | 4950           | false        | 0.5     | (0,-60)      |
+| **Taurus**     | 46  | 300    | 4950       | 4950           | false        | 0.5     | (0,-60)      |
+| **Ghost**      | 46  | 300    | 4950       | 4950           | false        | 1.0     | **(0,-30)**  |
+| **Candle**     | 67  | 150    | 7280       | 7280           | false        | 1.0     | (0,-60)      |
+| **BrazierLit** | 67  | 150    | 7280       | **17000**      | false        | 1.0     | **(0,+4)**   |
 
-> ¹ **Bug noto**: Player.ts:84 imposta `castsShadows: false`. In C# il player era l'unica
-> sorgente con shadow casting. Il default del costruttore `MarkLight` è `true`,
-> ma viene esplicitamente disabilitato. Le ombre del player sono quindi assenti.
+> ¹ **Additional lightmask**: il player imposta `drawInAdditionalLightMask=false`,
+> quindi non contribuisce alla fase 7c (coerente con C#: la mask additiva include
+> nemici/bracieri/candele).
 >
 > ² **Candle opacity dinamica**: durante l'animazione di morte della candela,
 > `this.surroundingLight.opacity` viene abbassato gradualmente fino a 0 (`Candle.ts:85`).
@@ -517,15 +522,15 @@ distanceSquaredForWall: = distanceSquared (se non specificato)
 
 ### Colori luci per entità
 
-| Entità | color1 | color2 |
-|--------|--------|--------|
-| Player | 0xFFEDD6 (giallo caldo) | 0xFFFFFF (bianco) |
-| Skeleton | 0xC476F0 (viola) | 0x9159B2 (viola scuro) |
-| Zombie | 0x8BEF5A (verde) | 0x6DBC45 (verde scuro) |
-| Goblin | 0xCAF076 (giallo-verde) | 0xC3E27C (giallo-verde scuro) |
-| Taurus | 0xFF2600 (rosso) | 0xC9341A (rosso scuro) |
-| Ghost | 0x9CEEC0 (verde menta) | 0xEFC0E3 (rosa) |
-| Candle/Brazier | 0xFFC3A3 (bianco rosato) | 0xFFF7CF (bianco caldo) |
+| Entità         | color1                   | color2                        |
+| -------------- | ------------------------ | ----------------------------- |
+| Player         | 0xFFEDD6 (giallo caldo)  | 0xFFFFFF (bianco)             |
+| Skeleton       | 0xC476F0 (viola)         | 0x9159B2 (viola scuro)        |
+| Zombie         | 0x8BEF5A (verde)         | 0x6DBC45 (verde scuro)        |
+| Goblin         | 0xCAF076 (giallo-verde)  | 0xC3E27C (giallo-verde scuro) |
+| Taurus         | 0xFF2600 (rosso)         | 0xC9341A (rosso scuro)        |
+| Ghost          | 0x9CEEC0 (verde menta)   | 0xEFC0E3 (rosa)               |
+| Candle/Brazier | 0xFFC3A3 (bianco rosato) | 0xFFF7CF (bianco caldo)       |
 
 ---
 
@@ -538,6 +543,7 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
 **Vertici**: TL → BL → BR → TR (clockwise in screen coords, Y verso il basso).
 
 **`computeShadowPolygons(lightX, lightY)`**:
+
 - Per ogni edge del rettangolo (4 edge):
   - Calcola normale esterna CW: `normalX = -(p2.y - p1.y)`, `normalY = (p2.x - p1.x)`
   - Se back-facing (dot(normal, midpoint-light) > 0):
@@ -546,6 +552,7 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
 - Ritorna `number[][]` (array di poligoni flat) — il **disegno** è responsabilità di ShadowSystem (fase 7)
 
 **Proprietà**:
+
 - `enabled: boolean` — toggle per escludere l'hull dal calcolo
 - `bounds: Rectangle` — usato da ShadowSystem per il fill anti-self-shadow (hullFillGfx)
 
@@ -556,23 +563,22 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
 **File**: `LevelCustomization.ts`
 
 ```typescript
-penumbraAmbientColor:  number   // Hex — colore base lightmap (ombre)
-penumbraAmbientAlpha:  number   // Opacità base lightmap
-normalMapAmbienceColor: { r, g, b }  // Tint ambient sul layer NM
+penumbraAmbientColor: number; // Hex — colore base lightmap (ombre)
+penumbraAmbientAlpha: number; // Opacità base lightmap
+normalMapAmbienceColor: {
+  (r, g, b);
+} // Tint ambient sul layer NM
 ```
 
-| Livello | penumbraAmbientColor | penumbraAmbientAlpha | normalMapAmbienceColor |
-|---------|---------------------|----------------------|------------------------|
-| 1-2 | 0x686868 (grigio) | 1.0 | { r:0.35, g:0.35, b:0.35 } |
-| 3-8 | 0x000000 (nero) | 1.0 | { r:0.35, g:0.35, b:0.35 } |
+| Livello | penumbraAmbientColor | penumbraAmbientAlpha | normalMapAmbienceColor     |
+| ------- | -------------------- | -------------------- | -------------------------- |
+| 1-2     | 0x686868 (grigio)    | 1.0                  | { r:0.11, g:0.10, b:0.22 } |
+| 3-8     | 0x000000 (nero)      | 1.0                  | { r:0.00, g:0.00, b:0.00 } |
 
-> **Discrepanza con C#**: la spec C# indica `normalMapAmbienceColor`:
-> - Livelli 1-2: `(0.11, 0.10, 0.22)` — grigio-blu
-> - Livelli 3-8: `(0.0, 0.0, 0.0)` — nero assoluto
->
-> L'implementazione TS usa `(0.35, 0.35, 0.35)` per tutti i livelli.
-> Questo rende il pavimento sempre leggermente illuminato anche al buio (livelli 3-8).
-> Vedi Task 1 in CLAUDE.md.
+`glowScale`:
+
+- Livelli 1-2: `2.0`
+- Livelli 3-8: `1.0`
 
 ---
 
@@ -581,11 +587,12 @@ normalMapAmbienceColor: { r, g, b }  // Tint ambient sul layer NM
 **Metodo**: `ShadowSystem._worldToScreen()` (`ShadowSystem.ts:423`)
 
 ```typescript
-sx = (wx - cw.pivot.x) * cw.scale.x + cw.position.x
-sy = (wy - cw.pivot.y) * cw.scale.y + cw.position.y
+sx = (wx - cw.pivot.x) * cw.scale.x + cw.position.x;
+sy = (wy - cw.pivot.y) * cw.scale.y + cw.position.y;
 ```
 
 Dove `cw = camera.worldContainer`:
+
 - `cw.pivot` = (0, worldHeight) — pivot bottom-left
 - `cw.scale` = (0.8, 0.8) — zoom fisso
 - `cw.position` = posizione camera
@@ -627,13 +634,13 @@ shake:       offset additivo su _world.x/_world.y
 
 ## Blend mode summary
 
-| Operazione | Blend Mode | Formula |
-|-----------|------------|---------|
-| Accumulo NM per-luce su _normalMappedGroundRT / _normalMappedObjectsRT | `add` | `dst + src` |
-| Accumulo luce su _lightmap | `add` | `dst + src` |
-| _lightmapSprite sullo stage | `multiply` | `dst × src` |
-| Light texture pre-render (256×256) | `add` | `dst + src` |
-| Tutti gli altri | `normal` | alpha blend |
+| Operazione                                                               | Blend Mode | Formula     |
+| ------------------------------------------------------------------------ | ---------- | ----------- |
+| Accumulo NM per-luce su \_normalMappedGroundRT / \_normalMappedObjectsRT | `add`      | `dst + src` |
+| Accumulo luce su \_lightmap                                              | `add`      | `dst + src` |
+| \_lightmapSprite sullo stage                                             | `multiply` | `dst × src` |
+| Light texture pre-render (256×256)                                       | `add`      | `dst + src` |
+| Tutti gli altri                                                          | `normal`   | alpha blend |
 
 ---
 
@@ -648,22 +655,25 @@ update()
 ├── Fase 2: render _groundNormalContainer → _groundNormalRT  (black BG)
 │
 ├── Fase 3: normal-map ground → _normalMappedGroundRT
-│   ├── ambient tint(_groundRT) → _normalMappedGroundRT  (clear)
+│   ├── clear nero → _normalMappedGroundRT
 │   ├── setNormalMap(_groundNormalRT)  ← UNA VOLTA prima del loop
+│   ├── setAmbientColor(normalMapAmbienceColor)
 │   └── for each enabled light:
-│       ├── setLight(screenX+deltaGround, screenY+deltaGround, z×zoom, color, distSqGround, opacity)
+│       ├── setLight(screenX+deltaGround, screenY+deltaGround, z, color, distSqGround, opacity)
 │       ├── filter(_groundRT) → _perLightRT  (clear)
 │       └── additive Sprite(_perLightRT) → _normalMappedGroundRT  (no clear)
+│   └── additive Sprite(_specularMaskedRT) → _normalMappedGroundRT
 │
 ├── Fase 4: render _objectsContainer → _objectsRT  (clear)
 │
 ├── Fase 5: render _objectsNormalContainer → _objectsNormalRT  (0x8080FF BG)
 │
 ├── Fase 6: normal-map objects → _normalMappedObjectsRT
-│   ├── ambient tint(_objectsRT) → _normalMappedObjectsRT  (clear)
+│   ├── clear nero → _normalMappedObjectsRT
 │   ├── setNormalMap(_objectsNormalRT)  ← UNA VOLTA prima del loop
+│   ├── setAmbientColor(normalMapAmbienceColor)
 │   └── for each enabled light:
-│       ├── setLight(screenX+deltaWall, screenY+deltaWall, z×zoom, color, distSqWall, opacity)
+│       ├── setLight(screenX+deltaWall, screenY+deltaWall, z, color, distSqWall, opacity)
 │       ├── filter(_objectsRT) → _perLightRT  (clear)
 │       └── additive Sprite(_perLightRT) → _normalMappedObjectsRT  (no clear)
 │
@@ -690,9 +700,8 @@ Stage compositing (automatico PixiJS):
 1. **Y-flip in normal map shader**: `n.y = -n.y` compensa la convenzione Y-down del sistema
    di coordinate schermo (e di come le normal map vengono create per MonoGame/DirectX).
 
-2. **Z scalato per zoom camera**: `light.z * abs(cw.scale.x)` — a zoom 0.8x, lo Z viene
-   ridotto a `z × 0.8`. Senza questo, le normali sul bordo degli oggetti sarebbero sbagliate
-   rispetto alla posizione visiva della luce.
+2. **Z non scalato per zoom camera**: `light.z` viene passato invariato. Solo XY vengono
+   trasformati in screen-space tramite `_worldToScreen`, coerentemente con la pipeline C#.
 
 3. **Coseno al quadrato** (`nDotL * nDotL`): non è un'ottimizzazione, è scelta di design
    visiva ereditata dal C#. Produce una caduta di luce più brusca all'aumentare
