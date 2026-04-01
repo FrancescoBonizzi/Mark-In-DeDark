@@ -8,7 +8,7 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-### Task 0 - Descrivere nel dettaglio il funzionamento di PixiJs sopratutto quando si parla di layer di rendering e shader
+### Task 0 - Descrivere nel dettaglio il funzionamento di PixiJs sopratutto quando si parla di layer di rendering e shader, leggendo la documentazione più aggiornata in assoluto e scrivendo un file MD dal titolo PIXIJS_RENDERING.md
 
 ### Task 1 - Pipeline di rendering non conformo | ⬜ Pending
 
