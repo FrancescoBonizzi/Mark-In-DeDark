@@ -14,7 +14,9 @@ import { Hull } from "./Hull";
 import type { MarkLight } from "./MarkLight";
 import { NormalMapFilter } from "./NormalMapFilter";
 
-// Task 1 parity: keep PixiJS render passes and default lighting fallbacks aligned with C# pipeline.
+// Task 1 parity: keep PixiJS render passes aligned with C# while handling web asset gaps.
+// C# had full ground normal maps; web spritesheets have partial ground normal coverage,
+// so the ground-normal RT must clear to neutral normal (0x8080FF) instead of black.
 
 const GAME_W = 1280;
 const GAME_H = 720;
@@ -267,17 +269,19 @@ export class ShadowSystem {
     }
 
     // ------------------------------------------------------------------
-    // 2. Ground normals → _groundNormalRT (cleared to black = no normal)
+    // 2. Ground normals → _groundNormalRT
+    // C# could clear black because every ground tile had a normal map.
+    // Web has missing ground normal textures on several packs, so use neutral normal fill.
     // ------------------------------------------------------------------
     {
-      const blackFill = new Graphics();
-      blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+      const normalFill = new Graphics();
+      normalFill.rect(0, 0, GAME_W, GAME_H).fill(0x8080ff);
       renderer.render({
-        container: blackFill,
+        container: normalFill,
         target: this._groundNormalRT,
         clear: true,
       });
-      blackFill.destroy();
+      normalFill.destroy();
 
       renderWithCameraTransform(
         this._groundNormalContainer,
