@@ -27,6 +27,9 @@ export function createLevelCustomization(levelId: number): LevelCustomization {
         pillarOffset: levelId <= 2 ? smallPillar : defaultPillar,
         penumbraAmbientColor: levelId <= 2 ? 0x686868 : 0x000000,
         penumbraAmbientAlpha: 1.0,
-        normalMapAmbienceColor: { r: 0.35, g: 0.35, b: 0.35 },
+        // C#: livelli 1-2 = (0.11, 0.10, 0.22), livelli 3-8 = Vector3.Zero (nero totale)
+        normalMapAmbienceColor: levelId <= 2
+            ? { r: 0.11, g: 0.10, b: 0.22 }
+            : { r: 0, g: 0, b: 0 },
     };
 }

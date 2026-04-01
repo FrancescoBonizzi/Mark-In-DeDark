@@ -205,17 +205,20 @@ export class ShadowSystem {
 
         // ------------------------------------------------------------------
         // 3. Normal-map ground pass → _normalMappedGroundRT
-        //    a) Fill with ambient-tinted diffuse
-        //    b) Per-light: additive Lambertian
+        //    C#: AmbientColor è dentro lo shader, accumulato N volte via additive blend
+        //    Per-light: additive Lambertian + ambient per-pass
         // ------------------------------------------------------------------
         {
-            const ambientTint = this._ambienceColorHex(this.normalMapAmbienceColor);
-            const ambientSprite = new Sprite(this._groundRT);
-            ambientSprite.tint = ambientTint;
-            renderer.render({ container: ambientSprite, target: this._normalMappedGroundRT, clear: true });
-            ambientSprite.destroy();
+            // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
+            {
+                const clearFill = new Graphics();
+                clearFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+                renderer.render({ container: clearFill, target: this._normalMappedGroundRT, clear: true });
+                clearFill.destroy();
+            }
 
             this._normalMapFilter.setNormalMap(this._groundNormalRT);
+            this._normalMapFilter.setAmbientColor(this.normalMapAmbienceColor);
 
             for (const light of this.lights) {
                 if (!light.enabled) continue;
@@ -227,7 +230,8 @@ export class ShadowSystem {
                 );
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z * Math.abs(cw.scale.x),
+                    // C#: Z non viene scalato per lo zoom (solo XY sono in screen-space)
+                    light.z,
                     light.colorNormalVec3,
                     light.distanceSquaredForGround,
                     light.opacity,
@@ -286,15 +290,19 @@ export class ShadowSystem {
 
         // ------------------------------------------------------------------
         // 6. Normal-map objects pass → _normalMappedObjectsRT
+        //    C#: AmbientColor è dentro lo shader, accumulato N volte via additive blend
         // ------------------------------------------------------------------
         {
-            const ambientTint = this._ambienceColorHex(this.normalMapAmbienceColor);
-            const ambientSprite = new Sprite(this._objectsRT);
-            ambientSprite.tint = ambientTint;
-            renderer.render({ container: ambientSprite, target: this._normalMappedObjectsRT, clear: true });
-            ambientSprite.destroy();
+            // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
+            {
+                const clearFill = new Graphics();
+                clearFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+                renderer.render({ container: clearFill, target: this._normalMappedObjectsRT, clear: true });
+                clearFill.destroy();
+            }
 
             this._normalMapFilter.setNormalMap(this._objectsNormalRT);
+            this._normalMapFilter.setAmbientColor(this.normalMapAmbienceColor);
 
             for (const light of this.lights) {
                 if (!light.enabled) continue;
@@ -306,7 +314,8 @@ export class ShadowSystem {
                 );
                 this._normalMapFilter.setLight(
                     sx, sy,
-                    light.z * Math.abs(cw.scale.x),
+                    // C#: Z non viene scalato per lo zoom (solo XY sono in screen-space)
+                    light.z,
                     light.colorNormalVec3,
                     light.distanceSquaredForWall,
                     light.opacity,
@@ -427,10 +436,6 @@ export class ShadowSystem {
         };
     }
 
-    /** Convert normalMapAmbienceColor { r,g,b } in [0,1] to a PixiJS tint hex integer. */
-    private _ambienceColorHex(c: { r: number; g: number; b: number }): number {
-        return (Math.round(c.r * 255) << 16) | (Math.round(c.g * 255) << 8) | Math.round(c.b * 255);
-    }
 
     /**
      * Pre-renders a white radial gradient circle into a RenderTexture.

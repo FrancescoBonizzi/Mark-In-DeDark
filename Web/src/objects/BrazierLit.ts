@@ -95,6 +95,8 @@ export class BrazierLit {
             distanceSquared: 7_280,
             distanceSquaredForWall: 17_000,
         });
+        // C#: BrazierLit.DeltaForWall = (0, 4) — default MarkLight usa (0, -60)
+        this.surroundingLight.deltaForWall = { x: 0, y: 4 };
     }
 
     update(deltaMS: number): void {

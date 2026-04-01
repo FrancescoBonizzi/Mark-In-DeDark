@@ -17,6 +17,7 @@ struct NormalMapUniforms {
     uLightPosition: vec4<f32>,   // xy = screen pos (pixels), z = height, w = unused
     uLightColor:    vec4<f32>,   // rgb = light colour (0-1), a = unused
     uLightParams:   vec4<f32>,   // x = distanceSq, y = opacity, zw = unused
+    uAmbientColor:  vec4<f32>,   // rgb = ambient (0-1), a = unused — C#: AmbientColor inside shader
 };
 
 @group(0) @binding(0) var<uniform> gfu: GlobalFilterUniforms;
@@ -80,7 +81,8 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let actualDistSq = dot(lightVec, lightVec);
     let attenuation  = max(normalMapUniforms.uLightParams.x / max(actualDistSq, 1.0), 0.0);
 
-    let lit = diffuse.rgb * normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y;
+    // C#: output = texColor * vertexColor * (AmbientColor + nDotL² * attenuation * LightColor * opacity)
+    let lit = diffuse.rgb * (normalMapUniforms.uAmbientColor.rgb + normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y);
     return vec4<f32>(lit, diffuse.a);
 }
 `;
@@ -129,6 +131,7 @@ uniform vec4 uInputClamp;
 uniform vec4 uLightPosition;   // xy = screen pos (pixels), z = height
 uniform vec4 uLightColor;      // rgb = light colour (0-1)
 uniform vec4 uLightParams;     // x = distanceSq, y = opacity
+uniform vec4 uAmbientColor;    // rgb = ambient (0-1) — C#: AmbientColor inside shader
 
 void main(void) {
     vec2 uv = clamp(vTextureCoord, uInputClamp.xy, uInputClamp.zw);
@@ -156,7 +159,8 @@ void main(void) {
     float actualDistSq = dot(lightVec, lightVec);
     float attenuation  = max(uLightParams.x / max(actualDistSq, 1.0), 0.0);
 
-    vec3 lit = diffuse.rgb * uLightColor.rgb * nDotL * nDotL * attenuation * uLightParams.y;
+    // C#: output = texColor * vertexColor * (AmbientColor + nDotL² * attenuation * LightColor * opacity)
+    vec3 lit = diffuse.rgb * (uAmbientColor.rgb + uLightColor.rgb * nDotL * nDotL * attenuation * uLightParams.y);
     finalColor = vec4(lit, diffuse.a);
 }
 `;
@@ -181,9 +185,10 @@ export class NormalMapFilter extends Filter {
         });
 
         const normalMapUniforms = new UniformGroup({
-            uLightPosition: { value: new Float32Array([0, 0, 75, 0]), type: 'vec4<f32>' },
-            uLightColor:    { value: new Float32Array([1, 1, 1, 0]),  type: 'vec4<f32>' },
+            uLightPosition: { value: new Float32Array([0, 0, 75, 0]),    type: 'vec4<f32>' },
+            uLightColor:    { value: new Float32Array([1, 1, 1, 0]),     type: 'vec4<f32>' },
             uLightParams:   { value: new Float32Array([640000, 1, 0, 0]), type: 'vec4<f32>' },
+            uAmbientColor:  { value: new Float32Array([0, 0, 0, 0]),     type: 'vec4<f32>' },
         });
 
         const emptySource = Texture.EMPTY.source;
@@ -199,6 +204,14 @@ export class NormalMapFilter extends Filter {
         });
 
         this._normalMapUniforms = normalMapUniforms;
+    }
+
+    /** Update ambient color before the per-light loop. Mirrors C# AmbientColor uniform. */
+    setAmbientColor(color: { r: number; g: number; b: number }): void {
+        const u = this._normalMapUniforms.uniforms as { uAmbientColor: Float32Array };
+        u.uAmbientColor[0] = color.r;
+        u.uAmbientColor[1] = color.g;
+        u.uAmbientColor[2] = color.b;
     }
 
     /** Update light parameters before each render. */
