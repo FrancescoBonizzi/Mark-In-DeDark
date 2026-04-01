@@ -18,6 +18,10 @@ Sembra che la pipeline di rendering non sia conforme, infatti:
 
 Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
 
+Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
+
+Il tuo scopo è riportare in modo estremamente preciso (>99% di affidabilità) la vecchia pipeline sul nuovo progetto.
+
 ---
 
 ## Protocollo di Risoluzione Task (Leggere prima di agire)
