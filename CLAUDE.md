@@ -15,6 +15,8 @@ Sembra che la pipeline di rendering non sia conforme, infatti:
 1. In tutti i livelli il pavimento è totamente nero, come se non avesse texture
 2. Nei livelli >=3 (quelli che hanno un po' di luce ambientale invece di zero) vedo quasi tutto buio a parte veramente un 1% di luce sui braceri. Ma la luce del player non illumina nulla e i braceri neppure.
 
+L'unica "luce" che sembra funzionare è quella del nemico Taurus, che correttamente illumina i muri.
+
 Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
 
 Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
