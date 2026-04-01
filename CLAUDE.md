@@ -8,22 +8,18 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-### Task 0 - Descrivere nel dettaglio il funzionamento di PixiJs sopratutto quando si parla di layer di rendering e shader, leggendo la documentazione più aggiornata in assoluto e scrivendo un file MD dal titolo PIXIJS_RENDERING.md
-
-### Task 1 - Pipeline di rendering non conformo | ⬜ Pending
+### Task 1 - Pipeline di rendering non conforme | ⬜ Pending
 
 Sembra che la pipeline di rendering non sia conforme, infatti:
 
-- È tutto completamente buio. E ogni volta che ti chiedo di fare una modifica per togliere "il buio" compaiono questi errori:
-  - La normal map non si vede proprio nessun effetto 3D)
-  - Le luci fioche (non c'è contrasto)
-  - Le ombre sembrano agire correttamente
+1. In tutti i livelli il pavimento è totamente nero, come se non avesse texture
+2. Nei livelli >=3 (quelli che hanno un po' di luce ambientale invece di zero) vedo quasi tutto buio a parte veramente un 1% di luce sui braceri. Ma la luce del player non illumina nulla e i braceri neppure.
 
 Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
 
 Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
 
-Il tuo scopo è riportare in modo estremamente preciso (>99% di affidabilità) la vecchia pipeline sul nuovo progetto.
+Il tuo scopo è quello di risolvere questi problemi.
 
 ---
 

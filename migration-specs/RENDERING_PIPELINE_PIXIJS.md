@@ -15,6 +15,7 @@ La pipeline produce tre layer sovrapposti:
 3. **Objects Layer** — Muri, pilastri, personaggi illuminati con normal mapping diffuso
 
 Il tutto è gestito da **10 RenderTexture** (`1280×720` ciascuna) e **1 filter custom** (`NormalMapFilter`) con dual shader WGSL/GLSL.
+La pipeline include anche diagnostica runtime opzionale (`__MIDD_RENDER_DEBUG__`) usata per triage del Task 1.
 
 ---
 
@@ -124,6 +125,25 @@ _objectsNormalContainer   Sprites normal map muri, pilastri
 
 Firma: `update(app: Application, deltaMS: number): void`
 Il renderer viene ottenuto da `app.renderer` all'interno del metodo.
+
+All'inizio dell'update viene letto un config debug globale opzionale:
+
+```typescript
+window.__MIDD_RENDER_DEBUG__ = {
+   enabled: true,
+   logEveryNFrames: 120,
+   singleLightIndex: undefined,
+   forceAmbient: undefined,
+   disableMultiply: false,
+   sampleLuma: false,
+};
+```
+
+Effetti principali del debug config:
+- `disableMultiply`: forza `_lightmapSprite.blendMode = 'normal'` per isolare il compositing.
+- `singleLightIndex`: processa una sola luce in tutti i pass.
+- `forceAmbient`: override temporaneo dell'ambient normal map.
+- `sampleLuma`: stima luminanza media di RT chiave e log periodico.
 
 ### Fase 0 — Animazione luci
 
@@ -289,18 +309,21 @@ a) Fill ambient:
 
 b) Per ogni light (enabled=true):
    1. Crea perLightContainer con camera transform clonata
+    2. Calcola `penumbraPos = light.getPenumbraPosition()` (`x-10, y+75`)
    2. lightSprite = Sprite(_lightTexture)
       lightSprite.scale = light.radius / 256
       lightSprite.anchor = (0.5, 0.5)
-      lightSprite.position = light.position (world-space)
+         lightSprite.position = penumbraPos (world-space)
       lightSprite.tint = light.currentColor
       lightSprite.alpha = light.opacity
 
    3. Se light.castsShadows && hulls.length > 0:
-      - Per ogni hull abilitato:
-        polys = hull.computeShadowPolygons(light.position.x, light.position.y)
+         - Culling hull per-luce: seleziona hull entro `light.radius * 1.75`
+            e limita a max `180` hull piu' vicini
+         - Per ogni hull selezionato:
+            polys = hull.computeShadowPolygons(penumbraPos.x, penumbraPos.y)
         Disegna trapezoid neri in shadowGfx
-      - Disegna bounds neri di ogni hull in hullFillGfx (anti self-shadow)
+         - Disegna bounds neri degli hull selezionati in hullFillGfx (anti self-shadow)
 
    4. Render perLightContainer → _perLightRT (clear=true)
 
@@ -358,6 +381,8 @@ struct NormalMapUniforms {
     uLightPosition: vec4<f32>,  // xy=screen pos (pixels), z=height, w=unused
     uLightColor:    vec4<f32>,  // rgb=[0-1], a=unused
     uLightParams:   vec4<f32>,  // x=distanceSq, y=opacity, zw=unused
+   uAmbientColor:  vec4<f32>,  // rgb ambient
+   uNormalMapSize: vec2<f32>,  // normal map size in pixels
 }
 ```
 
@@ -386,9 +411,8 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     // Posizione pixel in screen-space (corretta indipendentemente dalla pool texture)
     let pixelPos = clampedUv * gfu.uInputSize.xy;
 
-    // Sample normal map con UV ricalcolati sulla RT separata (1280×720)
-    let normalMapSize = vec2<f32>(textureDimensions(uNormalMap, 0));
-    let normalMapUv   = pixelPos / normalMapSize;
+   // Sample normal map con UV ricalcolati sulla RT separata
+   let normalMapUv   = pixelPos / max(normalMapUniforms.uNormalMapSize, vec2<f32>(1.0, 1.0));
     let normalSample  = textureSample(uNormalMap, uNormalMapSampler, normalMapUv);
 
     // Decode: [0,1] → [-1,1], flip Y per convenzione screen-space
@@ -407,8 +431,8 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let actualDistSq = dot(lightVec, lightVec);
     let attenuation  = max(normalMapUniforms.uLightParams.x / max(actualDistSq, 1.0), 0.0);
 
-    // Formula finale: COSENO AL QUADRATO (non Lambertian puro)
-    let lit = diffuse.rgb * normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y;
+   // Formula finale: ambient + COSENO AL QUADRATO
+   let lit = diffuse.rgb * (normalMapUniforms.uAmbientColor.rgb + normalMapUniforms.uLightColor.rgb * nDotL * nDotL * attenuation * normalMapUniforms.uLightParams.y);
     return vec4<f32>(lit, diffuse.a);
 }
 ```
@@ -422,12 +446,18 @@ Uniforms flat (nessun UBO struct):
 ```glsl
 uniform sampler2D uTexture;
 uniform sampler2D uNormalMap;
-uniform vec4 uInputSize;
-uniform vec4 uInputClamp;
-uniform vec4 uLightPosition;   // xy=screen pos, z=height
-uniform vec4 uLightColor;      // rgb=[0-1]
-uniform vec4 uLightParams;     // x=distanceSq, y=opacity
+uniform highp vec4 uInputSize;
+uniform highp vec4 uInputClamp;
+uniform highp vec4 uLightPosition;   // xy=screen pos, z=height
+uniform highp vec4 uLightColor;      // rgb=[0-1]
+uniform highp vec4 uLightParams;     // x=distanceSq, y=opacity
+uniform highp vec4 uAmbientColor;
+uniform highp vec2 uNormalMapSize;
 ```
+
+Nota compatibilita' WebGL:
+- il fragment non usa `textureSize(...)`; la size normal map arriva da uniform `uNormalMapSize`
+- vertex e fragment dichiarano precision coerente (`highp`) per evitare link error dei uniform condivisi
 
 ---
 
@@ -564,10 +594,8 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
 
 ```typescript
 penumbraAmbientColor: number; // Hex — colore base lightmap (ombre)
-penumbraAmbientAlpha: number; // Opacità base lightmap
-normalMapAmbienceColor: {
-  (r, g, b);
-} // Tint ambient sul layer NM
+penumbraAmbientAlpha: number; // Opacita' base lightmap
+normalMapAmbienceColor: { r: number; g: number; b: number }; // Tint ambient sul layer NM
 ```
 
 | Livello | penumbraAmbientColor | penumbraAmbientAlpha | normalMapAmbienceColor     |
@@ -680,8 +708,9 @@ update()
 └── Fase 7: shadow lightmap → _lightmap
     ├── fill(ambientColor, ambientAlpha) → _lightmap  (clear)
     └── for each enabled light:
-        ├── lightSprite(radius, color, opacity) in world-space
-        ├── [if castsShadows] shadow trapezoids + hull fills
+      ├── penumbraPos = getPenumbraPosition()
+      ├── lightSprite(radius, color, opacity) in world-space at penumbraPos
+      ├── [if castsShadows] cull hulls vicini + shadow trapezoids + hull fills
         ├── render perLightContainer → _perLightRT  (clear)
         ├── blur(sourceRadius × 0.15) → _blurredRT
         └── additive Sprite(_blurredRT) → _lightmap  (no clear)
@@ -738,3 +767,7 @@ Stage compositing (automatico PixiJS):
 10. **ShadowSystem non aggiunge figli al `camera._world`**: tutti gli sprite di output
     vengono aggiunti direttamente ad `app.stage` (posizioni [0],[1],[2]).
     `camera._world` è in posizione [3] e contiene solo la scena live (eventualmente vuoto).
+
+11. **Triage runtime integrato**: con `__MIDD_RENDER_DEBUG__` puoi isolare rapidamente
+   pass problematici senza patch permanenti (single light, ambient override, disable multiply,
+   log periodico luminanza).
