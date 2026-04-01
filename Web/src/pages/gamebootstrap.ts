@@ -27,6 +27,8 @@ import { GameHud } from '../ui/GameHud';
 import { SoundManagerInstance } from '../services/SoundInstance';
 import { GameTexts, getStringCodeText } from '../ui/GameTexts';
 
+// Task 1 triage: warn early when runtime lighting prerequisites are missing.
+
 const GAME_W = 1280;
 const GAME_H = 720;
 const GAMEOVER_KEY = 'mark-in-dedark-gameover';
@@ -160,6 +162,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             try { return getTexture(assets.spriteSheets, 'Effects/glow'); }
             catch { return null; }
         })();
+        if (!glowTexture) {
+            console.warn('[gamebootstrap] Effects/glow texture missing: glow-based lighting passes will be skipped.');
+        }
 
         shadowSystem = new ShadowSystem(
             app, camera,
@@ -268,6 +273,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             grid.objectsContainer, grid.objectsNormalContainer,
             player, candlesManager, shadowSystem, onShake,
         );
+        if (shadowSystem.lights.length === 0) {
+            console.warn('[gamebootstrap] no lights registered after initialization; frame will appear black.');
+        }
 
         // HUD + death overlay
         const gameWrapper = container.querySelector<HTMLDivElement>('#game-wrapper');

@@ -21,6 +21,24 @@ const GAME_H = 720;
 /** Size (px) of the pre-rendered radial gradient texture. */
 const LIGHT_TEX_SIZE = 256;
 
+interface RenderDebugConfig {
+  enabled: boolean;
+  logEveryNFrames: number;
+  singleLightIndex: number | undefined;
+  forceAmbient: { r: number; g: number; b: number } | undefined;
+  disableMultiply: boolean;
+  sampleLuma: boolean;
+}
+
+const DEFAULT_RENDER_DEBUG: RenderDebugConfig = {
+  enabled: false,
+  logEveryNFrames: 120,
+  singleLightIndex: undefined,
+  forceAmbient: undefined,
+  disableMultiply: false,
+  sampleLuma: false,
+};
+
 /**
  * Shadow + Normal-Map system (Task 5).
  *
@@ -87,6 +105,8 @@ export class ShadowSystem {
   private readonly _normalMappedGroundSprite: Sprite;
   private readonly _lightmapSprite: Sprite;
   private readonly _normalMappedObjectsSprite: Sprite;
+  private _frameIndex = 0;
+  private _warnedNoLights = false;
 
   /** Reused blur filter for the shadow lightmap pass. */
   private readonly _blurFilter = new BlurFilter({ strength: 3, quality: 2 });
@@ -110,6 +130,12 @@ export class ShadowSystem {
     this._objectsContainer = objectsContainer;
     this._objectsNormalContainer = objectsNormalContainer;
     this._glowTexture = glowTexture;
+
+    if (!this._glowTexture) {
+      console.warn(
+        "[ShadowSystem] glow texture is missing; specular/lightmap glow passes will be skipped.",
+      );
+    }
 
     const mkRT = () => RenderTexture.create({ width: GAME_W, height: GAME_H });
 
@@ -186,6 +212,16 @@ export class ShadowSystem {
   update(app: Application, deltaMS: number): void {
     const renderer = app.renderer;
     const cw = this._camera.worldContainer;
+    const debug = this._readRenderDebugConfig();
+
+    this._lightmapSprite.blendMode = debug.disableMultiply ? "normal" : "multiply";
+
+    if (this.lights.length === 0 && !this._warnedNoLights) {
+      this._warnedNoLights = true;
+      console.warn(
+        "[ShadowSystem] no lights registered; normal-map passes will render black.",
+      );
+    }
 
     // Animate lights
     for (const light of this.lights) light.update(deltaMS);
@@ -350,10 +386,15 @@ export class ShadowSystem {
       }
 
       this._normalMapFilter.setNormalMap(this._groundNormalRT);
-      this._normalMapFilter.setAmbientColor(this.normalMapAmbienceColor);
+      this._normalMapFilter.setAmbientColor(
+        debug.forceAmbient ?? this.normalMapAmbienceColor,
+      );
 
-      for (const light of this.lights) {
+      for (let i = 0; i < this.lights.length; i++) {
+        const light = this.lights[i]!;
         if (!light.enabled) continue;
+        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+          continue;
 
         const { sx, sy } = this._worldToScreen(
           light.position.x + light.deltaForGround.x,
@@ -465,10 +506,15 @@ export class ShadowSystem {
       }
 
       this._normalMapFilter.setNormalMap(this._objectsNormalRT);
-      this._normalMapFilter.setAmbientColor(this.normalMapAmbienceColor);
+      this._normalMapFilter.setAmbientColor(
+        debug.forceAmbient ?? this.normalMapAmbienceColor,
+      );
 
-      for (const light of this.lights) {
+      for (let i = 0; i < this.lights.length; i++) {
+        const light = this.lights[i]!;
         if (!light.enabled) continue;
+        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+          continue;
 
         const { sx, sy } = this._worldToScreen(
           light.position.x + light.deltaForWall.x,
@@ -525,8 +571,11 @@ export class ShadowSystem {
       ambientGfx.destroy();
     }
 
-    for (const light of this.lights) {
+    for (let i = 0; i < this.lights.length; i++) {
+      const light = this.lights[i]!;
       if (!light.enabled) continue;
+      if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+        continue;
 
       const perLightContainer = new Container();
       perLightContainer.position.copyFrom(cw.position);
@@ -609,12 +658,15 @@ export class ShadowSystem {
       glowContainer.scale.copyFrom(cw.scale);
       glowContainer.pivot.copyFrom(cw.pivot);
 
-      for (const light of this.lights) {
+      for (let i = 0; i < this.lights.length; i++) {
+        const light = this.lights[i]!;
         if (
           !light.enabled ||
           !light.isGlowEnabled ||
           !light.drawInAdditionalLightMask
         )
+          continue;
+        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
           continue;
         const glow = new Sprite(this._glowTexture);
         glow.anchor.set(0.5);
@@ -631,6 +683,41 @@ export class ShadowSystem {
         clear: false,
       });
       glowContainer.destroy({ children: true });
+    }
+
+    this._frameIndex += 1;
+    if (
+      debug.enabled &&
+      this._frameIndex % Math.max(1, debug.logEveryNFrames) === 0
+    ) {
+      const enabledLights = this.lights.filter((l) => l.enabled).length;
+      const groundLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._normalMappedGroundRT)
+        : null;
+      const objectsLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._normalMappedObjectsRT)
+        : null;
+      const lightmapLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._lightmap)
+        : null;
+
+      console.info("[ShadowSystem:debug]", {
+        lightsTotal: this.lights.length,
+        lightsEnabled: enabledLights,
+        singleLightIndex: debug.singleLightIndex,
+        ambient: debug.forceAmbient ?? this.normalMapAmbienceColor,
+        disableMultiply: debug.disableMultiply,
+        camera: {
+          position: { x: cw.position.x, y: cw.position.y },
+          scale: { x: cw.scale.x, y: cw.scale.y },
+          pivot: { x: cw.pivot.x, y: cw.pivot.y },
+        },
+        luma: {
+          ground: groundLuma,
+          objects: objectsLuma,
+          lightmap: lightmapLuma,
+        },
+      });
     }
   }
 
@@ -669,6 +756,78 @@ export class ShadowSystem {
       sx: (wx - cw.pivot.x) * cw.scale.x + cw.position.x,
       sy: (wy - cw.pivot.y) * cw.scale.y + cw.position.y,
     };
+  }
+
+  private _readRenderDebugConfig(): RenderDebugConfig {
+    const source = (
+      globalThis as unknown as {
+        __MIDD_RENDER_DEBUG__: Partial<RenderDebugConfig> | undefined;
+      }
+    ).__MIDD_RENDER_DEBUG__;
+
+    if (!source) return DEFAULT_RENDER_DEBUG;
+
+    const logEveryNFrames =
+      typeof source.logEveryNFrames === "number" && source.logEveryNFrames > 0
+        ? Math.floor(source.logEveryNFrames)
+        : DEFAULT_RENDER_DEBUG.logEveryNFrames;
+    const singleLightIndex =
+      typeof source.singleLightIndex === "number"
+        ? Math.floor(source.singleLightIndex)
+        : undefined;
+    const forceAmbient =
+      source.forceAmbient &&
+      typeof source.forceAmbient.r === "number" &&
+      typeof source.forceAmbient.g === "number" &&
+      typeof source.forceAmbient.b === "number"
+        ? source.forceAmbient
+        : undefined;
+
+    return {
+      enabled: source.enabled ?? DEFAULT_RENDER_DEBUG.enabled,
+      logEveryNFrames,
+      singleLightIndex,
+      forceAmbient,
+      disableMultiply:
+        source.disableMultiply ?? DEFAULT_RENDER_DEBUG.disableMultiply,
+      sampleLuma: source.sampleLuma ?? DEFAULT_RENDER_DEBUG.sampleLuma,
+    };
+  }
+
+  private _estimateLuma(
+    renderer: Application["renderer"],
+    target: RenderTexture,
+  ): number | null {
+    const extract = (
+      renderer as unknown as {
+        extract: { pixels: (value: RenderTexture) => Uint8Array };
+      }
+    ).extract;
+    if (!extract) return null;
+
+    try {
+      const pixels = extract.pixels(target);
+      if (!(pixels instanceof Uint8Array) || pixels.length < 4) return null;
+
+      const pixelCount = Math.floor(pixels.length / 4);
+      const stride = Math.max(1, Math.floor(pixelCount / 256));
+      let sum = 0;
+      let count = 0;
+
+      for (let p = 0; p < pixelCount; p += stride) {
+        const idx = p * 4;
+        const r = pixels[idx] ?? 0;
+        const g = pixels[idx + 1] ?? 0;
+        const b = pixels[idx + 2] ?? 0;
+        sum += 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        count += 1;
+      }
+
+      if (count === 0) return null;
+      return sum / (count * 255);
+    } catch {
+      return null;
+    }
   }
 
   /**

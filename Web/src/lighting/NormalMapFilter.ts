@@ -18,6 +18,7 @@ struct NormalMapUniforms {
     uLightColor:    vec4<f32>,   // rgb = light colour (0-1), a = unused
     uLightParams:   vec4<f32>,   // x = distanceSq, y = opacity, zw = unused
     uAmbientColor:  vec4<f32>,   // rgb = ambient (0-1), a = unused — C#: AmbientColor inside shader
+    uNormalMapSize: vec2<f32>,   // xy = normal map size in pixels
 };
 
 @group(0) @binding(0) var<uniform> gfu: GlobalFilterUniforms;
@@ -60,9 +61,8 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     // Pixel position in screen-space — correct regardless of filter pool texture size
     let pixelPos = clampedUv * gfu.uInputSize.xy;
 
-    // Sample normal map with corrected UV for the separate RenderTexture (1280×720)
-    let normalMapSize = vec2<f32>(textureDimensions(uNormalMap, 0));
-    let normalMapUv   = pixelPos / normalMapSize;
+    // Sample normal map with corrected UV for the separate RenderTexture
+    let normalMapUv   = pixelPos / max(normalMapUniforms.uNormalMapSize, vec2<f32>(1.0, 1.0));
     let normalSample  = textureSample(uNormalMap, uNormalMapSampler, normalMapUv);
 
     // Decode normal from [0,1] → [-1,1], flip Y for screen-space convention
@@ -91,12 +91,15 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 // GLSL vertex (standard PixiJS filter vertex)
 // ---------------------------------------------------------------------------
 const glslVert = /* glsl */`
+precision highp float;
+precision highp int;
+
 in vec2 aPosition;
 out vec2 vTextureCoord;
 
-uniform vec4 uInputSize;
-uniform vec4 uOutputFrame;
-uniform vec4 uOutputTexture;
+uniform highp vec4 uInputSize;
+uniform highp vec4 uOutputFrame;
+uniform highp vec4 uOutputTexture;
 
 vec4 filterVertexPosition(void) {
     vec2 position = aPosition * uOutputFrame.zw + uOutputFrame.xy;
@@ -119,19 +122,23 @@ void main(void) {
 // GLSL fragment (WebGL2)
 // ---------------------------------------------------------------------------
 const glslFrag = /* glsl */`
+precision highp float;
+precision highp int;
+
 in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform sampler2D uNormalMap;
 
-uniform vec4 uInputSize;
-uniform vec4 uInputClamp;
+uniform highp vec4 uInputSize;
+uniform highp vec4 uInputClamp;
 
-uniform vec4 uLightPosition;   // xy = screen pos (pixels), z = height
-uniform vec4 uLightColor;      // rgb = light colour (0-1)
-uniform vec4 uLightParams;     // x = distanceSq, y = opacity
-uniform vec4 uAmbientColor;    // rgb = ambient (0-1) — C#: AmbientColor inside shader
+uniform highp vec4 uLightPosition;   // xy = screen pos (pixels), z = height
+uniform highp vec4 uLightColor;      // rgb = light colour (0-1)
+uniform highp vec4 uLightParams;     // x = distanceSq, y = opacity
+uniform highp vec4 uAmbientColor;    // rgb = ambient (0-1) — C#: AmbientColor inside shader
+uniform highp vec2 uNormalMapSize;   // xy = normal map size in pixels
 
 void main(void) {
     vec2 uv = clamp(vTextureCoord, uInputClamp.xy, uInputClamp.zw);
@@ -142,9 +149,8 @@ void main(void) {
     // Pixel position in screen-space — correct regardless of filter pool texture size
     vec2 pixelPos = uv * uInputSize.xy;
 
-    // Sample normal map with corrected UV for the separate RenderTexture (1280×720)
-    vec2 normalMapSize = vec2(textureSize(uNormalMap, 0));
-    vec2 normalMapUv   = pixelPos / normalMapSize;
+    // Sample normal map with corrected UV for the separate RenderTexture
+    vec2 normalMapUv   = pixelPos / max(uNormalMapSize, vec2(1.0));
     vec4 normalSample  = texture(uNormalMap, normalMapUv);
 
     vec3 n = normalSample.rgb * 2.0 - 1.0;
@@ -189,6 +195,7 @@ export class NormalMapFilter extends Filter {
             uLightColor:    { value: new Float32Array([1, 1, 1, 0]),     type: 'vec4<f32>' },
             uLightParams:   { value: new Float32Array([640000, 1, 0, 0]), type: 'vec4<f32>' },
             uAmbientColor:  { value: new Float32Array([0, 0, 0, 0]),     type: 'vec4<f32>' },
+            uNormalMapSize: { value: new Float32Array([1, 1]),           type: 'vec2<f32>' },
         });
 
         const emptySource = Texture.EMPTY.source;
@@ -240,6 +247,9 @@ export class NormalMapFilter extends Filter {
 
     /** Swap the normal map texture used by the filter. */
     setNormalMap(texture: Texture): void {
+        const u = this._normalMapUniforms.uniforms as { uNormalMapSize: Float32Array };
+        u.uNormalMapSize[0] = texture.source.width || 1;
+        u.uNormalMapSize[1] = texture.source.height || 1;
         this.resources['uNormalMap'] = texture.source;
         this.resources['uNormalMapSampler'] = texture.source.style;
     }
