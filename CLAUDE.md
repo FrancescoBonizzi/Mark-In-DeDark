@@ -8,6 +8,8 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
+### Task 0 - Descrivere nel dettaglio il funzionamento di PixiJs sopratutto quando si parla di layer di rendering e shader
+
 ### Task 1 - Pipeline di rendering non conformo | ⬜ Pending
 
 Sembra che la pipeline di rendering non sia conforme, infatti:
