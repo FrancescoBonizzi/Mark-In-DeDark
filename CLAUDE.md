@@ -12,7 +12,7 @@ Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
 Sembra che la pipeline di rendering non sia conforme, infatti:
 
-- Tutto completamente buio. E ogni volta che togli "il buio" compaiono questi errori:
+- È tutto completamente buio. E ogni volta che ti chiedo di fare una modifica per togliere "il buio" compaiono questi errori:
   - La normal map non si vede proprio nessun effetto 3D)
   - Le luci fioche (non c'è contrasto)
   - Le ombre sembrano agire correttamente
