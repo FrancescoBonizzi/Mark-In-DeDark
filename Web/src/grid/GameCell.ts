@@ -20,6 +20,7 @@ export class GameCell {
 
     groundSprite: Sprite | null = null;
     groundNormalSprite: Sprite | null = null;
+    groundSpecularSprite: Sprite | null = null;
     dirtySprite: Sprite | null = null;
 
     /** Neighbour cells by direction */
@@ -88,6 +89,13 @@ export class GameCell {
         this.groundNormalSprite.zIndex = zIndex;
     }
 
+    setGroundSpecularSprite(texture: Texture, zIndex: number, yOffset = 0): void {
+        this.groundSpecularSprite = new Sprite(texture);
+        this.groundSpecularSprite.x = this.x;
+        this.groundSpecularSprite.y = this.y + yOffset;
+        this.groundSpecularSprite.zIndex = zIndex;
+    }
+
     initializeWalls(data: CellData, config: LevelConfig, customization: LevelCustomization): void {
         const directions: [LinkDirection, WallTypes][] = [
             [LinkDirection.NorthLink, data.top],
@@ -154,6 +162,7 @@ export class GameCell {
         objectsContainer: Container,
         groundNormalContainer: Container,
         objectsNormalContainer: Container,
+        groundSpecularContainer: Container,
     ): void {
         if (this.groundSprite) {
             if (this.groundSprite.zIndex >= 1) {
@@ -162,6 +171,7 @@ export class GameCell {
             } else {
                 groundContainer.addChild(this.groundSprite);
                 if (this.groundNormalSprite) groundNormalContainer.addChild(this.groundNormalSprite);
+                if (this.groundSpecularSprite) groundSpecularContainer.addChild(this.groundSpecularSprite);
             }
         }
         if (this.dirtySprite) groundContainer.addChild(this.dirtySprite);

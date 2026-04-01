@@ -1,5 +1,5 @@
 import { Application, Rectangle, TextureSource } from 'pixi.js';
-import { loadAssets } from '../assets/AssetsLoader';
+import { getTexture, loadAssets } from '../assets/AssetsLoader';
 import { loadAndParseLevel } from '../grid/GridLoader';
 import { createLevelConfig } from '../grid/LevelConfig';
 import { createLevelCustomization } from '../grid/LevelCustomization';
@@ -156,16 +156,24 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         // Close all interactive doors after grid initialization
         grid.closeAllDoors();
 
+        const glowTexture = (() => {
+            try { return getTexture(assets.spriteSheets, 'Effects/glow'); }
+            catch { return null; }
+        })();
+
         shadowSystem = new ShadowSystem(
             app, camera,
             grid.groundContainer,
             grid.groundNormalContainer,
+            grid.groundSpecularContainer,
             grid.objectsContainer,
             grid.objectsNormalContainer,
+            glowTexture,
         );
         shadowSystem.ambientColor = levelCustomization.penumbraAmbientColor;
         shadowSystem.ambientAlpha = levelCustomization.penumbraAmbientAlpha;
         shadowSystem.normalMapAmbienceColor = levelCustomization.normalMapAmbienceColor;
+        shadowSystem.glowScale = levelCustomization.glowScale;
         shadowSystem.addHullsFromWalls(grid.allWalls);
         shadowSystem.addHullsFromPillars(grid.allPillars);
 

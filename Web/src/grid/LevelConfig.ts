@@ -25,6 +25,8 @@ export interface LevelConfig {
     groundTypeToTexture: Map<number, Texture>;
     /** Maps GroundType enum value → normal map texture (null if missing). */
     groundTypeToNormalTexture: Map<number, Texture | null>;
+    /** Maps GroundType enum value → specular map texture (null if missing). */
+    groundTypeToSpecTexture: Map<number, Texture | null>;
     darkCellTexture: Texture;
     randomHorizontalWalls: Texture[];
     randomHorizontalWallsNormal: (Texture | null)[];
@@ -131,11 +133,13 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
     const riempimentoEnumValues = [8, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
     const groundTypeToTexture = new Map<number, Texture>();
     const groundTypeToNormalTexture = new Map<number, Texture | null>();
+    const groundTypeToSpecTexture = new Map<number, Texture | null>();
     const fallbackTex = groundTextures[0];
     for (let i = 0; i < terraEnumValues.length; i++) {
         const tex = groundTextures[i] ?? fallbackTex;
         if (tex) groundTypeToTexture.set(terraEnumValues[i]!, tex);
         groundTypeToNormalTexture.set(terraEnumValues[i]!, groundNormalTextures[i] ?? null);
+        groundTypeToSpecTexture.set(terraEnumValues[i]!, groundSpecTextures[i] ?? null);
     }
     for (let i = 0; i < riempimentoEnumValues.length; i++) {
         const tex = riempimentoTextures[i];
@@ -176,5 +180,6 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         dirtyTextures,
         groundTypeToTexture,
         groundTypeToNormalTexture,
+        groundTypeToSpecTexture,
     };
 }

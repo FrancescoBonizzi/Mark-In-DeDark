@@ -15,6 +15,8 @@ export interface LevelCustomization {
     penumbraAmbientAlpha: number;
     /** Ambient colour for the normal map pass (0–1 per channel). */
     normalMapAmbienceColor: { r: number; g: number; b: number };
+    /** Scale of the glow sprite used for specular lightmask and lightmap additional glow (C# GlowScale). */
+    glowScale: number;
 }
 
 export function createLevelCustomization(levelId: number): LevelCustomization {
@@ -31,5 +33,7 @@ export function createLevelCustomization(levelId: number): LevelCustomization {
         normalMapAmbienceColor: levelId <= 2
             ? { r: 0.11, g: 0.10, b: 0.22 }
             : { r: 0, g: 0, b: 0 },
+        // C#: LevelCustomization.GlowScale = 2 per tutti i livelli
+        glowScale: 2.0,
     };
 }

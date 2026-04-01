@@ -21,6 +21,10 @@ export class MarkLight {
     deltaForGround: { x: number; y: number } = { x: 0, y: 100 };
     /** World-space position offset applied when computing the light for wall/pillar tiles. */
     deltaForWall: { x: number; y: number } = { x: 0, y: -60 };
+    /** Whether this light draws a glow sprite on the specular lightmask and the shadow lightmap (C# IsGlowEnabled). */
+    isGlowEnabled = true;
+    /** Scale of the glow sprite for this light (C# _lightMaskDrawingInfos.Scale = 2). */
+    lightMaskScale = 2.0;
 
     private _t = 0;
     private _direction = 1;

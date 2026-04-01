@@ -59,6 +59,8 @@ export class GameGrid {
     readonly groundContainer: Container;
     /** Normal map sprites for ground tiles — used by ShadowSystem normal map pass. */
     readonly groundNormalContainer: Container;
+    /** Specular map sprites for ground tiles — used by ShadowSystem specular pass (C# specularmap.fx). */
+    readonly groundSpecularContainer: Container;
     /** Walls, pillars, and Riempimento fill blocks — Y-sorted, rendered offline by ShadowSystem. */
     readonly objectsContainer: Container;
     /** Normal map sprites for walls, pillars, and Riempimento — used by ShadowSystem normal map pass. */
@@ -101,6 +103,7 @@ export class GameGrid {
 
         this.groundContainer = new Container();
         this.groundNormalContainer = new Container();
+        this.groundSpecularContainer = new Container();
         this.objectsContainer = new Container();
         this.objectsContainer.sortableChildren = true;
         this.objectsNormalContainer = new Container();
@@ -170,6 +173,7 @@ export class GameGrid {
     private _assignGroundSprite(cell: GameCell, groundType: GroundTypes, _row: number): void {
         const map = this._config.groundTypeToTexture;
         const normalMap = this._config.groundTypeToNormalTexture;
+        const specMap = this._config.groundTypeToSpecTexture;
 
         switch (groundType) {
             case GroundTypes.Buio:
@@ -192,6 +196,8 @@ export class GameGrid {
                 cell.setGroundSprite(tex, Z_GROUND);
                 const normalTex = normalMap.get(groundType) ?? null;
                 if (normalTex) cell.setGroundNormalSprite(normalTex, Z_GROUND);
+                const specTex = specMap.get(groundType) ?? null;
+                if (specTex) cell.setGroundSpecularSprite(specTex, Z_GROUND);
                 break;
             }
 
@@ -435,6 +441,7 @@ export class GameGrid {
                     this.objectsContainer,
                     this.groundNormalContainer,
                     this.objectsNormalContainer,
+                    this.groundSpecularContainer,
                 );
             }
         }

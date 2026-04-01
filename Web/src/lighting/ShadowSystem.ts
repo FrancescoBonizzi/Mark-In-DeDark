@@ -5,6 +5,7 @@ import {
     Graphics,
     RenderTexture,
     Sprite,
+    Texture,
 } from 'pixi.js';
 import type Camera from '../world/Camera';
 import { Hull } from './Hull';
@@ -30,11 +31,14 @@ const LIGHT_TEX_SIZE = 256;
  * Per-frame pipeline:
  *   1. Ground base      → _groundRT
  *   2. Ground normals   → _groundNormalRT
- *   3. Normal-map ground: ambient fill + per-light Lambertian (additive) → _normalMappedGroundRT
+ *   2a. Ground specular → _groundSpecularRT          (C#: specularMapRenderTarget)
+ *   2b. Specular lightmask → _specularLightmaskRT    (C#: specularMapLightmaskRenderTarget, glow sprites)
+ *   2c. Specular masked → _specularMaskedRT           (C#: specular × lightmask via specularmap.fx)
+ *   3. Normal-map ground: per-light Lambertian (additive) + additive composite of specularMasked → _normalMappedGroundRT
  *   4. Objects base     → _objectsRT
  *   5. Objects normals  → _objectsNormalRT
- *   6. Normal-map objs: ambient fill + per-light Lambertian (additive)  → _normalMappedObjectsRT
- *   7. Shadow lightmap  → _lightmap  (ambient fill + per-light circle - shadows)
+ *   6. Normal-map objs: per-light Lambertian (additive)  → _normalMappedObjectsRT
+ *   7. Shadow lightmap  → _lightmap (ambient fill + per-light circle - shadows + glow mask additively)
  */
 export class ShadowSystem {
     lights: MarkLight[] = [];
@@ -43,18 +47,27 @@ export class ShadowSystem {
     ambientColor = 0x000000;
     ambientAlpha = 1.0;
     normalMapAmbienceColor: { r: number; g: number; b: number } = { r: 0.35, g: 0.35, b: 0.35 };
+    /** Scale of glow sprites for specular lightmask and shadow lightmap (C# GlowScale). Set from LevelCustomization. */
+    glowScale = 2.0;
 
     private readonly _app:    Application;
     private readonly _camera: Camera;
 
-    private readonly _groundContainer:       Container;
-    private readonly _groundNormalContainer: Container;
-    private readonly _objectsContainer:      Container;
-    private readonly _objectsNormalContainer: Container;
+    private readonly _groundContainer:          Container;
+    private readonly _groundNormalContainer:     Container;
+    private readonly _groundSpecularContainer:   Container;
+    private readonly _objectsContainer:          Container;
+    private readonly _objectsNormalContainer:    Container;
+
+    /** Glow sprite texture used for specular lightmask and shadow lightmap (C# Effects/glow). Null if not available. */
+    private readonly _glowTexture: Texture | null;
 
     // RenderTextures
     private readonly _groundRT:              RenderTexture;
     private readonly _groundNormalRT:        RenderTexture;
+    private readonly _groundSpecularRT:      RenderTexture;
+    private readonly _specularLightmaskRT:   RenderTexture;
+    private readonly _specularMaskedRT:      RenderTexture;
     private readonly _normalMappedGroundRT:  RenderTexture;
     private readonly _objectsRT:             RenderTexture;
     private readonly _objectsNormalRT:       RenderTexture;
@@ -78,20 +91,27 @@ export class ShadowSystem {
         camera: Camera,
         groundContainer: Container,
         groundNormalContainer: Container,
+        groundSpecularContainer: Container,
         objectsContainer: Container,
         objectsNormalContainer: Container,
+        glowTexture: Texture | null,
     ) {
         this._app    = app;
         this._camera = camera;
         this._groundContainer        = groundContainer;
         this._groundNormalContainer  = groundNormalContainer;
+        this._groundSpecularContainer = groundSpecularContainer;
         this._objectsContainer       = objectsContainer;
         this._objectsNormalContainer = objectsNormalContainer;
+        this._glowTexture            = glowTexture;
 
         const mkRT = () => RenderTexture.create({ width: GAME_W, height: GAME_H });
 
         this._groundRT              = mkRT();
         this._groundNormalRT        = mkRT();
+        this._groundSpecularRT      = mkRT();
+        this._specularLightmaskRT   = mkRT();
+        this._specularMaskedRT      = mkRT();
         this._normalMappedGroundRT  = mkRT();
         this._objectsRT             = mkRT();
         this._objectsNormalRT       = mkRT();
@@ -204,9 +224,71 @@ export class ShadowSystem {
         }
 
         // ------------------------------------------------------------------
+        // 2a. Ground specular → _groundSpecularRT (C#: specularMapRenderTarget)
+        // ------------------------------------------------------------------
+        {
+            const blackFill = new Graphics();
+            blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+            renderer.render({ container: blackFill, target: this._groundSpecularRT, clear: true });
+            blackFill.destroy();
+
+            renderWithCameraTransform(this._groundSpecularContainer, this._groundSpecularRT, false);
+        }
+
+        // ------------------------------------------------------------------
+        // 2b. Specular lightmask → _specularLightmaskRT
+        //     C#: glow sprites from all lights with NonPremultiplied blend (specularMapLightmaskRenderTarget)
+        // ------------------------------------------------------------------
+        {
+            const blackFill = new Graphics();
+            blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+            renderer.render({ container: blackFill, target: this._specularLightmaskRT, clear: true });
+            blackFill.destroy();
+
+            if (this._glowTexture && this.lights.length > 0) {
+                const glowContainer = new Container();
+                glowContainer.position.copyFrom(cw.position);
+                glowContainer.scale.copyFrom(cw.scale);
+                glowContainer.pivot.copyFrom(cw.pivot);
+
+                for (const light of this.lights) {
+                    if (!light.enabled || !light.isGlowEnabled) continue;
+                    const glow = new Sprite(this._glowTexture);
+                    glow.anchor.set(0.5);
+                    // C#: _specularGlowDrawingInfos.Position = Position + (0, 100), Scale = GlowScale
+                    glow.x = light.position.x + light.deltaForGround.x;
+                    glow.y = light.position.y + light.deltaForGround.y;
+                    glow.scale.set(this.glowScale);
+                    glowContainer.addChild(glow);
+                }
+
+                renderer.render({ container: glowContainer, target: this._specularLightmaskRT, clear: false });
+                glowContainer.destroy({ children: true });
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // 2c. Specular masked → _specularMaskedRT
+        //     C#: specularmap.fx → return specular * lightmask (pixel multiply)
+        // ------------------------------------------------------------------
+        {
+            // Start with the lightmask as base
+            const lightmaskSprite = new Sprite(this._specularLightmaskRT);
+            renderer.render({ container: lightmaskSprite, target: this._specularMaskedRT, clear: true });
+            lightmaskSprite.destroy();
+
+            // Multiply specular onto the lightmask → result = specular * lightmask
+            const specularSprite = new Sprite(this._groundSpecularRT);
+            specularSprite.blendMode = 'multiply';
+            renderer.render({ container: specularSprite, target: this._specularMaskedRT, clear: false });
+            specularSprite.destroy();
+        }
+
+        // ------------------------------------------------------------------
         // 3. Normal-map ground pass → _normalMappedGroundRT
         //    C#: AmbientColor è dentro lo shader, accumulato N volte via additive blend
         //    Per-light: additive Lambertian + ambient per-pass
+        //    Al termine: composizione additiva di _specularMaskedRT (C#: additive blend specular + NM)
         // ------------------------------------------------------------------
         {
             // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
@@ -251,6 +333,12 @@ export class ShadowSystem {
                 renderer.render({ container: addSprite, target: this._normalMappedGroundRT, clear: false });
                 addSprite.destroy();
             }
+
+            // C#: composizione finale = appliedNormalMap + specularWithLightmask (BlendState.Additive)
+            const specMaskedSprite = new Sprite(this._specularMaskedRT);
+            specMaskedSprite.blendMode = 'add';
+            renderer.render({ container: specMaskedSprite, target: this._normalMappedGroundRT, clear: false });
+            specMaskedSprite.destroy();
         }
 
         // ------------------------------------------------------------------
@@ -404,11 +492,40 @@ export class ShadowSystem {
                 blurredSprite.destroy();
             }
         }
+
+        // ------------------------------------------------------------------
+        // 7b. Additional glow mask on lightmap (RC1)
+        //     C#: enemy/brazier/candle DrawLightMask() drawn additively onto Penumbra.LightMap
+        //     Effects/glow at Position+(0,100), scale lightMaskScale, additive blend
+        // ------------------------------------------------------------------
+        if (this._glowTexture && this.lights.length > 0) {
+            const glowContainer = new Container();
+            glowContainer.position.copyFrom(cw.position);
+            glowContainer.scale.copyFrom(cw.scale);
+            glowContainer.pivot.copyFrom(cw.pivot);
+
+            for (const light of this.lights) {
+                if (!light.enabled || !light.isGlowEnabled) continue;
+                const glow = new Sprite(this._glowTexture);
+                glow.anchor.set(0.5);
+                glow.x = light.position.x + light.deltaForGround.x;
+                glow.y = light.position.y + light.deltaForGround.y;
+                glow.scale.set(light.lightMaskScale);
+                glow.blendMode = 'add';
+                glowContainer.addChild(glow);
+            }
+
+            renderer.render({ container: glowContainer, target: this._lightmap, clear: false });
+            glowContainer.destroy({ children: true });
+        }
     }
 
     destroy(): void {
         this._groundRT.destroy();
         this._groundNormalRT.destroy();
+        this._groundSpecularRT.destroy();
+        this._specularLightmaskRT.destroy();
+        this._specularMaskedRT.destroy();
         this._normalMappedGroundRT.destroy();
         this._objectsRT.destroy();
         this._objectsNormalRT.destroy();

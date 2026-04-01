@@ -60,11 +60,14 @@ normalMapAmbienceColor = { r: 0.35, g: 0.35, b: 0.35 }
 ```
 _groundRT              1280×720  Ground sprites base (opaque black BG)
 _groundNormalRT        1280×720  Normal map sprites del pavimento (BG nero)
-_normalMappedGroundRT  1280×720  Ground base + illuminazione diffusa accumulata
+_groundSpecularRT      1280×720  Specular map sprites del pavimento (BG nero) [C#: specularMapRenderTarget]
+_specularLightmaskRT   1280×720  Glow sprites da tutte le luci (BG nero)     [C#: specularMapLightmaskRenderTarget]
+_specularMaskedRT      1280×720  specular × lightmask (pixel multiply)       [C#: specularmap.fx output]
+_normalMappedGroundRT  1280×720  Ground NM accumulato + specular masked (additive)
 _objectsRT             1280×720  Muri/pilastri/personaggi base
 _objectsNormalRT       1280×720  Normal map muri/pilastri/personaggi (BG neutro 0x8080FF)
 _normalMappedObjectsRT 1280×720  Objects base + illuminazione diffusa accumulata
-_lightmap              1280×720  Lightmap ombre (ambient fill + luce radiale - ombre)
+_lightmap              1280×720  Lightmap ombre (ambient fill + luce radiale - ombre + glow mask additivi)
 _perLightRT            1280×720  Buffer temporaneo riusato per-luce (NM + lightmap)
 _blurredRT             1280×720  Buffer per il blur pass della lightmap
 _lightTexture          256×256   Gradient radiale bianco pre-renderizzato (statico)
@@ -100,6 +103,7 @@ app.stage
 ```
 _groundContainer          Sprites pavimento (aggiunto da GameGrid)
 _groundNormalContainer    Sprites normal map pavimento (aggiunto da GameGrid)
+_groundSpecularContainer  Sprites specular map pavimento (aggiunto da GameGrid) [C#: specularMapRenderTarget]
 
 _objectsContainer         Sprites muri, pilastri, personaggi
 _objectsNormalContainer   Sprites normal map muri, pilastri
@@ -158,29 +162,73 @@ producono illuminazione nello shader (early-out su alpha < 0.01 nel fragment).
 
 ---
 
+### Fase 2a — Ground specular → `_groundSpecularRT` (C#: `specularMapRenderTarget`)
+
+```
+1. Fill nero (0x000000) → _groundSpecularRT (clear=true)
+2. Render _groundSpecularContainer con camera transform → _groundSpecularRT (clear=false)
+```
+
+Contiene le specular map sprites dei tile Terra (texture `cell_spec`).
+Pixel neri = nessuna specularità. Il container è popolato da `GameGrid` con le stesse
+posizioni dei tile diffuse (`Z_GROUND`).
+
+---
+
+### Fase 2b — Specular lightmask → `_specularLightmaskRT` (C#: `specularMapLightmaskRenderTarget`)
+
+```
+1. Fill nero (0x000000) → _specularLightmaskRT (clear=true)
+2. Per ogni light con isGlowEnabled=true:
+   - Sprite(Effects/glow) a position + deltaForGround (world space)
+   - anchor(0.5), scale(glowScale=2.0), blendMode='normal'
+   - Render con camera transform → _specularLightmaskRT (clear=false)
+```
+
+**C#**: `DrawGlowForSpecular()` → `_specularGlowDrawingInfos` con `Scale=GlowScale`, `NonPremultiplied` blend.
+Produce una maschera luminosa attorno alle sorgenti di luce, usata per controllare
+dove appare la specularità del pavimento.
+
+---
+
+### Fase 2c — Specular masked → `_specularMaskedRT` (C#: `specularmap.fx`)
+
+```
+1. Render _specularLightmaskRT → _specularMaskedRT (clear=true, normal blend) ← lightmask come base
+2. Render _groundSpecularRT con blendMode='multiply' → _specularMaskedRT (clear=false)
+   → risultato = specular * lightmask (pixel per pixel)
+```
+
+**C# `specularmap.fx`**: `return color * lightColor` — identico moltiplicazione pixel.
+Il risultato contiene specularità solo nelle aree illuminate dalle sorgenti di luce.
+
+---
+
 ### Fase 3 — Normal-map ground → `_normalMappedGroundRT`
 
 ```
-a) Tint ambient:
-   ambientTint = ambienceColorHex(this.normalMapAmbienceColor)
-   Sprite(_groundRT).tint = ambientTint
-   Render → _normalMappedGroundRT (clear=true)
+a) Fill nero (0x000000) → _normalMappedGroundRT (clear=true)
 
 b) _normalMapFilter.setNormalMap(_groundNormalRT)   ← UNA VOLTA prima del loop
+   _normalMapFilter.setAmbientColor(normalMapAmbienceColor)
 
 c) Per ogni light (enabled=true):
    sx, sy = _worldToScreen(light.position + light.deltaForGround, cameraWorld)
-   z = light.z * abs(cameraWorld.scale.x)   ← Z scalato per lo zoom camera!
+   z = light.z   ← Z NON scalato per lo zoom (solo XY sono in screen-space)
 
    _normalMapFilter.setLight(sx, sy, z, light.colorNormalVec3,
                               light.distanceSquaredForGround, light.opacity)
 
    filterContainer = Container con:
      - filters = [_normalMapFilter]
-     - child: Sprite(_groundRT)   ← la RT diffuse già in screen-space
+     - child: Sprite(_groundRT)
    Render filterContainer → _perLightRT (clear=true)     ← per-light buffer
    Sprite(_perLightRT).blendMode='add'
    Render → _normalMappedGroundRT (clear=false)           ← accumulo additivo
+
+d) Composite finale specular [C#: BlendState.Additive su appliedNormalMap + specularWithLightmask]:
+   Sprite(_specularMaskedRT).blendMode='add'
+   Render → _normalMappedGroundRT (clear=false)           ← aggiunge specularità illuminata
 ```
 
 **delta offset pavimento**: `deltaForGround = { x:0, y:+100 }` (default per tutte le luci).
@@ -261,7 +309,15 @@ b) Per ogni light (enabled=true):
 
    6. Sprite(_blurredRT).blendMode='add'
       Render → _lightmap (clear=false)   ← accumulo additivo
+
+c) Glow mask additivi sulla lightmap [C#: enemy/brazier/candle DrawLightMask() additivi su Penumbra.LightMap]:
+   Per ogni light con isGlowEnabled=true:
+   - Sprite(Effects/glow) a position + deltaForGround, scale=lightMaskScale, blendMode='add'
+   Render glowContainer con camera transform → _lightmap (clear=false)
 ```
+
+Questa fase 7c aggiunge una zona di luce brillante vicino a ogni sorgente di luce
+sul lightmap, esattamente come C# disegna le `DrawLightMask()` additive su Penumbra.
 
 ---
 
