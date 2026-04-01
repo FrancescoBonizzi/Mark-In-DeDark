@@ -1,9 +1,9 @@
-import { Filter, GlProgram, GpuProgram, Texture, UniformGroup } from 'pixi.js';
+import { Filter, GlProgram, GpuProgram, Texture, UniformGroup } from "pixi.js";
 
 // ---------------------------------------------------------------------------
 // WGSL shader (WebGPU) — vertex + fragment in one source
 // ---------------------------------------------------------------------------
-const wgslSource = /* wgsl */`
+const wgslSource = /* wgsl */ `
 struct GlobalFilterUniforms {
     uInputSize:    vec4<f32>,
     uInputPixel:   vec4<f32>,
@@ -90,7 +90,7 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 // ---------------------------------------------------------------------------
 // GLSL vertex (standard PixiJS filter vertex)
 // ---------------------------------------------------------------------------
-const glslVert = /* glsl */`
+const glslVert = /* glsl */ `
 precision highp float;
 precision highp int;
 
@@ -121,7 +121,7 @@ void main(void) {
 // ---------------------------------------------------------------------------
 // GLSL fragment (WebGL2)
 // ---------------------------------------------------------------------------
-const glslFrag = /* glsl */`
+const glslFrag = /* glsl */ `
 precision highp float;
 precision highp int;
 
@@ -176,81 +176,94 @@ void main(void) {
 // ---------------------------------------------------------------------------
 
 export class NormalMapFilter extends Filter {
-    private readonly _normalMapUniforms: UniformGroup;
+  private readonly _normalMapUniforms: UniformGroup;
 
-    constructor() {
-        const gpuProgram = GpuProgram.from({
-            vertex:   { source: wgslSource, entryPoint: 'mainVertex' },
-            fragment: { source: wgslSource, entryPoint: 'mainFragment' },
-        });
+  constructor() {
+    const gpuProgram = GpuProgram.from({
+      vertex: { source: wgslSource, entryPoint: "mainVertex" },
+      fragment: { source: wgslSource, entryPoint: "mainFragment" },
+    });
 
-        const glProgram = GlProgram.from({
-            vertex:   glslVert,
-            fragment: glslFrag,
-            name:     'normal-map-filter',
-        });
+    const glProgram = GlProgram.from({
+      vertex: glslVert,
+      fragment: glslFrag,
+      name: "normal-map-filter",
+    });
 
-        const normalMapUniforms = new UniformGroup({
-            uLightPosition: { value: new Float32Array([0, 0, 75, 0]),    type: 'vec4<f32>' },
-            uLightColor:    { value: new Float32Array([1, 1, 1, 0]),     type: 'vec4<f32>' },
-            uLightParams:   { value: new Float32Array([640000, 1, 0, 0]), type: 'vec4<f32>' },
-            uAmbientColor:  { value: new Float32Array([0, 0, 0, 0]),     type: 'vec4<f32>' },
-            uNormalMapSize: { value: new Float32Array([1, 1]),           type: 'vec2<f32>' },
-        });
+    const normalMapUniforms = new UniformGroup({
+      uLightPosition: {
+        value: new Float32Array([0, 0, 75, 0]),
+        type: "vec4<f32>",
+      },
+      uLightColor: { value: new Float32Array([1, 1, 1, 0]), type: "vec4<f32>" },
+      uLightParams: {
+        value: new Float32Array([640000, 1, 0, 0]),
+        type: "vec4<f32>",
+      },
+      uAmbientColor: {
+        value: new Float32Array([0, 0, 0, 0]),
+        type: "vec4<f32>",
+      },
+      uNormalMapSize: { value: new Float32Array([1, 1]), type: "vec2<f32>" },
+    });
 
-        const emptySource = Texture.EMPTY.source;
+    const emptySource = Texture.EMPTY.source;
 
-        super({
-            gpuProgram,
-            glProgram,
-            resources: {
-                normalMapUniforms,
-                uNormalMap:        emptySource,
-                uNormalMapSampler: emptySource.style,
-            },
-        });
+    super({
+      gpuProgram,
+      glProgram,
+      resources: {
+        normalMapUniforms,
+        uNormalMap: emptySource,
+        uNormalMapSampler: emptySource.style,
+      },
+    });
 
-        this._normalMapUniforms = normalMapUniforms;
-    }
+    this._normalMapUniforms = normalMapUniforms;
+  }
 
-    /** Update ambient color before the per-light loop. Mirrors C# AmbientColor uniform. */
-    setAmbientColor(color: { r: number; g: number; b: number }): void {
-        const u = this._normalMapUniforms.uniforms as { uAmbientColor: Float32Array };
-        u.uAmbientColor[0] = color.r;
-        u.uAmbientColor[1] = color.g;
-        u.uAmbientColor[2] = color.b;
-    }
+  /** Update ambient color before the per-light loop. Mirrors C# AmbientColor uniform. */
+  setAmbientColor(color: { r: number; g: number; b: number }): void {
+    const u = this._normalMapUniforms.uniforms as {
+      uAmbientColor: Float32Array;
+    };
+    u.uAmbientColor[0] = color.r;
+    u.uAmbientColor[1] = color.g;
+    u.uAmbientColor[2] = color.b;
+  }
 
-    /** Update light parameters before each render. */
-    setLight(
-        screenX:    number,
-        screenY:    number,
-        z:          number,
-        color:      { r: number; g: number; b: number },
-        distanceSq: number,
-        opacity:    number,
-    ): void {
-        const u = this._normalMapUniforms.uniforms as {
-            uLightPosition: Float32Array;
-            uLightColor:    Float32Array;
-            uLightParams:   Float32Array;
-        };
-        u.uLightPosition[0] = screenX;
-        u.uLightPosition[1] = screenY;
-        u.uLightPosition[2] = z;
-        u.uLightColor[0] = color.r;
-        u.uLightColor[1] = color.g;
-        u.uLightColor[2] = color.b;
-        u.uLightParams[0] = distanceSq;
-        u.uLightParams[1] = opacity;
-    }
+  /** Update light parameters before each render. */
+  setLight(
+    screenX: number,
+    screenY: number,
+    z: number,
+    color: { r: number; g: number; b: number },
+    distanceSq: number,
+    opacity: number,
+  ): void {
+    const u = this._normalMapUniforms.uniforms as {
+      uLightPosition: Float32Array;
+      uLightColor: Float32Array;
+      uLightParams: Float32Array;
+    };
+    u.uLightPosition[0] = screenX;
+    u.uLightPosition[1] = screenY;
+    u.uLightPosition[2] = z;
+    u.uLightColor[0] = color.r;
+    u.uLightColor[1] = color.g;
+    u.uLightColor[2] = color.b;
+    u.uLightParams[0] = distanceSq;
+    u.uLightParams[1] = opacity;
+  }
 
-    /** Swap the normal map texture used by the filter. */
-    setNormalMap(texture: Texture): void {
-        const u = this._normalMapUniforms.uniforms as { uNormalMapSize: Float32Array };
-        u.uNormalMapSize[0] = texture.source.width || 1;
-        u.uNormalMapSize[1] = texture.source.height || 1;
-        this.resources['uNormalMap'] = texture.source;
-        this.resources['uNormalMapSampler'] = texture.source.style;
-    }
+  /** Swap the normal map texture used by the filter. */
+  setNormalMap(texture: Texture): void {
+    const u = this._normalMapUniforms.uniforms as {
+      uNormalMapSize: Float32Array;
+    };
+    u.uNormalMapSize[0] = texture.source.width || 1;
+    u.uNormalMapSize[1] = texture.source.height || 1;
+    this.resources["uNormalMap"] = texture.source;
+    this.resources["uNormalMapSampler"] = texture.source.style;
+  }
 }

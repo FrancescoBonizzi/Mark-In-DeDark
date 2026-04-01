@@ -214,7 +214,9 @@ export class ShadowSystem {
     const cw = this._camera.worldContainer;
     const debug = this._readRenderDebugConfig();
 
-    this._lightmapSprite.blendMode = debug.disableMultiply ? "normal" : "multiply";
+    this._lightmapSprite.blendMode = debug.disableMultiply
+      ? "normal"
+      : "multiply";
 
     if (this.lights.length === 0 && !this._warnedNoLights) {
       this._warnedNoLights = true;
@@ -393,7 +395,10 @@ export class ShadowSystem {
       for (let i = 0; i < this.lights.length; i++) {
         const light = this.lights[i]!;
         if (!light.enabled) continue;
-        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+        if (
+          debug.singleLightIndex !== undefined &&
+          i !== debug.singleLightIndex
+        )
           continue;
 
         const { sx, sy } = this._worldToScreen(
@@ -513,7 +518,10 @@ export class ShadowSystem {
       for (let i = 0; i < this.lights.length; i++) {
         const light = this.lights[i]!;
         if (!light.enabled) continue;
-        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+        if (
+          debug.singleLightIndex !== undefined &&
+          i !== debug.singleLightIndex
+        )
           continue;
 
         const { sx, sy } = this._worldToScreen(
@@ -666,7 +674,10 @@ export class ShadowSystem {
           !light.drawInAdditionalLightMask
         )
           continue;
-        if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
+        if (
+          debug.singleLightIndex !== undefined &&
+          i !== debug.singleLightIndex
+        )
           continue;
         const glow = new Sprite(this._glowTexture);
         glow.anchor.set(0.5);
