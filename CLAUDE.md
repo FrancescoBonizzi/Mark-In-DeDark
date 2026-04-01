@@ -12,9 +12,10 @@ Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
 Sembra che la pipeline di rendering non sia conforme, infatti:
 
-- La normal map non si vede proprio nessun effetto 3D)
-- Le luci fioche (non c'è contrasto)
-- Le ombre sembrano agire correttamente
+- Tutto completamente buio. E ogni volta che togli "il buio" compaiono questi errori:
+  - La normal map non si vede proprio nessun effetto 3D)
+  - Le luci fioche (non c'è contrasto)
+  - Le ombre sembrano agire correttamente
 
 Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
 
