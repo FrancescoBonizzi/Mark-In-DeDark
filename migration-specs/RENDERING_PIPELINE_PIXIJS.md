@@ -130,16 +130,17 @@ All'inizio dell'update viene letto un config debug globale opzionale:
 
 ```typescript
 window.__MIDD_RENDER_DEBUG__ = {
-   enabled: true,
-   logEveryNFrames: 120,
-   singleLightIndex: undefined,
-   forceAmbient: undefined,
-   disableMultiply: false,
-   sampleLuma: false,
+  enabled: true,
+  logEveryNFrames: 120,
+  singleLightIndex: undefined,
+  forceAmbient: undefined,
+  disableMultiply: false,
+  sampleLuma: false,
 };
 ```
 
 Effetti principali del debug config:
+
 - `disableMultiply`: forza `_lightmapSprite.blendMode = 'normal'` per isolare il compositing.
 - `singleLightIndex`: processa una sola luce in tutti i pass.
 - `forceAmbient`: override temporaneo dell'ambient normal map.
@@ -456,6 +457,7 @@ uniform highp vec2 uNormalMapSize;
 ```
 
 Nota compatibilita' WebGL:
+
 - il fragment non usa `textureSize(...)`; la size normal map arriva da uniform `uNormalMapSize`
 - vertex e fragment dichiarano precision coerente (`highp`) per evitare link error dei uniform condivisi
 
@@ -595,7 +597,11 @@ Rappresenta un occluder rettangolare in world-space (muri, pilastri).
 ```typescript
 penumbraAmbientColor: number; // Hex — colore base lightmap (ombre)
 penumbraAmbientAlpha: number; // Opacita' base lightmap
-normalMapAmbienceColor: { r: number; g: number; b: number }; // Tint ambient sul layer NM
+normalMapAmbienceColor: {
+  r: number;
+  g: number;
+  b: number;
+} // Tint ambient sul layer NM
 ```
 
 | Livello | penumbraAmbientColor | penumbraAmbientAlpha | normalMapAmbienceColor     |
@@ -769,5 +775,5 @@ Stage compositing (automatico PixiJS):
     `camera._world` è in posizione [3] e contiene solo la scena live (eventualmente vuoto).
 
 11. **Triage runtime integrato**: con `__MIDD_RENDER_DEBUG__` puoi isolare rapidamente
-   pass problematici senza patch permanenti (single light, ambient override, disable multiply,
-   log periodico luminanza).
+    pass problematici senza patch permanenti (single light, ambient override, disable multiply,
+    log periodico luminanza).
