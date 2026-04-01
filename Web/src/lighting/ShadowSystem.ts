@@ -20,6 +20,9 @@ const GAME_W = 1280;
 const GAME_H = 720;
 /** Size (px) of the pre-rendered radial gradient texture. */
 const LIGHT_TEX_SIZE = 256;
+/** Limit per-light shadow work to nearby hulls (reduces black crush and frame spikes). */
+const MAX_SHADOW_HULLS_PER_LIGHT = 180;
+const SHADOW_HULL_CULL_RADIUS_MULTIPLIER = 1.75;
 
 interface RenderDebugConfig {
   enabled: boolean;
@@ -590,29 +593,39 @@ export class ShadowSystem {
       perLightContainer.scale.copyFrom(cw.scale);
       perLightContainer.pivot.copyFrom(cw.pivot);
 
+      const penumbraPos = light.getPenumbraPosition();
+
       const lightSprite = new Sprite(this._lightTexture);
       lightSprite.scale.set(light.radius / LIGHT_TEX_SIZE);
       lightSprite.anchor.set(0.5);
-      lightSprite.x = light.position.x;
-      lightSprite.y = light.position.y;
+      // C#: PenumbraLight uses Position + (-10, +75), not the raw torch point.
+      lightSprite.x = penumbraPos.x;
+      lightSprite.y = penumbraPos.y;
       lightSprite.tint = light.currentColor;
       lightSprite.alpha = light.opacity;
       perLightContainer.addChild(lightSprite);
 
       if (light.castsShadows && this.hulls.length > 0) {
+        const hullsForLight = this._collectRelevantHulls(
+          penumbraPos.x,
+          penumbraPos.y,
+          light.radius * SHADOW_HULL_CULL_RADIUS_MULTIPLIER,
+          MAX_SHADOW_HULLS_PER_LIGHT,
+        );
+
         const shadowGfx = new Graphics();
-        for (const hull of this.hulls) {
+        for (const hull of hullsForLight) {
           if (!hull.enabled) continue;
           const polys = hull.computeShadowPolygons(
-            light.position.x,
-            light.position.y,
+            penumbraPos.x,
+            penumbraPos.y,
           );
           for (const poly of polys) shadowGfx.poly(poly).fill(0x000000);
         }
         perLightContainer.addChild(shadowGfx);
 
         const hullFillGfx = new Graphics();
-        for (const hull of this.hulls) {
+        for (const hull of hullsForLight) {
           if (!hull.enabled) continue;
           const b = hull.bounds;
           hullFillGfx.rect(b.x, b.y, b.width, b.height).fill(0x000000);
@@ -839,6 +852,37 @@ export class ShadowSystem {
     } catch {
       return null;
     }
+  }
+
+  private _collectRelevantHulls(
+    x: number,
+    y: number,
+    radius: number,
+    maxCount: number,
+  ): Hull[] {
+    const radiusSq = radius * radius;
+    const scored: Array<{ hull: Hull; distSq: number }> = [];
+
+    for (const hull of this.hulls) {
+      if (!hull.enabled) continue;
+      const d2 = this._pointToRectDistanceSq(x, y, hull.bounds);
+      if (d2 <= radiusSq) scored.push({ hull, distSq: d2 });
+    }
+
+    scored.sort((a, b) => a.distSq - b.distSq);
+    return scored.slice(0, maxCount).map((item) => item.hull);
+  }
+
+  private _pointToRectDistanceSq(
+    x: number,
+    y: number,
+    rect: { x: number; y: number; width: number; height: number },
+  ): number {
+    const rx2 = rect.x + rect.width;
+    const ry2 = rect.y + rect.height;
+    const dx = x < rect.x ? rect.x - x : x > rx2 ? x - rx2 : 0;
+    const dy = y < rect.y ? rect.y - y : y > ry2 ? y - ry2 : 0;
+    return dx * dx + dy * dy;
   }
 
   /**
