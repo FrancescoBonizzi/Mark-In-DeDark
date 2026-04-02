@@ -55,8 +55,10 @@ fn mainFragment(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let clampedUv = clamp(uv, gfu.uInputClamp.xy, gfu.uInputClamp.zw);
     let diffuse = textureSample(uTexture, uSampler, clampedUv);
 
-    // Early-out for transparent pixels
-    if (diffuse.a < 0.01) { return vec4<f32>(0.0); }
+    // Early-out for transparent/semi-transparent pixels.
+    // Threshold of 0.5 avoids accumulating black from semi-transparent sprite edges
+    // that, with additive blending over multiple light passes, create a "black halo".
+    if (diffuse.a < 0.5) { return vec4<f32>(0.0); }
 
     // Pixel position in screen-space — correct regardless of filter pool texture size
     let pixelPos = clampedUv * gfu.uInputSize.xy;
@@ -144,7 +146,8 @@ void main(void) {
     vec2 uv = clamp(vTextureCoord, uInputClamp.xy, uInputClamp.zw);
     vec4 diffuse = texture(uTexture, uv);
 
-    if (diffuse.a < 0.01) { finalColor = vec4(0.0); return; }
+    // Early-out: same threshold as WGSL to avoid black-halo accumulation on semi-transparent edges.
+    if (diffuse.a < 0.5) { finalColor = vec4(0.0); return; }
 
     // Pixel position in screen-space — correct regardless of filter pool texture size
     vec2 pixelPos = uv * uInputSize.xy;

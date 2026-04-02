@@ -28,6 +28,8 @@ abstract class ParticleSystem {
     private readonly _spawnAngleDegrees: Interval;
     private readonly _perspectiveEffect: PerspectiveEffect | null;
 
+    private readonly _colors: string[];
+
     protected constructor(
         texture: Texture,
         camera: Camera,
@@ -41,7 +43,8 @@ abstract class ParticleSystem {
         spawnAngleInDegrees: Interval,
         textureBlendMode: BLEND_MODES | undefined = undefined,
         randomizedSpawnAngle: boolean = false,
-        perspectiveEffect: PerspectiveEffect | null = null) {
+        perspectiveEffect: PerspectiveEffect | null = null,
+        colors: string[] = []) {
 
         this._numParticles = numParticles;
         this._speed = speed;
@@ -52,6 +55,7 @@ abstract class ParticleSystem {
         this._spawnAngleDegrees = spawnAngleInDegrees;
         this._randomizedSpawnAngle = randomizedSpawnAngle;
         this._perspectiveEffect = perspectiveEffect;
+        this._colors = colors;
 
         this._activeParticles = new Array(density * numParticles.max)
             .fill(null)
@@ -119,12 +123,15 @@ abstract class ParticleSystem {
                 ? -this._perspectiveEffect!.vz
                 : this._perspectiveEffect!.vz;
 
+        const color = this._colors.length > 0
+            ? this._colors[Math.floor(Math.random() * this._colors.length)]!
+            : "#FFFFFF";
         particle.initialize(
             position,
             speed,
             acceleration,
             Numbers.randomBetweenInterval(this._rotationSpeed),
-            "#FFFFFF",
+            color,
             Numbers.randomBetweenInterval(this._scale),
             Numbers.randomBetweenInterval(this._lifetimeSeconds),
             this._randomizedSpawnAngle,

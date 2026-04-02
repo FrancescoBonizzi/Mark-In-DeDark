@@ -69,6 +69,9 @@ export class ShadowSystem {
   lights: MarkLight[] = [];
   hulls: Hull[] = [];
 
+  /** Wall→hull pairs for dynamic enabled-state sync (e.g. interactive doors). */
+  private _wallHullPairs: Array<{ wall: IWall; hull: Hull }> = [];
+
   ambientColor = 0x000000;
   ambientAlpha = 1.0;
   normalMapAmbienceColor: { r: number; g: number; b: number } = {
@@ -112,10 +115,46 @@ export class ShadowSystem {
   private readonly _normalMappedObjectsSprite: Sprite;
   private _warnedNoLights = false;
 
+  /**
+   * Container for character shadow sprites (C# drawShadows pass).
+   * Rendered onto _normalMappedGroundRT after the normal-map pass, in AlphaBlend,
+   * with camera transform applied — same as C# Passo 1G second SpriteBatch.
+   */
+  readonly shadowContainer = new Container();
+
   /** Reused blur filter for the shadow lightmap pass. */
   private readonly _blurFilter = new BlurFilter({ strength: 3, quality: 2 });
   /** Reused normal-map filter (blendMode = 'add' always). */
   private readonly _normalMapFilter = new NormalMapFilter();
+
+  // --- Pre-allocated objects to reduce per-frame garbage (Task Bonus: memory) ---
+  /** Empty container used for clearColor renders instead of allocating Graphics each frame. */
+  private readonly _emptyContainer!: Container;
+  /** Reusable camera-transform container for borrowed-child renders. */
+  private readonly _camContainer!: Container;
+  /** Reusable sortable camera-transform container for objects pass. */
+  private readonly _camSortableContainer!: Container;
+  /** Sprite wrapping _groundRT; child of _groundNMFilterContainer. */
+  private readonly _groundNMSprite!: Sprite;
+  /** Container with NM filter; reused for per-light NM ground pass. */
+  private readonly _groundNMFilterContainer!: Container;
+  /** Sprite wrapping _objectsRT; child of _objectsNMFilterContainer. */
+  private readonly _objectsNMSprite!: Sprite;
+  /** Container with NM filter; reused for per-light NM objects pass. */
+  private readonly _objectsNMFilterContainer!: Container;
+  /** Sprite wrapping _perLightRT; child of _blurPassContainer. */
+  private readonly _perLightReuseSprite!: Sprite;
+  /** Container with blur filter; reused each frame for blur pass. */
+  private readonly _blurPassContainer!: Container;
+  /** Sprite wrapping _blurredRT with additive blend; reused for lightmap composite. */
+  private readonly _blurredCompositeSprite!: Sprite;
+  /** Sprite wrapping _specularMaskedRT with additive blend; reused for NM ground composite. */
+  private readonly _specMaskedCompositeSprite!: Sprite;
+  /** Sprite wrapping _specularLightmaskRT; reused for specular masked step. */
+  private readonly _specLightmaskCopySprite!: Sprite;
+  /** Sprite wrapping _groundSpecularRT with multiply blend; reused for specular masked step. */
+  private readonly _specMultiplySprite!: Sprite;
+
   constructor(
     app: Application,
     camera: Camera,
@@ -157,6 +196,38 @@ export class ShadowSystem {
     this._blurredRT = mkRT();
     this._lightTexture = this._createLightTexture(LIGHT_TEX_SIZE);
 
+    // Pre-allocate reusable objects (avoids per-frame allocation — Task Bonus: memory)
+    this._emptyContainer = new Container();
+    this._camContainer = new Container();
+    this._camSortableContainer = new Container();
+    this._camSortableContainer.sortableChildren = true;
+
+    this._groundNMSprite = new Sprite(this._groundRT);
+    this._groundNMFilterContainer = new Container();
+    this._groundNMFilterContainer.filters = [this._normalMapFilter];
+    this._groundNMFilterContainer.addChild(this._groundNMSprite);
+
+    this._objectsNMSprite = new Sprite(this._objectsRT);
+    this._objectsNMFilterContainer = new Container();
+    this._objectsNMFilterContainer.filters = [this._normalMapFilter];
+    this._objectsNMFilterContainer.addChild(this._objectsNMSprite);
+
+    this._perLightReuseSprite = new Sprite(this._perLightRT);
+    this._blurPassContainer = new Container();
+    this._blurPassContainer.filters = [this._blurFilter];
+    this._blurPassContainer.addChild(this._perLightReuseSprite);
+
+    this._blurredCompositeSprite = new Sprite(this._blurredRT);
+    this._blurredCompositeSprite.blendMode = 'add';
+
+    this._specMaskedCompositeSprite = new Sprite(this._specularMaskedRT);
+    this._specMaskedCompositeSprite.blendMode = 'add';
+
+    this._specLightmaskCopySprite = new Sprite(this._specularLightmaskRT);
+
+    this._specMultiplySprite = new Sprite(this._groundSpecularRT);
+    this._specMultiplySprite.blendMode = 'multiply';
+
     // [0] Ground with normal map lighting
     this._normalMappedGroundSprite = new Sprite(this._normalMappedGroundRT);
     app.stage.addChildAt(this._normalMappedGroundSprite, 0);
@@ -196,7 +267,9 @@ export class ShadowSystem {
   addHullsFromWalls(walls: IWall[]): void {
     for (const wall of walls) {
       for (const rect of wall.hullRects) {
-        this.hulls.push(Hull.fromRectangle(rect));
+        const hull = Hull.fromRectangle(rect);
+        this.hulls.push(hull);
+        this._wallHullPairs.push({ wall, hull });
       }
     }
   }
@@ -229,150 +302,89 @@ export class ShadowSystem {
       );
     }
 
+    // Sync hull enabled state from walls (handles interactive doors opening/closing)
+    for (const { wall, hull } of this._wallHullPairs) {
+      hull.enabled = wall.hullRects.length > 0;
+    }
+
     // Animate lights
     for (const light of this.lights) light.update(deltaMS);
 
-    // Helper: create a temp container that mirrors the camera world transform.
-    // The given child is borrowed (removed after render, not destroyed).
-    const renderWithCameraTransform = (
-      child: Container,
-      target: RenderTexture,
-      clear: boolean,
-      extraSetup?: (c: Container) => void,
-    ) => {
-      const tmp = new Container();
-      tmp.position.copyFrom(cw.position);
-      tmp.scale.copyFrom(cw.scale);
-      tmp.pivot.copyFrom(cw.pivot);
-      if (extraSetup) extraSetup(tmp);
-      tmp.addChild(child);
-      renderer.render({ container: tmp, target, clear });
-      tmp.removeChild(child);
-      tmp.destroy();
+    // Reusable helper: borrow a child into the pre-created camera container, render, then return it.
+    // Avoids allocating a new Container every call (Task Bonus: memory).
+    const renderWithCam = (child: Container, target: RenderTexture, clear: boolean) => {
+      this._camContainer.position.copyFrom(cw.position);
+      this._camContainer.scale.copyFrom(cw.scale);
+      this._camContainer.pivot.copyFrom(cw.pivot);
+      this._camContainer.addChild(child);
+      renderer.render({ container: this._camContainer, target, clear });
+      this._camContainer.removeChild(child);
+    };
+
+    // Same but with sortableChildren=true (for objects passes).
+    const renderWithCamSortable = (child: Container, target: RenderTexture, clear: boolean) => {
+      this._camSortableContainer.position.copyFrom(cw.position);
+      this._camSortableContainer.scale.copyFrom(cw.scale);
+      this._camSortableContainer.pivot.copyFrom(cw.pivot);
+      this._camSortableContainer.addChild(child);
+      renderer.render({ container: this._camSortableContainer, target, clear });
+      this._camSortableContainer.removeChild(child);
     };
 
     // ------------------------------------------------------------------
     // 1. Ground base → _groundRT (opaque black background)
     // ------------------------------------------------------------------
-    {
-      const blackFill = new Graphics();
-      blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
-      renderer.render({
-        container: blackFill,
-        target: this._groundRT,
-        clear: true,
-      });
-      blackFill.destroy();
-
-      renderWithCameraTransform(this._groundContainer, this._groundRT, false);
-    }
+    renderer.render({ container: this._emptyContainer, target: this._groundRT, clear: true, clearColor: [0, 0, 0, 1] });
+    renderWithCam(this._groundContainer, this._groundRT, false);
 
     // ------------------------------------------------------------------
-    // 2. Ground normals → _groundNormalRT
+    // 2. Ground normals → _groundNormalRT (neutral normal 0x8080FF fill)
     // C# could clear black because every ground tile had a normal map.
     // Web has missing ground normal textures on several packs, so use neutral normal fill.
     // ------------------------------------------------------------------
-    {
-      const normalFill = new Graphics();
-      normalFill.rect(0, 0, GAME_W, GAME_H).fill(0x8080ff);
-      renderer.render({
-        container: normalFill,
-        target: this._groundNormalRT,
-        clear: true,
-      });
-      normalFill.destroy();
-
-      renderWithCameraTransform(
-        this._groundNormalContainer,
-        this._groundNormalRT,
-        false,
-      );
-    }
+    renderer.render({ container: this._emptyContainer, target: this._groundNormalRT, clear: true, clearColor: [0x80 / 255, 0x80 / 255, 1, 1] });
+    renderWithCam(this._groundNormalContainer, this._groundNormalRT, false);
 
     // ------------------------------------------------------------------
     // 2a. Ground specular → _groundSpecularRT (C#: specularMapRenderTarget)
     // ------------------------------------------------------------------
-    {
-      const blackFill = new Graphics();
-      blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
-      renderer.render({
-        container: blackFill,
-        target: this._groundSpecularRT,
-        clear: true,
-      });
-      blackFill.destroy();
-
-      renderWithCameraTransform(
-        this._groundSpecularContainer,
-        this._groundSpecularRT,
-        false,
-      );
-    }
+    renderer.render({ container: this._emptyContainer, target: this._groundSpecularRT, clear: true, clearColor: [0, 0, 0, 1] });
+    renderWithCam(this._groundSpecularContainer, this._groundSpecularRT, false);
 
     // ------------------------------------------------------------------
     // 2b. Specular lightmask → _specularLightmaskRT
     //     C#: glow sprites from all lights with NonPremultiplied blend (specularMapLightmaskRenderTarget)
     // ------------------------------------------------------------------
-    {
-      const blackFill = new Graphics();
-      blackFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
-      renderer.render({
-        container: blackFill,
-        target: this._specularLightmaskRT,
-        clear: true,
-      });
-      blackFill.destroy();
+    renderer.render({ container: this._emptyContainer, target: this._specularLightmaskRT, clear: true, clearColor: [0, 0, 0, 1] });
+    if (this._glowTexture && this.lights.length > 0) {
+      const glowContainer = new Container();
+      glowContainer.position.copyFrom(cw.position);
+      glowContainer.scale.copyFrom(cw.scale);
+      glowContainer.pivot.copyFrom(cw.pivot);
 
-      if (this._glowTexture && this.lights.length > 0) {
-        const glowContainer = new Container();
-        glowContainer.position.copyFrom(cw.position);
-        glowContainer.scale.copyFrom(cw.scale);
-        glowContainer.pivot.copyFrom(cw.pivot);
-
-        for (const light of this.lights) {
-          if (!light.enabled || !light.isGlowEnabled) continue;
-          const glow = new Sprite(this._glowTexture);
-          glow.anchor.set(0.5);
-          // C#: _specularGlowDrawingInfos.Position = Position + (0, 100), Scale = GlowScale
-          glow.x = light.position.x + light.deltaForGround.x;
-          glow.y = light.position.y + light.deltaForGround.y;
-          glow.scale.set(this.glowScale);
-          glowContainer.addChild(glow);
-        }
-
-        renderer.render({
-          container: glowContainer,
-          target: this._specularLightmaskRT,
-          clear: false,
-        });
-        glowContainer.destroy({ children: true });
+      for (const light of this.lights) {
+        if (!light.enabled || !light.isGlowEnabled) continue;
+        const glow = new Sprite(this._glowTexture);
+        glow.anchor.set(0.5);
+        // C#: _specularGlowDrawingInfos.Position = Position + (0, 100), Scale = GlowScale
+        glow.x = light.position.x + light.deltaForGround.x;
+        glow.y = light.position.y + light.deltaForGround.y;
+        glow.scale.set(this.glowScale);
+        glowContainer.addChild(glow);
       }
+
+      renderer.render({ container: glowContainer, target: this._specularLightmaskRT, clear: false });
+      glowContainer.destroy({ children: true });
     }
 
     // ------------------------------------------------------------------
     // 2c. Specular masked → _specularMaskedRT
     //     C#: specularmap.fx → return specular * lightmask (pixel multiply)
     // ------------------------------------------------------------------
-    {
-      // Start with the lightmask as base
-      const lightmaskSprite = new Sprite(this._specularLightmaskRT);
-      renderer.render({
-        container: lightmaskSprite,
-        target: this._specularMaskedRT,
-        clear: true,
-      });
-      lightmaskSprite.destroy();
-
-      // Multiply specular onto the lightmask → result = specular * lightmask
-      const specularSprite = new Sprite(this._groundSpecularRT);
-      specularSprite.blendMode = "multiply";
-      renderer.render({
-        container: specularSprite,
-        target: this._specularMaskedRT,
-        clear: false,
-      });
-      specularSprite.destroy();
-    }
+    // Start with the lightmask as base (pre-created sprite)
+    renderer.render({ container: this._specLightmaskCopySprite, target: this._specularMaskedRT, clear: true });
+    // Multiply specular onto the lightmask → result = specular * lightmask (pre-created sprite with multiply blend)
+    renderer.render({ container: this._specMultiplySprite, target: this._specularMaskedRT, clear: false });
 
     // ------------------------------------------------------------------
     // 3. Normal-map ground pass → _normalMappedGroundRT
@@ -380,125 +392,58 @@ export class ShadowSystem {
     //    Per-light: additive Lambertian + ambient per-pass
     //    Al termine: composizione additiva di _specularMaskedRT (C#: additive blend specular + NM)
     // ------------------------------------------------------------------
-    {
-      // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
-      {
-        const clearFill = new Graphics();
-        clearFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
-        renderer.render({
-          container: clearFill,
-          target: this._normalMappedGroundRT,
-          clear: true,
-        });
-        clearFill.destroy();
-      }
+    // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
+    renderer.render({ container: this._emptyContainer, target: this._normalMappedGroundRT, clear: true, clearColor: [0, 0, 0, 1] });
 
-      // C#: composizione specular+lightmask (BlendState.Additive) eseguita PRIMA del loop NM.
-      // Additivo è commutativo (A+B = B+A) e renderlo qui (su RT pulita da black fill) evita il
-      // problema PixiJS 8 per cui i render diretti su una RT già usata come filter-target si comportano
-      // come overwrite invece di accumulo.
-      {
-        const specMaskedSprite = new Sprite(this._specularMaskedRT);
-        specMaskedSprite.blendMode = "add";
-        renderer.render({
-          container: specMaskedSprite,
-          target: this._normalMappedGroundRT,
-          clear: false,
-        });
-        specMaskedSprite.destroy();
-      }
+    // C#: composizione specular+lightmask (BlendState.Additive) eseguita PRIMA del loop NM.
+    // Additivo è commutativo (A+B = B+A) e renderlo qui (su RT pulita da black fill) evita il
+    // problema PixiJS 8 per cui i render diretti su una RT già usata come filter-target si comportano
+    // come overwrite invece di accumulo.
+    renderer.render({ container: this._specMaskedCompositeSprite, target: this._normalMappedGroundRT, clear: false });
 
-      this._normalMapFilter.setNormalMap(this._groundNormalRT);
-      this._normalMapFilter.setAmbientColor(
-        debug.forceAmbient ?? this.normalMapAmbienceColor,
+    this._normalMapFilter.setNormalMap(this._groundNormalRT);
+    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
+    // Single-pass additive accumulation: filter writes directly onto _normalMappedGroundRT
+    // with blendMode="add" instead of the two-pass (filter→_perLightRT, sprite→finalRT) approach.
+    // This matches how PixiJS 8 FilterSystem applies the filter blend state: filter._state.blendMode
+    // controls the blend when the filter quad is drawn to the outputRenderSurface.
+    this._normalMapFilter.blendMode = "add";
+
+    for (let i = 0; i < this.lights.length; i++) {
+      const light = this.lights[i]!;
+      if (!light.enabled) continue;
+      if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex) continue;
+
+      const { sx, sy } = this._worldToScreen(
+        light.position.x + light.deltaForGround.x,
+        light.position.y + light.deltaForGround.y,
+        cw,
       );
-      // Single-pass additive accumulation: filter writes directly onto _normalMappedGroundRT
-      // with blendMode="add" instead of the two-pass (filter→_perLightRT, sprite→finalRT) approach.
-      // This matches how PixiJS 8 FilterSystem applies the filter blend state: filter._state.blendMode
-      // controls the blend when the filter quad is drawn to the outputRenderSurface.
-      this._normalMapFilter.blendMode = "add";
+      this._normalMapFilter.setLight(sx, sy, light.z, light.colorNormalVec3, light.distanceSquaredForGround, light.opacity);
+      // Use pre-created filter container (no allocation)
+      renderer.render({ container: this._groundNMFilterContainer, target: this._normalMappedGroundRT, clear: false });
+    }
 
-      for (let i = 0; i < this.lights.length; i++) {
-        const light = this.lights[i]!;
-        if (!light.enabled) continue;
-        if (
-          debug.singleLightIndex !== undefined &&
-          i !== debug.singleLightIndex
-        )
-          continue;
+    this._normalMapFilter.blendMode = "normal";
 
-        const { sx, sy } = this._worldToScreen(
-          light.position.x + light.deltaForGround.x,
-          light.position.y + light.deltaForGround.y,
-          cw,
-        );
-        this._normalMapFilter.setLight(
-          sx,
-          sy,
-          // C#: Z non viene scalato per lo zoom (solo XY sono in screen-space)
-          light.z,
-          light.colorNormalVec3,
-          light.distanceSquaredForGround,
-          light.opacity,
-        );
-
-        const filterContainer = new Container();
-        filterContainer.filters = [this._normalMapFilter];
-        const diffuseSprite = new Sprite(this._groundRT);
-        filterContainer.addChild(diffuseSprite);
-        renderer.render({
-          container: filterContainer,
-          target: this._normalMappedGroundRT,
-          clear: false,
-        });
-        filterContainer.destroy({ children: true });
-      }
-
-      this._normalMapFilter.blendMode = "normal";
+    // ------------------------------------------------------------------
+    // 3b. Shadow sprites → _normalMappedGroundRT (C#: Passo 1G second SpriteBatch)
+    //     Character shadow textures drawn on top of lit ground, AlphaBlend, camera transform.
+    // ------------------------------------------------------------------
+    if (this.shadowContainer.children.length > 0) {
+      renderWithCam(this.shadowContainer, this._normalMappedGroundRT, false);
     }
 
     // ------------------------------------------------------------------
     // 4. Objects base → _objectsRT
     // ------------------------------------------------------------------
-    {
-      const tmp = new Container();
-      tmp.position.copyFrom(cw.position);
-      tmp.scale.copyFrom(cw.scale);
-      tmp.pivot.copyFrom(cw.pivot);
-      tmp.sortableChildren = true;
-      tmp.addChild(this._objectsContainer);
-      renderer.render({ container: tmp, target: this._objectsRT, clear: true });
-      tmp.removeChild(this._objectsContainer);
-      tmp.destroy();
-    }
+    renderWithCamSortable(this._objectsContainer, this._objectsRT, true);
 
     // ------------------------------------------------------------------
     // 5. Objects normals → _objectsNormalRT (neutral normal = 0x8080FF)
     // ------------------------------------------------------------------
-    {
-      const neutralFill = new Graphics();
-      neutralFill.rect(0, 0, GAME_W, GAME_H).fill(0x8080ff);
-      renderer.render({
-        container: neutralFill,
-        target: this._objectsNormalRT,
-        clear: true,
-      });
-      neutralFill.destroy();
-
-      const tmp = new Container();
-      tmp.position.copyFrom(cw.position);
-      tmp.scale.copyFrom(cw.scale);
-      tmp.pivot.copyFrom(cw.pivot);
-      tmp.sortableChildren = true;
-      tmp.addChild(this._objectsNormalContainer);
-      renderer.render({
-        container: tmp,
-        target: this._objectsNormalRT,
-        clear: false,
-      });
-      tmp.removeChild(this._objectsNormalContainer);
-      tmp.destroy();
-    }
+    renderer.render({ container: this._emptyContainer, target: this._objectsNormalRT, clear: true, clearColor: [0x80 / 255, 0x80 / 255, 1, 1] });
+    renderWithCamSortable(this._objectsNormalContainer, this._objectsNormalRT, false);
 
     // ------------------------------------------------------------------
     // 6. Normal-map objects pass → _normalMappedObjectsRT
@@ -506,78 +451,38 @@ export class ShadowSystem {
     //    remain transparent and don't cover the ground layer below.
     //    Opaque black fill was the root cause of the black-floor bug (Task 1).
     // ------------------------------------------------------------------
-    {
-      // Clear to transparent — non-object pixels stay alpha=0, showing ground through.
-      // C# used Color.Transparent + BlendState.Additive for this pass.
-      {
-        const tmpClear = new Container();
-        renderer.render({
-          container: tmpClear,
-          target: this._normalMappedObjectsRT,
-          clear: true,
-        });
-        tmpClear.destroy();
-      }
+    // Clear to transparent — non-object pixels stay alpha=0, showing ground through.
+    renderer.render({ container: this._emptyContainer, target: this._normalMappedObjectsRT, clear: true });
 
-      this._normalMapFilter.setNormalMap(this._objectsNormalRT);
-      this._normalMapFilter.setAmbientColor(
-        debug.forceAmbient ?? this.normalMapAmbienceColor,
+    this._normalMapFilter.setNormalMap(this._objectsNormalRT);
+    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
+    this._normalMapFilter.blendMode = "add";
+
+    for (let i = 0; i < this.lights.length; i++) {
+      const light = this.lights[i]!;
+      if (!light.enabled) continue;
+      if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex) continue;
+
+      const { sx, sy } = this._worldToScreen(
+        light.position.x + light.deltaForWall.x,
+        light.position.y + light.deltaForWall.y,
+        cw,
       );
-      this._normalMapFilter.blendMode = "add";
-
-      for (let i = 0; i < this.lights.length; i++) {
-        const light = this.lights[i]!;
-        if (!light.enabled) continue;
-        if (
-          debug.singleLightIndex !== undefined &&
-          i !== debug.singleLightIndex
-        )
-          continue;
-
-        const { sx, sy } = this._worldToScreen(
-          light.position.x + light.deltaForWall.x,
-          light.position.y + light.deltaForWall.y,
-          cw,
-        );
-        this._normalMapFilter.setLight(
-          sx,
-          sy,
-          // C#: Z non viene scalato per lo zoom (solo XY sono in screen-space)
-          light.z,
-          light.colorNormalVec3,
-          light.distanceSquaredForWall,
-          light.opacity,
-        );
-
-        const filterContainer = new Container();
-        filterContainer.filters = [this._normalMapFilter];
-        const diffuseSprite = new Sprite(this._objectsRT);
-        filterContainer.addChild(diffuseSprite);
-        renderer.render({
-          container: filterContainer,
-          target: this._normalMappedObjectsRT,
-          clear: false,
-        });
-        filterContainer.destroy({ children: true });
-      }
-
-      this._normalMapFilter.blendMode = "normal";
+      this._normalMapFilter.setLight(sx, sy, light.z, light.colorNormalVec3, light.distanceSquaredForWall, light.opacity);
+      // Use pre-created filter container (no allocation)
+      renderer.render({ container: this._objectsNMFilterContainer, target: this._normalMappedObjectsRT, clear: false });
     }
 
+    this._normalMapFilter.blendMode = "normal";
+
     // ------------------------------------------------------------------
-    // 7. Shadow lightmap (unchanged from Task 4)
+    // 7. Shadow lightmap
     // ------------------------------------------------------------------
     {
-      const ambientGfx = new Graphics();
-      ambientGfx
-        .rect(0, 0, GAME_W, GAME_H)
-        .fill({ color: this.ambientColor, alpha: this.ambientAlpha });
-      renderer.render({
-        container: ambientGfx,
-        target: this._lightmap,
-        clear: true,
-      });
-      ambientGfx.destroy();
+      const r = ((this.ambientColor >> 16) & 0xFF) / 255;
+      const g = ((this.ambientColor >> 8) & 0xFF) / 255;
+      const b = (this.ambientColor & 0xFF) / 255;
+      renderer.render({ container: this._emptyContainer, target: this._lightmap, clear: true, clearColor: [r, g, b, this.ambientAlpha] });
     }
 
     for (let i = 0; i < this.lights.length; i++) {
@@ -586,8 +491,7 @@ export class ShadowSystem {
       // C#: solo le luci con castsShadows=true (player) entrano nel lightmap Penumbra.
       // Brazier/candles non hanno Penumbra.Enabled e appaiono solo via NM-pass e glow sprites (Phase 7b).
       if (!light.castsShadows) continue;
-      if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
-        continue;
+      if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex) continue;
 
       const perLightContainer = new Container();
       perLightContainer.position.copyFrom(cw.position);
@@ -617,10 +521,7 @@ export class ShadowSystem {
         const shadowGfx = new Graphics();
         for (const hull of hullsForLight) {
           if (!hull.enabled) continue;
-          const polys = hull.computeShadowPolygons(
-            penumbraPos.x,
-            penumbraPos.y,
-          );
+          const polys = hull.computeShadowPolygons(penumbraPos.x, penumbraPos.y);
           for (const poly of polys) shadowGfx.poly(poly).fill(0x000000);
         }
         perLightContainer.addChild(shadowGfx);
@@ -634,39 +535,15 @@ export class ShadowSystem {
         perLightContainer.addChild(hullFillGfx);
       }
 
-      renderer.render({
-        container: perLightContainer,
-        target: this._perLightRT,
-        clear: true,
-      });
+      renderer.render({ container: perLightContainer, target: this._perLightRT, clear: true });
       perLightContainer.destroy({ children: true });
 
-      // Blur pass
-      {
-        this._blurFilter.strength = light.sourceRadius * 0.15;
-        const filterContainer = new Container();
-        filterContainer.filters = [this._blurFilter];
-        const perLightSprite = new Sprite(this._perLightRT);
-        filterContainer.addChild(perLightSprite);
-        renderer.render({
-          container: filterContainer,
-          target: this._blurredRT,
-          clear: true,
-        });
-        filterContainer.destroy({ children: true });
-      }
+      // Blur pass — use pre-created container (no allocation)
+      this._blurFilter.strength = light.sourceRadius * 0.15;
+      renderer.render({ container: this._blurPassContainer, target: this._blurredRT, clear: true });
 
-      // Additive composite → lightmap
-      {
-        const blurredSprite = new Sprite(this._blurredRT);
-        blurredSprite.blendMode = "add";
-        renderer.render({
-          container: blurredSprite,
-          target: this._lightmap,
-          clear: false,
-        });
-        blurredSprite.destroy();
-      }
+      // Additive composite → lightmap (pre-created sprite)
+      renderer.render({ container: this._blurredCompositeSprite, target: this._lightmap, clear: false });
     }
 
     // ------------------------------------------------------------------
@@ -713,6 +590,34 @@ export class ShadowSystem {
   }
 
   destroy(): void {
+    this._wallHullPairs = [];
+
+    // Destroy pre-allocated reusable objects (detach children before destroying containers
+    // to avoid double-destroy of the sprites they contain)
+    this._emptyContainer.destroy();
+    this._camContainer.destroy();
+    this._camSortableContainer.destroy();
+
+    this._groundNMFilterContainer.filters = [];
+    this._groundNMFilterContainer.removeChildren();
+    this._groundNMFilterContainer.destroy();
+    this._groundNMSprite.destroy();
+
+    this._objectsNMFilterContainer.filters = [];
+    this._objectsNMFilterContainer.removeChildren();
+    this._objectsNMFilterContainer.destroy();
+    this._objectsNMSprite.destroy();
+
+    this._blurPassContainer.filters = [];
+    this._blurPassContainer.removeChildren();
+    this._blurPassContainer.destroy();
+    this._perLightReuseSprite.destroy();
+
+    this._blurredCompositeSprite.destroy();
+    this._specMaskedCompositeSprite.destroy();
+    this._specLightmaskCopySprite.destroy();
+    this._specMultiplySprite.destroy();
+
     this._groundRT.destroy();
     this._groundNormalRT.destroy();
     this._groundSpecularRT.destroy();

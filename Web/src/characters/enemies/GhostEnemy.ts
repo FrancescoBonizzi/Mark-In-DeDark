@@ -40,7 +40,7 @@ export class GhostEnemy extends Enemy {
             x: startX,
             y: startY,
             z: 46, opacity: 1.0, radius: 300, castsShadows: false,
-            color1: 0x9CEEC0, color2: 0xEFC0E3, distanceSquared: 4950,
+            color1: 0x9CEEC0, color2: 0xEFC0E3, distanceSquared: 2_200,
         });
         torch.deltaForWall = { x: 0, y: -30 };
 

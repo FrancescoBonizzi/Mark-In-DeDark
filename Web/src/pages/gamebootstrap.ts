@@ -1,4 +1,4 @@
-import { Application, Rectangle, TextureSource } from "pixi.js";
+import { Application, Point, Rectangle, TextureSource } from "pixi.js";
 import { getTexture, loadAssets } from "../assets/AssetsLoader";
 import { Enemy } from "../characters/Enemy";
 import { Player } from "../characters/Player";
@@ -26,6 +26,7 @@ import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
 import { GameTexts, getStringCodeText } from "../ui/GameTexts";
 import Camera from "../world/Camera";
+import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 
 // Task 1 triage: warn early when runtime lighting prerequisites are missing.
 
@@ -57,6 +58,7 @@ let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
 let currentLevelId = 1;
 let visibilityHandler: (() => void) | null = null;
+let torchFireParticles: TorchFireParticleSystem | null = null;
 
 const hasPhysicalKeyboard = (): boolean =>
   window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -206,6 +208,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
       assets.spriteSheets,
       grid.objectsContainer,
       grid.objectsNormalContainer,
+      shadowSystem.shadowContainer,
     );
 
     if (player.surroundingLight) {
@@ -221,6 +224,12 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
     );
     player.setCandlesManager(candlesManager);
     player.onMessage = (text, color) => hud?.showMessage(text, color);
+
+    // Torch fire particle effect (port of C# CandleFireParticleSystem on player)
+    torchFireParticles = new TorchFireParticleSystem(
+      getTexture(assets.spriteSheets, "Effects/particle"),
+      camera,
+    );
 
     // CandlePacks from grid placements
     candlePacks = grid.candlePlacements.map(
@@ -483,6 +492,15 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
       camera.y = Numbers.lerp(camera.y, targetY, 0.1);
       camera.updateShake();
 
+      // Torch fire particles (C# CandleFireParticleSystem)
+      if (torchFireParticles) {
+        if (!player.isDead && !player.isDying && player.surroundingLight) {
+          const p = player.surroundingLight.position;
+          torchFireParticles.addParticles(new Point(p.x, p.y));
+        }
+        torchFireParticles.update(ticker);
+      }
+
       if (shadowSystem) shadowSystem.update(app!, dt);
     });
 
@@ -555,6 +573,8 @@ export function destroyGame() {
   hud?.destroy();
   hud = null;
   deathOverlay = null;
+  torchFireParticles?.dispose();
+  torchFireParticles = null;
   player?.destroy();
   player = null;
   controller?.dispose();

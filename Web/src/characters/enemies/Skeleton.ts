@@ -39,7 +39,7 @@ export class Skeleton extends Enemy {
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
             z: 46, opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0xC476F0, color2: 0x9159B2, distanceSquared: 4950,
+            color1: 0xC476F0, color2: 0x9159B2, distanceSquared: 2_200,
         });
 
         const ai = new PatrolHunterLineOfSightAI(waypoints, grid, candlesManager, player);

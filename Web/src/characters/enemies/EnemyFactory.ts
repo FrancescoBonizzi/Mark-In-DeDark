@@ -16,11 +16,11 @@ import { ShadowSystem } from '../../lighting/ShadowSystem';
 /**
  * Letter prefix used in the level file's patrol waypoint codes.
  * Format: "{letter}-{patrolNum}-{waypointIndex}"
- * Z=Zombie, K=Skeleton, T=Taurus, G=Ghost, B=Bubu
+ * Z=Zombie, S=Skeleton, T=Taurus, G=Ghost, B=Bubu
  */
 const LETTER_TO_TYPE: Record<string, ObjectTypes> = {
     Z: ObjectTypes.Zombie,
-    K: ObjectTypes.Scheletro,
+    S: ObjectTypes.Scheletro,
     T: ObjectTypes.Taurus,
     G: ObjectTypes.Ghost,
     B: ObjectTypes.Bubu,

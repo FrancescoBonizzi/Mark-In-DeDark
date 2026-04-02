@@ -39,7 +39,7 @@ export class Zombie extends Enemy {
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
             z: 46, opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0x8BEF5A, color2: 0x6DBC45, distanceSquared: 4950,
+            color1: 0x8BEF5A, color2: 0x6DBC45, distanceSquared: 2_200,
         });
 
         const ai = new PatrolAI(waypoints, grid, candlesManager, player, false);

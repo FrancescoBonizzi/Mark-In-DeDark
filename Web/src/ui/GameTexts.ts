@@ -5,12 +5,12 @@ export const GameTexts = {
     closedDoor:        'Tutto chiuso...',
     gameOver:          'Game Over!',
     levelCompleted:    'Livello completato!',
-    candlePackFound:   (n: number) => `Hai trovato ${n} candele`,
+    candlePackFound:   (n: number) => `Hai trovato ${n} ${n === 1 ? 'candela' : 'candele'}`,
 } as const;
 
 /** Maps numeric stringCode keys (from .mark files) to Italian tutorial text. */
 const STRING_CODE_MAP: Record<string, string> = {
-    '637284382845827427': 'Una porta... premi SPAZIO per aprirla o chiuderla',
+    '637284382845827427': 'Una porta... premi CTRL per aprirla o chiuderla',
     '637284382983500501': 'Una candela... raccoglila e premi SPAZIO per posizionarla',
     '637284384552007485': 'Non è rassicurante...',
     '637284386793405944': 'Magari dovrei provare con una candela',

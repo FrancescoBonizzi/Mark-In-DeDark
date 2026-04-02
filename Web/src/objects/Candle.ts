@@ -54,7 +54,7 @@ export class Candle {
             castsShadows: false,
             color1: CANDLE_COLOR1,
             color2: CANDLE_COLOR2,
-            distanceSquared: 7_280,
+            distanceSquared: 3_235, // C# 7_280 scaled by 4/9 for new zoom
         });
 
         this.collisionRectangle = new Rectangle(x - 24, y - 24, 48, 48);

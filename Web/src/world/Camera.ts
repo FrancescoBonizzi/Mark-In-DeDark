@@ -27,7 +27,9 @@ class Camera {
         this._world.y = app.screen.height;
         this._world.pivot.x = 0;
         this._world.pivot.y = this._world.height;
-        this.setZoom(0.8);
+        // C# virtual resolution: 1920×1080 at zoom 0.8 → visible area 2400×1350 world units.
+        // PixiJS canvas: 1280×720 → to show same world area: zoom = 1280/2400 = 8/15 ≈ 0.5333.
+        this.setZoom(8 / 15);
 
         app.stage.addChild(this._world);
     }

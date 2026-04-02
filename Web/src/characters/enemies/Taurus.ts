@@ -58,7 +58,7 @@ export class Taurus extends Enemy {
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
             z: 46, opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0xFF2600, color2: 0xC9341A, distanceSquared: 4950,
+            color1: 0xFF2600, color2: 0xC9341A, distanceSquared: 2_200,
         });
 
         const ai = new PatrolChargeAI(waypoints, grid, candlesManager, player, onShake);

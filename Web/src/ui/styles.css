@@ -372,7 +372,7 @@ canvas { display: block; }
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    font: 700 20px/1 "VT323", monospace;
+    font: 700 24px/1 "VT323", monospace;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
     pointer-events: none;
     z-index: 101;
@@ -380,7 +380,7 @@ canvas { display: block; }
 }
 
 .hud-popup.important {
-    font-size: 32px;
+    font-size: 38px;
 }
 
 /* HUD */

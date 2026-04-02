@@ -7,7 +7,7 @@ import { CharacterActions } from "../interaction/CharacterActions";
 import { MarkLight } from "../lighting/MarkLight";
 import { CandlesManager } from "../objects/CandlesManager";
 import { GameTexts } from "../ui/GameTexts";
-import { Character, TorchOffsets } from "./Character";
+import { Character, ShadowConfig, ShadowOffsets, TorchOffsets } from "./Character";
 
 const PLAYER_SPEED = 0.6; // seconds per cell (from C# GameConfig.PlayerSpeed)
 const FRAME_DURATION_MS = 150; // ms per frame (from C# CharactersAnimationsMillisecondsBetweenFrames)
@@ -20,6 +20,15 @@ const TORCH_OFFSETS: TorchOffsets = {
 };
 
 // Task 1 parity: in C# the player torch is the shadow-casting light used by Penumbra.
+
+// C# CharacterShadowConfiguration — TorchCharacter type (player, goblin, skeleton)
+const TORCH_SHADOW_OFFSETS: ShadowOffsets = {
+  up:       { x:  32, y: 32 },
+  left:     { x:  32, y:  0 },  // sprite will be flipped
+  right:    { x: -32, y:  0 },
+  down:     { x:  -8, y:  0 },
+  downIdle: { x: -32, y:  0 },
+};
 
 function buildAnimation(
   sheets: Spritesheet[],
@@ -55,6 +64,25 @@ function buildDeathAnimation(sheets: Spritesheet[]): SpriteAnimation {
   return new SpriteAnimation(frames, [], FRAME_DURATION_MS, false);
 }
 
+function buildShadowAnim(sheets: Spritesheet[], baseName: string, frameCount: number): SpriteAnimation {
+  const frames = Array.from({ length: frameCount }, (_, i) =>
+    getTexture(sheets, `${baseName}_${i + 1}`),
+  );
+  return new SpriteAnimation(frames, [], FRAME_DURATION_MS, true);
+}
+
+function buildTorchCharacterShadowAnimations(sheets: Spritesheet[]): AnimationsManager {
+  const mgr = new AnimationsManager();
+  const base = 'Shadows/TorchCharacter/shadow';
+  mgr.add('IdleDown',  buildShadowAnim(sheets, `${base}_front_iddle`, 4));
+  mgr.add('IdleUp',    buildShadowAnim(sheets, `${base}_back_iddle`,  4));
+  mgr.add('IdleSide',  buildShadowAnim(sheets, `${base}_side_iddle`,  4));
+  mgr.add('WalkDown',  buildShadowAnim(sheets, `${base}_front_walking`, 4));
+  mgr.add('WalkUp',    buildShadowAnim(sheets, `${base}_back_walking`,  4));
+  mgr.add('WalkSide',  buildShadowAnim(sheets, `${base}_side_walking`,  4));
+  return mgr;
+}
+
 function buildPlayerAnimations(sheets: Spritesheet[]): AnimationsManager {
   const mgr = new AnimationsManager();
   mgr.add("WalkDown", buildAnimation(sheets, "Player/player_front_walking", 4));
@@ -78,6 +106,7 @@ export class Player extends Character {
     sheets: Spritesheet[],
     objectsContainer: Container,
     objectsNormalContainer: Container,
+    shadowContainer: Container | null = null,
   ) {
     const startCell = grid.playerStartCell;
     const startX = startCell?.centerX ?? grid.playerStartCol * 192 + 96;
@@ -92,10 +121,16 @@ export class Player extends Character {
       castsShadows: true,
       color1: 0xffedd6,
       color2: 0xffffff,
-      distanceSquared: 20_600,
+      distanceSquared: 9_155, // C# 20_600 scaled by (8/15 / 0.8)² = 4/9 for new zoom
     });
     // C#: player glow is used for specular, but excluded from additional lightmask composited on Penumbra lightmap.
     torchLight.drawInAdditionalLightMask = false;
+
+    const shadowConfig: ShadowConfig | null = shadowContainer !== null ? {
+      container: shadowContainer,
+      animations: buildTorchCharacterShadowAnimations(sheets),
+      offsets: TORCH_SHADOW_OFFSETS,
+    } : null;
 
     super(grid, objectsContainer, objectsNormalContainer, {
       startX,
@@ -103,6 +138,7 @@ export class Player extends Character {
       movementSpeed: PLAYER_SPEED,
       animations: buildPlayerAnimations(sheets),
       torch: { light: torchLight, offsets: TORCH_OFFSETS },
+      ...(shadowConfig !== null ? { shadow: shadowConfig } : {}),
     });
   }
 
@@ -114,15 +150,17 @@ export class Player extends Character {
   override handleInput(action: CharacterActions): void {
     if (this.isDead || this.isDying) return;
 
-    // Space is the universal interact key (port of C# behaviour):
-    // priority 1 — toggle a door if standing on a door cell;
-    // priority 2 — place a candle otherwise.
-    if (action === CharacterActions.Candle) {
+    if (action === CharacterActions.DoorSwitch) {
       const cell = this.currentCell;
-      // Door toggle requires the player to be still (avoid accidental triggers while walking)
       if (!this.isMoving && cell && this._grid.hasDoorOnCell(cell)) {
         this._grid.switchDoorIfAny(cell);
-      } else if (this._candlesManager) {
+      }
+      return;
+    }
+
+    if (action === CharacterActions.Candle) {
+      const cell = this.currentCell;
+      if (this._candlesManager) {
         if (!this._candlesManager.doIHaveACandleLeft) {
           this.onMessage?.(GameTexts.notEnoughCandles, "#ff6b6b");
         } else if (cell && !this._candlesManager.isThereACandle(cell)) {

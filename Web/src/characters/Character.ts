@@ -10,6 +10,20 @@ import { zForCharacter } from '../grid/ZIndexCalculator';
 import Numbers from '../services/Numbers';
 const lerp = Numbers.lerp;
 
+export interface ShadowOffsets {
+    down:     { x: number; y: number };
+    downIdle: { x: number; y: number };
+    up:       { x: number; y: number };
+    left:     { x: number; y: number };
+    right:    { x: number; y: number };
+}
+
+export interface ShadowConfig {
+    container:  Container;
+    animations: AnimationsManager;
+    offsets:    ShadowOffsets;
+}
+
 /** Directional offsets for the torch light position relative to worldCenter. */
 export interface TorchOffsets {
     up: { x: number; y: number };
@@ -29,6 +43,7 @@ export interface CharacterConfig {
         light: MarkLight;
         offsets: TorchOffsets;
     };
+    shadow?: ShadowConfig;
 }
 
 /**
@@ -70,6 +85,12 @@ export abstract class Character {
     // Torch
     readonly surroundingLight: MarkLight | null;
     private readonly _torchOffsets: TorchOffsets | null;
+
+    // Shadow
+    private readonly _shadowSprite: Sprite | null;
+    private readonly _shadowAnimations: AnimationsManager | null;
+    private readonly _shadowOffsets: ShadowOffsets | null;
+    private readonly _shadowContainer: Container | null;
 
     /** When true, _playWalkAnimation and _playIdleAnimation are no-ops (used by Taurus charge). */
     dontPlayDefaultAnimations = false;
@@ -143,6 +164,27 @@ export abstract class Character {
             this._torchOffsets = null;
         }
 
+        // Shadow (C#: CharacterShadowConfiguration — black sprite, alpha 0.9, drawn on ground RT)
+        if (config.shadow) {
+            this._shadowAnimations = config.shadow.animations;
+            this._shadowOffsets = config.shadow.offsets;
+            this._shadowContainer = config.shadow.container;
+            this._shadowAnimations.play('IdleDown');
+            this._shadowSprite = new Sprite(this._shadowAnimations.currentFrameTexture);
+            this._shadowSprite.anchor.set(0.5);
+            this._shadowSprite.tint = 0x000000;
+            this._shadowSprite.alpha = 0.9;
+            // Position at idle-down offset
+            this._shadowSprite.x = this._x + this._shadowOffsets.downIdle.x;
+            this._shadowSprite.y = this._y + this._shadowOffsets.downIdle.y;
+            this._shadowContainer.addChild(this._shadowSprite);
+        } else {
+            this._shadowSprite = null;
+            this._shadowAnimations = null;
+            this._shadowOffsets = null;
+            this._shadowContainer = null;
+        }
+
         // Store animations reference for subclasses
         this._animations = config.animations;
     }
@@ -189,6 +231,7 @@ export abstract class Character {
         }
 
         this._animations.update(deltaMS);
+        if (this._shadowAnimations) this._shadowAnimations.update(deltaMS);
         this._syncSprites();
         this._recalculateZIndex();
 
@@ -319,6 +362,10 @@ export abstract class Character {
         this._objectsNormalContainer.removeChild(this._normalSprite);
         this._mainSprite.destroy();
         this._normalSprite.destroy();
+        if (this._shadowSprite && this._shadowContainer) {
+            this._shadowContainer.removeChild(this._shadowSprite);
+            this._shadowSprite.destroy();
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -423,21 +470,61 @@ export abstract class Character {
     private _playWalkAnimation(state: CharacterState): void {
         if (this.dontPlayDefaultAnimations) return;
         switch (state) {
-            case CharacterState.GoingUp:    this._animations.play('WalkUp');   this._setFlip(false); break;
-            case CharacterState.GoingDown:  this._animations.play('WalkDown'); this._setFlip(false); break;
-            case CharacterState.GoingRight: this._animations.play('WalkSide'); this._setFlip(false); break;
-            case CharacterState.GoingLeft:  this._animations.play('WalkSide'); this._setFlip(true);  break;
+            case CharacterState.GoingUp:
+                this._animations.play('WalkUp');   this._setFlip(false);
+                this._setShadowWalk('WalkUp', false, this._shadowOffsets?.up ?? null);
+                break;
+            case CharacterState.GoingDown:
+                this._animations.play('WalkDown'); this._setFlip(false);
+                this._setShadowWalk('WalkDown', false, this._shadowOffsets?.down ?? null);
+                break;
+            case CharacterState.GoingRight:
+                this._animations.play('WalkSide'); this._setFlip(false);
+                this._setShadowWalk('WalkSide', false, this._shadowOffsets?.right ?? null);
+                break;
+            case CharacterState.GoingLeft:
+                this._animations.play('WalkSide'); this._setFlip(true);
+                this._setShadowWalk('WalkSide', true, this._shadowOffsets?.left ?? null);
+                break;
         }
     }
 
     private _playIdleAnimation(state: CharacterState): void {
         if (this.dontPlayDefaultAnimations) return;
         switch (state) {
-            case CharacterState.IdleUp:    this._animations.play('IdleUp');   this._setFlip(false); break;
-            case CharacterState.IdleDown:  this._animations.play('IdleDown'); this._setFlip(false); break;
-            case CharacterState.IdleRight: this._animations.play('IdleSide'); this._setFlip(false); break;
-            case CharacterState.IdleLeft:  this._animations.play('IdleSide'); this._setFlip(true);  break;
+            case CharacterState.IdleUp:
+                this._animations.play('IdleUp');   this._setFlip(false);
+                this._setShadowIdle('IdleUp', false, this._shadowOffsets?.up ?? null);
+                break;
+            case CharacterState.IdleDown:
+                this._animations.play('IdleDown'); this._setFlip(false);
+                this._setShadowIdle('IdleDown', false, this._shadowOffsets?.downIdle ?? null);
+                break;
+            case CharacterState.IdleRight:
+                this._animations.play('IdleSide'); this._setFlip(false);
+                this._setShadowIdle('IdleSide', false, this._shadowOffsets?.right ?? null);
+                break;
+            case CharacterState.IdleLeft:
+                this._animations.play('IdleSide'); this._setFlip(true);
+                this._setShadowIdle('IdleSide', true, this._shadowOffsets?.left ?? null);
+                break;
         }
+    }
+
+    private _setShadowWalk(animName: string, flipped: boolean, offset: { x: number; y: number } | null): void {
+        if (!this._shadowSprite || !this._shadowAnimations || !offset) return;
+        this._shadowAnimations.play(animName);
+        this._shadowSprite.scale.x = flipped ? -1 : 1;
+        this._shadowSprite.x = this._x + offset.x;
+        this._shadowSprite.y = this._y + offset.y;
+    }
+
+    private _setShadowIdle(animName: string, flipped: boolean, offset: { x: number; y: number } | null): void {
+        if (!this._shadowSprite || !this._shadowAnimations || !offset) return;
+        this._shadowAnimations.play(animName);
+        this._shadowSprite.scale.x = flipped ? -1 : 1;
+        this._shadowSprite.x = this._x + offset.x;
+        this._shadowSprite.y = this._y + offset.y;
     }
 
     private _setFlip(flipped: boolean): void {
@@ -470,6 +557,10 @@ export abstract class Character {
         }
         this._normalSprite.x = this._x;
         this._normalSprite.y = this._y;
+
+        if (this._shadowSprite && this._shadowAnimations) {
+            this._shadowSprite.texture = this._shadowAnimations.currentFrameTexture;
+        }
     }
 
     private _recalculateZIndex(): void {
