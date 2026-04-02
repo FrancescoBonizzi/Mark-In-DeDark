@@ -14,17 +14,53 @@ Regole di bugfixing:
 - Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
 - Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà. (attualmente punta al livello 8)
 
-### Task 1 — RISOLTO
+### Task 1
 
-Pavimento desaturato fuori dalla luce. Fix: `WallFixed` e `WallBreakable` usavano il bbox
-dello sprite come `hullRects` invece di `collisionRectangle`. Il bbox copriva il pavimento
-adiacente con fill nero nel lightmap. Fix: `this.hullRects = [this.collisionRectangle]`.
-Fix aggiuntivo: brazier/candele escluse dal loop Phase 7 lightmap (`if (!light.castsShadows) continue`).
+Il nemico "Skeleton" non c'è. Per esempio nel livello 8 dovrebbe esserci. Controlla che tutti i nemici siano stati implementati.
 
-### Task 2 — RISOLTO
+### Task 2
 
-Corridoi bui anche con player che tiene la luce. Stessa causa di Task 1: hull troppo grande
-copriva il pavimento dei corridoi con nero nel lightmap. Fix identico in `WallFixed` e `WallBreakable`.
+Non c'è l'ombra del player (che non è calcolata in realtime, è una semplice texture animata)
+
+### Task 3
+
+Rispetto al gioco originale, la versione PixiJs sembra molto più zommata. Nel gioco originale sembra tutto più "piccolo", come se fosse zoomed-out.
+
+### Task 4
+
+La texture dei pavimenti sono parecchio desaturate.
+
+### Task 5
+
+Tutte le luci: quelle del player, quelle dei braceri, quelle dei nemici, sembrano ampie il doppio rispetto all'originale. Considera che nel gioco originale la luce del player, per darti una proporzione, illumina fino a una cella oltre la sua. Quindi se è al centro di 9 celle, illumina solo quelle adiacenti, non di più.
+
+### Task 6
+
+Il player, posizionato sulla candela, dovrebbe avere un fioco effetto particellare che simula gli scoppiettii del fuoco sulla candela. Qui non c'è.
+
+### Task 7
+
+Quando sono appena sopra rispetto ad una porta appena aperta, non illumino la cella su cui sono. Come se la porta aperta in qualche modo occludesse la cella appena sopra.
+
+### Task 8
+
+Fai le scritte popup text di un 20% più grandi
+
+### Task 9
+
+Per aprire le porte utilizza il tasto CTRL e non più SPAZIO. SPAZIO lo usiamo solo per piazzare la candela. Aggiorna anche i testi popup/tutorial relativi.
+
+### Task 10
+
+Ho notato che intorno ad alcuni oggetti tipo la chiave e i braceri e le candele da raccogliere c'è un alone nero
+
+### Task 11
+
+Nei testi popup, quando c'è una candela sola scrivi hai raccolto 1 candela, non 1 candele (gestisci singolare plurale del testo)
+
+### Task Bonus
+
+Dopo massimo 5 minuti in cui gioco, il browser fa crashare la pagina perché "utilizza una quantità significativa di memoria"
 
 ---
 
