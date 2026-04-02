@@ -8,14 +8,7 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-### Task 1 - Pipeline di rendering non conforme | ✅ Risolto
-
-Sembra che la pipeline di rendering non sia conforme, infatti:
-
-1. In tutti i livelli il pavimento è totamente nero, come se non avesse texture
-2. Nei livelli >=3 (quelli che hanno un po' di luce ambientale invece di zero) vedo quasi tutto buio a parte veramente un 1% di luce sui braceri. Ma la luce del player non illumina nulla e i braceri neppure.
-3. L'unica "luce" che sembra funzionare è quella del nemico Taurus, che correttamente illumina i muri, ma quella del player e dei bracieri non illumina nulla.
-4. Nei punti in cui si vede la luce che correttamente illumina, il normal mapping è attivo e funzionante
+### Task 1 - Il pavimento è completamente nero in ogni livello | Pending
 
 Documentazione:
 
@@ -25,60 +18,6 @@ Documentazione:
 Il tuo scopo è quello di risolvere questi problemi.
 
 Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà.
-
-Ecco un debug log sul livello 3, puoi chiedermene altri se vuoi, instrumentando come più ti torna comodo.
-
-{  
- "lightsTotal": 17,  
- "lightsEnabled": 17,  
- "ambient": {  
- "r": 0,  
- "g": 0,  
- "b": 0  
- },  
- "disableMultiply": false,  
- "camera": {  
- "position": {  
- "x": -665.6,  
- "y": -177.60000000000002  
- },  
- "scale": {  
- "x": 0.8,  
- "y": 0.8  
- },  
- "pivot": {  
- "x": 0,  
- "y": 0  
- }  
- },  
- "rendererResolution": 2,  
- "rtDimensions": {  
- "groundRT": {  
- "w": 1280,  
- "h": 720  
- },  
- "groundNormalRT": {  
- "w": 1280,  
- "h": 720  
- }  
- },  
- "containerChildren": {  
- "ground": 252,  
- "groundNormal": 252,  
- "objects": 658  
- },  
- "firstLightScreenPos": {  
- "sx": 668.0000000000001,  
- "sy": 416  
- },  
- "luma": {  
- "groundRT": 0.24107527879901958,  
- "groundNM": 0.13604473039215687,  
- "objectsRT": 0.1120848131127451,  
- "objectsNM": 0.0004470925245098039,  
- "lightmap": 0.2188423039215687  
- }  
-}
 
 ---
 
