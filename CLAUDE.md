@@ -14,68 +14,69 @@ Sembra che la pipeline di rendering non sia conforme, infatti:
 
 1. In tutti i livelli il pavimento è totamente nero, come se non avesse texture
 2. Nei livelli >=3 (quelli che hanno un po' di luce ambientale invece di zero) vedo quasi tutto buio a parte veramente un 1% di luce sui braceri. Ma la luce del player non illumina nulla e i braceri neppure.
+3. L'unica "luce" che sembra funzionare è quella del nemico Taurus, che correttamente illumina i muri, ma quella del player e dei bracieri non illumina nulla.
+4. Nei punti in cui si vede la luce che correttamente illumina, il normal mapping è attivo e funzionante
 
-L'unica "luce" che sembra funzionare è quella del nemico Taurus, che correttamente illumina i muri.
+Documentazione:
 
-Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
-
-Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
+- Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
+- Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
 
 Il tuo scopo è quello di risolvere questi problemi.
 
-Ecco un debug log sul livello 3:
+Ecco un debug log sul livello 3, puoi chiedermene altri se vuoi, instrumentando come più ti torna comodo.
 
- {                                                                                    
-    "lightsTotal": 17,                                                                                   
-    "lightsEnabled": 17,                                                                                 
-    "ambient": {                                                                                         
-        "r": 0,                                                                                          
-        "g": 0,                                                                                          
-        "b": 0                                                                                           
-    },                                                                                                   
-    "disableMultiply": false,                                                                            
-    "camera": {                                                                                          
-        "position": {                                                                                    
-            "x": -665.6,                                                                                 
-            "y": -177.60000000000002                                                                     
-        },                                                                                               
-        "scale": {                                                                                       
-            "x": 0.8,                                                                                    
-            "y": 0.8                                                                                     
-        },                                                                                               
-        "pivot": {                                                                                       
-            "x": 0,                                                                                      
-            "y": 0                                                                                       
-        }                                                                                                
-    },                                                                                                   
-    "rendererResolution": 2,                                                                             
-    "rtDimensions": {                                                                                    
-        "groundRT": {                                                                                    
-            "w": 1280,                                                                                   
-            "h": 720                                                                                     
-        },                                                                                               
-        "groundNormalRT": {                                                                              
-            "w": 1280,                                                                                   
-            "h": 720                                                                                     
-        }                                                                                                
-    },                                                                                                   
-    "containerChildren": {                                                                               
-        "ground": 252,                                                                                   
-        "groundNormal": 252,                                                                             
-        "objects": 658                                                                                   
-    },                                                                                                   
-    "firstLightScreenPos": {                                                                             
-        "sx": 668.0000000000001,                                                                         
-        "sy": 416                                                                                        
-    },                                                                                                   
-    "luma": {                                                                                            
-        "groundRT": 0.24107527879901958,                                                                 
-        "groundNM": 0.13604473039215687,                                                                 
-        "objectsRT": 0.1120848131127451,                                                                 
-        "objectsNM": 0.0004470925245098039,                                                              
-        "lightmap": 0.2188423039215687                                                                   
-    }                                                                                                    
-}                       
+{  
+ "lightsTotal": 17,  
+ "lightsEnabled": 17,  
+ "ambient": {  
+ "r": 0,  
+ "g": 0,  
+ "b": 0  
+ },  
+ "disableMultiply": false,  
+ "camera": {  
+ "position": {  
+ "x": -665.6,  
+ "y": -177.60000000000002  
+ },  
+ "scale": {  
+ "x": 0.8,  
+ "y": 0.8  
+ },  
+ "pivot": {  
+ "x": 0,  
+ "y": 0  
+ }  
+ },  
+ "rendererResolution": 2,  
+ "rtDimensions": {  
+ "groundRT": {  
+ "w": 1280,  
+ "h": 720  
+ },  
+ "groundNormalRT": {  
+ "w": 1280,  
+ "h": 720  
+ }  
+ },  
+ "containerChildren": {  
+ "ground": 252,  
+ "groundNormal": 252,  
+ "objects": 658  
+ },  
+ "firstLightScreenPos": {  
+ "sx": 668.0000000000001,  
+ "sy": 416  
+ },  
+ "luma": {  
+ "groundRT": 0.24107527879901958,  
+ "groundNM": 0.13604473039215687,  
+ "objectsRT": 0.1120848131127451,  
+ "objectsNM": 0.0004470925245098039,  
+ "lightmap": 0.2188423039215687  
+ }  
+}
 
 ---
 
