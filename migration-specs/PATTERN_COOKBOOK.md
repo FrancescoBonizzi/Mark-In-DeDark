@@ -1076,6 +1076,47 @@ from the C# original.
 
 ---
 
+## 21. Hull Rect per Occluder Ombre: usare collisionRectangle, non il bbox del sprite
+
+**Problema (Task 1 & Task 2)**: `WallFixed` e `WallBreakable` usavano il bounding box del
+texture dello sprite come `hullRects`. Per muri di tipo `NorthLink`, lo sprite si estende
+~96px sopra e ~192px sotto la cella, coprendo con area nera l'intero pavimento del corridoio
+adiacente. Risultato: corridoi completamente bui (Task 2) e desaturazione del pavimento vicino
+ai muri (Task 1) perché il lightmap veniva azzerato dal fill nero degli hull.
+
+**Fix**: Usare `this.collisionRectangle` (già calcolata correttamente con offset fisici)
+come unico elemento di `hullRects`, non `new Rectangle(spriteX, spriteY, texture.width, texture.height)`.
+
+```typescript
+// SBAGLIATO (bbox decorativo troppo grande):
+this.hullRects = [new Rectangle(spriteX, spriteY, texture.width, texture.height)];
+
+// CORRETTO (solo l'area di collisione fisica):
+this.hullRects = [this.collisionRectangle];
+```
+
+---
+
+## 22. Lightmap Penumbra: solo luci con castsShadows=true
+
+**Problema**: Il loop Phase 7 in `ShadowSystem` aggiungeva il gradient radiale al lightmap
+per TUTTE le luci abilitate, incluse candele/brazier (`castsShadows=false`). In C#, solo la
+luce del player aveva `PenumbraLight.Enabled = true`; brazier/candele contribuivano solo via
+NM pass e glow sprites (Phase 7b), NON al lightmap Penumbra.
+
+**Fix**: Saltare le luci senza `castsShadows` nel loop principale Phase 7:
+
+```typescript
+for (let i = 0; i < this.lights.length; i++) {
+  const light = this.lights[i]!;
+  if (!light.enabled) continue;
+  if (!light.castsShadows) continue;  // <-- aggiunto
+  // ...
+}
+```
+
+---
+
 ## 20. PixiJS 8 — Additive Sprite Render su RT già usata come Filter Target
 
 **Problema**: In PixiJS 8, un `renderer.render({container: sprite, target: rt, clear: false})` dove

@@ -51,7 +51,9 @@ export class WallFixed implements IWall {
             offset.h,
         );
 
-        this.hullRects = [new Rectangle(spriteX, spriteY, texture.width, texture.height)];
+        // Bug fix: usa collisionRectangle invece del bbox del sprite (che per muri NorthLink
+        // si estende verso il basso coprendo il pavimento del corridoio adiacente, blackenandolo)
+        this.hullRects = [this.collisionRectangle];
 
         if (decalTexture) {
             this._decalSprite = new Sprite(decalTexture);

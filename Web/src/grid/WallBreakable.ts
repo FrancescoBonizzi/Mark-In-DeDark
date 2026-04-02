@@ -69,7 +69,8 @@ export class WallBreakable implements IWall {
             this.collisionRectangle = new Rectangle(x, y + 100, textureIntact.width, 40);
         }
 
-        this.hullRects = [new Rectangle(x, y, textureIntact.width, textureIntact.height)];
+        // Bug fix: usa collisionRectangle invece del bbox del sprite (stesso problema di WallFixed)
+        this.hullRects = [this.collisionRectangle];
     }
 
     break(): void {

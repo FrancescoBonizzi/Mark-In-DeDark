@@ -14,13 +14,17 @@ Regole di bugfixing:
 - Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
 - Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà. (attualmente punta al livello 8)
 
-### Task 1
+### Task 1 — RISOLTO
 
-I colori del pavimento sono un po' desaturati, o meglio: sotto la luce hanno la saturazione corretta, fuori dalla luce è tutto senza saturazione, e quindi anche al calare della luce allontandandosi dalla fonte, la saturazione scende. E non ha senso. La saturazione dev'essere sempre la stessa.
+Pavimento desaturato fuori dalla luce. Fix: `WallFixed` e `WallBreakable` usavano il bbox
+dello sprite come `hullRects` invece di `collisionRectangle`. Il bbox copriva il pavimento
+adiacente con fill nero nel lightmap. Fix: `this.hullRects = [this.collisionRectangle]`.
+Fix aggiuntivo: brazier/candele escluse dal loop Phase 7 lightmap (`if (!light.castsShadows) continue`).
 
-### Task 2
+### Task 2 — RISOLTO
 
-Nei corridoi stretti il pavimento è totalmente buio, anche se il player ha la luce in mano e quindi dovrebbe illuminare il pavimento. Stessa cosa se il player "tocca un muro". Se il player è attaccato al muro, è come se il muro bloccasse la luce, o come se generasse un'ombra grande sul punto in cui cammina e quindi non ha senso. Nel punto in cui il player cammina, non dovrebbe mai essere buio perché lui ha sempre la luce in mano. Al livello 8 inizi già direttamente dentro ad un corridoio quindi puoi iterare debuggando senza problemi.
+Corridoi bui anche con player che tiene la luce. Stessa causa di Task 1: hull troppo grande
+copriva il pavimento dei corridoi con nero nel lightmap. Fix identico in `WallFixed` e `WallBreakable`.
 
 ---
 

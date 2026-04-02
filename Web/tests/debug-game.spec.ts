@@ -42,7 +42,7 @@ test("Cattura output console del gioco", async ({ page }) => {
   });
 
   // Vai alla pagina del gioco
-  await page.goto("http://localhost:5173/mark-in-dedark/#/game/3");
+  await page.goto("http://localhost:5173/mark-in-dedark/#/game/8");
 
   // Aspetta un tempo stabilito per far girare il gioco
   await page.waitForTimeout(5_000);

@@ -583,6 +583,9 @@ export class ShadowSystem {
     for (let i = 0; i < this.lights.length; i++) {
       const light = this.lights[i]!;
       if (!light.enabled) continue;
+      // C#: solo le luci con castsShadows=true (player) entrano nel lightmap Penumbra.
+      // Brazier/candles non hanno Penumbra.Enabled e appaiono solo via NM-pass e glow sprites (Phase 7b).
+      if (!light.castsShadows) continue;
       if (debug.singleLightIndex !== undefined && i !== debug.singleLightIndex)
         continue;
 
