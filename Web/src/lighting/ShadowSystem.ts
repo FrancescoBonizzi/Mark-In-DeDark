@@ -423,6 +423,11 @@ export class ShadowSystem {
           light.opacity,
         );
 
+        // Debug: log first light params on frame 1
+        if (this._frameIndex === 1 && i === 0) {
+          console.log("[NMFilter:groundLight0] sx=" + sx.toFixed(1) + " sy=" + sy.toFixed(1) + " z=" + light.z + " distSq=" + light.distanceSquaredForGround + " opacity=" + light.opacity + " color=" + JSON.stringify(light.colorNormalVec3) + " ambient=" + JSON.stringify(this.normalMapAmbienceColor));
+        }
+
         // Phase 1: render filter output to temp RT
         const filterContainer = new Container();
         filterContainer.filters = [this._normalMapFilter];
@@ -719,6 +724,15 @@ export class ShadowSystem {
       this._frameIndex % Math.max(1, debug.logEveryNFrames) === 0
     ) {
       const enabledLights = this.lights.filter((l) => l.enabled).length;
+      const firstLight = this.lights.find((l) => l.enabled);
+      const firstLightScreenPos = firstLight
+        ? this._worldToScreen(
+            firstLight.position.x + firstLight.deltaForGround.x,
+            firstLight.position.y + firstLight.deltaForGround.y,
+            cw,
+          )
+        : null;
+
       const groundLuma = debug.sampleLuma
         ? this._estimateLuma(renderer, this._normalMappedGroundRT)
         : null;
@@ -728,24 +742,48 @@ export class ShadowSystem {
       const lightmapLuma = debug.sampleLuma
         ? this._estimateLuma(renderer, this._lightmap)
         : null;
+      const groundRTLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._groundRT)
+        : null;
+      const groundNMLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._groundNormalRT)
+        : null;
+      const objectsRTLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._objectsRT)
+        : null;
+      const objectsNMLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._objectsNormalRT)
+        : null;
+      const perLightLuma = debug.sampleLuma
+        ? this._estimateLuma(renderer, this._perLightRT)
+        : null;
 
-      console.info("[ShadowSystem:debug]", {
+      console.log("[ShadowSystem:debug] " + JSON.stringify({
         lightsTotal: this.lights.length,
         lightsEnabled: enabledLights,
         singleLightIndex: debug.singleLightIndex,
         ambient: debug.forceAmbient ?? this.normalMapAmbienceColor,
         disableMultiply: debug.disableMultiply,
+        rendererResolution: renderer.resolution,
         camera: {
           position: { x: cw.position.x, y: cw.position.y },
           scale: { x: cw.scale.x, y: cw.scale.y },
           pivot: { x: cw.pivot.x, y: cw.pivot.y },
         },
+        firstLightScreenPos,
+        firstLightZ: firstLight?.z,
+        firstLightDistSq: firstLight?.distanceSquaredForGround,
         luma: {
-          ground: groundLuma,
-          objects: objectsLuma,
+          groundRT: groundRTLuma,
+          groundNM: groundNMLuma,
+          objectsRT: objectsRTLuma,
+          objectsNM: objectsNMLuma,
+          normalMappedGround: groundLuma,
+          normalMappedObjects: objectsLuma,
           lightmap: lightmapLuma,
+          perLightRT: perLightLuma,
         },
-      });
+      }));
     }
   }
 
@@ -826,15 +864,24 @@ export class ShadowSystem {
     renderer: Application["renderer"],
     target: RenderTexture,
   ): number | null {
+    // PixiJS 8: renderer.extract.pixels() returns { pixels: Uint8Array, width, height }
     const extract = (
       renderer as unknown as {
-        extract: { pixels: (value: RenderTexture) => Uint8Array };
+        extract: {
+          pixels: (value: RenderTexture) => { pixels: Uint8Array } | Uint8Array;
+        };
       }
     ).extract;
+    console.log("[luma-debug] extract=" + typeof extract + " keys=" + (renderer ? Object.keys(renderer).filter(k => k.toLowerCase().includes("extract") || k.toLowerCase().includes("pixel")).join(",") : "no-renderer"));
     if (!extract) return null;
 
     try {
-      const pixels = extract.pixels(target);
+      const result = extract.pixels(target);
+      const pixels =
+        result instanceof Uint8Array
+          ? result
+          : (result as { pixels: Uint8Array }).pixels;
+      console.log("[luma-debug] pixels type=" + (pixels ? pixels.constructor.name : "null") + " len=" + (pixels ? pixels.length : 0) + " isUint8=" + (pixels instanceof Uint8Array));
       if (!(pixels instanceof Uint8Array) || pixels.length < 4) return null;
 
       const pixelCount = Math.floor(pixels.length / 4);
@@ -853,7 +900,8 @@ export class ShadowSystem {
 
       if (count === 0) return null;
       return sum / (count * 255);
-    } catch {
+    } catch (e) {
+      console.log("[luma-error] " + String(e));
       return null;
     }
   }

@@ -67,6 +67,7 @@ function navigateToGameOver(): void {
 }
 
 export async function initGame(container: HTMLElement, levelIdParam: string) {
+  console.log("[gamebootstrap] initGame called, level=" + levelIdParam + ", hasKeyboard=" + hasPhysicalKeyboard());
   if (app) {
     destroyGame();
   }

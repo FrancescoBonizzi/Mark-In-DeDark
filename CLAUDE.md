@@ -24,6 +24,8 @@ Documentazione:
 
 Il tuo scopo è quello di risolvere questi problemi.
 
+Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà.
+
 Ecco un debug log sul livello 3, puoi chiedermene altri se vuoi, instrumentando come più ti torna comodo.
 
 {  
