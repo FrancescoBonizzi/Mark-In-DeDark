@@ -71,8 +71,7 @@ Per task complessi, applica questo workflow rigoroso, salvo diverse indicazioni:
 1. **Analisi:** Leggi i file C# originali responsabili del comportamento atteso (in `progetto-riferimento/`).
 2. **Ispezione:** Leggi l'attuale implementazione TypeScript/Shader.
 3. **Documentazione (NO CODICE):** Aggiorna prima i file `migration-specs/PATTERN_COOKBOOK.md` o `ARCHITECTURE_MAP.md` spiegando il problema (es. differenze matematiche, coordinate invertite).
-4. **Approvazione:** Attendi la conferma dell'utente prima di scrivere il codice effettivo.
-5. **Implementazione:** Inserisci sempre un breve commento in cima al file modificato spiegando _cosa_ e _perché_ stai cambiando rispetto al C#.
+4. **Implementazione:** Inserisci sempre un breve commento in cima al file modificato spiegando _cosa_ e _perché_ stai cambiando rispetto al C#.
 
 ---
 
