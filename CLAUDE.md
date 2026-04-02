@@ -1,4 +1,6 @@
-# CLAUDE.md — Mark In DeDark
+# CLAUDE.md — Mark In DeDark (Versione Web)
+
+Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/PixiJs.
 
 ---
 
