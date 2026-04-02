@@ -2,6 +2,9 @@
 
 Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/PixiJs.
 
+- La versione legacy C# è in `/Csharp`
+- La nuova versione è in `/Web`
+
 ---
 
 ## Stato del progetto & Piano di Attacco
