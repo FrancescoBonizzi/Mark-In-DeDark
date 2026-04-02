@@ -498,19 +498,21 @@ export class ShadowSystem {
 
     // ------------------------------------------------------------------
     // 6. Normal-map objects pass → _normalMappedObjectsRT
-    //    C#: AmbientColor è dentro lo shader, accumulato N volte via additive blend
+    //    C#: clear to Color.Transparent (NOT opaque black) so that non-object pixels
+    //    remain transparent and don't cover the ground layer below.
+    //    Opaque black fill was the root cause of the black-floor bug (Task 1).
     // ------------------------------------------------------------------
     {
-      // Clear RT to black — l'ambient viene ora accumulato dallo shader per ogni luce
+      // Clear to transparent — non-object pixels stay alpha=0, showing ground through.
+      // C# used Color.Transparent + BlendState.Additive for this pass.
       {
-        const clearFill = new Graphics();
-        clearFill.rect(0, 0, GAME_W, GAME_H).fill(0x000000);
+        const tmpClear = new Container();
         renderer.render({
-          container: clearFill,
+          container: tmpClear,
           target: this._normalMappedObjectsRT,
           clear: true,
         });
-        clearFill.destroy();
+        tmpClear.destroy();
       }
 
       this._normalMapFilter.setNormalMap(this._objectsNormalRT);
@@ -860,12 +862,11 @@ export class ShadowSystem {
 
     try {
       const result = extract.pixels(target);
-      const pixels =
-        result instanceof Uint8Array
-          ? result
-          : (result as { pixels: Uint8Array }).pixels;
-      console.log("[luma-debug] pixels type=" + (pixels ? pixels.constructor.name : "null") + " len=" + (pixels ? pixels.length : 0) + " isUint8=" + (pixels instanceof Uint8Array));
-      if (!(pixels instanceof Uint8Array) || pixels.length < 4) return null;
+      const raw = result instanceof Uint8Array || result instanceof Uint8ClampedArray
+        ? result
+        : (result as { pixels: Uint8Array | Uint8ClampedArray }).pixels;
+      const pixels: ArrayLike<number> = raw;
+      if (!pixels || pixels.length < 4) return null;
 
       const pixelCount = Math.floor(pixels.length / 4);
       const stride = Math.max(1, Math.floor(pixelCount / 256));

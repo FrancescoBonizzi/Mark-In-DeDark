@@ -287,14 +287,19 @@ C# spec (comportamento intenzionale: candele e chiave hanno aspetto piatto).
 
 ### Fase 6 — Normal-map objects → `_normalMappedObjectsRT`
 
-Identica alla fase 3, con tre differenze:
+Identica alla fase 3, con quattro differenze:
 
 ```
+- clear iniziale: Container vuoto con clear=true → sfondo TRASPARENTE (NON nero opaco)
+  ⚠️ CRITICO (Task 1 fix): C# usava Color.Transparent. Il nero opaco copriva il pavimento.
 - setNormalMap: _objectsNormalRT (invece di _groundNormalRT) — chiamato UNA VOLTA prima del loop
 - light offset: light.deltaForWall (invece di light.deltaForGround)
 - distance: light.distanceSquaredForWall (invece di distanceSquaredForGround)
 - filterContainer child: Sprite(_objectsRT) (invece di Sprite(_groundRT))
 ```
+
+**Sfondo trasparente**: i pixel senza oggetti rimangono alpha=0 e mostrano il pavimento sottostante.
+I pixel di oggetti lontani dalle luci diventano nero opaco (0,0,0,1) — corretto: i muri bloccano il pavimento.
 
 **delta offset muri**: `deltaForWall = { x:0, y:-60 }` (default).
 Simula che la luce stia davanti e sopra per i muri/pilastri verticali.
