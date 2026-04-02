@@ -110,7 +110,6 @@ export class ShadowSystem {
   private readonly _normalMappedGroundSprite: Sprite;
   private readonly _lightmapSprite: Sprite;
   private readonly _normalMappedObjectsSprite: Sprite;
-  private _frameIndex = 0;
   private _warnedNoLights = false;
 
   /** Reused blur filter for the shadow lightmap pass. */
@@ -394,6 +393,21 @@ export class ShadowSystem {
         clearFill.destroy();
       }
 
+      // C#: composizione specular+lightmask (BlendState.Additive) eseguita PRIMA del loop NM.
+      // Additivo è commutativo (A+B = B+A) e renderlo qui (su RT pulita da black fill) evita il
+      // problema PixiJS 8 per cui i render diretti su una RT già usata come filter-target si comportano
+      // come overwrite invece di accumulo.
+      {
+        const specMaskedSprite = new Sprite(this._specularMaskedRT);
+        specMaskedSprite.blendMode = "add";
+        renderer.render({
+          container: specMaskedSprite,
+          target: this._normalMappedGroundRT,
+          clear: false,
+        });
+        specMaskedSprite.destroy();
+      }
+
       this._normalMapFilter.setNormalMap(this._groundNormalRT);
       this._normalMapFilter.setAmbientColor(
         debug.forceAmbient ?? this.normalMapAmbienceColor,
@@ -441,16 +455,6 @@ export class ShadowSystem {
       }
 
       this._normalMapFilter.blendMode = "normal";
-
-      // C#: composizione finale = appliedNormalMap + specularWithLightmask (BlendState.Additive)
-      const specMaskedSprite = new Sprite(this._specularMaskedRT);
-      specMaskedSprite.blendMode = "add";
-      renderer.render({
-        container: specMaskedSprite,
-        target: this._normalMappedGroundRT,
-        clear: false,
-      });
-      specMaskedSprite.destroy();
     }
 
     // ------------------------------------------------------------------
@@ -703,73 +707,6 @@ export class ShadowSystem {
       glowContainer.destroy({ children: true });
     }
 
-    this._frameIndex += 1;
-    if (
-      debug.enabled &&
-      this._frameIndex % Math.max(1, debug.logEveryNFrames) === 0
-    ) {
-      const enabledLights = this.lights.filter((l) => l.enabled).length;
-      const firstLight = this.lights.find((l) => l.enabled);
-      const firstLightScreenPos = firstLight
-        ? this._worldToScreen(
-            firstLight.position.x + firstLight.deltaForGround.x,
-            firstLight.position.y + firstLight.deltaForGround.y,
-            cw,
-          )
-        : null;
-
-      const groundLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._normalMappedGroundRT)
-        : null;
-      const objectsLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._normalMappedObjectsRT)
-        : null;
-      const lightmapLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._lightmap)
-        : null;
-      const groundRTLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._groundRT)
-        : null;
-      const groundNMLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._groundNormalRT)
-        : null;
-      const objectsRTLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._objectsRT)
-        : null;
-      const objectsNMLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._objectsNormalRT)
-        : null;
-      const perLightLuma = debug.sampleLuma
-        ? this._estimateLuma(renderer, this._perLightRT)
-        : null;
-
-      console.log("[ShadowSystem:debug] " + JSON.stringify({
-        lightsTotal: this.lights.length,
-        lightsEnabled: enabledLights,
-        singleLightIndex: debug.singleLightIndex,
-        ambient: debug.forceAmbient ?? this.normalMapAmbienceColor,
-        disableMultiply: debug.disableMultiply,
-        rendererResolution: renderer.resolution,
-        camera: {
-          position: { x: cw.position.x, y: cw.position.y },
-          scale: { x: cw.scale.x, y: cw.scale.y },
-          pivot: { x: cw.pivot.x, y: cw.pivot.y },
-        },
-        firstLightScreenPos,
-        firstLightZ: firstLight?.z,
-        firstLightDistSq: firstLight?.distanceSquaredForGround,
-        luma: {
-          groundRT: groundRTLuma,
-          groundNM: groundNMLuma,
-          objectsRT: objectsRTLuma,
-          objectsNM: objectsNMLuma,
-          normalMappedGround: groundLuma,
-          normalMappedObjects: objectsLuma,
-          lightmap: lightmapLuma,
-          perLightRT: perLightLuma,
-        },
-      }));
-    }
   }
 
   destroy(): void {
@@ -843,51 +780,6 @@ export class ShadowSystem {
         source.disableMultiply ?? DEFAULT_RENDER_DEBUG.disableMultiply,
       sampleLuma: source.sampleLuma ?? DEFAULT_RENDER_DEBUG.sampleLuma,
     };
-  }
-
-  private _estimateLuma(
-    renderer: Application["renderer"],
-    target: RenderTexture,
-  ): number | null {
-    // PixiJS 8: renderer.extract.pixels() returns { pixels: Uint8Array, width, height }
-    const extract = (
-      renderer as unknown as {
-        extract: {
-          pixels: (value: RenderTexture) => { pixels: Uint8Array } | Uint8Array;
-        };
-      }
-    ).extract;
-    console.log("[luma-debug] extract=" + typeof extract + " keys=" + (renderer ? Object.keys(renderer).filter(k => k.toLowerCase().includes("extract") || k.toLowerCase().includes("pixel")).join(",") : "no-renderer"));
-    if (!extract) return null;
-
-    try {
-      const result = extract.pixels(target);
-      const raw = result instanceof Uint8Array || result instanceof Uint8ClampedArray
-        ? result
-        : (result as { pixels: Uint8Array | Uint8ClampedArray }).pixels;
-      const pixels: ArrayLike<number> = raw;
-      if (!pixels || pixels.length < 4) return null;
-
-      const pixelCount = Math.floor(pixels.length / 4);
-      const stride = Math.max(1, Math.floor(pixelCount / 256));
-      let sum = 0;
-      let count = 0;
-
-      for (let p = 0; p < pixelCount; p += stride) {
-        const idx = p * 4;
-        const r = pixels[idx] ?? 0;
-        const g = pixels[idx + 1] ?? 0;
-        const b = pixels[idx + 2] ?? 0;
-        sum += 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        count += 1;
-      }
-
-      if (count === 0) return null;
-      return sum / (count * 255);
-    } catch (e) {
-      console.log("[luma-error] " + String(e));
-      return null;
-    }
   }
 
   private _collectRelevantHulls(

@@ -50,6 +50,29 @@ test("Cattura output console del gioco", async ({ page }) => {
   // Screenshot per analisi visiva
   await page.screenshot({ path: "debug/screenshot.png" });
 
+  // Analisi pixel PNG: leggi il file e campiona pixel specifici
+  // PNG è RGBA: offset = (y * width + x) * 4 dopo skip header
+  // Usiamo un approccio base: cerca le sequenze RGB nel buffer PNG
+  // Approach più semplice: usa canvas 2D in browser per leggere
+  const canvasPixels = await page.evaluate(async () => {
+    const canvas = document.querySelector("canvas") as HTMLCanvasElement | null;
+    if (!canvas) return "no-canvas";
+    // Aspetta il prossimo frame per avere i pixel freschi
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const tmp = document.createElement("canvas");
+    tmp.width = canvas.width;
+    tmp.height = canvas.height;
+    const ctx = tmp.getContext("2d")!;
+    ctx.drawImage(canvas, 0, 0);
+    const result: Record<string, string> = {};
+    for (const [name, x, y] of [["y200", 640, 200], ["y300", 640, 300], ["y360", 640, 360], ["y400", 640, 400], ["y450", 640, 450], ["y500", 640, 500]] as [string, number, number][]) {
+      const d = ctx.getImageData(x, y, 1, 1).data;
+      result[name] = "(" + d[0] + "," + d[1] + "," + d[2] + ")";
+    }
+    return JSON.stringify(result);
+  });
+  console.log("[canvas-pixels] " + canvasPixels);
+
   // Salva i log in un file di testo
   fs.writeFileSync("debug/game-debug-output.txt", logs.join("\n"));
 });

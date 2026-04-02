@@ -8,16 +8,15 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-### Task 1 - Il pavimento è completamente nero in ogni livello | Pending
+### Task 1 - Il pavimento è totalmente desaturato | RISOLTO
 
-Documentazione:
+**Root cause**: In PixiJS 8, il composite additivo `specMaskedSprite.blendMode="add"` su
+`_normalMappedGroundRT` avveniva DOPO il loop NM filter, quando la RT era già stata usata 17 volte
+come filter target. Questo causava l'overwrite del contenuto warm-orange della RT con il valore
+quasi-nero di `_specularMaskedRT` (15,15,15), rendendo il pavimento grigio/desaturato.
 
-- Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
-- Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
-
-Il tuo scopo è quello di risolvere questi problemi.
-
-Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà.
+**Fix**: Spostato il composite specMasked PRIMA del loop NM filter (su RT pulita da black fill).
+Il composite additivo è commutativo. Dettagli in `migration-specs/PATTERN_COOKBOOK.md` §20.
 
 ---
 

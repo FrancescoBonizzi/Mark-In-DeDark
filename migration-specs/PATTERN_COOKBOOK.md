@@ -1073,3 +1073,38 @@ export async function loadGameConfig(base: string): Promise<GameConfig> {
 
 The JSON file is a direct port of `GameConfig.cs` properties, serialized once
 from the C# original.
+
+---
+
+## 20. PixiJS 8 — Additive Sprite Render su RT già usata come Filter Target
+
+**Problema**: In PixiJS 8, un `renderer.render({container: sprite, target: rt, clear: false})` dove
+`sprite.blendMode = "add"` si comporta come OVERWRITE (non additive) se `rt` è stata usata in
+precedenza come output di un filter pipeline (`filter.blendMode = "add"` + `renderer.render`).
+
+**Causa**: Il FilterSystem di PixiJS 8 imposta la RT in uno stato interno che causa il render pass
+successivo (diretto, non filtro) a ricominciare da zero anziché caricare il contenuto esistente.
+
+**Soluzione**: Eseguire il composite additivo diretto (sprite con `blendMode="add"`) PRIMA del loop
+dei filter passes sulla stessa RT, mentre la RT è ancora "pulita" (non usata come filter target).
+Il composite additivo è commutativo: `specMasked + NM = NM + specMasked`.
+
+```typescript
+// SBAGLIATO: dopo il loop NM filter, il composite diretto sovrascrive invece di sommare
+for (const light of this.lights) {
+  // ... NM filter pass additivo → normalMappedGroundRT
+}
+const specMaskedSprite = new Sprite(this._specularMaskedRT);
+specMaskedSprite.blendMode = "add";
+renderer.render({ container: specMaskedSprite, target: normalMappedGroundRT, clear: false });
+// ^ SBAGLIATO: normalMappedGroundRT viene resettata allo specMasked, perdendo l'accumulo NM
+
+// CORRETTO: composite diretto PRIMA del loop filter, su RT pulita (black fill)
+const specMaskedSprite = new Sprite(this._specularMaskedRT);
+specMaskedSprite.blendMode = "add";
+renderer.render({ container: specMaskedSprite, target: normalMappedGroundRT, clear: false });
+// ^ CORRETTO: RT è appena stata riempita di nero, il composite diretto funziona
+for (const light of this.lights) {
+  // ... NM filter pass additivo → normalMappedGroundRT (si accumula su specMasked)
+}
+```
