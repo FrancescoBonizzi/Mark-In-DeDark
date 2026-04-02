@@ -23,9 +23,9 @@ test("Cattura output console del gioco", async ({ page }) => {
       enabled: true,
       sampleLuma: false,
       logEveryNFrames: 60,
-      disableMultiply: true,
-      forceAmbient: { r: 0, g: 0, b: 0 },
-      singleLightIndex: 16,
+      disableMultiply: false,
+      forceAmbient: undefined,
+      singleLightIndex: undefined,
     };
     // Forza hasPhysicalKeyboard() a ritornare true (Playwright non ha puntatore fisico)
     const origMatchMedia = window.matchMedia.bind(window);

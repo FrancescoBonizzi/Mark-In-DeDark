@@ -398,6 +398,11 @@ export class ShadowSystem {
       this._normalMapFilter.setAmbientColor(
         debug.forceAmbient ?? this.normalMapAmbienceColor,
       );
+      // Single-pass additive accumulation: filter writes directly onto _normalMappedGroundRT
+      // with blendMode="add" instead of the two-pass (filter→_perLightRT, sprite→finalRT) approach.
+      // This matches how PixiJS 8 FilterSystem applies the filter blend state: filter._state.blendMode
+      // controls the blend when the filter quad is drawn to the outputRenderSurface.
+      this._normalMapFilter.blendMode = "add";
 
       for (let i = 0; i < this.lights.length; i++) {
         const light = this.lights[i]!;
@@ -423,33 +428,19 @@ export class ShadowSystem {
           light.opacity,
         );
 
-        // Debug: log first light params on frame 1
-        if (this._frameIndex === 1 && i === 0) {
-          console.log("[NMFilter:groundLight0] sx=" + sx.toFixed(1) + " sy=" + sy.toFixed(1) + " z=" + light.z + " distSq=" + light.distanceSquaredForGround + " opacity=" + light.opacity + " color=" + JSON.stringify(light.colorNormalVec3) + " ambient=" + JSON.stringify(this.normalMapAmbienceColor));
-        }
-
-        // Phase 1: render filter output to temp RT
         const filterContainer = new Container();
         filterContainer.filters = [this._normalMapFilter];
         const diffuseSprite = new Sprite(this._groundRT);
         filterContainer.addChild(diffuseSprite);
         renderer.render({
           container: filterContainer,
-          target: this._perLightRT,
-          clear: true,
-        });
-        filterContainer.destroy({ children: true });
-
-        // Phase 2: additive composite onto final RT
-        const addSprite = new Sprite(this._perLightRT);
-        addSprite.blendMode = "add";
-        renderer.render({
-          container: addSprite,
           target: this._normalMappedGroundRT,
           clear: false,
         });
-        addSprite.destroy();
+        filterContainer.destroy({ children: true });
       }
+
+      this._normalMapFilter.blendMode = "normal";
 
       // C#: composizione finale = appliedNormalMap + specularWithLightmask (BlendState.Additive)
       const specMaskedSprite = new Sprite(this._specularMaskedRT);
@@ -526,6 +517,7 @@ export class ShadowSystem {
       this._normalMapFilter.setAmbientColor(
         debug.forceAmbient ?? this.normalMapAmbienceColor,
       );
+      this._normalMapFilter.blendMode = "add";
 
       for (let i = 0; i < this.lights.length; i++) {
         const light = this.lights[i]!;
@@ -551,28 +543,19 @@ export class ShadowSystem {
           light.opacity,
         );
 
-        // Phase 1: render filter output to temp RT
         const filterContainer = new Container();
         filterContainer.filters = [this._normalMapFilter];
         const diffuseSprite = new Sprite(this._objectsRT);
         filterContainer.addChild(diffuseSprite);
         renderer.render({
           container: filterContainer,
-          target: this._perLightRT,
-          clear: true,
-        });
-        filterContainer.destroy({ children: true });
-
-        // Phase 2: additive composite onto final RT
-        const addSprite = new Sprite(this._perLightRT);
-        addSprite.blendMode = "add";
-        renderer.render({
-          container: addSprite,
           target: this._normalMappedObjectsRT,
           clear: false,
         });
-        addSprite.destroy();
+        filterContainer.destroy({ children: true });
       }
+
+      this._normalMapFilter.blendMode = "normal";
     }
 
     // ------------------------------------------------------------------
