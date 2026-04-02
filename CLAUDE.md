@@ -8,15 +8,13 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
-### Task 1 - Il pavimento è totalmente desaturato | RISOLTO
+### Task 1
 
-**Root cause**: In PixiJS 8, il composite additivo `specMaskedSprite.blendMode="add"` su
-`_normalMappedGroundRT` avveniva DOPO il loop NM filter, quando la RT era già stata usata 17 volte
-come filter target. Questo causava l'overwrite del contenuto warm-orange della RT con il valore
-quasi-nero di `_specularMaskedRT` (15,15,15), rendendo il pavimento grigio/desaturato.
+I colori del pavimento sono un po' desaturati, o meglio: sotto la luce hanno la saturazione corretta, fuori dalla luce è tutto senza saturazione, e quindi anche al calare della luce allontandandosi dalla fonte, la saturazione scende. E non ha senso. La saturazione dev'essere sempre la stessa.
 
-**Fix**: Spostato il composite specMasked PRIMA del loop NM filter (su RT pulita da black fill).
-Il composite additivo è commutativo. Dettagli in `migration-specs/PATTERN_COOKBOOK.md` §20.
+### Task 2
+
+Nei corridoi stretti il pavimento è totalmente buio, anche se il player ha la luce in mano e quindi dovrebbe illuminare il pavimento. Stessa cosa se il player "tocca un muro". Se il player è attaccato al muro, è come se il muro bloccasse la luce, o come se generasse un'ombra grande sul punto in cui cammina e quindi non ha senso. Nel punto in cui il player cammina, non dovrebbe mai essere buio perché lui ha sempre la luce in mano.
 
 ---
 
