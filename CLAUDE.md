@@ -23,6 +23,60 @@ Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila pri
 
 Il tuo scopo è quello di risolvere questi problemi.
 
+Ecco un debug log sul livello 3:
+
+ {                                                                                    
+    "lightsTotal": 17,                                                                                   
+    "lightsEnabled": 17,                                                                                 
+    "ambient": {                                                                                         
+        "r": 0,                                                                                          
+        "g": 0,                                                                                          
+        "b": 0                                                                                           
+    },                                                                                                   
+    "disableMultiply": false,                                                                            
+    "camera": {                                                                                          
+        "position": {                                                                                    
+            "x": -665.6,                                                                                 
+            "y": -177.60000000000002                                                                     
+        },                                                                                               
+        "scale": {                                                                                       
+            "x": 0.8,                                                                                    
+            "y": 0.8                                                                                     
+        },                                                                                               
+        "pivot": {                                                                                       
+            "x": 0,                                                                                      
+            "y": 0                                                                                       
+        }                                                                                                
+    },                                                                                                   
+    "rendererResolution": 2,                                                                             
+    "rtDimensions": {                                                                                    
+        "groundRT": {                                                                                    
+            "w": 1280,                                                                                   
+            "h": 720                                                                                     
+        },                                                                                               
+        "groundNormalRT": {                                                                              
+            "w": 1280,                                                                                   
+            "h": 720                                                                                     
+        }                                                                                                
+    },                                                                                                   
+    "containerChildren": {                                                                               
+        "ground": 252,                                                                                   
+        "groundNormal": 252,                                                                             
+        "objects": 658                                                                                   
+    },                                                                                                   
+    "firstLightScreenPos": {                                                                             
+        "sx": 668.0000000000001,                                                                         
+        "sy": 416                                                                                        
+    },                                                                                                   
+    "luma": {                                                                                            
+        "groundRT": 0.24107527879901958,                                                                 
+        "groundNM": 0.13604473039215687,                                                                 
+        "objectsRT": 0.1120848131127451,                                                                 
+        "objectsNM": 0.0004470925245098039,                                                              
+        "lightmap": 0.2188423039215687                                                                   
+    }                                                                                                    
+}                       
+
 ---
 
 ## Protocollo di Risoluzione Task (Leggere prima di agire)
