@@ -6,7 +6,9 @@
 ## Fase 2 - Migliorarlo
 
 - [ ] Rifare i livelli per renderlo più progressivo come difficoltà, con tanti livelli all'aperto magari (con AI o con editor)
-- [ ]
+- [ ] Fare il menù fatto bene
+- [ ] Giocarmi per bene i testi per veicolare una storia
+- [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 
 ## Fase 3 - Erogarlo sul mio sito
 
