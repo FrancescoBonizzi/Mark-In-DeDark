@@ -19,51 +19,15 @@ Regole di bugfixing:
 
 ### Task 1
 
-Il nemico "Skeleton" non c'è. Per esempio nel livello 8 dovrebbe esserci. Controlla che tutti i nemici siano stati implementati.
+Il nemico "Skeleton" si comporta in modo diverso dal passato. Quando mi vede deve partire ad inseguirmi, quando mi perde di vista deve essere disorientato per un po' e poi tornare a fare quello che stava facendo. Controlla attentamente la precedente implementazione in C# di tutte le AI di tutti i nemici per essere certo di averle portate correttamente.
 
 ### Task 2
 
-Non c'è l'ombra del player (che non è calcolata in realtime, è una semplice texture animata)
+L'ombra del player (che è un'animazione normalissima da sprite) c'è, ma non segue il player mentre cammina. Quando mi sposto da una cella all'altra sta ferma e appare nella cella nuova. Non va bene: deve seguire sempre il player.
 
 ### Task 3
 
-Rispetto al gioco originale, la versione PixiJs sembra molto più zommata. Nel gioco originale sembra tutto più "piccolo", come se fosse zoomed-out.
-
-### Task 4
-
-La texture dei pavimenti sono parecchio desaturate.
-
-### Task 5
-
-Tutte le luci: quelle del player, quelle dei braceri, quelle dei nemici, sembrano ampie il doppio rispetto all'originale. Considera che nel gioco originale la luce del player, per darti una proporzione, illumina fino a una cella oltre la sua. Quindi se è al centro di 9 celle, illumina solo quelle adiacenti, non di più.
-
-### Task 6
-
-Il player, posizionato sulla candela, dovrebbe avere un fioco effetto particellare che simula gli scoppiettii del fuoco sulla candela. Qui non c'è.
-
-### Task 7
-
-Quando sono appena sopra rispetto ad una porta appena aperta, non illumino la cella su cui sono. Come se la porta aperta in qualche modo occludesse la cella appena sopra.
-
-### Task 8
-
-Fai le scritte popup text di un 20% più grandi
-
-### Task 9
-
-Per aprire le porte utilizza il tasto CTRL e non più SPAZIO. SPAZIO lo usiamo solo per piazzare la candela. Aggiorna anche i testi popup/tutorial relativi.
-
-### Task 10
-
-Ho notato che intorno ad alcuni oggetti tipo la chiave e i braceri e le candele da raccogliere c'è un alone nero
-
-### Task 11
-
-Nei testi popup, quando c'è una candela sola scrivi hai raccolto 1 candela, non 1 candele (gestisci singolare plurale del testo)
-
-### Task Bonus
-
-Dopo massimo 5 minuti in cui gioco, il browser fa crashare la pagina perché "utilizza una quantità significativa di memoria"
+La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi.
 
 ---
 
