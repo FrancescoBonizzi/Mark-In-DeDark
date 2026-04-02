@@ -8,13 +8,19 @@ Letto all'inizio di ogni sessione prima di scrivere codice. Tu sei l'ingegnere s
 
 Siamo in una fase di bugfixing, la maggior parte del progetto è migrata.
 
+Regole di bugfixing:
+
+- Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_CSHARP.md`.
+- Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
+- Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà. (attualmente punta al livello 8)
+
 ### Task 1
 
 I colori del pavimento sono un po' desaturati, o meglio: sotto la luce hanno la saturazione corretta, fuori dalla luce è tutto senza saturazione, e quindi anche al calare della luce allontandandosi dalla fonte, la saturazione scende. E non ha senso. La saturazione dev'essere sempre la stessa.
 
 ### Task 2
 
-Nei corridoi stretti il pavimento è totalmente buio, anche se il player ha la luce in mano e quindi dovrebbe illuminare il pavimento. Stessa cosa se il player "tocca un muro". Se il player è attaccato al muro, è come se il muro bloccasse la luce, o come se generasse un'ombra grande sul punto in cui cammina e quindi non ha senso. Nel punto in cui il player cammina, non dovrebbe mai essere buio perché lui ha sempre la luce in mano.
+Nei corridoi stretti il pavimento è totalmente buio, anche se il player ha la luce in mano e quindi dovrebbe illuminare il pavimento. Stessa cosa se il player "tocca un muro". Se il player è attaccato al muro, è come se il muro bloccasse la luce, o come se generasse un'ombra grande sul punto in cui cammina e quindi non ha senso. Nel punto in cui il player cammina, non dovrebbe mai essere buio perché lui ha sempre la luce in mano. Al livello 8 inizi già direttamente dentro ad un corridoio quindi puoi iterare debuggando senza problemi.
 
 ---
 
