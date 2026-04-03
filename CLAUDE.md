@@ -21,10 +21,6 @@ Regole di bugfixing:
 
 La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi. Sembra quasi che sopra alla texture originale del pavimento ci sia disegnata sopra un'altra texture tipo una normal map buttata sopra, una cosa del genere. O comunque come se ci fossero delle sovrapposizioni.
 
-### Task 2
-
-Quando il player muore, e il mondo "scompare" deve restare invece il player come se fosse illuminato, disegnandolo sopra a tutto senza contare la rendering pipeline precisa. Si deve vedere proprio tutta l'animazione della morte "in chiaro" e poi li resto deve fare fade out.
-
 ---
 
 ## Regole Invarianti (Hard Rules)

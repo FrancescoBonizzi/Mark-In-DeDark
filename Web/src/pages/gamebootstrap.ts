@@ -1,4 +1,4 @@
-import { Application, Point, Rectangle, TextureSource } from "pixi.js";
+import { Application, Point, Rectangle, Sprite, TextureSource } from "pixi.js";
 import { getTexture, loadAssets } from "../assets/AssetsLoader";
 import { Enemy } from "../characters/Enemy";
 import { Player } from "../characters/Player";
@@ -51,9 +51,10 @@ let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
 let braziers: BrazierLit[] = [];
 let enemies: Enemy[] = [];
 let hud: GameHud | null = null;
-let deathOverlay: HTMLDivElement | null = null;
 let elapsedMs = 0;
 let gameEnded = false;
+let playerDyingDetected = false;
+let deathOverlaySprite: Sprite | null = null;
 let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
 let currentLevelId = 1;
@@ -77,6 +78,8 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
   currentLevelId = parseInt(levelIdParam, 10) || 1;
   elapsedMs = 0;
   gameEnded = false;
+  playerDyingDetected = false;
+  deathOverlaySprite = null;
   triggeredCells = new Set();
   lockedExitNotified = false;
 
@@ -342,14 +345,11 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
       );
     }
 
-    // HUD + death overlay
+    // HUD
     const gameWrapper =
       container.querySelector<HTMLDivElement>("#game-wrapper");
     if (gameWrapper) {
       hud = new GameHud(gameWrapper);
-      deathOverlay = document.createElement("div");
-      deathOverlay.id = "game-death-overlay";
-      gameWrapper.appendChild(deathOverlay);
     }
 
     // Center camera on player start
@@ -369,6 +369,11 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         player.update(dt);
         for (const enemy of enemies) enemy.update(dt);
         if (shadowSystem) shadowSystem.update(app!, dt);
+        // Sync death overlay sprite texture with the ongoing death animation
+        if (deathOverlaySprite) {
+          deathOverlaySprite.texture = player.mainSprite.texture;
+          deathOverlaySprite.scale.x = player.mainSprite.scale.x;
+        }
         return;
       }
 
@@ -450,11 +455,11 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         trap.update(dt);
       }
 
-      // Player death check (triggered by enemy or trap)
-      if (player.isDead) {
-        gameEnded = true;
-        hud?.showMessage(GameTexts.gameOver, "#ff4444", true);
-        deathOverlay?.classList.add("active");
+      // Player death: when dying starts, show player "in clear" above fading world (Task 2)
+      if (player.isDying && !playerDyingDetected && shadowSystem) {
+        playerDyingDetected = true;
+
+        // Snapshot current state for death overlay data
         sessionStorage.setItem(
           GAMEOVER_KEY,
           JSON.stringify({
@@ -464,7 +469,37 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             candlesUsed: candlesManager?.playerUsedCandles ?? 0,
           }),
         );
-        setTimeout(navigateToGameOver, 1500);
+
+        // Show "Game Over" message
+        hud?.showMessage(GameTexts.gameOver, "#ff4444", true);
+
+        // Create a sprite of the player in world coords, added to playerDeathContainer
+        // (which mirrors camera transform — so world coords map to correct screen position)
+        const ds = new Sprite(player.mainSprite.texture);
+        ds.anchor.set(0.5);
+        ds.x = player.worldCenter.x;
+        ds.y = player.worldCenter.y;
+        ds.scale.x = player.mainSprite.scale.x;
+        shadowSystem.playerDeathContainer.addChild(ds);
+        deathOverlaySprite = ds;
+
+        // Fade world sprites to black over 1.5s; playerDeathContainer stays fully visible
+        shadowSystem.startDeathFade(1500);
+
+        // Hide the player from the objects pipeline to avoid double-drawing
+        player.mainSprite.visible = false;
+      }
+
+      // Sync death overlay sprite with the ongoing death animation each frame
+      if (deathOverlaySprite && player.isDying) {
+        deathOverlaySprite.texture = player.mainSprite.texture;
+        deathOverlaySprite.scale.x = player.mainSprite.scale.x;
+      }
+
+      // Navigate to gameover when death animation completes
+      if (player.isDead && !gameEnded) {
+        gameEnded = true;
+        setTimeout(navigateToGameOver, 800);
       }
 
       // Cell text triggers (tutorial / ambient hints)
@@ -572,7 +607,7 @@ export function destroyGame() {
   SoundManagerInstance.stopAll();
   hud?.destroy();
   hud = null;
-  deathOverlay = null;
+  deathOverlaySprite = null;
   torchFireParticles?.dispose();
   torchFireParticles = null;
   player?.destroy();

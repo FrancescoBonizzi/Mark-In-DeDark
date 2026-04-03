@@ -279,6 +279,9 @@ export abstract class Character {
         return this._state === CharacterState.Dead;
     }
 
+    /** Exposes the main display sprite (texture + scale.x flip) for external death overlay rendering. */
+    get mainSprite(): Sprite { return this._mainSprite; }
+
     die(): void {
         if (this.isDead || this.isDying) return;
         this._state = CharacterState.Dying;

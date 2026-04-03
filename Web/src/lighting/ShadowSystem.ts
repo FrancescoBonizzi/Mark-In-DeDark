@@ -121,6 +121,13 @@ export class ShadowSystem {
   private readonly _normalMappedObjectsSprite: Sprite;
   private _warnedNoLights = false;
 
+  // --- Player death fade (Task 2) ---
+  /** Container on top of stage (world-space coords, camera-synced) for the player death overlay sprite. */
+  readonly playerDeathContainer: Container;
+  private _deathFading = false;
+  private _deathFadeElapsedMs = 0;
+  private _deathFadeDurationMs = 1500;
+
   /**
    * Container for character shadow sprites (C# drawShadows pass).
    * Rendered onto _normalMappedGroundRT after the normal-map pass, in AlphaBlend,
@@ -246,6 +253,10 @@ export class ShadowSystem {
     // [2] Walls/pillars with normal map lighting (above lightmap — no shadow multiply)
     this._normalMappedObjectsSprite = new Sprite(this._normalMappedObjectsRT);
     app.stage.addChildAt(this._normalMappedObjectsSprite, 2);
+
+    // [4] Player death overlay — world-space container above everything (camera-synced each frame)
+    this.playerDeathContainer = new Container();
+    app.stage.addChild(this.playerDeathContainer);
   }
 
   // -------------------------------------------------------------------------
@@ -288,6 +299,27 @@ export class ShadowSystem {
     }
   }
 
+  /**
+   * Starts fading out the world rendering (ground + lightmap + objects sprites) over `durationMs`.
+   * `playerDeathContainer` (above the fading layer) is NOT faded — it stays fully visible.
+   * Call once when the player death sequence begins.
+   */
+  startDeathFade(durationMs: number = 1500): void {
+    this._deathFadeDurationMs = durationMs;
+    this._deathFadeElapsedMs = 0;
+    this._deathFading = true;
+  }
+
+  /** Resets death fade state (called on level restart). */
+  resetDeathFade(): void {
+    this._deathFading = false;
+    this._deathFadeElapsedMs = 0;
+    this._normalMappedGroundSprite.alpha = 1;
+    this._lightmapSprite.alpha = 1;
+    this._normalMappedObjectsSprite.alpha = 1;
+    this.playerDeathContainer.removeChildren();
+  }
+
   // -------------------------------------------------------------------------
   // Per-frame update
   // -------------------------------------------------------------------------
@@ -316,6 +348,21 @@ export class ShadowSystem {
 
     // Animate lights
     for (const light of this.lights) light.update(deltaMS);
+
+    // Sync playerDeathContainer with camera transform every frame (children use world coords)
+    this.playerDeathContainer.position.copyFrom(cw.position);
+    this.playerDeathContainer.scale.copyFrom(cw.scale);
+    this.playerDeathContainer.pivot.copyFrom(cw.pivot);
+
+    // Death fade: fade out world sprites, playerDeathContainer stays at alpha=1
+    if (this._deathFading) {
+      this._deathFadeElapsedMs += deltaMS;
+      const t = Math.min(1, this._deathFadeElapsedMs / this._deathFadeDurationMs);
+      const alpha = 1 - t;
+      this._normalMappedGroundSprite.alpha = alpha;
+      this._lightmapSprite.alpha = alpha;
+      this._normalMappedObjectsSprite.alpha = alpha;
+    }
 
     // Reusable helper: borrow a child into the pre-created camera container, render, then return it.
     // Avoids allocating a new Container every call (Task Bonus: memory).
@@ -653,6 +700,7 @@ export class ShadowSystem {
     this._normalMappedObjectsSprite.destroy();
     this._blurFilter.destroy();
     this._normalMapFilter.destroy();
+    this.playerDeathContainer.destroy({ children: true });
   }
 
   // -------------------------------------------------------------------------
