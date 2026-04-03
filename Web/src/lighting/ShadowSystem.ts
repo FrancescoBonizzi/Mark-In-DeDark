@@ -33,6 +33,10 @@ interface RenderDebugConfig {
   forceAmbient: { r: number; g: number; b: number } | undefined;
   disableMultiply: boolean;
   sampleLuma: boolean;
+  /** Debug: mostra il pavimento grezzo (_groundRT) senza NM filter, per diagnostica colori tile. */
+  showGroundRT: boolean;
+  /** Debug: nasconde _lightmapSprite per vedere _normalMappedGroundRT direttamente senza il multiply. */
+  hideLightmap: boolean;
 }
 
 const DEFAULT_RENDER_DEBUG: RenderDebugConfig = {
@@ -42,6 +46,8 @@ const DEFAULT_RENDER_DEBUG: RenderDebugConfig = {
   forceAmbient: undefined,
   disableMultiply: false,
   sampleLuma: false,
+  showGroundRT: false,
+  hideLightmap: false,
 };
 
 /**
@@ -294,6 +300,7 @@ export class ShadowSystem {
     this._lightmapSprite.blendMode = debug.disableMultiply
       ? "normal"
       : "multiply";
+    this._lightmapSprite.visible = !debug.hideLightmap;
 
     if (this.lights.length === 0 && !this._warnedNoLights) {
       this._warnedNoLights = true;
@@ -336,6 +343,16 @@ export class ShadowSystem {
     // ------------------------------------------------------------------
     renderer.render({ container: this._emptyContainer, target: this._groundRT, clear: true, clearColor: [0, 0, 0, 1] });
     renderWithCam(this._groundContainer, this._groundRT, false);
+
+    // ------------------------------------------------------------------
+    // DEBUG: showGroundRT — mostra il pavimento grezzo senza NM filter
+    // ------------------------------------------------------------------
+    if (debug.showGroundRT) {
+      const groundCopySprite = new Sprite(this._groundRT);
+      renderer.render({ container: groundCopySprite, target: this._normalMappedGroundRT, clear: true });
+      groundCopySprite.destroy();
+      return;
+    }
 
     // ------------------------------------------------------------------
     // 2. Ground normals → _groundNormalRT (neutral normal 0x8080FF fill)
@@ -687,6 +704,8 @@ export class ShadowSystem {
       disableMultiply:
         source.disableMultiply ?? DEFAULT_RENDER_DEBUG.disableMultiply,
       sampleLuma: source.sampleLuma ?? DEFAULT_RENDER_DEBUG.sampleLuma,
+      showGroundRT: source.showGroundRT ?? DEFAULT_RENDER_DEBUG.showGroundRT,
+      hideLightmap: source.hideLightmap ?? DEFAULT_RENDER_DEBUG.hideLightmap,
     };
   }
 

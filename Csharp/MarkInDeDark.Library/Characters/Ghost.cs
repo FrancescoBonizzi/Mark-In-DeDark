@@ -1,13 +1,13 @@
-﻿using FbonizziMonoGame.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FbonizziMonoGame.Extensions;
 using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -23,14 +23,15 @@ namespace MarkInDeDark.Library.Characters
             SoundManager soundManager,
             Player player,
             GameConfig gameConfig,
-            MarkInDeDarkGame game)
+            MarkInDeDarkGame game
+        )
             : base(
-                  grid: gameGrid,
-                  characterBasicConfiguration: new CharacterConfiguration(
-                      assetsLoader: assetsLoader,
-                      characterName: "ghost",
-                      startingPosition: patrolPath.First().CenterPosition,
-                      characterTorchConfiguration: new CharacterTorchConfiguration(
+                grid: gameGrid,
+                characterBasicConfiguration: new CharacterConfiguration(
+                    assetsLoader: assetsLoader,
+                    characterName: "ghost",
+                    startingPosition: patrolPath.First().CenterPosition,
+                    characterTorchConfiguration: new CharacterTorchConfiguration(
                         firstTorchColor: gameConfig.GhostLightColorRGB1,
                         secondTorchColor: gameConfig.GhostLightColorRGB2,
                         torchPositionTraslationUp: Vector2.Zero,
@@ -40,22 +41,26 @@ namespace MarkInDeDark.Library.Characters
                         z: 46f,
                         opacity: 1f,
                         distanceSquared: 4_950f,
-                        penumbraTorchScale: 300f),
-                      movementSpeed: gameConfig.GhostSpeed,
-                      withDieAnimation: false),
-                  enemyConfiguration: new EnemyConfiguration(
-                      assetsLoader: assetsLoader,
-                      enemyName: "ghost",
-                      attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
-                      screamSoundIndex: 0, //soundManager.RegisterGhostScreamSound(),
-                      nCellsFindingRange: null,
-                      startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
-                      killsCandlesIfCollidesWithThem: true),
-                  soundManager: soundManager,
-                  player: player,
-                  assetsLoader: assetsLoader,
-                  game: game,
-                  candlesManager: candlesManager)
+                        penumbraTorchScale: 300f
+                    ),
+                    movementSpeed: gameConfig.GhostSpeed,
+                    withDieAnimation: false
+                ),
+                enemyConfiguration: new EnemyConfiguration(
+                    assetsLoader: assetsLoader,
+                    enemyName: "ghost",
+                    attackSoundIndex: 0, //soundManager.RegisterGhostAttackSound(),
+                    screamSoundIndex: 0, //soundManager.RegisterGhostScreamSound(),
+                    nCellsFindingRange: null,
+                    startingAI: new PatrolGhostAI(patrolPath, gameGrid, player, soundManager),
+                    killsCandlesIfCollidesWithThem: true
+                ),
+                soundManager: soundManager,
+                player: player,
+                assetsLoader: assetsLoader,
+                game: game,
+                candlesManager: candlesManager
+            )
         {
             _canGoOverWalls = true;
 
@@ -66,7 +71,8 @@ namespace MarkInDeDark.Library.Characters
             _wallCrossGhostParticleSystem = new GhostParticleSystem(
                 assetsLoader,
                 Color.LimeGreen.WithAlpha(0.2f),
-                Color.Lime.WithAlpha(0.2f));
+                Color.Lime.WithAlpha(0.2f)
+            );
 
             SurroundingLight.DeltaForWall = new Vector2(0f, -30f);
         }
@@ -118,6 +124,5 @@ namespace MarkInDeDark.Library.Characters
             _wallCrossGhostParticleSystem.Draw(spriteBatch);
             base.DrawEffectsOverDark(spriteBatch);
         }
-
     }
 }

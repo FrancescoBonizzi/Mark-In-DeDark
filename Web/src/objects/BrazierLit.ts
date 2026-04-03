@@ -86,7 +86,7 @@ export class BrazierLit {
         this.surroundingLight = new MarkLight({
             x,
             y: y + LIGHT_OFFSET_Y,
-            z: 67,
+            z: 45, // C# 67 scaled by 2/3 (zoom 8/15 vs 0.8)
             opacity: 1,
             radius: 150,
             castsShadows: false,

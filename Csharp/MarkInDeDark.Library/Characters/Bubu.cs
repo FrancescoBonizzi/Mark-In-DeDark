@@ -1,13 +1,12 @@
-﻿using MarkInDeDark.Library.AI;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MarkInDeDark.Library.AI;
 using MarkInDeDark.Library.Common;
 using MarkInDeDark.Library.Levels;
 using MarkInDeDark.Library.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MarkInDeDark.Library.Characters
 {
@@ -21,31 +20,39 @@ namespace MarkInDeDark.Library.Characters
             SoundManager soundManager,
             Player player,
             GameConfig gameConfig,
-            MarkInDeDarkGame game)
-                : base(
-                    gameGrid,
-                    new CharacterConfiguration(
-                        assetsLoader: assetsLoader,
-                        characterName: "bubu",
-                        startingPosition: patrolPath.First().CenterPosition,
-                        movementSpeed: gameConfig.BubuSpeed,
-                        characterTorchConfiguration: null),
-                    new EnemyConfiguration(
-                        assetsLoader: assetsLoader,
-                        enemyName: "bubu",
-                        attackSoundIndex: 0,//soundManager.RegisterBubuAttackSound(),
-                        screamSoundIndex: 0,//soundManager.RegisterBubuScreamSound(),
-                        nCellsFindingRange: gameConfig.BubuMaxCellsForNearCandle,
-                        startingAI: new PatrolAI(patrolPath, gameGrid, candlesManager, player, soundManager, searchesCandles: true),
-                        true),
-                    soundManager,
-                    player,
-                    assetsLoader,
-                    game,
-                    candlesManager)
-        {
-
-        }
+            MarkInDeDarkGame game
+        )
+            : base(
+                gameGrid,
+                new CharacterConfiguration(
+                    assetsLoader: assetsLoader,
+                    characterName: "bubu",
+                    startingPosition: patrolPath.First().CenterPosition,
+                    movementSpeed: gameConfig.BubuSpeed,
+                    characterTorchConfiguration: null
+                ),
+                new EnemyConfiguration(
+                    assetsLoader: assetsLoader,
+                    enemyName: "bubu",
+                    attackSoundIndex: 0, //soundManager.RegisterBubuAttackSound(),
+                    screamSoundIndex: 0, //soundManager.RegisterBubuScreamSound(),
+                    nCellsFindingRange: gameConfig.BubuMaxCellsForNearCandle,
+                    startingAI: new PatrolAI(
+                        patrolPath,
+                        gameGrid,
+                        candlesManager,
+                        player,
+                        soundManager,
+                        searchesCandles: true
+                    ),
+                    true
+                ),
+                soundManager,
+                player,
+                assetsLoader,
+                game,
+                candlesManager
+            ) { }
 
         public override void CustomActionOnPlayerDead()
         {

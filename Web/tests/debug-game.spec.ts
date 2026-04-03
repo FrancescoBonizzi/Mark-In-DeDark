@@ -23,9 +23,11 @@ test("Cattura output console del gioco", async ({ page }) => {
       enabled: true,
       sampleLuma: false,
       logEveryNFrames: 60,
-      disableMultiply: true,
-      forceAmbient: { r: 0.0, g: 0.0, b: 0.0 },
-      singleLightIndex: 0,
+      disableMultiply: false,
+      forceAmbient: undefined,
+      singleLightIndex: undefined,
+      hideLightmap: false,
+      showGroundRT: false,
     };
     // Forza hasPhysicalKeyboard() a ritornare true (Playwright non ha puntatore fisico)
     const origMatchMedia = window.matchMedia.bind(window);
@@ -65,7 +67,7 @@ test("Cattura output console del gioco", async ({ page }) => {
     const ctx = tmp.getContext("2d")!;
     ctx.drawImage(canvas, 0, 0);
     const result: Record<string, string> = {};
-    for (const [name, x, y] of [["y200", 640, 200], ["y300", 640, 300], ["y360", 640, 360], ["y400", 640, 400], ["y450", 640, 450], ["y500", 640, 500]] as [string, number, number][]) {
+    for (const [name, x, y] of [["cx640y300", 640, 300], ["cx640y360", 640, 360], ["cx640y400", 640, 400], ["cx320y240", 320, 240], ["cx400y300", 400, 300], ["cx500y360", 500, 360]] as [string, number, number][]) {
       const d = ctx.getImageData(x, y, 1, 1).data;
       result[name] = "(" + d[0] + "," + d[1] + "," + d[2] + ")";
     }

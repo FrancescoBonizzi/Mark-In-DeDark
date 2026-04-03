@@ -115,7 +115,7 @@ export class Player extends Character {
     const torchLight = new MarkLight({
       x: startX + TORCH_OFFSETS.down.x,
       y: startY + TORCH_OFFSETS.down.y,
-      z: 90,
+      z: 60, // C# 90 scaled by 2/3 (zoom 8/15 vs 0.8) — keeps attenuation formula equivalent
       opacity: 1,
       radius: 1200,
       castsShadows: true,
