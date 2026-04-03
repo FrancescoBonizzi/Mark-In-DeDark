@@ -19,7 +19,15 @@ Regole di bugfixing:
 
 ### Task 1
 
-La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi. Sembra quasi che sopra alla texture originale del pavimento ci sia disegnata sopra un'altra texture tipo una normal map buttata sopra, una cosa del genere. O comunque come se ci fossero delle sovrapposizioni.
+La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi. Sembra quasi che sopra alla texture originale del pavimento ci sia disegnata sopra un'altra texture tipo una specular map buttata sopra, una cosa del genere. O comunque come se ci fossero delle sovrapposizioni.
+
+Ho notato anche un'altra cosa: nel gioco originale dove doveva esserci buio perché la luce termina il suo raggio d'azione, c'era tutto nero. Qui invece rimane una texture che forse è una specular map o qualcosa del genere che si vede "nel buio" e non dovrebbe vedersi. È totalmente desaturata e forse è proprio messa sopra al posto del buio completo.
+
+Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: '/Users/fbonizzi/Source/Mark-In-DeDark/Web/debug/Csharp version rendering - Level 4.jpg'. Guardo così ti rendi conto.
+
+### Task 2
+
+Sembra che le normal map non siano applicate alle porte
 
 ---
 
