@@ -19,15 +19,11 @@ Regole di bugfixing:
 
 ### Task 1
 
-Il nemico "Skeleton" si comporta in modo diverso dal passato. Quando mi vede deve partire ad inseguirmi, quando mi perde di vista deve essere disorientato per un po' e poi tornare a fare quello che stava facendo. Controlla attentamente la precedente implementazione in C# di tutte le AI di tutti i nemici per essere certo di averle portate correttamente.
+La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi. Sembra quasi che sopra alla texture originale del pavimento ci sia disegnata sopra un'altra texture tipo una normal map buttata sopra, una cosa del genere. O comunque come se ci fossero delle sovrapposizioni.
 
 ### Task 2
 
-L'ombra del player (che è un'animazione normalissima da sprite) c'è, ma non segue il player mentre cammina. Quando mi sposto da una cella all'altra sta ferma e appare nella cella nuova. Non va bene: deve seguire sempre il player.
-
-### Task 3
-
-La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi.
+Scrivi un file come RENDERING_PIPELINE ma sulle AI dei nemici e descrivile nei minimi dettagli
 
 ---
 
