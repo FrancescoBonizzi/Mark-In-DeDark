@@ -23,9 +23,9 @@ test("Cattura output console del gioco", async ({ page }) => {
       enabled: true,
       sampleLuma: false,
       logEveryNFrames: 60,
-      disableMultiply: false,
-      forceAmbient: undefined,
-      singleLightIndex: undefined,
+      disableMultiply: true,
+      forceAmbient: { r: 0.0, g: 0.0, b: 0.0 },
+      singleLightIndex: 0,
     };
     // Forza hasPhysicalKeyboard() a ritornare true (Playwright non ha puntatore fisico)
     const origMatchMedia = window.matchMedia.bind(window);
@@ -42,7 +42,7 @@ test("Cattura output console del gioco", async ({ page }) => {
   });
 
   // Vai alla pagina del gioco
-  await page.goto("http://localhost:5173/mark-in-dedark/#/game/8");
+  await page.goto("http://localhost:5173/mark-in-dedark/#/game/1");
 
   // Aspetta un tempo stabilito per far girare il gioco
   await page.waitForTimeout(5_000);
