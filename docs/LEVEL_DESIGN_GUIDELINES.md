@@ -7,7 +7,7 @@ Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMA
 
 ## Indice
 
-1. [La storia di Mark — arco narrativo](#1-la-storia-di-mark--arco-narrativo)
+1. [La storia di Mark — L'eredità del vuoto](#1-la-storia-di-mark--leredità-del-vuoto)
 2. [Meccaniche del gioco — introduzione progressiva](#2-meccaniche-del-gioco--introduzione-progressiva)
 3. [I nemici — descrizione e placement](#3-i-nemici--descrizione-e-placement)
 4. [Convenzioni di design spaziale](#4-convenzioni-di-design-spaziale)
@@ -16,55 +16,68 @@ Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMA
 
 ---
 
-## 1. La storia di Mark — arco narrativo
+## 1. La storia di Mark — L'eredità del vuoto
+
+### Il rito
+
+Nella comunità di Mark non si diventa uomini compiendo diciotto anni. Si diventa uomini uscendo vivi dal **Ventre del Padre** — il labirinto sotterraneo sotto le rovine del vecchio castello, che ogni giovane maschio del villaggio deve attraversare da solo quando il tempo arriva.
+
+La notte della prova, il padre stringe la mano del figlio — sempre troppo forte — e gli consegna una candela. Una candela fatta con il grasso dei falliti precedenti. Se la luce si spegne, sei perduto: diventi parte del labirinto. Se esci, sei un uomo. Se non esci... dicono che fossi un codardo.
+
+Mark è l'ultimo di una stirpe obbligata a scendere nel buio per _meritarsi il sole_.
 
 ### Chi è Mark
 
-Mark è un ragazzo adolescente. Un pomeriggio di fine estate, esplorando le rovine di un vecchio castello abbandonato vicino al suo paese, il terreno cede sotto di lui. Cade in una serie di gallerie sotterranee che non esistono su nessuna mappa. Non sa dove si trova. Non sa quanto è profondo. Ha con sé solo una candela.
+Mark è un ragazzo adolescente, spaventato, che non ha mai scelto di essere qui. Ha letto i nomi incisi sulle porte: alcuni li riconosce. Suo fratello. Suo zio. Amici del padre. Nessuno che conosce è mai tornato, eppure il rito continua da generazioni. La società che lo ha costruito era ossessionata dalla _tempra_ — la convinzione che la sofferenza forgi la forza, che il buio insegni chi sei davvero.
 
-Ogni livello completato non è una vittoria definitiva: è solo un'altra zona che Mark riesce ad attraversare. L'uscita di ogni livello porta sempre più in profondità — o così sembra. Ma il labirinto ha una direzione. Mark lo sente. Da qualche parte, c'è una via d'uscita.
+Mark non sa ancora cosa pensa di tutto questo. Sa solo che vuole uscire.
 
-### La meccanica come metafora
+### I mostri come specchi
 
-- **La candela** è la speranza di Mark: l'unica cosa che tiene il buio a distanza. Piazzarla per distrarre un nemico è un atto di coraggio — Mark sacrifica temporaneamente la sua sicurezza per creare un'opportunità. Perderla nel buio non è solo un malus meccanico: è Mark solo, al buio, che deve trovare la forza di andare avanti.
-- **I nemici** sono le presenze che abitano il labirinto. Alcuni (Zombie) sembrano vagare senza scopo come automi. Altri (Goblin, Ghost) sembrano voler specificamente spegnere la luce di Mark — come se il labirinto stesso non volesse che lui uscisse.
-- **La chiave e l'uscita** sono la struttura di ogni livello: c'è sempre una via d'uscita. Mark deve crederci.
+I nemici che Mark incontra nel labirinto non sono creature casuali. Sono le deformazioni di chi è entrato prima di lui e non è riuscito a uscire — o è uscito trasformato in qualcosa di irriconoscibile.
 
-### L'arco narrativo — struttura circolare
+- **Zombie:** Quelli che hanno _obbedito_ troppo. Hanno perso la volontà scendendo i gradini del labirinto e hanno continuato a camminare, meccanicamente, senza mai chiedersi perché. Vagano ancora nei corridoi ripetendo i gesti del rito, senza nessuno che li osservi.
+- **Scheletri:** Quelli che hanno cercato l'onore militare. Pattugliano stanze vuote con la stessa disciplina che avevano in vita, proteggendo un trono che non esiste più, in nome di un re che non c'è mai stato.
+- **Taurus:** L'incarnazione della rabbia cieca. È quello che resta di un uomo quando gli togli tutto tranne la forza e il senso di minaccia. Non sa dove andare se non _dritto_, non conosce altra risposta che la carica. I muri che sfonda erano già fragili — erano fatti per cedere.
+- **Goblin:** L'invidia pura. Odiano chi ha ancora una luce perché loro l'hanno persa per primi, o gliela hanno strappata. Sono veloci, accaniti, e diventano più veloci ogni volta che vedono qualcuno usare le proprie risorse. Non vogliono uccidere Mark: vogliono che rimanga al buio come loro.
+- **Ghost:** Il senso di colpa. L'ombra che sussurra di arrendersi. Attacca solo chi si muove — chi ancora _lotta_. Se ti fermi, ti sorpassa. Il labirinto premia la resa.
+- **Bubu:** Il rimpianto. Non vuole uccidere, vuole solo spegnere la luce. Come se la luce fosse un'offesa alla miseria di chi l'ha perduta. È il sabotatore silenzioso che trasforma ogni risorsa in un lusso che non puoi permetterti.
 
-Il gioco ha un arco circolare deliberato:
+### La candela
 
-> Rovine all'aperto → sotto terra → cripte → cuore del labirinto → risalita → uscita
+La candela non è un oggetto di gioco. È la speranza di Mark — l'unica cosa che tiene il buio a distanza, costruita con i resti di chi ha fallito prima di lui. Piazzarla per distrarre un nemico è un atto che ha un peso: Mark sacrifica temporaneamente la sua sicurezza, la sua luce, per creare un'opportunità. Il labirinto è progettato per far spegnere quella candela. Ogni nemico, a modo suo, vuole il buio.
 
-I **livelli iniziali** si ambientano in rovine esterne — mura crollate, cielo visibile attraverso le crepe, pietra chiara. Mark è appena caduto: è disorientato ma non ancora disperato.
+Perdere la candela nel buio non è solo un malus meccanico: è Mark solo, senza niente, che deve trovare la forza di continuare in un posto che non vuole che lui esca.
 
-I **livelli centrali** scendono sempre più in profondità: corridoi angusti, stanze senza finestre, muri neri di umidità. Qui si concentrano i nemici più pericolosi.
+### Il colpo di scena finale
 
-I **livelli finali** mostrano i segni della risalita: la pietra torna più chiara, c'è aria che circola. L'ultimo livello riporta Mark all'esterno — le stesse rovine del livello 1, ma viste dall'altra parte. L'uscita è la luce del sole.
+Veicolato al livello 20.
 
-Questa struttura deve riflettersi nelle texture pack usate:
-- **pacco1** → rovine esterne, pietra chiara (livelli 1–2 e livello finale)
-- **pacco2** → transizione verso l'interno (livello 3)
-- **pacchi 3–7** → progressivamente più scuri e sotterranei
-- **pacco8** → il cuore del labirinto, il punto più buio
-- **pacco1 di ritorno** → l'uscita (livello finale)
+**"Il giardino vuoto"** (nichilismo puro)
+Mark apre l'ultima porta e trova il villaggio in rovina. Cenere, silenzio, nessuno. Mentre lui era nel labirinto, il mondo che aveva costruito quel rito si è spento di indifferenza. Il rito era l'unica cosa che teneva in piedi quella civiltà — e senza vittime da consumare, non è rimasto niente. La sua forza non serve a nulla in un mondo che non esiste più.
+
+> _"Sono fuori. Ma non c'è nessuno. Il villaggio è cenere, il cielo è grigio e immobile. Non c'è festa, non c'è orgoglio. Ho passato l'inferno per tornare in un mondo morto. Tutto questo... non è servito a niente."_
 
 ### Il tono dei testi narrativi
 
-I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente spaventato ma non arreso. Non è eroico, non è disperato: è umano.
+I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente spaventato ma lucido, che inizia a capire mentre cammina.
 
 **Regole per scrivere i testi:**
+
 - **2–4 testi per livello** al massimo. Ogni testo deve avere un impatto.
-- **Posizionarli prima dell'oggetto**, non sopra. Mark "pensa" mentre si avvicina, non dopo.
-- **Non spiegare la meccanica direttamente** — suggerire, non istruire. "Forse quella luce potrebbe aiutarmi" è meglio di "premi SPAZIO per piazzare la candela".
-- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei primi 2–3 livelli.
-- **Testi di atmosfera** nelle zone di transizione: entrata di stanze buie, corridoi prima dei nemici, vicino all'uscita.
+- **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
+- **Non spiegare la meccanica direttamente** — suggerire, non istruire. "Se si distrae... potrei passare" è meglio di "piazza la candela per distrarlo".
+- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei livelli 1–3.
+- **Testi di atmosfera** nelle zone di transizione: entrate di stanze buie, corridoi prima dei nemici, vicino all'uscita.
+- **La critica al rito è implicita**, mai didascalica. Mark non fa discorsi. Osserva, e il giocatore capisce.
 
 **Esempi di voce corretta:**
-> *"Non so quanto sono profondo. Ma c'è aria che circola da quella parte."*
-> *"Quella cosa sta andando avanti e indietro. Se si distrae... potrei passare."*
-> *"Ho piazzato la candela. Adesso corri, Mark."*
-> *"Questo posto non vuole che io esca."*
+
+> _"Mio padre mi ha detto: 'Il buio ti insegnerà chi sei'. Ho paura che abbia ragione."_
+> _"Quella cosa sta andando avanti e indietro. Se si distrae... potrei passare."_
+> _"Ho piazzato la candela. Adesso corri, Mark."_
+> _"Questo posto non vuole che io esca."_
+> _"Quegli scheletri proteggono stanze vuote. Proteggono il nulla."_
 
 ---
 
@@ -74,26 +87,26 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 
 ### Mappa delle meccaniche e quando introdurle
 
-| Meccanica | Livello di introduzione | Note |
-|---|---|---|
-| Movimento del giocatore | 1 | Implicita — il giocatore scopre da solo |
-| Raccogliere la chiave | 1 | Chiave visibile, percorso diretto |
-| Aprire l'uscita con la chiave | 1 | Uscita vicina alla chiave nei primi livelli |
-| Raccogliere le candele | 1 | Candele sul percorso, testo esplicativo |
-| Piazzare una candela (SPAZIO) | 1–2 | Tutorial esplicito con testo |
-| Zone buie (Buio) | 2 | Zona buia piccola, candela necessaria per passare |
-| Aprire/chiudere porte (CTRL) | 2–3 | Una singola porta, testo esplicativo |
-| Nemico Zombie — patruglia | 3 | Un singolo zombie, meccanica distrazione candela |
-| Distrazione con candela | 3 | Insegnata con il primo zombie |
-| Trappola tempora (TrappolaTemporizzata) | 4–5 | Una trappola ovvia, si può attraversare di corsa |
-| Nemico Scheletro — visuale lineare | 5 | Da solo o con 1 zombie, stanza aperta |
-| Muri rompibili (Fragile, WallType=2) | 6 | Prima mostrati come muri distinguibili, poi Taurus li abbatte |
-| Nemico Taurus — carica | 6 | Da solo, corridoio dove la carica è dimostrativa |
-| Trappola letale (TrappolaMorteIstantanea) | 6–7 | Introdotta visivamente, non nascosta |
-| Nemico Ghost — stai fermo | 7 | Da solo, stanza dove il giocatore DEVE fermarsi |
-| Nemico Bubu — spegne candele | 8 | In combinazione con 1–2 zombie, crea scarsità |
-| Nemico Goblin — inseguimento puro | 9 | **Da solo in un livello dedicato** |
-| Mix completo nemici | 10 | Solo dopo che il giocatore conosce tutti |
+| Meccanica                                    | Livello di introduzione | Note                                                          |
+| -------------------------------------------- | ----------------------- | ------------------------------------------------------------- |
+| Movimento del giocatore                      | 1                       | Implicita — il giocatore scopre da solo                       |
+| Raccogliere la chiave                        | 1                       | Chiave visibile, percorso diretto                             |
+| Aprire l'uscita con la chiave                | 1                       | Uscita vicina alla chiave nei primi livelli                   |
+| Raccogliere le candele                       | 1                       | Candele sul percorso, testo esplicativo                       |
+| Piazzare una candela (SPAZIO)                | 2                       | Tutorial esplicito con testo                                  |
+| Zone buie (Buio)                             | 2                       | Zona buia piccola, candela necessaria per passare             |
+| Aprire/chiudere porte (CTRL)                 | 3–4                     | Una singola porta, testo esplicativo                          |
+| Nemico Zombie — patruglia                    | 3                       | Un singolo zombie, meccanica distrazione candela              |
+| Distrazione con candela                      | 3                       | Insegnata con il primo zombie                                 |
+| Trappola temporizzata (TrappolaTemporizzata) | 5                       | Una trappola ovvia, si può attraversare di corsa              |
+| Nemico Scheletro — visuale lineare           | 6                       | Da solo in stanza aperta                                      |
+| Muri rompibili (Fragile, WallType=2)         | 8                       | Prima mostrati come muri distinguibili, poi Taurus li abbatte |
+| Nemico Taurus — carica                       | 8                       | Da solo, corridoio dove la carica è dimostrativa              |
+| Trappola letale (TrappolaMorteIstantanea)    | 9                       | Introdotta visivamente, non nascosta                          |
+| Nemico Ghost — stai fermo                    | 10                      | Da solo, stanza dove il giocatore DEVE fermarsi               |
+| Nemico Bubu — spegne candele                 | 12                      | Con 1–2 zombie, per insegnare la scarsità                     |
+| Nemico Goblin — inseguimento puro            | 15                      | **Da solo in un livello dedicato**                            |
+| Mix completo nemici                          | 17+                     | Solo dopo che il giocatore conosce tutti                      |
 
 ### Principio fondamentale
 
@@ -162,7 +175,7 @@ Per la documentazione completa dell'AI (stati, transizioni, parametri di velocit
 - **Pericolo:** il più alto del gioco. Un Goblin da solo riempie un livello di tensione.
 - **Spegne candele:** sì, le cerca attivamente
 - **Luce propria:** sì — aura viola
-- **Placement consigliato:** **introdurlo da solo in un livello dedicato** (livello 9), lontano dallo spawn. Solo nel livello finale usarlo in combinazione. Non usarlo prima del livello 9.
+- **Placement consigliato:** **introdurlo da solo in un livello dedicato** (livello 15), lontano dallo spawn. Solo nei livelli finali usarlo in combinazione. Non usarlo prima del livello 15.
 
 ---
 
@@ -194,8 +207,9 @@ Un buon livello di Mark In DeDark non è un labirinto cieco. Il giocatore deve s
 ### Uso dei muri rompibili (WallType=2 — Fragile)
 
 I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
+
 - Mostrare i muri fragili con una **texture visivamente distinta** dal muro normale
-- Il primo incontro con muri fragili (livello 6) deve avvenire con un Taurus che li sfonda in modo spettacolare
+- Il primo incontro con muri fragili (livello 8) deve avvenire con un Taurus che li sfonda in modo spettacolare
 - I muri fragili possono anche creare **scorciatoie** che il giocatore scopre facendo passare il Taurus
 
 ### Trappole
@@ -215,43 +229,269 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 4. **La complessità spaziale cresce** — i primi livelli sono quasi lineari. I livelli avanzati hanno rami e scelte.
 5. **Il buio non è mai obbligatorio** — si può sempre trovare un percorso con abbastanza luce. Il buio è una sfida opzionale o una scorciatoia.
 
-### Schema per 10 livelli
+### Arco narrativo in quattro atti
 
-| Livello | Texture | Atmosfera | Nemici | Meccanica introdotta | Candele | Mappa | Testi |
-|---|---|---|---|---|---|---|---|
-| **1** | pacco1 | Rovine esterne — Mark è appena caduto | Nessuno | Movimento, chiave, uscita, candela (raccogliere) | Abbondanti | Lineare, 1–2 stanze aperte | Tutorial completo, voce di Mark disorientata |
-| **2** | pacco1 | Rovine esterne — più in profondità | Nessuno | Piazzare candela (SPAZIO), zona buia | Abbondanti | 2–3 stanze, una zona buia superabile | Tutorial piazzamento candela, testo atmosfera |
-| **3** | pacco2 | Primo corridoio sotterraneo | **1 Zombie** | Distrazione zombie con candela | Sufficienti | Corridoio lineare con UN zombie che blocca | Tutorial distrazione, pensiero di Mark "quella cosa si distrae" |
-| **4** | pacco2 | Dungeon con stanze | **2–3 Zombie + porte** | Porte (CTRL), più zombie da distrarre in sequenza | Sufficienti | 3–4 stanze con corridoi, 1–2 porte | Testo porta, testo atmosfera |
-| **5** | pacco3 | Zona più ampia e buia | **2 Zombie + 1 Scheletro** | Visuale lineare (line-of-sight) | Moderate | Stanza aperta per il Scheletro, corridoi per gli Zombie | Testo "quella cosa mi guarda diversamente" |
-| **6** | pacco4 | Zona dei guardiani | **1 Taurus** (+ 1–2 Zombie opzionali) | Carica del Taurus, muri rompibili | Moderate | Corridoio con muro fragile che il Taurus sfonda, stanza prima e dopo | Testo "che suono era quello?" sul muro rotto |
-| **7** | pacco5/6 | Cripta — il punto più buio | **1 Ghost** (+ 1 Zombie opzionale) | Fermarsi per sopravvivere al Ghost | Scarse | Stanza isolata con Ghost, poi area più grande | Testo "se mi fermo... non mi attacca" |
-| **8** | pacco6/7 | Catacombe inferiori | **2–3 Zombie + 1 Bubu** | Scarsità di risorse (Bubu spegne le candele) | Pochissime | Mappa densa, zone buie, 1–2 trappole | Nessun testo tutorial — solo atmosfera |
-| **9** | pacco7/8 | Il cuore del labirinto | **1 Goblin** (da solo) | Inseguimento puro — il Goblin non si può distrarre | Scarse, nascoste | Mappa ampia con molte stanze per sfuggire al Goblin | Testo "non smette di inseguirmi" |
-| **10** | pacco8 → pacco1 | Risalita — l'uscita è vicina | Mix completo (Zombie, Scheletro, Bubu, Goblin) | Tutto insieme — la prova finale | 1–2 pacchi nascosti | Mappa grande, inizia scura e poi diventa più chiara verso l'uscita | Testo finale: "Luce. Finalmente luce." |
+| Atto                   | Livelli | Texture         | Atmosfera                                              |
+| ---------------------- | ------- | --------------- | ------------------------------------------------------ |
+| **I — La discesa**     | 1–5     | pacco1 → pacco2 | Rovine esterne, ingresso nel labirinto, prime creature |
+| **II — Le profondità** | 6–10    | pacco3 → pacco5 | Dungeon vero, guardiani antichi, l'orrore si consolida |
+| **III — Il cuore**     | 11–16   | pacco6 → pacco8 | Il punto più buio, scarsità totale, il cacciatore      |
+| **IV — Il finale**     | 17–20   | pacco8 → pacco1 | Tutto insieme, risalita, il colpo di scena             |
 
-### Note specifiche per ciascun livello
+---
 
-**Livello 1 — "La caduta"**
-Mark è appena caduto. Layout quasi completamente illuminato da brazier. La chiave è visibile dall'inizio. L'obiettivo è che il giocatore impari i controlli e la struttura chiave→uscita senza pressione. Testo iniziale: un pensiero disorientato di Mark.
+### Schema per 20 livelli
+
+#### Atto I — La discesa (Livelli 1–5)
+
+---
+
+**Livello 1 — "L'ingresso"**
+`pacco1` | Nessun nemico | Meccanica: movimento, chiave, uscita, candele (raccogliere) | Candele: abbondanti
+
+Layout quasi completamente illuminato da brazier. La chiave è visibile dall'inizio. Obiettivo: il giocatore impara i controlli senza pressione. Mappa lineare con 1–2 stanze aperte, ingresso con muro `Ingresso` (WallType=5).
+
+_Testi:_
+
+> "Mio padre mi ha stretto la mano così forte che mi ha fatto male. 'Torna uomo o non tornare affatto', ha detto. Mi ha dato questa candela. Puzza di grasso rancido." _(all'ingresso)_
+> "C'è un nome inciso sulla porta. È di mio fratello. Non è mai tornato. Dicevano che fosse un codardo. Ora tocca a me essere 'coraggioso'." _(vicino all'uscita)_
+
+---
 
 **Livello 2 — "Il buio"**
-Stesso ambiente esterno (pacco1), ma una stanza ha una zona `Buio`. Il giocatore scopre che senza candela non vede dove mette i piedi. La soluzione è ovvia: piazza la candela, illumina, attraversa. Nessun nemico — solo la meccanica pura.
+`pacco1` | Nessun nemico | Meccanica: piazzare candela (SPAZIO), zona buia (`Buio`) | Candele: abbondanti
 
-**Livello 3 — "La creatura"**
-Il primo nemico deve essere un momento chiaro e didattico. Un singolo Zombie pattuglia un corridoio obbligato. Davanti allo Zombie ci sono candele raccoglibili (il giocatore le trova naturalmente). Un testo di Mark suggerisce: "Se si avvicina a quella luce... potrei passare." La soluzione è una: piazza la candela dall'altra parte, aspetta, passa.
+Stesso ambiente esterno. Una stanza centrale ha una zona `Buio` obbligatoria. Il giocatore scopre che senza candela non vede. La soluzione è ovvia: piazza, illumina, attraversa. Tutorial esplicito.
 
-**Livello 6 — "Il guardiano"**
-Il Taurus deve essere presentato in modo spettacolare. Il percorso obbligato passa per un corridoio con un muro fragile. Il Taurus pattuglia dall'altra parte. Quando il giocatore entra nel campo visivo del Taurus, la carica sfonda il muro — momento "wow" che insegna entrambe le meccaniche simultaneamente.
+_Testi:_
 
-**Livello 7 — "Il fantasma"**
-Stanza isolata con un Ghost. Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Il giocatore deve stare fermo abbastanza a lungo da far passare il Ghost e poi raggiungere l'uscita della stanza. Livello relativamente corto — la tensione è psicologica, non da esplorazione.
+> "La candela sembra più piccola qui dentro. Più fragile. È fatta di grasso, mi ha detto mio padre. Non mi ha detto di chi." _(entrando nella zona buia)_
+> "Se la tengo accesa... vedo dove metto i piedi. Se la piazzo lì... vedo ancora di più." _(tutorial piazzamento)_
 
-**Livello 9 — "Il cacciatore"**
-Un Goblin da solo in una mappa ampia. Il Goblin insegue sempre, diventa più veloce se il giocatore usa candele. Il giocatore impara che deve trovare la chiave E uscire SENZA usare troppe candele, perché ogni candela velocizza il Goblin. Mappa a più stanze per dare opzioni di fuga.
+---
 
-**Livello 10 — "La risalita"**
-La mappa inizia con texture scure (pacco8) e si "schiarisce" verso l'uscita (pacco1 nella zona finale, o almeno texture più chiare). Non è necessario che sia il livello più grande — deve essere il più soddisfacente da completare. L'uscita è letteralmente la luce del sole. Testo finale: Mark ce l'ha fatta.
+**Livello 3 — "La prima creatura"**
+`pacco1/2` | **1 Zombie** | Meccanica: distrazione zombie con candela | Candele: abbondanti, vicino allo zombie
+
+Il primo nemico deve essere un momento chiaro e didattico. Un singolo Zombie pattuglia un corridoio obbligato. Le candele sono posizionate appena prima di lui — il giocatore le trova naturalmente. Un testo suggerisce la meccanica senza svelarla del tutto.
+
+_Testi:_
+
+> "Quegli affari... hanno i nostri vestiti rituali. Quello lì ha la cicatrice di zio Thomas. Non è morto, sta solo... camminando nel sonno." _(vedendo lo zombie)_
+> "Se si avvicina a quella luce... forse smette di guardarmi." _(vicino alle candele, prima dello zombie)_
+
+---
+
+**Livello 4 — "Gli automi"**
+`pacco2` | **2–3 Zombie** | Meccanica: distrazione multipla, sequenza | Candele: sufficienti
+
+Più zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazioni in sequenza. Introduce la prima **porta** (CTRL) come elemento di separazione tra zone.
+
+_Testi:_
+
+> "Quanti ne sono passati prima di me? Ogni anno uno, da secoli. Sono tutti qui." _(nella stanza principale)_
+> "Una porta. Premi CTRL per aprirla o chiuderla. Almeno qualcosa funziona ancora." _(tutorial porta)_
+
+---
+
+**Livello 5 — "I corridoi del rito"**
+`pacco2` | **2–3 Zombie** | Meccanica: prima **trappola temporizzata** | Candele: sufficienti
+
+Zombie in combinazione con trappole temporizzate ovvie (visibili). Il giocatore impara che alcune trappole si possono attraversare di corsa. Mappa con più stanze, un paio di vicoli ciechi.
+
+_Testi:_
+
+> "I corridoi sono levigati. Li hanno percorsi in troppi prima di me." _(nel corridoio principale)_
+> "Quella cosa nel pavimento si chiude e si apre. Se corro..." _(vicino alla trappola temporizzata)_
+
+---
+
+#### Atto II — Le profondità (Livelli 6–10)
+
+---
+
+**Livello 6 — "I soldati di polvere"**
+`pacco3` | **1 Scheletro** (+ 1 Zombie opzionale) | Meccanica: visuale lineare (line-of-sight) | Candele: moderate
+
+Stanza aperta dove la visuale è evidente. Il giocatore vede lo scheletro, vede la linea retta, capisce il pericolo prima di sbatterci. Primo incontro con un'architettura pensata per la visuale.
+
+_Testi:_
+
+> "Quegli scheletri pattugliano stanze vuote. Proteggono il nulla. Proteggono un trono che non esiste più, in nome di un re che non c'è mai stato." _(entrando nella stanza)_
+> "Ci insegnano che il silenzio è forza. Ma qui il silenzio urla. Se quegli scheletri mi vedono, mi caricano. Non cercano dialogo, cercano solo di abbattermi." _(vicino allo scheletro)_
+
+---
+
+**Livello 7 — "La sorveglianza"**
+`pacco3` | **2 Scheletri + 1–2 Zombie** | Meccanica: line-of-sight multipla, angoli ciechi | Candele: moderate
+
+Più scheletri che coprono percorsi incrociati. Il giocatore deve imparare a muoversi negli angoli ciechi. Mappa a 4–5 stanze con architettura che valorizza il line-of-sight.
+
+_Testi:_
+
+> "Tutto questo posto è costruito per essere sorvegliato. Chi l'ha progettato non voleva che nessuno uscisse senza essere visto." _(nel corridoio centrale)_
+
+---
+
+**Livello 8 — "La rabbia cieca"**
+`pacco4` | **1 Taurus** | Meccanica: carica del Taurus, **muri rompibili** | Candele: moderate
+
+Il Taurus deve essere presentato in modo spettacolare. Il percorso obbligato passa per un corridoio con un muro fragile. Il Taurus pattuglia dall'altra parte. Quando il giocatore entra nel campo visivo, la carica sfonda il muro — momento "wow" che insegna entrambe le meccaniche.
+
+_Testi:_
+
+> "Ho visto un Taurus abbattere un muro con la testa. È questo che intendono per 'potere'? Distruggere tutto ciò che hai davanti finché non resti solo tu e il vuoto?" _(dopo il muro sfondato)_
+> "Il Taurus urla contro i muri. Tanta forza, così poca utilità. Mi ricorda le urla di mio nonno quando le cose non andavano come diceva lui." _(nel corridoio del Taurus)_
+
+---
+
+**Livello 9 — "I guardiani rotti"**
+`pacco4/5` | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici, **trappola letale** | Candele: scarse
+
+Il giocatore inizia a sfruttare i muri fragili a proprio vantaggio (fare in modo che il Taurus sfonda una parete utile). Prima trappola letale visibile, mai obbligatoria.
+
+_Testi:_
+
+> "Se lo faccio caricare nel posto giusto... il muro cede. Forse posso usare la sua rabbia contro di lui." _(vicino al muro fragile strategico)_
+
+---
+
+**Livello 10 — "Il senso di colpa"**
+`pacco5` | **1 Ghost** | Meccanica: fermarsi per sopravvivere | Candele: scarse
+
+Stanza isolata con un Ghost. Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Deve stare fermo abbastanza a lungo da far passare il Ghost. Livello breve — la tensione è psicologica, non esplorativa.
+
+_Testi:_
+
+> "Se mi muovo, mi vedono. Se sto fermo, impazzisco. È una trappola perfetta: per sopravvivere devo smettere di esistere." _(entrando nella stanza del Ghost)_
+> "Il labirinto ti vuole solo. 'Un vero uomo non chiede aiuto', dicevano. Infatti qui non c'è nessuno. Solo ombre che un tempo erano ragazzi come me, convinti di essere speciali." _(dopo aver superato il Ghost)_
+
+---
+
+#### Atto III — Il cuore (Livelli 11–16)
+
+---
+
+**Livello 11 — "Fermo nel caos"**
+`pacco5/6` | **1 Ghost + 2 Zombie** | Meccanica: Ghost in combinazione con pericoli che forzano il movimento | Candele: scarse
+
+Il vero horror del Ghost: i zombie ti forzano a muoverti, il Ghost attacca se ti muovi. Il giocatore deve trovare finestre di immobilità tra i movimenti degli zombie.
+
+_Testi:_
+
+> "Devo stare fermo. Ma quell'altra cosa si avvicina. Se mi muovo per scappare, il fantasma mi prende. Se non mi muovo, lo zombie mi raggiunge. Non hanno previsto che qualcuno potesse scegliere." _(nella stanza centrale)_
+
+---
+
+**Livello 12 — "Il sabotaggio"**
+`pacco6` | **1 Bubu + 2 Zombie** | Meccanica: Bubu spegne le candele | Candele: poche, gestione attenta
+
+Il Bubu non uccide — ruba le candele. Il giocatore scopre che la risorsa su cui si è affidato può scomparire. Prima volta che la gestione delle candele è un problema strategico.
+
+_Testi:_
+
+> "Quelle creature blu... non vogliono uccidermi. Vogliono solo che io resti al buio. Come se la luce fosse un'offesa alla loro miseria." _(vedendo il Bubu per la prima volta)_
+> "Perché mi rubano la luce? Forse perché nel rito non è previsto che tu veda davvero dove stai andando. Devi solo obbedire al percorso." _(dopo che il Bubu spegne una candela)_
+
+---
+
+**Livello 13 — "La privazione"**
+`pacco6/7` | **2 Bubu + 2 Scheletri** | Meccanica: scarsità critica di risorse | Candele: pochissime, nascoste
+
+Le candele sono nascoste e poche. Il giocatore deve scegliere quando usarle. I Bubu pattugliano le zone dove le candele potrebbero essere piazzate.
+
+_Testi:_
+
+> "Ho ancora una sola candela. Se la uso, quel blu me la porta via prima che faccia effetto. Se non la uso... non vedo dove metto i piedi." _(nel punto critico della mappa)_
+
+---
+
+**Livello 14 — "Il labirinto vero"**
+`pacco7` | **Zombie + Scheletri + Bubu** | Meccanica: mix completo senza Goblin | Candele: pochissime
+
+Mappa complessa con più stanze, trappole, e tutti i nemici introdotti finora. La prima vera prova d'insieme. Nessun testo tutorial — solo atmosfera.
+
+_Testi:_
+
+> "Mi chiedo se mio padre sapesse cosa c'è quaggiù. Se l'ha visto anche lui, se è uscito da queste stanze. E cosa è tornato a casa." _(in una zona di pausa)_
+
+---
+
+**Livello 15 — "L'odio"**
+`pacco7/8` | **1 Goblin** (da solo) | Meccanica: inseguimento puro, nessuna distrazione possibile | Candele: scarse, ma usarle velocizza il Goblin
+
+Un Goblin da solo in una mappa ampia. Il Goblin insegue sempre — non si può distrarre come lo zombie. Ogni candela usata lo velocizza. Il giocatore impara che deve trovare la chiave e uscire minimizzando l'uso di risorse.
+
+_Testi:_
+
+> "Il Goblin non mi molla. È veloce, è cattivo, vuole la mia candela. È l'incarnazione di tutto quello che mi hanno detto di diventare per 'vincere': aggressivo, instancabile, ossessionato dall'altro." _(all'inizio, vedendo il Goblin)_
+> "Non smette di inseguirmi. Ogni candela che uso lo fa correre di più. Come se odiasse il fatto che io abbia ancora una luce." _(durante l'inseguimento)_
+
+---
+
+**Livello 16 — "Il cacciatore instancabile"**
+`pacco8` | **1 Goblin + 2–3 Zombie** | Meccanica: Goblin in combinazione | Candele: rarissime
+
+Il Goblin non è più solo. I zombie bloccano le vie di fuga, il Goblin insegue. Il giocatore deve usare i zombie come ostacoli per rallentare il Goblin.
+
+_Testi:_
+
+> "L'unico modo per vincere era non entrare." _(vicino all'uscita)_
+
+---
+
+#### Atto IV — Il finale (Livelli 17–20)
+
+---
+
+**Livello 17 — "Tutto insieme"**
+`pacco8` | **Zombie + Scheletri + Bubu + Taurus** (no Goblin) | Meccanica: orchestrazione completa | Candele: rarissime
+
+Mix completo di nemici tranne il Goblin. Mappa grande con più strade, trappole letali, zone buie. La prova di maturità prima del finale.
+
+_Testi:_
+
+> "Ho passato l'inferno. Quello reale, non quello delle storie. E l'inferno è fatto di gente che ha obbedito troppo e non è più tornata indietro." _(nella zona centrale)_
+
+---
+
+**Livello 18 — "La prova definitiva"**
+`pacco8` | **Mix completo + Goblin** | Meccanica: tutto insieme | Candele: 1–2 pacchi nascosti
+
+La combinazione più pericolosa. Il Goblin insegue mentre gli altri bloccano le vie. Mappa ampia con abbastanza spazio per manovrare ma nessun margine di errore.
+
+_Testi:_
+
+> "L'ultima sfida. Il Goblin è l'odio puro per la vita. È quello che resta quando togli a un essere umano tutto tranne la volontà di sopraffare gli altri." _(vedendo il Goblin nel mix)_
+
+---
+
+**Livello 19 — "Il Ventre del Padre"**
+`pacco8` | **Mix completo** | Meccanica: massima pressione, architettura claustrofobica | Candele: 1 pacco visibile, altri nascosti
+
+Il punto più buio e claustrofobico del gioco. Mappa densa, corridoi stretti, zone buie estese. Narrativamente: Mark è nel cuore del labirinto, il punto più lontano dall'uscita.
+
+_Testi:_
+
+> "La chiave è pesantissima. Sembra fatta d'oro, ma sa di piombo." _(sulla chiave)_
+> "Ho la chiave. Ho vinto. Ho dimostrato di essere il più forte, il più scaltro, il più 'uomo'. Ora datemi il mio premio. Aprite questa maledetta porta." _(vicino all'uscita)_
+
+---
+
+**Livello 20 — "Il giardino vuoto" / "Il trono"**
+`pacco8` → `pacco1` | Mix finale | Il colpo di scena | Candele: scarse
+
+La mappa inizia scura (pacco8) e si schiarisce verso l'uscita, dove la texture diventa pacco1 — le stesse rovine esterne del livello 1. L'uscita si apre su un'area pacco1 vuota.
+
+Il designer sceglie uno dei due epiloghi (vedi Sezione 1):
+
+**Variante A:**
+
+> "Sono fuori. Ma non c'è nessuno. Il villaggio è cenere, il cielo è grigio e immobile. Non c'è festa, non c'è orgoglio. Ho passato l'inferno per tornare in un mondo morto. Tutto questo... non è servito a niente." _(oltre l'uscita)_
+
+**Variante B:**
+
+> "Vedo la luce del sole? No... è un'altra sala. C'è un trono. Mio padre è seduto lì, nell'ombra, e aspetta che io prenda il suo posto per dare la candela al prossimo bambino. Il rito non finisce mai. L'unico modo per vincere era non entrare." _(oltre l'uscita)_
 
 ---
 
@@ -285,3 +525,4 @@ Prima di considerare un livello completo, verifica:
 - [ ] Nessuna zona buia è obbligatoria senza una candela disponibile vicina
 - [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
 - [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 4 per livello
+- [ ] I testi non spiegano la meccanica direttamente — suggeriscono
