@@ -14,12 +14,16 @@ Guida completa per level designer (umani o AI) alla creazione di livelli `.mark`
 6. [Dati aggiuntivi dell'oggetto](#6-dati-aggiuntivi-delloggetto)
 7. [Tipi di muro (WallType)](#7-tipi-di-muro-walltype)
 8. [Texture pack (envTexturePackId)](#8-texture-pack-envtexturepackid)
-9. [Nemici — descrizione e AI](#9-nemici--descrizione-e-ai)
-10. [Waypoint dei nemici](#10-waypoint-dei-nemici)
-11. [Regole di validazione](#11-regole-di-validazione)
-12. [Convenzioni di design](#12-convenzioni-di-design)
-13. [Esempi di righe commentate](#13-esempi-di-righe-commentate)
-14. [Template livello minimo](#14-template-livello-minimo)
+9. [Testi e narrativa (stringCode)](#9-testi-e-narrativa-stringcode)
+10. [Nemici — descrizione e AI](#10-nemici--descrizione-e-ai)
+11. [Waypoint dei nemici](#11-waypoint-dei-nemici)
+12. [Regole di validazione](#12-regole-di-validazione)
+13. [La storia di Mark — contesto narrativo](#13-la-storia-di-mark--contesto-narrativo)
+14. [Convenzioni di design](#14-convenzioni-di-design)
+15. [Progressione della difficoltà tra livelli](#15-progressione-della-difficolt%C3%A0-tra-livelli)
+16. [Esempi di righe commentate](#16-esempi-di-righe-commentate)
+17. [Template livello minimo](#17-template-livello-minimo)
+18. [Istruzioni per la generazione di livelli](#18-istruzioni-per-la-generazione-di-livelli)
 
 ---
 
@@ -242,7 +246,7 @@ Intero che specifica quante candele contiene il pacco. Se vuoto, default = 1.
 ZONA-SEQUENZA_ID
 ```
 
-Identifica il gruppo di patruglia e la posizione del nemico nel percorso. Vedi [Sezione 10](#10-waypoint-dei-nemici) per il dettaglio.
+Identifica il gruppo di patruglia e la posizione del nemico nel percorso. Vedi [Sezione 11](#11-waypoint-dei-nemici) per il dettaglio.
 
 ```
 7|27|1|5|Z-1-2|0|0|0|0|   → Zombie, gruppo "Z-1", posizione 2 nel percorso
@@ -323,7 +327,7 @@ Il valore `envTexturePackId` (riga 3 del file) seleziona il set di texture grafi
 
 | ID  | Pack     | Texture pavimento disponibili | Caratteristiche                                                                            |
 | --- | -------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
-| `1` | `pacco1` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–5, porte animate, maindoor entrata/uscita    |
+| `1` | `pacco1` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–5, porte animate, maindoor entrata/uscita. **Aspetto esterno/rovine all'aperto** — pietra chiara, adatto per i primi livelli. |
 | `2` | `pacco2` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–8, porte animate, maindoor con variante exit |
 | `3` | `pacco3` | cell4–cell5                   | Set ridotto: decals 2–3, special walls 3–5                                                 |
 | `4` | `pacco4` | cell4–cell5                   | Set ridotto                                                                                |
@@ -349,9 +353,62 @@ Il valore `envTexturePackId` (riga 3 del file) seleziona il set di texture grafi
 
 ---
 
-## 9. Nemici — descrizione e AI
+## 9. Testi e narrativa (stringCode)
 
-Per la documentazione completa dell'AI (stati, transizioni, parametri di velocità) vedi [`ENEMY_AI.md`](../migration-specs/ENEMY_AI.md).
+Il campo `STRING_CODE` (nono campo di ogni riga cella) permette di associare un **testo narrativo** a qualsiasi cella della mappa. Quando il giocatore entra in quella cella, il testo viene mostrato a schermo come pensiero/voce interiore di Mark.
+
+Questo meccanismo è fondamentale per:
+- **Tutorial** — spiegare al giocatore come usare candele, porte, tasti
+- **Narrativa** — dare contesto alla storia, creare atmosfera
+- **Feedback emotivo** — far "sentire" il panico, la speranza, lo smarrimento di Mark
+- **Guida implicita** — suggerire soluzioni senza dire esplicitamente cosa fare
+
+### Come funziona
+
+1. Aggiungi il codice numerico nel campo `STRING_CODE` di una cella
+2. Il codice deve essere registrato in `Web/src/ui/GameTexts.ts` nella mappa `STRING_CODE_MAP`
+3. Quando il giocatore calpesta quella cella, il testo appare automaticamente
+
+### Codici disponibili
+
+Questi sono i testi già definiti nel gioco (mappati in `GameTexts.ts`):
+
+| Codice | Testo | Dove usato | Momento consigliato |
+|---|---|---|---|
+| `637284382845827427` | *"Una porta... premi CTRL per aprirla o chiuderla"* | Livello 3 | Prima porta che il giocatore incontra |
+| `637284382983500501` | *"Una candela... raccoglila e premi SPAZIO per posizionarla"* | Livello 3 | Prima candela raccoglibile |
+| `637284384552007485` | *"Non è rassicurante..."* | Livello 3 | Atmosfera — zona pericolosa o buia |
+| `637284386793405944` | *"Magari dovrei provare con una candela"* | Livello 4 | Suggerimento — zona buia davanti a un ostacolo |
+| `637284387001107200` | *"Ce l'ho fatta!"* | Livello 4 | Zona di arrivo/vittoria vicino all'uscita |
+| `637284388013304946` | *"Questo qualcosa... sembra comportarsi in modo strano"* | Livello 5 | Primo incontro con un nemico insolito |
+
+### Come usare i testi in un livello
+
+I testi vengono scritti sul **campo `STRING_CODE`** di una normale cella di pavimento — non richiedono un `OBJECT` particolare. La cella può essere completamente vuota di oggetti:
+
+```
+# Cella con solo testo, nessun oggetto
+4|18|1|0||0|0|0|0|637284382983500501
+# ↑ Pavimento Terra1, OBJECT=0 (nessun oggetto), STRING_CODE=testo candela
+
+# Cella con testo su terreno puro (senza nemmeno OBJECT)
+19|21|1|0||0|0|0|0|637284386793405944
+```
+
+### Linee guida narrative
+
+- **Non abusare dei testi** — ogni testo deve avere un impatto. 2–4 testi per livello è il range ideale.
+- **Posizionare i tutorial prima dell'oggetto**, non sopra. Il giocatore deve vedere il testo mentre si avvicina, non mentre è già sopra la risorsa.
+- **I testi di atmosfera** vanno su zone di transizione (entrate di stanze buie, corridoi prima dei nemici, vicino all'uscita).
+- **Voce in prima persona** — Mark parla tra sé e sé. Il tono è quello di un adolescente spaventato ma determinato.
+
+> **Per aggiungere nuovi testi** occorre aggiungere una entry in `Web/src/ui/GameTexts.ts` nella mappa `STRING_CODE_MAP` con un ID numerico univoco (timestamp-like) e la stringa italiana.
+
+---
+
+## 10. Nemici — descrizione e AI
+
+Per la documentazione completa dell'AI (stati, transizioni, parametri di velocità) vedi [`ENEMY_AI.md`](./ENEMY_AI.md).
 
 Sommario pratico per il level design:
 
@@ -411,7 +468,7 @@ Sommario pratico per il level design:
 
 ---
 
-## 10. Waypoint dei nemici
+## 11. Waypoint dei nemici
 
 I nemici `Zombie`, `Scheletro`, `Goblin`, `Taurus`, `Ghost` e `Bubu` possono seguire un percorso di patruglia definito da waypoint. Il sistema funziona raccogliendo tutte le celle del livello che condividono lo stesso codice waypoint.
 
@@ -449,7 +506,7 @@ Questi 4 Zombie formano un gruppo che patruglia tra i 4 angoli di un'area 2×2.
 
 ---
 
-## 11. Regole di validazione
+## 12. Regole di validazione
 
 ### Obbligatorio
 
@@ -474,7 +531,39 @@ Questi 4 Zombie formano un gruppo che patruglia tra i 4 angoli di un'area 2×2.
 
 ---
 
-## 12. Convenzioni di design
+## 13. La storia di Mark — contesto narrativo
+
+Ogni livello che crei deve essere coerente con la storia e il tono del gioco. Questo non è un dungeon fantasy qualsiasi — è il viaggio di Mark.
+
+### Chi è Mark
+
+Mark è un ragazzo adolescente che si è perso in un labirinto oscuro. Non sa come ci è finito, non sa quanto è grande, non sa cosa lo aspetta al prossimo angolo. Ha con sé solo una candela accesa. Ogni livello completato non è una vittoria definitiva: è solo un'altra zona del labirinto che ha attraversato. L'uscita di ogni livello porta a una nuova zona, sempre più pericolosa.
+
+### La meccanica come metafora
+
+- **La candela** non è solo un oggetto di gioco: è la speranza di Mark, la sua unica sicurezza in un posto oscuro. Spegnerla (o farla spegnere dai nemici) non è solo un malus meccanico — è Mark che si ritrova solo nel buio totale.
+- **I nemici** non sono mostri generici: sono le presenze che popolano questo labirinto. Alcuni (Zombie) sembrano vagare senza scopo. Altri (Goblin, Ghost) sembrano accanirsi specificamente su Mark e sulla sua luce.
+- **La chiave e l'uscita** sono la struttura di ogni livello: c'è sempre una via d'uscita, ma Mark deve trovarla — e i pericoli sono lì per renderlo difficile.
+
+### Il tono dei livelli
+
+Il gioco **non è un labirinto in senso stretto** (infiniti corridoi uguali). Può essere:
+- Un dungeon sotterraneo con stanze distinte
+- Un castello in rovina con grandi sale
+- Un corridoio lungo e lineare con ostacoli
+- Una serie di stanze interconnesse da passaggi
+
+L'importante è che ogni livello abbia una **progressione spaziale chiara**: da dove Mark arriva (ingresso) a dove vuole andare (uscita), con ostacoli in mezzo. Il giocatore deve potersi orientare, anche se il percorso non è ovvio.
+
+### Coerenza tra livelli consecutivi
+
+- I livelli devono avere una **continuità narrativa implicita**: Mark sta andando sempre "più in fondo" al labirinto. I livelli successivi devono sembrare zone più oscure, più pericolose, più distanti dall'uscita.
+- Il **texture pack** scelto dovrebbe riflettere questo: pacco1 (all'aperto? rovine esterne) → pacchi successivi (più cupi, più sotterranei).
+- **Nota specifica su pacco1:** le sprite del texture pack 1 hanno un aspetto di ambiente esterno (rovine all'aperto, pietra chiara). È adatto per i primi livelli, dove Mark è ancora in una zona "di confine". I pacchi successivi diventano progressivamente più scuri e claustrofobici.
+
+---
+
+## 14. Convenzioni di design
 
 ### Struttura spaziale
 
@@ -503,7 +592,40 @@ Questi 4 Zombie formano un gruppo che patruglia tra i 4 angoli di un'area 2×2.
 
 ---
 
-## 13. Esempi di righe commentate
+## 15. Progressione della difficoltà tra livelli
+
+Quando generi un nuovo livello devi sempre sapere **quale livello lo precede e quale lo segue**. La difficoltà deve salire gradualmente — non fare salti bruschi.
+
+### Schema di progressione consigliato (8 livelli)
+
+| Livello | Atmosfera | Nemici consigliati | Candele | Complessità mappa | Testi |
+|---|---|---|---|---|---|
+| 1 | Ingresso — rovine esterne (pacco1) | Nessun nemico o 1–2 Zombie fermi | Abbondanti (3–4 pacchi) | Lineare, 1–2 stanze | Tutorial completo: candela, porta, movimento |
+| 2 | Primo dungeon | 2–3 Zombie con waypoint | Sufficienti | 2–3 stanze con corridoio | Testo atmosfera |
+| 3 | Dungeon con sorprese | 3–4 Zombie + 1 Scheletro | Moderate | 3–4 stanze, un vicolo cieco | Tutorial porta, testo mistero |
+| 4 | Zona più oscura | 4–5 Zombie + 1–2 Scheletri | Scarse | 4+ stanze, percorso non ovvio | Testo suggerimento/paura |
+| 5 | Pericolo reale | 3 Zombie + 2 Scheletri + 1 Taurus | Scarse | Mappa ampia con zone aperte | Testo nemico insolito |
+| 6 | Tensione alta | Mix Zombie/Scheletri/Bubu | Pochissime | Mappa densa, trappole | — |
+| 7 | Incubo | Zombie + Scheletri + Ghost | Rarissime | Mappa grande, zone buie | — |
+| 8 | Finale | Mix completo + Goblin | 1–2 pacchi nascosti | Massima complessità | Testo finale |
+
+### Regole di progressione
+
+1. **Non introdurre un nuovo tipo di nemico senza che il giocatore abbia già "imparato" il precedente.** Zombie prima degli Scheletri, Scheletri prima del Taurus, Ghost e Goblin solo tardi.
+2. **Le candele devono diventare progressivamente più rare** — ma mai impossibili. Un livello senza soluzione non è design, è un bug.
+3. **La complessità spaziale cresce** — i primi livelli possono essere quasi lineari. I livelli avanzati hanno rami, vicoli ciechi, stanze segrete.
+4. **Usare le trappole** (`TrappolaMorteIstantanea`) con parsimonia nei livelli early, più frequentemente dopo il livello 5.
+5. **Il Goblin è il nemico definitivo** — introdurlo troppo presto rende il gioco frustrante. Livello 7–8 al massimo.
+
+### Se stai generando un singolo livello
+
+- Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
+- Confronta la quantità di nemici e candele con il livello precedente — il tuo deve essere leggermente più difficile
+- Se non ci sono livelli successivi definiti, pensa al livello come al "più difficile finora"
+
+---
+
+## 16. Esempi di righe commentate
 
 ```
 # Spawn del giocatore con muro ingresso sopra
@@ -551,7 +673,7 @@ Questi 4 Zombie formano un gruppo che patruglia tra i 4 angoli di un'area 2×2.
 
 ---
 
-## 14. Template livello minimo
+## 17. Template livello minimo
 
 Uno scheletro minimo funzionante (25×45, texture pack 1, nessun sporco). Include solo gli elementi obbligatori: una stanza 5×5 con giocatore, chiave, uscita e 2 candele. Tutti gli altri campi della griglia sono omessi (trattati come null/vuoto).
 
@@ -583,3 +705,13 @@ GameGridSerializerV4
 ```
 
 > Questo template è un punto di partenza minimo. Un livello reale dovrebbe avere circa 300–600 righe (celle di pavimento + riempimento + muri).
+
+---
+
+## 18. Istruzioni per la generazione di livelli
+
+> **Sezione in costruzione.** Le istruzioni dettagliate per la generazione automatica verranno aggiunte qui.
+
+Al momento, la regola fondamentale per qualsiasi livello generato è:
+
+- **Gestire attentamente la progressione della difficoltà e la dimensione del gioco.** Un livello generato non vive da solo: fa parte di una sequenza. Deve essere coerente con ciò che lo precede e preparare il terreno per ciò che segue. Vedi [Sezione 15](#15-progressione-della-difficoltà-tra-livelli) per i dettagli.

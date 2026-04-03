@@ -1,13 +1,10 @@
 ## Migliorare il gioco
 
-- Nella doc per il level design specifica che si possono usare anche i testi, e che sono importanti (infatti poi in UI metterli meglio magari)
-- Nella doc spiegare anche il mood che vogliamo ottenere e un po' la storia
-
 ### Livelli
 
 - [ ] Forse conviene portare uno script che controlla se il livello è generato correttamente, ricordo che facevo dei check
 - [ ] Studiare insieme all'AI la storia e i livelli (partire all'aperto senza mostri ecc), una volta che ho verificato che ci riesca
-- [ ] Giocarmi per bene i testi per veicolare una storia
+- [ ] Giocarmi per bene i testi per veicolare una storia -> magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
 - [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 
 ### AI
