@@ -30,7 +30,8 @@ Problema di colori del PAVIMENTO e saturazione.
 
 Ho il sospetto, ma magari mi sbaglio, che magari il rendering iniziale del pavimento sia corretto, ma che sopra alla texture originale del pavimento ci sia disegnata la texture della specular map, perché vedo degli strani artefatti che hanno poco senso e che nel gioco originale non c'erano.
 
-Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: `Csharp version rendering screenshot - Level 4.jpg`. Guardo così ti rendi conto.
+- Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: `Csharp-version-screenshot-level-4.jpg`. Guarda così ti rendi conto. Noterai che i rossi e i verdi sono molto molto più accesi nel punto in cui c'è il player.
+- Ho fatto uno screenshot anche del livello 7 come appare nel vecchio gioco: `Csharp-version-screenshot-level-7.jpg`. Qua volevo farti notare la differenza di texture del pavimento, qua è molto evidente che sopra alla texture ci sia renderizzato qualcos altro che gli va sopra quasi a mo' di decal. Infatti nella versione vecchia la texture usata in questo livello era molto liscia e marroncina, adesso in pixijs è totalmente grigia e piena di artefatti sopra.
 
 ---
 

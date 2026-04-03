@@ -1,6 +1,7 @@
 ## Fase 1 - Porting
 
 - [ ] Termina i bugfix
+- [ ] Ma le decal le abbiamo riportate? Tipo le macchie? E le trappole?
 - [ ] Valuta migliorie alle AI dei nemici insieme all'AI, se qualcosa si può fare meglio
 - [ ] Provare a creare dei livelli con bubu e ghost, perchè non ricordo cosa facciano
 - [ ] Se qualcuno non ha l'AI, inventarla per lui e usalo
