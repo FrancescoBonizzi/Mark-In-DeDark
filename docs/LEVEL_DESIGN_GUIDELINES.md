@@ -257,8 +257,8 @@ Layout quasi completamente illuminato da brazier. La chiave è visibile dall'ini
 
 _Testi:_
 
-> "Mio padre mi ha stretto la mano così forte che mi ha fatto male. 'Torna uomo o non tornare', ha detto. La candela puzza di grasso rancido." _(all'ingresso — zona sicura)_
-> "Il nome di mio fratello è graffiato su questa porta. Non è mai tornato." _(vicino all'uscita — il silenzio fa il resto)_
+> "Mio padre mi ha stretto la mano troppo forte, come al solito. 'Torna uomo o non tornare.' La candela puzza di qualcosa che non voglio sapere cos'è." _(all'ingresso — zona sicura)_
+> "Il nome di mio fratello è graffiato su questa porta. Sotto di lui, altri nomi. Ne riconosco qualcuno." _(vicino all'uscita — il silenzio fa il resto)_
 
 ---
 
@@ -269,8 +269,8 @@ Stesso ambiente esterno. Una stanza centrale ha una zona `Buio` obbligatoria. Il
 
 _Testi:_
 
-> "La candela è piccola qui dentro. Senza di lei non vedo niente." _(entrando nella zona buia)_
-> "Se la piazzo a terra illumino di più. Resto al buio, ma vedo dove devo andare." _(tutorial piazzamento — zona sicura)_
+> "Qui dentro la candela non basta. Il buio mangia la luce prima che arrivi da qualche parte." _(entrando nella zona buia)_
+> "Se la lascio a terra, illumino più lontano. Resto senza luce — ma almeno vedo dove mettere i piedi." _(tutorial piazzamento — zona sicura)_
 
 ---
 
@@ -282,7 +282,7 @@ Il primo nemico deve essere un momento chiaro e didattico. Un singolo Zombie pat
 _Testi:_
 
 > "Ha i vestiti rituali. La cicatrice di zio Thomas sul braccio." _(vedendo lo zombie — vicino al nemico, 2 frasi brevissime)_
-> "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." _(vicino alle candele — suggerisce la meccanica)_
+> "Segue la luce. Se lascio la candela lì, insegue quella." _(vicino alle candele — suggerisce la meccanica)_
 
 ---
 
@@ -293,7 +293,7 @@ Più zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazi
 
 _Testi:_
 
-> "Quanti ne sono passati prima di me. Sono tutti qui." _(nella stanza principale — vicino agli zombie)_
+> "Quanti nomi riconosco sui muri. Sono entrati tutti. Nessuno di loro ha trovato la strada fuori." _(nella stanza principale — vicino agli zombie)_
 > "Una porta. Si apre con CTRL — l'unica cosa che obbedisce ancora." _(tutorial porta — zona di pausa)_
 
 ---
@@ -306,7 +306,7 @@ Zombie in combinazione con trappole temporizzate ovvie (visibili). Il giocatore 
 _Testi:_
 
 > "I corridoi sono levigati. Quante scarpe ci sono passate sopra." _(nel corridoio principale — zona sicura)_
-> "Quelle lame hanno un ritmo. Basta non esitare." _(vicino alla trappola — breve, il giocatore deve concentrarsi)_
+> "Quelle lame battono un ritmo. Se non mi fermo, passo." _(vicino alla trappola — breve, il giocatore deve concentrarsi)_
 
 ---
 
@@ -322,7 +322,7 @@ Stanza aperta dove la visuale è evidente. Il giocatore vede lo scheletro, vede 
 _Testi:_
 
 > "Pattugliano stanze vuote. Proteggono il nulla." _(entrando nella stanza — player vede ma non è ancora in pericolo)_
-> "Se mi vedono in linea retta, caricano. Meglio passare dove non guardano." _(vicino allo scheletro — suggerisce la meccanica, max 2 frasi)_
+> "Guardano dritto. Solo dritto. Un angolo cieco è già abbastanza." _(vicino allo scheletro — suggerisce la meccanica, max 2 frasi)_
 
 ---
 
@@ -333,7 +333,7 @@ Più scheletri che coprono percorsi incrociati. Il giocatore deve imparare a muo
 
 _Testi:_
 
-> "Questo posto è fatto per essere sorvegliato. Non c'è un angolo al riparo." _(nel corridoio centrale — zona di transizione)_
+> "Qui coprono tutti i corridoi. Quasi tutti." _(nel corridoio centrale — zona di transizione)_
 
 ---
 
@@ -355,7 +355,7 @@ Il giocatore inizia a sfruttare i muri fragili a proprio vantaggio (fare in modo
 
 _Testi:_
 
-> "Hanno costruito muri di carta sperando che chi è furioso non se ne accorga. Se mi faccio caricare verso quella parete, il mostro mi aprirà la strada." _(vicino al muro fragile strategico)_
+> "Hanno costruito muri di carta. Già prima di lui si vedeva dove cedevano." _(vicino al muro fragile strategico)_
 
 ---
 
@@ -382,7 +382,7 @@ Il vero horror del Ghost: i zombie ti forzano a muoverti, il Ghost attacca se ti
 
 _Testi:_
 
-> "Fermo, mi prende lo zombie. Se scappo, mi prende il fantasma." _(nella stanza centrale — vicino a entrambi i nemici, massima brevità)_
+> "Fermo, arriva lo zombie. Mi muovo, arriva il fantasma. Non c'è risposta giusta." _(nella stanza centrale — vicino a entrambi i nemici, massima brevità)_
 
 ---
 
@@ -405,7 +405,7 @@ Le candele sono nascoste e poche. Il giocatore deve scegliere quando usarle. I B
 
 _Testi:_
 
-> "Un'ultima candela. Bisogna scegliere bene." _(nel punto critico — vicino ai nemici, 2 frasi brevissime)_
+> "Un'ultima candela. Devo farla bastare." _(nel punto critico — vicino ai nemici, 2 frasi brevissime)_
 
 ---
 
@@ -427,7 +427,7 @@ Un Goblin da solo in una mappa ampia. Il Goblin insegue sempre — non si può d
 
 _Testi:_
 
-> "Non si può distrarre. Non si stanca. Ogni candela accesa lo fa correre più forte." _(vedendo il Goblin — 3 frasi corte, il player le scorre mentre comincia a correre)_
+> "Non si distrae. Non si stanca. Ogni candela che accendo lo avvicina." _(vedendo il Goblin — 3 frasi corte, il player le scorre mentre comincia a correre)_
 
 ---
 
