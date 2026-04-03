@@ -1,6 +1,8 @@
 ## Fase 1 - Porting
 
 - [ ] Termina i bugfix
+- [ ] Valuta migliorie alle AI dei nemici insieme all'AI, se qualcosa si può fare meglio
+- [ ] Dato che ci sono alcuni personaggi senza AI tipo quella specie di ghost, inventa un'AI per lui e usalo
 - [ ] Porting del level editor, quello potrei farlo con Avalonia per non impazzire, oppure web anche lui così posso darlo a Marco da usare da fuori? Mah, forse è follia (Vedere l'AI come se la cava a creare livelli nuovi)
 
 ## Fase 2 - Migliorarlo
