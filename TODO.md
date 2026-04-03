@@ -2,11 +2,12 @@
 
 ### Livelli
 
-Fagli splittare LEVEL_FORMAT dalle indicazioni che useremo per generare i livelli in generale
-
 - [ ] Studiare insieme all'AI la storia e i livelli (partire all'aperto senza mostri ecc), una volta che ho verificato che ci riesca
-- [ ] Giocarmi per bene i testi per veicolare una storia -> magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
 - [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
+
+### UI
+
+- [ ] Revisione di come appaiono i testi in game. Magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
 
 ### AI
 
@@ -19,6 +20,7 @@ Fagli splittare LEVEL_FORMAT dalle indicazioni che useremo per generare i livell
 ### Interfaccia
 
 - [ ] Fare il menù fatto bene anche con gli sfondi
+- [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 - [ ] Gestire bene l'interfaccia dentro al gioco, adesso è un po' buttata a caso, potrei fare la solita barra sotto come in Ghost and gouls, il tempo non serve a niente
 
 ### Colonna sonora

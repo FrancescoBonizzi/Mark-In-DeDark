@@ -1,186 +1,275 @@
 # Linee Guida di Design — Mark In DeDark
 
-Guida per la creazione di livelli coerenti con il tono e la progressione del gioco.
+Guida per la creazione di livelli coerenti con il tono, la narrativa e la progressione del gioco.
 Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMAT.md).
 
 ---
 
 ## Indice
 
-1. [I nemici — descrizione e placement](#1-i-nemici--descrizione-e-placement)
-2. [La storia di Mark — contesto narrativo](#2-la-storia-di-mark--contesto-narrativo)
-3. [Convenzioni di design](#3-convenzioni-di-design)
-4. [Progressione della difficoltà tra livelli](#4-progressione-della-difficoltà-tra-livelli)
-5. [Istruzioni per la generazione di livelli](#5-istruzioni-per-la-generazione-di-livelli)
+1. [La storia di Mark — arco narrativo](#1-la-storia-di-mark--arco-narrativo)
+2. [Meccaniche del gioco — introduzione progressiva](#2-meccaniche-del-gioco--introduzione-progressiva)
+3. [I nemici — descrizione e placement](#3-i-nemici--descrizione-e-placement)
+4. [Convenzioni di design spaziale](#4-convenzioni-di-design-spaziale)
+5. [Progressione dei livelli — schema completo](#5-progressione-dei-livelli--schema-completo)
+6. [Istruzioni per la generazione di livelli](#6-istruzioni-per-la-generazione-di-livelli)
 
 ---
 
-## 1. I nemici — descrizione e placement
-
-Per la documentazione completa dell'AI (stati, transizioni, parametri di velocità) vedi [`ENEMY_AI.md`](./ENEMY_AI.md).
-
-### Zombie (ObjectType=5)
-
-- **Personalità:** patrugliante lento e meccanico — va avanti e indietro sul suo percorso senza deviare
-- **Pericolo:** basso se hai candele, letale se lo incontri nel buio o senza via di fuga
-- **Spegne candele:** sì, al contatto
-- **Vede il giocatore:** no (patrol puro, non reagisce)
-- **Luce propria:** sì — aura rossa/gialla intorno a lui
-- **Placement consigliato:** corridoi stretti, zone obbligate di passaggio, a guardia di chiavi/uscite
-
-### Scheletro (ObjectType=6)
-
-- **Personalità:** patrugliante intelligente con visuale lineare — se ti vede in linea retta (senza muri in mezzo) parte all'inseguimento
-- **Pericolo:** medio — può sorprenderti da lontano, ma si perde facilmente girando un angolo
-- **Spegne candele:** sì, se sono nel suo raggio di ricerca
-- **Vede il giocatore:** sì, solo su linea orizzontale o verticale senza ostacoli
-- **Luce propria:** sì — bianca in pattuglia, rossa in inseguimento
-- **Placement consigliato:** stanze aperte, corridoi lunghi dove il LoS è efficace
-
-### Goblin (ObjectType=7)
-
-- **Personalità:** cacciatore instancabile — conosce sempre la posizione del giocatore e lo insegue
-- **Pericolo:** alto e crescente — diventa più veloce ogni volta che il giocatore usa una candela
-- **Spegne candele:** sì, le cerca attivamente
-- **Vede il giocatore:** sempre (pathfinding globale)
-- **Luce propria:** sì — aura viola
-- **Placement consigliato:** livelli avanzati; mettere lontano dallo spawn iniziale per dare al giocatore tempo di orientarsi. Un solo Goblin è già una sfida enorme.
-
-### Taurus (ObjectType=8)
-
-- **Personalità:** guardiano lento che carica in linea retta — patruglia lentamente, ma se ti vede in linea retta parte in carica devastante
-- **Pericolo:** alto se ti trova in un corridoio — difficile da evitare, la carica è molto veloce
-- **Spegne candele:** no
-- **Vede il giocatore:** sì, solo su linea orizzontale o verticale (come lo Scheletro)
-- **Luce propria:** sì — aura arancione intensa
-- **Placement consigliato:** a guardia di stanze aperte o corridoi larghi; il giocatore deve imparare a non attraversare la sua visuale
-
-### Ghost (ObjectType=10)
-
-- **Personalità:** fantasma — attraversa i muri, attacca solo se il giocatore si muove
-- **Pericolo:** psicologico — se ti fermi sei al sicuro, ma fermarti in un dungeon pieno di altri nemici è difficile
-- **Spegne candele:** sì, molto velocemente (250 ms)
-- **Attraversa i muri:** sì — i muri non lo fermano
-- **Luce propria:** sì — aura verde/rosa
-- **Placement consigliato:** in stanze chiuse dove il giocatore deve muoversi, o a combinazione con altri nemici che lo forzano a muoversi
-
-### Bubu (ObjectType=11)
-
-- **Personalità:** patrugliante silenzioso il cui obiettivo primario è spegnere le candele del giocatore
-- **Pericolo:** indiretto — non uccide direttamente ma toglie risorse vitali
-- **Spegne candele:** sì, è il suo comportamento principale
-- **Vede il giocatore:** reagisce alle candele, non al giocatore
-- **Luce propria:** sì — aura blu
-- **Placement consigliato:** in combinazione con altri nemici; usare per creare scarsità di risorse durante il livello
-
----
-
-## 2. La storia di Mark — contesto narrativo
-
-Ogni livello che crei deve essere coerente con la storia e il tono del gioco. Questo non è un dungeon fantasy qualsiasi — è il viaggio di Mark.
+## 1. La storia di Mark — arco narrativo
 
 ### Chi è Mark
 
-Mark è un ragazzo adolescente che si è perso in un labirinto oscuro. Non sa come ci è finito, non sa quanto è grande, non sa cosa lo aspetta al prossimo angolo. Ha con sé solo una candela accesa. Ogni livello completato non è una vittoria definitiva: è solo un'altra zona del labirinto che ha attraversato. L'uscita di ogni livello porta a una nuova zona, sempre più pericolosa.
+Mark è un ragazzo adolescente. Un pomeriggio di fine estate, esplorando le rovine di un vecchio castello abbandonato vicino al suo paese, il terreno cede sotto di lui. Cade in una serie di gallerie sotterranee che non esistono su nessuna mappa. Non sa dove si trova. Non sa quanto è profondo. Ha con sé solo una candela.
+
+Ogni livello completato non è una vittoria definitiva: è solo un'altra zona che Mark riesce ad attraversare. L'uscita di ogni livello porta sempre più in profondità — o così sembra. Ma il labirinto ha una direzione. Mark lo sente. Da qualche parte, c'è una via d'uscita.
 
 ### La meccanica come metafora
 
-- **La candela** non è solo un oggetto di gioco: è la speranza di Mark, la sua unica sicurezza in un posto oscuro. Spegnerla (o farla spegnere dai nemici) non è solo un malus meccanico — è Mark che si ritrova solo nel buio totale.
-- **I nemici** non sono mostri generici: sono le presenze che popolano questo labirinto. Alcuni (Zombie) sembrano vagare senza scopo. Altri (Goblin, Ghost) sembrano accanirsi specificamente su Mark e sulla sua luce.
-- **La chiave e l'uscita** sono la struttura di ogni livello: c'è sempre una via d'uscita, ma Mark deve trovarla — e i pericoli sono lì per renderlo difficile.
+- **La candela** è la speranza di Mark: l'unica cosa che tiene il buio a distanza. Piazzarla per distrarre un nemico è un atto di coraggio — Mark sacrifica temporaneamente la sua sicurezza per creare un'opportunità. Perderla nel buio non è solo un malus meccanico: è Mark solo, al buio, che deve trovare la forza di andare avanti.
+- **I nemici** sono le presenze che abitano il labirinto. Alcuni (Zombie) sembrano vagare senza scopo come automi. Altri (Goblin, Ghost) sembrano voler specificamente spegnere la luce di Mark — come se il labirinto stesso non volesse che lui uscisse.
+- **La chiave e l'uscita** sono la struttura di ogni livello: c'è sempre una via d'uscita. Mark deve crederci.
 
-### Il tono dei livelli
+### L'arco narrativo — struttura circolare
 
-Il gioco **non è un labirinto in senso stretto** (infiniti corridoi uguali). Può essere:
-- Un dungeon sotterraneo con stanze distinte
-- Un castello in rovina con grandi sale
-- Un corridoio lungo e lineare con ostacoli
-- Una serie di stanze interconnesse da passaggi
+Il gioco ha un arco circolare deliberato:
 
-L'importante è che ogni livello abbia una **progressione spaziale chiara**: da dove Mark arriva (ingresso) a dove vuole andare (uscita), con ostacoli in mezzo. Il giocatore deve potersi orientare, anche se il percorso non è ovvio.
+> Rovine all'aperto → sotto terra → cripte → cuore del labirinto → risalita → uscita
 
-### Coerenza tra livelli consecutivi
+I **livelli iniziali** si ambientano in rovine esterne — mura crollate, cielo visibile attraverso le crepe, pietra chiara. Mark è appena caduto: è disorientato ma non ancora disperato.
 
-- I livelli devono avere una **continuità narrativa implicita**: Mark sta andando sempre "più in fondo" al labirinto. I livelli successivi devono sembrare zone più oscure, più pericolose, più distanti dall'uscita.
-- Il **texture pack** scelto dovrebbe riflettere questo: pacco1 (all'aperto? rovine esterne) → pacchi successivi (più cupi, più sotterranei).
-- **Nota specifica su pacco1:** le sprite del texture pack 1 hanno un aspetto di ambiente esterno (rovine all'aperto, pietra chiara). È adatto per i primi livelli, dove Mark è ancora in una zona "di confine". I pacchi successivi diventano progressivamente più scuri e claustrofobici.
+I **livelli centrali** scendono sempre più in profondità: corridoi angusti, stanze senza finestre, muri neri di umidità. Qui si concentrano i nemici più pericolosi.
+
+I **livelli finali** mostrano i segni della risalita: la pietra torna più chiara, c'è aria che circola. L'ultimo livello riporta Mark all'esterno — le stesse rovine del livello 1, ma viste dall'altra parte. L'uscita è la luce del sole.
+
+Questa struttura deve riflettersi nelle texture pack usate:
+- **pacco1** → rovine esterne, pietra chiara (livelli 1–2 e livello finale)
+- **pacco2** → transizione verso l'interno (livello 3)
+- **pacchi 3–7** → progressivamente più scuri e sotterranei
+- **pacco8** → il cuore del labirinto, il punto più buio
+- **pacco1 di ritorno** → l'uscita (livello finale)
 
 ### Il tono dei testi narrativi
 
-- **Non abusare dei testi** — ogni testo deve avere un impatto. 2–4 testi per livello è il range ideale.
-- **Posizionare i tutorial prima dell'oggetto**, non sopra. Il giocatore deve vedere il testo mentre si avvicina, non mentre è già sopra la risorsa.
-- **I testi di atmosfera** vanno su zone di transizione (entrate di stanze buie, corridoi prima dei nemici, vicino all'uscita).
-- **Voce in prima persona** — Mark parla tra sé e sé. Il tono è quello di un adolescente spaventato ma determinato.
+I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente spaventato ma non arreso. Non è eroico, non è disperato: è umano.
+
+**Regole per scrivere i testi:**
+- **2–4 testi per livello** al massimo. Ogni testo deve avere un impatto.
+- **Posizionarli prima dell'oggetto**, non sopra. Mark "pensa" mentre si avvicina, non dopo.
+- **Non spiegare la meccanica direttamente** — suggerire, non istruire. "Forse quella luce potrebbe aiutarmi" è meglio di "premi SPAZIO per piazzare la candela".
+- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei primi 2–3 livelli.
+- **Testi di atmosfera** nelle zone di transizione: entrata di stanze buie, corridoi prima dei nemici, vicino all'uscita.
+
+**Esempi di voce corretta:**
+> *"Non so quanto sono profondo. Ma c'è aria che circola da quella parte."*
+> *"Quella cosa sta andando avanti e indietro. Se si distrae... potrei passare."*
+> *"Ho piazzato la candela. Adesso corri, Mark."*
+> *"Questo posto non vuole che io esca."*
 
 ---
 
-## 3. Convenzioni di design
+## 2. Meccaniche del gioco — introduzione progressiva
+
+Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il giocatore capisce cosa sta succedendo senza possibilità di confusione. Non introdurre mai due meccaniche nuove nello stesso livello.
+
+### Mappa delle meccaniche e quando introdurle
+
+| Meccanica | Livello di introduzione | Note |
+|---|---|---|
+| Movimento del giocatore | 1 | Implicita — il giocatore scopre da solo |
+| Raccogliere la chiave | 1 | Chiave visibile, percorso diretto |
+| Aprire l'uscita con la chiave | 1 | Uscita vicina alla chiave nei primi livelli |
+| Raccogliere le candele | 1 | Candele sul percorso, testo esplicativo |
+| Piazzare una candela (SPAZIO) | 1–2 | Tutorial esplicito con testo |
+| Zone buie (Buio) | 2 | Zona buia piccola, candela necessaria per passare |
+| Aprire/chiudere porte (CTRL) | 2–3 | Una singola porta, testo esplicativo |
+| Nemico Zombie — patruglia | 3 | Un singolo zombie, meccanica distrazione candela |
+| Distrazione con candela | 3 | Insegnata con il primo zombie |
+| Trappola tempora (TrappolaTemporizzata) | 4–5 | Una trappola ovvia, si può attraversare di corsa |
+| Nemico Scheletro — visuale lineare | 5 | Da solo o con 1 zombie, stanza aperta |
+| Muri rompibili (Fragile, WallType=2) | 6 | Prima mostrati come muri distinguibili, poi Taurus li abbatte |
+| Nemico Taurus — carica | 6 | Da solo, corridoio dove la carica è dimostrativa |
+| Trappola letale (TrappolaMorteIstantanea) | 6–7 | Introdotta visivamente, non nascosta |
+| Nemico Ghost — stai fermo | 7 | Da solo, stanza dove il giocatore DEVE fermarsi |
+| Nemico Bubu — spegne candele | 8 | In combinazione con 1–2 zombie, crea scarsità |
+| Nemico Goblin — inseguimento puro | 9 | **Da solo in un livello dedicato** |
+| Mix completo nemici | 10 | Solo dopo che il giocatore conosce tutti |
+
+### Principio fondamentale
+
+> **Non fare mai un livello dove la soluzione è "cerca nel buio".**
+> Il giocatore deve sempre poter vedere abbastanza della mappa da capire dove andare. Il buio (zone `Buio`) è uno strumento di tensione, non un labirinto cieco. Usa brazier (`Lucina`) per illuminare i punti di riferimento chiave — chiave, uscita, bivi importanti.
+
+---
+
+## 3. I nemici — descrizione e placement
+
+Per la documentazione completa dell'AI (stati, transizioni, parametri di velocità) vedi [`ENEMY_AI.md`](./ENEMY_AI.md).
+
+### Zombie (ObjectType=5) — il primo nemico
+
+- **Personalità:** patrugliante lento e meccanico — va avanti e indietro senza deviare
+- **La meccanica che insegna:** la distrazione con la candela. Lo zombie si avvicina alla candela piazzata, dando al giocatore il tempo di passare. Questa è la meccanica cardine del gioco.
+- **Pericolo:** basso con candele, letale al buio o senza via di fuga
+- **Spegne candele:** sì, al contatto
+- **Vede il giocatore:** no (patrol puro)
+- **Luce propria:** sì — aura rossa/gialla
+- **Placement consigliato:** corridoi stretti, zone obbligate. Il primo zombie va messo in un corridoio dove c'è esattamente una soluzione ovvia (la candela). Zombi successivi in configurazioni più complesse.
+
+### Scheletro (ObjectType=6) — il cacciatore
+
+- **Personalità:** patrugliante con visuale lineare — ti insegue se ti vede in linea retta
+- **La meccanica che insegna:** il line-of-sight. Il giocatore impara a non attraversare la visuale del nemico.
+- **Pericolo:** medio — sorpresa da lontano, ma si perde girando un angolo
+- **Spegne candele:** sì, se sono nel suo raggio di ricerca
+- **Vede il giocatore:** sì, su linea orizzontale o verticale senza ostacoli
+- **Luce propria:** sì — bianca in pattuglia, rossa in inseguimento
+- **Placement consigliato:** stanze aperte, corridoi lunghi. La prima introduzione deve avvenire in una stanza dove la visuale è evidente — il giocatore vede lo scheletro, vede la linea retta, capisce il pericolo.
+
+### Taurus (ObjectType=8) — il caricatore
+
+- **Personalità:** guardiano lento che carica in linea retta quando ti vede. **Abbatte i muri rompibili (Fragile)** nella sua traiettoria.
+- **La meccanica che insegna:** evitare la linea di carica + i muri rompibili. Un Taurus che sfonda un muro è un momento spettacolare e insegna entrambe le cose.
+- **Pericolo:** alto in corridoi — la carica è molto veloce e devastante
+- **Spegne candele:** no
+- **Vede il giocatore:** sì, solo su linea orizzontale o verticale
+- **Luce propria:** sì — aura arancione intensa
+- **Placement consigliato:** a guardia di corridoi larghi o stanze con muri rompibili. Il livello di introduzione deve avere almeno un muro fragile che il Taurus può sfondare per mostrare la meccanica.
+
+### Ghost (ObjectType=10) — il fantasma
+
+- **Personalità:** attraversa i muri, attacca solo se il giocatore si muove
+- **La meccanica che insegna:** fermarsi. Il giocatore deve imparare che in alcuni frangenti NON muoversi è la risposta giusta — una meccanica contro-intuitiva che va introdotta in isolamento.
+- **Pericolo:** psicologico — fermarti in mezzo ad altri nemici è il vero pericolo
+- **Spegne candele:** sì, molto velocemente
+- **Attraversa i muri:** sì
+- **Luce propria:** sì — aura verde/rosa
+- **Placement consigliato:** il livello di introduzione deve avere un Ghost in una stanza dove il giocatore è solo con lui. Solo dopo, combinarlo con altri nemici che forzano il movimento.
+
+### Bubu (ObjectType=11) — il sabotatore
+
+- **Personalità:** patrugliante che ha come obiettivo primario spegnere le candele del giocatore
+- **La meccanica che insegna:** la scarsità di risorse. Il Bubu non uccide direttamente ma toglie le candele — la risorsa su cui il giocatore si è fino ad ora affidato.
+- **Pericolo:** indiretto ma devastante in combinazione
+- **Spegne candele:** sì, è il suo comportamento principale
+- **Luce propria:** sì — aura blu
+- **Placement consigliato:** in combinazione con Zombie o Scheletri, mai da solo nei primi incontri. Usare per creare livelli dove le candele devono essere usate con parsimonia.
+
+### Goblin (ObjectType=7) — il cacciatore definitivo
+
+- **Personalità:** conosce sempre la posizione del giocatore e lo insegue. Diventa più veloce ogni volta che il giocatore usa una candela.
+- **La meccanica che insegna:** la pressione pura. Non c'è una "soluzione" al Goblin — va aggirato, confuso con le stanze, sfruttando la mappa. Questo è il nemico che mette alla prova tutto ciò che il giocatore ha imparato.
+- **Pericolo:** il più alto del gioco. Un Goblin da solo riempie un livello di tensione.
+- **Spegne candele:** sì, le cerca attivamente
+- **Luce propria:** sì — aura viola
+- **Placement consigliato:** **introdurlo da solo in un livello dedicato** (livello 9), lontano dallo spawn. Solo nel livello finale usarlo in combinazione. Non usarlo prima del livello 9.
+
+---
+
+## 4. Convenzioni di design spaziale
+
+### Filosofia: leggibilità prima di tutto
+
+Un buon livello di Mark In DeDark non è un labirinto cieco. Il giocatore deve sempre poter capire la struttura dello spazio anche con la luce limitata. Questo si ottiene con:
+
+- **Brazier (`Lucina`, ID=12)** sui punti di riferimento importanti: ingresso stanza chiave, vicinanza all'uscita, incroci principali. Il giocatore orienta il suo percorso mentale sulle luci fisse.
+- **Stanze distinte** con transizioni chiare (porte, soglie strette). Il giocatore deve poter costruire una mappa mentale del livello.
+- **Zone buie (`Buio`, GroundType=7) delimitate** — non usare il buio su metà mappa. Il buio deve essere una zona attraversabile, non un oblio infinito.
 
 ### Struttura spaziale
 
-- **Usa il Riempimento** per riempire le aree tra le stanze — crea lo spessore visivo dei muri
-- **Stanze di varie dimensioni** — mix di stanze piccole (tension) e grandi (respiro) crea ritmo
+- **Usa il Riempimento** per dare spessore visivo ai muri e separare le stanze
+- **Stanze di dimensioni miste** — stanze piccole (tensione) alternate a stanze grandi (respiro) creano ritmo
 - **Corridoi stretti** — ideali per Zombie e Taurus, dove il giocatore non può aggirarli facilmente
 - **Stanze aperte** — ideali per Ghost e Scheletro, dove la visuale lineare è efficace
+- **Vicoli ciechi** — utili nei livelli medi per creare tensione, ma mai come percorso obbligato verso la chiave
 
 ### Distribuzione delle risorse
 
-- Distribuire le candele **sparsamente** — il gioco deve essere teso, non comodo
-- La chiave dovrebbe richiedere di **esplorare** la mappa, non essere subito visibile
-- L'uscita può essere **vicina allo spawn** ma difficile da raggiungere per via dei nemici
+- Le candele devono essere **abbondanti nei primi livelli** e diventare progressivamente più scarse — ma mai "impossibili"
+- La chiave nei primi livelli può essere **visibile e relativamente vicina** — il challenge è il percorso, non la ricerca
+- Nei livelli avanzati la chiave può richiedere esplorazione, ma sempre con indizi visivi (un brazier, una stanza speciale)
+- L'uscita può essere vicina allo spawn ma difficile da raggiungere per via dei nemici
 
-### Difficoltà progressiva
+### Uso dei muri rompibili (WallType=2 — Fragile)
 
-- **Livelli early (1–3):** pochi nemici (2–4 Zombie), candele abbondanti, layout semplice
-- **Livelli medi (4–6):** mix di nemici, candele scarse, layout con più stanze
-- **Livelli avanzati (7–8):** nemici pericolosi (Goblin, Ghost), candele rare, labirinto
+I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
+- Mostrare i muri fragili con una **texture visivamente distinta** dal muro normale
+- Il primo incontro con muri fragili (livello 6) deve avvenire con un Taurus che li sfonda in modo spettacolare
+- I muri fragili possono anche creare **scorciatoie** che il giocatore scopre facendo passare il Taurus
 
-### Illuminazione
+### Trappole
 
-- Usare `Lucina` (ID=12, Brazier) per marcare punti di riferimento importanti — uscita, stanze chiave
-- Il `Buio` (GroundType=7) per creare zone di suspense dove il giocatore entra "alla cieca"
-- Ogni nemico emette luce propria — il giocatore vede il nemico prima di essere attaccato
-
----
-
-## 4. Progressione della difficoltà tra livelli
-
-Quando crei un nuovo livello devi sempre sapere **quale livello lo precede e quale lo segue**. La difficoltà deve salire gradualmente — non fare salti bruschi.
-
-### Schema di progressione consigliato (8 livelli)
-
-| Livello | Atmosfera | Nemici consigliati | Candele | Complessità mappa | Testi |
-|---|---|---|---|---|---|
-| 1 | Ingresso — rovine esterne (pacco1) | Nessun nemico o 1–2 Zombie fermi | Abbondanti (3–4 pacchi) | Lineare, 1–2 stanze | Tutorial completo: candela, porta, movimento |
-| 2 | Primo dungeon | 2–3 Zombie con waypoint | Sufficienti | 2–3 stanze con corridoio | Testo atmosfera |
-| 3 | Dungeon con sorprese | 3–4 Zombie + 1 Scheletro | Moderate | 3–4 stanze, un vicolo cieco | Tutorial porta, testo mistero |
-| 4 | Zona più oscura | 4–5 Zombie + 1–2 Scheletri | Scarse | 4+ stanze, percorso non ovvio | Testo suggerimento/paura |
-| 5 | Pericolo reale | 3 Zombie + 2 Scheletri + 1 Taurus | Scarse | Mappa ampia con zone aperte | Testo nemico insolito |
-| 6 | Tensione alta | Mix Zombie/Scheletri/Bubu | Pochissime | Mappa densa, trappole | — |
-| 7 | Incubo | Zombie + Scheletri + Ghost | Rarissime | Mappa grande, zone buie | — |
-| 8 | Finale | Mix completo + Goblin | 1–2 pacchi nascosti | Massima complessità | Testo finale |
-
-### Regole di progressione
-
-1. **Non introdurre un nuovo tipo di nemico senza che il giocatore abbia già "imparato" il precedente.** Zombie prima degli Scheletri, Scheletri prima del Taurus, Ghost e Goblin solo tardi.
-2. **Le candele devono diventare progressivamente più rare** — ma mai impossibili. Un livello senza soluzione non è design, è un bug.
-3. **La complessità spaziale cresce** — i primi livelli possono essere quasi lineari. I livelli avanzati hanno rami, vicoli ciechi, stanze segrete.
-4. **Usare le trappole** (`TrappolaMorteIstantanea`) con parsimonia nei livelli early, più frequentemente dopo il livello 5.
-5. **Il Goblin è il nemico definitivo** — introdurlo troppo presto rende il gioco frustrante. Livello 7–8 al massimo.
-
-### Se stai generando un singolo livello
-
-- Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
-- Confronta la quantità di nemici e candele con il livello precedente — il tuo deve essere leggermente più difficile
-- Se non ci sono livelli successivi definiti, pensa al livello come al "più difficile finora"
+- **TrappolaTemporizzata (GroundType=4):** trappola con timer, si può attraversare di corsa. Introdurla visivamente ovvia, non nascosta.
+- **TrappolaMorteIstantanea (GroundType=3):** fossa/lama. Usarla con parsimonia. Nei livelli early è un ostacolo visivo (si vede e si evita). Nei livelli avanzati può essere usata per restringere le vie di fuga dai nemici.
 
 ---
 
-## 5. Istruzioni per la generazione di livelli
+## 5. Progressione dei livelli — schema completo
+
+### Principi di progressione
+
+1. **Un nemico nuovo per livello** — non introdurre mai due tipi di nemici nuovi insieme.
+2. **Ogni nemico nuovo va introdotto in isolamento** prima di essere combinato con altri. Il Goblin deve avere un livello tutto suo.
+3. **Le candele diminuiscono progressivamente** — ma ogni livello deve essere risolvibile. Un livello senza soluzione non è design, è un bug.
+4. **La complessità spaziale cresce** — i primi livelli sono quasi lineari. I livelli avanzati hanno rami e scelte.
+5. **Il buio non è mai obbligatorio** — si può sempre trovare un percorso con abbastanza luce. Il buio è una sfida opzionale o una scorciatoia.
+
+### Schema per 10 livelli
+
+| Livello | Texture | Atmosfera | Nemici | Meccanica introdotta | Candele | Mappa | Testi |
+|---|---|---|---|---|---|---|---|
+| **1** | pacco1 | Rovine esterne — Mark è appena caduto | Nessuno | Movimento, chiave, uscita, candela (raccogliere) | Abbondanti | Lineare, 1–2 stanze aperte | Tutorial completo, voce di Mark disorientata |
+| **2** | pacco1 | Rovine esterne — più in profondità | Nessuno | Piazzare candela (SPAZIO), zona buia | Abbondanti | 2–3 stanze, una zona buia superabile | Tutorial piazzamento candela, testo atmosfera |
+| **3** | pacco2 | Primo corridoio sotterraneo | **1 Zombie** | Distrazione zombie con candela | Sufficienti | Corridoio lineare con UN zombie che blocca | Tutorial distrazione, pensiero di Mark "quella cosa si distrae" |
+| **4** | pacco2 | Dungeon con stanze | **2–3 Zombie + porte** | Porte (CTRL), più zombie da distrarre in sequenza | Sufficienti | 3–4 stanze con corridoi, 1–2 porte | Testo porta, testo atmosfera |
+| **5** | pacco3 | Zona più ampia e buia | **2 Zombie + 1 Scheletro** | Visuale lineare (line-of-sight) | Moderate | Stanza aperta per il Scheletro, corridoi per gli Zombie | Testo "quella cosa mi guarda diversamente" |
+| **6** | pacco4 | Zona dei guardiani | **1 Taurus** (+ 1–2 Zombie opzionali) | Carica del Taurus, muri rompibili | Moderate | Corridoio con muro fragile che il Taurus sfonda, stanza prima e dopo | Testo "che suono era quello?" sul muro rotto |
+| **7** | pacco5/6 | Cripta — il punto più buio | **1 Ghost** (+ 1 Zombie opzionale) | Fermarsi per sopravvivere al Ghost | Scarse | Stanza isolata con Ghost, poi area più grande | Testo "se mi fermo... non mi attacca" |
+| **8** | pacco6/7 | Catacombe inferiori | **2–3 Zombie + 1 Bubu** | Scarsità di risorse (Bubu spegne le candele) | Pochissime | Mappa densa, zone buie, 1–2 trappole | Nessun testo tutorial — solo atmosfera |
+| **9** | pacco7/8 | Il cuore del labirinto | **1 Goblin** (da solo) | Inseguimento puro — il Goblin non si può distrarre | Scarse, nascoste | Mappa ampia con molte stanze per sfuggire al Goblin | Testo "non smette di inseguirmi" |
+| **10** | pacco8 → pacco1 | Risalita — l'uscita è vicina | Mix completo (Zombie, Scheletro, Bubu, Goblin) | Tutto insieme — la prova finale | 1–2 pacchi nascosti | Mappa grande, inizia scura e poi diventa più chiara verso l'uscita | Testo finale: "Luce. Finalmente luce." |
+
+### Note specifiche per ciascun livello
+
+**Livello 1 — "La caduta"**
+Mark è appena caduto. Layout quasi completamente illuminato da brazier. La chiave è visibile dall'inizio. L'obiettivo è che il giocatore impari i controlli e la struttura chiave→uscita senza pressione. Testo iniziale: un pensiero disorientato di Mark.
+
+**Livello 2 — "Il buio"**
+Stesso ambiente esterno (pacco1), ma una stanza ha una zona `Buio`. Il giocatore scopre che senza candela non vede dove mette i piedi. La soluzione è ovvia: piazza la candela, illumina, attraversa. Nessun nemico — solo la meccanica pura.
+
+**Livello 3 — "La creatura"**
+Il primo nemico deve essere un momento chiaro e didattico. Un singolo Zombie pattuglia un corridoio obbligato. Davanti allo Zombie ci sono candele raccoglibili (il giocatore le trova naturalmente). Un testo di Mark suggerisce: "Se si avvicina a quella luce... potrei passare." La soluzione è una: piazza la candela dall'altra parte, aspetta, passa.
+
+**Livello 6 — "Il guardiano"**
+Il Taurus deve essere presentato in modo spettacolare. Il percorso obbligato passa per un corridoio con un muro fragile. Il Taurus pattuglia dall'altra parte. Quando il giocatore entra nel campo visivo del Taurus, la carica sfonda il muro — momento "wow" che insegna entrambe le meccaniche simultaneamente.
+
+**Livello 7 — "Il fantasma"**
+Stanza isolata con un Ghost. Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Il giocatore deve stare fermo abbastanza a lungo da far passare il Ghost e poi raggiungere l'uscita della stanza. Livello relativamente corto — la tensione è psicologica, non da esplorazione.
+
+**Livello 9 — "Il cacciatore"**
+Un Goblin da solo in una mappa ampia. Il Goblin insegue sempre, diventa più veloce se il giocatore usa candele. Il giocatore impara che deve trovare la chiave E uscire SENZA usare troppe candele, perché ogni candela velocizza il Goblin. Mappa a più stanze per dare opzioni di fuga.
+
+**Livello 10 — "La risalita"**
+La mappa inizia con texture scure (pacco8) e si "schiarisce" verso l'uscita (pacco1 nella zona finale, o almeno texture più chiare). Non è necessario che sia il livello più grande — deve essere il più soddisfacente da completare. L'uscita è letteralmente la luce del sole. Testo finale: Mark ce l'ha fatta.
+
+---
+
+## 6. Istruzioni per la generazione di livelli
 
 La regola fondamentale per qualsiasi livello generato è:
 
-- **Gestire attentamente la progressione della difficoltà e la dimensione del gioco.** Un livello generato non vive da solo: fa parte di una sequenza. Deve essere coerente con ciò che lo precede e preparare il terreno per ciò che segue. Vedi [Sezione 4](#4-progressione-della-difficoltà-tra-livelli) per i dettagli.
+- **Ogni livello introduce una cosa sola** e la insegna bene. La complessità si accumula nel tempo, non in un singolo livello.
+- **Il giocatore deve sempre sapere dove andare** anche senza aver trovato la chiave. La struttura della mappa deve essere leggibile.
+- **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati, anche se più pericolosi.
+
+### Prima di iniziare a costruire un livello
+
+1. Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
+2. Identifica la **meccanica nuova** che questo livello introduce
+3. Costruisci la mappa attorno a quella meccanica — non aggiungere complessità extra
+4. Posiziona i brazier (`Lucina`) prima di tutto: segnano i punti di riferimento
+5. Aggiungi i nemici e verifica che la distrazione/strategia sia leggibile
 
 ### Checklist pre-consegna
 
@@ -190,5 +279,9 @@ Prima di considerare un livello completo, verifica:
 - [ ] Almeno 1 Giocatore, 1 Chiave, 1 Uscita, almeno 1 pacco di Candele
 - [ ] Lo spawn del giocatore è distante dai nemici (≥ 3 celle Manhattan)
 - [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
-- [ ] La difficoltà è coerente con il livello che lo precede
-- [ ] I waypoint nemici sono ben formati e ogni gruppo ha l'indice 1
+- [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
+- [ ] Non ci sono due meccaniche nuove nello stesso livello
+- [ ] Ci sono abbastanza brazier da orientare il giocatore
+- [ ] Nessuna zona buia è obbligatoria senza una candela disponibile vicina
+- [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
+- [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 4 per livello
