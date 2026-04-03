@@ -19,15 +19,18 @@ Regole di bugfixing:
 
 ### Task 1
 
-La texture dei pavimenti sono parecchio desaturate, i colori originali erano molto molto più vividi. Sembra quasi che sopra alla texture originale del pavimento ci sia disegnata sopra un'altra texture tipo una specular map buttata sopra, una cosa del genere. O comunque come se ci fossero delle sovrapposizioni.
-
-Ho notato anche un'altra cosa: nel gioco originale dove doveva esserci buio perché la luce termina il suo raggio d'azione, c'era tutto nero. Qui invece rimane una texture che forse è una specular map o qualcosa del genere che si vede "nel buio" e non dovrebbe vedersi. È totalmente desaturata e forse è proprio messa sopra al posto del buio completo.
-
-Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: '/Users/fbonizzi/Source/Mark-In-DeDark/Web/debug/Csharp version rendering - Level 4.jpg'. Guardo così ti rendi conto.
+L'area della luce del player è troppo ampia. Se il player è al centro di una griglia di 9 celle, deve illuminare solo le 9 celle (un 3x3) adesso sta illuminando un 5x5!
 
 ### Task 2
 
-Sembra che le normal map non siano applicate alle porte
+Problema di colori del PAVIMENTO e saturazione.
+
+1. La texture dei pavimenti hanno saturazione solo nei punti in cui c'è l'origine della luce e poi decresce con l'allontanarsi della luce da quel punto, invece nei punti in cui il pavimento è illuminato anche di poco, la saturazione dovrebbe essere totalmente uniforme
+2. I colori originali erano molto molto più vividi anche al centro della luce (diciamo dove è posizionato il player, attualmente, sebbene presenti i colori, anche lì sono poco saturi)
+
+Ho il sospetto, ma magari mi sbaglio, che magari il rendering iniziale del pavimento sia corretto, ma che sopra alla texture originale del pavimento ci sia disegnata la texture della specular map, perché vedo degli strani artefatti che hanno poco senso e che nel gioco originale non c'erano.
+
+Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: '/Users/fbonizzi/Source/Mark-In-DeDark/Web/debug/Csharp version rendering - Level 4.jpg'. Guardo così ti rendi conto.
 
 ---
 
