@@ -444,6 +444,9 @@ Ended
 - Non ha nessun comportamento avanzato, nessuno stato speciale
 - Il più semplice dei nemici
 
+**Nota per il level design:**
+Minaccia ambientale prevedibile: patruglia su percorso fisso e spegne le candele al passaggio senza mai deviare. Usalo per creare corridoi dove il giocatore deve sincronizzare i movimenti o rischiare di restare al buio. Non reagisce al giocatore finché non lo tocca fisicamente: è più un "pericolo da incrociare" che un cacciatore attivo.
+
 **Transizioni AI:**
 ```
 PatrolAI → IdleAI  (dopo aver ucciso il giocatore)
@@ -495,6 +498,9 @@ protected override killCandleLogic(candle: Candle): void {
 - Attacca il giocatore **solo se il giocatore è in movimento** — stare fermi è l'unico modo per sopravvivere al Ghost
 - Non può essere ucciso (invulnerabile)
 
+**Nota per il level design:**
+Attraversa i muri e non può essere eliminato. Il giocatore sopravvive solo stando **completamente fermo** — qualsiasi movimento è letale. Ideale per stanze senza uscite sicure dove forzare pause tattiche, o per "inseguire" il giocatore attraverso pareti creando tensione psicologica. Abbinalo ad altri nemici che premono il giocatore a muoversi per creare un dilemma.
+
 **Transizioni AI:**
 ```
 PatrolGhostAI → IdleAI  (dopo aver ucciso il giocatore)
@@ -531,6 +537,9 @@ Durante la caccia:
 - Se perde la visuale → fase di confusione (3 secondi di guardarsi intorno) → torna a pattugliare
 
 Se durante la caccia vede una candela entro range → la va a spegnere, poi riprende la caccia.
+
+**Nota per il level design:**
+Guardia classica con LoS: pattuglia finché non vede il giocatore in linea retta davanti a sé, poi accelera e insegue. Se perde la visuale si ferma 3 secondi a guardarsi intorno, poi torna al percorso. Si distrae anche con le candele. Posizionalo in corridoi lunghi e rettilinei per sfruttare al massimo la LoS; funziona bene come guardiano di un'area chiave perché ci torna sempre.
 
 **Transizioni AI:**
 ```
@@ -597,6 +606,9 @@ if (currentUsed > this._lastUsedCandleCount) {
 - Cerca anche le candele, ma la priorità è inseguire il giocatore
 - Il più aggressivo nella progressione di difficoltà dinamica
 
+**Nota per il level design:**
+Insegue il giocatore dal primo secondo e diventa più veloce ogni volta che il giocatore usa una candela. Usalo per creare pressione costante e disincentivare l'uso eccessivo delle candele: più il giocatore illumina, più il Goblin diventa pericoloso. Funziona meglio in livelli dove le candele sono una risorsa limitata e preziosa.
+
 **Transizioni AI:**
 ```
 PlayerHunterAI → KillCandleAI (candela vicina)
@@ -642,6 +654,9 @@ override die(): void {
 - Durante la carica: velocità massima, sfonda muri, spegne candele, camera shake, può uccidere altri nemici
 - Dopo aver colpito un muro → stordito 2 secondi → riprende la pattuglia
 - **Uccide altri nemici** se li colpisce durante la carica
+
+**Nota per il level design:**
+Lento in pattuglia ma devastante quando carica: sfonda muri, spegne candele, uccide altri nemici. Posizionalo in corridoi rettilinei dove la carica è efficace e la distruzione dei muri può aprire nuove vie o creare caos. Nelle stanze aperte il giocatore può aggirarlo facilmente; nei corridoi stretti diventa imprendibile. Evita stanze piccole: il wind-up da 1 secondo è troppo facile da anticipare.
 
 **Transizioni AI:**
 ```
@@ -689,6 +704,9 @@ protected override killCandleLogic(candle: Candle): void {
 - Torna a pattugliare dal punto di interruzione
 - **Non emette luce propria** — è quasi invisibile nel buio del gioco, rendendolo particolarmente pericoloso per le candele
 - Non attacca il giocatore in modo diverso dagli altri (collisione standard)
+
+**Nota per il level design:**
+Non emette luce propria: è quasi invisibile nel buio. Patruglia silenziosamente e devia automaticamente verso qualsiasi candela entro 3 celle. È la minaccia silenziosa per le sorgenti di luce: posizionalo vicino a candele che il giocatore vuole preservare per forzarlo a proteggere attivamente la propria visibilità. Non cambia comportamento verso il giocatore (solo collisione standard), ma la sua invisibilità nel buio lo rende insidioso.
 
 **Transizioni AI:**
 ```
