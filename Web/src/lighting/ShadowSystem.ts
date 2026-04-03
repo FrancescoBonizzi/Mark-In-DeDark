@@ -88,7 +88,6 @@ export class ShadowSystem {
   /** Scale of glow sprites for specular lightmask and shadow lightmap (C# GlowScale). Set from LevelCustomization. */
   glowScale = 2.0;
 
-  private readonly _app: Application;
   private readonly _camera: Camera;
 
   private readonly _groundContainer: Container;
@@ -113,7 +112,7 @@ export class ShadowSystem {
   private readonly _lightmap: RenderTexture;
   private readonly _perLightRT: RenderTexture;
   private readonly _blurredRT: RenderTexture;
-  private readonly _lightTexture: RenderTexture;
+  private readonly _lightTexture: Texture;
 
   // Display-list sprites
   private readonly _normalMappedGroundSprite: Sprite;
@@ -178,7 +177,6 @@ export class ShadowSystem {
     objectsNormalContainer: Container,
     glowTexture: Texture | null,
   ) {
-    this._app = app;
     this._camera = camera;
     this._groundContainer = groundContainer;
     this._groundNormalContainer = groundNormalContainer;
@@ -789,26 +787,27 @@ export class ShadowSystem {
   }
 
   /**
-   * Pre-renders a white radial gradient circle into a RenderTexture.
-   * Uses additive-blended concentric filled circles so the centre reaches
-   * alpha=1 and the edge fades to ~0 linearly.
+   * Pre-renders a white flat-top radial gradient circle into a Texture.
+   * Mimics C# Penumbra behaviour: white (1.0) from center to ~70% of radius,
+   * then smooth fade to transparent at the edge.
    */
-  private _createLightTexture(size: number): RenderTexture {
-    const rt = RenderTexture.create({ width: size, height: size });
-    const root = new Container();
-    const steps = 24;
-    const half = size / 2;
-
-    for (let i = steps; i >= 1; i--) {
-      const r = (i / steps) * half;
-      const gfx = new Graphics();
-      gfx.blendMode = "add";
-      gfx.circle(half, half, r).fill({ color: 0xffffff, alpha: 1 / steps });
-      root.addChild(gfx);
-    }
-
-    this._app.renderer.render({ container: root, target: rt, clear: true });
-    root.destroy({ children: true });
-    return rt;
+  private _createLightTexture(size: number): Texture {
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d")!;
+    const cx = size / 2;
+    const cy = size / 2;
+    const r = size / 2;
+    // Inner circle radius where the gradient starts fading (flat-top region)
+    const flatEdge = r * 0.70;
+    const gradient = ctx.createRadialGradient(cx, cy, flatEdge, cx, cy, r);
+    gradient.addColorStop(0, "rgba(255,255,255,1.0)");
+    gradient.addColorStop(1, "rgba(255,255,255,0.0)");
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    return Texture.from(canvas);
   }
 }

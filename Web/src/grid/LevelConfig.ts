@@ -41,14 +41,20 @@ export interface LevelConfig {
     wallVerticalBrokenB: Texture;
     specialWalls: (Texture | null)[];
     ingressoClosed: Texture | null;
+    ingressoClosedNormal: Texture | null;
     ingressoOpen: Texture | null;
+    ingressoOpenNormal: Texture | null;
     ingressoUp: Texture | null;
     uscitaClosed: Texture | null;
+    uscitaClosedNormal: Texture | null;
     uscitaOpen: Texture | null;
+    uscitaOpenNormal: Texture | null;
     uscitaUp: Texture | null;
     wallDoor: Texture | null;
+    wallDoorNormal: Texture | null;
     wallDoorUp: Texture | null;
     doorFrames: Texture[];
+    doorFrameNormals: (Texture | null)[];
     decalTextures: (Texture | null)[];
     dirtyTextures: Texture[];
 }
@@ -109,9 +115,13 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
     }
 
     const doorFrames: Texture[] = [];
+    const doorFrameNormals: (Texture | null)[] = [];
     for (let n = 1; n <= 9; n++) {
         const tex = tryGetTexture(sheets, `${p}/Door/door_${n}`);
-        if (tex) doorFrames.push(tex);
+        if (tex) {
+            doorFrames.push(tex);
+            doorFrameNormals.push(tryGetTexture(sheets, `${p}/Door/door_${n}_normal`));
+        }
     }
 
     const decalTextures: (Texture | null)[] = [];
@@ -168,14 +178,20 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         wallVerticalBrokenB: getTexture(sheets, `${p}/wall_vertical_broken_B`),
         specialWalls,
         ingressoClosed: tryGetTexture(sheets, `${p}/wall_ingresso_closed`),
+        ingressoClosedNormal: tryGetTexture(sheets, `${p}/wall_ingresso_closed_normal`),
         ingressoOpen: tryGetTexture(sheets, `${p}/wall_ingresso_open`),
+        ingressoOpenNormal: tryGetTexture(sheets, `${p}/wall_ingresso_open_normal`),
         ingressoUp: tryGetTexture(sheets, `${p}/wall_ingresso_up`),
         uscitaClosed: tryGetTexture(sheets, `${p}/wall_uscita_closed`),
+        uscitaClosedNormal: tryGetTexture(sheets, `${p}/wall_uscita_closed_normal`),
         uscitaOpen: tryGetTexture(sheets, `${p}/wall_uscita_open`),
+        uscitaOpenNormal: tryGetTexture(sheets, `${p}/wall_uscita_open_normal`),
         uscitaUp: tryGetTexture(sheets, `${p}/wall_uscita_up`),
         wallDoor: tryGetTexture(sheets, `${p}/wall_door`),
+        wallDoorNormal: tryGetTexture(sheets, `${p}/wall_door_normal`),
         wallDoorUp: tryGetTexture(sheets, `${p}/wall_door_up`),
         doorFrames,
+        doorFrameNormals,
         decalTextures,
         dirtyTextures,
         groundTypeToTexture,

@@ -130,7 +130,12 @@ export function createWall(
             const closedTex = config.wallDoor;
             if (!closedTex) return null;
             const pos = wallSpritePos(direction, cellX, cellY, closedTex.width);
-            return new WallInteractiveDoor(direction, pos.x, pos.y, closedTex, config.doorFrames, config.wallDoorUp ?? undefined);
+            return new WallInteractiveDoor(
+                direction, pos.x, pos.y, closedTex, config.doorFrames,
+                config.wallDoorUp ?? undefined,
+                config.wallDoorNormal ?? undefined,
+                config.doorFrameNormals,
+            );
         }
 
         case WallTypes.Ingresso: {
@@ -140,7 +145,12 @@ export function createWall(
             pos.x = cellX + CELL_SIZE / 2 - tex.width / 2;
             const arcTex = config.ingressoUp ?? undefined;
             const arcX = arcTex ? cellX + CELL_SIZE / 2 - arcTex.width / 2 : undefined;
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.ingressoOpen ?? undefined, arcTex, arcX);
+            return new WallEsteticDoor(
+                direction, pos.x, pos.y, tex,
+                config.ingressoOpen ?? undefined, arcTex, arcX,
+                config.ingressoClosedNormal ?? undefined,
+                config.ingressoOpenNormal ?? undefined,
+            );
         }
 
         case WallTypes.Uscita: {
@@ -150,7 +160,12 @@ export function createWall(
             pos.x = cellX + CELL_SIZE / 2 - tex.width / 2;
             const arcTex = config.uscitaUp ?? undefined;
             const arcX = arcTex ? cellX + CELL_SIZE / 2 - arcTex.width / 2 : undefined;
-            return new WallEsteticDoor(direction, pos.x, pos.y, tex, config.uscitaOpen ?? undefined, arcTex, arcX);
+            return new WallEsteticDoor(
+                direction, pos.x, pos.y, tex,
+                config.uscitaOpen ?? undefined, arcTex, arcX,
+                config.uscitaClosedNormal ?? undefined,
+                config.uscitaOpenNormal ?? undefined,
+            );
         }
 
         case WallTypes.Decal1:

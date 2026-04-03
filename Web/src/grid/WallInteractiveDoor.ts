@@ -28,6 +28,10 @@ export class WallInteractiveDoor implements IWall {
     private _frameIndex: number;
     private readonly _frames: Texture[];
 
+    private readonly _baseNormalSprite: Sprite | null = null;
+    private readonly _animNormalSprite: Sprite | null = null;
+    private readonly _frameNormals: (Texture | null)[];
+
     constructor(
         direction: LinkDirection,
         x: number,
@@ -35,15 +39,26 @@ export class WallInteractiveDoor implements IWall {
         closedTexture: Texture,
         frames: Texture[],
         arcTexture?: Texture,
+        closedNormalTexture?: Texture,
+        frameNormals?: (Texture | null)[],
     ) {
         this.direction = direction;
         this._frames = frames;
+        this._frameNormals = frameNormals ?? [];
         this._frameIndex = frames.length > 0 ? frames.length - 1 : 0;
 
         this._baseSprite = new Sprite(closedTexture);
         this._baseSprite.x = x;
         this._baseSprite.y = y;
         this._baseSprite.zIndex = zForWall(y + closedTexture.height / 2);
+
+        if (closedNormalTexture) {
+            const s = new Sprite(closedNormalTexture);
+            s.x = x;
+            s.y = y;
+            s.zIndex = zForWall(y + closedTexture.height / 2);
+            this._baseNormalSprite = s;
+        }
 
         if (arcTexture) {
             this._arcSprite = new Sprite(arcTexture);
@@ -68,6 +83,18 @@ export class WallInteractiveDoor implements IWall {
             this._sprite.texture = frames[this._frameIndex]!;
         }
 
+        // Normal sprite for the animated door frames
+        if (this._frameNormals.length > 0) {
+            const firstNormal = this._frameNormals[this._frameIndex] ?? this._frameNormals[0];
+            if (firstNormal) {
+                const s = new Sprite(firstNormal);
+                s.x = x;
+                s.y = y - 11;
+                s.zIndex = zForWall(y + closedTexture.height / 2) + 0.0001;
+                this._animNormalSprite = s;
+            }
+        }
+
         this.position = { x, y };
         this.centerPosition = {
             x: x + closedTexture.width / 2,
@@ -75,7 +102,7 @@ export class WallInteractiveDoor implements IWall {
         };
 
         this.collisionRectangle = new Rectangle(x, y + 164, closedTexture.width, 32);
-        this._hullRect = new Rectangle(x, y, closedTexture.width, closedTexture.height);
+        this._hullRect = this.collisionRectangle;
     }
 
     get state(): DoorState { return this._state; }
@@ -121,9 +148,16 @@ export class WallInteractiveDoor implements IWall {
         }
 
         this._sprite.texture = this._frames[this._frameIndex]!;
+        if (this._animNormalSprite && this._frameNormals.length > 0) {
+            const normalTex = this._frameNormals[this._frameIndex];
+            if (normalTex) this._animNormalSprite.texture = normalTex;
+        }
     }
 
-    addNormalToContainer(_container: Container): void { /* no normal map for interactive doors */ }
+    addNormalToContainer(container: Container): void {
+        if (this._baseNormalSprite) container.addChild(this._baseNormalSprite);
+        if (this._animNormalSprite) container.addChild(this._animNormalSprite);
+    }
 
     addToContainer(container: Container): void {
         container.addChild(this._baseSprite);

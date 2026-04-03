@@ -1,10 +1,37 @@
 import { test } from "@playwright/test";
 import * as fs from "fs";
 
+const SAMPLE_POINTS: [string, number, number][] = [
+  ["cx640y460_below", 640, 460],   // pavimento sotto player
+  ["cx640y260_above", 640, 260],   // pavimento sopra player
+  ["cx530y360_left",  530, 360],   // pavimento a sinistra player
+  ["cx750y360_right", 750, 360],   // pavimento a destra player
+  ["cx200y150_dark",  200, 150],   // angolo buio
+  ["cx1100y580_dark", 1100, 580],  // altro angolo buio
+];
+
+async function samplePixels(page: import("@playwright/test").Page): Promise<Record<string, string>> {
+  return page.evaluate(async (pts: [string, number, number][]) => {
+    const canvas = document.querySelector("canvas") as HTMLCanvasElement | null;
+    if (!canvas) return { error: "no-canvas" };
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const tmp = document.createElement("canvas");
+    tmp.width = canvas.width;
+    tmp.height = canvas.height;
+    const ctx = tmp.getContext("2d")!;
+    ctx.drawImage(canvas, 0, 0);
+    const result: Record<string, string> = {};
+    for (const [name, x, y] of pts) {
+      const d = ctx.getImageData(x, y, 1, 1).data;
+      result[name] = `(${d[0]},${d[1]},${d[2]})`;
+    }
+    return result;
+  }, SAMPLE_POINTS);
+}
+
 test("Cattura output console del gioco", async ({ page }) => {
   const logs: string[] = [];
 
-  // Ascolta i messaggi della console (log, error, warn)
   page.on("console", (msg) => {
     const text = `[${msg.type()}] ${msg.text()}`;
     logs.push(text);
@@ -17,7 +44,6 @@ test("Cattura output console del gioco", async ({ page }) => {
     console.debug(text);
   });
 
-  // Attiva il debug rendering e simula una tastiera fisica prima di caricare il gioco
   await page.addInitScript(() => {
     (globalThis as unknown as Record<string, unknown>)["__MIDD_RENDER_DEBUG__"] = {
       enabled: true,
@@ -29,7 +55,6 @@ test("Cattura output console del gioco", async ({ page }) => {
       hideLightmap: false,
       showGroundRT: false,
     };
-    // Forza hasPhysicalKeyboard() a ritornare true (Playwright non ha puntatore fisico)
     const origMatchMedia = window.matchMedia.bind(window);
     window.matchMedia = (query: string) => {
       if (query === "(hover: hover) and (pointer: fine)") {
@@ -43,38 +68,47 @@ test("Cattura output console del gioco", async ({ page }) => {
     };
   });
 
-  // Vai alla pagina del gioco
-  await page.goto("http://localhost:5173/mark-in-dedark/#/game/1");
-
-  // Aspetta un tempo stabilito per far girare il gioco
+  await page.goto("http://localhost:5173/mark-in-dedark/#/game/4");
   await page.waitForTimeout(5_000);
 
-  // Screenshot per analisi visiva
+  // 1. Campionamento pipeline completa (NM + lightmap)
+  const fullPipeline = await samplePixels(page);
+  console.log("[pixels:full-pipeline] " + JSON.stringify(fullPipeline));
+
+  // 2. Campionamento ground RT grezzo (mostra solo _groundRT senza NM)
+  await page.evaluate(() => {
+    type DbgConfig = { showGroundRT: boolean; hideLightmap: boolean };
+    const dbg = (globalThis as unknown as Record<string, DbgConfig>)["__MIDD_RENDER_DEBUG__"];
+    if (dbg) dbg.showGroundRT = true;
+  });
+  await page.waitForTimeout(200);
+  const groundRT = await samplePixels(page);
+  console.log("[pixels:ground-rt] " + JSON.stringify(groundRT));
+
+  // 3. Campionamento NM ground senza lightmap
+  await page.evaluate(() => {
+    type DbgConfig = { showGroundRT: boolean; hideLightmap: boolean };
+    const dbg = (globalThis as unknown as Record<string, DbgConfig>)["__MIDD_RENDER_DEBUG__"];
+    if (dbg) { dbg.showGroundRT = false; dbg.hideLightmap = true; }
+  });
+  await page.waitForTimeout(200);
+  const nmGround = await samplePixels(page);
+  console.log("[pixels:nm-ground-no-lightmap] " + JSON.stringify(nmGround));
+
+  // Screenshot per analisi visiva (ripristina pipeline normale)
+  await page.evaluate(() => {
+    type DbgConfig = { showGroundRT: boolean; hideLightmap: boolean };
+    const dbg = (globalThis as unknown as Record<string, DbgConfig>)["__MIDD_RENDER_DEBUG__"];
+    if (dbg) { dbg.showGroundRT = false; dbg.hideLightmap = false; }
+  });
+  await page.waitForTimeout(200);
   await page.screenshot({ path: "debug/screenshot.png" });
 
-  // Analisi pixel PNG: leggi il file e campiona pixel specifici
-  // PNG è RGBA: offset = (y * width + x) * 4 dopo skip header
-  // Usiamo un approccio base: cerca le sequenze RGB nel buffer PNG
-  // Approach più semplice: usa canvas 2D in browser per leggere
-  const canvasPixels = await page.evaluate(async () => {
-    const canvas = document.querySelector("canvas") as HTMLCanvasElement | null;
-    if (!canvas) return "no-canvas";
-    // Aspetta il prossimo frame per avere i pixel freschi
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-    const tmp = document.createElement("canvas");
-    tmp.width = canvas.width;
-    tmp.height = canvas.height;
-    const ctx = tmp.getContext("2d")!;
-    ctx.drawImage(canvas, 0, 0);
-    const result: Record<string, string> = {};
-    for (const [name, x, y] of [["cx640y300", 640, 300], ["cx640y360", 640, 360], ["cx640y400", 640, 400], ["cx320y240", 320, 240], ["cx400y300", 400, 300], ["cx500y360", 500, 360]] as [string, number, number][]) {
-      const d = ctx.getImageData(x, y, 1, 1).data;
-      result[name] = "(" + d[0] + "," + d[1] + "," + d[2] + ")";
-    }
-    return JSON.stringify(result);
-  });
-  console.log("[canvas-pixels] " + canvasPixels);
+  // Stampa un riepilogo comparativo
+  console.log("[comparison] pos | ground-raw | nm-ground | full-pipeline");
+  for (const [name] of SAMPLE_POINTS) {
+    console.log(`[comparison] ${name} | ${groundRT[name]} | ${nmGround[name]} | ${fullPipeline[name]}`);
+  }
 
-  // Salva i log in un file di testo
   fs.writeFileSync("debug/game-debug-output.txt", logs.join("\n"));
 });

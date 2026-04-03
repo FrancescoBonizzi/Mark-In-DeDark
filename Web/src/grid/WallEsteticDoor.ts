@@ -14,6 +14,8 @@ export class WallEsteticDoor implements IWall {
     private readonly _sprite: Sprite;
     private readonly _arcSprite: Sprite | null;
     private readonly _textureOpen: Texture | undefined;
+    private _normalSprite: Sprite | null = null;
+    private readonly _normalTextureOpen: Texture | undefined;
     private _isOpen = false;
 
     constructor(
@@ -24,14 +26,24 @@ export class WallEsteticDoor implements IWall {
         openTexture?: Texture,
         arcTexture?: Texture,
         arcX?: number,
+        normalTextureClosed?: Texture,
+        normalTextureOpen?: Texture,
     ) {
         this.direction = direction;
         this._textureOpen = openTexture;
+        this._normalTextureOpen = normalTextureOpen;
 
         this._sprite = new Sprite(textureClosed);
         this._sprite.x = x;
         this._sprite.y = y;
         this._sprite.zIndex = zForWall(y + textureClosed.height / 2);
+
+        if (normalTextureClosed) {
+            this._normalSprite = new Sprite(normalTextureClosed);
+            this._normalSprite.x = x;
+            this._normalSprite.y = y;
+            this._normalSprite.zIndex = zForWall(y + textureClosed.height / 2);
+        }
 
         if (arcTexture) {
             this._arcSprite = new Sprite(arcTexture);
@@ -49,7 +61,7 @@ export class WallEsteticDoor implements IWall {
         };
 
         this.collisionRectangle = new Rectangle(x, y + 100, textureClosed.width, 40);
-        this.hullRects = [new Rectangle(x, y, textureClosed.width, textureClosed.height)];
+        this.hullRects = [this.collisionRectangle];
     }
 
     get isOpen(): boolean { return this._isOpen; }
@@ -58,12 +70,17 @@ export class WallEsteticDoor implements IWall {
         if (this._isOpen) return;
         this._isOpen = true;
         if (this._textureOpen) this._sprite.texture = this._textureOpen;
+        if (this._normalSprite && this._normalTextureOpen) {
+            this._normalSprite.texture = this._normalTextureOpen;
+        }
         this.hullRects = [];
     }
 
     update(_deltaMS: number): void { /* static */ }
 
-    addNormalToContainer(_container: Container): void { /* no normal map for estetic doors */ }
+    addNormalToContainer(container: Container): void {
+        if (this._normalSprite) container.addChild(this._normalSprite);
+    }
 
     addToContainer(container: Container): void {
         container.addChild(this._sprite);
