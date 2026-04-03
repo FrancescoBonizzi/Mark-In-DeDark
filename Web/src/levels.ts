@@ -8,7 +8,7 @@ export interface LevelInfo {
 // scrivere il nome definitivo al momento dello sviluppo.
 // Aggiornare anche LEVEL_DESIGN_GUIDELINES.md se il nome cambia.
 export const LEVELS: readonly LevelInfo[] = [
-    // { id: 1,  name: "L'ingresso" },
+    { id: 1,  name: "L'ingresso" },
     // { id: 2,  name: "Il buio" },
     // { id: 3,  name: "La prima creatura" },
     // { id: 4,  name: "Gli automi" },
