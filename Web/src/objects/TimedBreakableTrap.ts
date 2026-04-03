@@ -15,7 +15,9 @@ const enum BreakState { Idle, GoingToBreak, Breaking, Broken }
 export class TimedBreakableTrap extends TriggerObject {
     private _breakState: BreakState = BreakState.Idle;
     private _elapsed = 0;
+    private _shakeElapsed = 0;
     private _triggeringCharacter: Character | null = null;
+    private readonly _onGoingToBreak: (() => void) | undefined;
 
     private readonly _coverSprite: Sprite;
     private readonly _coverAnim: SpriteAnimation;
@@ -32,6 +34,7 @@ export class TimedBreakableTrap extends TriggerObject {
         cellY: number,
         cellSize: number,
         container: Container,
+        onGoingToBreak?: () => void,
     ) {
         const cx = cellX + cellSize / 2;
         const cy = cellY + cellSize / 2;
@@ -41,6 +44,7 @@ export class TimedBreakableTrap extends TriggerObject {
         this._cx = cx;
         this._cy = cy;
         this._container = container;
+        this._onGoingToBreak = onGoingToBreak;
 
         // Cover animation (idle: 2 frames)
         const coverFrames = [
@@ -88,6 +92,7 @@ export class TimedBreakableTrap extends TriggerObject {
         if (this._breakState === BreakState.GoingToBreak) {
             this._breakState = BreakState.Idle;
             this._elapsed = 0;
+            this._shakeElapsed = 0;
             this._triggeringCharacter = null;
         }
     }
@@ -103,6 +108,11 @@ export class TimedBreakableTrap extends TriggerObject {
                 this._coverAnim.update(deltaMS);
                 this._coverSprite.texture = this._coverAnim.currentFrame;
                 this._elapsed += deltaMS;
+                this._shakeElapsed += deltaMS;
+                if (this._shakeElapsed >= 25) {
+                    this._onGoingToBreak?.();
+                    this._shakeElapsed = 0;
+                }
                 if (this._elapsed >= BREAK_TIME_MS) {
                     this._breakState = BreakState.Breaking;
                     this._breakingAnim.reset();

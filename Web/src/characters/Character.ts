@@ -59,6 +59,9 @@ export abstract class Character {
 
     protected _state: CharacterState = CharacterState.IdleDown;
 
+    /** Callback invocato alla morte per applicare blood decal al suolo. */
+    onDeath: ((x: number, y: number) => void) | undefined;
+
     // Sprites
     protected readonly _mainSprite: Sprite;
     protected readonly _normalSprite: Sprite;
@@ -284,6 +287,7 @@ export abstract class Character {
 
     die(): void {
         if (this.isDead || this.isDying) return;
+        this.onDeath?.(this._x, this._y);
         this._state = CharacterState.Dying;
         if (this._animations.has('Dying')) {
             // Animation-driven death: transition to Dead when animation completes.

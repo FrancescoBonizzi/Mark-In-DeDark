@@ -56,6 +56,7 @@ export interface LevelConfig {
     doorFrames: Texture[];
     doorFrameNormals: (Texture | null)[];
     decalTextures: (Texture | null)[];
+    decalNormalTextures: (Texture | null)[];
     dirtyTextures: Texture[];
 }
 
@@ -125,8 +126,10 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
     }
 
     const decalTextures: (Texture | null)[] = [];
+    const decalNormalTextures: (Texture | null)[] = [];
     for (let n = 1; n <= 8; n++) {
         decalTextures.push(tryGetTexture(sheets, `${p}/Decals/decal_${n}`));
+        decalNormalTextures.push(tryGetTexture(sheets, `${p}/Decals/decal_${n}_normal`));
     }
 
     const dirtyTextures: Texture[] = [];
@@ -193,6 +196,7 @@ export function createLevelConfig(envPackId: number, sheets: Spritesheet[]): Lev
         doorFrames,
         doorFrameNormals,
         decalTextures,
+        decalNormalTextures,
         dirtyTextures,
         groundTypeToTexture,
         groundTypeToNormalTexture,

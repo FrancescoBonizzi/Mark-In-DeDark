@@ -6,7 +6,8 @@ import type { CellData } from './GridTypes';
 import type { LevelConfig } from './LevelConfig';
 import type { LevelCustomization } from './LevelCustomization';
 import { createWall } from './WallFactory';
-import { Z_GROUND_DIRTY } from './ZIndexCalculator';
+import { Z_GROUND_BLOOD, Z_GROUND_DIRTY } from './ZIndexCalculator';
+import { CellRelativePosition } from './CellRelativePosition';
 
 export const CELL_SIZE = 192;
 
@@ -22,6 +23,8 @@ export class GameCell {
     groundNormalSprite: Sprite | null = null;
     groundSpecularSprite: Sprite | null = null;
     dirtySprite: Sprite | null = null;
+    private _bloodSprite: Sprite | null = null;
+    private _groundContainer: Container | undefined;
 
     /** Neighbour cells by direction */
     links: Map<LinkDirection, GameCell | null> = new Map([
@@ -73,6 +76,58 @@ export class GameCell {
         sprite.rotation = ROTATIONS[Math.floor(Math.random() * ROTATIONS.length)]!;
         sprite.zIndex = Z_GROUND_DIRTY;
         this.dirtySprite = sprite;
+    }
+
+    /** Port of C# GameCell.ApplyBloodDecal — sparge macchia di sangue sulla cella. */
+    applyBloodDecal(position: CellRelativePosition, bloodTexture: Texture): void {
+        if (this.isUnLinked || this.noDecals) return;
+
+        const randomDelta = 2 + Math.random(); // C#: Numbers.RandomBetween(2f, 3f)
+        let decalX = this.centerX;
+        let decalY = this.centerY;
+
+        switch (position) {
+            case CellRelativePosition.Up:
+                decalY += CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.Down:
+                decalY -= CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.Left:
+                decalX += CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.Right:
+                decalX -= CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.UpLeft:
+                decalX += CELL_SIZE / randomDelta;
+                decalY += CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.UpRight:
+                decalX -= CELL_SIZE / randomDelta;
+                decalY += CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.DownLeft:
+                decalX += CELL_SIZE / randomDelta;
+                decalY -= CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.DownRight:
+                decalX -= CELL_SIZE / randomDelta;
+                decalY -= CELL_SIZE / randomDelta;
+                break;
+            case CellRelativePosition.Center:
+                break;
+        }
+
+        const sprite = new Sprite(bloodTexture);
+        sprite.anchor.set(0.5, 0.5);
+        sprite.x = decalX;
+        sprite.y = decalY;
+        sprite.rotation = Math.random() * 20; // C#: Numbers.RandomBetween(0f, 20f)
+        sprite.scale.set(0.3 + Math.random() * 0.7); // C#: Numbers.RandomBetween(0.3f, 1f)
+        sprite.zIndex = Z_GROUND_BLOOD;
+        this._bloodSprite = sprite;
+        this._groundContainer?.addChild(sprite);
     }
 
     setGroundSprite(texture: Texture, zIndex: number, yOffset = 0): void {
@@ -164,6 +219,7 @@ export class GameCell {
         objectsNormalContainer: Container,
         groundSpecularContainer: Container,
     ): void {
+        this._groundContainer = groundContainer;
         if (this.groundSprite) {
             if (this.groundSprite.zIndex >= 1) {
                 objectsContainer.addChild(this.groundSprite);
@@ -180,6 +236,7 @@ export class GameCell {
     setVisible(visible: boolean): void {
         if (this.groundSprite) this.groundSprite.visible = visible;
         if (this.dirtySprite) this.dirtySprite.visible = visible;
+        if (this._bloodSprite) this._bloodSprite.visible = visible;
     }
 
     updateWalls(deltaMS: number): void {

@@ -295,6 +295,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
           cy,
           CELL_SIZE,
           grid!.groundContainer,
+          () => camera?.startShake(1),
         );
       } else {
         // TriggerGoblin — spawns a Goblin on trigger
@@ -328,6 +329,10 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
       }
     });
 
+    // Blood decal texture
+    const bloodTexture = getTexture(assets.spriteSheets, 'Effects/blood_decal');
+    grid.setBloodDecalTexture(bloodTexture);
+
     // Create enemies from grid placements
     const onShake = (intensity: number) => camera?.startShake(intensity);
     enemies = createEnemiesFromGrid(
@@ -340,6 +345,9 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
       shadowSystem,
       onShake,
     );
+    for (const enemy of enemies) {
+      enemy.onDeath = (x, y) => grid!.applyBloodDecal(x, y);
+    }
     if (shadowSystem.lights.length === 0) {
       console.warn(
         "[gamebootstrap] no lights registered after initialization; frame will appear black.",

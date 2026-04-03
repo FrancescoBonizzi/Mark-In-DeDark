@@ -178,8 +178,10 @@ export function createWall(
         case WallTypes.Decal8: {
             const { texture: baseTex, normalTexture } = pickWallTextureWithIndex(direction, config);
             const pos = wallSpritePos(direction, cellX, cellY, baseTex.width);
-            const decalTex = config.decalTextures[decalIndex(wallType)] ?? undefined;
-            return new WallFixed(direction, pos.x, pos.y, baseTex, offset, decalTex, normalTexture ?? undefined);
+            const idx = decalIndex(wallType);
+            const decalTex = config.decalTextures[idx] ?? undefined;
+            const decalNormalTex = config.decalNormalTextures[idx] ?? undefined;
+            return new WallFixed(direction, pos.x, pos.y, baseTex, offset, decalTex, normalTexture ?? undefined, decalNormalTex);
         }
 
         default:

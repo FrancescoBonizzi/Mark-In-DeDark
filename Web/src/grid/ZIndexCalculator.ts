@@ -2,6 +2,7 @@ const GRID_MAX_HEIGHT = 4800; // 25 rows * 192px
 
 export const Z_GROUND = 0;
 export const Z_GROUND_DIRTY = 0.0000001;
+export const Z_GROUND_BLOOD = 0.0000002;
 export const Z_GROUND_OBJECTS = 0.0000003;
 export const Z_SHADOWS = 0.0000004;
 export const Z_OVERALL = 3;

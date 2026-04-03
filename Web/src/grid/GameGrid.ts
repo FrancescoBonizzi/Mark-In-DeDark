@@ -1,5 +1,6 @@
-import { Container } from 'pixi.js';
+import { Container, Texture } from 'pixi.js';
 import { GroundTypes, LinkDirection, ObjectTypes } from './enums';
+import { CellRelativePosition } from './CellRelativePosition';
 import { CharacterActions } from '../interaction/CharacterActions';
 import { CELL_SIZE, GameCell } from './GameCell';
 import type { GridBundle } from './GridTypes';
@@ -94,6 +95,7 @@ export class GameGrid {
     /** Maps cells that carry a text trigger (stringCode) to the raw code string. */
     readonly cellTriggerTexts = new Map<GameCell, string>();
 
+    private _bloodTexture: Texture | undefined;
     private readonly _pathCache = new Map<string, GameCell[]>();
 
     constructor(bundle: GridBundle, config: LevelConfig, customization: LevelCustomization) {
@@ -454,6 +456,48 @@ export class GameGrid {
         for (const pillar of this.allPillars) {
             pillar.addToContainer(this.objectsContainer);
             pillar.addNormalToContainer(this.objectsNormalContainer);
+        }
+    }
+
+    setBloodDecalTexture(texture: Texture): void {
+        this._bloodTexture = texture;
+    }
+
+    /** Port of C# GameGrid.ApplyBloodDecal — sparge sangue sulla cella e le 8 adiacenti. */
+    applyBloodDecal(worldX: number, worldY: number): void {
+        if (!this._bloodTexture) return;
+        const cell = this.getCellAtPixel(worldX, worldY);
+        if (!cell) return;
+        const tex = this._bloodTexture;
+
+        cell.applyBloodDecal(CellRelativePosition.Center, tex);
+
+        const north = cell.links.get(LinkDirection.NorthLink) ?? null;
+        if (north) {
+            north.applyBloodDecal(CellRelativePosition.Up, tex);
+            const northEast = north.links.get(LinkDirection.EastLink) ?? null;
+            if (northEast) northEast.applyBloodDecal(CellRelativePosition.UpRight, tex);
+        }
+
+        const east = cell.links.get(LinkDirection.EastLink) ?? null;
+        if (east) {
+            east.applyBloodDecal(CellRelativePosition.Right, tex);
+            const eastSouth = east.links.get(LinkDirection.SouthLink) ?? null;
+            if (eastSouth) eastSouth.applyBloodDecal(CellRelativePosition.DownRight, tex);
+        }
+
+        const south = cell.links.get(LinkDirection.SouthLink) ?? null;
+        if (south) {
+            south.applyBloodDecal(CellRelativePosition.Down, tex);
+            const southWest = south.links.get(LinkDirection.WestLink) ?? null;
+            if (southWest) southWest.applyBloodDecal(CellRelativePosition.DownLeft, tex);
+        }
+
+        const west = cell.links.get(LinkDirection.WestLink) ?? null;
+        if (west) {
+            west.applyBloodDecal(CellRelativePosition.Left, tex);
+            const westNorth = west.links.get(LinkDirection.NorthLink) ?? null;
+            if (westNorth) westNorth.applyBloodDecal(CellRelativePosition.UpLeft, tex);
         }
     }
 
