@@ -56,28 +56,28 @@ Veicolato al livello 20.
 **"Il giardino vuoto"** (nichilismo puro)
 Mark apre l'ultima porta e trova il villaggio in rovina. Cenere, silenzio, nessuno. Mentre lui era nel labirinto, il mondo che aveva costruito quel rito si è spento di indifferenza. Il rito era l'unica cosa che teneva in piedi quella civiltà — e senza vittime da consumare, non è rimasto niente. La sua forza non serve a nulla in un mondo che non esiste più.
 
-> _"Sono fuori. Ma non c'è nessuno. Il villaggio è cenere, il cielo è grigio e immobile. Non c'è festa, non c'è orgoglio. Ho passato l'inferno per tornare in un mondo morto. Tutto questo... non è servito a niente."_
+> _"Il cielo è grigio. Il villaggio è in cenere. Non c'è nessuno ad attendermi, non c'è festa né orgoglio. Hanno tirato avanti questa farsa spietata finché non si sono estinti da soli. Mi sono salvato l'anima per un mondo che aveva già smesso di esistere."_
 
 ### Il tono dei testi narrativi
 
-I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente spaventato ma lucido, che inizia a capire mentre cammina.
+I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente lucido e disilluso, che scarta in fretta l'ingenuità e sviluppa un cinismo difensivo e nichilista sempre più marcato. Più scende, più realizza che l'intero sistema è una truffa crudele e insensata, e lui è solo carne da macello. Non è l'eroe: è l'ingranaggio che capisce l'ingranaggio.
 
 **Regole per scrivere i testi:**
 
 - **2–4 testi per livello** al massimo. Ogni testo deve avere un impatto.
 - **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
-- **Non spiegare la meccanica direttamente** — suggerire, non istruire. "Se si distrae... potrei passare" è meglio di "piazza la candela per distrarlo".
-- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei livelli 1–3.
+- **Non spiegare la meccanica direttamente** — suggerire la soluzione in modo utilitaristico ("Sono attratti dalla luce... se lascio la candela lì sbraneranno quella invece di me").
+- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei livelli 1–3, ma sempre dal punto di vista cinico di Mark.
 - **Testi di atmosfera** nelle zone di transizione: entrate di stanze buie, corridoi prima dei nemici, vicino all'uscita.
-- **La critica al rito è implicita**, mai didascalica. Mark non fa discorsi. Osserva, e il giocatore capisce.
+- **La critica al rito è implacabile**, decostruita senza retorica per puro istinto di conservazione. Mark osserva, e il giocatore capisce l'assurdità del dolore.
 
 **Esempi di voce corretta:**
 
-> _"Mio padre mi ha detto: 'Il buio ti insegnerà chi sei'. Ho paura che abbia ragione."_
-> _"Quella cosa sta andando avanti e indietro. Se si distrae... potrei passare."_
-> _"Ho piazzato la candela. Adesso corri, Mark."_
-> _"Questo posto non vuole che io esca."_
-> _"Quegli scheletri proteggono stanze vuote. Proteggono il nulla."_
+> _"Mio padre mi ha stretto la mano per l'ultima volta. 'Torna uomo o non tornare', ha detto."_
+> _"Questa luce non serve a scaldare. Serve solo a farti vedere chiaramente cosa sta per ucciderti."_
+> _"Marcia imperiale per mucchi di ossa polverose. Proteggono la polvere da altra polvere."_
+> _"Ogni anno un ragazzino nuovo buttato qua sotto. Secoli di carne fresca. Questa non è una prova, è un mattatoio burocratico."_
+> _"Questo è l'inferno della gente per bene. Tutti morti, tutti in riga."_
 
 ---
 
@@ -253,8 +253,8 @@ Layout quasi completamente illuminato da brazier. La chiave è visibile dall'ini
 
 _Testi:_
 
-> "Mio padre mi ha stretto la mano così forte che mi ha fatto male. 'Torna uomo o non tornare affatto', ha detto. Mi ha dato questa candela. Puzza di grasso rancido." _(all'ingresso)_
-> "C'è un nome inciso sulla porta. È di mio fratello. Non è mai tornato. Dicevano che fosse un codardo. Ora tocca a me essere 'coraggioso'." _(vicino all'uscita)_
+> "Mio padre mi ha stretto la mano così forte che mi ha fatto male. 'Torna uomo o non tornare', ha detto. Mi ha dato questa candela. Puzza di grasso rancido." _(all'ingresso)_
+> "Il nome di mio fratello è graffiato su questa porta. Lo chiamarono codardo per non essere uscito. Non sapevano che di qua, il coraggio, serve solo a morire più tardi." _(vicino all'uscita)_
 
 ---
 
@@ -265,8 +265,8 @@ Stesso ambiente esterno. Una stanza centrale ha una zona `Buio` obbligatoria. Il
 
 _Testi:_
 
-> "La candela sembra più piccola qui dentro. Più fragile. È fatta di grasso, mi ha detto mio padre. Non mi ha detto di chi." _(entrando nella zona buia)_
-> "Se la tengo accesa... vedo dove metto i piedi. Se la piazzo lì... vedo ancora di più." _(tutorial piazzamento)_
+> "Questa luce non serve a scaldare. Serve solo a farti vedere chiaramente cosa sta per ucciderti. Finché dura." _(entrando nella zona buia)_
+> "Piazzare la candela a terra illumina di più. Ti compri un po' di vista, al prezzo di restare al buio dopo. Ottimo patto." _(tutorial piazzamento)_
 
 ---
 
@@ -277,8 +277,8 @@ Il primo nemico deve essere un momento chiaro e didattico. Un singolo Zombie pat
 
 _Testi:_
 
-> "Quegli affari... hanno i nostri vestiti rituali. Quello lì ha la cicatrice di zio Thomas. Non è morto, sta solo... camminando nel sonno." _(vedendo lo zombie)_
-> "Se si avvicina a quella luce... forse smette di guardarmi." _(vicino alle candele, prima dello zombie)_
+> "Quello strascica i piedi come zio Thomas. Ha i suoi vestiti. Il rito non ti uccide, ti svuota e ti lascia a pattugliare il nulla per sempre." _(vedendo lo zombie)_
+> "Sono attratti dalla luce come falene morte. Se lascio la candela lì a terra, sbraneranno quella invece di me." _(vicino alle candele, prima dello zombie)_
 
 ---
 
@@ -289,8 +289,8 @@ Più zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazi
 
 _Testi:_
 
-> "Quanti ne sono passati prima di me? Ogni anno uno, da secoli. Sono tutti qui." _(nella stanza principale)_
-> "Una porta. Premi CTRL per aprirla o chiuderla. Almeno qualcosa funziona ancora." _(tutorial porta)_
+> "Ogni anno un ragazzino nuovo buttato qua sotto. Secoli di carne fresca. Questa non è una prova, è un mattatoio burocratico." _(nella stanza principale)_
+> "Questa porta (CTRL) è l'unica linea vera tra me e loro. Speriamo che questi idioti non sappiano usare la maniglia." _(tutorial porta)_
 
 ---
 
@@ -302,7 +302,7 @@ Zombie in combinazione con trappole temporizzate ovvie (visibili). Il giocatore 
 _Testi:_
 
 > "I corridoi sono levigati. Li hanno percorsi in troppi prima di me." _(nel corridoio principale)_
-> "Quella cosa nel pavimento si chiude e si apre. Se corro..." _(vicino alla trappola temporizzata)_
+> "Delle lame fasate a tempo. Una trappola pigra, stupida, ma efficace. Basta correre quando cede. Facile morire per un'esitazione." _(vicino alla trappola temporizzata)_
 
 ---
 
@@ -317,8 +317,8 @@ Stanza aperta dove la visuale è evidente. Il giocatore vede lo scheletro, vede 
 
 _Testi:_
 
-> "Quegli scheletri pattugliano stanze vuote. Proteggono il nulla. Proteggono un trono che non esiste più, in nome di un re che non c'è mai stato." _(entrando nella stanza)_
-> "Ci insegnano che il silenzio è forza. Ma qui il silenzio urla. Se quegli scheletri mi vedono, mi caricano. Non cercano dialogo, cercano solo di abbattermi." _(vicino allo scheletro)_
+> "Marcia imperiale per mucchi di ossa polverose. Proteggono la polvere da altra polvere. L'ordine perfetto non ha bisogno di vita." _(entrando nella stanza)_
+> "Se entro nella loro linea visiva, caricano. Hanno barattato l'anima per la disciplina. Meglio passargli alle spalle mentre fissano il nulla." _(vicino allo scheletro)_
 
 ---
 
@@ -340,8 +340,8 @@ Il Taurus deve essere presentato in modo spettacolare. Il percorso obbligato pas
 
 _Testi:_
 
-> "Ho visto un Taurus abbattere un muro con la testa. È questo che intendono per 'potere'? Distruggere tutto ciò che hai davanti finché non resti solo tu e il vuoto?" _(dopo il muro sfondato)_
-> "Il Taurus urla contro i muri. Tanta forza, così poca utilità. Mi ricorda le urla di mio nonno quando le cose non andavano come diceva lui." _(nel corridoio del Taurus)_
+> "Carica e sfonda i muri a testate. La rabbia pura, senza direzione. Un bestione cieco che spacca la creta. Tutto muscoli, nessun pensiero." _(dopo il muro sfondato)_
+> "Tanta forza, così poca utilità. Mi ricorda le urla di mio nonno quando le cose non andavano come diceva lui." _(nel corridoio del Taurus)_
 
 ---
 
@@ -352,7 +352,7 @@ Il giocatore inizia a sfruttare i muri fragili a proprio vantaggio (fare in modo
 
 _Testi:_
 
-> "Se lo faccio caricare nel posto giusto... il muro cede. Forse posso usare la sua rabbia contro di lui." _(vicino al muro fragile strategico)_
+> "Hanno costruito muri di carta sperando che chi è furioso non se ne accorga. Se mi faccio caricare verso quella parete, il mostro mi aprirà la strada." _(vicino al muro fragile strategico)_
 
 ---
 
@@ -363,8 +363,8 @@ Stanza isolata con un Ghost. Il giocatore entra, il Ghost si avvicina. Se si muo
 
 _Testi:_
 
-> "Se mi muovo, mi vedono. Se sto fermo, impazzisco. È una trappola perfetta: per sopravvivere devo smettere di esistere." _(entrando nella stanza del Ghost)_
-> "Il labirinto ti vuole solo. 'Un vero uomo non chiede aiuto', dicevano. Infatti qui non c'è nessuno. Solo ombre che un tempo erano ragazzi come me, convinti di essere speciali." _(dopo aver superato il Ghost)_
+> "Quel fantasma fa solo una cosa: ti uccide se cerchi di lottare. Se ti arrendi e resti immobile, passa oltre. Il labirinto premia la sottomissione totale." _(entrando nella stanza del Ghost)_
+> "Solo ombre che un tempo erano ragazzi come me, convinti di essere speciali." _(dopo aver superato il Ghost)_
 
 ---
 
@@ -379,7 +379,7 @@ Il vero horror del Ghost: i zombie ti forzano a muoverti, il Ghost attacca se ti
 
 _Testi:_
 
-> "Devo stare fermo. Ma quell'altra cosa si avvicina. Se mi muovo per scappare, il fantasma mi prende. Se non mi muovo, lo zombie mi raggiunge. Non hanno previsto che qualcuno potesse scegliere." _(nella stanza centrale)_
+> "Da una parte un morto che ti insegue, dall'altra uno spettro che ti uccide se scappi. La scelta dell'uomo libero: farsi sbranare fermo, o farsi sbranare correndo." _(nella stanza centrale)_
 
 ---
 
@@ -390,7 +390,7 @@ Il Bubu non uccide — ruba le candele. Il giocatore scopre che la risorsa su cu
 
 _Testi:_
 
-> "Quelle creature blu... non vogliono uccidermi. Vogliono solo che io resti al buio. Come se la luce fosse un'offesa alla loro miseria." _(vedendo il Bubu per la prima volta)_
+> "Quei cosi blu non ti attaccano alla gola, spengono le candele. Ti vogliono cieco e spaventato come loro. La solidarietà dei miserabili." _(vedendo il Bubu per la prima volta)_
 > "Perché mi rubano la luce? Forse perché nel rito non è previsto che tu veda davvero dove stai andando. Devi solo obbedire al percorso." _(dopo che il Bubu spegne una candela)_
 
 ---
@@ -402,7 +402,7 @@ Le candele sono nascoste e poche. Il giocatore deve scegliere quando usarle. I B
 
 _Testi:_
 
-> "Ho ancora una sola candela. Se la uso, quel blu me la porta via prima che faccia effetto. Se non la uso... non vedo dove metto i piedi." _(nel punto critico della mappa)_
+> "Se accendo l'ultima candela me la rubano subito. Se non l'accendo muoio inciampando nel buio. Abbiamo un fottuto senso dell'umorismo quaggiù." _(nel punto critico della mappa)_
 
 ---
 
@@ -413,7 +413,7 @@ Mappa complessa con più stanze, trappole, e tutti i nemici introdotti finora. L
 
 _Testi:_
 
-> "Mi chiedo se mio padre sapesse cosa c'è quaggiù. Se l'ha visto anche lui, se è uscito da queste stanze. E cosa è tornato a casa." _(in una zona di pausa)_
+> "Mio padre è davvero uscito di qua o l'ha solo raccontato? Se sapeva cosa c'era qua sotto, è un mostro. Se non lo sapeva, è un bugiardo." _(in una zona di pausa)_
 
 ---
 
@@ -424,8 +424,8 @@ Un Goblin da solo in una mappa ampia. Il Goblin insegue sempre — non si può d
 
 _Testi:_
 
-> "Il Goblin non mi molla. È veloce, è cattivo, vuole la mia candela. È l'incarnazione di tutto quello che mi hanno detto di diventare per 'vincere': aggressivo, instancabile, ossessionato dall'altro." _(all'inizio, vedendo il Goblin)_
-> "Non smette di inseguirmi. Ogni candela che uso lo fa correre di più. Come se odiasse il fatto che io abbia ancora una luce." _(durante l'inseguimento)_
+> "Quello coso è puro odio in forma di fame. Ogni candela che accendo lo eccita. Mi sta cacciando, implacabile. E gode nel farlo." _(all'inizio, vedendo il Goblin)_
+> "Odia il fatto che io abbia ancora una luce, ma gliela lascio inseguire finché avrò fiato." _(durante l'inseguimento)_
 
 ---
 
@@ -436,7 +436,7 @@ Il Goblin non è più solo. I zombie bloccano le vie di fuga, il Goblin insegue.
 
 _Testi:_
 
-> "L'unico modo per vincere era non entrare." _(vicino all'uscita)_
+> "Alla fine vince il labirinto. È solo una trita-carne. L'unica mossa vincente era non giocare." _(vicino all'uscita)_
 
 ---
 
@@ -451,7 +451,7 @@ Mix completo di nemici tranne il Goblin. Mappa grande con più strade, trappole 
 
 _Testi:_
 
-> "Ho passato l'inferno. Quello reale, non quello delle storie. E l'inferno è fatto di gente che ha obbedito troppo e non è più tornata indietro." _(nella zona centrale)_
+> "Questo è l'inferno della gente per bene. Pieno di regole, divieti, turni di pattuglia e sacrifici inutili. Tutti morti, tutti in riga." _(nella zona centrale)_
 
 ---
 
@@ -474,7 +474,7 @@ Il punto più buio e claustrofobico del gioco. Mappa densa, corridoi stretti, zo
 _Testi:_
 
 > "La chiave è pesantissima. Sembra fatta d'oro, ma sa di piombo." _(sulla chiave)_
-> "Ho la chiave. Ho vinto. Ho dimostrato di essere il più forte, il più scaltro, il più 'uomo'. Ora datemi il mio premio. Aprite questa maledetta porta." _(vicino all'uscita)_
+> "L'ultima porta. Sono diventato la macchina spietata che volevano. Ho calpestato morti e ombre pregando solo per me stesso. Aprite. Avete vinto voi." _(vicino all'uscita)_
 
 ---
 
@@ -487,11 +487,11 @@ Il designer sceglie uno dei due epiloghi (vedi Sezione 1):
 
 **Variante A:**
 
-> "Sono fuori. Ma non c'è nessuno. Il villaggio è cenere, il cielo è grigio e immobile. Non c'è festa, non c'è orgoglio. Ho passato l'inferno per tornare in un mondo morto. Tutto questo... non è servito a niente." _(oltre l'uscita)_
+> "Il cielo è grigio. Il villaggio è in cenere. Non c'è nessuno ad attendermi, non c'è festa né orgoglio. Hanno tirato avanti questa farsa spietata finché non si sono estinti da soli. Mi sono salvato l'anima per un mondo che aveva già smesso di esistere." _(oltre l'uscita)_
 
 **Variante B:**
 
-> "Vedo la luce del sole? No... è un'altra sala. C'è un trono. Mio padre è seduto lì, nell'ombra, e aspetta che io prenda il suo posto per dare la candela al prossimo bambino. Il rito non finisce mai. L'unico modo per vincere era non entrare." _(oltre l'uscita)_
+> "La luce del sole... no. Solo un'altra stanza. E sul trono c'è siede lui. Aspetta silenzioso che io prenda la sua corona di niente, per condannare il prossimo ragazzino. Non si esce dal labirinto. Ne diventi solo il fottuto padrone." _(oltre l'uscita)_
 
 ---
 
