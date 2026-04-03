@@ -254,6 +254,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         p.row * CELL_SIZE + CELL_SIZE / 2,
         grid!.objectsContainer,
         grid!.objectsNormalContainer,
+        shadowSystem!.shadowContainer,
       );
       shadowSystem!.addLight(b.surroundingLight);
       return b;

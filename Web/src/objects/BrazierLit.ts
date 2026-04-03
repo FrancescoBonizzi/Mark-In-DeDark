@@ -25,6 +25,7 @@ export class BrazierLit {
     private readonly _shadowAnimation: SpriteAnimation;
     private readonly _normalSprite: Sprite;
     private readonly _normalContainer: Container;
+    private readonly _shadowContainer: Container;
     private readonly _glowSprite: Sprite;
 
     constructor(
@@ -33,6 +34,7 @@ export class BrazierLit {
         y: number,
         container: Container,
         normalContainer: Container,
+        shadowContainer: Container,
     ) {
         const brazierFrames = Array.from({ length: 7 }, (_, i) =>
             getTexture(sheets, `Objects/Brazier/brazier_lit_${i + 1}`),
@@ -46,7 +48,9 @@ export class BrazierLit {
         this._sprite.zIndex = zForCharacter(y);
         container.addChild(this._sprite);
 
-        // Shadow (below brazier, drawn in objectsContainer at Z_SHADOWS)
+        // Shadow — drawn on the ground layer (shadowContainer → _normalMappedGroundRT), matching C# Passo 1G.
+        // Must NOT go into objectsContainer: black tinted pixels processed by NormalMapFilter give 0*lighting=0
+        // (always pure black). On the ground layer, AlphaBlend with alpha=0.8 shows 20% of the illuminated floor.
         const shadowFrames = Array.from({ length: 7 }, (_, i) =>
             getTexture(sheets, `Shadows/Brazier/brazier_shadow_${i + 1}`),
         );
@@ -59,7 +63,8 @@ export class BrazierLit {
         this._shadowSprite.zIndex = Z_SHADOWS;
         this._shadowSprite.tint = 0x000000;
         this._shadowSprite.alpha = 0.8;
-        container.addChild(this._shadowSprite);
+        this._shadowContainer = shadowContainer;
+        shadowContainer.addChild(this._shadowSprite);
 
         // Normal map — goes into objectsNormalContainer, consumed only by the ShadowSystem pipeline
         this._normalContainer = normalContainer;
@@ -111,8 +116,8 @@ export class BrazierLit {
 
     destroy(container: Container): void {
         container.removeChild(this._sprite);
-        container.removeChild(this._shadowSprite);
         container.removeChild(this._glowSprite);
+        this._shadowContainer.removeChild(this._shadowSprite);
         this._normalContainer.removeChild(this._normalSprite);
         this._sprite.destroy();
         this._shadowSprite.destroy();

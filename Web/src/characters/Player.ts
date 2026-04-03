@@ -115,13 +115,17 @@ export class Player extends Character {
     const torchLight = new MarkLight({
       x: startX + TORCH_OFFSETS.down.x,
       y: startY + TORCH_OFFSETS.down.y,
-      z: 48, // C# 90 × zoom(8/15) = 48
+      // C# z=90 is NOT scaled by C# camera zoom (0.8) — it stays as world-space z.
+      // PixiJS XY screen-space deltas scale by zoom_pixi/zoom_c# = (8/15)/0.8 = 2/3.
+      // To preserve nDotL (light direction), z must scale by the same 2/3 → 90 × 2/3 = 60.
+      // To preserve attenuation, distSq scales by (2/3)² → 20_600 × 4/9 = 9156.
+      z: 60, // C# 90 × (2/3)
       opacity: 1,
       radius: 1200,
       castsShadows: true,
       color1: 0xffedd6,
       color2: 0xffffff,
-      distanceSquared: 5_860, // C# 20_600 × zoom²(8/15)² = 5860
+      distanceSquared: 9_156, // C# 20_600 × (2/3)²
     });
     // C#: player glow is used for specular, but excluded from additional lightmask composited on Penumbra lightmap.
     torchLight.drawInAdditionalLightMask = false;
