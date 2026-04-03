@@ -44,6 +44,7 @@ Regole di bugfixing:
 - **Migration Specs:** `migration-specs/ARCHITECTURE_MAP.md` (enum tables, oggetti non ancora portati), `PATTERN_COOKBOOK.md`.
 - **Assets pubblici:** `Web/public/assets/` (spritesheets, sounds, levels)
 - **Livelli:** `.mark` (testo pipe-delimited, parsati da `grid/GridLoader.ts`)
+- **Level Design:** `level-design/LEVEL_FORMAT.md` — documentazione completa del formato `.mark` per creare nuovi livelli
 - **progetto-riferimento**: `/progetto-riferimento` contiene un altro gioco molto più semplice di questo che ho convertito manualmente da C# a Typescript/PixiJs (trovi entrambe le versioni). Usalo come riferimento per le parti di conversione a PixiJs, ma considera che non c'è nulla, in quel progetto, di relativo a rendering avanzato come shader, normal map, ecc.
 
 ---
