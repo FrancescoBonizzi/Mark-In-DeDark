@@ -30,7 +30,7 @@ Problema di colori del PAVIMENTO e saturazione.
 
 Ho il sospetto, ma magari mi sbaglio, che magari il rendering iniziale del pavimento sia corretto, ma che sopra alla texture originale del pavimento ci sia disegnata la texture della specular map, perché vedo degli strani artefatti che hanno poco senso e che nel gioco originale non c'erano.
 
-Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: '/Users/fbonizzi/Source/Mark-In-DeDark/Web/debug/Csharp version rendering - Level 4.jpg'. Guardo così ti rendi conto.
+Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: `Csharp version rendering screenshot - Level 4.jpg`. Guardo così ti rendi conto.
 
 ---
 
