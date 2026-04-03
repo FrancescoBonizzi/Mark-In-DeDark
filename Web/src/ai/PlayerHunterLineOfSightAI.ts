@@ -2,6 +2,7 @@ import { CharacterActions } from '../interaction/CharacterActions';
 import type { IEnemyAI } from './IEnemyAI';
 import type { Enemy } from '../characters/Enemy';
 import type { GameGrid } from '../grid/GameGrid';
+import type { GameCell } from '../grid/GameCell';
 import type { Player } from '../characters/Player';
 import type { CandlesManager } from '../objects/CandlesManager';
 import type { PatrolAI } from './PatrolAI';
@@ -35,6 +36,10 @@ export class PlayerHunterLineOfSightAI implements IEnemyAI {
     private _elapsed = 0;
     private _incredulityPhase = 0;
     private readonly _originalSpeedMS: number;
+    /** Last player cell seen (C#: _oldDestination). */
+    private _oldDestination: GameCell | null = null;
+    /** Last action executed while following (C#: _lastAction — used for same-cell push). */
+    private _lastAction: CharacterActions | null = null;
 
     constructor(
         enemy: Enemy,
@@ -71,19 +76,42 @@ export class PlayerHunterLineOfSightAI implements IEnemyAI {
                     }
                 }
 
-                // Re-check LoS
-                const losPath = checkLineOfSight(enemy, this._player.worldCenter.x, this._player.worldCenter.y, this._grid);
-                if (losPath !== null) {
-                    this._actions = losPath;
-                } else {
-                    // LoS lost — switch to incredulity
-                    this._status = HuntStatus.Incredulity;
-                    this._elapsed = 0;
-                    this._incredulityPhase = 0;
-                    return CharacterActions.IdleLeft;
+                // C#: get player's current cell
+                const playerCell = this._grid.getCellAtPixel(
+                    this._player.worldCenter.x,
+                    this._player.worldCenter.y,
+                );
+                const enemyCell = enemy.currentCell;
+
+                // C#: if enemy and player share the same cell, keep pushing in last direction
+                if (playerCell && enemyCell && playerCell === enemyCell && this._lastAction !== null) {
+                    return this._lastAction;
                 }
 
-                if (this._actions.length > 0) return this._actions.shift()!;
+                // C#: recalculate path only when player moved to a new cell OR actions are exhausted
+                if (playerCell !== this._oldDestination || this._actions.length === 0) {
+                    const losPath = checkLineOfSight(
+                        enemy,
+                        this._player.worldCenter.x,
+                        this._player.worldCenter.y,
+                        this._grid,
+                    );
+                    if (losPath !== null) {
+                        this._oldDestination = playerCell ?? null;
+                        this._actions = losPath;
+                    }
+                    // If LoS lost but buffered actions remain, keep executing them (C# behavior)
+                }
+
+                if (this._actions.length > 0) {
+                    this._lastAction = this._actions.shift()!;
+                    return this._lastAction;
+                }
+
+                // No actions left and no new path found → Incredulity
+                this._status = HuntStatus.Incredulity;
+                this._elapsed = 0;
+                this._incredulityPhase = 0;
                 return CharacterActions.Idle;
             }
 

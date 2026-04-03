@@ -91,6 +91,8 @@ export abstract class Character {
     private readonly _shadowAnimations: AnimationsManager | null;
     private readonly _shadowOffsets: ShadowOffsets | null;
     private readonly _shadowContainer: Container | null;
+    /** Current offset applied to the shadow sprite — updated whenever direction changes, read every frame. */
+    private _currentShadowOffset: { x: number; y: number } | null = null;
 
     /** When true, _playWalkAnimation and _playIdleAnimation are no-ops (used by Taurus charge). */
     dontPlayDefaultAnimations = false;
@@ -515,6 +517,7 @@ export abstract class Character {
         if (!this._shadowSprite || !this._shadowAnimations || !offset) return;
         this._shadowAnimations.play(animName);
         this._shadowSprite.scale.x = flipped ? -1 : 1;
+        this._currentShadowOffset = offset;
         this._shadowSprite.x = this._x + offset.x;
         this._shadowSprite.y = this._y + offset.y;
     }
@@ -523,6 +526,7 @@ export abstract class Character {
         if (!this._shadowSprite || !this._shadowAnimations || !offset) return;
         this._shadowAnimations.play(animName);
         this._shadowSprite.scale.x = flipped ? -1 : 1;
+        this._currentShadowOffset = offset;
         this._shadowSprite.x = this._x + offset.x;
         this._shadowSprite.y = this._y + offset.y;
     }
@@ -560,6 +564,11 @@ export abstract class Character {
 
         if (this._shadowSprite && this._shadowAnimations) {
             this._shadowSprite.texture = this._shadowAnimations.currentFrameTexture;
+            // Update position every frame so the shadow follows during cell-to-cell lerp
+            if (this._currentShadowOffset) {
+                this._shadowSprite.x = this._x + this._currentShadowOffset.x;
+                this._shadowSprite.y = this._y + this._currentShadowOffset.y;
+            }
         }
     }
 
