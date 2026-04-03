@@ -23,7 +23,7 @@ La texture dei pavimenti sono parecchio desaturate, i colori originali erano mol
 
 ### Task 2
 
-Scrivi un file come RENDERING_PIPELINE ma sulle AI dei nemici e descrivile nei minimi dettagli
+Scrivi un file come RENDERING_PIPELINE ma sulle AI dei nemici e descrivile nei minimi dettagli. Indica ogni AI a quale nemico è assegnato
 
 ---
 
