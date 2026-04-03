@@ -19,19 +19,11 @@ Regole di bugfixing:
 
 ### Task 1
 
-L'area della luce del player è troppo ampia. Se il player è al centro di una griglia di 9 celle, deve illuminare solo le 9 celle (un 3x3) adesso sta illuminando un 5x5!
+L'ombra dei braceri è troppo scura, dovrebbe avere un po' meno opacità (controlla nel vecchio gioco com'era), perché adesso è totalmente nera
 
 ### Task 2
 
-Problema di colori del PAVIMENTO e saturazione.
-
-1. La texture dei pavimenti hanno saturazione solo nei punti in cui c'è l'origine della luce e poi decresce con l'allontanarsi della luce da quel punto, invece nei punti in cui il pavimento è illuminato anche di poco, la saturazione dovrebbe essere totalmente uniforme
-2. I colori originali erano molto molto più vividi anche al centro della luce (diciamo dove è posizionato il player, attualmente, sebbene presenti i colori, anche lì sono poco saturi)
-
-Ho il sospetto, ma magari mi sbaglio, che magari il rendering iniziale del pavimento sia corretto, ma che sopra alla texture originale del pavimento ci sia disegnata la texture della specular map, perché vedo degli strani artefatti che hanno poco senso e che nel gioco originale non c'erano.
-
-- Ho fatto uno screenshot del vecchio gioco come appare appena fai partire il livello 4: `Csharp-version-screenshot-level-4.jpg`. Guarda così ti rendi conto. Noterai che i rossi e i verdi sono molto molto più accesi nel punto in cui c'è il player.
-- Ho fatto uno screenshot anche del livello 7 come appare nel vecchio gioco: `Csharp-version-screenshot-level-7.jpg`. Qua volevo farti notare la differenza di texture del pavimento, qua è molto evidente che sopra alla texture ci sia renderizzato qualcos altro che gli va sopra quasi a mo' di decal. Infatti nella versione vecchia la texture usata in questo livello era molto liscia e marroncina, adesso in pixijs è totalmente grigia e piena di artefatti sopra.
+Il player è poco illuminato. Mi spiego, avendo una candela in mano dovrebbe essere, almeno quando è frontale, (che guarda in basso) bello illuminato, invece è un po' scuretto. Controlla questo dettaglio col vecchio gioco
 
 ---
 
