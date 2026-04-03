@@ -23,12 +23,7 @@ La texture dei pavimenti sono parecchio desaturate, i colori originali erano mol
 
 ### Task 2
 
-Scrivi un file come RENDERING_PIPELINE ma sulle AI dei nemici e descrivile nei minimi dettagli. Indica ogni AI a quale nemico è assegnato
-
-### Task 3
-
 Quando il player muore, e il mondo "scompare" deve restare invece il player come se fosse illuminato, disegnandolo sopra a tutto senza contare la rendering pipeline precisa. Si deve vedere proprio tutta l'animazione della morte "in chiaro" e poi li resto deve fare fade out.
-
 
 ---
 
