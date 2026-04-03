@@ -37,6 +37,14 @@ interface RenderDebugConfig {
   showGroundRT: boolean;
   /** Debug: nasconde _lightmapSprite per vedere _normalMappedGroundRT direttamente senza il multiply. */
   hideLightmap: boolean;
+  /** Debug: salta il composite della specular masked RT su _normalMappedGroundRT. */
+  disableSpecular: boolean;
+  /** Debug: mostra _specularLightmaskRT al posto di _normalMappedGroundRT. */
+  showSpecLightmask: boolean;
+  /** Debug: mostra _specularMaskedRT al posto di _normalMappedGroundRT. */
+  showSpecMasked: boolean;
+  /** Debug: mostra _lightmap RT grezzo (prima del multiply) al posto di _normalMappedGroundRT. */
+  showLightmap: boolean;
 }
 
 const DEFAULT_RENDER_DEBUG: RenderDebugConfig = {
@@ -48,6 +56,10 @@ const DEFAULT_RENDER_DEBUG: RenderDebugConfig = {
   sampleLuma: false,
   showGroundRT: false,
   hideLightmap: false,
+  disableSpecular: false,
+  showSpecLightmask: false,
+  showSpecMasked: false,
+  showLightmap: false,
 };
 
 /**
@@ -166,6 +178,8 @@ export class ShadowSystem {
   private readonly _specLightmaskCopySprite!: Sprite;
   /** Sprite wrapping _groundSpecularRT with multiply blend; reused for specular masked step. */
   private readonly _specMultiplySprite!: Sprite;
+  /** Wrapper container for _specMultiplySprite; required so blend mode applies against existing RT content. */
+  private readonly _specMultiplyContainer!: Container;
 
   constructor(
     app: Application,
@@ -238,6 +252,8 @@ export class ShadowSystem {
 
     this._specMultiplySprite = new Sprite(this._groundSpecularRT);
     this._specMultiplySprite.blendMode = 'multiply';
+    this._specMultiplyContainer = new Container();
+    this._specMultiplyContainer.addChild(this._specMultiplySprite);
 
     // [0] Ground with normal map lighting
     this._normalMappedGroundSprite = new Sprite(this._normalMappedGroundRT);
@@ -424,6 +440,10 @@ export class ShadowSystem {
       glowContainer.scale.copyFrom(cw.scale);
       glowContainer.pivot.copyFrom(cw.pivot);
 
+      if (debug.enabled) {
+        console.log(`[spec-lightmask] glowScale=${this.glowScale} glowTexSize=${this._glowTexture.source.width}x${this._glowTexture.source.height}`);
+      }
+
       for (const light of this.lights) {
         if (!light.enabled || !light.isGlowEnabled) continue;
         const glow = new Sprite(this._glowTexture);
@@ -432,6 +452,11 @@ export class ShadowSystem {
         glow.x = light.position.x + light.deltaForGround.x;
         glow.y = light.position.y + light.deltaForGround.y;
         glow.scale.set(this.glowScale);
+        if (debug.enabled) {
+          const { sx, sy } = this._worldToScreen(glow.x, glow.y, cw);
+          const screenR = (this._glowTexture.source.width / 2) * this.glowScale * cw.scale.x;
+          console.log(`[spec-lightmask] glow world=(${glow.x.toFixed(0)},${glow.y.toFixed(0)}) screen=(${sx.toFixed(1)},${sy.toFixed(1)}) screenRadius=${screenR.toFixed(1)}`);
+        }
         glowContainer.addChild(glow);
       }
 
@@ -445,8 +470,25 @@ export class ShadowSystem {
     // ------------------------------------------------------------------
     // Start with the lightmask as base (pre-created sprite)
     renderer.render({ container: this._specLightmaskCopySprite, target: this._specularMaskedRT, clear: true });
-    // Multiply specular onto the lightmask → result = specular * lightmask (pre-created sprite with multiply blend)
-    renderer.render({ container: this._specMultiplySprite, target: this._specularMaskedRT, clear: false });
+    // Multiply specular onto the lightmask → result = specular * lightmask
+    // Use container wrapper: blend mode on a root sprite does not apply against existing RT content in PixiJS 8 WebGL.
+    renderer.render({ container: this._specMultiplyContainer, target: this._specularMaskedRT, clear: false });
+
+    // ------------------------------------------------------------------
+    // DEBUG: showSpecLightmask / showSpecMasked
+    // ------------------------------------------------------------------
+    if (debug.showSpecLightmask) {
+      const s = new Sprite(this._specularLightmaskRT);
+      renderer.render({ container: s, target: this._normalMappedGroundRT, clear: true });
+      s.destroy();
+      return;
+    }
+    if (debug.showSpecMasked) {
+      const s = new Sprite(this._specularMaskedRT);
+      renderer.render({ container: s, target: this._normalMappedGroundRT, clear: true });
+      s.destroy();
+      return;
+    }
 
     // ------------------------------------------------------------------
     // 3. Normal-map ground pass → _normalMappedGroundRT
@@ -461,7 +503,12 @@ export class ShadowSystem {
     // Additivo è commutativo (A+B = B+A) e renderlo qui (su RT pulita da black fill) evita il
     // problema PixiJS 8 per cui i render diretti su una RT già usata come filter-target si comportano
     // come overwrite invece di accumulo.
-    renderer.render({ container: this._specMaskedCompositeSprite, target: this._normalMappedGroundRT, clear: false });
+    // Skip specular composite when no specular geometry exists (groundSpecularContainer empty).
+    // multiply blend on a black RT via root-Sprite does not zero the lightmask in PixiJS 8 WebGL;
+    // compositing the raw lightmask additively produces incorrect glow artifacts on the floor.
+    if (!debug.disableSpecular) {
+      renderer.render({ container: this._specMaskedCompositeSprite, target: this._normalMappedGroundRT, clear: false });
+    }
 
     this._normalMapFilter.setNormalMap(this._groundNormalRT);
     this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
@@ -470,6 +517,10 @@ export class ShadowSystem {
     // This matches how PixiJS 8 FilterSystem applies the filter blend state: filter._state.blendMode
     // controls the blend when the filter quad is drawn to the outputRenderSurface.
     this._normalMapFilter.blendMode = "add";
+
+    if (debug.enabled) {
+      console.log(`[NM-ground] cw.pos=(${cw.position.x.toFixed(1)},${cw.position.y.toFixed(1)}) scale=(${cw.scale.x.toFixed(3)}) pivot=(${cw.pivot.x.toFixed(1)},${cw.pivot.y.toFixed(1)})`);
+    }
 
     for (let i = 0; i < this.lights.length; i++) {
       const light = this.lights[i]!;
@@ -481,6 +532,10 @@ export class ShadowSystem {
         light.position.y + light.deltaForGround.y,
         cw,
       );
+      if (debug.enabled) {
+        const c = light.colorNormalVec3;
+        console.log(`[NM-ground] light[${i}] world=(${(light.position.x+light.deltaForGround.x).toFixed(0)},${(light.position.y+light.deltaForGround.y).toFixed(0)}) screen=(${sx.toFixed(1)},${sy.toFixed(1)}) z=${light.z} distSq=${light.distanceSquaredForGround} opacity=${light.opacity} rgb=(${c.r.toFixed(2)},${c.g.toFixed(2)},${c.b.toFixed(2)})`);
+      }
       this._normalMapFilter.setLight(sx, sy, light.z, light.colorNormalVec3, light.distanceSquaredForGround, light.opacity);
       // Use pre-created filter container (no allocation)
       renderer.render({ container: this._groundNMFilterContainer, target: this._normalMappedGroundRT, clear: false });
@@ -649,6 +704,31 @@ export class ShadowSystem {
       glowContainer.destroy({ children: true });
     }
 
+    // ------------------------------------------------------------------
+    // DEBUG: readback diretto del _lightmap RT ai punti di test
+    // ------------------------------------------------------------------
+    if (debug.enabled) {
+      type ExtractAPI = { extract?: { pixels?: (opts: {target: RenderTexture; frame?: {x:number;y:number;width:number;height:number}}) => Promise<{pixels:Uint8ClampedArray}> | {pixels:Uint8ClampedArray} } };
+      const ext = (renderer as unknown as ExtractAPI).extract;
+      if (ext?.pixels) {
+        for (const [name, px, py] of [["below_640_460",640,460],["player_640_360",640,360],["left_530_360",530,360]] as [string,number,number][]) {
+          Promise.resolve(ext.pixels({ target: this._lightmap, frame: {x:px,y:py,width:1,height:1} })).then(r => {
+            console.log(`[lightmap-gpu] ${name} (${px},${py}): rgba=(${r.pixels[0]},${r.pixels[1]},${r.pixels[2]},${r.pixels[3]})`);
+          }).catch(() => {});
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // DEBUG: showLightmap — mostra il lightmap grezzo senza multiply
+    // ------------------------------------------------------------------
+    if (debug.showLightmap) {
+      const s = new Sprite(this._lightmap);
+      renderer.render({ container: s, target: this._normalMappedGroundRT, clear: true });
+      s.destroy();
+      return;
+    }
+
   }
 
   destroy(): void {
@@ -752,6 +832,10 @@ export class ShadowSystem {
       sampleLuma: source.sampleLuma ?? DEFAULT_RENDER_DEBUG.sampleLuma,
       showGroundRT: source.showGroundRT ?? DEFAULT_RENDER_DEBUG.showGroundRT,
       hideLightmap: source.hideLightmap ?? DEFAULT_RENDER_DEBUG.hideLightmap,
+      disableSpecular: source.disableSpecular ?? DEFAULT_RENDER_DEBUG.disableSpecular,
+      showSpecLightmask: source.showSpecLightmask ?? DEFAULT_RENDER_DEBUG.showSpecLightmask,
+      showSpecMasked: source.showSpecMasked ?? DEFAULT_RENDER_DEBUG.showSpecMasked,
+      showLightmap: source.showLightmap ?? DEFAULT_RENDER_DEBUG.showLightmap,
     };
   }
 

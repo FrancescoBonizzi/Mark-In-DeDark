@@ -38,9 +38,9 @@ export class Zombie extends Enemy {
         const torch = new MarkLight({
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
-            z: 31, // C# 46 scaled by 2/3 (zoom 8/15 vs 0.8)
+            z: 25, // C# 46 × zoom(8/15) = 24.5 ≈ 25
             opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0x8BEF5A, color2: 0x6DBC45, distanceSquared: 2_200,
+            color1: 0x8BEF5A, color2: 0x6DBC45, distanceSquared: 1_408, // C# 4_950 × zoom²(8/15)²
         });
 
         const ai = new PatrolAI(waypoints, grid, candlesManager, player, false);

@@ -39,9 +39,9 @@ export class GhostEnemy extends Enemy {
         const torch = new MarkLight({
             x: startX,
             y: startY,
-            z: 31, // C# 46 scaled by 2/3 (zoom 8/15 vs 0.8)
+            z: 25, // C# 46 × zoom(8/15) = 24.5 ≈ 25
             opacity: 1.0, radius: 300, castsShadows: false,
-            color1: 0x9CEEC0, color2: 0xEFC0E3, distanceSquared: 2_200,
+            color1: 0x9CEEC0, color2: 0xEFC0E3, distanceSquared: 1_408, // C# 4_950 × zoom²(8/15)²
         });
         torch.deltaForWall = { x: 0, y: -30 };
 

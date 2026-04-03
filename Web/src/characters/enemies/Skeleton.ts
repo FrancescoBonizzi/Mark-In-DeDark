@@ -38,9 +38,9 @@ export class Skeleton extends Enemy {
         const torch = new MarkLight({
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
-            z: 31, // C# 46 scaled by 2/3 (zoom 8/15 vs 0.8)
+            z: 25, // C# 46 × zoom(8/15) = 24.5 ≈ 25
             opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0xC476F0, color2: 0x9159B2, distanceSquared: 2_200,
+            color1: 0xC476F0, color2: 0x9159B2, distanceSquared: 1_408, // C# 4_950 × zoom²(8/15)²
         });
 
         const ai = new PatrolHunterLineOfSightAI(waypoints, grid, candlesManager, player);

@@ -115,13 +115,13 @@ export class Player extends Character {
     const torchLight = new MarkLight({
       x: startX + TORCH_OFFSETS.down.x,
       y: startY + TORCH_OFFSETS.down.y,
-      z: 60, // C# 90 scaled by 2/3 (zoom 8/15 vs 0.8) — keeps attenuation formula equivalent
+      z: 48, // C# 90 × zoom(8/15) = 48
       opacity: 1,
       radius: 1200,
       castsShadows: true,
       color1: 0xffedd6,
       color2: 0xffffff,
-      distanceSquared: 9_155, // C# 20_600 scaled by (8/15 / 0.8)² = 4/9 for new zoom
+      distanceSquared: 5_860, // C# 20_600 × zoom²(8/15)² = 5860
     });
     // C#: player glow is used for specular, but excluded from additional lightmask composited on Penumbra lightmap.
     torchLight.drawInAdditionalLightMask = false;

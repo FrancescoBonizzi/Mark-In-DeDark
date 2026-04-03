@@ -86,14 +86,14 @@ export class BrazierLit {
         this.surroundingLight = new MarkLight({
             x,
             y: y + LIGHT_OFFSET_Y,
-            z: 45, // C# 67 scaled by 2/3 (zoom 8/15 vs 0.8)
+            z: 36, // C# 67 × zoom(8/15) = 35.7 ≈ 36
             opacity: 1,
             radius: 150,
             castsShadows: false,
             color1: CANDLE_COLOR1,
             color2: CANDLE_COLOR2,
-            distanceSquared: 3_235, // C# 7_280 scaled by 4/9 for new zoom
-            distanceSquaredForWall: 7_555, // C# 17_000 scaled by 4/9 for new zoom
+            distanceSquared: 2_071, // C# 7_280 × zoom²(8/15)² = 2071
+            distanceSquaredForWall: 4_836, // C# 17_000 × zoom²(8/15)² = 4836
         });
         // C#: BrazierLit.DeltaForWall = (0, 4) — default MarkLight usa (0, -60)
         this.surroundingLight.deltaForWall = { x: 0, y: 4 };

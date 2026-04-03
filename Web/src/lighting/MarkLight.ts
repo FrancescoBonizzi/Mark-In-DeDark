@@ -63,7 +63,7 @@ export class MarkLight {
     this.enabled = true;
     this.z = options.z ?? 90;
     this.sourceRadius = options.sourceRadius ?? 20;
-    this._distanceSquared = options.distanceSquared ?? 9_155; // C# 20_600 scaled by 4/9 for new zoom (8/15)
+    this._distanceSquared = options.distanceSquared ?? 5_860; // C# 20_600 × zoom²(8/15)² = 5860
     this._distanceSquaredForWall =
       options.distanceSquaredForWall ?? this._distanceSquared;
   }
