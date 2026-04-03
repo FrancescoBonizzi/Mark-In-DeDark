@@ -1,12 +1,10 @@
 import router from './router';
-
-const TOTAL_LEVELS = 8;
+import { LEVELS } from '../levels';
 
 export function renderLevelSelectPage(container: HTMLElement) {
-    const levelButtons = Array.from({ length: TOTAL_LEVELS }, (_, i) => {
-        const id = i + 1;
-        return `<a href="/game/${id}" class="button primary" data-navigo>Livello ${id}</a>`;
-    }).join('\n                ');
+    const levelButtons = LEVELS.map(({ id, name }) =>
+        `<a href="/game/${id}" class="button primary" data-navigo>${id} — ${name}</a>`
+    ).join('\n                ');
 
     container.innerHTML = `
 <main>

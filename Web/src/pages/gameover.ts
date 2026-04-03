@@ -1,7 +1,7 @@
 import router from './router';
+import { LEVELS, getLevelName } from '../levels';
 
 const GAMEOVER_KEY = 'mark-in-dedark-gameover';
-const TOTAL_LEVELS = 8;
 
 interface GameOverPayload {
     levelId: number;
@@ -31,10 +31,10 @@ export function renderGameOverPage(container: HTMLElement) {
 
     const title = isWin ? 'COMPLETATO!' : 'GAME OVER';
     const nextLevelId = levelId + 1;
-    const hasNextLevel = isWin && nextLevelId <= TOTAL_LEVELS;
+    const hasNextLevel = isWin && nextLevelId <= LEVELS.length;
 
     const primaryBtn = hasNextLevel
-        ? `<a href="/game/${nextLevelId}" class="button primary" data-navigo>LIVELLO ${nextLevelId}</a>`
+        ? `<a href="/game/${nextLevelId}" class="button primary" data-navigo>${nextLevelId} — ${getLevelName(nextLevelId)}</a>`
         : `<a href="/game/${levelId}" class="button primary" data-navigo>RIPROVA</a>`;
 
     const retryBtn = hasNextLevel
@@ -47,7 +47,7 @@ export function renderGameOverPage(container: HTMLElement) {
         <div class="menu-content">
             <h1 class="title${isWin ? ' title-win' : ''}">${title}</h1>
             <div class="gameover-stats">
-                <div>LIVELLO ${levelId}</div>
+                <div>${levelId} — ${getLevelName(levelId)}</div>
                 <div>TEMPO ${formatTime(timeMs)}</div>
                 <div>CANDELE USATE ${candlesUsed}</div>
             </div>

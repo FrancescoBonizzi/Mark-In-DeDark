@@ -502,6 +502,21 @@ La regola fondamentale per qualsiasi livello generato è:
 - **Il giocatore deve sempre sapere dove andare** anche senza aver trovato la chiave. La struttura della mappa deve essere leggibile.
 - **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati, anche se più pericolosi.
 
+### Registro nomi livelli (`src/levels.ts`)
+
+Il file `Web/src/levels.ts` contiene il manifest dei livelli pubblicati — quelli che compaiono nella pagina di selezione del gioco. Ogni voce è commentata finché il livello non è pronto.
+
+**Workflow per ogni livello:**
+
+1. Sviluppa il livello seguendo questa guida
+2. Scegli il nome definitivo (può differire dal nome provvisorio qui sotto)
+3. Decomenta la riga corrispondente in `src/levels.ts` e scrivi il nome definitivo
+4. Se il nome cambia rispetto a quello indicato in questa guida, aggiornalo anche qui
+
+I nomi provvisori per ogni livello sono quelli indicati in grassetto nello [Schema per 20 livelli](#schema-per-20-livelli).
+
+---
+
 ### Prima di iniziare a costruire un livello
 
 1. Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
@@ -525,3 +540,4 @@ Prima di considerare un livello completo, verifica:
 - [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
 - [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 4 per livello
 - [ ] I testi non spiegano la meccanica direttamente — suggeriscono
+- [ ] La voce in `src/levels.ts` è decommentata con il nome definitivo del livello
