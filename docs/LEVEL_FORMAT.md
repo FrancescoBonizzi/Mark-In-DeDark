@@ -2,23 +2,53 @@
 
 Struttura tecnica del file `.mark`. Per le linee guida di design, narrativa e convenzioni vedi [`LEVEL_DESIGN_GUIDELINES.md`](./LEVEL_DESIGN_GUIDELINES.md).
 
+I file vanno generati in `Web/public/assets/levels`
+
 ---
 
 ## Indice
 
-1. [Struttura generale del file](#1-struttura-generale-del-file)
-2. [Intestazione del livello](#2-intestazione-del-livello)
-3. [Formato di ogni cella](#3-formato-di-ogni-cella)
-4. [Tipi di terreno (GroundType)](#4-tipi-di-terreno-groundtype)
-5. [Tipi di oggetto (ObjectType)](#5-tipi-di-oggetto-objecttype)
-6. [Dati aggiuntivi dell'oggetto](#6-dati-aggiuntivi-delloggetto)
-7. [Tipi di muro (WallType)](#7-tipi-di-muro-walltype)
-8. [Texture pack (envTexturePackId)](#8-texture-pack-envtexturepackid)
-9. [Testi e narrativa (stringCode)](#9-testi-e-narrativa-stringcode)
-10. [Waypoint dei nemici](#10-waypoint-dei-nemici)
-11. [Regole di validazione](#11-regole-di-validazione)
-12. [Esempi di righe commentate](#12-esempi-di-righe-commentate)
-13. [Template livello minimo](#13-template-livello-minimo)
+- [Formato Livelli `.mark` — Mark In DeDark](#formato-livelli-mark--mark-in-dedark)
+  - [Indice](#indice)
+  - [1. Struttura generale del file](#1-struttura-generale-del-file)
+  - [2. Intestazione del livello](#2-intestazione-del-livello)
+    - [Dimensioni (Riga 2)](#dimensioni-riga-2)
+    - [Configurazione ambiente (Riga 3)](#configurazione-ambiente-riga-3)
+  - [3. Formato di ogni cella](#3-formato-di-ogni-cella)
+  - [4. Tipi di terreno (GroundType)](#4-tipi-di-terreno-groundtype)
+    - [Cella non giocabile](#cella-non-giocabile)
+    - [Pavimenti calpestabili (Terra)](#pavimenti-calpestabili-terra)
+    - [Pavimenti speciali](#pavimenti-speciali)
+    - [Riempimento (sfondo non calpestabile)](#riempimento-sfondo-non-calpestabile)
+  - [5. Tipi di oggetto (ObjectType)](#5-tipi-di-oggetto-objecttype)
+    - [Oggetti essenziali](#oggetti-essenziali)
+    - [Oggetti raccoglibili](#oggetti-raccoglibili)
+    - [Nemici](#nemici)
+    - [Oggetti ambientali](#oggetti-ambientali)
+  - [6. Dati aggiuntivi dell'oggetto](#6-dati-aggiuntivi-delloggetto)
+    - [Candele (ObjectType=4)](#candele-objecttype4)
+    - [Nemici con waypoint (ObjectType=5,6,7,8,10,11)](#nemici-con-waypoint-objecttype56781011)
+    - [Tutti gli altri oggetti](#tutti-gli-altri-oggetti)
+  - [7. Tipi di muro (WallType)](#7-tipi-di-muro-walltype)
+    - [Tabella dei tipi](#tabella-dei-tipi)
+    - [Come costruire le stanze](#come-costruire-le-stanze)
+    - [Porta / Ingresso / Uscita](#porta--ingresso--uscita)
+  - [8. Texture pack (envTexturePackId)](#8-texture-pack-envtexturepackid)
+  - [9. Testi e narrativa (stringCode)](#9-testi-e-narrativa-stringcode)
+    - [Come funziona](#come-funziona)
+    - [Codici disponibili](#codici-disponibili)
+    - [Come usare i testi in un livello](#come-usare-i-testi-in-un-livello)
+  - [10. Waypoint dei nemici](#10-waypoint-dei-nemici)
+    - [Formato](#formato)
+    - [Regole](#regole)
+    - [Esempio da livello 7](#esempio-da-livello-7)
+  - [11. Regole di validazione](#11-regole-di-validazione)
+    - [Obbligatorio](#obbligatorio)
+    - [Fortemente consigliato](#fortemente-consigliato)
+    - [Coerenza dei waypoint](#coerenza-dei-waypoint)
+    - [Confini mappa](#confini-mappa)
+  - [12. Esempi di righe commentate](#12-esempi-di-righe-commentate)
+  - [13. Template livello minimo](#13-template-livello-minimo)
 
 ---
 
@@ -320,16 +350,16 @@ Per creare una stanza rettangolare con muri `Occludente` (1):
 
 Il valore `envTexturePackId` (riga 3 del file) seleziona il set di texture grafiche per pavimenti, muri, decorazioni e porte del livello. Corrisponde alla cartella `Grounds/paccoN` nello spritesheet `Spritesheet-0.json`.
 
-| ID  | Pack     | Texture pavimento disponibili | Caratteristiche                                                                            |
-| --- | -------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| ID  | Pack     | Texture pavimento disponibili | Caratteristiche                                                                                                                                                             |
+| --- | -------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `1` | `pacco1` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–5, porte animate, maindoor entrata/uscita. **Aspetto esterno/rovine all'aperto** — pietra chiara, adatto per i primi livelli. |
-| `2` | `pacco2` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–8, porte animate, maindoor con variante exit |
-| `3` | `pacco3` | cell4–cell5                   | Set ridotto: decals 2–3, special walls 3–5                                                 |
-| `4` | `pacco4` | cell4–cell5                   | Set ridotto                                                                                |
-| `5` | `pacco5` | cell4–cell5                   | Set ridotto: special walls 3–5                                                             |
-| `6` | `pacco6` | cell4–cell5                   | Set ridotto: decals 3, special walls 3–5                                                   |
-| `7` | `pacco7` | cell4–cell5                   | Set ridotto: special walls 3–5                                                             |
-| `8` | `pacco8` | cell4–cell5                   | Set ridotto: decals 1–5, special walls 1–5                                                 |
+| `2` | `pacco2` | cell1–cell4                   | Set completo: muri random, pilastri, decals 1–8, porte animate, maindoor con variante exit                                                                                  |
+| `3` | `pacco3` | cell4–cell5                   | Set ridotto: decals 2–3, special walls 3–5                                                                                                                                  |
+| `4` | `pacco4` | cell4–cell5                   | Set ridotto                                                                                                                                                                 |
+| `5` | `pacco5` | cell4–cell5                   | Set ridotto: special walls 3–5                                                                                                                                              |
+| `6` | `pacco6` | cell4–cell5                   | Set ridotto: decals 3, special walls 3–5                                                                                                                                    |
+| `7` | `pacco7` | cell4–cell5                   | Set ridotto: special walls 3–5                                                                                                                                              |
+| `8` | `pacco8` | cell4–cell5                   | Set ridotto: decals 1–5, special walls 1–5                                                                                                                                  |
 
 > **Raccomandazione per i livelli early:** usare `pacco1` o `pacco2` per la massima varietà visiva. I pacchi 3–8 sono adatti per livelli avanzati con un'estetica più scura e uniforme.
 
@@ -362,14 +392,14 @@ Il campo `STRING_CODE` (nono campo di ogni riga cella) permette di associare un 
 
 Questi sono i testi già definiti nel gioco (mappati in `GameTexts.ts`):
 
-| Codice | Testo | Dove usato | Momento consigliato |
-|---|---|---|---|
-| `637284382845827427` | *"Una porta... premi CTRL per aprirla o chiuderla"* | Livello 3 | Prima porta che il giocatore incontra |
-| `637284382983500501` | *"Una candela... raccoglila e premi SPAZIO per posizionarla"* | Livello 3 | Prima candela raccoglibile |
-| `637284384552007485` | *"Non è rassicurante..."* | Livello 3 | Atmosfera — zona pericolosa o buia |
-| `637284386793405944` | *"Magari dovrei provare con una candela"* | Livello 4 | Suggerimento — zona buia davanti a un ostacolo |
-| `637284387001107200` | *"Ce l'ho fatta!"* | Livello 4 | Zona di arrivo/vittoria vicino all'uscita |
-| `637284388013304946` | *"Questo qualcosa... sembra comportarsi in modo strano"* | Livello 5 | Primo incontro con un nemico insolito |
+| Codice               | Testo                                                         | Dove usato | Momento consigliato                            |
+| -------------------- | ------------------------------------------------------------- | ---------- | ---------------------------------------------- |
+| `637284382845827427` | _"Una porta... premi CTRL per aprirla o chiuderla"_           | Livello 3  | Prima porta che il giocatore incontra          |
+| `637284382983500501` | _"Una candela... raccoglila e premi SPAZIO per posizionarla"_ | Livello 3  | Prima candela raccoglibile                     |
+| `637284384552007485` | _"Non è rassicurante..."_                                     | Livello 3  | Atmosfera — zona pericolosa o buia             |
+| `637284386793405944` | _"Magari dovrei provare con una candela"_                     | Livello 4  | Suggerimento — zona buia davanti a un ostacolo |
+| `637284387001107200` | _"Ce l'ho fatta!"_                                            | Livello 4  | Zona di arrivo/vittoria vicino all'uscita      |
+| `637284388013304946` | _"Questo qualcosa... sembra comportarsi in modo strano"_      | Livello 5  | Primo incontro con un nemico insolito          |
 
 > **Per aggiungere nuovi testi** occorre aggiungere una entry in `Web/src/ui/GameTexts.ts` nella mappa `STRING_CODE_MAP` con un ID numerico univoco (timestamp-like) e la stringa italiana.
 
