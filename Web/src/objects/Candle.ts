@@ -48,13 +48,13 @@ export class Candle {
         this.surroundingLight = new MarkLight({
             x,
             y: y + LIGHT_OFFSET_Y,
-            z: 36, // C# 67 × zoom(8/15) = 35.7 ≈ 36
+            z: 45, // C# 67 × (2/3) = 44.7 ≈ 45
             opacity: 1,
             radius: 150,
             castsShadows: false,
             color1: CANDLE_COLOR1,
             color2: CANDLE_COLOR2,
-            distanceSquared: 2_071, // C# 7_280 × zoom²(8/15)² = 2071
+            distanceSquared: 3_236, // C# 7_280 × (2/3)²
         });
 
         this.collisionRectangle = new Rectangle(x - 24, y - 24, 48, 48);

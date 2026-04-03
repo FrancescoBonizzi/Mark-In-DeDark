@@ -57,9 +57,9 @@ export class Taurus extends Enemy {
         const torch = new MarkLight({
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
-            z: 25, // C# 46 × zoom(8/15) = 24.5 ≈ 25
+            z: 31, // C# 46 × (2/3) = 30.7 ≈ 31
             opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0xFF2600, color2: 0xC9341A, distanceSquared: 1_408, // C# 4_950 × zoom²(8/15)²
+            color1: 0xFF2600, color2: 0xC9341A, distanceSquared: 2_200, // C# 4_950 × (2/3)²
         });
 
         const ai = new PatrolChargeAI(waypoints, grid, candlesManager, player, onShake);

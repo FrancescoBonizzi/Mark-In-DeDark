@@ -41,9 +41,9 @@ export class Goblin extends Enemy {
         const torch = new MarkLight({
             x: startX + TORCH_OFFSETS.down.x,
             y: startY + TORCH_OFFSETS.down.y,
-            z: 25, // C# 46 × zoom(8/15) = 24.5 ≈ 25
+            z: 31, // C# 46 × (2/3) = 30.7 ≈ 31
             opacity: 0.5, radius: 300, castsShadows: false,
-            color1: 0xCAF076, color2: 0xC3E27C, distanceSquared: 1_408, // C# 4_950 × zoom²(8/15)²
+            color1: 0xCAF076, color2: 0xC3E27C, distanceSquared: 2_200, // C# 4_950 × (2/3)²
         });
 
         const ai = new PlayerHunterAI(player, grid, candlesManager);

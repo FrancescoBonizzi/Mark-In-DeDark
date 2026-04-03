@@ -17,14 +17,6 @@ Regole di bugfixing:
 - Il funzionamento preciso della nuova pipeline di rendering è qui, , leggila prima di fare qualunque cosa: `migration-specs/RENDERING_PIPELINE_PIXIJS.md`.
 - Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà. (attualmente punta al livello 8)
 
-### Task 1
-
-L'ombra dei braceri è troppo scura, dovrebbe avere un po' meno opacità (controlla nel vecchio gioco com'era), perché adesso è totalmente nera
-
-### Task 2
-
-Il player è poco illuminato. Mi spiego, avendo una candela in mano dovrebbe essere, almeno quando è frontale, (che guarda in basso) bello illuminato, invece è un po' scuretto. Controlla questo dettaglio col vecchio gioco
-
 ---
 
 ## Regole Invarianti (Hard Rules)
