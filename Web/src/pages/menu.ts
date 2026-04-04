@@ -10,6 +10,7 @@ export function renderMenuPage(container: HTMLElement) {
             <nav class="menu-actions">
                 <a href="/levels" class="button primary" data-navigo>GIOCA</a>
                 <a class="button" id="audio-button">ATTIVA AUDIO</a>
+                <a href="/level-editor" class="button" data-navigo>LEVEL EDITOR</a>
             </nav>
         </div>
     </section>

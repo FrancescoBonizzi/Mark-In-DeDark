@@ -4,6 +4,7 @@ import { renderLevelSelectPage } from './levelselect';
 import { renderFolderLevelsPage } from './folderlevels';
 import { renderGameOverPage } from './gameover';
 import { initGame, destroyGame } from './gamebootstrap';
+import { renderLevelEditorPage, destroyLevelEditor } from './leveleditor';
 
 const router = new Navigo('/', {
     hash: true,
@@ -40,6 +41,16 @@ export function initializeRouter() {
             },
         )
         .on('/gameover', () => renderGameOverPage(appElement!))
+        .on(
+            '/level-editor',
+            () => renderLevelEditorPage(appElement!),
+            {
+                leave: (done) => {
+                    destroyLevelEditor();
+                    done();
+                },
+            }
+        )
         .notFound(() => renderMenuPage(appElement!))
         .resolve();
 
