@@ -1,22 +1,18 @@
 /**
- * Visualizzatore livelli .mark — Mark In DeDark
+ * visualize-level.ts — Mark In DeDark
  *
+ * Converte un file .mark in formato ASCII editabile.
  * Uso:
- *   npx tsx scripts/visualize-level.ts <percorso/al/livello.mark>
- *   npx tsx scripts/visualize-level.ts <percorso/al/livello.mark> --legend
+ *   npx tsx scripts/visualize-level.ts <livello.mark> [--legend]
  *
- * Output standard:
- *   - Mappa ASCII 2D (1 char/cella + separatori muro)
- *   - Statistiche
- *   - Sezione ANNOTAZIONI con i dati non codificabili nella mappa
- *     (testi, waypoint, quantità candele, varianti terreno)
+ * Output di default: header + mappa + annotazioni (necessarie per round-trip).
+ * Con --legend: aggiunge legenda visiva e statistiche in cima.
  *
- * Con --legend: aggiunge la legenda completa di tutti i caratteri e convenzioni.
- *
- * REVERSIBILITÀ: mappa + annotazioni sono sufficienti per ricostruire il .mark.
+ * ROUND-TRIP: l'output di questo script è input diretto di ascii-to-mark.ts.
  * Convenzione ownership muri:
- *   - Separatore verticale  tra C e C+1  → RIGHT wall di col C
- *   - Separatore orizzontale tra R e R+1 → BOTTOM wall di row R
+ *   - Separatore verticale  tra C e C+1  → RIGHT wall di col C  (se C esiste)
+ *   - Separatore orizzontale tra R e R+1 → BOTTOM wall di row R (se R esiste)
+ *   - Se la cella primaria non esiste → LEFT / TOP della cella secondaria
  */
 
 import { readFileSync } from 'fs';
@@ -30,25 +26,9 @@ const ROWS = 25;
 const COLS = 45;
 
 // ---------------------------------------------------------------------------
-// Tabelle nomi (per annotazioni)
+// Tabelle nomi (per annotazioni e legenda)
 // ---------------------------------------------------------------------------
 
-const GROUND_NAMES: Record<number, string> = {
-    0: 'NonCella',
-    1: 'Terra1', 6: 'Terra2', 9: 'Terra3', 10: 'Terra4', 11: 'Terra5',
-    12: 'Terra6', 13: 'Terra7', 14: 'Terra8', 15: 'Terra9', 16: 'Terra10',
-    3: 'TrappolaMorte', 4: 'TrappolaTimer', 5: 'TriggerGoblin', 7: 'Buio',
-    8: 'Riempimento1', 17: 'Riempimento2', 18: 'Riempimento3', 19: 'Riempimento4',
-    20: 'Riempimento5', 21: 'Riempimento6', 22: 'Riempimento7', 23: 'Riempimento8',
-    24: 'Riempimento9', 25: 'Riempimento10', 26: 'Riempimento11', 27: 'Riempimento12',
-    28: 'Riempimento13',
-};
-
-const OBJECT_NAMES: Record<number, string> = {
-    0: 'Cancella', 1: 'Giocatore', 2: 'Chiave', 3: 'Uscita', 4: 'Candele',
-    5: 'Zombie', 6: 'Scheletro', 7: 'Goblin', 8: 'Taurus', 10: 'Ghost',
-    11: 'Bubu', 12: 'Brazier', 13: 'OstNonPass1', 14: 'OstNonPass2', 15: 'OstPass1',
-};
 
 const ENEMY_TYPES = new Set([5, 6, 7, 8, 10, 11]);
 
@@ -113,117 +93,122 @@ function parseLevel(text: string): { cells: (Cell | null)[][], packId: number, d
 }
 
 // ---------------------------------------------------------------------------
+// Caratteri muri
+// ---------------------------------------------------------------------------
+
+function vWallChar(wallId: number): string {
+    switch (wallId) {
+        case 0:                                             return ' ';
+        case 1: case 4: case 12: case 13: case 14: case 15: return '│';
+        case 2:                                             return '╎';
+        case 3:                                             return '║';
+        case 5:                                             return 'i';
+        case 6:                                             return 'o';
+        default:                                            return ':'; // decal
+    }
+}
+
+function hWallChar(wallId: number): string {
+    switch (wallId) {
+        case 0:                                             return ' ';
+        case 1: case 4: case 12: case 13: case 14: case 15: return '─';
+        case 2:                                             return '╌';
+        case 3:                                             return '═';
+        case 5:                                             return 'i';
+        case 6:                                             return 'o';
+        default:                                            return '.'; // decal
+    }
+}
+
+/** Default wall ID che il convertitore assegna a un dato carattere separatore. */
+function vWallDefaultId(ch: string): number {
+    switch (ch) {
+        case ' ': return 0;
+        case '│': return 1;
+        case '╎': return 2;
+        case '║': return 3;
+        case 'i': return 5;
+        case 'o': return 6;
+        case ':': return 7;
+        default:  return 0;
+    }
+}
+
+function hWallDefaultId(ch: string): number {
+    switch (ch) {
+        case ' ': return 0;
+        case '─': return 1;
+        case '╌': return 2;
+        case '═': return 3;
+        case 'i': return 5;
+        case 'o': return 6;
+        case '.': return 7;
+        default:  return 0;
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Caratteri celle
 // ---------------------------------------------------------------------------
 
-/**
- * Restituisce il singolo carattere che rappresenta il contenuto di una cella.
- *
- * Priorità: oggetto > terreno speciale > terreno normale
- * I Terra variant e i Riempimento variant vengono normalizzati a un singolo char
- * e dettagliati nella sezione ANNOTAZIONI.
- */
 function cellChar(cell: Cell | null): string {
     if (!cell || cell.ground === 0) return ' ';
 
-    // Oggetto (object=0 è "Cancella", trattato come assente)
     if (cell.object !== null && cell.object !== 0) {
         switch (cell.object) {
-            case 1:  return '@'; // Giocatore
-            case 2:  return 'K'; // Chiave
-            case 3:  return 'E'; // Uscita
-            case 4:  return 'c'; // Candele
-            case 5:  return 'Z'; // Zombie
-            case 6:  return 'S'; // Scheletro
-            case 7:  return 'G'; // Goblin
-            case 8:  return 'T'; // Taurus
-            case 10: return 'H'; // Ghost
-            case 11: return 'B'; // Bubu
-            case 12: return '*'; // Brazier/Lucina
-            case 13: return '#'; // OggettoNonPassabile1
-            case 14: return '='; // OggettoNonPassabile2
-            case 15: return '+'; // OggettoPassabile1
+            case 1:  return '@';
+            case 2:  return 'K';
+            case 3:  return 'E';
+            case 4:  return 'c';
+            case 5:  return 'Z';
+            case 6:  return 'S';
+            case 7:  return 'G';
+            case 8:  return 'T';
+            case 10: return 'H';
+            case 11: return 'B';
+            case 12: return '*';
+            case 13: return '#';
+            case 14: return '=';
+            case 15: return '+';
             default: return '?';
         }
     }
 
-    // Terreno speciale
     switch (cell.ground) {
-        case 3:  return 'x'; // TrappolaMorteIstantanea
-        case 4:  return '^'; // TrappolaTemporizzata
-        case 5:  return '~'; // TriggerGoblin
-        case 7:  return '░'; // Buio
+        case 3:  return 'x';
+        case 4:  return '^';
+        case 5:  return '~';
+        case 7:  return '░';
     }
 
-    // Riempimento (non calpestabile)
-    if (cell.ground === 8 || (cell.ground >= 17 && cell.ground <= 28)) {
-        return '▓';
-    }
+    if (cell.ground === 8 || (cell.ground >= 17 && cell.ground <= 28)) return '▓';
 
-    // Terra (calpestabile) — evidenzia celle con testo narrativo
     if (cell.stringCode) return '!';
     return '·';
 }
 
 // ---------------------------------------------------------------------------
-// Caratteri muri — separatori verticali e orizzontali
-//
-// Ogni tipo di muro ha un char specifico.
-// Muro variant (4, 12–15): funzionalmente = Occludente, mostrati come │/─
-// Decal (7–11, 16–18):     visivi, non bloccanti, mostrati come :/·
+// Separatori riga cella
 // ---------------------------------------------------------------------------
 
-/**
- * Char per un muro verticale (separatore tra due colonne adiacenti).
- * Usato come: │ ╎ ║ i o : (spazio)
- */
-function vWallChar(wallId: number): string {
-    switch (wallId) {
-        case 0:                                     return ' '; // Niente
-        case 1: case 4: case 12: case 13:
-        case 14: case 15:                           return '│'; // Occludente / Muro variant
-        case 2:                                     return '╎'; // Fragile
-        case 3:                                     return '║'; // Porta
-        case 5:                                     return 'i'; // Ingresso
-        case 6:                                     return 'o'; // Uscita
-        default:                                    return ':'; // Decal (7–11, 16–18)
-    }
-}
-
-/**
- * Char per un muro orizzontale (separatore tra due righe adiacenti).
- * Usato come: ─ ╌ ═ i o . (spazio)
- */
-function hWallChar(wallId: number): string {
-    switch (wallId) {
-        case 0:                                     return ' '; // Niente
-        case 1: case 4: case 12: case 13:
-        case 14: case 15:                           return '─'; // Occludente / Muro variant
-        case 2:                                     return '╌'; // Fragile
-        case 3:                                     return '═'; // Porta
-        case 5:                                     return 'i'; // Ingresso
-        case 6:                                     return 'o'; // Uscita
-        default:                                    return '.'; // Decal (7–11, 16–18)
-    }
+function exists(cell: Cell | null): boolean {
+    return cell !== null && cell.ground !== 0;
 }
 
 /**
  * Separatore verticale tra col C e C+1 nella riga R.
- * Convenzione: il muro della cella SINISTRA (RIGHT wall) ha priorità.
- * Se entrambi 0, usa il muro della cella DESTRA (LEFT wall).
+ * Usa RIGHT di C (primario) se non-zero, altrimenti LEFT di C+1.
  */
-function rightSep(left: Cell | null, right: Cell | null): string {
+function vSep(left: Cell | null, right: Cell | null): string {
     const lw = left?.wallRight ?? 0;
     const rw = right?.wallLeft ?? 0;
     return vWallChar(lw !== 0 ? lw : rw);
 }
 
 /**
- * Riga separatrice orizzontale tra row R e R+1.
- * Ritorna una stringa di lunghezza (COLS*2 - 1) = 89 char.
- * Ogni posizione pari = wall char per la colonna c.
- * Ogni posizione dispari = char di intersezione (+/spazio).
- * Convenzione: il muro della riga SUPERIORE (BOTTOM wall) ha priorità.
+ * Riga muri orizzontali tra row R e R+1.
+ * Usa BOTTOM di R (primario) se non-zero, altrimenti TOP di R+1.
+ * Posizioni dispari = spazio (nessun marker di intersezione).
  */
 function buildWallRow(upper: (Cell | null)[], lower: (Cell | null)[]): string {
     const chars: string[] = [];
@@ -231,15 +216,7 @@ function buildWallRow(upper: (Cell | null)[], lower: (Cell | null)[]): string {
         const ub = upper[c]?.wallBottom ?? 0;
         const lt = lower[c]?.wallTop ?? 0;
         chars.push(hWallChar(ub !== 0 ? ub : lt));
-
-        if (c < COLS - 1) {
-            // Angolo di intersezione: c'è almeno un muro adiacente?
-            const hHere  = (upper[c]?.wallBottom ?? 0) !== 0 || (lower[c]?.wallTop ?? 0) !== 0;
-            const hRight = (upper[c+1]?.wallBottom ?? 0) !== 0 || (lower[c+1]?.wallTop ?? 0) !== 0;
-            const vAbove = (upper[c]?.wallRight ?? 0) !== 0 || (upper[c+1]?.wallLeft ?? 0) !== 0;
-            const vBelow = (lower[c]?.wallRight ?? 0) !== 0 || (lower[c+1]?.wallLeft ?? 0) !== 0;
-            chars.push(hHere || hRight || vAbove || vBelow ? '+' : ' ');
-        }
+        if (c < COLS - 1) chars.push(' ');
     }
     return chars.join('');
 }
@@ -249,104 +226,177 @@ function buildWallRow(upper: (Cell | null)[], lower: (Cell | null)[]): string {
 // ---------------------------------------------------------------------------
 
 function buildColumnRuler(): string[] {
-    // Ogni col c occupa la posizione 2*c nel contenuto riga (cell + separator, -1 sull'ultima)
     const tens = new Array<string>(COLS * 2 - 1).fill(' ');
     const ones = new Array<string>(COLS * 2 - 1).fill(' ');
     for (let c = 0; c < COLS; c++) {
         tens[c * 2] = Math.floor(c / 10) > 0 ? Math.floor(c / 10).toString() : (c === 0 ? '0' : ' ');
         ones[c * 2] = (c % 10).toString();
     }
-    const prefix = '     '; // 5 spazi = allineamento con "NNN: "
+    const prefix = '     ';
     return [prefix + tens.join(''), prefix + ones.join('')];
 }
 
 // ---------------------------------------------------------------------------
-// Annotazioni — dati non codificabili nella mappa
+// Annotazioni
 // ---------------------------------------------------------------------------
 
 /**
- * Genera la sezione ANNOTAZIONI che contiene tutti i dati necessari per la
- * conversione inversa ASCII → .mark che non rientrano nella mappa visiva.
+ * Determina a quale cella/lato il convertitore assegnerebbe un muro verticale
+ * tra col C e C+1 alla riga R.
  */
+function vAssignment(
+    cells: (Cell | null)[][],
+    r: number, c: number
+): { r: number, c: number, side: 'RIGHT' | 'LEFT' } {
+    if (exists(cells[r]![c]!)) return { r, c, side: 'RIGHT' };
+    return { r, c: c + 1, side: 'LEFT' };
+}
+
+/**
+ * Determina a quale cella/lato il convertitore assegnerebbe un muro orizzontale
+ * tra row R e R+1 alla col C.
+ */
+function hAssignment(
+    cells: (Cell | null)[][],
+    r: number, c: number
+): { r: number, c: number, side: 'BOTTOM' | 'TOP' } {
+    if (exists(cells[r]![c]!)) return { r, c, side: 'BOTTOM' };
+    return { r: r + 1, c, side: 'TOP' };
+}
+
+type MuriEntry = { r: number, c: number, side: 'TOP' | 'RIGHT' | 'BOTTOM' | 'LEFT', id: number };
+
 function buildAnnotations(cells: (Cell | null)[][]): string[] {
-    const texts:    string[] = [];
-    const candleQs: string[] = [];
+    const testi:    string[] = [];
+    const candele:  string[] = [];
     const waypts:   string[] = [];
-    const terraSub: string[] = [];
-    const fillSub:  string[] = [];
+    const terra:    string[] = [];
+    const muriMap = new Map<string, MuriEntry>();
 
-    // Varianti Terra ≠ Terra1 (ground 6, 9–16)
-    const TERRA_NON_DEFAULT = new Set([6, 9, 10, 11, 12, 13, 14, 15, 16]);
-    // Varianti Riempimento ≠ Riempimento1 (ground 17–28)
-    const FILL_NON_DEFAULT  = new Set([17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
+    const addMuri = (r: number, c: number, side: 'TOP' | 'RIGHT' | 'BOTTOM' | 'LEFT', id: number) => {
+        const key = `${String(r).padStart(3)},${String(c).padStart(3)},${side}`;
+        muriMap.set(key, { r, c, side, id });
+    };
 
+    // ── Separatori verticali ────────────────────────────────────────────────
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS - 1; c++) {
+            const lw = cells[r]![c]?.wallRight ?? 0;
+            const rw = cells[r]![c + 1]?.wallLeft ?? 0;
+            const effectiveId = lw !== 0 ? lw : rw;
+            if (effectiveId === 0) continue;
+            const ch = vWallChar(effectiveId);
+            if (effectiveId !== vWallDefaultId(ch)) {
+                const a = vAssignment(cells, r, c);
+                addMuri(a.r, a.c, a.side, effectiveId);
+            }
+        }
+    }
+
+    // ── Separatori orizzontali ──────────────────────────────────────────────
+    for (let r = 0; r < ROWS - 1; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const ub = cells[r]![c]?.wallBottom ?? 0;
+            const lt = cells[r + 1]![c]?.wallTop ?? 0;
+            const effectiveId = ub !== 0 ? ub : lt;
+            if (effectiveId === 0) continue;
+            const ch = hWallChar(effectiveId);
+            if (effectiveId !== hWallDefaultId(ch)) {
+                const a = hAssignment(cells, r, c);
+                addMuri(a.r, a.c, a.side, effectiveId);
+            }
+        }
+    }
+
+    // ── Muri secondari nascosti ─────────────────────────────────────────────
+    // TOP: nascosto se la cella sopra esiste e ha BOTTOM non-zero
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const cell = cells[r]![c];
             if (!cell) continue;
 
-            // Testi narrativi
-            if (cell.stringCode) {
-                texts.push(`  ${r},${c}: ${cell.stringCode}`);
-            }
-
-            // Quantità candele ≠ 1
-            if (cell.object === 4) {
-                const n = cell.objData !== '' ? parseInt(cell.objData, 10) : 1;
-                const qty = isNaN(n) ? 1 : n;
-                if (qty !== 1) {
-                    candleQs.push(`  ${r},${c}: ${qty}`);
+            if (cell.wallTop !== 0 && r > 0) {
+                const above = cells[r - 1]![c] ?? null;
+                if (exists(above) && (above?.wallBottom ?? 0) !== 0) {
+                    addMuri(r, c, 'TOP', cell.wallTop);
                 }
             }
 
-            // Waypoint nemici
-            if (cell.object !== null && ENEMY_TYPES.has(cell.object) && cell.objData) {
-                const name = OBJECT_NAMES[cell.object] ?? String(cell.object);
-                waypts.push(`  ${r},${c}: ${cell.objData}  (${name})`);
-            }
-
-            // Terra variant non default
-            if (TERRA_NON_DEFAULT.has(cell.ground)) {
-                const name = GROUND_NAMES[cell.ground] ?? String(cell.ground);
-                terraSub.push(`  ${r},${c}: ground=${cell.ground}  (${name})`);
-            }
-
-            // Riempimento variant non default
-            if (FILL_NON_DEFAULT.has(cell.ground)) {
-                const name = GROUND_NAMES[cell.ground] ?? String(cell.ground);
-                fillSub.push(`  ${r},${c}: ground=${cell.ground}  (${name})`);
+            if (cell.wallLeft !== 0 && c > 0) {
+                const leftCell = cells[r]![c - 1] ?? null;
+                if (exists(leftCell) && (leftCell?.wallRight ?? 0) !== 0) {
+                    addMuri(r, c, 'LEFT', cell.wallLeft);
+                }
             }
         }
     }
 
+    // ── Celle ───────────────────────────────────────────────────────────────
+    const TERRA_NON_DEFAULT = new Set([6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const cell = cells[r]![c];
+            if (!cell || cell.ground === 0) continue;
+
+            if (cell.stringCode) {
+                testi.push(`  ${r},${c}: ${cell.stringCode}`);
+            }
+
+            if (cell.object === 4) {
+                const n = cell.objData !== '' ? parseInt(cell.objData, 10) : 1;
+                const qty = isNaN(n) ? 1 : n;
+                if (qty !== 1) candele.push(`  ${r},${c}: ${qty}`);
+            }
+
+            if (cell.object !== null && ENEMY_TYPES.has(cell.object) && cell.objData) {
+                waypts.push(`  ${r},${c}: ${cell.objData}`);
+            }
+
+            if (TERRA_NON_DEFAULT.has(cell.ground)) {
+                terra.push(`  ${r},${c}: ${cell.ground}`);
+            }
+        }
+    }
+
+    // ── Assembla output ─────────────────────────────────────────────────────
+    const muriEntries = Array.from(muriMap.values()).sort((a, b) => {
+        if (a.r !== b.r) return a.r - b.r;
+        if (a.c !== b.c) return a.c - b.c;
+        const sideOrder = { TOP: 0, RIGHT: 1, BOTTOM: 2, LEFT: 3 };
+        return sideOrder[a.side] - sideOrder[b.side];
+    });
+
     const out: string[] = [];
 
-    if (texts.length > 0) {
-        out.push('TESTI (stringCode) — trigger narrativi:');
-        out.push(...texts);
+    if (testi.length > 0) {
+        out.push('TESTI:');
+        out.push(...testi);
     }
-    if (candleQs.length > 0) {
-        out.push('CANDELE_QTY — quantità pacchi candele (solo se ≠ 1):');
-        out.push(...candleQs);
+    if (candele.length > 0) {
+        out.push('CANDELE:');
+        out.push(...candele);
     }
     if (waypts.length > 0) {
-        out.push('WAYPOINTS — percorsi di patruglia nemici:');
+        out.push('WAYPOINTS:');
         out.push(...waypts);
     }
-    if (terraSub.length > 0) {
-        out.push('TERRA_VARIANT — varianti pavimento (solo se ≠ Terra1=1, impatto visivo):');
-        out.push(...terraSub);
+    if (terra.length > 0) {
+        out.push('TERRA:');
+        out.push(...terra);
     }
-    if (fillSub.length > 0) {
-        out.push('FILL_VARIANT — varianti riempimento (solo se ≠ Riempimento1=8, impatto visivo):');
-        out.push(...fillSub);
+    if (muriEntries.length > 0) {
+        out.push('MURI:');
+        for (const e of muriEntries) {
+            out.push(`  ${e.r},${e.c},${e.side}: ${e.id}`);
+        }
     }
 
     return out;
 }
 
 // ---------------------------------------------------------------------------
-// Statistiche
+// Statistiche (solo con --legend)
 // ---------------------------------------------------------------------------
 
 function buildStats(cells: (Cell | null)[][]): string[] {
@@ -393,7 +443,7 @@ function buildStats(cells: (Cell | null)[][]): string[] {
 }
 
 // ---------------------------------------------------------------------------
-// Rendering principale
+// Legenda (solo con --legend)
 // ---------------------------------------------------------------------------
 
 function buildLegend(): string[] {
@@ -402,21 +452,26 @@ function buildLegend(): string[] {
         '│ Oggetti:   @ Giocatore   K Chiave   E Uscita   c Candele   ! TriggerTesto   │',
         '│ Nemici:    Z Zombie   S Scheletro   G Goblin   T Taurus   H Ghost   B Bubu  │',
         '│ Ambiente:  * Brazier   # OstNonPass1   = OstNonPass2   + OstPass1           │',
-        '│ Terreno:   · Pavimento(Terra*)   ░ Buio   ▓ Riempimento*   spazio=NonCella  │',
+        '│ Terreno:   · Pavimento(Terra1)   ░ Buio   ▓ Riempimento   spazio=NonCella  │',
         '│ Trappole:  x TrappolaMorte   ^ TrappolaTimer   ~ TriggerGoblin              │',
-        '│ (*variante esatta nelle ANNOTAZIONI; impatto solo visivo)                   │',
+        '│ (varianti terreno/fill indicate in sezione TERRA; varianti muri in MURI)    │',
         '├─ LEGENDA SEPARATORI (muri) ─────────────────────────────────────────────────┤',
         '│ Verticali:   │=Occludente  ╎=Fragile  ║=Porta  i=Ingresso  o=Uscita  :=Decal│',
         '│ Orizzontali: ─=Occludente  ╌=Fragile  ═=Porta  i=Ingresso  o=Uscita  .=Decal│',
-        '│ Muro variant (4,12–15): mostrato come │/─ — funzionalmente = Occludente     │',
-        '│ + = angolo di intersezione tra muri adiacenti                               │',
-        '├─ CONVENZIONE OWNERSHIP MURI ────────────────────────────────────────────────┤',
-        '│ Separatore verticale  tra col C e C+1  → RIGHT wall di col C               │',
-        '│ Separatore orizzontale tra row R e R+1 → BOTTOM wall di row R               │',
-        '│ (se entrambi i lati hanno un muro, vince sinistro/superiore)                │',
+        '│ Varianti ID (4,12–15) → char │/─; decal ID (7–11) → char :/. — override:MURI│',
+        '├─ ANNOTAZIONI ───────────────────────────────────────────────────────────────┤',
+        '│ TESTI:      r,c: stringCode   (trigger narrativi)                           │',
+        '│ CANDELE:    r,c: qty          (solo se quantità ≠ 1)                        │',
+        '│ WAYPOINTS:  r,c: waypoints    (percorsi nemici)                             │',
+        '│ TERRA:      r,c: groundId     (varianti terra/fill non default)             │',
+        '│ MURI:       r,c,LATO: wallId  (ID muro non deducibile dal carattere)        │',
         '└─────────────────────────────────────────────────────────────────────────────┘',
     ];
 }
+
+// ---------------------------------------------------------------------------
+// Rendering principale
+// ---------------------------------------------------------------------------
 
 function renderLevel(
     cells: (Cell | null)[][],
@@ -426,10 +481,6 @@ function renderLevel(
 ): string {
     const out: string[] = [];
 
-    // ── Header (necessario per conversione inversa) ──────────────────────────
-    out.push(`pack=${packId} dirty=${dirty}`);
-    out.push('');
-
     // ── Legenda + statistiche (opzionali) ───────────────────────────────────
     if (showLegend) {
         out.push(...buildLegend());
@@ -437,7 +488,13 @@ function renderLevel(
         out.push('STATISTICHE:');
         out.push(...buildStats(cells));
         out.push('');
+        out.push('─'.repeat(80));
+        out.push('');
     }
+
+    // ── Header ──────────────────────────────────────────────────────────────
+    out.push(`pack=${packId} dirty=${dirty}`);
+    out.push('');
 
     // ── Righello colonne ────────────────────────────────────────────────────
     const [ruler1, ruler2] = buildColumnRuler();
@@ -449,25 +506,25 @@ function renderLevel(
     for (let r = 0; r < ROWS; r++) {
         let line = `${String(r).padStart(3)}: `;
         for (let c = 0; c < COLS; c++) {
-            line += cellChar(cells[r]![c]!);
-            if (c < COLS - 1) line += rightSep(cells[r]![c]!, cells[r]![c + 1]!);
+            line += cellChar(cells[r]![c] ?? null);
+            if (c < COLS - 1) line += vSep(cells[r]![c] ?? null, cells[r]![c + 1] ?? null);
         }
         out.push(line);
 
         if (r < ROWS - 1) {
-            out.push('     ' + buildWallRow(cells[r]!, cells[r + 1]!));
+            const wallRow = buildWallRow(cells[r]!, cells[r + 1]!);
+            // Ometti righe muri se tutte spazio
+            if (wallRow.trim().length > 0) {
+                out.push('     ' + wallRow);
+            }
         }
     }
 
-    // ── Annotazioni (solo con --legend, per ispezione umana) ───────────────
-    if (showLegend) {
-        const annotations = buildAnnotations(cells);
-        if (annotations.length > 0) {
-            out.push('');
-            out.push('ANNOTAZIONI:');
-            out.push('');
-            out.push(...annotations);
-        }
+    // ── Annotazioni ─────────────────────────────────────────────────────────
+    const annotations = buildAnnotations(cells);
+    if (annotations.length > 0) {
+        out.push('');
+        out.push(...annotations);
     }
 
     return out.join('\n');
