@@ -304,6 +304,7 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE
 **Files**: `editorInteraction.ts`, `editorSidebar.ts`, `leveleditor.ts`
 
 **Sintomi osservati:**
+
 - Selezionare un oggetto dal tab Oggetti e cliccare sulla griglia non piazza nulla
 - Il testo (modalita' "A") non funziona
 
@@ -316,6 +317,7 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE
 3. **Text mode:** il radio "A Testo" usa `value="-1"` (sentinel). Assicurarsi che `onObjectSelected(-1)` imposti `state.currentAction = EditorAction.Text` e che il click sulla griglia in Text mode chiami `applyText` che apre il `window.prompt`.
 
 **Fix plan:**
+
 - Auto-selezionare il radio Cancella (value=0) nel tab Oggetti al caricamento
 - Aggiungere `console.log` temporaneo nell'`onMouseDown` dell'interaction per tracciare col/row e action nel test Playwright
 - Verificare che `state.currentAction` sia corretto prima del click sulla griglia
@@ -330,6 +332,7 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE
 **Problema attuale:** quando si piazza un nemico, il codice mostra un `window.prompt` generico per il "path ID". L'utente deve sapere il formato (`Z-1-1`, `S-2-3`, ecc.) e gestire manualmente i gruppi, il che e' error-prone.
 
 **Comportamento desiderato:** l'editor deve gestire automaticamente i waypoint:
+
 - Ogni tipo di nemico ha un prefisso fisso: `Z`=Zombie, `S`=Scheletro, `G`=Goblin, `T`=Taurus, `H`=Ghost, `B`=Bubu
 - L'editor tiene un contatore per gruppo attivo per tipo nemico nell'`EditorState`
 - **Flusso di piazzamento:**
@@ -340,6 +343,7 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE
   5. Selezionando di nuovo la stessa tool nemico → inizia gruppo N+1
 
 **Aggiunte a EditorState:**
+
 ```typescript
 enemyWaypointState: {
     activeEnemyType: number | null;
@@ -354,12 +358,12 @@ enemyWaypointState: {
 **Prefissi per tipo:**
 | ObjectType | Prefisso |
 | ---------- | -------- |
-| 5 Zombie   | Z        |
-| 6 Scheletro | S       |
-| 7 Goblin   | G        |
-| 8 Taurus   | T        |
-| 10 Ghost   | H        |
-| 11 Bubu    | B        |
+| 5 Zombie | Z |
+| 6 Scheletro | S |
+| 7 Goblin | G |
+| 8 Taurus | T |
+| 10 Ghost | H |
+| 11 Bubu | B |
 
 **Scansione dello stato esistente:** `createStateFromBundle` deve parsare i waypoint esistenti nel file .mark per inizializzare `groupCounters` ai valori corretti (evitando conflitti di gruppo con livelli preesistenti).
 
@@ -392,11 +396,13 @@ La funzione `switchToTab` deve riprodurre il tab-click: aggiornare le classi `.a
 **Obiettivo:** far si' che il file `.mark` contenga il testo direttamente, eliminando la dipendenza da `STRING_CODE_MAP`.
 
 **Proposta di formato:** il campo `STRING_CODE` diventa il testo stesso (stringa libera UTF-8). Vincoli:
+
 - Non puo' contenere `|` (gia' proibito essendo separatore di campo) → sostituire `|` con `\|` se necessario, oppure usare un altro encoding
 - Non puo' contenere newline → `\n` escaped
 - Limite pratico: il testo e' breve (una riga di pensiero/dialogo)
 
 **Impatto:**
+
 - `GridLoader.ts`: nessuna modifica (il campo STRING_CODE e' gia' letto come stringa)
 - `GridSerializer.ts`: nessuna modifica (il campo viene serializzato as-is)
 - `GameTexts.ts`: rimuovere `STRING_CODE_MAP`; la funzione `getStringCodeText(code)` puo' essere eliminata o semplificata a `return code` (il code E' gia' il testo)
@@ -461,11 +467,12 @@ Estendere il test esistente con scenari che verificano automaticamente le funzio
 **Implementazione:**
 
 1. **Salvataggio in sessionStorage:**
+
    ```typescript
    // In editorFileIo.ts o leveleditor.ts
    export function saveToSessionStorageForPreview(state: EditorState): void {
-       const content = serializeMark(state.grid);
-       sessionStorage.setItem('leveleditor_preview', content);
+     const content = serializeMark(state.grid);
+     sessionStorage.setItem("leveleditor_preview", content);
    }
    ```
 
@@ -479,9 +486,11 @@ Estendere il test esistente con scenari che verificano automaticamente le funzio
    - In alternativa: scrivere il livello in sessionStorage e modificare `loadAndParseLevel` per controllare prima la session storage se il livello richiesto e' `'preview'`
 
 4. **Toolbar:** aggiungere dopo il pulsante "Salva" un pulsante "Test in game" (shortcut consigliato: `T`):
+
    ```
    [Nuovo] [Apri] [Salva] [Test in game] ● ...
    ```
+
    Al click: `saveToSessionStorageForPreview(state)` → `window.location.hash = '#/preview'`
 
 5. **Leave hook del preview:** al ritorno dalla route preview al level editor, pulire `sessionStorage.removeItem('leveleditor_preview')`.
@@ -498,11 +507,12 @@ Estendere il test esistente con scenari che verificano automaticamente le funzio
 
 **Chiave sessionStorage:** `'leveleditor_autosave'`
 **Metadati autosave** (oggetto JSON separato in `'leveleditor_autosave_meta'`):
+
 ```typescript
 interface AutosaveMeta {
-    filename: string;
-    timestamp: number;  // Date.now()
-    isDirty: boolean;
+  filename: string;
+  timestamp: number; // Date.now()
+  isDirty: boolean;
 }
 ```
 
@@ -548,17 +558,19 @@ interface AutosaveMeta {
 1. **Creare `Web/src/grid/LevelValidator.ts`** (nuovo, browser-compatible):
    - Estrarre la logica di validazione da `validate-level.ts` (rimuovere i file I/O Node.js)
    - Firma: `validateLevel(bundle: GridBundle): ValidationResult`
+
    ```typescript
    interface ValidationError {
-       severity: 'error' | 'warning';
-       message: string;
+     severity: "error" | "warning";
+     message: string;
    }
    interface ValidationResult {
-       valid: boolean;
-       errors: ValidationError[];
-       warnings: ValidationError[];
+     valid: boolean;
+     errors: ValidationError[];
+     warnings: ValidationError[];
    }
    ```
+
    - Regole da validare (da `validate-level.ts`):
      - Esattamente 1 Giocatore (ObjectType=1)
      - Esattamente 1 Chiave (ObjectType=2)
@@ -570,6 +582,7 @@ interface AutosaveMeta {
 2. **Modificare `validate-level.ts`** per importare da `LevelValidator.ts` invece di duplicare la logica.
 
 3. **Chiamare la validazione in `saveFile(state)`** (in `editorFileIo.ts`):
+
    ```typescript
    export function saveFile(state: EditorState, container: HTMLElement): void {
        const result = validateLevel(state.grid);
@@ -590,25 +603,94 @@ interface AutosaveMeta {
 
 ---
 
+---
+
 ## Task opzionale (fare solo su indicazione esplicita)
 
-### Task 17 — [OPZIONALE] Preview spritesheet nel level editor
+### Task 17 — Texture catalog panel: mostra le tile del pack selezionato
 
-**Priorita': BASSA — fare solo quando richiesto esplicitamente**
+**Obiettivo:** mostrare all'interno dell'editor un catalogo visivo delle texture disponibili nel pack correntemente selezionato, cos' chi disegna il livello sa cosa sta per usare prima di iniziare. **Non si tratta di renderizzare le texture sulla griglia** — solo un pannello/strip di anteprima statica.
 
-**Obiettivo:** mostrare nel level editor le vere texture di gioco (pavimenti, muri, oggetti) invece dei colori piatti, cosi' chi disegna il livello vede esattamente come verra' reso in gioco. Perimetro minimo: terreno + oggetti principali (non nemici, non player).
+**Perimetro:** solo le tile "ground" visive per il pack selezionato: celle pavimento (cell1–cell10), riempimento (riempimento_1–13), muri (wall_horizontal_1, wall_vertical_1 — solo il primo campione), decals (decal_1–decal_8), porte (door_1 — solo primo frame). Nessuna tile \_normal o \_spec. Nessuna animazione.
 
-**Questo task richiede un plan dettagliato prima di qualsiasi codice.** Analizzare:
-1. Come funziona lo spritesheet attuale (`Spritesheet-0.json` + relative immagini in `Web/public/assets/`)
-2. Come il renderer PixiJS risolve le celle del terreno (quale frame del pacco corrisponde a quale `groundType` + `envTexturePackId`)
-3. Se e' possibile caricare lo spritesheet via `fetch` nell'editor (fuori da PixiJS) e disegnare su `<canvas>` o usare tag `<img>` con CSS clip
-4. Come gestire le varianti random (le celle "dirty" usano frame diversi in modo pseudo-random basato su col+row)
+---
 
-**Approccio probabile:**
-- Caricare il JSON dello spritesheet e le immagini PNG via `fetch` al mount della pagina editor
-- Per ogni cella, calcolare il frame corretto (pavimento: `pacco{N}/cell{M}`, oggetto: frame specifico)
-- Disegnare nella cella un `<img>` con `object-fit: cover` e dimensioni 30x30, oppure un `<canvas>` per celle con overlay (muri + oggetti sovrapposti)
-- Le celle Riempimento hanno proprie texture (`riempimento_N`)
-- I muri nel gioco sono disegnati come sprite separati sopra il pavimento — nell'editor potrebbero rimanere come bordi CSS colorati (semplificazione accettabile)
+**Analisi spritesheet completata** (dati concreti):
 
-**Rischio principale:** complessita' di mapping frame. Il rendering C#/PixiJS usa logica con seed random per le varianti "sporche" — replicarla nell'editor richiederebbe leggere `RENDERING_PIPELINE_PIXIJS.md` in dettaglio e potenzialmente condividere codice con il renderer.
+- **6 spritesheet**: `Spritesheet-0.png` … `Spritesheet-5.png`, ognuno 2048×2048px
+- **Solo SS0–SS3 contengono frame `Grounds/`** — SS4 e SS5 sono solo nemici/effetti
+- **Ogni tile e' 192×192px** — tutti i ground frame hanno `w=192, h=192` nel JSON
+- **Frame format**: `{ "frame": { "x": N, "y": N, "w": 192, "h": 192 } }` — nessuna rotazione, nessun trim
+- **Naming**: `Grounds/paccoN/cell1`, `Grounds/paccoN/Riempimento/riempimento_1`, `Grounds/paccoN/RandomWalls/wall_horizontal_1`, ecc.
+- **Cross-spritesheet per pack**: i frame di un singolo pack sono sparpagliati su piu' sheet. Esempio pacco2: `cell1–cell4` → SS0, `cell5–cell10` → SS1, alcuni `RandomWalls` → SS2/SS3. Non si puo' assumere che tutti i frame di un pack stiano in un unico PNG.
+
+**Mappa frame → sheet** (campione per pacco2):
+| Frame | Sheet |
+|---|---|
+| cell1–cell4 | SS0 |
+| cell5–cell10 | SS1 |
+| Riempimento/riempimento_1–13 | SS0 |
+| RandomWalls/wall_horizontal_1 | SS1 |
+| RandomWalls/wall_vertical_1 | SS3 |
+| Decals/decal_1–8 | SS0 |
+| Door/door_1 | SS0 |
+
+---
+
+**Piano di implementazione:**
+
+**1. Loader unificato `Web/src/pages/leveleditor/packCatalog.ts`** (nuovo file):
+
+```typescript
+interface FrameRef {
+  ssIndex: number; // 0–3
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+type FrameMap = Map<string, FrameRef>; // "Grounds/pacco1/cell1" → FrameRef
+
+async function loadFrameMap(): Promise<FrameMap>;
+```
+
+- Fa `fetch` parallelo dei 4 JSON (SS0–SS3)
+- Costruisce una `Map<string, FrameRef>` unificata: `frameName → {ssIndex, x, y, w, h}`
+- Carica i 4 PNG come `HTMLImageElement` (via `new Image()` + `src`) per poterli usare nei canvas
+- Risultato cachato in memoria — chiamare una volta sola al mount dell'editor
+
+**2. Funzione `getCatalogFrames(packId: number, frameMap: FrameMap): CatalogSection[]`**:
+
+```typescript
+interface CatalogTile {
+  name: string;
+  ref: FrameRef;
+}
+interface CatalogSection {
+  title: string;
+  tiles: CatalogTile[];
+}
+```
+
+- Filtra `frameMap` per `Grounds/pacco{packId}/` escludendo `_normal` e `_spec`
+- Raggruppa in sezioni: `Celle` (cell*), `Riempimento` (Riempimento/*), `Muri` (RandomWalls/_ — solo prima variante orizzontale e verticale), `Decals` (Decals/_), `Porte` (Door/door_1)
+- Ritorna le sezioni ordinate
+
+**3. Rendering del panel**: ogni tile viene disegnata su un `<canvas>` 48×48 usando `ctx.drawImage(img, srcX, srcY, 192, 192, 0, 0, 48, 48)` dove `img` è il PNG del sheet corretto.
+
+**4. Posizionamento del panel**:
+
+- **Prima scelta — strip fissa sotto la toolbar**: banda orizzontale ~70px di altezza, scrollabile su asse X, mostra le tile come miniature 48×48 raggruppate per sezione con separatori verticali e label. Si aggiorna al cambio pack. Occupa spazio verticale fisso ma il catalogo rimane sempre visibile.
+- **Fallback — popover**: se durante l'implementazione risulta che la strip schiaccia troppo la griglia (l'editor ha gia' toolbar + body), si passa a un popover attivato da un pulsante `🎨` accanto al selettore pack nella toolbar.
+
+**5. Trigger aggiornamento**: il catalog si ridisegna ogni volta che `state.grid.envTexturePackId` cambia (gia' intercettabile nel listener `change` dell'input pack nella toolbar).
+
+---
+
+**Cosa NON fa questo task:**
+
+- Non renderizza le texture sulla griglia dell'editor (quel requisito e' coperto dal Task 14 "Testa in game" con hot reload)
+- Non gestisce le varianti random/dirty (mostra solo la prima variante di ogni tile)
+- Non mostra normal map o spec map
+
+**Dipendenze:** nessuna dipendenza dagli altri task — si puo' fare in qualsiasi momento dopo il Task 8 (wiring base).
