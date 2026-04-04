@@ -231,6 +231,167 @@ Confronto: ~2.200 C# + ~2.300 XAML -> ~1.000-1.300 TS. Il web e' piu' conciso pe
 
 ## Verdetto
 
-**Complessita': MEDIA.** Ben definito e delimitato. Il grosso del lavoro e' la griglia interattiva Canvas (rendering + mouse + keyboard). Il resto e' mapping meccanico di dati e UI HTML/CSS. Molto codice C# (converters, XAML, bridge XNA) non ha equivalente nel web.
+**Complessita': MEDIA.** Ben definito e delimitato. Il grosso del lavoro e' la griglia interattiva (rendering + mouse + keyboard). Il resto e' mapping meccanico di dati e UI HTML/CSS. Molto codice C# (converters, XAML, bridge XNA) non ha equivalente nel web.
 
 Enums, tipi, parser e serializer **gia' presenti** nella codebase riducono significativamente lo sforzo.
+
+**Decisione tecnica**: CSS Grid con div (NON Canvas HTML5). Mapping 1:1 dal WPF (Border posizionati = div). Hit-testing triviale via `event.target.dataset`, CSS borders per i muri, hover nativo. 1.125 celle (25x45) gestibilissime dal DOM moderno.
+
+---
+
+## Task List di implementazione
+
+### Struttura file
+
+```
+Web/src/grid/GridSerializer.ts              (NEW - serializeMark estratto)
+Web/src/pages/leveleditor.ts                (NEW - page renderer + routing)
+Web/src/pages/leveleditor/                  (NEW - directory)
+  editorTypes.ts                            (NEW - lookup maps runtime, colori, labels)
+  editorState.ts                            (NEW - stato mutabile + operazioni)
+  editorGrid.ts                             (NEW - rendering griglia CSS + update celle)
+  editorSidebar.ts                          (NEW - 4 tab con radio button)
+  editorInteraction.ts                      (NEW - mouse, keyboard, painting)
+  editorFileIo.ts                           (NEW - open/save/new/dirty tracking)
+  leveleditor.css                           (NEW - stili editor)
+Web/src/pages/router.ts                     (MODIFY - aggiungere route)
+Web/src/pages/menu.ts                       (MODIFY - aggiungere link)
+Web/scripts/ascii-to-mark.ts               (MODIFY - importare da GridSerializer)
+```
+
+### Task 1 — Estrarre `serializeMark` in modulo condiviso `[ ]`
+
+**File**: `Web/src/grid/GridSerializer.ts`
+
+Spostare la logica da `Web/scripts/ascii-to-mark.ts:378-408` in un modulo che lavori con `GridBundle`/`CellData`.
+
+- Nuova firma: `serializeMark(bundle: GridBundle): string`
+- Iterare `row` 0..24, `col` 0..44, leggere `bundle.grid[col]![row]`, saltare celle null o con `groundType === 0`
+- Adattare lo script CLI per importare e usare la nuova funzione
+- ~40 righe nuovo modulo + ~20 righe refactor CLI
+
+### Task 2 — Lookup maps runtime `[ ]`
+
+**File**: `Web/src/pages/leveleditor/editorTypes.ts`
+
+I `const enum` di `enums.ts` sono cancellati a compile time — servono array runtime per iterare nei radio button.
+
+- `EditorAction` enum: Ground=0, Wall=1, Object=2, Text=3
+- `GROUND_ENTRIES`: array `{ value, label, color }` per i 29 GroundTypes. Colori da `App.xaml`: NonCella=#000, Buio=#808080, Terra1-10=sfumature rosso/marrone, Traps=fuchsia/aqua/lime, Riempimento=#000
+- `WALL_ENTRIES`: 19 WallTypes con colore (green/red/blue/aqua/violet)
+- `OBJECT_ENTRIES` + `ENEMY_ENTRIES`: separati per tab come nel C#
+- `GROUND_COLOR_MAP`, `WALL_COLOR_MAP`: `Record<number, string>` per lookup O(1) nel rendering
+- `WALL_CODE_MAP`: tipo → codice corto (M0, MB, P, I, U, D1-D8, M1-M5)
+- `OBJECT_LABEL_MAP`: tipo → label 1-2 caratteri (P, K, E, Z, S, G, T, Gh, Bu, Br)
+- `SINGLETON_OBJECTS`: `Set<number>` = {1, 2, 3, 7} (Giocatore, Chiave, Uscita, Goblin)
+- `isRiempimento(groundType: number): boolean`
+- ~120 righe
+
+### Task 3 — State management `[ ]`
+
+**File**: `Web/src/pages/leveleditor/editorState.ts`
+
+Stato mutabile plain con funzioni di manipolazione. Nessun framework, nessun observable.
+
+```typescript
+interface EditorState {
+    grid: GridBundle;
+    currentAction: EditorAction;
+    selectedGround: number;
+    selectedWall: number;
+    selectedObject: number;
+    hoveredCell: { col: number; row: number } | null;
+    lastSavedSnapshot: string;
+    currentFilename: string;
+    singletonPlaced: Set<number>;
+}
+```
+
+Funzioni:
+- `createEmptyState()` — griglia 25x45 vuota
+- `createStateFromBundle(bundle, filename)` — scansiona singletons esistenti
+- `setGroundType(state, col, row, type)` — se riempimento, cancella anche oggetto
+- `setWallType(state, col, row, type, position)` — con validazione (L/R no Ingresso/Uscita, Bottom no Ingresso/Uscita)
+- `setObjectType(state, col, row, type, additionalData)` — tracking singletons, auto-set Terra1 se NonCella
+- `setStringCode(state, col, row, code)`
+- `isDirty(state)` — confronto `serializeMark(state.grid)` vs `lastSavedSnapshot`
+- `ensureCell(grid, col, row)` — crea CellData default se null
+- ~130 righe
+
+### Task 4 — Rendering griglia CSS `[ ]`
+
+**Files**: `Web/src/pages/leveleditor/editorGrid.ts`, `Web/src/pages/leveleditor/leveleditor.css`
+
+- `renderGrid(container, state)` → crea div wrapper con `display: grid; grid-template-columns: repeat(45, 30px); grid-template-rows: repeat(25, 30px)`. Ritorna `cellElements[col][row]`
+- Ogni cella div: `data-col`, `data-row`, sfondo da `GROUND_COLOR_MAP`, bordi 4px colorati per muri, span interni per label oggetto/muro/testo
+- `updateCell(cellEl, cellData)` — aggiorna aspetto singola cella
+- `setHoverHighlight` / `clearHoverHighlight` — schiarisce/ripristina colore sfondo
+- CSS: `.editor-grid`, `.editor-cell` (30x30, position relative), `.cell-object`, `.cell-wall-label`, `.cell-text-marker`
+- ~180 righe TS + ~120 righe CSS
+
+### Task 5 — Sidebar tool palette `[ ]`
+
+**File**: `Web/src/pages/leveleditor/editorSidebar.ts`
+
+- 4 tab: Terreno, Muri, Oggetti, Nemici
+- Radio button generati da GROUND/WALL/OBJECT/ENEMY_ENTRIES, con sfondo colorato
+- Tutti radio condividono `name="editor-tool"` (mutuamente esclusivi come nel C#)
+- Tab switching via class toggle
+- `updateSingletonButtons(state)` — disabilita radio se singleton gia' piazzato
+- ~150 righe
+
+### Task 6 — Interazione mouse e keyboard `[ ]`
+
+**File**: `Web/src/pages/leveleditor/editorInteraction.ts`
+
+- `attachInteraction(gridEl, cellElements, state, onCellChanged)` → ritorna cleanup function
+- Hit-testing via `event.target.dataset.col/row` (triviale con div, non serve divisione pixel)
+- **Ground mode**: mousedown+mousemove con bottone premuto → drag painting
+- **Wall mode**: hover highlights cella, arrow keys piazzano muro sul lato corrispondente
+- **Object mode**: click. `prompt()` per candele (quantita') e nemici (path ID). Singleton auto-switch a Ground dopo piazzamento
+- **Text mode**: click → `prompt()` per string code
+- **Shortcuts** (guarded da `!isInputFocused`): F=Terra1, W=Occludente, D=Niente, C=Cancella, R=Riempimento1, Arrows=muro
+- ~170 righe
+
+### Task 7 — File I/O `[ ]`
+
+**File**: `Web/src/pages/leveleditor/editorFileIo.ts`
+
+- `openFile()` — `<input type="file" accept=".mark">` + FileReader + `parseLevel()`
+- `saveFile(state)` — `serializeMark(state.grid)` → Blob → download link
+- `confirmIfDirty(state)` — `confirm()` se ci sono modifiche non salvate
+- ~80 righe
+
+### Task 8 — Wiring finale e routing `[ ]`
+
+**Files**: `Web/src/pages/leveleditor.ts`, `Web/src/pages/router.ts`, `Web/src/pages/menu.ts`
+
+- `renderLevelEditorPage(container)` — layout: toolbar (Nuovo/Apri/Salva + dirty% + texture pack) + sidebar + canvas scrollabile
+- Crea stato iniziale, renderizza sidebar e griglia, attacca interazione e toolbar
+- Route `#/level-editor` con `leave` hook (cleanup + dirty check)
+- Link nel menu principale
+- ~100 righe
+
+### Dipendenze
+
+```
+Task 1 ─┐
+         ├─ Task 3 ─┬─ Task 4 ──┐
+Task 2 ──┘           │           ├─ Task 6 ─┐
+                     └─ Task 5 ──┘           ├─ Task 8
+                     Task 7 ─────────────────┘
+```
+
+Task 1+2 paralleli. Task 4+5 paralleli dopo Task 3. Task 6+7 paralleli dopo Task 4+5. Task 8 finale.
+
+### Checklist di verifica finale
+
+- [ ] `npm run build` passa
+- [ ] `#/level-editor` carica griglia 25x45 vuota
+- [ ] Aprire un `.mark` esistente → griglia si popola con colori/muri/oggetti corretti
+- [ ] Drag painting terreno funziona
+- [ ] Muri con hover+frecce funzionano
+- [ ] Piazzamento oggetti funziona (incluso prompt candele/nemici)
+- [ ] Salvataggio produce `.mark` valido (verificabile con `validate-level.ts`)
+- [ ] Dirty tracking avvisa prima di perdere modifiche
+- [ ] Keyboard shortcuts funzionano (F, W, D, C, R)

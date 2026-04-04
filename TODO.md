@@ -43,6 +43,8 @@
 ### Colonna sonora
 
 - [ ] Rach in sottofondo molto leggero e loppato
+- [ ] Suoni ambientali generati con AI
+- [ ] Qualche suono da horror/thriller generato con l'AI
 
 ## Erogarlo sul mio sito
 
