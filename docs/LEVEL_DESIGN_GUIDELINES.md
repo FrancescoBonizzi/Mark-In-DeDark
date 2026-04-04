@@ -212,6 +212,70 @@ Un buon livello di Mark In DeDark non è un labirinto cieco. Il giocatore deve s
 - **Stanze aperte** — ideali per Ghost e Scheletro, dove la visuale lineare è efficace
 - **Vicoli ciechi** — utili nei livelli medi per creare tensione, ma mai come percorso obbligato verso la chiave
 
+### Definizione operativa di "percorso lineare"
+
+Quando le specifiche di un livello dicono "lineare" o "strettamente lineare" significa:
+
+- Il grafo delle stanze è una sequenza senza bivi: Spawn → A → B → … → Uscita
+- In ogni punto del percorso principale il player ha esattamente **una** direzione di avanzamento (più eventualmente tornare indietro)
+- Nessuna stanza ha più di **2 aperture** verso altre stanze (un ingresso, un'uscita)
+- Se il livello prevede diramazioni opzionali: max 1 bivio visibile contemporaneamente; ogni diramazione ha max 2–3 stanze e non contiene chiave né uscita
+
+**Come ottenere linearità nell'ASCII:** ogni stanza deve avere al massimo 1 uscita che porta avanti e 1 che porta indietro. Usa il `▓` (fill) per murare tutte le aperture in eccesso. Non lasciare mai una stanza aperta su più di due lati.
+
+### Colli di bottiglia obbligatori tra stanze
+
+Ogni transizione tra una stanza e la successiva deve passare per un corridoio "collo di bottiglia":
+
+- **Larghezza: esattamente 1 cella** (orizzontale o verticale)
+- **Lunghezza: almeno 2 celle consecutive**
+
+Questo corridoio è l'unico punto garantito in cui il player passerà. È il luogo corretto per i trigger di testo e per i pack di candele che devono essere trovati prima del pericolo successivo.
+
+### Regola dei trigger di testo (`!`) — OBBLIGATORIA
+
+Un trigger di testo si attiva solo quando il player calpesta la cella `!`. Se il player può aggirarla, il testo non viene visto.
+
+**Pattern VALIDO — trigger in corridoio 1-cella (obbligatorio):**
+
+```
+▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ · · ! · · ▓   ← il player DEVE passare su !
+▓ ▓ ▓ ▓ ▓ ▓ ▓
+```
+
+**Pattern INVALIDO — trigger aggirabile (vietato):**
+
+```
+▓ · · · · · ▓
+▓ · · ! · · ▓   ← il player può passare sopra o sotto !
+▓ · · · · · ▓
+```
+
+**Regola pratica:** prima di mettere un `!`, verifica che la riga in cui si trova non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono, il trigger è aggirabile — restringi il corridoio o sposta il trigger.
+
+Per aree aperte (es. il giardino del livello 1), la soluzione è creare passaggi stretti agli ingressi e alle uscite dell'area, e mettere i trigger in quei passaggi — non nell'area aperta stessa.
+
+### Densità fill (regola obbligatoria)
+
+Almeno il **50% delle celle** nella bounding box del livello deve essere `▓` (fill) o NonCella (spazio vuoto). Lo spazio calpestabile è la minoranza — il livello è scavato nella roccia, non costruito nel vuoto.
+
+Eccezione: `pacco1` (esterno) usa muri perimetrali invece del fill come confine. Anche lì, però, il pavimento calpestabile non deve riempire l'intera bounding box — ci devono essere ostacoli, muri interni e zone non calpestabili.
+
+### Dimensioni della bounding box per livello
+
+La griglia è fissa **25 righe × 45 colonne**. Non usare l'intera griglia — lasciare sempre almeno 3 righe e 3 colonne di spazio vuoto (NonCella) su ogni bordo. Le dimensioni indicate sono della bounding box del livello (include fill perimetrale ma non il vuoto esterno).
+
+| Fase | Livelli | Bounding box (righe × colonne) | Celle floor tipiche |
+|------|---------|-------------------------------|---------------------|
+| Semplice | 1–2 | 7–11 × 18–28 | 30–70 |
+| Introduttivo | 3–5 | 11–15 × 25–35 | 60–130 |
+| Medio | 6–10 | 13–17 × 28–38 | 100–180 |
+| Avanzato | 11–16 | 15–20 × 33–42 | 150–260 |
+| Finale | 17–20 | 18–22 × 38–44 | 200–350 |
+
+**Vincolo duro:** per i livelli 1 e 2, la bounding box non deve superare 11 righe × 28 colonne. Un livello 1 grande quanto un livello 10 è un errore di design.
+
 ### Distribuzione delle risorse
 
 - Le candele devono essere **abbondanti nei primi livelli** e diventare progressivamente più scarse — ma mai "impossibili"
@@ -309,8 +373,22 @@ La regola fondamentale per qualsiasi livello generato è:
 
 1. Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
 2. Identifica la **meccanica nuova** che questo livello introduce
-3. Costruisci la mappa attorno a quella meccanica — non aggiungere complessità extra
-4. Posiziona i brazier (`Lucina`) prima di tutto: segnano i punti di riferimento
-5. Aggiungi i nemici e verifica che la distrazione/strategia sia leggibile
+3. Stabilisci la bounding box (righe × colonne) rispettando la tabella dimensionale sopra
+4. Disegna il grafo delle stanze su carta: Spawn → stanza A → collo di bottiglia → stanza B → … → Uscita
+5. Costruisci la mappa ASCII partendo da tutta `▓` e "scavando" i corridoi — non il contrario
+6. Verifica che ogni transizione tra stanze abbia un collo di bottiglia largo 1 cella
+7. Posiziona i trigger `!` solo all'interno dei colli di bottiglia — mai in stanze aperte
+8. Posiziona i brazier (`Lucina`) sui punti di riferimento: chiave, uscita, incroci principali
+9. Aggiungi i nemici e verifica che la soluzione (candela, schivata, ecc.) sia leggibile
+
+### Checklist pre-generazione (da verificare prima di scrivere l'ASCII)
+
+- [ ] La bounding box è dentro i limiti della fase di gioco?
+- [ ] Il grafo delle stanze è lineare (o ha max 1 bivio per i livelli con diramazioni)?
+- [ ] Ogni coppia di stanze adiacenti ha un collo di bottiglia da 1 cella?
+- [ ] Ogni trigger `!` è posizionato in un collo di bottiglia, non in un'area aperta?
+- [ ] Le celle floor sono meno del 50% della bounding box?
+- [ ] I testi sono max 3, in voce di Mark, nel tono corretto per l'atto?
+- [ ] La meccanica nuova è esattamente una sola?
 
 Per il workflow tecnico di creazione e la checklist pre-consegna: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.

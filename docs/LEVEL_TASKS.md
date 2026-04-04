@@ -55,6 +55,79 @@ Il file `Web/src/levels.ts` è il manifest dei livelli pubblicati — quelli che
 
 ---
 
+## Vincoli dimensionali e strutturali obbligatori
+
+Questi vincoli integrano le linee guida di `LEVEL_DESIGN_GUIDELINES.md` con misure concrete per ogni livello. Rispettarli è obbligatorio — un livello fuori dimensione o con trigger aggirabili è un bug di design.
+
+### Bounding box per livello
+
+La bounding box include il fill perimetrale ma non il vuoto (NonCella) esterno alla mappa.
+
+| Livello | Bounding box (righe × colonne) | Celle floor max | Larghezza corridoi principali |
+|---------|-------------------------------|-----------------|-------------------------------|
+| 1       | 9–11 × 20–28                 | 50–70           | 1–3 (ingresso/uscita: 1)     |
+| 2       | 9–11 × 22–30                 | 50–75           | 1–3 (zona buia: 3–5)         |
+| 3       | 11–13 × 25–33                | 60–100          | 1–3                          |
+| 4       | 13–15 × 28–36                | 80–130          | 1–3                          |
+| 5       | 13–15 × 30–38                | 90–140          | 1–3                          |
+| 6       | 13–16 × 30–38                | 100–150         | 1–5 (stanza aperta)          |
+| 7       | 14–17 × 32–40                | 110–170         | 1–3                          |
+| 8       | 13–16 × 28–36                | 90–140          | 1–3                          |
+| 9       | 14–17 × 30–38                | 110–165         | 1–3                          |
+| 10      | 13–15 × 28–35                | 80–130          | 1–3 (arena: fino a 7×7)      |
+| 11–16   | 15–20 × 33–42                | 130–240         | 1–3                          |
+| 17–20   | 18–22 × 38–44                | 180–320         | 1–3                          |
+
+### Regola trigger di testo — sintesi operativa
+
+Il trigger `!` si attiva **solo** quando il player calpesta quella cella. Se può aggirarla, il testo non parte mai.
+
+**Unico pattern valido (corridoio largo 1 cella):**
+
+```
+▓ ▓ ▓ ▓ ▓ ▓
+▓ · · ! · ▓   ← fill sopra E sotto (o a sx E a dx): il player non può aggirare
+▓ ▓ ▓ ▓ ▓ ▓
+```
+
+Se l'area è aperta (es. giardino livello 1–2), posizionare i trigger nei colli di bottiglia di ingresso/uscita all'area, non nell'area stessa.
+
+### Schema strutturale livello 1 — gold standard
+
+Il livello 1 è il modello di riferimento per la struttura. Ogni livello lineare semplice deve avere questa forma:
+
+```
+[fill perimetrale]
+[fill] [corridoio ingresso 1 cella] [area centrale] [corridoio uscita 1 cella] [fill]
+[fill perimetrale]
+```
+
+Schematico ASCII (non in scala — mostra la struttura, non le misure esatte):
+
+```
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ @ ! · ▓ · · · K · · · · · ▓ · ! · ! · E ▓ ▓ ▓ ▓ ▓ ▓   ← spawn a sx, chiave centro, uscita dx
+▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+```
+
+Lettura dello schema:
+- **`@`** = spawn player, in corridoio ingresso (1 cella di altezza) → il player entra da sinistra
+- **`!`** subito dopo `@` = primo trigger ("Mio padre...") — il player DEVE passarci sopra
+- **Area centrale** = 5+ celle di altezza, abbastanza ampia — il giardino che "respira"
+- **`K`** = chiave al centro dell'area aperta, visibile e raggiungibile
+- **Corridoio uscita** (1 cella di altezza) = collo di bottiglia a destra
+- **`!` `!`** nel corridoio uscita = trigger 2 e 3 ("Il nome di mio fratello..." e "Sotto di lui...") — obbligatori
+- **`E`** = uscita, alla fine del corridoio, addossata al muro
+
+Proporzioni reali indicative: ingresso corridor = 3–4 celle lunghe, area centrale = 5–7 celle alte × 12–16 celle larghe, uscita corridor = 4–5 celle lunghe.
+
+---
+
 ## Note pratiche sul formato ASCII
 
 Queste note integrano la guida di `--help` con problemi concreti incontrati durante la generazione.
@@ -132,11 +205,15 @@ Prima di segnare un livello come completato, verifica:
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
+**Bounding box:** 9–11 righe × 22–28 colonne — NON superare questi limiti. Il livello è piccolo per definizione.
+
+**Struttura:** corridoio ingresso (1 cella alto, 3–4 celle lungo) → area giardino centrale (5–7 celle alte, 12–16 celle larghe) → corridoio uscita (1 cella alto, 4–5 celle lungo). I trigger vanno nei corridoi stretti, non nell'area aperta.
+
 **Candele:** 0
 
-**Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Nessun brazier: siamo all'aperto, i punti di riferimento sono la chiave e l'uscita visivamente distinguibili.
+**Mappa:** Corridoio unico orizzontale nel giardino esterno. Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave visibile al centro dell'area aperta, uscita a destra con muro `Uscita` (WallType=6). Nessuna diramazione, nessun vicolo cieco. La scena è illuminata dal chiaro di luna — nessuna zona buia. Nessun brazier: siamo all'aperto.
 
-Il giocatore impara solo due cose: muoversi e raccogliere la chiave per aprire l'uscita. Nient'altro.
+L'area centrale può essere ampia (5–7 tile di altezza) per il respiro visivo, ma l'ingresso e l'uscita devono essere colli di bottiglia larghi 1 cella — è lì che vanno i trigger di testo. Il giocatore impara solo due cose: muoversi e raccogliere la chiave per aprire l'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -150,11 +227,15 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
+**Bounding box:** 9–11 righe × 24–30 colonne. Leggermente più lungo del livello 1, non più alto.
+
+**Struttura:** corridoio ingresso (1 cella) → area illuminata → zona buia (3–5 celle larghe, 3–5 alte) → area illuminata → corridoio uscita (1 cella). I trigger si mettono nei due colli di bottiglia (ingresso zona buia, uscita zona buia) — non nell'area aperta.
+
 **Candele:** nessuna — non ci sono nemici da distrarre e l'inventario si azzera tra i livelli: una candela raccolta qui non arriverebbe al livello 3.
 
-**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Nessun brazier: siamo all'aperto. I confini della zona buia sono segnati dall'architettura delle rovine — la sagoma delle macerie blocca la luna, il giocatore vede dove inizia e finisce il buio.
+**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia (`░`) ci sono aree illuminate normalmente. Percorso lineare, lunghezza leggermente maggiore del livello 1. Nessun brazier. I confini della zona buia sono segnati architettonicamente — il giocatore vede dove inizia e finisce il buio.
 
-Il giocatore scopre che alcune zone azzerano la visibilità. La candela in mano illumina l'area intorno a Mark: basta tenerla per attraversare la zona buia. Non si piazza nulla. Non c'è nessuna nuova azione da imparare: bisogna solo muoversi con cautela.
+Il giocatore scopre che alcune zone azzerano la visibilità. La candela in mano illumina l'area intorno a Mark: basta tenerla per attraversare la zona buia. Non si piazza nulla. Non c'è nessuna nuova azione da imparare.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -167,9 +248,13 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco2` (interno) | **1 Zombie** | Meccanica: piazzare la candela (SPAZIO), distrazione zombie
 
+**Bounding box:** 11–13 righe × 25–33 colonne.
+
+**Struttura:** stanza spawn (sicura, brazier) → collo di bottiglia (1 cella) → stanza con zombie. Il pack di candele è nel collo di bottiglia, appena prima dello zombie — il giocatore lo trova obbligatoriamente mentre avanza. Il trigger va nel corridoio di transizione, non nella stanza.
+
 **Candele:** 3 (abbondanti — primo uso, il giocatore deve sentirsi al sicuro di sperimentare)
 
-**Mappa:** Due stanze collegate da un corridoio stretto. Inizio nella prima stanza (zona sicura con brazier), poi si passa al corridoio interno dove pattuglia lo zombie. Le candele da raccogliere sono posizionate appena prima dello zombie — il giocatore le trova naturalmente mentre avanza. La soluzione è quasi inevitabile: il giocatore trova la candela, la piazza, lo zombie si avvicina alla fiamma.
+**Mappa:** Due stanze collegate da un corridoio stretto (collo di bottiglia 1 cella). Inizio nella prima stanza (zona sicura con brazier). Le candele sono posizionate nel corridoio stretto appena prima dello zombie. La soluzione è quasi inevitabile: il giocatore trova la candela, la piazza, lo zombie si avvicina alla fiamma.
 
 Il primo nemico deve essere un momento didattico chiaro. Un testo suggerisce la meccanica in voce di Mark senza descriverla passo-passo.
 
@@ -183,6 +268,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 4 — "Gli automi" ⬜
 
 `pacco2` (interno) | **2 Zombie** | Meccanica: prima porta (CTRL) — escalazione della distrazione (non meccanica nuova)
+
+**Bounding box:** 13–15 righe × 28–36 colonne.
+
+**Struttura:** 3–4 stanze in sequenza, collegate da colli di bottiglia da 1 cella. La porta sta in uno di questi colli di bottiglia — non in mezzo a una stanza aperta. I trigger di testo vanno nei corridoi stretti, prima degli zombie e prima della porta.
 
 **Candele:** 4
 
@@ -201,6 +290,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 5 — "I corridoi del rito" ⬜
 
 `pacco2` (interno) | **2 Zombie** | Meccanica: prima trappola temporizzata
+
+**Bounding box:** 13–15 righe × 30–38 colonne.
+
+**Struttura:** percorso principale lineare con 1–2 diramazioni brevi (max 2 stanze ciascuna). Il percorso principale passa obbligatoriamente per la trappola temporizzata — è lì che si impara la meccanica. I trigger vanno nei colli di bottiglia prima della trappola.
 
 **Candele:** 4
 
@@ -226,6 +319,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco3` (interno) | **1 Scheletro** | Meccanica: visuale lineare (line-of-sight)
 
+**Bounding box:** 13–16 righe × 30–38 colonne.
+
+**Struttura:** stanza aperta centrale (il line-of-sight è il punto) + corridoi laterali. La stanza aperta serve a rendere evidente la visuale dello scheletro — è l'eccezione alla regola delle stanze compatte, giustificata dalla meccanica. I trigger si mettono nei corridoi di accesso alla stanza, non nella stanza stessa.
+
 **Candele:** 4
 
 **Mappa:** Stanza aperta centrale con corridoi laterali. La forma favorisce la visuale lunga e rende evidente dove lo scheletro copre. 5–6 stanze totali, struttura a T o a croce. Brazier agli angoli — segnano i punti dove la visuale dello scheletro non arriva.
@@ -244,6 +341,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco3` (interno) | **2 Scheletri + 1 Zombie** | Meccanica: line-of-sight multipla, angoli ciechi
 
+**Bounding box:** 14–17 righe × 32–40 colonne.
+
+**Struttura:** 5–6 stanze con corridoi incrociati. I trigger (2 trigger totali, entrambi brevi) si posizionano in colli di bottiglia di transizione tra le stanze principali.
+
 **Candele:** 4
 
 **Mappa:** 5–6 stanze con architettura a corridoi incrociati. La mappa è pensata per creare angoli ciechi utili al giocatore e coperture incrociate per gli scheletri. Brazier negli angoli ciechi — guidano il giocatore verso le zone sicure.
@@ -261,6 +362,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco4` (interno) | **1 Taurus** | Meccanica: carica del Taurus, muri rompibili
 
+**Bounding box:** 13–16 righe × 28–36 colonne.
+
+**Struttura:** corridoio principale → stanza sicura (brazier) → corridoio sorvegliato (il player entra nel field-of-view del Taurus) → muro fragile → stanza post-sfondamento. Il trigger di anticipazione va nel corridoio sicuro prima del Taurus.
+
 **Candele:** 3
 
 **Mappa:** Corridoio principale con una stanza separata da un muro fragile (visivamente distinto). Il Taurus pattuglia dall'altra parte del muro. Il percorso obbligato passa per il corridoio sorvegliato: il giocatore entra nel campo visivo del Taurus, la carica parte, il muro crolla — momento spettacolare che insegna entrambe le meccaniche in un colpo solo. 4–5 stanze totali. Brazier nella stanza sicura iniziale e dopo il muro fragile.
@@ -277,6 +382,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco5` (interno) | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici (unica meccanica nuova — vedi nota trappola)
 
+**Bounding box:** 14–17 righe × 30–38 colonne.
+
+**Struttura:** percorso principale con 1–2 diramazioni brevi. Il muro fragile strategico è sul percorso principale (obbligatorio). La TrappolaMorteIstantanea è solo in una diramazione opzionale. Trigger nel corridoio stretto prima del muro fragile.
+
 **Candele:** 3
 
 **Mappa:** 5–6 stanze con alcuni muri fragili posizionati strategicamente — il giocatore inizia a sfruttarli attivamente, guidando il Taurus verso una parete che sblocca un percorso utile. La prima `TrappolaMorteIstantanea` compare in una diramazione opzionale (mai sul percorso obbligato verso l'uscita) — viene introdotta visivamente, non didatticamente: il giocatore la vede e la schiva, senza che sia la meccanica insegnata da questo livello. Questo è il punto della tabella meccaniche "introdotta visivamente, non nascosta": la trappola letale non è la meccanica del livello, è solo la sua prima apparizione nell'ambiente. La mappa ha un percorso principale chiaro con 1–2 diramazioni brevi. Brazier vicino al muro fragile strategico e vicino all'uscita.
@@ -291,6 +400,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 10 — "Il senso di colpa" ⬜
 
 `pacco5` (interno) | **1 Ghost** | Meccanica: fermarsi per sopravvivere
+
+**Bounding box:** 13–15 righe × 28–35 colonne.
+
+**Struttura:** corridoio di accesso stretto (1 cella) → arena centrale (fino a 7×7) → corridoio di uscita stretto (1 cella). La complessità è psicologica, non spaziale — la mappa è volutamente semplice. Il trigger "Non guardarlo." va nel corridoio di accesso, obbligatorio.
 
 **Candele:** 3
 
@@ -313,6 +426,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco6` (interno) | **1 Ghost + 2 Zombie** | Meccanica: Ghost in combinazione con pericoli che forzano il movimento
 
+**Bounding box:** 15–18 righe × 33–40 colonne.
+
+**Struttura:** 5–6 stanze, collegate da colli di bottiglia. L'unico trigger ("Non c'è risposta giusta.") va in un corridoio di transizione obbligatorio, non nella stanza centrale.
+
 **Candele:** 4
 
 **Mappa:** 5–6 stanze con corridoi sufficientemente larghi da avere sempre un angolo sicuro raggiungibile. Gli zombie pattugliano percorsi che si intersecano con l'arena del Ghost, ma la geometria offre sempre almeno una finestra di immobilità. Nessun vicolo cieco obbligato. Brazier agli angoli sicuri.
@@ -328,6 +445,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 12 — "Il sabotaggio" ⬜
 
 `pacco6` (interno) | **1 Bubu + 2 Zombie** | Meccanica: Bubu spegne le candele
+
+**Bounding box:** 15–18 righe × 34–41 colonne.
+
+**Struttura:** 6–7 stanze con colli di bottiglia tra ogni coppia. Trigger nei colli di bottiglia: il primo ("Quello blu non mi vuole morto.") prima di vedere il Bubu per la prima volta.
 
 **Candele:** 6 (più del solito — il Bubu ne spegnerà alcune, il giocatore deve averne abbastanza)
 
@@ -347,6 +468,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco6` (interno) | **2 Bubu + 2 Scheletri** | Meccanica: scarsità critica di risorse
 
+**Bounding box:** 15–18 righe × 34–41 colonne.
+
+**Struttura:** percorso principale leggibile + 1–2 diramazioni brevi (con le ultime candele disponibili). Trigger sui due pack candele: "Un'ultima candela." e "Devo farla bastare." sono trigger piazzati sulla cella `!` adiacente all'ultimo pack, in un corridoio stretto.
+
 **Candele:** 2 (pochissime — è il punto del livello)
 
 **Mappa:** 6–7 stanze con zone buie sparse. Le candele sono nascoste in posizioni scomode — il giocatore deve scegliere se rischiare l'esplorazione in diramazioni brevi (max 2 stanze). Percorso principale sempre leggibile. Brazier nelle zone di snodo per evitare che il giocatore si perda completamente.
@@ -363,6 +488,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 14 — "Il labirinto vero" ⬜
 
 `pacco7` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu** | Meccanica: mix completo senza Goblin
+
+**Bounding box:** 16–20 righe × 35–42 colonne.
+
+**Struttura:** percorso principale con 2–3 diramazioni brevi. Il percorso principale è sempre quello più ovvio (il più dritto). I trigger atmosferici ("Mio padre è davvero uscito di qua...") vanno in una zona di pausa: un corridoio largo 1 cella poco prima di un bivio.
 
 **Candele:** 4
 
@@ -382,6 +511,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco7` (interno) | **1 Goblin** (da solo) | Meccanica: inseguimento puro, nessuna distrazione possibile
 
+**Bounding box:** 16–20 righe × 35–42 colonne.
+
+**Struttura:** mappa ampia con corridoi larghi (2–3 celle) per dare spazio di manovra al Goblin. Anche con corridoi più larghi, i trigger si mettono comunque in restringimenti a 1 cella — es. soglie tra stanze, porte, angoli. Il Goblin è distante dallo spawn: il player ha qualche secondo prima che arrivi.
+
 **Candele:** 2 (critiche — ogni candela piazzata accelera il Goblin)
 
 **Mappa:** Mappa ampia e aperta, 8–9 stanze, corridoi larghi. Lo spazio è necessario perché il Goblin insegue sempre — il giocatore ha bisogno di margine per manovrare. Pochi vicoli ciechi, percorso principale leggibile. Brazier sparsi — il Goblin li ignora, servono solo al giocatore per orientarsi.
@@ -398,6 +531,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 16 — "Il cacciatore instancabile" ⬜
 
 `pacco8` (interno) | **1 Goblin + 2 Zombie** | Meccanica: Goblin in combinazione
+
+**Bounding box:** 16–20 righe × 35–42 colonne.
+
+**Struttura:** 8–9 stanze con corridoi più stretti del livello 15. Il trigger ("L'unica mossa vincente era non giocare.") va nel corridoio finale prima dell'uscita — 1 cella di larghezza, obbligatorio.
 
 **Candele:** 2
 
@@ -417,6 +554,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco8` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu + 1 Taurus** (no Goblin) | Meccanica: orchestrazione completa
 
+**Bounding box:** 18–21 righe × 38–43 colonne.
+
+**Struttura:** 10–12 stanze, percorso principale chiaro, 2–3 diramazioni brevi. Trigger ("Questo è l'inferno della gente per bene." / "Tutti morti, tutti in riga.") in una zona di pausa — corridoio stretto prima della stanza centrale, obbligatorio.
+
 **Candele:** 4
 
 **Mappa:** 10–12 stanze con percorso principale chiaro e 2–3 diramazioni brevi. Brazier agli incroci principali — la complessità è nei nemici, non nella navigazione. Zone buie presenti ma non obbligatorie. Trappole letali solo nelle diramazioni.
@@ -434,6 +575,10 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco8` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu + 1 Taurus + 1 Goblin** | Meccanica: tutto insieme
 
+**Bounding box:** 18–22 righe × 39–44 colonne.
+
+**Struttura:** percorso ad anello — il player può sempre fuggire in avanti. I trigger ("Sono tornato all'inizio." / "Solo che ora conosco il nome di ogni mostro.") vanno nella sezione di ingresso, in un corridoio stretto prima della mischia principale.
+
 **Candele:** 3
 
 **Mappa:** 10–12 stanze con percorso principale ad anello — il giocatore può sempre fuggire in avanti senza tornare indietro. 1–2 diramazioni brevi. Brazier ai punti di svolta dell'anello. Il Goblin insegue mentre gli altri bloccano, ma l'anello garantisce sempre una via avanti.
@@ -450,6 +595,10 @@ _Testi (ogni riga = trigger separato):_
 ### Livello 19 — "Il Ventre del Padre" ⬜
 
 `pacco8` (interno) | **Mix completo** | Meccanica: massima pressione, architettura claustrofobica
+
+**Bounding box:** 19–22 righe × 40–44 colonne.
+
+**Struttura:** 10–12 stanze compresse, corridoi prevalentemente da 1 cella. La claustrofobia è strutturale. I trigger ("La chiave è pesantissima." sulla cella chiave, "Sa di piombo." nel corridoio adiacente, "Sono diventato quello che volevano." nel corridoio finale prima dell'uscita) sono tutti in posizioni obbligatorie — il corridoio 1-cella garantisce l'attivazione.
 
 **Candele:** 2
 
@@ -471,9 +620,13 @@ _Testi (ogni riga = trigger separato):_
 
 > **Nota sul pack:** Il livello usa `pacco8` per tutta la durata. L'area "esterna" del finale (il giardino in cenere) è una sezione del livello con layout aperto che evoca l'esterno, ma usa le stesse texture `pacco8`. L'effetto di contrasto con il livello 1 è narrativo, non visivo. Alternativa futura: implementare supporto a due pack per livello.
 
+**Bounding box:** 20–22 righe × 40–44 colonne.
+
+**Struttura:** sezione densa (come livello 19) → passaggio di transizione (collo di bottiglia 1 cella) → area aperta finale. I trigger nel finale ("Il cielo è grigio." / "Il villaggio è in cenere." / "Ho passato l'inferno...") si mettono nel passaggio di transizione e nella prima cella dell'area aperta — non in mezzo all'area aperta dove il player potrebbe aggirarli. Il percorso verso l'uscita è rettilineo nell'area finale.
+
 **Candele:** 2
 
-**Mappa:** Due sezioni distinte. La prima (densa, corridoi stretti) è come il livello 19. La seconda (layout aperto, mura perimetrali lontane) evoca il giardino esterno del livello 1 — ora devastato. Il passaggio tra le due sezioni è fisicamente attraversabile. 2 trigger posizionati nell'area aperta mentre il player avanza verso l'uscita finale.
+**Mappa:** Due sezioni distinte. La prima (densa, corridoi stretti) è come il livello 19. La seconda (layout aperto, mura perimetrali lontane) evoca il giardino esterno del livello 1 — ora devastato. Il passaggio tra le due sezioni è fisicamente attraversabile. I 3 trigger finali sono posizionati nel collo di bottiglia di transizione e sul percorso rettilineo verso l'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
