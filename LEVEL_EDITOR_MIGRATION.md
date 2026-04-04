@@ -301,140 +301,168 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE  (5 test suite)
 
 ---
 
-## Task completati
+## Task da fare
 
-### Task 9 — Bug: Piazzamento oggetti e testi ✅
+### Task 17 — Texture catalog panel + filtro sidebar per spritepack
 
-**Risolto:** fix `label.htmlFor` dopo override `radio.id` in `editorSidebar.ts`.
-Il radio Cancella (value=0) ora è checked di default nel tab Oggetti.
-Testo mode funziona: prompt chiede il testo direttamente (embedded nel .mark).
+**Priorità: ALTA** (non più opzionale)
 
-### Task 10 — Bug: Piazzamento nemici con waypoint automatico ✅
+**Files**: `Web/src/pages/leveleditor/packCatalog.ts` (nuovo), `editorSidebar.ts`, `leveleditor.ts`, `leveleditor.css`
 
-**Risolto:** `ENEMY_PREFIX_MAP` in `editorTypes.ts`, `currentWaypointGroup` in `EditorState`.
-Auto-generazione `PREFIX-GROUP-INDEX` (es. `Z-1-1`) con prompt pre-compilato modificabile.
-UI selettore gruppo nel pannello Nemici (−/N/+).
+**Obiettivo A — Catalog panel:**
+Mostrare nell'editor un catalogo visivo delle texture del pack selezionato. Strip fissa ~70px sotto la toolbar (o popover se la strip schiaccia troppo la griglia), scrollabile su asse X, miniature 48×48 raggruppate per sezione (Celle, Muri, Decal, Riempimento, Porte). Si aggiorna al cambio pack.
 
-### Task 11 — UX: Keyboard shortcuts → switch tab sidebar ✅
+**Obiettivo B — Filtro sidebar in base al pack (aggiunta):**
+Attualmente la sidebar mostra tutti i tipi di Ground/Muro/Decal indipendentemente da cosa esiste realmente nel pack selezionato (es. il pacco 1 potrebbe non avere tutte le 10 varianti Terra). Al cambio pack, l'editor deve:
+1. Leggere il JSON dello spritesheet per il pack corrente
+2. Determinare quali tipi ground (cell1–cell10), muri (wall_horizontal/vertical_N), decal (decal_1–decal_8) esistono davvero
+3. Disabilitare visivamente (opacity + `pointer-events: none`) i radio button della sidebar per i tipi non presenti nel pack
 
-**Risolto:** `switchToTab()` esportata da `editorSidebar.ts`, passata a `attachInteraction`.
-F→Terra, W/D→Muri, C→Oggetti, R→Terra.
+Questo si integra naturalmente con il loader del catalog: la stessa `FrameMap` usata per il catalog viene usata per decidere quali radio disabilitare.
 
-### Task 12 — Feature: Testi embedded nel formato `.mark` ✅
+**Analisi spritesheet:**
+- 6 spritesheet SS0–SS5, 2048×2048px, tile 192×192px
+- Solo SS0–SS3 contengono frame `Grounds/`
+- Frame cross-spritesheet: i frame di un pack possono essere su sheet diversi
+- Naming: `Grounds/paccoN/cell1`, `Grounds/paccoN/Riempimento/riempimento_1`, `Grounds/paccoN/RandomWalls/wall_horizontal_1`, `Grounds/paccoN/Decals/decal_1`, `Grounds/paccoN/Door/door_1`
 
-**Risolto:** `getStringCodeText` ora fa fallback al codice stesso (`code || undefined`).
-I file `.mark` nuovi contengono il testo direttamente nel campo `STRING_CODE`. Backward compat con ID numerici storici.
+**Implementazione:**
 
-### Task 13 — Test Playwright per oggetti, nemici, testo ✅
+1. `packCatalog.ts`: fetch parallelo SS0–SS3 JSON → `FrameMap` unificata → cachata in memoria
+2. `getCatalogFrames(packId, frameMap)` → `CatalogSection[]` filtrate per `Grounds/pacco{packId}/`
+3. Strip di canvas 48×48 (`ctx.drawImage`) per ogni tile trovata
+4. `getPackAvailableGrounds(packId, frameMap): Set<number>` → ground type values disponibili → passata alla sidebar per disabilitare i radio assenti
+5. La sidebar espone `updatePackFilter(availableGrounds: Set<number>)` che aggiorna disabled/opacity dei radio
 
-**Risolto:** 5 test suite in `debug-leveleditor.spec.ts` — tutti passano:
-
-1. Griglia, colori, drag, tab switch
-2. Oggetti: Giocatore singleton + cancella
-3. Shortcut tastiera → switch tab
-4. Testo: marker "A" in cella
-5. Waypoint nemici auto-generati
-
-### Task 14 — Feature: Pulsante "Testa in gioco" ✅
-
-**Risolto:** pulsante in toolbar serializza il livello in `sessionStorage['editor-preview']` e naviga a `#/game/preview/0`. `LevelLoader.ts` intercetta `folder==='preview'` e legge da sessionStorage.
-
-### Task 15 — Feature: Autosave in sessionStorage ✅
-
-**Risolto:** `setInterval` da 30s salva `editor-autosave` + `editor-autosave-filename` + `editor-autosave-timestamp`. Al mount dell'editor: `window.confirm` offre ripristino se trovato. Span "Autosalvataggio: HH:MM:SS" in toolbar.
-
-### Task 16 — Feature: Validazione al salvataggio file ✅
-
-**Risolto:** `Web/src/grid/LevelValidator.ts` (browser-compatible, no Node.js deps). `saveFile()` chiama `validateLevel()` prima di scrivere: se errori mostra `confirm` con lista, se solo warning mostra `confirm` con lista.
+**Non fa:**
+- Non renderizza le texture sulla griglia (coperto da Task 14)
+- Non gestisce varianti random/dirty (solo prima variante)
+- Non mostra normal/spec map
 
 ---
 
-## Task opzionale (fare solo su indicazione esplicita)
+### Task 18 — Preview "Testa in gioco" in nuovo tab
 
-### Task 17 — Texture catalog panel: mostra le tile del pack selezionato
+**Priorità: ALTA**
 
-**Obiettivo:** mostrare all'interno dell'editor un catalogo visivo delle texture disponibili nel pack correntemente selezionato, cos' chi disegna il livello sa cosa sta per usare prima di iniziare. **Non si tratta di renderizzare le texture sulla griglia** — solo un pannello/strip di anteprima statica.
+**File**: `Web/src/pages/leveleditor.ts`
 
-**Perimetro:** solo le tile "ground" visive per il pack selezionato: celle pavimento (cell1–cell10), riempimento (riempimento_1–13), muri (wall_horizontal_1, wall_vertical_1 — solo il primo campione), decals (decal_1–decal_8), porte (door_1 — solo primo frame). Nessuna tile \_normal o \_spec. Nessuna animazione.
+**Problema:** il pulsante "Testa in gioco" naviga nello stesso tab, perdendo lo stato dell'editor in corso.
 
----
-
-**Analisi spritesheet completata** (dati concreti):
-
-- **6 spritesheet**: `Spritesheet-0.png` … `Spritesheet-5.png`, ognuno 2048×2048px
-- **Solo SS0–SS3 contengono frame `Grounds/`** — SS4 e SS5 sono solo nemici/effetti
-- **Ogni tile e' 192×192px** — tutti i ground frame hanno `w=192, h=192` nel JSON
-- **Frame format**: `{ "frame": { "x": N, "y": N, "w": 192, "h": 192 } }` — nessuna rotazione, nessun trim
-- **Naming**: `Grounds/paccoN/cell1`, `Grounds/paccoN/Riempimento/riempimento_1`, `Grounds/paccoN/RandomWalls/wall_horizontal_1`, ecc.
-- **Cross-spritesheet per pack**: i frame di un singolo pack sono sparpagliati su piu' sheet. Esempio pacco2: `cell1–cell4` → SS0, `cell5–cell10` → SS1, alcuni `RandomWalls` → SS2/SS3. Non si puo' assumere che tutti i frame di un pack stiano in un unico PNG.
-
-**Mappa frame → sheet** (campione per pacco2):
-| Frame | Sheet |
-|---|---|
-| cell1–cell4 | SS0 |
-| cell5–cell10 | SS1 |
-| Riempimento/riempimento_1–13 | SS0 |
-| RandomWalls/wall_horizontal_1 | SS1 |
-| RandomWalls/wall_vertical_1 | SS3 |
-| Decals/decal_1–8 | SS0 |
-| Door/door_1 | SS0 |
-
----
-
-**Piano di implementazione:**
-
-**1. Loader unificato `Web/src/pages/leveleditor/packCatalog.ts`** (nuovo file):
+**Fix:** sostituire `window.location.hash = '#/game/preview/0'` con apertura in nuovo tab:
 
 ```typescript
-interface FrameRef {
-  ssIndex: number; // 0–3
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-type FrameMap = Map<string, FrameRef>; // "Grounds/pacco1/cell1" → FrameRef
-
-async function loadFrameMap(): Promise<FrameMap>;
+window.open(
+    window.location.origin + window.location.pathname + '#/game/preview/0',
+    '_blank'
+);
 ```
 
-- Fa `fetch` parallelo dei 4 JSON (SS0–SS3)
-- Costruisce una `Map<string, FrameRef>` unificata: `frameName → {ssIndex, x, y, w, h}`
-- Carica i 4 PNG come `HTMLImageElement` (via `new Image()` + `src`) per poterli usare nei canvas
-- Risultato cachato in memoria — chiamare una volta sola al mount dell'editor
+La `sessionStorage` è condivisa all'interno della stessa origin/tab ma NON tra tab diversi. Occorre usare `localStorage` al posto di `sessionStorage` per la chiave `editor-preview`, oppure passare i dati via URL (base64 encode del contenuto .mark, ma potrebbe essere troppo lungo).
 
-**2. Funzione `getCatalogFrames(packId: number, frameMap: FrameMap): CatalogSection[]`**:
+**Soluzione consigliata:** usare `localStorage` per la chiave `editor-preview` (non `sessionStorage`), con una flag `editor-preview-ready: 'true'` che il nuovo tab legge e poi cancella. Il nuovo tab legge da localStorage, carica il livello, poi rimuove la chiave.
 
-```typescript
-interface CatalogTile {
-  name: string;
-  ref: FrameRef;
-}
-interface CatalogSection {
-  title: string;
-  tiles: CatalogTile[];
-}
-```
-
-- Filtra `frameMap` per `Grounds/pacco{packId}/` escludendo `_normal` e `_spec`
-- Raggruppa in sezioni: `Celle` (cell*), `Riempimento` (Riempimento/*), `Muri` (RandomWalls/_ — solo prima variante orizzontale e verticale), `Decals` (Decals/_), `Porte` (Door/door_1)
-- Ritorna le sezioni ordinate
-
-**3. Rendering del panel**: ogni tile viene disegnata su un `<canvas>` 48×48 usando `ctx.drawImage(img, srcX, srcY, 192, 192, 0, 0, 48, 48)` dove `img` è il PNG del sheet corretto.
-
-**4. Posizionamento del panel**:
-
-- **Prima scelta — strip fissa sotto la toolbar**: banda orizzontale ~70px di altezza, scrollabile su asse X, mostra le tile come miniature 48×48 raggruppate per sezione con separatori verticali e label. Si aggiorna al cambio pack. Occupa spazio verticale fisso ma il catalogo rimane sempre visibile.
-- **Fallback — popover**: se durante l'implementazione risulta che la strip schiaccia troppo la griglia (l'editor ha gia' toolbar + body), si passa a un popover attivato da un pulsante `🎨` accanto al selettore pack nella toolbar.
-
-**5. Trigger aggiornamento**: il catalog si ridisegna ogni volta che `state.grid.envTexturePackId` cambia (gia' intercettabile nel listener `change` dell'input pack nella toolbar).
+**File da modificare:**
+- `leveleditor.ts`: cambia `sessionStorage` → `localStorage` per `PREVIEW_SESSION_KEY`, usa `window.open(..., '_blank')`
+- `LevelLoader.ts`: cambia `sessionStorage.getItem` → `localStorage.getItem` per folder `'preview'`
 
 ---
 
-**Cosa NON fa questo task:**
+### Task 19 — Regola muri doppi (editor + validatore)
 
-- Non renderizza le texture sulla griglia dell'editor (quel requisito e' coperto dal Task 14 "Testa in game" con hot reload)
-- Non gestisce le varianti random/dirty (mostra solo la prima variante di ogni tile)
-- Non mostra normal map o spec map
+**Priorità: ALTA**
 
-**Dipendenze:** nessuna dipendenza dagli altri task — si puo' fare in qualsiasi momento dopo il Task 8 (wiring base).
+**Files**: `editorState.ts`, `LevelValidator.ts`
+
+**Problema:** è possibile piazzare un muro Top su una cella e anche un muro Bottom sulla cella adiacente sopra, creando un "muro doppio" ridondante e potenzialmente confusionario per il renderer.
+
+**Regola:** se la cella `(col, row)` ha un muro su lato X, la cella adiacente sul lato X non può avere un muro sul lato opposto (perché sarebbe lo stesso confine fisico).
+
+Mapping lato → cella adiacente → lato opposto:
+| Lato su (col,row) | Cella adiacente | Lato da bloccare |
+|---|---|---|
+| Top (WP_TOP) | (col, row-1) | Bottom (WP_BOTTOM) |
+| Bottom (WP_BOTTOM) | (col, row+1) | Top (WP_TOP) |
+| Left (WP_LEFT) | (col-1, row) | Right (WP_RIGHT) |
+| Right (WP_RIGHT) | (col+1, row) | Left (WP_LEFT) |
+
+**In `setWallType` (editorState.ts):** prima di applicare il muro, controllare se la cella adiacente ha già un muro sul lato opposto. Se sì, bloccare e restituire un messaggio di errore (attualmente ritorna solo `boolean`).
+
+Cambiare la firma:
+```typescript
+// Prima: boolean (ok/ko)
+// Dopo: { ok: boolean; reason?: string }
+export function setWallType(...): { ok: boolean; reason?: string }
+```
+
+**In `validateLevel` (LevelValidator.ts):** aggiungere una validazione semantica che scansiona tutte le celle e segnala come warning ogni coppia di muri doppi trovata.
+
+**In `editorInteraction.ts`:** gestire il nuovo return type e mostrare il feedback (vedi Task 20).
+
+---
+
+### Task 20 — Feedback utente per azioni bloccate
+
+**Priorità: ALTA**
+
+**Files**: `editorInteraction.ts`, `leveleditor.ts`, `leveleditor.css`
+
+**Problema:** quando l'editor blocca silenziosamente un'azione (singleton già piazzato, muro in posizione invalida, muro doppio, ecc.) l'utente clicca e non capisce perché non succede nulla.
+
+**Lista completa delle azioni attualmente bloccate silenziosamente:**
+1. Piazzamento singleton già presente (Giocatore, Chiave, Uscita, Goblin)
+2. Muro Left/Right/Bottom con tipo Ingresso o Uscita (validazione posizione)
+3. Muro doppio su cella adiacente (dopo Task 19)
+4. Futuro: ground type non disponibile nel pack corrente (dopo Task 17)
+
+**Fix:** aggiungere un sistema di toast non bloccante nell'editor:
+
+```typescript
+// In leveleditor.ts
+function showEditorToast(message: string, type: 'error' | 'warning' = 'error'): void {
+    // Crea/aggiorna uno span .editor-toast posizionato in overlay sulla griglia
+    // Auto-scompare dopo 2.5 secondi
+}
+```
+
+Il toast deve essere:
+- Posizionato in overlay sulla griglia (non un `alert()` bloccante)
+- Auto-dismiss dopo ~2.5s
+- Colore rosso per errori, giallo per warning
+- Non interrompe il flusso di lavoro
+
+**Integrazione:**
+- `attachInteraction` riceve una callback `onBlocked: (reason: string) => void`
+- `applyObject` e `applyWall` chiamano `onBlocked(reason)` invece di fare `return` silenzioso
+- `leveleditor.ts` passa `showEditorToast` come `onBlocked`
+
+CSS: `.editor-toast` posizionato `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999`
+
+---
+
+### Task 21 — Bug: prima apertura file non funziona
+
+**Priorità: ALTA**
+
+**File**: `editorFileIo.ts` (funzione `openFile`)
+
+**Sintomo:** alla prima apertura del level editor, premere "Apri" e selezionare un `.mark` non carica nulla. Se si annulla e si riprova (o si cambia file), il caricamento funziona.
+
+**Probabile causa:** il `<input type="file">` creato dinamicamente e cliccato programmaticamente viene garbage-collected prima che il browser riesca a processare la selezione del file, oppure l'evento `onchange` non si attiva perché l'input viene rimosso dal DOM prima del completamento. Un altro candidato: la `Promise` viene resolved con `null` per via dell'evento `oncancel` che scatta prima di `onchange` su alcuni browser/OS.
+
+**Fix da investigare:**
+1. Appendere l'input al `document.body` prima del click e rimuoverlo solo dopo la risoluzione
+2. Rimuovere il handler `oncancel` (non standard in tutti i browser, potrebbe interferire) e gestire solo `onchange`
+3. In alternativa: aggiungere un timeout di sicurezza per risolvere la Promise
+
+**Fix consigliato:**
+```typescript
+document.body.appendChild(input);
+input.onchange = () => {
+    // ... gestione file
+    document.body.removeChild(input);
+};
+// Rimuovere oncancel (non affidabile cross-browser)
+input.click();
+```
+
