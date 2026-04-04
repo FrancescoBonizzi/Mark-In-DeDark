@@ -87,7 +87,7 @@ Prima di segnare un livello come completato, verifica:
 
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
-| 1       | L'ingresso                 | I    | ✅ Fatto   |
+| 1       | L'ingresso                 | I    | ⬜ Da fare |
 | 2       | Il buio                    | I    | ⬜ Da fare |
 | 3       | La prima creatura          | I    | ⬜ Da fare |
 | 4       | Gli automi                 | I    | ⬜ Da fare |
@@ -114,7 +114,7 @@ Prima di segnare un livello come completato, verifica:
 
 ---
 
-### Livello 1 — "L'ingresso" ✅
+### Livello 1 — "L'ingresso" ⬜
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
