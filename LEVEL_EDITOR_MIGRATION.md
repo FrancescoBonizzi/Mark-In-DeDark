@@ -328,6 +328,7 @@ I file `.mark` nuovi contengono il testo direttamente nel campo `STRING_CODE`. B
 ### Task 13 — Test Playwright per oggetti, nemici, testo ✅
 
 **Risolto:** 5 test suite in `debug-leveleditor.spec.ts` — tutti passano:
+
 1. Griglia, colori, drag, tab switch
 2. Oggetti: Giocatore singleton + cancella
 3. Shortcut tastiera → switch tab
@@ -657,8 +658,6 @@ interface AutosaveMeta {
 ---
 
 ---
-
-## Task opzionale (fare solo su indicazione esplicita)
 
 ### Task 17 — Texture catalog panel: mostra le tile del pack selezionato
 
