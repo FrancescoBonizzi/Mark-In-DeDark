@@ -2,8 +2,11 @@
 
 ### Livelli
 
+- [ ] Farli tutti
+
 ### UI
 
+- [ ] Chiedere all'AI se secondo lei ci sono migliorie che posso fare al gioco per renderlo più giocabile, senza introdurre nuove texture, ma solo cambiando alcune cose tipo illuminare la chiave e la porta iniziale e finale
 - [ ] Illuminare la chiave
 - [ ] Illuminare la porta finale e iniziale
 - [ ] Revisione di come appaiono i testi in game. Magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
