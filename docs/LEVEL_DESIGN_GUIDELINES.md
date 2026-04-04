@@ -55,7 +55,31 @@ Se la spec dice "lineare" o "strettamente lineare":
 
 Se la spec prevede diramazioni opzionali: max 1 bivio visibile alla volta, ogni diramazione max 2–3 stanze, mai chiave o uscita nelle diramazioni.
 
-### 4. PRIMA IL GRAFO, POI L'ASCII
+### 4. MURI — obbligatori attorno a ogni cella floor
+
+Ogni cella floor deve essere circondata da muri espliciti (`│` e `─`) ai bordi con fill o NonCella. **Non basta avere fill adiacente:** senza separatori muro il motore di rendering usa texture "da esterno" che producono artefatti visivi.
+
+**Regola in una riga:** ogni transizione floor↔fill (o floor↔NonCella) deve avere un separatore muro nel file `.ascii`.
+
+Separatori verticali (`│`) nelle righe-cella, posizione dispari `c*2+1` tra col C e col C+1:
+- `│` tra fill col C e floor col C+1 → LEFT wall su col C+1
+
+Separatori orizzontali (`─`) nelle righe-muro (prefisso 5 spazi), posizione `c*2` per col C:
+- `─` alla col C tra riga R (fill) e riga R+1 (floor) → TOP wall su (R+1, C)
+
+**Eccezioni lecite:** il separatore `i` (Ingresso) e `o` (Uscita) sostituiscono `│` o `─` dove serve una apertura con tipo speciale. Il separatore tra due celle fill non richiede muro.
+
+Esempio pattern corretto (area aperta circondata da fill con muri):
+```
+  1: ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+               ─ ─ ─ ─ ─ ─ ─       ← muri TOP dell'area (cols 5-11)
+  2: ▓ ▓ ▓ ▓ ▓│· · · · · · ·│▓ ▓  ← │ = muri LEFT e RIGHT dell'area
+  3: ▓i@ · · · · · · · · · · ·│▓   ← i = ingresso, │ = muro destro
+               ─ ─ ─ ─ ─ ─ ─       ← muri BOTTOM dell'area
+  4: ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+```
+
+### 5. PRIMA IL GRAFO, POI L'ASCII
 
 Non iniziare mai a disegnare l'ASCII senza aver prima scritto il grafo delle stanze. Vedi il workflow obbligatorio in [Sezione 6](#6-workflow-obbligatorio-per-la-generazione).
 

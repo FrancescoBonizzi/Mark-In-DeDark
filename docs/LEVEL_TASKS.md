@@ -136,6 +136,14 @@ Il contenuto di una riga muro inizia alla posizione 0 (dopo i 5 spazi di prefiss
 **Ingresso orizzontale senza MURI espliciti**
 La guida avverte che per Ingresso/Uscita su lato LEFT/RIGHT in corridoi orizzontali bisognerebbe usare la sezione `MURI`. In pratica, scrivere `▓i·` nel corpo della riga-cella (fill + separatore `i` + floor) funziona correttamente: il convertitore assegna `RIGHT=5` (Ingresso) alla cella fill, che il gioco tratta come equivalente visivo di `LEFT=5` sulla cella floor. Non è necessario aggiungere voci MURI per questo caso.
 
+**Muri obbligatori attorno al floor — regola critica**
+Ogni transizione floor↔fill (e floor↔NonCella) richiede un separatore muro esplicito nel file `.ascii`. Senza di esso, il motore usa texture "da esterno" che producono artefatti visivi. Vedi VINCOLO §4 in `LEVEL_DESIGN_GUIDELINES.md` per la regola completa con esempi.
+
+Riepilogo pratico per un livello con fill perimetrale e area floor interna:
+- **Verticali `│`:** nelle righe-cella, inserire `│` nella posizione dispari tra fill e floor (es. `▓▓▓▓▓▓▓▓▓│· ·`)
+- **Orizzontali `─`:** nelle righe-muro (prefisso 5 spazi), scrivere `─` alla posizione `c*2` per ogni colonna floor che confina con fill sopra o sotto (es. `               ─ ─ ─ ─ ─`)
+- L'ingresso `i` e l'uscita `o` sostituiscono `│`/`─` dove serve una apertura con tipo speciale.
+
 **Il validatore avverte "nessun pacco di candele"**
 Per i livelli senza nemici (livelli 1 e 2) questa è la situazione corretta. L'avviso può essere ignorato.
 
@@ -169,7 +177,7 @@ Prima di segnare un livello come completato, verifica:
 
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
-| 1       | L'ingresso                 | I    | ⬜ Da fare |
+| 1       | L'ingresso                 | I    | ✅ Fatto   |
 | 2       | Il buio                    | I    | ⬜ Da fare |
 | 3       | La prima creatura          | I    | ⬜ Da fare |
 | 4       | Gli automi                 | I    | ⬜ Da fare |
@@ -196,7 +204,7 @@ Prima di segnare un livello come completato, verifica:
 
 ---
 
-### Livello 1 — "L'ingresso" ⬜
+### Livello 1 — "L'ingresso" ✅
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
