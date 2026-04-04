@@ -15,14 +15,14 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 
 ---
 
-## Regole Invarianti (Hard Rules)
+## Regole Invarianti (Hard Rules) — solo per task di codice
 
 - **Shader:** Ogni shader deve avere sia WGSL (WebGPU) che GLSL (WebGL). Mai GLSL-only.
 - **TypeScript:** Nessun tipo `any`. I campi opzionali nelle classi vanno dichiarati come `T | undefined` (non `?: T`) per via di `exactOptionalPropertyTypes`.
 - **Game Lifecycle:** Richiama `destroyGame()` prima di ogni `initGame()`.
 - **Routing:** Navigazione tra pagine tramite `window.location.hash = '#/route'` (evita import circolari con `router.ts`).
 - **Rendering Debug:** Per problemi visivi, controlla sempre l'ordine di z-index di PixiJS prima di alterare la logica delle classi visive.
-- **Build:** `npm run build` deve passare senza errori dopo la risoluzione di ogni singolo task.
+- **Build:** `npm run build` deve passare senza errori dopo la risoluzione di ogni singolo task di codice.
 
 ---
 
@@ -49,10 +49,37 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 
 ---
 
-## Workflow
+## Workflow — task di codice (bugfix, feature, refactor)
 
 - Per ogni bug: analizza prima il C# originale in `/Csharp`. Usa `progetto-riferimento/` se proprio hai dei dubbi per passare da CSharp a TS per le parti a certe conversioni in PixiJs. Non modificare senza aver letto la parte `/Csharp` originale.
 - Risolvi autonomamente: analizza log, esegui il test Playwright, itera senza chiedere guida passo passo.
 - Non segnare un task come completato senza che `npm run build` passi e il test Playwright confermi il comportamento.
 - Dopo correzioni dell'utente: aggiorna `tasks/lessons.md` con il pattern per prevenire la ricorrenza.
 - Impatto minimo: modifica solo ciò che serve. Niente refactor non richiesti, niente astrazioni speculative.
+
+---
+
+## Workflow — generazione livelli
+
+Quando il task riguarda la creazione o modifica di livelli di gioco, **non eseguire build né test Playwright** — non hanno senso in questo contesto.
+
+Il punto di partenza obbligatorio è **`docs/LEVEL_TASKS.md`**: contiene la lista dei livelli, lo stato di avanzamento, le specifiche di ogni livello, il workflow da seguire e la checklist di completamento.
+
+Documentazione di supporto:
+
+- `docs/LEVEL_FORMAT.md` — struttura tecnica del formato `.mark` e del formato `.ascii`
+- `docs/LEVEL_DESIGN_GUIDELINES.md` — linee guida di design, narrativa, progressione difficoltà
+- `Web/scripts/level-editor.ts` — documentazione in-code del formato `.ascii` e del convertitore
+
+Workflow per ogni livello:
+
+1. Leggi le specifiche del livello in `LEVEL_TASKS.md`.
+2. Leggi `LEVEL_FORMAT.md` e `LEVEL_DESIGN_GUIDELINES.md` se non li hai già in contesto.
+3. Crea `Web/public/assets/levels/N.ascii` (sorgente editabile) e itera fino a quando non sei soddisfatto del risultato.
+4. Quando vuoi finalizzare, converti con `npx ts-node Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii` → genera `N.mark`.
+5. Valida con `npx ts-node Web/scripts/validate-level.ts Web/public/assets/levels/N.mark`.
+6. Se ci sono errori, correggi il `.ascii` e rigenera — non modificare mai il `.mark` a mano.
+7. Aggiungi eventuali nuovi stringCode a `Web/src/ui/GameTexts.ts`.
+8. Segna il livello come ✅ in `LEVEL_TASKS.md`.
+
+**Conserva sempre entrambi i file** — `.ascii` è la sorgente editabile, `.mark` è il formato di gioco.
