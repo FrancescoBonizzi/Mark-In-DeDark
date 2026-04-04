@@ -609,6 +609,8 @@ STRUTTURA DEL FILE .ascii
     r,c: stringCode
   CANDELE:
     r,c: qty
+  CANCELLA:
+    r,c: 0
   WAYPOINTS:
     r,c: Z-1-1
   TERRA:
@@ -692,7 +694,18 @@ ANNOTAZIONI — CANDELE (quantità pacco)
   CANDELE:
     r,c: 3
 
-  Specifica quante candele contiene un pacco (default=1). Solo se ≠ 1.
+  Specifica quante candele contiene un pacco (default=1 se assente).
+  Presente solo quando la cella ha un valore objData esplicito nel .mark originale.
+
+
+ANNOTAZIONI — CANCELLA (azzeramento oggetto cella)
+────────────────────────────────────────────────────
+  CANCELLA:
+    r,c: 0
+
+  Marca una cella con object=0 (cancella l'oggetto di default del tile).
+  Generato automaticamente dal visualizzatore; non serve scriverlo manualmente
+  per livelli nuovi. Presente solo quando il .mark originale ha object=0.
 
 
 ANNOTAZIONI — WAYPOINTS (percorsi di pattuglia nemici)
@@ -745,6 +758,11 @@ ANNOTAZIONI — MURI (override ID muri non-standard)
     4,12,13,14,15 → mostrati come │/─ (occludente), ma texture diversa
     7,8,9,10,11   → mostrati come :/. (decal),      ma texture diversa
   In genere non serve scrivere MURI manualmente: viene generato dal visualizzatore.
+  Casi generati automaticamente:
+    · ID non default (4,12–15 su │/─; 8–11 su :/.)
+    · Muri sul lato secondario (es. TOP quando il primario BOTTOM già esiste)
+    · Muri di bordo: TOP di riga 0, BOTTOM di riga 24, LEFT di col 0, RIGHT di col 44
+      (non hanno separatore nell'ASCII e vengono sempre messi in MURI)
 
 
 REGOLE DI VALIDAZIONE (npx tsx scripts/validate-level.ts)
