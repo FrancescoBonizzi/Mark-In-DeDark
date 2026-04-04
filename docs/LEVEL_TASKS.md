@@ -118,8 +118,8 @@ Il giocatore impara solo due cose: muoversi e raccogliere la chiave per aprire l
 _Testi (ogni riga = trigger separato):_
 
 > "Mio padre mi ha stretto la mano troppo forte, come al solito." _(all'ingresso)_
-> "'Torna uomo o non tornare.'" _(qualche passo dopo)_
-> "Il nome di mio fratello è graffiato su questa porta. Sotto di lui, altri nomi." _(vicino all'uscita — trigger unico, due frasi)_
+> "Il nome di mio fratello è graffiato su questa porta." _(vicino all'uscita)_
+> "Sotto di lui, altri nomi." _(passo successivo)_
 
 ---
 
@@ -187,9 +187,9 @@ Zombie in combinazione con trappola temporizzata visibile. Il giocatore impara c
 
 _Testi (ogni riga = trigger separato):_
 
-> "I corridoi sono levigati." _(nel corridoio principale — zona sicura)_
-> "Quante scarpe ci sono passate sopra." _(stesso punto o passo successivo)_
-> "Quelle lame battono un ritmo. Se non mi fermo, passo." _(vicino alla trappola — breve, il giocatore deve concentrarsi)_
+> "Quante scarpe ci sono passate sopra." _(nel corridoio principale — zona sicura)_
+> "Quelle lame battono un ritmo." _(vicino alla trappola)_
+> "Se non mi fermo, passo." _(stesso punto — il giocatore deve concentrarsi)_
 
 ---
 
@@ -212,7 +212,8 @@ Il giocatore vede lo scheletro, vede la linea retta, capisce il pericolo prima d
 _Testi (ogni riga = trigger separato):_
 
 > "Pattugliano stanze vuote." _(entrando nella stanza)_
-> "Guardano dritto. Solo dritto." _(vicino allo scheletro — suggerisce la meccanica senza spiegarla)_
+> "Guardano dritto." _(vicino allo scheletro — suggerisce la meccanica senza spiegarla)_
+> "Solo dritto." _(passo successivo)_
 
 ---
 
@@ -244,7 +245,7 @@ _Testi (ogni riga = trigger separato):_
 _Testi (ogni riga = trigger separato):_
 
 > "Qualcosa respira dall'altra parte del muro." _(prima del muro fragile — zona sicura, anticipazione)_
-> "Carica e sfonda i muri a testate." _(dopo il muro sfondato — player ancora in zona pericolosa, breve)_
+> "Non sa fermarsi." _(dopo il muro sfondato — player ancora in zona pericolosa, breve)_
 > "Tanta forza, così poca utilità." _(zona sicura dopo il muro — player respira)_
 
 ---
@@ -435,9 +436,9 @@ Narrativamente: Mark è nel cuore del labirinto, il punto più lontano dall'usci
 
 _Testi (ogni riga = trigger separato):_
 
-> "La chiave è pesantissima. Sa di piombo." _(sulla chiave — trigger unico, 2 frasi brevi)_
-> "L'ultima porta." _(vicino all'uscita)_
-> "Sono diventato quello che volevano." _(stesso punto — rassegnazione totale)_
+> "La chiave è pesantissima." _(sulla chiave)_
+> "Sa di piombo." _(passo successivo)_
+> "Sono diventato quello che volevano." _(vicino all'uscita — rassegnazione totale)_
 
 ---
 

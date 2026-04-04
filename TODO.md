@@ -1,20 +1,11 @@
 ## Migliorare il gioco
 
-- Fagli scrivere nel claude.md che il playwright serve solo per i task legati a bug di rendering, non per ogni task
-
 ### Livelli
-
-#### Errori iniziali
-
-Vanno riscritti a mano tutti e 20 i livelli perché non ha capito un cazzo in certi punti
-– Troppo ampio il primo
-– Poco architettonico (vedi il 2 di Marco)
-– Non ha chiuso correttamente, ci sono vari buchi
-– Fai ridisegnare alcune texture, tipo quella dei muri esterni… devono essere seamless. O si può anche evitare di metterli
-– Fai ridisegnare alcune cose tipo la chiave che è bruttina (taglia la parte e incollala dentro)
 
 ### UI
 
+- [ ] Illuminare la chiave
+- [ ] Illuminare la porta finale e iniziale
 - [ ] Revisione di come appaiono i testi in game. Magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
 - [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 
