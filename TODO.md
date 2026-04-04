@@ -1,5 +1,7 @@
 ## Migliorare il gioco
 
+- Fagli scrivere nel claude.md che il playwright serve solo per i task legati a bug di rendering, non per ogni task
+
 ### Livelli
 
 #### Errori iniziali
