@@ -21,7 +21,6 @@ import { InstantlyDieTrap } from "../objects/InstantlyDieTrap";
 import { Key } from "../objects/Key";
 import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
 import Numbers from "../services/Numbers";
-import ScoreRepository from "../services/ScoreRepository";
 import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
 import { GameTexts, getStringCodeText } from "../ui/GameTexts";
@@ -438,10 +437,7 @@ export async function initGame(container: HTMLElement, folder: string, levelIdPa
             gameEnded = true;
             hud?.showMessage(GameTexts.levelCompleted, "#4ade80", true);
             const used = candlesManager?.playerUsedCandles ?? 0;
-            ScoreRepository.setLevelCompleted(currentFolder, currentLevelId);
-            ScoreRepository.setLevelTime(currentFolder, currentLevelId, Math.floor(elapsedMs));
-            ScoreRepository.setLevelCandles(currentFolder, currentLevelId, used);
-            sessionStorage.setItem(
+sessionStorage.setItem(
               GAMEOVER_KEY,
               JSON.stringify({
                 folder: currentFolder,
