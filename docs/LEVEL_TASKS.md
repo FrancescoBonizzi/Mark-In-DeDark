@@ -2,34 +2,71 @@
 
 Stato di avanzamento della progettazione e implementazione dei 20 livelli.
 Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`](./LEVEL_DESIGN_GUIDELINES.md).
-Per la struttura tecnica del file `.mark`: [`LEVEL_FORMAT.md`](./LEVEL_FORMAT.md).
+
+---
+
+## Come creare un livello
+
+Ogni livello va creato nel formato ASCII con `level-editor.ts` e poi convertito in `.mark`.
+
+**1. Leggi la guida completa (obbligatorio prima di iniziare):**
+
+```
+npx tsx Web/scripts/level-editor.ts --help
+```
+
+**2. Genera la griglia vuota con il pack corretto:**
+
+```
+npx tsx Web/scripts/level-editor.ts --new --pack=N > Web/public/assets/levels/N.ascii
+```
+
+**3. Disegna il livello** nel file `.ascii` generato — mappa + annotazioni secondo le specifiche in `--help`.
+
+**4. Converti in `.mark`:**
+
+```
+npx tsx Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii -o Web/public/assets/levels/N.mark
+```
+
+**5. Valida:**
+
+```
+npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/N.mark
+```
+
+**6. Verifica il round-trip** (facoltativo ma consigliato — deve essere identico):
+
+```
+npx tsx Web/scripts/level-editor.ts Web/public/assets/levels/N.mark
+```
 
 ---
 
 ## Stato complessivo
 
-| Livello | Nome provvisorio            | Atto | Status       |
-| ------- | --------------------------- | ---- | ------------ |
-| 1       | L'ingresso                  | I    | ⬜ Da fare   |
-| 2       | Il buio                     | I    | ⬜ Da fare   |
-| 3       | La prima creatura           | I    | ⬜ Da fare   |
-| 4       | Gli automi                  | I    | ⬜ Da fare   |
-| 5       | I corridoi del rito         | I    | ⬜ Da fare   |
-| 6       | I soldati di polvere        | II   | ⬜ Da fare   |
-| 7       | La sorveglianza             | II   | ⬜ Da fare   |
-| 8       | La rabbia cieca             | II   | ⬜ Da fare   |
-| 9       | I guardiani rotti           | II   | ⬜ Da fare   |
-| 10      | Il senso di colpa           | II   | ⬜ Da fare   |
-| 11      | Fermo nel caos              | III  | ⬜ Da fare   |
-| 12      | Il sabotaggio               | III  | ⬜ Da fare   |
-| 13      | La privazione               | III  | ⬜ Da fare   |
-| 14      | Il labirinto vero           | III  | ⬜ Da fare   |
-| 15      | L'odio                      | III  | ⬜ Da fare   |
-| 16      | Il cacciatore instancabile  | III  | ⬜ Da fare   |
-| 17      | Tutto insieme               | IV   | ⬜ Da fare   |
-| 18      | La prova definitiva         | IV   | ⬜ Da fare   |
-| 19      | Il Ventre del Padre         | IV   | ⬜ Da fare   |
-| 20      | Il giardino vuoto           | IV   | ⬜ Da fare   |
+| Livello | Nome provvisorio           | Atto | Status     |
+| ------- | -------------------------- | ---- | ---------- |
+| 1       | L'ingresso                 | I    | ⬜ Da fare |
+| 2       | Il buio                    | I    | ⬜ Da fare |
+| 3       | La prima creatura          | I    | ⬜ Da fare |
+| 4       | Gli automi                 | I    | ⬜ Da fare |
+| 5       | I corridoi del rito        | I    | ⬜ Da fare |
+| 6       | I soldati di polvere       | II   | ⬜ Da fare |
+| 7       | La sorveglianza            | II   | ⬜ Da fare |
+| 8       | La rabbia cieca            | II   | ⬜ Da fare |
+| 9       | I guardiani rotti          | II   | ⬜ Da fare |
+| 10      | Il senso di colpa          | II   | ⬜ Da fare |
+| 11      | Fermo nel caos             | III  | ⬜ Da fare |
+| 12      | Il sabotaggio              | III  | ⬜ Da fare |
+| 13      | La privazione              | III  | ⬜ Da fare |
+| 14      | Il labirinto vero          | III  | ⬜ Da fare |
+| 15      | L'odio                     | III  | ⬜ Da fare |
+| 16      | Il cacciatore instancabile | III  | ⬜ Da fare |
+| 17      | Tutto insieme              | IV   | ⬜ Da fare |
+| 18      | La prova definitiva        | IV   | ⬜ Da fare |
+| 19      | Il Ventre del Padre        | IV   | ⬜ Da fare |
+| 20      | Il giardino vuoto          | IV   | ⬜ Da fare |
 
 ---
 
