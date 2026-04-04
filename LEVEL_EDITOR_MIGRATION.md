@@ -246,165 +246,369 @@ Enums, tipi, parser e serializer **gia' presenti** nella codebase riducono signi
 ### Struttura file
 
 ```
-Web/src/grid/GridSerializer.ts              (NEW - serializeMark estratto)
-Web/src/pages/leveleditor.ts                (NEW - page renderer + routing)
-Web/src/pages/leveleditor/                  (NEW - directory)
-  editorTypes.ts                            (NEW - lookup maps runtime, colori, labels)
-  editorState.ts                            (NEW - stato mutabile + operazioni)
-  editorGrid.ts                             (NEW - rendering griglia CSS + update celle)
-  editorSidebar.ts                          (NEW - 4 tab con radio button)
-  editorInteraction.ts                      (NEW - mouse, keyboard, painting)
-  editorFileIo.ts                           (NEW - open/save/new/dirty tracking)
-  leveleditor.css                           (NEW - stili editor)
-Web/src/pages/router.ts                     (MODIFY - aggiungere route)
-Web/src/pages/menu.ts                       (MODIFY - aggiungere link)
-Web/scripts/ascii-to-mark.ts               (MODIFY - importare da GridSerializer)
+Web/src/grid/GridSerializer.ts              ✅ DONE
+Web/src/pages/leveleditor.ts                ✅ DONE
+Web/src/pages/leveleditor/                  ✅ DONE
+  editorTypes.ts                            ✅ DONE
+  editorState.ts                            ✅ DONE
+  editorGrid.ts                             ✅ DONE
+  editorSidebar.ts                          ✅ DONE
+  editorInteraction.ts                      ✅ DONE
+  editorFileIo.ts                           ✅ DONE
+  leveleditor.css                           ✅ DONE
+Web/src/pages/router.ts                     ✅ DONE
+Web/src/pages/menu.ts                       ✅ DONE
+Web/tests/debug-leveleditor.spec.ts         ✅ DONE
 ```
 
-### Task 1 — Estrarre `serializeMark` in modulo condiviso `[ ]`
+### Task 1 — Estrarre `serializeMark` ✅
 
-**File**: `Web/src/grid/GridSerializer.ts`
+### Task 2 — Lookup maps runtime ✅
 
-Spostare la logica da `Web/scripts/ascii-to-mark.ts:378-408` in un modulo che lavori con `GridBundle`/`CellData`.
+### Task 3 — State management ✅
 
-- Nuova firma: `serializeMark(bundle: GridBundle): string`
-- Iterare `row` 0..24, `col` 0..44, leggere `bundle.grid[col]![row]`, saltare celle null o con `groundType === 0`
-- Adattare lo script CLI per importare e usare la nuova funzione
-- ~40 righe nuovo modulo + ~20 righe refactor CLI
+### Task 4 — Rendering griglia CSS ✅
 
-### Task 2 — Lookup maps runtime `[ ]`
+### Task 5 — Sidebar tool palette ✅
 
-**File**: `Web/src/pages/leveleditor/editorTypes.ts`
+### Task 6 — Interazione mouse e keyboard ✅
 
-I `const enum` di `enums.ts` sono cancellati a compile time — servono array runtime per iterare nei radio button.
+### Task 7 — File I/O ✅
 
-- `EditorAction` enum: Ground=0, Wall=1, Object=2, Text=3
-- `GROUND_ENTRIES`: array `{ value, label, color }` per i 29 GroundTypes. Colori da `App.xaml`: NonCella=#000, Buio=#808080, Terra1-10=sfumature rosso/marrone, Traps=fuchsia/aqua/lime, Riempimento=#000
-- `WALL_ENTRIES`: 19 WallTypes con colore (green/red/blue/aqua/violet)
-- `OBJECT_ENTRIES` + `ENEMY_ENTRIES`: separati per tab come nel C#
-- `GROUND_COLOR_MAP`, `WALL_COLOR_MAP`: `Record<number, string>` per lookup O(1) nel rendering
-- `WALL_CODE_MAP`: tipo → codice corto (M0, MB, P, I, U, D1-D8, M1-M5)
-- `OBJECT_LABEL_MAP`: tipo → emoji unicode (🧍 🗝 🚪 🕯 🧟 💀 👺 🐂 👻 👾 🔥)
-- `SINGLETON_OBJECTS`: `Set<number>` = {1, 2, 3, 7} (Giocatore, Chiave, Uscita, Goblin)
-- `isRiempimento(groundType: number): boolean`
-- ~120 righe
+### Task 8 — Wiring finale e routing ✅
 
-### Task 3 — State management `[ ]`
+### Test Playwright ✅
 
-**File**: `Web/src/pages/leveleditor/editorState.ts`
+### Checklist di verifica
 
-Stato mutabile plain con funzioni di manipolazione. Nessun framework, nessun observable.
+- [x] `npm run build` passa
+- [x] `#/level-editor` carica griglia 25x45 vuota
+- [x] Drag painting terreno funziona (verificato con RGB assert Playwright)
+- [x] Dirty tracking avvisa prima di perdere modifiche
+- [x] Blocco mobile attivo
+- [ ] Aprire un `.mark` esistente → griglia si popola con colori/muri/oggetti corretti (non testabile automaticamente — file dialog)
+- [ ] Piazzamento oggetti funziona — **BUG NOTO** (vedi Task 9)
+- [ ] Piazzamento nemici con waypoint — **BUG NOTO** (vedi Task 10)
+- [ ] Muri con hover+frecce funzionano — da verificare manualmente
+- [ ] Salvataggio produce `.mark` valido (verificabile con `validate-level.ts`)
+- [ ] Keyboard shortcuts funzionano (F, W, D, C, R) — parzialmente: funzionano ma il tab sidebar non cambia (vedi Task 11)
 
+---
+
+## Prossimi task (da fare)
+
+### Task 9 — Bug: Piazzamento oggetti e testi non funziona
+
+**Priorità: ALTA**
+
+**Files**: `editorInteraction.ts`, `editorSidebar.ts`, `leveleditor.ts`
+
+**Sintomi osservati:**
+- Selezionare un oggetto dal tab Oggetti e cliccare sulla griglia non piazza nulla
+- Il testo (modalita' "A") non funziona
+
+**Root causes da investigare:**
+
+1. **Default selectedObject=0 (Cancella) non visibile:** quando si entra nel tab Oggetti, nessun radio e' pre-selezionato visivamente, ma `state.selectedObject` e' 0 (Cancella). Qualsiasi click sulla griglia risulta in una cancellazione di oggetto — che su cella vuota e' invisibile. Soluzione: al click sul tab Oggetti, auto-selezionare il primo radio non-Cancella (o comunque mostrare Cancella come checked di default).
+
+2. **Possibile problema di event propagation:** gli span interni alla cella (`.cell-object`, `.cell-wall-label`) potrebbero intercettare il click prima del `mousedown` sull'`.editor-grid`. `getCellFromEvent` risale il DOM con `parentElement`, dovrebbe funzionare, ma va verificato con un `console.log` nel test Playwright.
+
+3. **Text mode:** il radio "A Testo" usa `value="-1"` (sentinel). Assicurarsi che `onObjectSelected(-1)` imposti `state.currentAction = EditorAction.Text` e che il click sulla griglia in Text mode chiami `applyText` che apre il `window.prompt`.
+
+**Fix plan:**
+- Auto-selezionare il radio Cancella (value=0) nel tab Oggetti al caricamento
+- Aggiungere `console.log` temporaneo nell'`onMouseDown` dell'interaction per tracciare col/row e action nel test Playwright
+- Verificare che `state.currentAction` sia corretto prima del click sulla griglia
+- Per il tab Nemici: ogni radio nemico deve auto-impostare `state.selectedObject` correttamente
+
+### Task 10 — Bug: Piazzamento nemici con waypoint automatico
+
+**Priorità: ALTA**
+
+**Files**: `editorInteraction.ts`, `editorState.ts`, `editorSidebar.ts`
+
+**Problema attuale:** quando si piazza un nemico, il codice mostra un `window.prompt` generico per il "path ID". L'utente deve sapere il formato (`Z-1-1`, `S-2-3`, ecc.) e gestire manualmente i gruppi, il che e' error-prone.
+
+**Comportamento desiderato:** l'editor deve gestire automaticamente i waypoint:
+- Ogni tipo di nemico ha un prefisso fisso: `Z`=Zombie, `S`=Scheletro, `G`=Goblin, `T`=Taurus, `H`=Ghost, `B`=Bubu
+- L'editor tiene un contatore per gruppo attivo per tipo nemico nell'`EditorState`
+- **Flusso di piazzamento:**
+  1. Utente seleziona nemico (es. Zombie) dalla sidebar
+  2. Prima cella clickata → piazza il nemico con `Z-N-1` (nuovo gruppo N, waypoint 1)
+  3. Seconda cella → piazza con `Z-N-2` (stesso gruppo N, waypoint 2)
+  4. ... continua a piazzare waypoint nello stesso gruppo finche' l'utente non schiaccia "Chiudi gruppo" o seleziona un'altra tool
+  5. Selezionando di nuovo la stessa tool nemico → inizia gruppo N+1
+
+**Aggiunte a EditorState:**
 ```typescript
-interface EditorState {
-    grid: GridBundle;
-    currentAction: EditorAction;
-    selectedGround: number;
-    selectedWall: number;
-    selectedObject: number;
-    hoveredCell: { col: number; row: number } | null;
-    lastSavedSnapshot: string;
-    currentFilename: string;
-    singletonPlaced: Set<number>;
+enemyWaypointState: {
+    activeEnemyType: number | null;
+    activeGroup: number;        // numero gruppo corrente
+    nextWaypointIndex: number;  // prossimo indice da assegnare
+    groupCounters: Record<number, number>; // enemyType → max gruppo usato
+} | null;
+```
+
+**UI sidebar per nemici:** mostrare il gruppo attivo e il prossimo indice waypoint ("Gruppo Z-3, waypoint 4") con pulsante "Nuovo gruppo" per forzare un nuovo gruppo senza dover cambiare tool.
+
+**Prefissi per tipo:**
+| ObjectType | Prefisso |
+| ---------- | -------- |
+| 5 Zombie   | Z        |
+| 6 Scheletro | S       |
+| 7 Goblin   | G        |
+| 8 Taurus   | T        |
+| 10 Ghost   | H        |
+| 11 Bubu    | B        |
+
+**Scansione dello stato esistente:** `createStateFromBundle` deve parsare i waypoint esistenti nel file .mark per inizializzare `groupCounters` ai valori corretti (evitando conflitti di gruppo con livelli preesistenti).
+
+### Task 11 — UX: Keyboard shortcuts → switch tab sidebar
+
+**Priorità: MEDIA**
+
+**File**: `editorInteraction.ts`, `editorSidebar.ts`
+
+**Problema:** quando si preme `F` o `R` (Terra), `W` o `D` (Muro), `C` (Cancella/Oggetti), il tab della sidebar non cambia visivamente. L'utente vede il radio aggiornato ma il pannello e' quello sbagliato, e sembra che lo shortcut non funzioni.
+
+**Fix:** esporre da `editorSidebar.ts` una funzione `switchToTab(tab: 'ground' | 'wall' | 'obj')` e chiamarla dall'`onKeyDown` dell'interaction:
+
+```
+F → switchToTab('ground'), syncGroundRadio(1)
+R → switchToTab('ground'), syncGroundRadio(8)
+W → switchToTab('wall'),   syncWallRadio(1)
+D → switchToTab('wall'),   syncWallRadio(0)
+C → switchToTab('obj'),    syncObjRadio(0)
+```
+
+La funzione `switchToTab` deve riprodurre il tab-click: aggiornare le classi `.active` su tab button e pannello, e chiamare `onActionChanged` con l'`EditorAction` corrispondente.
+
+### Task 12 — Feature: Testi embedded nel formato `.mark`
+
+**Priorità: MEDIA**
+
+**Problema attuale:** il campo `STRING_CODE` nel file `.mark` contiene un ID numerico (es. `637284382845827427`) che viene risolto a runtime cercando in `GameTexts.ts:STRING_CODE_MAP`. Questo significa che i file `.mark` non sono auto-sufficienti: senza il codice sorgente del gioco i testi sono illeggibili.
+
+**Obiettivo:** far si' che il file `.mark` contenga il testo direttamente, eliminando la dipendenza da `STRING_CODE_MAP`.
+
+**Proposta di formato:** il campo `STRING_CODE` diventa il testo stesso (stringa libera UTF-8). Vincoli:
+- Non puo' contenere `|` (gia' proibito essendo separatore di campo) → sostituire `|` con `\|` se necessario, oppure usare un altro encoding
+- Non puo' contenere newline → `\n` escaped
+- Limite pratico: il testo e' breve (una riga di pensiero/dialogo)
+
+**Impatto:**
+- `GridLoader.ts`: nessuna modifica (il campo STRING_CODE e' gia' letto come stringa)
+- `GridSerializer.ts`: nessuna modifica (il campo viene serializzato as-is)
+- `GameTexts.ts`: rimuovere `STRING_CODE_MAP`; la funzione `getStringCodeText(code)` puo' essere eliminata o semplificata a `return code` (il code E' gia' il testo)
+- Il codice di gioco che chiama `getStringCodeText()` deve essere aggiornato per usare direttamente `cell.stringCode`
+- I file `.mark` esistenti: i vecchi ID numerici diventerebbero testi letterali non tradotti — migrare manualmente o con script di conversione
+- `validate-level.ts`: nessuna modifica critica
+- Level Editor: il Text mode del livello editor diventa triviale: `prompt()` chiede il testo direttamente, senza lookup
+
+**Dipendenza con Task 9:** conviene fare prima il Task 9 (fix piazzamento oggetti/testo) perche' cambia il flusso del Text mode. Il Task 12 poi semplifica ulteriormente quel flusso.
+
+**Piano di migrazione livelli esistenti:** creare script `Web/scripts/migrate-stringcodes.ts` che legge i `.mark` esistenti, risolve i vecchi ID via `STRING_CODE_MAP`, e riscrive i file con il testo diretto. Poi eliminare `STRING_CODE_MAP` da `GameTexts.ts`.
+
+### Task 13 — Test Playwright per piazzamento oggetti, nemici e testo
+
+**Priorità: MEDIA** — fare dopo Task 9 e Task 10 (i bug devono essere risolti prima)
+
+**File**: `Web/tests/debug-leveleditor.spec.ts`
+
+Estendere il test esistente con scenari che verificano automaticamente le funzionalita' risolte:
+
+**Scenari da aggiungere:**
+
+1. **Piazzamento oggetto singleton (Giocatore):**
+   - Selezionare il radio "Giocatore" nel tab Oggetti
+   - Cliccare su una cella
+   - Verificare che la cella contenga lo span `.cell-object` con emoji `🧍`
+   - Verificare che il radio "Giocatore" sia disabilitato dopo il piazzamento
+   - Verificare che cliccare di nuovo su un'altra cella non piazzi un secondo Giocatore
+
+2. **Piazzamento candele con quantita':**
+   - Intercettare `window.prompt` via `page.on('dialog', ...)` e rispondere `'3'`
+   - Selezionare il radio "Candele", cliccare su una cella
+   - Verificare che la cella contenga `.cell-quantity` con testo `'3'`
+
+3. **Piazzamento nemico con waypoint automatico (dopo Task 10):**
+   - Selezionare Zombie dal tab Nemici
+   - Cliccare su cella (col=10, row=10) → deve apparire emoji `🧟`
+   - Cliccare su cella (col=12, row=10) → deve apparire emoji `🧟`
+   - Verificare che `data-waypoint` o il contenuto del `.cell-quantity` mostri i codici `Z-1-1` e `Z-1-2`
+
+4. **Text mode:**
+   - Intercettare `window.prompt` e rispondere `'Testo di test'`
+   - Selezionare "A Testo", cliccare su una cella
+   - Verificare che la cella contenga `.cell-text-marker` con testo `'A'`
+   - Verificare `title` dell'elemento = `'Testo di test'`
+
+5. **Cancellazione oggetto:**
+   - Selezionare Cancella, cliccare sulla cella con il Giocatore
+   - Verificare che la cella non contenga piu' `.cell-object`
+   - Verificare che il radio "Giocatore" sia di nuovo abilitato
+
+**Tecnica per intercettare prompt:** `page.on('dialog', dialog => { dialog.accept('valore'); })`
+
+### Task 14 — Feature: Pulsante "Testa in game"
+
+**Priorità: MEDIA**
+
+**Files**: `Web/src/pages/leveleditor.ts`, `Web/src/pages/leveleditor/editorFileIo.ts`, `Web/src/pages/router.ts`, `Web/src/pages/gamebootstrap.ts`
+
+**Obiettivo:** pulsante nella toolbar "Test in game" che salva il livello corrente in `sessionStorage` e naviga direttamente a una route `/preview` che lo carica, senza dover salvare su file.
+
+**Implementazione:**
+
+1. **Salvataggio in sessionStorage:**
+   ```typescript
+   // In editorFileIo.ts o leveleditor.ts
+   export function saveToSessionStorageForPreview(state: EditorState): void {
+       const content = serializeMark(state.grid);
+       sessionStorage.setItem('leveleditor_preview', content);
+   }
+   ```
+
+2. **Route `/preview`** in `router.ts`:
+   - Legge `sessionStorage.getItem('leveleditor_preview')`
+   - Se presente, chiama `initGame` con il contenuto deserializzato al posto di un livello da file
+   - Se assente, reindirizza al menu con un messaggio
+
+3. **Modifica a `gamebootstrap.ts` / `GridLoader.ts`:**
+   - `initGame` deve supportare un parametro opzionale `levelContent: string` che bypassa il caricamento da file
+   - In alternativa: scrivere il livello in sessionStorage e modificare `loadAndParseLevel` per controllare prima la session storage se il livello richiesto e' `'preview'`
+
+4. **Toolbar:** aggiungere dopo il pulsante "Salva" un pulsante "Test in game" (shortcut consigliato: `T`):
+   ```
+   [Nuovo] [Apri] [Salva] [Test in game] ● ...
+   ```
+   Al click: `saveToSessionStorageForPreview(state)` → `window.location.hash = '#/preview'`
+
+5. **Leave hook del preview:** al ritorno dalla route preview al level editor, pulire `sessionStorage.removeItem('leveleditor_preview')`.
+
+**Nota:** usare `window.location.hash` invece di `router.navigate()` per rispettare la regola CLAUDE.md sull'evitare import circolari con `router.ts`.
+
+### Task 15 — Feature: Autosave in sessionStorage
+
+**Priorità: MEDIA**
+
+**Files**: `Web/src/pages/leveleditor.ts`, `Web/src/pages/leveleditor/editorFileIo.ts`
+
+**Obiettivo:** salvare automaticamente ogni 30 secondi il livello corrente in `sessionStorage`, cosi' se l'utente chiude accidentalmente il browser non perde il lavoro. Al caricamento dell'editor, se esiste un autosave piu' recente del file aperto, offrire il ripristino.
+
+**Chiave sessionStorage:** `'leveleditor_autosave'`
+**Metadati autosave** (oggetto JSON separato in `'leveleditor_autosave_meta'`):
+```typescript
+interface AutosaveMeta {
+    filename: string;
+    timestamp: number;  // Date.now()
+    isDirty: boolean;
 }
 ```
 
-Funzioni:
-- `createEmptyState()` — griglia 25x45 vuota
-- `createStateFromBundle(bundle, filename)` — scansiona singletons esistenti
-- `setGroundType(state, col, row, type)` — se riempimento, cancella anche oggetto
-- `setWallType(state, col, row, type, position)` — con validazione (L/R no Ingresso/Uscita, Bottom no Ingresso/Uscita)
-- `setObjectType(state, col, row, type, additionalData)` — tracking singletons, auto-set Terra1 se NonCella
-- `setStringCode(state, col, row, code)`
-- `isDirty(state)` — confronto `serializeMark(state.grid)` vs `lastSavedSnapshot`
-- `ensureCell(grid, col, row)` — crea CellData default se null
-- ~130 righe
+**Implementazione:**
 
-### Task 4 — Rendering griglia CSS `[ ]`
+1. **`startAutosave(state, onSave)` in `editorFileIo.ts`:**
+   - Ritorna un `intervalId` (da passare a `stopAutosave` nel cleanup)
+   - Ogni 30 secondi: serializza il livello e salva in sessionStorage
+   - Non salva se `!isDirty(state)` (ottimizzazione: evita IO inutili)
 
-**Files**: `Web/src/pages/leveleditor/editorGrid.ts`, `Web/src/pages/leveleditor/leveleditor.css`
+2. **`stopAutosave(intervalId)` in `editorFileIo.ts`**
 
-- `renderGrid(container, state)` → crea div wrapper con `display: grid; grid-template-columns: repeat(45, 30px); grid-template-rows: repeat(25, 30px)`. Ritorna `cellElements[col][row]`
-- Ogni cella div: `data-col`, `data-row`, sfondo da `GROUND_COLOR_MAP`, bordi 4px colorati per muri, span interni per label oggetto/muro/testo
-- `updateCell(cellEl, cellData)` — aggiorna aspetto singola cella
-- `setHoverHighlight` / `clearHoverHighlight` — schiarisce/ripristina colore sfondo
-- CSS: `.editor-grid`, `.editor-cell` (30x30, position relative), `.cell-object`, `.cell-wall-label`, `.cell-text-marker`
-- ~180 righe TS + ~120 righe CSS
+3. **`loadAutosave()` in `editorFileIo.ts`:**
+   - Legge `sessionStorage.getItem('leveleditor_autosave')`
+   - Ritorna `{ content, meta } | null`
 
-### Task 5 — Sidebar tool palette `[ ]`
+4. **Al mount della pagina editor** (`renderLevelEditorPage`):
+   - Controllare se esiste un autosave
+   - Se si', mostrare un banner: `"Trovato autosave di '{filename}' del {data ora}. Vuoi ripristinarlo?"` con pulsanti "Ripristina" / "Ignora"
+   - Dopo il ripristino o l'ignora, avviare `startAutosave`
 
-**File**: `Web/src/pages/leveleditor/editorSidebar.ts`
+5. **Indicatore ultimo salvataggio** nella toolbar:
+   - Span `#autosave-status` accanto al dirty indicator
+   - Testo: `"Autosave: 14:32:05"` (ora dell'ultimo autosave automatico) oppure `"Autosave: mai"` all'avvio
+   - Aggiornato ad ogni salvataggio automatico
 
-- 4 tab: Terreno, Muri, Oggetti, Nemici
-- Radio button generati da GROUND/WALL/OBJECT/ENEMY_ENTRIES, con sfondo colorato
-- Tutti radio condividono `name="editor-tool"` (mutuamente esclusivi come nel C#)
-- Tab switching via class toggle
-- `updateSingletonButtons(state)` — disabilita radio se singleton gia' piazzato
-- ~150 righe
+6. **Cleanup:** chiamare `stopAutosave` in `destroyLevelEditor()`.
 
-### Task 6 — Interazione mouse e keyboard `[ ]`
+7. **Conflitto con "Testa in game" (Task 14):** la chiave `'leveleditor_preview'` e' separata da `'leveleditor_autosave'` — nessun conflitto.
 
-**File**: `Web/src/pages/leveleditor/editorInteraction.ts`
+### Task 16 — Feature: Validazione al salvataggio file
 
-- `attachInteraction(gridEl, cellElements, state, onCellChanged)` → ritorna cleanup function
-- Hit-testing via `event.target.dataset.col/row` (triviale con div, non serve divisione pixel)
-- **Ground mode**: mousedown+mousemove con bottone premuto → drag painting
-- **Wall mode**: hover highlights cella, arrow keys piazzano muro sul lato corrispondente (comportamento identico al C#)
-- **Object mode**: click. `prompt()` per candele (quantita') e nemici (path ID). Singleton auto-switch a Ground dopo piazzamento
-- **Text mode**: click → `prompt()` per string code
-- **Shortcuts** (guarded da `!isInputFocused`): F=Terra1, W=Occludente, D=Niente, C=Cancella, R=Riempimento1, Arrows=muro
-- ~170 righe
+**Priorità: MEDIA**
 
-### Task 7 — File I/O `[ ]`
+**Files**: `Web/src/pages/leveleditor/editorFileIo.ts`, `Web/scripts/validate-level.ts`
 
-**File**: `Web/src/pages/leveleditor/editorFileIo.ts`
+**Obiettivo:** eseguire le stesse validazioni di `validate-level.ts` direttamente nel browser al momento del salvataggio su file, mostrando eventuali errori in un banner nella pagina invece di richiedere all'utente di lanciare uno script CLI separato.
 
-- `openFile()` — `<input type="file" accept=".mark">` + FileReader + `parseLevel()`
-- `saveFile(state)` — `serializeMark(state.grid)` → Blob → download link
-- `confirmIfDirty(state)` — `confirm()` se ci sono modifiche non salvate
-- ~80 righe
+**Problema tecnico:** `validate-level.ts` e' uno script CLI Node.js che legge file con `fs`. Non puo' essere importato direttamente nel browser. Soluzione: estrarne la logica di validazione in un modulo condiviso browser-compatibile.
 
-### Task 8 — Wiring finale e routing `[ ]`
+**Piano:**
 
-**Files**: `Web/src/pages/leveleditor.ts`, `Web/src/pages/router.ts`, `Web/src/pages/menu.ts`
+1. **Creare `Web/src/grid/LevelValidator.ts`** (nuovo, browser-compatible):
+   - Estrarre la logica di validazione da `validate-level.ts` (rimuovere i file I/O Node.js)
+   - Firma: `validateLevel(bundle: GridBundle): ValidationResult`
+   ```typescript
+   interface ValidationError {
+       severity: 'error' | 'warning';
+       message: string;
+   }
+   interface ValidationResult {
+       valid: boolean;
+       errors: ValidationError[];
+       warnings: ValidationError[];
+   }
+   ```
+   - Regole da validare (da `validate-level.ts`):
+     - Esattamente 1 Giocatore (ObjectType=1)
+     - Esattamente 1 Chiave (ObjectType=2)
+     - Almeno 1 Uscita (ObjectType=3)
+     - Waypoint nemici: ogni gruppo deve avere almeno 2 waypoint; indici consecutivi senza buchi
+     - Nessuna cella con oggetto nemico su NonCella (groundType=0)
+     - Coerenza muri ingresso/uscita (Left/Right/Bottom non ammettono Ingresso/Uscita)
 
-- `renderLevelEditorPage(container)` — layout: toolbar (Nuovo/Apri/Salva + dirty% + texture pack) + sidebar + canvas scrollabile
-- **Blocco mobile**: all'avvio della pagina, rilevare se il dispositivo e' touch-only o schermo piccolo. Se si', mostrare un messaggio di blocco al posto dell'editor (es. "Il Level Editor richiede un mouse e uno schermo desktop"). Criteri di rilevamento: `window.matchMedia('(pointer: coarse)')` (input primario touch) oppure `window.innerWidth < 1024`. Nessun editor viene inizializzato in questo caso.
-- Crea stato iniziale, renderizza sidebar e griglia, attacca interazione e toolbar
-- Route `#/level-editor` con `leave` hook (cleanup + dirty check)
-- Link nel menu principale
-- ~100 righe
+2. **Modificare `validate-level.ts`** per importare da `LevelValidator.ts` invece di duplicare la logica.
 
-### Dipendenze
+3. **Chiamare la validazione in `saveFile(state)`** (in `editorFileIo.ts`):
+   ```typescript
+   export function saveFile(state: EditorState, container: HTMLElement): void {
+       const result = validateLevel(state.grid);
+       if (result.errors.length > 0) {
+           // Mostrare banner rosso con lista errori
+           // Chiedere conferma prima di salvare comunque
+           if (!window.confirm(`Il livello ha ${result.errors.length} errori:\n${...}\n\nSalvare comunque?`)) return;
+       }
+       if (result.warnings.length > 0) {
+           // Mostrare banner giallo con avvisi (non bloccante)
+           showValidationBanner(container, result.warnings, 'warning');
+       }
+       // ... salvataggio normale
+   }
+   ```
 
-```
-Task 1 ─┐
-         ├─ Task 3 ─┬─ Task 4 ──┐
-Task 2 ──┘           │           ├─ Task 6 ─┐
-                     └─ Task 5 ──┘           ├─ Task 8
-                     Task 7 ─────────────────┘
-```
+4. **Banner di validazione** nella pagina editor: div `.validation-banner` posizionato sopra la toolbar o sotto di essa, con X per chiuderlo. Verde se ok, giallo per warning, rosso per errori.
 
-Task 1+2 paralleli. Task 4+5 paralleli dopo Task 3. Task 6+7 paralleli dopo Task 4+5. Task 8 finale.
+---
 
-### Test Playwright `[ ]`
+## Task opzionale (fare solo su indicazione esplicita)
 
-**File**: `tests/debug-leveleditor.spec.ts` (modellato su `tests/debug-game.spec.ts`)
+### Task 17 — [OPZIONALE] Preview spritesheet nel level editor
 
-- Naviga su `#/level-editor`
-- Attende che la griglia sia renderizzata (attesa selettore `.editor-grid`)
-- Resta sulla pagina ~5 secondi
-- Cattura tutto l'output della console in `debug/leveleditor-debug-output.txt`
-- Usato per iterare in autonomia e verificare errori runtime
+**Priorita': BASSA — fare solo quando richiesto esplicitamente**
 
-### Checklist di verifica finale
+**Obiettivo:** mostrare nel level editor le vere texture di gioco (pavimenti, muri, oggetti) invece dei colori piatti, cosi' chi disegna il livello vede esattamente come verra' reso in gioco. Perimetro minimo: terreno + oggetti principali (non nemici, non player).
 
-- [ ] `npm run build` passa
-- [ ] `#/level-editor` carica griglia 25x45 vuota
-- [ ] Aprire un `.mark` esistente → griglia si popola con colori/muri/oggetti corretti
-- [ ] Drag painting terreno funziona
-- [ ] Muri con hover+frecce funzionano
-- [ ] Piazzamento oggetti funziona (incluso prompt candele/nemici)
-- [ ] Salvataggio produce `.mark` valido (verificabile con `validate-level.ts`)
-- [ ] Dirty tracking avvisa prima di perdere modifiche
-- [ ] Keyboard shortcuts funzionano (F, W, D, C, R)
+**Questo task richiede un plan dettagliato prima di qualsiasi codice.** Analizzare:
+1. Come funziona lo spritesheet attuale (`Spritesheet-0.json` + relative immagini in `Web/public/assets/`)
+2. Come il renderer PixiJS risolve le celle del terreno (quale frame del pacco corrisponde a quale `groundType` + `envTexturePackId`)
+3. Se e' possibile caricare lo spritesheet via `fetch` nell'editor (fuori da PixiJS) e disegnare su `<canvas>` o usare tag `<img>` con CSS clip
+4. Come gestire le varianti random (le celle "dirty" usano frame diversi in modo pseudo-random basato su col+row)
+
+**Approccio probabile:**
+- Caricare il JSON dello spritesheet e le immagini PNG via `fetch` al mount della pagina editor
+- Per ogni cella, calcolare il frame corretto (pavimento: `pacco{N}/cell{M}`, oggetto: frame specifico)
+- Disegnare nella cella un `<img>` con `object-fit: cover` e dimensioni 30x30, oppure un `<canvas>` per celle con overlay (muri + oggetti sovrapposti)
+- Le celle Riempimento hanno proprie texture (`riempimento_N`)
+- I muri nel gioco sono disegnati come sprite separati sopra il pavimento — nell'editor potrebbero rimanere come bordi CSS colorati (semplificazione accettabile)
+
+**Rischio principale:** complessita' di mapping frame. Il rendering C#/PixiJS usa logica con seed random per le varianti "sporche" — replicarla nell'editor richiederebbe leggere `RENDERING_PIPELINE_PIXIJS.md` in dettaglio e potenzialmente condividere codice con il renderer.
