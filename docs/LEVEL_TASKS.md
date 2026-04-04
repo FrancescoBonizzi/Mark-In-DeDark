@@ -87,7 +87,7 @@ Prima di segnare un livello come completato, verifica:
 
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
-| 1       | L'ingresso                 | I    | ⬜ Da fare |
+| 1       | L'ingresso                 | I    | ✅ Fatto   |
 | 2       | Il buio                    | I    | ⬜ Da fare |
 | 3       | La prima creatura          | I    | ⬜ Da fare |
 | 4       | Gli automi                 | I    | ⬜ Da fare |
@@ -120,7 +120,7 @@ Prima di segnare un livello come completato, verifica:
 
 **Candele:** 0
 
-**Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Brazier vicino alla chiave e vicino all'uscita come punti di riferimento visivi.
+**Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Nessun brazier: siamo all'aperto, i punti di riferimento sono la chiave e l'uscita visivamente distinguibili.
 
 Il giocatore impara solo due cose: muoversi e raccogliere la chiave per aprire l'uscita. Nient'altro.
 
@@ -138,7 +138,7 @@ _Testi (ogni riga = trigger separato):_
 
 **Candele:** nessuna — non ci sono nemici da distrarre e l'inventario si azzera tra i livelli: una candela raccolta qui non arriverebbe al livello 3.
 
-**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Brazier prima e dopo la zona buia per segnare i confini — il giocatore capisce dove inizia e finisce il buio.
+**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Nessun brazier: siamo all'aperto. I confini della zona buia sono segnati dall'architettura delle rovine — la sagoma delle macerie blocca la luna, il giocatore vede dove inizia e finisce il buio.
 
 Il giocatore scopre che alcune zone azzerano la visibilità. La candela in mano illumina l'area intorno a Mark: basta tenerla per attraversare la zona buia. Non si piazza nulla. Non c'è nessuna nuova azione da imparare: bisogna solo muoversi con cautela.
 
