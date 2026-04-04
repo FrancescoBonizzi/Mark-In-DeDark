@@ -387,6 +387,16 @@ Task 2 ──┘           │           ├─ Task 6 ─┐
 
 Task 1+2 paralleli. Task 4+5 paralleli dopo Task 3. Task 6+7 paralleli dopo Task 4+5. Task 8 finale.
 
+### Test Playwright `[ ]`
+
+**File**: `tests/debug-leveleditor.spec.ts` (modellato su `tests/debug-game.spec.ts`)
+
+- Naviga su `#/level-editor`
+- Attende che la griglia sia renderizzata (attesa selettore `.editor-grid`)
+- Resta sulla pagina ~5 secondi
+- Cattura tutto l'output della console in `debug/leveleditor-debug-output.txt`
+- Usato per iterare in autonomia e verificare errori runtime
+
 ### Checklist di verifica finale
 
 - [ ] `npm run build` passa
