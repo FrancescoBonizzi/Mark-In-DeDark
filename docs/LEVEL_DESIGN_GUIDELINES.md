@@ -69,10 +69,11 @@ I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il to
 - **I testi vanno piazzati solo in passaggi obbligati.** Un testo in un corridoio largo 3 celle può non essere mai visto se il giocatore passa dall'altro lato. I trigger di testo devono stare in punti dove il giocatore è costretto a passare: corridoi larghi 1 cella, soglie di porte, passaggi unici. Se il passaggio è largo, restringerlo architettonicamente oppure non mettere il testo. Un testo che il 50% dei giocatori non vedrà non è design, è decorazione casuale.
 - **Non spiegare la meccanica direttamente** — suggerire in modo utilitaristico. "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." funziona meglio di "piazza la candela per distrarre il nemico".
 - **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nell'Atto I (livelli 1–5), sempre in voce. Dal livello 6 in poi: solo suggerimenti indiretti.
-- **Lunghezza in funzione del pericolo** — questa è la regola più importante:
-  - Vicino a un nemico attivo: **massimo 2 frasi brevi**. Il giocatore sta guardando il nemico, non lo schermo.
-  - In zone di pausa o transizione: massimo 3 frasi.
-  - Finale (livello 20): massimo 4–5 frasi — è l'unico momento in cui il giocatore si ferma davvero.
+- **Ogni testo è una frase sola, corta.** Se il pensiero richiede più frasi, spezzarlo in trigger consecutivi separati — il giocatore li incontra uno dopo l'altro avanzando. Una frase lunga è sempre peggio di due frasi brevi in sequenza: il giocatore legge più velocemente, l'impatto è maggiore, il ritmo è più naturale. _"Nessuno di loro è tornato."_ poi, due passi dopo, _"Eppure il rito continua."_ vale più di _"Nessuno di loro è tornato, eppure il rito continua da generazioni."_
+- **Lunghezza in funzione del pericolo:**
+  - Vicino a un nemico attivo: **1 frase, massimo 6–8 parole**. Il giocatore sta guardando il nemico, non lo schermo.
+  - In zone di pausa o transizione: 1–2 frasi per trigger, più trigger consecutivi se serve.
+  - Finale (livello 20): unico momento in cui si tollera un trigger da 2 frasi — è l'unico momento in cui il giocatore si ferma davvero.
 - **L'arco della voce si comprime** man mano che Mark scende. All'inizio è spaventato e concreto (sente, annusa, riconosce). Poi diventa freddo e osservativo. Alla fine è minimalista, amaro, quasi senza fiato. Le frasi si accorciano. I punti fermi aumentano.
 
 **Evoluzione della voce attraverso i livelli:**
