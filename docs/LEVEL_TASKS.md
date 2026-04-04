@@ -5,6 +5,12 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 
 ---
 
+## Nota sui file .mark esistenti
+
+I file `.mark` con status **⬜ Da fare** nella tabella sono **placeholder da sovrascrivere** — possono contenere dati di test o livelli vecchi non più validi. Ignorarne il contenuto e rigenerare il livello secondo le specifiche in questo file.
+
+---
+
 ## Come creare un livello
 
 Ogni livello va creato nel formato ASCII con `level-editor.ts` e poi convertito in `.mark`.
@@ -62,7 +68,7 @@ Prima di segnare un livello come completato, verifica:
 - [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
 - [ ] Porte e uscite sono sempre addossate a un muro — mai flottanti nel vuoto
 - [ ] I trigger di testo sono in passaggi obbligati (corridoi da 1 cella o soglie)
-- [ ] I pacchi di candele sono posizionati solo in prossimità di nemici
+- [ ] I pacchi di candele sono posizionati solo in prossimità di nemici _(eccezione: livelli senza nemici dove le candele insegnano la meccanica di raccolta)_
 - [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
 - [ ] Non ci sono due meccaniche nuove nello stesso livello
 - [ ] Ci sono abbastanza brazier da orientare il giocatore
@@ -78,7 +84,7 @@ Prima di segnare un livello come completato, verifica:
 
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
-| 1       | L'ingresso                 | I    | ⬜ Da fare |
+| 1       | L'ingresso                 | I    | ✅ Fatto   |
 | 2       | Il buio                    | I    | ⬜ Da fare |
 | 3       | La prima creatura          | I    | ⬜ Da fare |
 | 4       | Gli automi                 | I    | ⬜ Da fare |
@@ -105,7 +111,7 @@ Prima di segnare un livello come completato, verifica:
 
 ---
 
-### Livello 1 — "L'ingresso" ⬜
+### Livello 1 — "L'ingresso" ✅
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 

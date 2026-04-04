@@ -339,10 +339,51 @@ Per creare una stanza rettangolare con muri `Occludente` (1):
 6|5|1|||0|0|0|0|    → nessun muro
 ```
 
+### Ownership dei separatori nel formato ASCII — regola critica
+
+Quando si usa il formato ASCII (vedi `level-editor.ts --help`), i separatori tra celle vengono assegnati al muro della cella **che esiste** secondo questa regola:
+
+- Separatore **verticale** tra col C e col C+1 → `RIGHT` di C se C esiste, altrimenti `LEFT` di C+1.
+- Separatore **orizzontale** tra riga R e riga R+1 → `BOTTOM` di R se R esiste, altrimenti `TOP` di R+1.
+
+"Esiste" significa che la cella ha un `ground` non nullo — sia pavimento che fill (▓) contano come esistenti. **Solo `NonCella` (spazio) conta come non-esistente.**
+
+**Conseguenza pratica:** se vuoi `TOP=1` su una cella di pavimento (es. la prima riga di un corridoio), la cella immediatamente sopra deve essere **NonCella** (spazio), non fill (▓). Con fill sopra, il separatore `─` finisce come `BOTTOM` della cella fill, non come `TOP` della cella pavimento.
+
+```
+# SBAGLIATO: fill sopra → il ─ diventa BOTTOM del fill
+  8:  ▓ ▓ ▓ ▓                (fill a cols 6-9)
+      ─ ─ ─ ─                (wall row → BOTTOM di fill, NON top del pavimento)
+  9:  · · · ·
+
+# CORRETTO: NonCella sopra → il ─ diventa TOP del pavimento
+  8:  ▓ ▓                    (fill solo dove necessario)
+                ─ ─ ─ ─      (wall row, posizionato dove row 8 è NonCella → TOP di row 9)
+  9:       · · · ·
+```
+
+Se non puoi usare NonCella sopra/accanto (perché hai bisogno del fill visivo), usa la sezione **MURI** per forzare il muro sulla cella corretta:
+
+```
+MURI:
+  9,10,TOP: 1     ← forza TOP=1 sulla cella (9,10) indipendentemente dai separatori
+```
+
+### Posizionamento fisico nel wall row ASCII
+
+Una riga muro inizia con **5 spazi** di prefisso. Il contenuto dopo i 5 spazi usa le posizioni `c * 2` per la colonna `c` (le posizioni dispari sono ignorate dal convertitore). Quindi:
+
+- Colonna 0 → posizione 5+0 = 5 del raw line
+- Colonna 10 → posizione 5+20 = 25 del raw line
+- Colonna 30 → posizione 5+60 = 65 del raw line
+
+Per aggiungere muri `─` solo alle colonne 10–30: la riga deve avere 25 spazi iniziali (5 prefisso + 20 content) seguiti da `─ ─ ─ ... ─` (21 `─` con spazi tra loro).
+
 ### Porta / Ingresso / Uscita
 
-- **Ingresso** (WallType=5): usa `TOP=5` sulla cella di ingresso livello.
-- **Uscita** (WallType=6): usa `TOP=6` sulla cella di uscita. Abbinare a un oggetto `Uscita` (ObjectType=3) sulla cella.
+- **Ingresso** (WallType=5): usa `TOP=5` sulla cella di ingresso livello per corridoi verticali (entrata dall'alto). Per corridoi **orizzontali** (entrata da sinistra), usa `LEFT=5` sulla prima cella di pavimento, oppure metti il separatore `i` tra la cella fill a sinistra e la prima cella di pavimento — il separatore finirà come `RIGHT=5` sulla cella fill, che visivamente è equivalente.
+- **Uscita** (WallType=6): usa `RIGHT=6` sull'ultima cella di pavimento per corridoi orizzontali (uscita a destra), oppure `TOP=6` per corridoi verticali. Abbinare sempre a un oggetto `Uscita` (ObjectType=3) sulla stessa cella.
+- L'oggetto `Uscita` (ObjectType=3) è ciò che rende il livello completabile — il muro Uscita/Ingresso è solo visivo (la "cornice" della porta). Sono cose distinte: senza l'oggetto il livello non finisce, senza il muro visivo non si vede la porta.
 
 ---
 

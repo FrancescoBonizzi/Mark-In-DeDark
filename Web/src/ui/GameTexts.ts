@@ -12,6 +12,8 @@ export const GameTexts = {
 const STRING_CODE_MAP: Record<string, string> = {
     // Livello 1
     '100000000000000001': 'Mio padre mi ha stretto la mano troppo forte, come al solito.',
+    '100000000000000101': 'Il nome di mio fratello è graffiato su questa porta.',
+    '100000000000000102': 'Sotto di lui, altri nomi.',
     '100000000000000005': "'Torna uomo o non tornare.'",
     '100000000000000002': "La candela puzza di qualcosa che non voglio sapere cos'è.",
     '100000000000000003': 'Ci sono nomi graffiati sui muri. Ne riconosco qualcuno.',

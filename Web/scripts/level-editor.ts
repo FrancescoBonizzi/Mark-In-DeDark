@@ -675,6 +675,17 @@ REGOLE MAPPA — SEPARATORI ORIZZONTALI (righe muri, 5 spazi di prefisso)
   Ownership: separatore tra riga R e R+1 → BOTTOM di R (o TOP di R+1 se R è NonCella).
              separatore tra col C e C+1  → RIGHT di C  (o LEFT di C+1  se C è NonCella).
 
+  ATTENZIONE — fill (▓) è una cella esistente, NON è NonCella:
+    Se vuoi TOP=1 su un pavimento in row 9, la cella in row 8 nella stessa colonna
+    deve essere spazio (NonCella), non ▓. Con ▓ sopra, il separatore ─ finisce come
+    BOTTOM del fill, non TOP del pavimento.
+    Soluzione alternativa: usa MURI per forzare il muro sulla cella giusta.
+
+  Posizionamento fisico nel wall row:
+    La riga muro ha 5 spazi di prefisso. Il char alla posizione (5 + c*2) corrisponde
+    alla colonna c. Esempio: ─ sulla colonna 10 → posizione 25 del raw line.
+    Le posizioni dispari del contenuto (5+1, 5+3, ...) sono ignorate dal convertitore.
+
 
 ANNOTAZIONI — TESTI (trigger narrativi)
 ───────────────────────────────────────
@@ -763,6 +774,10 @@ ANNOTAZIONI — MURI (override ID muri non-standard)
     · Muri sul lato secondario (es. TOP quando il primario BOTTOM già esiste)
     · Muri di bordo: TOP di riga 0, BOTTOM di riga 24, LEFT di col 0, RIGHT di col 44
       (non hanno separatore nell'ASCII e vengono sempre messi in MURI)
+  Quando usare MURI manualmente nei livelli nuovi:
+    · Quando il separatore finirebbe sulla cella sbagliata per via dell'ownership
+      (es. fill adiacente al pavimento → il separatore va sul fill, non sul pavimento)
+    · Per Ingresso/Uscita su lato LEFT/RIGHT in corridoi orizzontali
 
 
 REGOLE DI VALIDAZIONE (npx tsx scripts/validate-level.ts)
