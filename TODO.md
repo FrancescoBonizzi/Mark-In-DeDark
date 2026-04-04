@@ -3,6 +3,7 @@
 ### Livelli
 
 - [ ] Farli tutti
+- [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
 
 ### UI
 
