@@ -284,7 +284,7 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 
 Ogni livello usa un singolo pack. La transizione tra pack avviene tra un livello e l'altro, mai all'interno dello stesso livello.
 
-- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali (Atto I) e per il finale narrativo del livello 20. Non ha senso mettere brazier perché siamo all'aperto. Il pavimento è neve.
+- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali (Atto I) e per il finale narrativo del livello 20. **Non mettere mai brazier (`Lucina`)** — siamo all'aperto, i bracieri chiusi non hanno senso visivamente. Il pavimento è neve.
 - **`pacco2`** — interno castello: ben tenuto, pulito, pavimenti rifiniti, muri intonacati. L'aspetto più "nobile" degli interni.
 - **`pacco3`** — interno castello: ancora decoroso, qualche segno di usura ma strutturalmente integro.
 - **`pacco4`** — interno castello: degrado visibile, muri screpolati, atmosfera più pesante.

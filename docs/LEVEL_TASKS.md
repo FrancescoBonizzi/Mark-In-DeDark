@@ -74,7 +74,7 @@ Prima di segnare un livello come completato, verifica:
 - [ ] I pacchi di candele vanno messi solo in livelli con nemici
 - [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
 - [ ] Non ci sono due meccaniche nuove nello stesso livello
-- [ ] Ci sono abbastanza brazier da orientare il giocatore
+- [ ] Ci sono abbastanza brazier da orientare il giocatore (**solo per pack interni** — `pacco1` è all'aperto, i brazier non hanno senso)
 - [ ] Nessuna zona buia è obbligatoria senza una candela disponibile vicina
 - [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
 - [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 3 per livello
