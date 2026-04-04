@@ -215,7 +215,11 @@ Un buon livello di Mark In DeDark non è un labirinto cieco. Il giocatore deve s
 
 > **Regola fondamentale sulle candele raccoglibili:** non mettere mai pacchi di candele in zone prive di nemici. Le candele si usano esclusivamente per distrarre i nemici: piazzarle in un corridoio vuoto non ha senso dal punto di vista del gameplay. Ogni pacco di candele deve trovarsi in prossimità di un nemico o di una zona che richiede distrazione. Se un'area non ha nemici, non ha candele.
 
-### Porte — ingresso e uscita dal livello
+### Porte — ingresso, uscita e uso strategico
+
+Le porte si aprono **e si chiudono** con CTRL. Possono essere usate strategicamente: chiudere una porta dietro di sé blocca temporaneamente un nemico in inseguimento; aprire una porta davanti al Taurus lo indirizza verso un muro fragile. Questa doppia utilità (blocco difensivo / guida del Taurus) è la meccanica core della porta — va introdotta con un testo che la suggerisca in voce di Mark senza nominarla esplicitamente.
+
+#### Posizionamento fisico delle porte
 
 Le porte di ingresso (spawn del giocatore) e di uscita devono sempre essere **addossate a un muro**. Non possono mai galleggiare al centro della mappa perché rappresentano aperture fisiche in una parete: una porta in mezzo allo spazio aperto non ha senso architettonico e rompe l'immersione.
 
@@ -260,6 +264,19 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 | **III — Il cuore**     | 11–16   | pacco6 → pacco8 | Il punto più buio, scarsità totale, il cacciatore      |
 | **IV — Il finale**     | 17–20   | pacco8 → pacco1 | Tutto insieme, risalita, il colpo di scena             |
 
+### Pack di texture — descrizione visiva
+
+Ogni livello usa un singolo pack. La transizione tra pack avviene tra un livello e l'altro, mai all'interno dello stesso livello.
+
+- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali (Atto I) e per il finale narrativo del livello 20. Non ha senso mettere brazier perché siamo all'aperto. Il pavimento è neve.
+- **`pacco2`** — interno castello: ben tenuto, pulito, pavimenti rifiniti, muri intonacati. L'aspetto più "nobile" degli interni.
+- **`pacco3`** — interno castello: ancora decoroso, qualche segno di usura ma strutturalmente integro.
+- **`pacco4`** — interno castello: degrado visibile, muri screpolati, atmosfera più pesante.
+- **`pacco5`** — interno castello: trascurato, poco illuminato, strutture che cominciano a cedere.
+- **`pacco6`** — interno castello: rozzo, quasi nessun elemento decorativo, pietra a vista.
+- **`pacco7`** — interno castello: fatiscente, corridoi irregolari, pavimentazione assente o rotta.
+- **`pacco8`** — interno castello: il livello più grezzo — pietra nuda, nessun pavimento, architettura primitiva o crollata. Il cuore buio del castello.
+
 Per lo schema dettagliato livello-per-livello (testi, nemici, meccaniche) e lo stato di avanzamento: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.
 
 ---
@@ -272,21 +289,6 @@ La regola fondamentale per qualsiasi livello generato è:
 - **Il giocatore deve sempre sapere dove andare** anche senza aver trovato la chiave. La struttura della mappa deve essere leggibile.
 - **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati, anche se più pericolosi.
 
-### Registro nomi livelli (`src/levels.ts`)
-
-Il file `Web/src/levels.ts` contiene il manifest dei livelli pubblicati — quelli che compaiono nella pagina di selezione del gioco. Ogni voce è commentata finché il livello non è pronto.
-
-**Workflow per ogni livello:**
-
-1. Sviluppa il livello seguendo questa guida
-2. Scegli il nome definitivo (può differire dal nome provvisorio qui sotto)
-3. Decomenta la riga corrispondente in `src/levels.ts` e scrivi il nome definitivo
-4. Se il nome cambia rispetto a quello indicato in questa guida, aggiornalo anche qui
-
-I nomi provvisori per ogni livello sono quelli indicati in grassetto nello [Schema per 20 livelli](#schema-per-20-livelli).
-
----
-
 ### Prima di iniziare a costruire un livello
 
 1. Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
@@ -295,19 +297,4 @@ I nomi provvisori per ogni livello sono quelli indicati in grassetto nello [Sche
 4. Posiziona i brazier (`Lucina`) prima di tutto: segnano i punti di riferimento
 5. Aggiungi i nemici e verifica che la distrazione/strategia sia leggibile
 
-### Checklist pre-consegna
-
-Prima di considerare un livello completo, verifica:
-
-- [ ] `npx tsx scripts/validate-level.ts <livello.mark>` non riporta errori
-- [ ] Almeno 1 Giocatore, 1 Chiave, 1 Uscita, almeno 1 pacco di Candele
-- [ ] Lo spawn del giocatore è distante dai nemici (≥ 3 celle Manhattan)
-- [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
-- [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
-- [ ] Non ci sono due meccaniche nuove nello stesso livello
-- [ ] Ci sono abbastanza brazier da orientare il giocatore
-- [ ] Nessuna zona buia è obbligatoria senza una candela disponibile vicina
-- [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
-- [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 4 per livello
-- [ ] I testi non spiegano la meccanica direttamente — suggeriscono
-- [ ] La voce in `src/levels.ts` è decommentata con il nome definitivo del livello
+Per il workflow tecnico di creazione e la checklist pre-consegna: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.

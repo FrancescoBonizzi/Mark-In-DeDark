@@ -5,25 +5,6 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 
 ---
 
-## Nota sui pack di texture
-
-- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali e per il finale del livello 20. Ovviamente qui non ha molto senso mettere dei braceri perché siamo all'aperto. Il pavimento qui è neve.
-- **`pacco2`** — interno castello: ben tenuto, pulito, pavimenti rifiniti, muri intonacati. L'aspetto più "nobile" degli interni.
-- **`pacco3`** — interno castello: ancora decoroso, qualche segno di usura ma strutturalmente integro.
-- **`pacco4`** — interno castello: degrado visibile, muri screpolati, atmosfera più pesante.
-- **`pacco5`** — interno castello: trascurato, poco illuminato, strutture che cominciano a cedere.
-- **`pacco6`** — interno castello: rozzo, quasi nessun elemento decorativo, pietra a vista.
-- **`pacco7`** — interno castello: fatiscente, corridoi irregolari, pavimentazione assente o rotta.
-- **`pacco8`** — interno castello: il livello più grezzo — pietra nuda, nessun pavimento, architettura primitiva o crollata. Il cuore buio del castello.
-
-> **Ogni livello usa un singolo pack.** La "transizione" tra pack avviene tra un livello e l'altro, non all'interno di uno stesso livello.
-
-### Porte
-
-Le porte si aprono **e si chiudono** con CTRL. Possono essere usate strategicamente: chiudere una porta dietro di sé per bloccare temporaneamente un nemico in inseguimento, o aprirla per indirizzare un Taurus verso un muro fragile.
-
----
-
 ## Come creare un livello
 
 Ogni livello va creato nel formato ASCII con `level-editor.ts` e poi convertito in `.mark`.
@@ -59,6 +40,37 @@ npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/N.mark
 ```
 npx tsx Web/scripts/level-editor.ts Web/public/assets/levels/N.mark
 ```
+
+**7. Registra il livello in `src/levels.ts`:**
+
+Il file `Web/src/levels.ts` è il manifest dei livelli pubblicati — quelli che compaiono nella pagina di selezione. Ogni voce è commentata finché il livello non è pronto.
+
+- Scegli il nome definitivo (può differire dal nome provvisorio in questo file)
+- Decomenta la riga corrispondente in `Web/src/levels.ts` e scrivi il nome definitivo
+- Se il nome cambia, aggiornalo anche nella tabella "Stato complessivo" qui sotto
+
+---
+
+## Checklist pre-consegna
+
+Prima di segnare un livello come completato, verifica:
+
+- [ ] `npx tsx Web/scripts/validate-level.ts <livello.mark>` non riporta errori
+- [ ] `npm run build` passa senza errori
+- [ ] Almeno 1 Giocatore, 1 Chiave, 1 Uscita, almeno 1 pacco di Candele
+- [ ] Lo spawn del giocatore è distante dai nemici (≥ 3 celle Manhattan)
+- [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
+- [ ] Porte e uscite sono sempre addossate a un muro — mai flottanti nel vuoto
+- [ ] I trigger di testo sono in passaggi obbligati (corridoi da 1 cella o soglie)
+- [ ] I pacchi di candele sono posizionati solo in prossimità di nemici
+- [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
+- [ ] Non ci sono due meccaniche nuove nello stesso livello
+- [ ] Ci sono abbastanza brazier da orientare il giocatore
+- [ ] Nessuna zona buia è obbligatoria senza una candela disponibile vicina
+- [ ] La difficoltà è coerente con il livello precedente (non salti bruschi)
+- [ ] I testi narrativi sono in prima persona, tono Mark adolescente, max 3 per livello
+- [ ] I testi non spiegano la meccanica direttamente — suggeriscono
+- [ ] La riga in `Web/src/levels.ts` è decommentata con il nome definitivo
 
 ---
 
