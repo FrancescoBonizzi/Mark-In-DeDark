@@ -7,11 +7,7 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 
 ---
 
-## Stato del progetto & Piano di Attacco
-
-La migrazione C# → PixiJS è completata. Siamo in una fase di bugfixing.
-
-Regole di bugfixing:
+## Regole per task di bugfixing
 
 - Il funzionamento preciso della vecchia pipeline di rendering è qui, leggila prima di fare qualunque cosa: `docs/rendering/RENDERING_PIPELINE_CSHARP.md`.
 - Il funzionamento preciso della nuova pipeline di rendering è qui, leggila prima di fare qualunque cosa: `docs/rendering/RENDERING_PIPELINE_PIXIJS.md`.
