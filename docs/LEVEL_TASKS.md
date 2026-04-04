@@ -35,6 +35,8 @@ npx tsx Web/scripts/level-editor.ts --new --pack=N > Web/public/assets/levels/N.
 npx tsx Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii -o Web/public/assets/levels/N.mark
 ```
 
+> **Importante:** conserva sempre entrambi i file — `N.ascii` è la sorgente editabile, `N.mark` è il formato di gioco. Non cancellare il `.ascii` dopo la conversione: è l'unico modo per riaprire e correggere il livello in futuro.
+
 **5. Valida:**
 
 ```
@@ -63,12 +65,13 @@ Prima di segnare un livello come completato, verifica:
 
 - [ ] `npx tsx Web/scripts/validate-level.ts <livello.mark>` non riporta errori
 - [ ] `npm run build` passa senza errori
+- [ ] Entrambi i file `N.ascii` e `N.mark` sono presenti in `Web/public/assets/levels/`
 - [ ] Almeno 1 Giocatore, 1 Chiave, 1 Uscita, almeno 1 pacco di Candele
 - [ ] Lo spawn del giocatore è distante dai nemici (≥ 3 celle Manhattan)
 - [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
 - [ ] Porte e uscite sono sempre addossate a un muro — mai flottanti nel vuoto
 - [ ] I trigger di testo sono in passaggi obbligati (corridoi da 1 cella o soglie)
-- [ ] I pacchi di candele sono posizionati solo in prossimità di nemici _(eccezione: livelli senza nemici dove le candele insegnano la meccanica di raccolta)_
+- [ ] I pacchi di candele vanno messi solo in livelli con nemici
 - [ ] La meccanica nuova è introdotta in modo chiaro e non ambiguo
 - [ ] Non ci sono due meccaniche nuove nello stesso livello
 - [ ] Ci sono abbastanza brazier da orientare il giocatore
@@ -84,7 +87,7 @@ Prima di segnare un livello come completato, verifica:
 
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
-| 1       | L'ingresso                 | I    | ✅ Fatto   |
+| 1       | L'ingresso                 | I    | ⬜ Da fare |
 | 2       | Il buio                    | I    | ⬜ Da fare |
 | 3       | La prima creatura          | I    | ⬜ Da fare |
 | 4       | Gli automi                 | I    | ⬜ Da fare |
@@ -115,7 +118,7 @@ Prima di segnare un livello come completato, verifica:
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
-**Candele:** 2 (sul percorso — insegnano al giocatore come raccoglierle; non ci sono nemici da distrarre in questo livello)
+**Candele:** 0
 
 **Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Brazier vicino alla chiave e vicino all'uscita come punti di riferimento visivi.
 
@@ -133,7 +136,7 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
-**Candele:** nessuna — non ci sono nemici da distrarre e l'inventario si azzera tra i livelli: una candela raccolta qui non arriverebbe al livello 3. La raccolta delle candele è già stata insegnata al livello 1.
+**Candele:** nessuna — non ci sono nemici da distrarre e l'inventario si azzera tra i livelli: una candela raccolta qui non arriverebbe al livello 3.
 
 **Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Brazier prima e dopo la zona buia per segnare i confini — il giocatore capisce dove inizia e finisce il buio.
 
