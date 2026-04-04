@@ -153,13 +153,14 @@ function parseAscii(text: string): ParsedAscii {
 
     // ── Annotazioni ─────────────────────────────────────────────────────────
     const testi    = new Map<string, string>();      // 'r,c' → stringCode
-    const candele  = new Map<string, number>();      // 'r,c' → qty
+    const candele  = new Map<string, string>();      // 'r,c' → objData (raw string)
+    const cancella = new Set<string>();              // 'r,c' → object=0
     const waypts   = new Map<string, string>();      // 'r,c' → waypoints
     const terraOvr = new Map<string, number>();      // 'r,c' → groundId
     const muriOvr  = new Map<string, number>();      // 'r,c,SIDE' → wallId
 
     // ── Parsing linee ────────────────────────────────────────────────────────
-    type Section = 'NONE' | 'TESTI' | 'CANDELE' | 'WAYPOINTS' | 'TERRA' | 'MURI';
+    type Section = 'NONE' | 'TESTI' | 'CANDELE' | 'CANCELLA' | 'WAYPOINTS' | 'TERRA' | 'MURI';
     let section: Section = 'NONE';
 
     // Mappa righe ASCII: indice riga → indice nella griglia
@@ -190,6 +191,7 @@ function parseAscii(text: string): ParsedAscii {
         // Sezioni annotazioni
         if (raw.trim() === 'TESTI:')     { section = 'TESTI';     continue; }
         if (raw.trim() === 'CANDELE:')   { section = 'CANDELE';   continue; }
+        if (raw.trim() === 'CANCELLA:')  { section = 'CANCELLA';  continue; }
         if (raw.trim() === 'WAYPOINTS:') { section = 'WAYPOINTS'; continue; }
         if (raw.trim() === 'TERRA:')     { section = 'TERRA';     continue; }
         if (raw.trim() === 'MURI:')      { section = 'MURI';      continue; }
@@ -205,7 +207,8 @@ function parseAscii(text: string): ParsedAscii {
                 const key = `${er},${ec}`;
                 switch (section) {
                     case 'TESTI':     testi.set(key, val); break;
-                    case 'CANDELE':   candele.set(key, parseInt(val, 10)); break;
+                    case 'CANDELE':   candele.set(key, val); break;
+                    case 'CANCELLA':  cancella.add(key); break;
                     case 'WAYPOINTS': waypts.set(key, val); break;
                     case 'TERRA':     terraOvr.set(key, resolveGroundAlias(val)); break;
                     case 'MURI':
@@ -339,12 +342,21 @@ function parseAscii(text: string): ParsedAscii {
     });
 
     // ── Applica CANDELE ───────────────────────────────────────────────────────
-    Array.from(candele.entries()).forEach(([key, qty]) => {
+    Array.from(candele.entries()).forEach(([key, objData]) => {
         const [rStr, cStr] = key.split(',') as [string, string];
         const r = parseInt(rStr, 10);
         const c = parseInt(cStr, 10);
         const cell = getCell(r, c);
-        if (cell) cell.objData = String(qty);
+        if (cell) cell.objData = objData;
+    });
+
+    // ── Applica CANCELLA ──────────────────────────────────────────────────────
+    Array.from(cancella.values()).forEach((key) => {
+        const [rStr, cStr] = key.split(',') as [string, string];
+        const r = parseInt(rStr, 10);
+        const c = parseInt(cStr, 10);
+        const cell = getCell(r, c);
+        if (cell) cell.object = 0;
     });
 
     // ── Applica WAYPOINTS ─────────────────────────────────────────────────────

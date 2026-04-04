@@ -264,35 +264,13 @@ function buildColumnRuler(): string[] {
 // Annotazioni
 // ---------------------------------------------------------------------------
 
-/**
- * Determina a quale cella/lato il convertitore assegnerebbe un muro verticale
- * tra col C e C+1 alla riga R.
- */
-function vAssignment(
-    cells: (Cell | null)[][],
-    r: number, c: number
-): { r: number, c: number, side: 'RIGHT' | 'LEFT' } {
-    if (exists(cells[r]![c]!)) return { r, c, side: 'RIGHT' };
-    return { r, c: c + 1, side: 'LEFT' };
-}
-
-/**
- * Determina a quale cella/lato il convertitore assegnerebbe un muro orizzontale
- * tra row R e R+1 alla col C.
- */
-function hAssignment(
-    cells: (Cell | null)[][],
-    r: number, c: number
-): { r: number, c: number, side: 'BOTTOM' | 'TOP' } {
-    if (exists(cells[r]![c]!)) return { r, c, side: 'BOTTOM' };
-    return { r: r + 1, c, side: 'TOP' };
-}
 
 type MuriEntry = { r: number, c: number, side: 'TOP' | 'RIGHT' | 'BOTTOM' | 'LEFT', id: number };
 
 function buildAnnotations(cells: (Cell | null)[][]): string[] {
     const testi:    string[] = [];
     const candele:  string[] = [];
+    const cancella: string[] = [];
     const waypts:   string[] = [];
     const terra:    string[] = [];
     const muriMap = new Map<string, MuriEntry>();
@@ -303,55 +281,79 @@ function buildAnnotations(cells: (Cell | null)[][]): string[] {
     };
 
     // ── Separatori verticali ────────────────────────────────────────────────
+    // Per ogni separatore tra col C e C+1: il convertitore assegna il defaultId
+    // del char a RIGHT di C (se esiste) oppure a LEFT di C+1.
+    // Usiamo MURI per: ID non-default, muri sul lato secondario, zero-out del primario.
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS - 1; c++) {
-            const lw = cells[r]![c]?.wallRight ?? 0;
-            const rw = cells[r]![c + 1]?.wallLeft ?? 0;
+            const leftCell = cells[r]![c] ?? null;
+            const rightCell = cells[r]![c + 1] ?? null;
+            const lw = leftCell?.wallRight ?? 0;
+            const rw = rightCell?.wallLeft ?? 0;
+            if (lw === 0 && rw === 0) continue;
+
             const effectiveId = lw !== 0 ? lw : rw;
-            if (effectiveId === 0) continue;
             const ch = vWallChar(effectiveId);
-            if (effectiveId !== vWallDefaultId(ch)) {
-                const a = vAssignment(cells, r, c);
-                addMuri(a.r, a.c, a.side, effectiveId);
+            const defaultId = vWallDefaultId(ch);
+
+            if (exists(leftCell)) {
+                // Il convertitore assegna defaultId a RIGHT di C
+                if (lw !== defaultId) addMuri(r, c, 'RIGHT', lw);
+                if (rw !== 0) addMuri(r, c + 1, 'LEFT', rw);
+            } else if (exists(rightCell)) {
+                // Il convertitore assegna defaultId a LEFT di C+1
+                if (rw !== defaultId) addMuri(r, c + 1, 'LEFT', rw);
             }
         }
     }
 
     // ── Separatori orizzontali ──────────────────────────────────────────────
+    // Per ogni separatore tra row R e R+1: il convertitore assegna il defaultId
+    // del char a BOTTOM di R (se esiste) oppure a TOP di R+1.
     for (let r = 0; r < ROWS - 1; r++) {
         for (let c = 0; c < COLS; c++) {
-            const ub = cells[r]![c]?.wallBottom ?? 0;
-            const lt = cells[r + 1]![c]?.wallTop ?? 0;
+            const upperCell = cells[r]![c] ?? null;
+            const lowerCell = cells[r + 1]![c] ?? null;
+            const ub = upperCell?.wallBottom ?? 0;
+            const lt = lowerCell?.wallTop ?? 0;
+            if (ub === 0 && lt === 0) continue;
+
             const effectiveId = ub !== 0 ? ub : lt;
-            if (effectiveId === 0) continue;
             const ch = hWallChar(effectiveId);
-            if (effectiveId !== hWallDefaultId(ch)) {
-                const a = hAssignment(cells, r, c);
-                addMuri(a.r, a.c, a.side, effectiveId);
+            const defaultId = hWallDefaultId(ch);
+
+            if (exists(upperCell)) {
+                // Il convertitore assegna defaultId a BOTTOM di R
+                if (ub !== defaultId) addMuri(r, c, 'BOTTOM', ub);
+                if (lt !== 0) addMuri(r + 1, c, 'TOP', lt);
+            } else if (exists(lowerCell)) {
+                // Il convertitore assegna defaultId a TOP di R+1
+                if (lt !== defaultId) addMuri(r + 1, c, 'TOP', lt);
             }
         }
     }
 
-    // ── Muri secondari nascosti ─────────────────────────────────────────────
-    // TOP: nascosto se la cella sopra esiste e ha BOTTOM non-zero
+    // ── Muri di bordo ──────────────────────────────────────────────────────
+    // TOP di row 0, BOTTOM di row ROWS-1, LEFT di col 0, RIGHT di col COLS-1
+    // non hanno separatore nell'ASCII → vanno sempre in MURI.
+    for (let c = 0; c < COLS; c++) {
+        const topCell = cells[0]![c] ?? null;
+        if (exists(topCell) && (topCell?.wallTop ?? 0) !== 0) {
+            addMuri(0, c, 'TOP', topCell!.wallTop);
+        }
+        const botCell = cells[ROWS - 1]![c] ?? null;
+        if (exists(botCell) && (botCell?.wallBottom ?? 0) !== 0) {
+            addMuri(ROWS - 1, c, 'BOTTOM', botCell!.wallBottom);
+        }
+    }
     for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            const cell = cells[r]![c];
-            if (!cell) continue;
-
-            if (cell.wallTop !== 0 && r > 0) {
-                const above = cells[r - 1]![c] ?? null;
-                if (exists(above) && (above?.wallBottom ?? 0) !== 0) {
-                    addMuri(r, c, 'TOP', cell.wallTop);
-                }
-            }
-
-            if (cell.wallLeft !== 0 && c > 0) {
-                const leftCell = cells[r]![c - 1] ?? null;
-                if (exists(leftCell) && (leftCell?.wallRight ?? 0) !== 0) {
-                    addMuri(r, c, 'LEFT', cell.wallLeft);
-                }
-            }
+        const leftCell = cells[r]![0] ?? null;
+        if (exists(leftCell) && (leftCell?.wallLeft ?? 0) !== 0) {
+            addMuri(r, 0, 'LEFT', leftCell!.wallLeft);
+        }
+        const rightCell = cells[r]![COLS - 1] ?? null;
+        if (exists(rightCell) && (rightCell?.wallRight ?? 0) !== 0) {
+            addMuri(r, COLS - 1, 'RIGHT', rightCell!.wallRight);
         }
     }
 
@@ -367,10 +369,12 @@ function buildAnnotations(cells: (Cell | null)[][]): string[] {
                 testi.push(`  ${r},${c}: ${cell.stringCode}`);
             }
 
-            if (cell.object === 4) {
-                const n = cell.objData !== '' ? parseInt(cell.objData, 10) : 1;
-                const qty = isNaN(n) ? 1 : n;
-                if (qty !== 1) candele.push(`  ${r},${c}: ${qty}`);
+            if (cell.object === 0) {
+                cancella.push(`  ${r},${c}: 0`);
+            }
+
+            if (cell.object === 4 && cell.objData !== '') {
+                candele.push(`  ${r},${c}: ${cell.objData}`);
             }
 
             if (cell.object !== null && ENEMY_TYPES.has(cell.object) && cell.objData) {
@@ -401,6 +405,10 @@ function buildAnnotations(cells: (Cell | null)[][]): string[] {
     if (candele.length > 0) {
         out.push('CANDELE:');
         out.push(...candele);
+    }
+    if (cancella.length > 0) {
+        out.push('CANCELLA:');
+        out.push(...cancella);
     }
     if (waypts.length > 0) {
         out.push('WAYPOINTS:');
