@@ -127,7 +127,7 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
-**Candele:** 1 (da raccogliere — rinforza la meccanica del livello 1; non ci sono nemici da distrarre in questo livello)
+**Candele:** nessuna — non ci sono nemici da distrarre e l'inventario si azzera tra i livelli: una candela raccolta qui non arriverebbe al livello 3. La raccolta delle candele è già stata insegnata al livello 1.
 
 **Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Brazier prima e dopo la zona buia per segnare i confini — il giocatore capisce dove inizia e finisce il buio.
 
@@ -159,7 +159,7 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 4 — "Gli automi" ⬜
 
-`pacco2` (interno) | **2 Zombie** | Meccanica: distrazione multipla, sequenza, prima porta (CTRL)
+`pacco2` (interno) | **2 Zombie** | Meccanica: prima porta (CTRL) — escalazione della distrazione (non meccanica nuova)
 
 **Candele:** 4
 
@@ -169,9 +169,9 @@ Due zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazio
 
 _Testi (ogni riga = trigger separato):_
 
-> "Quanti nomi riconosco sui muri." _(nella stanza principale)_
-> "Nessuno di loro ha trovato la strada fuori." _(stesso punto o passo successivo)_
-> "La porta obbedisce ancora. Si apre, si chiude." _(tutorial porta — zona di pausa, vicino alla prima porta)_
+> "Nessuno di loro ha trovato la strada fuori." _(nella stanza principale — passaggio obbligato)_
+> "La porta obbedisce ancora." _(zona di pausa, vicino alla prima porta)_
+> "Si apre, si chiude." _(passo successivo — stesso punto della porta)_
 
 ---
 
@@ -252,11 +252,11 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 9 — "I guardiani rotti" ⬜
 
-`pacco5` (interno) | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici
+`pacco5` (interno) | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici (unica meccanica nuova — vedi nota trappola)
 
 **Candele:** 3
 
-**Mappa:** 5–6 stanze con alcuni muri fragili posizionati strategicamente — il giocatore inizia a sfruttarli attivamente, guidando il Taurus verso una parete che sblocca un percorso utile. La prima trappola letale è visibile in una diramazione opzionale (mai sul percorso obbligato verso l'uscita). La mappa ha un percorso principale chiaro con 1–2 diramazioni brevi. Brazier vicino al muro fragile strategico e vicino all'uscita.
+**Mappa:** 5–6 stanze con alcuni muri fragili posizionati strategicamente — il giocatore inizia a sfruttarli attivamente, guidando il Taurus verso una parete che sblocca un percorso utile. La prima `TrappolaMorteIstantanea` compare in una diramazione opzionale (mai sul percorso obbligato verso l'uscita) — viene introdotta visivamente, non didatticamente: il giocatore la vede e la schiva, senza che sia la meccanica insegnata da questo livello. Questo è il punto della tabella meccaniche "introdotta visivamente, non nascosta": la trappola letale non è la meccanica del livello, è solo la sua prima apparizione nell'ambiente. La mappa ha un percorso principale chiaro con 1–2 diramazioni brevi. Brazier vicino al muro fragile strategico e vicino all'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -332,8 +332,8 @@ Le candele sono poche e i Bubu pattugliano le zone dove potrebbero essere piazza
 
 _Testi (ogni riga = trigger separato):_
 
-> "Un'ultima candela." _(nel punto critico)_
-> "Devo farla bastare." _(stesso punto)_
+> "Un'ultima candela." _(sull'ultima candela disponibile — trigger posizionato sul pacco dell'ultima candela rimasta nella mappa, dopo che il giocatore ha già usato le altre)_
+> "Devo farla bastare." _(passo successivo, stesso punto)_
 
 ---
 
