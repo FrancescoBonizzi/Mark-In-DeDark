@@ -1,13 +1,13 @@
 /**
  * ascii-to-mark.ts — Mark In DeDark
  *
- * Converte un file ASCII (output di visualize-level.ts) in formato .mark.
+ * Converte un file ASCII (output di level-editor.ts) in formato .mark.
  * Uso:
  *   npx tsx scripts/ascii-to-mark.ts <livello.ascii> [-o output.mark]
  *
  * Se -o non specificato, stampa su stdout.
  *
- * CONVENZIONE MURI (stessa di visualize-level.ts):
+ * CONVENZIONE MURI (stessa di level-editor.ts):
  *   - Separatore verticale  tra C e C+1  → RIGHT di col C  (se C esiste, altrimenti LEFT di C+1)
  *   - Separatore orizzontale tra R e R+1 → BOTTOM di row R (se R esiste, altrimenti TOP di R+1)
  *   - Sezione MURI: override espliciti per ID non deducibili dal carattere

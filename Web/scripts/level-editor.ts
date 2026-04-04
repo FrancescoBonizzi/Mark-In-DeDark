@@ -1,11 +1,11 @@
 /**
- * visualize-level.ts — Mark In DeDark
+ * level-editor.ts — Mark In DeDark
  *
  * Converte un file .mark in formato ASCII editabile, o genera una griglia vuota.
  * Uso:
- *   npx tsx scripts/visualize-level.ts <livello.mark> [--legend]
- *   npx tsx scripts/visualize-level.ts --new [--pack=N] [--dirty=N]
- *   npx tsx scripts/visualize-level.ts --packs
+ *   npx tsx scripts/level-editor.ts <livello.mark> [--legend]
+ *   npx tsx scripts/level-editor.ts --new [--pack=N] [--dirty=N]
+ *   npx tsx scripts/level-editor.ts --packs
  *
  * Output di default: header + mappa + annotazioni (necessarie per round-trip).
  * Con --legend: aggiunge legenda visiva e statistiche in cima.
@@ -576,7 +576,7 @@ function buildHelp(): string {
 WORKFLOW
 ────────
   1. Genera una griglia vuota:
-       npx tsx scripts/visualize-level.ts --new --pack=1 > livello.ascii
+       npx tsx scripts/level-editor.ts --new --pack=1 > livello.ascii
 
   2. Disegna il livello nel file .ascii (mappa + annotazioni opzionali).
 
@@ -587,11 +587,11 @@ WORKFLOW
        npx tsx scripts/validate-level.ts livello.mark
 
   5. Per visualizzare un .mark esistente:
-       npx tsx scripts/visualize-level.ts livello.mark
-       npx tsx scripts/visualize-level.ts livello.mark --legend   (+ legenda e statistiche)
+       npx tsx scripts/level-editor.ts livello.mark
+       npx tsx scripts/level-editor.ts livello.mark --legend   (+ legenda e statistiche)
 
   6. Per vedere i texture pack disponibili:
-       npx tsx scripts/visualize-level.ts --packs
+       npx tsx scripts/level-editor.ts --packs
 
 
 STRUTTURA DEL FILE .ascii
@@ -933,10 +933,10 @@ const positional = args.filter(a => !a.startsWith('--'));
 
 if (positional.length === 0) {
     console.error('Uso:');
-    console.error('  npx tsx scripts/visualize-level.ts <livello.mark> [--legend]');
-    console.error('  npx tsx scripts/visualize-level.ts --new [--pack=N] [--dirty=N]');
-    console.error('  npx tsx scripts/visualize-level.ts --packs');
-    console.error('  npx tsx scripts/visualize-level.ts --help');
+    console.error('  npx tsx scripts/level-editor.ts <livello.mark> [--legend]');
+    console.error('  npx tsx scripts/level-editor.ts --new [--pack=N] [--dirty=N]');
+    console.error('  npx tsx scripts/level-editor.ts --packs');
+    console.error('  npx tsx scripts/level-editor.ts --help');
     process.exit(1);
 }
 
