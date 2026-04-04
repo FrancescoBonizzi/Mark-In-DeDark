@@ -123,6 +123,10 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 
 Il giocatore ha **sempre** una candela accesa in mano che illumina il suo intorno. Questa luce è **inesauribile** e non si spegne mai da sola. Le candele raccoglibili nella mappa servono esclusivamente a essere **piazzate a terra** per distrarre i nemici (o illuminare zone fisse). Non servono per sopravvivere al buio: il giocatore può attraversare qualsiasi zona buia finché ha la candela in mano, il che è sempre. Questa distinzione è fondamentale: il game over per "buio" arriva solo se un nemico spegne tutte le candele che il giocatore ha in inventario **e poi** spegne anche quella in mano.
 
+### Ogni livello è autonomo — nessun carry-over
+
+**L'inventario del giocatore si azzera a ogni livello.** Le candele raccolte in un livello non vengono portate in quello successivo: ogni livello inizia sempre con inventario vuoto. Di conseguenza, ogni livello deve essere progettato come un sistema chiuso: le candele presenti nella mappa sono esattamente quelle disponibili per quel livello, né di più né di meno. Non ha senso lasciare candele "di riserva per dopo" — o servono in quel livello, o non devono esserci. Questa regola vale per qualsiasi risorsa raccoglibile futura.
+
 ---
 
 ## 3. I nemici — descrizione e placement

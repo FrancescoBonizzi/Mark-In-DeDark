@@ -109,7 +109,7 @@ Prima di segnare un livello come completato, verifica:
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
-**Candele:** 2 (sul percorso, solo da raccogliere — non servono nel livello 1)
+**Candele:** 2 (sul percorso — insegnano al giocatore come raccoglierle; non ci sono nemici da distrarre in questo livello)
 
 **Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Brazier vicino alla chiave e vicino all'uscita come punti di riferimento visivi.
 
@@ -127,7 +127,7 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
-**Candele:** 1 (da raccogliere per il livello successivo, non necessaria qui)
+**Candele:** 1 (da raccogliere — rinforza la meccanica del livello 1; non ci sono nemici da distrarre in questo livello)
 
 **Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Brazier prima e dopo la zona buia per segnare i confini — il giocatore capisce dove inizia e finisce il buio.
 
