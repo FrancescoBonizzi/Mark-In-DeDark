@@ -237,6 +237,8 @@ Enums, tipi, parser e serializer **gia' presenti** nella codebase riducono signi
 
 **Decisione tecnica**: CSS Grid con div (NON Canvas HTML5). Mapping 1:1 dal WPF (Border posizionati = div). Hit-testing triviale via `event.target.dataset`, CSS borders per i muri, hover nativo. 1.125 celle (25x45) gestibilissime dal DOM moderno.
 
+**Stack UI**: TypeScript puro + CSS vanilla. Niente React, niente Tailwind. Motivazioni: il resto dell'app e' zero-framework; il pattern di drag-painting (mutazione cella per cella su mousemove) contrasta con il modello di re-render di React; bundle size. Il CSS dell'editor va in un file dedicato `leveleditor.css` separato da `styles.css` — nessuna modifica al CSS globale esistente.
+
 ---
 
 ## Task List di implementazione
