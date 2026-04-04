@@ -66,6 +66,7 @@ I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il to
 
 - **2–3 testi per livello** al massimo. Ogni testo deve avere un impatto.
 - **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
+- **I testi vanno piazzati solo in passaggi obbligati.** Un testo in un corridoio largo 3 celle può non essere mai visto se il giocatore passa dall'altro lato. I trigger di testo devono stare in punti dove il giocatore è costretto a passare: corridoi larghi 1 cella, soglie di porte, passaggi unici. Se il passaggio è largo, restringerlo architettonicamente oppure non mettere il testo. Un testo che il 50% dei giocatori non vedrà non è design, è decorazione casuale.
 - **Non spiegare la meccanica direttamente** — suggerire in modo utilitaristico. "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." funziona meglio di "piazza la candela per distrarre il nemico".
 - **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nell'Atto I (livelli 1–5), sempre in voce. Dal livello 6 in poi: solo suggerimenti indiretti.
 - **Lunghezza in funzione del pericolo** — questa è la regola più importante:
@@ -116,6 +117,10 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 
 > **Non fare mai un livello dove la soluzione è "cerca nel buio".**
 > Il giocatore deve sempre poter vedere abbastanza della mappa da capire dove andare. Il buio (zone `Buio`) è uno strumento di tensione, non un labirinto cieco. Usa brazier (`Lucina`) per illuminare i punti di riferimento chiave — chiave, uscita, bivi importanti.
+
+### La candela in mano è inesauribile
+
+Il giocatore ha **sempre** una candela accesa in mano che illumina il suo intorno. Questa luce è **inesauribile** e non si spegne mai da sola. Le candele raccoglibili nella mappa servono esclusivamente a essere **piazzate a terra** per distrarre i nemici (o illuminare zone fisse). Non servono per sopravvivere al buio: il giocatore può attraversare qualsiasi zona buia finché ha la candela in mano, il che è sempre. Questa distinzione è fondamentale: il game over per "buio" arriva solo se un nemico spegne tutte le candele che il giocatore ha in inventario **e poi** spegne anche quella in mano.
 
 ---
 
@@ -207,6 +212,19 @@ Un buon livello di Mark In DeDark non è un labirinto cieco. Il giocatore deve s
 - La chiave nei primi livelli può essere **visibile e relativamente vicina** — il challenge è il percorso, non la ricerca
 - Nei livelli avanzati la chiave può richiedere esplorazione, ma sempre con indizi visivi (un brazier, una stanza speciale)
 - L'uscita può essere vicina allo spawn ma difficile da raggiungere per via dei nemici
+
+> **Regola fondamentale sulle candele raccoglibili:** non mettere mai pacchi di candele in zone prive di nemici. Le candele si usano esclusivamente per distrarre i nemici: piazzarle in un corridoio vuoto non ha senso dal punto di vista del gameplay. Ogni pacco di candele deve trovarsi in prossimità di un nemico o di una zona che richiede distrazione. Se un'area non ha nemici, non ha candele.
+
+### Porte — ingresso e uscita dal livello
+
+Le porte di ingresso (spawn del giocatore) e di uscita devono sempre essere **addossate a un muro**. Non possono mai galleggiare al centro della mappa perché rappresentano aperture fisiche in una parete: una porta in mezzo allo spazio aperto non ha senso architettonico e rompe l'immersione.
+
+**Regole:**
+
+- La porta di ingresso e quella di uscita devono avere almeno un lato su un muro (`Occludente` o `Riempimento`).
+- Le porte si mettono tipicamente come interruzione in una parete: una fila di muri con la porta al centro.
+- Non posizionare mai una porta in mezzo a una stanza aperta, a un corridoio largo, o isolata senza contesto architettonico.
+- Se visivamente la porta sembra "uscire dal nulla", il placement è sbagliato — riposizionala.
 
 ### Uso dei muri rompibili (WallType=2 — Fragile)
 

@@ -7,7 +7,7 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 
 ## Nota sui pack di texture
 
-- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali e per il finale del livello 20.
+- **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali e per il finale del livello 20. Ovviamente qui non ha molto senso mettere dei braceri perché siamo all'aperto. Il pavimento qui è neve.
 - **`pacco2`** — interno castello: ben tenuto, pulito, pavimenti rifiniti, muri intonacati. L'aspetto più "nobile" degli interni.
 - **`pacco3`** — interno castello: ancora decoroso, qualche segno di usura ma strutturalmente integro.
 - **`pacco4`** — interno castello: degrado visibile, muri screpolati, atmosfera più pesante.
