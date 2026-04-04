@@ -3,7 +3,7 @@
 ### Level editor
 
 - [ ] Migrarlo in versione web così anche Tommy può fare livelli (e glieli pubblico)
-- [ ] I testi devono stare dentro al file .mark
+- [ ] I testi devono stare dentro al file .mark (anzi, tutto! non ci devono essere dipendenze da altre cose nel codice)
 - [ ] Il visualizzatore ASCII comunque è carino, ma se alla fine non serve a niente, lo buttiamo
 
 ### Livelli
