@@ -1,9 +1,16 @@
 ## Migliorare il gioco
 
+### Level editor
+
+- [ ] Migrarlo in versione web così anche Tommy può fare livelli (e glieli pubblico)
+- [ ] I testi devono stare dentro al file .mark
+- [ ] Il visualizzatore ASCII comunque è carino, ma se alla fine non serve a niente, lo buttiamo
+
 ### Livelli
 
-- [ ] Farli tutti
+- [ ] Farli tutti con la mia storia
 - [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
+- [ ] Predisporre il multilevel pack sulla UI della selezione livelli
 
 ### UI
 
@@ -12,6 +19,12 @@
 - [ ] Illuminare la porta finale e iniziale
 - [ ] Revisione di come appaiono i testi in game. Magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
 - [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
+
+### Marco
+
+- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi)
+- [ ] Passargli i texture pack e fargli fare le modifiche in place
+- [ ] Passargli la storia e fargli creare i livelli "Marco version", con totale libertà, massimo 20
 
 ### AI
 

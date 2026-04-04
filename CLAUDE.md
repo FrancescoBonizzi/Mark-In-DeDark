@@ -46,6 +46,7 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 - **Assets pubblici:** `Web/public/assets/` (spritesheets, sounds, levels)
 - **Livelli:** `.mark` (testo pipe-delimited, parsati da `grid/GridLoader.ts`). Validatore: `Web/scripts/validate-level.ts`
 - **progetto-riferimento**: `/progetto-riferimento` contiene un altro gioco molto più semplice di questo che ho convertito manualmente da C# a Typescript/PixiJs (trovi entrambe le versioni). Usalo come riferimento per le parti di conversione a PixiJs, ma considera che non c'è nulla, in quel progetto, di relativo a rendering avanzato come shader, normal map, ecc.
+- **Level Editor Migration**: `LEVEL_EDITOR_MIGRATION.md` — analisi completa della conversione del Level Editor WPF → TypeScript/Vite (inventario C#, funzionalità, complessità per area, risorse riusabili)
 
 ---
 
