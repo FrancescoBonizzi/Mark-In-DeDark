@@ -22,6 +22,8 @@ export interface EditorState {
     lastSavedSnapshot: string;
     currentFilename: string;
     singletonPlaced: Set<number>;
+    /** Gruppo corrente per l'auto-generazione waypoint nemici (default 1) */
+    currentWaypointGroup: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -52,6 +54,7 @@ export function createEmptyState(): EditorState {
         lastSavedSnapshot: serializeMark(bundle),
         currentFilename: 'nuovo-livello.mark',
         singletonPlaced: new Set(),
+        currentWaypointGroup: 1,
     };
 }
 
@@ -75,6 +78,7 @@ export function createStateFromBundle(bundle: GridBundle, filename: string): Edi
         lastSavedSnapshot: serializeMark(bundle),
         currentFilename: filename,
         singletonPlaced,
+        currentWaypointGroup: 1,
     };
 }
 

@@ -2,6 +2,7 @@ import {
     EditorAction,
     SINGLETON_OBJECTS,
     ENEMY_OBJECT_VALUES,
+    ENEMY_PREFIX_MAP,
 } from './editorTypes';
 import type { EditorState } from './editorState';
 import {
@@ -23,7 +24,8 @@ export function attachInteraction(
     gridEl: HTMLElement,
     state: EditorState,
     onCellChanged: CellChangedCallback,
-    updateSingletonButtons: (s: EditorState) => void
+    updateSingletonButtons: (s: EditorState) => void,
+    switchToTab: (tabId: string) => void
 ): () => void {
     let isMouseDown = false;
     let lastHoveredEl: HTMLElement | null = null;
@@ -32,7 +34,6 @@ export function attachInteraction(
     // Hit-testing: target → col/row
     // ---------------------------------------------------------------------------
     function getCellFromEvent(e: MouseEvent): { col: number; row: number; el: HTMLElement } | null {
-        // Risali fino all'elemento con data-col/row
         let target = e.target as HTMLElement | null;
         while (target && target !== gridEl) {
             if (target.dataset['col'] !== undefined && target.dataset['row'] !== undefined) {
@@ -85,20 +86,20 @@ export function attachInteraction(
             return;
         }
 
-        // Stringa (Testo): prompt per stringCode
-        if (state.currentAction === EditorAction.Object && objType === -1) {
-            // Non esiste nel nostro set, ma gestiamo il caso testo via selectedObject speciale
-            return;
-        }
-
         // Candele: chiedi quantità
         if (objType === 4) {
             const qty = window.prompt('Quantità candele:', '1');
             if (qty === null) return;
             setObjectType(state, col, row, objType, qty.trim() || '1');
         } else if (ENEMY_OBJECT_VALUES.has(objType)) {
-            // Nemici: chiedi path identifier (waypoints)
-            const path = window.prompt(`Path ID per ${objType}:`, '');
+            // Nemici: auto-genera waypoint ID con possibilità di modifica
+            const autoId = autoGenerateWaypoint(objType);
+            const prefix = ENEMY_PREFIX_MAP[objType] ?? String(objType);
+            const path = window.prompt(
+                `Waypoint auto-generato per ${prefix} (gruppo ${state.currentWaypointGroup}).\n` +
+                `Modifica se necessario, oppure lascia vuoto per nessun waypoint:`,
+                autoId
+            );
             if (path === null) return;
             setObjectType(state, col, row, objType, path.trim());
         } else {
@@ -117,7 +118,7 @@ export function attachInteraction(
     function applyText(col: number, row: number): void {
         const currentCell = state.grid.grid[col]?.[row];
         const currentCode = currentCell?.stringCode ?? '';
-        const code = window.prompt('Inserisci il codice stringa per questo testo:', currentCode);
+        const code = window.prompt('Testo da mostrare in gioco (lascia vuoto per rimuovere):', currentCode);
         if (code === null) return;
         setStringCode(state, col, row, code.trim());
         refreshCell(col, row);
@@ -130,6 +131,26 @@ export function attachInteraction(
 
     function refreshCell(col: number, row: number): void {
         onCellChanged(col, row);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Auto-generazione waypoint
+    // ---------------------------------------------------------------------------
+    function autoGenerateWaypoint(objType: number): string {
+        const prefix = ENEMY_PREFIX_MAP[objType];
+        if (!prefix) return '';
+        const group = state.currentWaypointGroup;
+        const pattern = `${prefix}-${group}-`;
+        let count = 0;
+        for (let c = 0; c < state.grid.columns; c++) {
+            for (let r = 0; r < state.grid.rows; r++) {
+                const cell = state.grid.grid[c]?.[r];
+                if (cell?.objectAdditionalData?.startsWith(pattern)) {
+                    count++;
+                }
+            }
+        }
+        return `${prefix}-${group}-${count + 1}`;
     }
 
     // ---------------------------------------------------------------------------
@@ -193,32 +214,36 @@ export function attachInteraction(
     function onKeyDown(e: KeyboardEvent): void {
         if (isInputFocused()) return;
 
-        // Shortcuts di modalità
         switch (e.key.toLowerCase()) {
             case 'f':
                 state.currentAction = EditorAction.Ground;
                 state.selectedGround = 1; // Terra1
                 syncGroundRadio(1);
+                switchToTab('ground');
                 return;
             case 'w':
                 state.currentAction = EditorAction.Wall;
                 state.selectedWall = 1; // Occludente
                 syncWallRadio(1);
+                switchToTab('wall');
                 return;
             case 'd':
                 state.currentAction = EditorAction.Wall;
                 state.selectedWall = 0; // Niente
                 syncWallRadio(0);
+                switchToTab('wall');
                 return;
             case 'c':
                 state.currentAction = EditorAction.Object;
                 state.selectedObject = 0; // Cancella
                 syncObjRadio(0);
+                switchToTab('obj');
                 return;
             case 'r':
                 state.currentAction = EditorAction.Ground;
                 state.selectedGround = 8; // Riempimento1
                 syncGroundRadio(8);
+                switchToTab('ground');
                 return;
         }
 
@@ -269,7 +294,6 @@ export function attachInteraction(
     gridEl.addEventListener('mouseleave', onMouseLeave);
     window.addEventListener('keydown', onKeyDown);
 
-    // Impedisci context menu sulla griglia
     const noCtx = (e: Event) => e.preventDefault();
     gridEl.addEventListener('contextmenu', noCtx);
 

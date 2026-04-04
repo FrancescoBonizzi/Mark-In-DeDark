@@ -2,15 +2,25 @@ import './leveleditor/leveleditor.css';
 import { EditorAction, TEXT_MODE_SENTINEL } from './leveleditor/editorTypes';
 import {
     createEmptyState,
+    createStateFromBundle,
     isDirty,
 } from './leveleditor/editorState';
 import type { EditorState } from './leveleditor/editorState';
+import { parseLevel } from '../grid/GridLoader';
+import { serializeMark } from '../grid/GridSerializer';
 import { renderGrid, updateCell } from './leveleditor/editorGrid';
 import { createSidebar } from './leveleditor/editorSidebar';
 import { attachInteraction } from './leveleditor/editorInteraction';
 import { openFile, saveFile, confirmIfDirty } from './leveleditor/editorFileIo';
+import { PREVIEW_SESSION_KEY, PREVIEW_FOLDER } from '../assets/LevelLoader';
 
 let cleanup: (() => void) | null = null;
+let autosaveInterval: ReturnType<typeof setInterval> | null = null;
+
+const AUTOSAVE_KEY = 'editor-autosave';
+const AUTOSAVE_FILENAME_KEY = 'editor-autosave-filename';
+const AUTOSAVE_TIMESTAMP_KEY = 'editor-autosave-timestamp';
+const AUTOSAVE_INTERVAL_MS = 30_000;
 
 // ---------------------------------------------------------------------------
 // Blocco mobile
@@ -20,6 +30,52 @@ function isMobileDevice(): boolean {
     const touchOnly = window.matchMedia('(pointer: coarse)').matches;
     const smallScreen = window.innerWidth < 1024;
     return touchOnly || smallScreen;
+}
+
+// ---------------------------------------------------------------------------
+// Autosave helpers
+// ---------------------------------------------------------------------------
+
+function saveToAutosave(state: EditorState): void {
+    try {
+        sessionStorage.setItem(AUTOSAVE_KEY, serializeMark(state.grid));
+        sessionStorage.setItem(AUTOSAVE_FILENAME_KEY, state.currentFilename);
+        sessionStorage.setItem(AUTOSAVE_TIMESTAMP_KEY, new Date().toISOString());
+    } catch {
+        // sessionStorage piena o non disponibile: ignora silenziosamente
+    }
+}
+
+function clearAutosave(): void {
+    sessionStorage.removeItem(AUTOSAVE_KEY);
+    sessionStorage.removeItem(AUTOSAVE_FILENAME_KEY);
+    sessionStorage.removeItem(AUTOSAVE_TIMESTAMP_KEY);
+}
+
+function loadAutosaveIfAvailable(): EditorState | null {
+    const saved = sessionStorage.getItem(AUTOSAVE_KEY);
+    if (!saved) return null;
+    const filename = sessionStorage.getItem(AUTOSAVE_FILENAME_KEY) ?? 'autosave.mark';
+    const timestamp = sessionStorage.getItem(AUTOSAVE_TIMESTAMP_KEY);
+
+    const when = timestamp ? new Date(timestamp).toLocaleTimeString('it-IT') : 'ora sconosciuta';
+    const ok = window.confirm(
+        `Trovato un autosalvataggio del ${when} (file: ${filename}).\n\nRipristinare?`
+    );
+    if (!ok) return null;
+
+    try {
+        const bundle = parseLevel(saved);
+        return createStateFromBundle(bundle, filename);
+    } catch {
+        window.alert('Errore nel ripristinare l\'autosalvataggio. Verrà avviato un livello vuoto.');
+        clearAutosave();
+        return null;
+    }
+}
+
+function formatTime(date: Date): string {
+    return date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
 // ---------------------------------------------------------------------------
@@ -37,16 +93,16 @@ export function renderLevelEditorPage(container: HTMLElement): void {
         return;
     }
 
-    let state: EditorState = createEmptyState();
+    // Tenta ripristino autosave
+    let state: EditorState = loadAutosaveIfAvailable() ?? createEmptyState();
 
-    // Contenitore pagina
     container.innerHTML = '';
     const page = document.createElement('div');
     page.className = 'level-editor-page';
     container.appendChild(page);
 
     // Toolbar
-    const toolbar = buildToolbar(
+    const { toolbar, setAutosaveStatus } = buildToolbar(
         state,
         // onNew
         async () => {
@@ -70,6 +126,11 @@ export function renderLevelEditorPage(container: HTMLElement): void {
         () => {
             saveFile(state);
             updateToolbar();
+        },
+        // onTestInGame
+        () => {
+            sessionStorage.setItem(PREVIEW_SESSION_KEY, serializeMark(state.grid));
+            window.location.hash = `#/game/${PREVIEW_FOLDER}/0`;
         }
     );
     page.appendChild(toolbar);
@@ -80,7 +141,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     page.appendChild(body);
 
     // Sidebar
-    const { element: sidebarEl, updateSingletonButtons } = createSidebar(state, {
+    const { element: sidebarEl, updateSingletonButtons, switchToTab } = createSidebar(state, {
         onGroundSelected: (value) => {
             state.selectedGround = value;
             state.currentAction = EditorAction.Ground;
@@ -95,7 +156,6 @@ export function renderLevelEditorPage(container: HTMLElement): void {
                 return;
             }
             state.selectedObject = value;
-            // Nemici e oggetti: imposta azione Object/Enemy
             const isEnemy = [5, 6, 7, 8, 10, 11].includes(value);
             state.currentAction = isEnemy ? EditorAction.Enemy : EditorAction.Object;
         },
@@ -130,7 +190,8 @@ export function renderLevelEditorPage(container: HTMLElement): void {
                 }
                 updateDirtyIndicator();
             },
-            updateSingletonButtons
+            updateSingletonButtons,
+            switchToTab
         );
     }
 
@@ -142,24 +203,26 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     }
 
     function updateToolbar(): void {
-        // Aggiorna nome file nella toolbar
         const filenameInput = toolbar.querySelector<HTMLInputElement>('.toolbar-filename');
-        if (filenameInput) {
-            filenameInput.value = state.currentFilename;
-        }
-        // Aggiorna dirty
+        if (filenameInput) filenameInput.value = state.currentFilename;
+
         const indicator = toolbar.querySelector<HTMLElement>('.dirty-indicator');
-        if (indicator) {
-            indicator.textContent = isDirty(state) ? '●' : '';
-        }
-        // Aggiorna pack e dirty probability
+        if (indicator) indicator.textContent = isDirty(state) ? '●' : '';
+
         const packInput = toolbar.querySelector<HTMLInputElement>('.toolbar-pack');
         if (packInput) packInput.value = String(state.grid.envTexturePackId);
+
         const dirtyInput = toolbar.querySelector<HTMLInputElement>('.toolbar-dirty');
         if (dirtyInput) dirtyInput.value = String(state.grid.dirtyProbabilityPct);
     }
 
     rebuildGrid();
+
+    // Autosave ogni 30s
+    autosaveInterval = setInterval(() => {
+        saveToAutosave(state);
+        setAutosaveStatus(`Autosalvataggio: ${formatTime(new Date())}`);
+    }, AUTOSAVE_INTERVAL_MS);
 }
 
 // ---------------------------------------------------------------------------
@@ -170,8 +233,9 @@ function buildToolbar(
     state: EditorState,
     onNew: () => void,
     onOpen: () => void,
-    onSave: () => void
-): HTMLElement {
+    onSave: () => void,
+    onTestInGame: () => void
+): { toolbar: HTMLElement; setAutosaveStatus: (msg: string) => void } {
     const toolbar = document.createElement('div');
     toolbar.className = 'editor-toolbar';
 
@@ -251,6 +315,22 @@ function buildToolbar(
 
     toolbar.appendChild(makeSep());
 
+    // Pulsante "Testa in gioco"
+    const btnTest = makeBtn('Testa in gioco', 'primary');
+    btnTest.title = 'Salva in sessionStorage e avvia il livello nel gioco';
+    btnTest.addEventListener('click', onTestInGame);
+    toolbar.appendChild(btnTest);
+
+    toolbar.appendChild(makeSep());
+
+    // Autosave status
+    const autosaveStatus = document.createElement('span');
+    autosaveStatus.className = 'autosave-status';
+    autosaveStatus.textContent = 'Autosalvataggio: mai';
+    toolbar.appendChild(autosaveStatus);
+
+    toolbar.appendChild(makeSep());
+
     // Shortcut help
     const help = document.createElement('span');
     help.style.color = '#666';
@@ -258,7 +338,11 @@ function buildToolbar(
     help.textContent = 'F=Terra  W=Muro  D=NoMuro  C=Cancella  R=Fill  ↑↓←→=Muro lato (wall mode)';
     toolbar.appendChild(help);
 
-    return toolbar;
+    function setAutosaveStatus(msg: string): void {
+        autosaveStatus.textContent = msg;
+    }
+
+    return { toolbar, setAutosaveStatus };
 }
 
 function makeBtn(text: string, extraClass?: string): HTMLButtonElement {
@@ -282,5 +366,9 @@ export function destroyLevelEditor(): void {
     if (cleanup) {
         cleanup();
         cleanup = null;
+    }
+    if (autosaveInterval !== null) {
+        clearInterval(autosaveInterval);
+        autosaveInterval = null;
     }
 }

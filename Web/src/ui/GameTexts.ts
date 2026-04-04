@@ -28,5 +28,7 @@ const STRING_CODE_MAP: Record<string, string> = {
 };
 
 export function getStringCodeText(code: string): string | undefined {
-    return STRING_CODE_MAP[code];
+    // Prima cerca nella mappa (backward compat con codici numerici storici),
+    // poi usa il codice stesso come testo (testi embedded dal Level Editor).
+    return STRING_CODE_MAP[code] ?? (code || undefined);
 }

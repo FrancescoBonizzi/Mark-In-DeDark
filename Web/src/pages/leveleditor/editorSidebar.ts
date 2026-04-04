@@ -16,8 +16,7 @@ export interface SidebarCallbacks {
 
 /**
  * Crea la sidebar con 4 tab: Terreno, Muri, Oggetti, Nemici.
- * Ritorna un elemento DOM pronto da appendere e una funzione
- * `updateSingletonButtons` per disabilitare radio singleton.
+ * Ritorna elemento DOM, updateSingletonButtons, switchToTab.
  */
 export function createSidebar(
     state: EditorState,
@@ -25,6 +24,7 @@ export function createSidebar(
 ): {
     element: HTMLElement;
     updateSingletonButtons: (s: EditorState) => void;
+    switchToTab: (tabId: string) => void;
 } {
     const sidebar = document.createElement('aside');
     sidebar.className = 'editor-sidebar';
@@ -34,10 +34,10 @@ export function createSidebar(
     tabsBar.className = 'editor-tabs';
 
     const tabDefs = [
-        { id: 'ground', label: 'Terra',  action: EditorAction.Ground },
-        { id: 'wall',   label: 'Muri',   action: EditorAction.Wall   },
+        { id: 'ground', label: 'Terra',   action: EditorAction.Ground },
+        { id: 'wall',   label: 'Muri',    action: EditorAction.Wall   },
         { id: 'obj',    label: 'Oggetti', action: EditorAction.Object },
-        { id: 'enemy',  label: 'Nemici', action: EditorAction.Enemy  },
+        { id: 'enemy',  label: 'Nemici',  action: EditorAction.Enemy  },
     ];
 
     const tabBtns: HTMLButtonElement[] = [];
@@ -110,14 +110,18 @@ export function createSidebar(
     objPanel.dataset['panel'] = 'obj';
 
     OBJECT_ENTRIES.forEach(entry => {
+        const isSelected = entry.value === state.selectedObject &&
+            state.currentAction !== EditorAction.Enemy &&
+            state.currentAction !== EditorAction.Wall;
         const { radio, label } = makeToolRadio(
             'editor-tool-obj',
             String(entry.value),
             `${entry.emoji} ${entry.label}`,
             '#333',
-            false
+            isSelected
         );
         radio.id = `obj-radio-${entry.value}`;
+        label.htmlFor = radio.id;
         radio.addEventListener('change', () => {
             if (radio.checked) {
                 callbacks.onObjectSelected(entry.value);
@@ -135,15 +139,61 @@ export function createSidebar(
     enemyPanel.className = 'editor-tab-panel';
     enemyPanel.dataset['panel'] = 'enemy';
 
+    // Selettore gruppo waypoint
+    const groupControl = document.createElement('div');
+    groupControl.className = 'waypoint-group-control';
+
+    const groupLabel = document.createElement('span');
+    groupLabel.textContent = 'Gruppo waypoint: ';
+
+    const groupDisplay = document.createElement('strong');
+    groupDisplay.className = 'waypoint-group-display';
+    groupDisplay.textContent = String(state.currentWaypointGroup);
+
+    const btnMinus = document.createElement('button');
+    btnMinus.textContent = '−';
+    btnMinus.className = 'waypoint-btn';
+    btnMinus.title = 'Gruppo precedente';
+    btnMinus.addEventListener('click', () => {
+        if (state.currentWaypointGroup > 1) {
+            state.currentWaypointGroup--;
+            groupDisplay.textContent = String(state.currentWaypointGroup);
+        }
+    });
+
+    const btnPlus = document.createElement('button');
+    btnPlus.textContent = '+';
+    btnPlus.className = 'waypoint-btn';
+    btnPlus.title = 'Nuovo gruppo';
+    btnPlus.addEventListener('click', () => {
+        state.currentWaypointGroup++;
+        groupDisplay.textContent = String(state.currentWaypointGroup);
+    });
+
+    groupControl.appendChild(groupLabel);
+    groupControl.appendChild(btnMinus);
+    groupControl.appendChild(groupDisplay);
+    groupControl.appendChild(btnPlus);
+
+    const groupHelp = document.createElement('div');
+    groupHelp.className = 'waypoint-group-help';
+    groupHelp.textContent = 'Il waypoint viene auto-generato al click. Modifica nel prompt se necessario.';
+
+    enemyPanel.appendChild(groupControl);
+    enemyPanel.appendChild(groupHelp);
+
     ENEMY_ENTRIES.forEach(entry => {
+        const isSelected = entry.value === state.selectedObject &&
+            state.currentAction === EditorAction.Enemy;
         const { radio, label } = makeToolRadio(
             'editor-tool-obj', // stesso gruppo degli oggetti → mutuamente esclusivi
             String(entry.value),
             `${entry.emoji} ${entry.label}`,
             '#333',
-            false
+            isSelected
         );
         radio.id = `obj-radio-${entry.value}`;
+        label.htmlFor = radio.id;
         radio.addEventListener('change', () => {
             if (radio.checked) {
                 callbacks.onObjectSelected(entry.value);
@@ -157,34 +207,37 @@ export function createSidebar(
     sidebar.appendChild(enemyPanel);
 
     // --- Tab switching ---
+    function switchToTab(tabId: string): void {
+        const idx = tabDefs.findIndex(d => d.id === tabId);
+        if (idx < 0) return;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        tabBtns[idx]!.classList.add('active');
+        tabPanels[idx]!.classList.add('active');
+        // Aggiorna gruppo display quando si passa alla tab nemici
+        if (tabId === 'enemy') {
+            groupDisplay.textContent = String(state.currentWaypointGroup);
+        }
+    }
+
     tabBtns.forEach((btn, idx) => {
         btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanels.forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            tabPanels[idx]!.classList.add('active');
-            // Aggiorna l'azione corrente in base al tab
+            switchToTab(tabDefs[idx]!.id);
             callbacks.onActionChanged(tabDefs[idx]!.action);
         });
     });
 
     // --- updateSingletonButtons ---
     function updateSingletonButtons(s: EditorState): void {
-        // Oggetti e nemici
         const allEntries = [...OBJECT_ENTRIES, ...ENEMY_ENTRIES];
         allEntries.forEach(entry => {
             const radio = sidebar.querySelector<HTMLInputElement>(`#obj-radio-${entry.value}`);
             if (!radio) return;
-            // Singleton: disabilita se già piazzato
-            if (s.singletonPlaced.has(entry.value)) {
-                radio.disabled = true;
-            } else {
-                radio.disabled = false;
-            }
+            radio.disabled = s.singletonPlaced.has(entry.value);
         });
     }
 
-    return { element: sidebar, updateSingletonButtons };
+    return { element: sidebar, updateSingletonButtons, switchToTab };
 }
 
 // ---------------------------------------------------------------------------

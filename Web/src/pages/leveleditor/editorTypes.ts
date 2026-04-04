@@ -167,6 +167,16 @@ export const ENEMY_OBJECT_VALUES: Set<number> = new Set([5, 6, 7, 8, 10, 11]);
 // Tipi che richiedono prompt (candele=4 per quantità; nemici per path)
 export const NEEDS_PROMPT_OBJECTS: Set<number> = new Set([4, 5, 6, 7, 8, 10, 11]);
 
+// Prefisso waypoint per tipo nemico (usato per auto-generazione ID)
+export const ENEMY_PREFIX_MAP: Record<number, string> = {
+    5:  'Z',  // Zombie
+    6:  'S',  // Scheletro
+    7:  'G',  // Goblin
+    8:  'T',  // Taurus
+    10: 'H',  // Ghost
+    11: 'B',  // Bubu
+};
+
 export function isRiempimento(groundType: number): boolean {
     return groundType === 8
         || (groundType >= 17 && groundType <= 28);

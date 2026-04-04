@@ -247,6 +247,7 @@ Enums, tipi, parser e serializer **gia' presenti** nella codebase riducono signi
 
 ```
 Web/src/grid/GridSerializer.ts              ✅ DONE
+Web/src/grid/LevelValidator.ts              ✅ DONE  (Task 16)
 Web/src/pages/leveleditor.ts                ✅ DONE
 Web/src/pages/leveleditor/                  ✅ DONE
   editorTypes.ts                            ✅ DONE
@@ -258,7 +259,9 @@ Web/src/pages/leveleditor/                  ✅ DONE
   leveleditor.css                           ✅ DONE
 Web/src/pages/router.ts                     ✅ DONE
 Web/src/pages/menu.ts                       ✅ DONE
-Web/tests/debug-leveleditor.spec.ts         ✅ DONE
+Web/src/assets/LevelLoader.ts               ✅ DONE  (Task 14 - preview)
+Web/src/ui/GameTexts.ts                     ✅ DONE  (Task 12 - testi embedded)
+Web/tests/debug-leveleditor.spec.ts         ✅ DONE  (5 test suite)
 ```
 
 ### Task 1 — Estrarre `serializeMark` ✅
@@ -287,19 +290,69 @@ Web/tests/debug-leveleditor.spec.ts         ✅ DONE
 - [x] Dirty tracking avvisa prima di perdere modifiche
 - [x] Blocco mobile attivo
 - [ ] Aprire un `.mark` esistente → griglia si popola con colori/muri/oggetti corretti (non testabile automaticamente — file dialog)
-- [ ] Piazzamento oggetti funziona — **BUG NOTO** (vedi Task 9)
-- [ ] Piazzamento nemici con waypoint — **BUG NOTO** (vedi Task 10)
+- [x] Piazzamento oggetti funziona (Task 9 risolto — Playwright test 2 OK)
+- [x] Piazzamento nemici con waypoint auto-generati (Task 10 risolto — Playwright test 5 OK)
 - [ ] Muri con hover+frecce funzionano — da verificare manualmente
-- [ ] Salvataggio produce `.mark` valido (verificabile con `validate-level.ts`)
-- [ ] Keyboard shortcuts funzionano (F, W, D, C, R) — parzialmente: funzionano ma il tab sidebar non cambia (vedi Task 11)
+- [x] Salvataggio valida prima di produrre `.mark` (Task 16 — LevelValidator.ts integrato)
+- [x] Keyboard shortcuts funzionano e cambiano tab sidebar (Task 11 risolto — Playwright test 3 OK)
+- [x] Testi embedded nel .mark (Task 12 — getStringCodeText con fallback)
+- [x] "Testa in gioco" button funziona via sessionStorage + route `/game/preview/0` (Task 14)
+- [x] Autosave ogni 30s in sessionStorage + ripristino al riavvio (Task 15)
+
+---
+
+## Task completati
+
+### Task 9 — Bug: Piazzamento oggetti e testi ✅
+
+**Risolto:** fix `label.htmlFor` dopo override `radio.id` in `editorSidebar.ts`.
+Il radio Cancella (value=0) ora è checked di default nel tab Oggetti.
+Testo mode funziona: prompt chiede il testo direttamente (embedded nel .mark).
+
+### Task 10 — Bug: Piazzamento nemici con waypoint automatico ✅
+
+**Risolto:** `ENEMY_PREFIX_MAP` in `editorTypes.ts`, `currentWaypointGroup` in `EditorState`.
+Auto-generazione `PREFIX-GROUP-INDEX` (es. `Z-1-1`) con prompt pre-compilato modificabile.
+UI selettore gruppo nel pannello Nemici (−/N/+).
+
+### Task 11 — UX: Keyboard shortcuts → switch tab sidebar ✅
+
+**Risolto:** `switchToTab()` esportata da `editorSidebar.ts`, passata a `attachInteraction`.
+F→Terra, W/D→Muri, C→Oggetti, R→Terra.
+
+### Task 12 — Feature: Testi embedded nel formato `.mark` ✅
+
+**Risolto:** `getStringCodeText` ora fa fallback al codice stesso (`code || undefined`).
+I file `.mark` nuovi contengono il testo direttamente nel campo `STRING_CODE`. Backward compat con ID numerici storici.
+
+### Task 13 — Test Playwright per oggetti, nemici, testo ✅
+
+**Risolto:** 5 test suite in `debug-leveleditor.spec.ts` — tutti passano:
+1. Griglia, colori, drag, tab switch
+2. Oggetti: Giocatore singleton + cancella
+3. Shortcut tastiera → switch tab
+4. Testo: marker "A" in cella
+5. Waypoint nemici auto-generati
+
+### Task 14 — Feature: Pulsante "Testa in gioco" ✅
+
+**Risolto:** pulsante in toolbar serializza il livello in `sessionStorage['editor-preview']` e naviga a `#/game/preview/0`. `LevelLoader.ts` intercetta `folder==='preview'` e legge da sessionStorage.
+
+### Task 15 — Feature: Autosave in sessionStorage ✅
+
+**Risolto:** `setInterval` da 30s salva `editor-autosave` + `editor-autosave-filename` + `editor-autosave-timestamp`. Al mount dell'editor: `window.confirm` offre ripristino se trovato. Span "Autosalvataggio: HH:MM:SS" in toolbar.
+
+### Task 16 — Feature: Validazione al salvataggio file ✅
+
+**Risolto:** `Web/src/grid/LevelValidator.ts` (browser-compatible, no Node.js deps). `saveFile()` chiama `validateLevel()` prima di scrivere: se errori mostra `confirm` con lista, se solo warning mostra `confirm` con lista.
 
 ---
 
 ## Prossimi task (da fare)
 
-### Task 9 — Bug: Piazzamento oggetti e testi non funziona
+### Task 9 — Bug: Piazzamento oggetti e testi non funziona [OBSOLETO — vedi sopra]
 
-**Priorità: ALTA**
+**Priorità: ALTA** [COMPLETATO]
 
 **Files**: `editorInteraction.ts`, `editorSidebar.ts`, `leveleditor.ts`
 
