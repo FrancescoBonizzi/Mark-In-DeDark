@@ -16,6 +16,8 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 - **`pacco7`** — interno castello: fatiscente, corridoi irregolari, pavimentazione assente o rotta.
 - **`pacco8`** — interno castello: il livello più grezzo — pietra nuda, nessun pavimento, architettura primitiva o crollata. Il cuore buio del castello.
 
+> **Ogni livello usa un singolo pack.** La "transizione" tra pack avviene tra un livello e l'altro, non all'interno di uno stesso livello.
+
 ### Porte
 
 Le porte si aprono **e si chiudono** con CTRL. Possono essere usate strategicamente: chiudere una porta dietro di sé per bloccare temporaneamente un nemico in inseguimento, o aprirla per indirizzare un Taurus verso un muro fragile.
@@ -95,7 +97,9 @@ npx tsx Web/scripts/level-editor.ts Web/public/assets/levels/N.mark
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
-**Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia.
+**Candele:** 2 (sul percorso, solo da raccogliere — non servono nel livello 1)
+
+**Mappa:** Corridoio unico orizzontale nel giardino esterno, abbastanza largo da respirare (7–9 tile di altezza). Strettamente lineare: ingresso a sinistra con muro `Ingresso` (WallType=5), chiave al centro, uscita a destra. Nessuna diramazione, nessun vicolo cieco. L'obiettivo è visibile quasi dall'inizio. La scena è illuminata dal chiaro di luna — nessuna zona buia. Brazier vicino alla chiave e vicino all'uscita come punti di riferimento visivi.
 
 Il giocatore impara solo due cose: muoversi e raccogliere la chiave per aprire l'uscita. Nient'altro.
 
@@ -103,10 +107,7 @@ _Testi (ogni riga = trigger separato):_
 
 > "Mio padre mi ha stretto la mano troppo forte, come al solito." _(all'ingresso)_
 > "'Torna uomo o non tornare.'" _(qualche passo dopo)_
-> "La candela puzza di qualcosa che non voglio sapere cos'è." _(ancora all'ingresso — zona sicura)_
-> "Il nome di mio fratello è graffiato su questa porta." _(vicino all'uscita)_
-> "Sotto di lui, altri nomi." _(stesso trigger o secondo trigger vicino all'uscita)_
-> "Ne riconosco qualcuno." _(il silenzio fa il resto)_
+> "Il nome di mio fratello è graffiato su questa porta. Sotto di lui, altri nomi." _(vicino all'uscita — trigger unico, due frasi)_
 
 ---
 
@@ -114,9 +115,11 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
-**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1.
+**Candele:** 1 (da raccogliere per il livello successivo, non necessaria qui)
 
-Il giocatore scopre che alcune zone azzerano la visibilità anche con la candela in mano. Non c'è nessuna nuova azione da imparare: bisogna solo muoversi con cautela. Nessun testo tutorial esplicito.
+**Mappa:** Corridoio unico nel giardino esterno con una sezione centrale buia obbligatoria — un angolo delle rovine dove la luna non arriva. Prima e dopo la zona buia ci sono aree illuminate normalmente. Percorso ancora lineare, lunghezza leggermente maggiore del livello 1. Brazier prima e dopo la zona buia per segnare i confini — il giocatore capisce dove inizia e finisce il buio.
+
+Il giocatore scopre che alcune zone azzerano la visibilità. La candela in mano illumina l'area intorno a Mark: basta tenerla per attraversare la zona buia. Non si piazza nulla. Non c'è nessuna nuova azione da imparare: bisogna solo muoversi con cautela.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -127,45 +130,48 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 3 — "La prima creatura" ⬜
 
-`pacco1/2` (transizione esterno→interno) | **1 Zombie** | Meccanica: distrazione zombie con candela (primo uso di SPAZIO)
+`pacco2` (interno) | **1 Zombie** | Meccanica: piazzare la candela (SPAZIO), distrazione zombie
 
-**Mappa:** Due stanze collegate da un corridoio stretto. L'inizio è ancora all'aperto (pacco1), poi si scende sotto (pacco2). Lo zombie pattuglia il corridoio interno obbligatorio. Le candele da piazzare sono posizionate appena prima dello zombie — il giocatore le trova naturalmente mentre avanza.
+**Candele:** 3 (abbondanti — primo uso, il giocatore deve sentirsi al sicuro di sperimentare)
 
-Il primo nemico deve essere un momento didattico chiaro. Un testo suggerisce la meccanica senza svelarla del tutto. Qui il giocatore impara per la prima volta che può posare la candela (SPAZIO) per distrarre i nemici.
+**Mappa:** Due stanze collegate da un corridoio stretto. Inizio nella prima stanza (zona sicura con brazier), poi si passa al corridoio interno dove pattuglia lo zombie. Le candele da raccogliere sono posizionate appena prima dello zombie — il giocatore le trova naturalmente mentre avanza. La soluzione è quasi inevitabile: il giocatore trova la candela, la piazza, lo zombie si avvicina alla fiamma.
+
+Il primo nemico deve essere un momento didattico chiaro. Un testo suggerisce la meccanica in voce di Mark senza descriverla passo-passo.
 
 _Testi (ogni riga = trigger separato):_
 
-> "Ha i vestiti rituali." _(vedendo lo zombie)_
-> "La cicatrice di zio Thomas sul braccio." _(stesso punto o passo successivo)_
-> "Segue la luce." _(vicino alle candele — suggerisce la meccanica)_
-> "Se lascio la candela lì, insegue quella." _(stesso punto o passo successivo)_
+> "Ha i vestiti rituali." _(vedendo lo zombie per la prima volta)_
+> "Segue la fiamma, non me." _(vicino alle candele — suggerisce la meccanica senza spiegarla)_
 
 ---
 
 ### Livello 4 — "Gli automi" ⬜
 
-`pacco2` (interno) | **2–3 Zombie** | Meccanica: distrazione multipla, sequenza, prima **porta** (CTRL)
+`pacco2` (interno) | **2 Zombie** | Meccanica: distrazione multipla, sequenza, prima porta (CTRL)
 
-**Mappa:** 3–4 stanze disposte in sequenza con qualche leggera diramazione. La porta divide la mappa in due zone. Ancora prevalentemente lineare ma con un momento di scelta.
+**Candele:** 4
 
-Più zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazioni in sequenza. La porta (CTRL) è presentata come elemento di separazione tra zone sicure e pericolose.
+**Mappa:** 3–4 stanze disposte in sequenza con una leggera diramazione opzionale. La porta divide la mappa in due zone. Ancora prevalentemente lineare ma con un momento di scelta. Brazier all'ingresso della stanza con la porta e vicino all'uscita.
+
+Due zombie che bloccano percorsi diversi. Il giocatore deve gestire le distrazioni in sequenza. La porta (CTRL) è presentata come elemento di separazione tra zone sicure e pericolose — il testo la descrive in voce, senza menzionare il tasto.
 
 _Testi (ogni riga = trigger separato):_
 
 > "Quanti nomi riconosco sui muri." _(nella stanza principale)_
-> "Sono entrati tutti." _(stesso punto o passo successivo)_
-> "Nessuno di loro ha trovato la strada fuori." _(stesso punto, lascia il peso)_
-> "Una porta. CTRL per aprirla, CTRL per chiuderla — l'unica cosa che obbedisce ancora." _(tutorial porta — zona di pausa)_
+> "Nessuno di loro ha trovato la strada fuori." _(stesso punto o passo successivo)_
+> "La porta obbedisce ancora. Si apre, si chiude." _(tutorial porta — zona di pausa, vicino alla prima porta)_
 
 ---
 
 ### Livello 5 — "I corridoi del rito" ⬜
 
-`pacco2` (interno) | **2–3 Zombie** | Meccanica: prima **trappola temporizzata**
+`pacco2` (interno) | **2 Zombie** | Meccanica: prima trappola temporizzata
 
-**Mappa:** 4–5 stanze con un paio di vicoli ciechi esplorabili. La struttura è ancora lineare nel percorso principale ma con rami secondari che invogliano l'esplorazione senza essere obbligatori.
+**Candele:** 4
 
-Zombie in combinazione con trappole temporizzate visibili. Il giocatore impara che alcune trappole si possono attraversare di corsa nel momento giusto.
+**Mappa:** 4–5 stanze con un paio di vicoli ciechi esplorabili (contengono candele extra). La struttura è ancora lineare nel percorso principale ma con rami secondari che invogliano l'esplorazione senza essere obbligatori. Brazier all'ingresso delle stanze principali e vicino alla trappola. La trappola temporizzata è visivamente ovvia — il giocatore la vede da lontano.
+
+Zombie in combinazione con trappola temporizzata visibile. Il giocatore impara che alcune trappole si possono attraversare di corsa nel momento giusto.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -177,30 +183,34 @@ _Testi (ogni riga = trigger separato):_
 
 ## Atto II — Le profondità (Livelli 6–10)
 
+> **Dal livello 6 in poi i testi non spiegano mai una meccanica direttamente. Solo suggerimenti indiretti.**
+
 ---
 
 ### Livello 6 — "I soldati di polvere" ⬜
 
-`pacco3` (interno) | **1 Scheletro** (+ 1 Zombie opzionale) | Meccanica: visuale lineare (line-of-sight)
+`pacco3` (interno) | **1 Scheletro** | Meccanica: visuale lineare (line-of-sight)
 
-**Mappa:** Stanza aperta centrale con corridoi laterali. La forma favorisce la visuale lunga e rende evidente dove lo scheletro copre. 5–6 stanze totali, struttura a T o a croce.
+**Candele:** 4
+
+**Mappa:** Stanza aperta centrale con corridoi laterali. La forma favorisce la visuale lunga e rende evidente dove lo scheletro copre. 5–6 stanze totali, struttura a T o a croce. Brazier agli angoli — segnano i punti dove la visuale dello scheletro non arriva.
 
 Il giocatore vede lo scheletro, vede la linea retta, capisce il pericolo prima di sbatterci. Primo incontro con un'architettura pensata attorno alla visuale.
 
 _Testi (ogni riga = trigger separato):_
 
 > "Pattugliano stanze vuote." _(entrando nella stanza)_
-> "Proteggono il nulla." _(stesso punto)_
-> "Guardano dritto. Solo dritto." _(vicino allo scheletro)_
-> "Un angolo cieco è già abbastanza." _(stesso punto — suggerisce la meccanica)_
+> "Guardano dritto. Solo dritto." _(vicino allo scheletro — suggerisce la meccanica senza spiegarla)_
 
 ---
 
 ### Livello 7 — "La sorveglianza" ⬜
 
-`pacco3` (interno) | **2 Scheletri + 1–2 Zombie** | Meccanica: line-of-sight multipla, angoli ciechi
+`pacco3` (interno) | **2 Scheletri + 1 Zombie** | Meccanica: line-of-sight multipla, angoli ciechi
 
-**Mappa:** 5–6 stanze con architettura a corridoi incrociati. La mappa è pensata per creare angoli ciechi utili al giocatore e coperture incrociate per gli scheletri.
+**Candele:** 4
+
+**Mappa:** 5–6 stanze con architettura a corridoi incrociati. La mappa è pensata per creare angoli ciechi utili al giocatore e coperture incrociate per gli scheletri. Brazier negli angoli ciechi — guidano il giocatore verso le zone sicure.
 
 Più scheletri che coprono percorsi incrociati. Il giocatore deve imparare a muoversi negli angoli ciechi sfruttando la geometria della mappa.
 
@@ -213,26 +223,27 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 8 — "La rabbia cieca" ⬜
 
-`pacco4` (interno) | **1 Taurus** | Meccanica: carica del Taurus, **muri rompibili**
+`pacco4` (interno) | **1 Taurus** | Meccanica: carica del Taurus, muri rompibili
 
-**Mappa:** Corridoio principale con una stanza separata da un muro fragile. Il Taurus pattuglia dall'altra parte del muro. La struttura guida il giocatore nel campo visivo del Taurus in modo quasi inevitabile. 4–5 stanze totali.
+**Candele:** 3
 
-Il percorso obbligato passa per il corridoio sorvegliato dal Taurus. Quando il giocatore entra nel campo visivo, la carica sfonda il muro — momento "wow" che insegna entrambe le meccaniche in un colpo solo.
+**Mappa:** Corridoio principale con una stanza separata da un muro fragile (visivamente distinto). Il Taurus pattuglia dall'altra parte del muro. Il percorso obbligato passa per il corridoio sorvegliato: il giocatore entra nel campo visivo del Taurus, la carica parte, il muro crolla — momento spettacolare che insegna entrambe le meccaniche in un colpo solo. 4–5 stanze totali. Brazier nella stanza sicura iniziale e dopo il muro fragile.
 
 _Testi (ogni riga = trigger separato):_
 
-> "Carica e sfonda i muri a testate." _(dopo il muro sfondato — player ancora in zona pericolosa)_
-> "Tanta forza, così poca utilità." _(stesso punto)_
+> "Qualcosa respira dall'altra parte del muro." _(prima del muro fragile — zona sicura, anticipazione)_
+> "Carica e sfonda i muri a testate." _(dopo il muro sfondato — player ancora in zona pericolosa, breve)_
+> "Tanta forza, così poca utilità." _(zona sicura dopo il muro — player respira)_
 
 ---
 
 ### Livello 9 — "I guardiani rotti" ⬜
 
-`pacco4/5` (interno) | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici, **trappola letale**
+`pacco5` (interno) | **1 Taurus + 2 Zombie** | Meccanica: muri fragili strategici
 
-**Mappa:** 5–6 stanze con alcuni muri fragili posizionati strategicamente. La prima trappola letale è visibile in un punto non obbligatorio del percorso. La mappa offre più strade ma una sola davvero sicura.
+**Candele:** 3
 
-Il giocatore inizia a sfruttare i muri fragili attivamente — fare in modo che il Taurus sfonda una parete che sblocca un percorso utile. Prima trappola letale visibile, mai obbligatoria.
+**Mappa:** 5–6 stanze con alcuni muri fragili posizionati strategicamente — il giocatore inizia a sfruttarli attivamente, guidando il Taurus verso una parete che sblocca un percorso utile. La prima trappola letale è visibile in una diramazione opzionale (mai sul percorso obbligato verso l'uscita). La mappa ha un percorso principale chiaro con 1–2 diramazioni brevi. Brazier vicino al muro fragile strategico e vicino all'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -245,14 +256,15 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco5` (interno) | **1 Ghost** | Meccanica: fermarsi per sopravvivere
 
-**Mappa:** Stanza isolata grande, quasi una singola arena. Corridoi di accesso stretti. Livello deliberatamente compatto — la tensione è psicologica, non esplorativa.
+**Candele:** 3
 
-Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Deve stare fermo abbastanza a lungo da far passare il Ghost.
+**Mappa:** Stanza isolata grande, quasi una singola arena. Corridoi di accesso stretti. Livello deliberatamente compatto — la tensione è psicologica, non esplorativa. Brazier agli ingressi della stanza per illuminarla chiaramente.
+
+Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Deve stare fermo abbastanza a lungo da far passare il Ghost. Il giocatore scopre la meccanica da solo — o morendo una volta, o osservando il Ghost fermarsi quando lui si ferma.
 
 _Testi (ogni riga = trigger separato):_
 
-> "Se mi muovo, mi attacca." _(entrando nella stanza)_
-> "Fermo." _(stesso punto — 1 parola, player deve concentrarsi)_
+> "Non guardarlo." _(entrando nella stanza — zona pericolosa, 2 parole)_
 > "Ombre che un tempo erano ragazzi come me." _(dopo il Ghost, zona sicura — player respira)_
 
 ---
@@ -263,17 +275,17 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 11 — "Fermo nel caos" ⬜
 
-`pacco5/6` (interno) | **1 Ghost + 2 Zombie** | Meccanica: Ghost in combinazione con pericoli che forzano il movimento
+`pacco6` (interno) | **1 Ghost + 2 Zombie** | Meccanica: Ghost in combinazione con pericoli che forzano il movimento
 
-**Mappa:** 5–6 stanze con corridoi abbastanza stretti. Gli zombie pattugliano percorsi che si intersecano con l'arena del Ghost. La geometria crea situazioni dove il giocatore è forzato a scegliere il male minore.
+**Candele:** 4
+
+**Mappa:** 5–6 stanze con corridoi sufficientemente larghi da avere sempre un angolo sicuro raggiungibile. Gli zombie pattugliano percorsi che si intersecano con l'arena del Ghost, ma la geometria offre sempre almeno una finestra di immobilità. Nessun vicolo cieco obbligato. Brazier agli angoli sicuri.
 
 Il vero horror del Ghost: i zombie ti forzano a muoverti, il Ghost attacca se ti muovi. Il giocatore deve trovare finestre di immobilità tra i movimenti degli zombie.
 
 _Testi (ogni riga = trigger separato):_
 
-> "Fermo, arriva lo zombie." _(nella stanza centrale)_
-> "Mi muovo, arriva il fantasma." _(stesso punto)_
-> "Non c'è risposta giusta." _(stesso punto — massima brevità)_
+> "Non c'è risposta giusta." _(nella stanza centrale — 1 frase, il giocatore deve concentrarsi)_
 
 ---
 
@@ -281,7 +293,9 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco6` (interno) | **1 Bubu + 2 Zombie** | Meccanica: Bubu spegne le candele
 
-**Mappa:** 6–7 stanze con aree semi-aperte. Le candele piazzabili sono sparse in posizioni che il Bubu pattuglia naturalmente. Il giocatore è costretto a pensare dove posarle.
+**Candele:** 6 (più del solito — il Bubu ne spegnerà alcune, il giocatore deve averne abbastanza)
+
+**Mappa:** 6–7 stanze con aree semi-aperte. Le candele piazzabili sono sparse in posizioni che il Bubu pattuglia naturalmente. Il giocatore è costretto a pensare dove posarle. Brazier nelle zone sicure per compensare la perdita di candele.
 
 Il Bubu non uccide — ruba le candele. Il giocatore scopre che la risorsa su cui si è affidato può scomparire. Prima volta che la gestione delle candele è un problema strategico.
 
@@ -295,9 +309,11 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 13 — "La privazione" ⬜
 
-`pacco6/7` (interno) | **2 Bubu + 2 Scheletri** | Meccanica: scarsità critica di risorse
+`pacco6` (interno) | **2 Bubu + 2 Scheletri** | Meccanica: scarsità critica di risorse
 
-**Mappa:** 6–7 stanze con zone buie sparse. Le candele sono nascoste in posti scomodi. La mappa ha qualche diramazione che porta a vicoli ciechi dove le candele potrebbero essere nascoste — il giocatore deve scegliere se rischiare l'esplorazione.
+**Candele:** 2 (pochissime — è il punto del livello)
+
+**Mappa:** 6–7 stanze con zone buie sparse. Le candele sono nascoste in posizioni scomode — il giocatore deve scegliere se rischiare l'esplorazione in diramazioni brevi (max 2 stanze). Percorso principale sempre leggibile. Brazier nelle zone di snodo per evitare che il giocatore si perda completamente.
 
 Le candele sono poche e i Bubu pattugliano le zone dove potrebbero essere piazzate. Il giocatore deve scegliere quando e dove usarle.
 
@@ -310,9 +326,11 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 14 — "Il labirinto vero" ⬜
 
-`pacco7` (interno) | **Zombie + Scheletri + Bubu** | Meccanica: mix completo senza Goblin
+`pacco7` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu** | Meccanica: mix completo senza Goblin
 
-**Mappa:** Prima mappa davvero grande — 8–10 stanze con struttura non lineare, più percorsi verso l'uscita, zone buie. Trappole letali in punti visibili ma pericolosi. La mappa richiede esplorazione attiva.
+**Candele:** 4
+
+**Mappa:** 8–10 stanze con percorso principale leggibile e 2–3 diramazioni opzionali brevi (max 2 stanze ciascuna). Le diramazioni contengono candele extra o vicoli ciechi. Il percorso principale è sempre il più ovvio. Brazier agli incroci per guidare il giocatore. Zone buie presenti ma non obbligatorie sul percorso principale. Trappole letali solo nelle diramazioni, mai sul percorso obbligato.
 
 La prima vera prova d'insieme. Nessun testo tutorial — solo atmosfera.
 
@@ -326,27 +344,28 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 15 — "L'odio" ⬜
 
-`pacco7/8` (interno) | **1 Goblin** (da solo) | Meccanica: inseguimento puro, nessuna distrazione possibile
+`pacco7` (interno) | **1 Goblin** (da solo) | Meccanica: inseguimento puro, nessuna distrazione possibile
 
-**Mappa:** Mappa ampia e aperta, 8–9 stanze, corridoi larghi. Lo spazio è necessario perché il Goblin insegue sempre — il giocatore ha bisogno di margine per manovrare. Pochi vicoli ciechi, percorso principale leggibile.
+**Candele:** 2 (critiche — ogni candela piazzata accelera il Goblin)
 
-Il Goblin insegue sempre — non si può distrarre come lo zombie. Ogni candela usata lo velocizza. Il giocatore deve trovare la chiave e uscire minimizzando l'uso di risorse.
+**Mappa:** Mappa ampia e aperta, 8–9 stanze, corridoi larghi. Lo spazio è necessario perché il Goblin insegue sempre — il giocatore ha bisogno di margine per manovrare. Pochi vicoli ciechi, percorso principale leggibile. Brazier sparsi — il Goblin li ignora, servono solo al giocatore per orientarsi.
 
-_Testi (ogni riga = trigger separato — il player li scorre mentre comincia a correre):_
+Il Goblin insegue sempre — non si può distrarre come lo zombie. Il giocatore deve trovare la chiave e uscire. Scoprirà da solo il legame tra candele e velocità del Goblin.
 
-> "Non si distrae." _(vedendo il Goblin)_
-> "Non si stanca." _(stesso punto)_
-> "Ogni candela che accendo lo avvicina." _(stesso punto)_
+_Testi (ogni riga = trigger separato):_
+
+> "Questo mi odia." _(vedendo il Goblin — 3 parole, il player comincia a correre)_
+> "È la fiamma che lo nutre." _(qualche stanza dopo, zona di transizione — suggerisce il legame candele/velocità senza spiegarlo)_
 
 ---
 
 ### Livello 16 — "Il cacciatore instancabile" ⬜
 
-`pacco8` (interno) | **1 Goblin + 2–3 Zombie** | Meccanica: Goblin in combinazione
+`pacco8` (interno) | **1 Goblin + 2 Zombie** | Meccanica: Goblin in combinazione
 
-**Mappa:** 8–9 stanze con corridoi più stretti del livello 15. Gli zombie occupano le vie di fuga principali. La mappa costringe a percorsi più contorti dove il Goblin guadagna terreno.
+**Candele:** 2
 
-Il Goblin non è più solo. I zombie bloccano le vie di fuga, il Goblin insegue. Il giocatore deve usare i zombie come ostacoli passivi per rallentare il Goblin.
+**Mappa:** 8–9 stanze con corridoi più stretti del livello 15. Gli zombie occupano le vie di fuga principali. La mappa costringe a percorsi più contorti dove il Goblin guadagna terreno. Il giocatore deve usare i zombie come ostacoli passivi per rallentare il Goblin. Percorso principale sempre identificabile. Brazier vicino all'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -360,9 +379,11 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 17 — "Tutto insieme" ⬜
 
-`pacco8` (interno) | **Zombie + Scheletri + Bubu + Taurus** (no Goblin) | Meccanica: orchestrazione completa
+`pacco8` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu + 1 Taurus** (no Goblin) | Meccanica: orchestrazione completa
 
-**Mappa:** Mappa grande, 10–12 stanze, più strade verso l'uscita. Zone buie estese, trappole letali. La struttura è labirintica ma non caotica — c'è sempre una via, ma trovarla richiede attenzione.
+**Candele:** 4
+
+**Mappa:** 10–12 stanze con percorso principale chiaro e 2–3 diramazioni brevi. Brazier agli incroci principali — la complessità è nei nemici, non nella navigazione. Zone buie presenti ma non obbligatorie. Trappole letali solo nelle diramazioni.
 
 Mix completo di nemici tranne il Goblin. La prova di maturità prima del finale.
 
@@ -375,11 +396,13 @@ _Testi (ogni riga = trigger separato):_
 
 ### Livello 18 — "La prova definitiva" ⬜
 
-`pacco8` (interno) | **Mix completo + Goblin** | Meccanica: tutto insieme
+`pacco8` (interno) | **2 Zombie + 2 Scheletri + 1 Bubu + 1 Taurus + 1 Goblin** | Meccanica: tutto insieme
 
-**Mappa:** Mappa ampia con spazio sufficiente per manovrare (10–12 stanze) ma senza margini di errore. La pressione è totale: il Goblin insegue mentre gli altri bloccano. La mappa deve avere abbastanza corridoi da permettere circuiti di fuga.
+**Candele:** 3
 
-La combinazione più pericolosa. Nessun singolo percorso è sicuro.
+**Mappa:** 10–12 stanze con percorso principale ad anello — il giocatore può sempre fuggire in avanti senza tornare indietro. 1–2 diramazioni brevi. Brazier ai punti di svolta dell'anello. Il Goblin insegue mentre gli altri bloccano, ma l'anello garantisce sempre una via avanti.
+
+La combinazione più pericolosa.
 
 _Testi (ogni riga = trigger separato):_
 
@@ -392,24 +415,29 @@ _Testi (ogni riga = trigger separato):_
 
 `pacco8` (interno) | **Mix completo** | Meccanica: massima pressione, architettura claustrofobica
 
-**Mappa:** Mappa densa con corridoi stretti, 10–12 stanze molto compresse. Le zone buie sono estese. La sensazione di oppressione è architettonica — i corridoi larghi del livello 18 qui spariscono. Il punto più claustrofobico del gioco.
+**Candele:** 2
+
+**Mappa:** Mappa densa con corridoi stretti, 10–12 stanze molto compresse. Zone buie estese. La sensazione di oppressione è architettonica — i corridoi larghi del livello 18 qui spariscono. Il punto più claustrofobico del gioco. Percorso principale identificabile anche nella densità. Brazier solo all'ingresso e vicino all'uscita.
 
 Narrativamente: Mark è nel cuore del labirinto, il punto più lontano dall'uscita.
 
 _Testi (ogni riga = trigger separato):_
 
-> "La chiave è pesantissima." _(sulla chiave)_
-> "Sa di piombo." _(stesso punto)_
+> "La chiave è pesantissima. Sa di piombo." _(sulla chiave — trigger unico, 2 frasi brevi)_
 > "L'ultima porta." _(vicino all'uscita)_
 > "Sono diventato quello che volevano." _(stesso punto — rassegnazione totale)_
 
 ---
 
-### Livello 20 — "Il giardino vuoto / Il trono" ⬜
+### Livello 20 — "Il giardino vuoto" ⬜
 
-`pacco8` → `pacco1` | Mix finale | Il colpo di scena
+`pacco8` | Mix finale + finale narrativo
 
-**Mappa:** Due sezioni distinte. La prima (pacco8) è scura e densa come il livello 19. La seconda (pacco1) si apre sul giardino esterno al chiaro di luna — lo stesso ambiente del livello 1, ora in cenere. Contrasto netto: dai corridoi claustrofobici all'aperto desolato. Il passaggio tra i due pack è fisicamente attraversabile. 2 trigger posizionati nell'area esterna mentre il player avanza verso l'uscita finale.
+> **Nota sul pack:** Il livello usa `pacco8` per tutta la durata. L'area "esterna" del finale (il giardino in cenere) è una sezione del livello con layout aperto che evoca l'esterno, ma usa le stesse texture `pacco8`. L'effetto di contrasto con il livello 1 è narrativo, non visivo. Alternativa futura: implementare supporto a due pack per livello.
+
+**Candele:** 2
+
+**Mappa:** Due sezioni distinte. La prima (densa, corridoi stretti) è come il livello 19. La seconda (layout aperto, mura perimetrali lontane) evoca il giardino esterno del livello 1 — ora devastato. Il passaggio tra le due sezioni è fisicamente attraversabile. 2 trigger posizionati nell'area aperta mentre il player avanza verso l'uscita finale.
 
 _Testi (ogni riga = trigger separato):_
 

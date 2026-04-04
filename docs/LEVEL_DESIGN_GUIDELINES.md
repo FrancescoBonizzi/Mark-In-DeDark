@@ -67,7 +67,7 @@ I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il to
 - **2–3 testi per livello** al massimo. Ogni testo deve avere un impatto.
 - **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
 - **Non spiegare la meccanica direttamente** — suggerire in modo utilitaristico. "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." funziona meglio di "piazza la candela per distrarre il nemico".
-- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nei livelli 1–3, sempre in voce.
+- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nell'Atto I (livelli 1–5), sempre in voce. Dal livello 6 in poi: solo suggerimenti indiretti.
 - **Lunghezza in funzione del pericolo** — questa è la regola più importante:
   - Vicino a un nemico attivo: **massimo 2 frasi brevi**. Il giocatore sta guardando il nemico, non lo schermo.
   - In zone di pausa o transizione: massimo 3 frasi.
@@ -97,11 +97,11 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 | Raccogliere la chiave                        | 1                       | Chiave visibile, percorso diretto                             |
 | Aprire l'uscita con la chiave                | 1                       | Uscita vicina alla chiave nei primi livelli                   |
 | Raccogliere le candele                       | 1                       | Candele sul percorso, testo esplicativo                       |
-| Piazzare una candela (SPAZIO)                | 2                       | Tutorial esplicito con testo                                  |
-| Zone buie (Buio)                             | 2                       | Zona buia piccola, candela necessaria per passare             |
-| Aprire/chiudere porte (CTRL)                 | 3–4                     | Una singola porta, testo esplicativo                          |
+| Zone buie (Buio)                             | 2                       | Zona buia piccola, la candela in mano illumina — non serve piazzarla |
+| Piazzare una candela (SPAZIO)                | 3                       | Introdotta col primo zombie come meccanica di distrazione     |
 | Nemico Zombie — patruglia                    | 3                       | Un singolo zombie, meccanica distrazione candela              |
 | Distrazione con candela                      | 3                       | Insegnata con il primo zombie                                 |
+| Aprire/chiudere porte (CTRL)                 | 4                       | Una singola porta, testo esplicativo in voce                  |
 | Trappola temporizzata (TrappolaTemporizzata) | 5                       | Una trappola ovvia, si può attraversare di corsa              |
 | Nemico Scheletro — visuale lineare           | 6                       | Da solo in stanza aperta                                      |
 | Muri rompibili (Fragile, WallType=2)         | 8                       | Prima mostrati come muri distinguibili, poi Taurus li abbatte |
@@ -230,7 +230,7 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 1. **Un nemico nuovo per livello** — non introdurre mai due tipi di nemici nuovi insieme.
 2. **Ogni nemico nuovo va introdotto in isolamento** prima di essere combinato con altri. Il Goblin deve avere un livello tutto suo.
 3. **Le candele diminuiscono progressivamente** — ma ogni livello deve essere risolvibile. Un livello senza soluzione non è design, è un bug.
-4. **La complessità spaziale cresce** — i primi livelli sono quasi lineari. I livelli avanzati hanno rami e scelte.
+4. **La struttura è sempre leggibile** — tutti i livelli hanno un percorso principale chiaro. I livelli avanzati aggiungono 2–3 diramazioni brevi (max 2–3 stanze ciascuna) con candele extra o vicoli ciechi. Mai più di 2 bivi contemporanei visibili. La complessità è nei nemici, non nella navigazione.
 5. **Il buio non è mai obbligatorio** — si può sempre trovare un percorso con abbastanza luce. Il buio è una sfida opzionale o una scorciatoia.
 
 ### Arco narrativo in quattro atti
