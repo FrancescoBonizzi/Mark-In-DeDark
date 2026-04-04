@@ -236,6 +236,16 @@ Le porte di ingresso (spawn del giocatore) e di uscita devono sempre essere **ad
 - Non posizionare mai una porta in mezzo a una stanza aperta, a un corridoio largo, o isolata senza contesto architettonico.
 - Se visivamente la porta sembra "uscire dal nulla", il placement è sbagliato — riposizionala.
 
+#### Ingresso e uscita devono essere sempre visivamente marcati
+
+**Regola obbligatoria:** il giocatore deve capire subito da dove viene e dove deve andare. Per questo:
+
+- **Spawn del giocatore (ObjectType=1):** deve sempre trovarsi in un corridoio stretto (1 cella di larghezza) che dia chiaramente l'idea di "sei entrato da lì", oppure avere una parete con muro tipo `Ingresso` (WallType=5) alle spalle — quella che il giocatore ha appena attraversato. Lo spawn in mezzo a una stanza aperta, senza contesto architettonico di provenienza, è vietato.
+
+- **Uscita (ObjectType=3):** deve **sempre** avere una porta tipo `Uscita` (WallType=6) sulla cella adiacente, dalla parte verso cui si esce. Il gioco fa visualizzare questa porta come chiusa finché il giocatore non raccoglie la chiave, e aperta dopo. Senza la porta visiva, il giocatore non sa dove sia l'uscita, e il livello diventa illeggibile. Un'uscita senza porta è un bug di design.
+
+In sintesi: **ingresso e uscita non sono mai celle anonime** — sono sempre riconoscibili a colpo d'occhio grazie alla porta che li accompagna.
+
 ### Uso dei muri rompibili (WallType=2 — Fragile)
 
 I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
