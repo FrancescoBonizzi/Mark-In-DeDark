@@ -58,6 +58,7 @@ let deathOverlaySprite: Sprite | null = null;
 let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
 let currentLevelId = 1;
+let currentFolder = '';
 let visibilityHandler: (() => void) | null = null;
 let torchFireParticles: TorchFireParticleSystem | null = null;
 
@@ -69,12 +70,13 @@ function navigateToGameOver(): void {
   window.location.hash = "#/gameover";
 }
 
-export async function initGame(container: HTMLElement, levelIdParam: string) {
-  console.log("[gamebootstrap] initGame called, level=" + levelIdParam + ", hasKeyboard=" + hasPhysicalKeyboard());
+export async function initGame(container: HTMLElement, folder: string, levelIdParam: string) {
+  console.log("[gamebootstrap] initGame called, folder=" + folder + ", level=" + levelIdParam + ", hasKeyboard=" + hasPhysicalKeyboard());
   if (app) {
     destroyGame();
   }
 
+  currentFolder = folder;
   currentLevelId = parseInt(levelIdParam, 10) || 1;
   elapsedMs = 0;
   gameEnded = false;
@@ -158,7 +160,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
   try {
     const [assets, bundle] = await Promise.all([
       loadAssets(),
-      loadAndParseLevel(currentLevelId),
+      loadAndParseLevel(currentFolder, currentLevelId),
     ]);
 
     const levelConfig = createLevelConfig(
@@ -436,12 +438,13 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
             gameEnded = true;
             hud?.showMessage(GameTexts.levelCompleted, "#4ade80", true);
             const used = candlesManager?.playerUsedCandles ?? 0;
-            ScoreRepository.setLevelCompleted(currentLevelId);
-            ScoreRepository.setLevelTime(currentLevelId, Math.floor(elapsedMs));
-            ScoreRepository.setLevelCandles(currentLevelId, used);
+            ScoreRepository.setLevelCompleted(currentFolder, currentLevelId);
+            ScoreRepository.setLevelTime(currentFolder, currentLevelId, Math.floor(elapsedMs));
+            ScoreRepository.setLevelCandles(currentFolder, currentLevelId, used);
             sessionStorage.setItem(
               GAMEOVER_KEY,
               JSON.stringify({
+                folder: currentFolder,
                 levelId: currentLevelId,
                 isWin: true,
                 timeMs: Math.floor(elapsedMs),
@@ -472,6 +475,7 @@ export async function initGame(container: HTMLElement, levelIdParam: string) {
         sessionStorage.setItem(
           GAMEOVER_KEY,
           JSON.stringify({
+            folder: currentFolder,
             levelId: currentLevelId,
             isWin: false,
             timeMs: Math.floor(elapsedMs),

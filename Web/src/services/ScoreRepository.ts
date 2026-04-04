@@ -2,7 +2,7 @@ import stringHelper from "./StringHelper.ts";
 
 const ScorePrefix = 'mark-in-dedark-';
 
-const makeKey = (levelId: number, suffix: string) => `${ScorePrefix}level-${levelId}-${suffix}`;
+const makeKey = (folder: string, levelId: number, suffix: string) => `${ScorePrefix}${folder}-level-${levelId}-${suffix}`;
 
 const toNumberOr0 = (value: string | null | undefined): number => {
     if (stringHelper.isNullOrWhitespace(value)) {
@@ -18,27 +18,27 @@ const toNumberOr0 = (value: string | null | undefined): number => {
 };
 
 export default {
-    isLevelCompleted: (levelId: number): boolean => {
-        return localStorage.getItem(makeKey(levelId, 'completed')) === '1';
+    isLevelCompleted: (folder: string, levelId: number): boolean => {
+        return localStorage.getItem(makeKey(folder, levelId, 'completed')) === '1';
     },
 
-    setLevelCompleted: (levelId: number): void => {
-        localStorage.setItem(makeKey(levelId, 'completed'), '1');
+    setLevelCompleted: (folder: string, levelId: number): void => {
+        localStorage.setItem(makeKey(folder, levelId, 'completed'), '1');
     },
 
-    getLevelTime: (levelId: number): number => {
-        return toNumberOr0(localStorage.getItem(makeKey(levelId, 'time')));
+    getLevelTime: (folder: string, levelId: number): number => {
+        return toNumberOr0(localStorage.getItem(makeKey(folder, levelId, 'time')));
     },
 
-    setLevelTime: (levelId: number, value: number): void => {
-        localStorage.setItem(makeKey(levelId, 'time'), value.toString());
+    setLevelTime: (folder: string, levelId: number, value: number): void => {
+        localStorage.setItem(makeKey(folder, levelId, 'time'), value.toString());
     },
 
-    getLevelCandles: (levelId: number): number => {
-        return toNumberOr0(localStorage.getItem(makeKey(levelId, 'candles')));
+    getLevelCandles: (folder: string, levelId: number): number => {
+        return toNumberOr0(localStorage.getItem(makeKey(folder, levelId, 'candles')));
     },
 
-    setLevelCandles: (levelId: number, value: number): void => {
-        localStorage.setItem(makeKey(levelId, 'candles'), value.toString());
+    setLevelCandles: (folder: string, levelId: number, value: number): void => {
+        localStorage.setItem(makeKey(folder, levelId, 'candles'), value.toString());
     },
 };

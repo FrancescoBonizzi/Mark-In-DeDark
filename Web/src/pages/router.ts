@@ -1,6 +1,7 @@
 import Navigo from 'navigo';
 import { renderMenuPage } from './menu';
 import { renderLevelSelectPage } from './levelselect';
+import { renderFolderLevelsPage } from './folderlevels';
 import { renderGameOverPage } from './gameover';
 import { initGame, destroyGame } from './gamebootstrap';
 
@@ -19,11 +20,17 @@ export function initializeRouter() {
     router
         .on(() => renderMenuPage(appElement))
         .on('/', () => renderMenuPage(appElement!))
+        .on('/levels', () => renderLevelSelectPage(appElement!))
+        .on('/levels/:folder', (match) => {
+            const folder = match?.data?.['folder'] ?? '';
+            renderFolderLevelsPage(appElement!, folder);
+        })
         .on(
-            '/game/:id',
+            '/game/:folder/:id',
             (match) => {
+                const folder = match?.data?.['folder'] ?? '';
                 const levelId = match?.data?.['id'] ?? '1';
-                initGame(appElement!, levelId);
+                initGame(appElement!, folder, levelId);
             },
             {
                 leave: (done) => {
@@ -32,7 +39,6 @@ export function initializeRouter() {
                 },
             },
         )
-        .on('/levels', () => renderLevelSelectPage(appElement!))
         .on('/gameover', () => renderGameOverPage(appElement!))
         .notFound(() => renderMenuPage(appElement!))
         .resolve();

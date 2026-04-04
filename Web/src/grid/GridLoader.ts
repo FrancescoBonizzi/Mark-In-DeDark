@@ -65,7 +65,7 @@ export function parseLevel(text: string): GridBundle {
     return { rows, columns: cols, envTexturePackId, dirtyProbabilityPct, grid };
 }
 
-export async function loadAndParseLevel(levelId: number): Promise<GridBundle> {
-    const text = await loadLevelText(levelId);
+export async function loadAndParseLevel(folder: string, levelId: number): Promise<GridBundle> {
+    const text = await loadLevelText(folder, levelId);
     return parseLevel(text);
 }

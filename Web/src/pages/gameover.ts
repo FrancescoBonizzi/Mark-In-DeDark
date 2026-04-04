@@ -1,9 +1,10 @@
 import router from './router';
-import { LEVELS, getLevelName } from '../levels';
+import { LEVEL_FOLDERS } from '../generatedLevelManifest';
 
 const GAMEOVER_KEY = 'mark-in-dedark-gameover';
 
 interface GameOverPayload {
+    folder: string;
     levelId: number;
     isWin: boolean;
     timeMs: number;
@@ -26,19 +27,21 @@ export function renderGameOverPage(container: HTMLElement) {
 
     const isWin = payload?.isWin ?? false;
     const levelId = payload?.levelId ?? 1;
+    const folder = payload?.folder ?? '';
     const timeMs = payload?.timeMs ?? 0;
     const candlesUsed = payload?.candlesUsed ?? 0;
 
     const title = isWin ? 'COMPLETATO!' : 'GAME OVER';
     const nextLevelId = levelId + 1;
-    const hasNextLevel = isWin && nextLevelId <= LEVELS.length;
+    const folderManifest = LEVEL_FOLDERS.find(f => f.folder === folder);
+    const hasNextLevel = isWin && folderManifest !== undefined && folderManifest.levels.includes(nextLevelId);
 
     const primaryBtn = hasNextLevel
-        ? `<a href="/game/${nextLevelId}" class="button primary" data-navigo>${nextLevelId} — ${getLevelName(nextLevelId)}</a>`
-        : `<a href="/game/${levelId}" class="button primary" data-navigo>RIPROVA</a>`;
+        ? `<a href="/game/${folder}/${nextLevelId}" class="button primary" data-navigo>${nextLevelId}</a>`
+        : `<a href="/game/${folder}/${levelId}" class="button primary" data-navigo>RIPROVA</a>`;
 
     const retryBtn = hasNextLevel
-        ? `<a href="/game/${levelId}" class="button" data-navigo>RIPROVA</a>`
+        ? `<a href="/game/${folder}/${levelId}" class="button" data-navigo>RIPROVA</a>`
         : '';
 
     container.innerHTML = `
@@ -47,7 +50,7 @@ export function renderGameOverPage(container: HTMLElement) {
         <div class="menu-content">
             <h1 class="title${isWin ? ' title-win' : ''}">${title}</h1>
             <div class="gameover-stats">
-                <div>${levelId} — ${getLevelName(levelId)}</div>
+                <div>${folder} — ${levelId}</div>
                 <div>TEMPO ${formatTime(timeMs)}</div>
                 <div>CANDELE USATE ${candlesUsed}</div>
             </div>
