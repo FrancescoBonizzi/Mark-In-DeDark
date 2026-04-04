@@ -282,7 +282,7 @@ I `const enum` di `enums.ts` sono cancellati a compile time — servono array ru
 - `OBJECT_ENTRIES` + `ENEMY_ENTRIES`: separati per tab come nel C#
 - `GROUND_COLOR_MAP`, `WALL_COLOR_MAP`: `Record<number, string>` per lookup O(1) nel rendering
 - `WALL_CODE_MAP`: tipo → codice corto (M0, MB, P, I, U, D1-D8, M1-M5)
-- `OBJECT_LABEL_MAP`: tipo → label 1-2 caratteri (P, K, E, Z, S, G, T, Gh, Bu, Br)
+- `OBJECT_LABEL_MAP`: tipo → emoji unicode (🧍 🗝 🚪 🕯 🧟 💀 👺 🐂 👻 👾 🔥)
 - `SINGLETON_OBJECTS`: `Set<number>` = {1, 2, 3, 7} (Giocatore, Chiave, Uscita, Goblin)
 - `isRiempimento(groundType: number): boolean`
 - ~120 righe
@@ -347,7 +347,7 @@ Funzioni:
 - `attachInteraction(gridEl, cellElements, state, onCellChanged)` → ritorna cleanup function
 - Hit-testing via `event.target.dataset.col/row` (triviale con div, non serve divisione pixel)
 - **Ground mode**: mousedown+mousemove con bottone premuto → drag painting
-- **Wall mode**: hover highlights cella, arrow keys piazzano muro sul lato corrispondente
+- **Wall mode**: hover highlights cella, arrow keys piazzano muro sul lato corrispondente (comportamento identico al C#)
 - **Object mode**: click. `prompt()` per candele (quantita') e nemici (path ID). Singleton auto-switch a Ground dopo piazzamento
 - **Text mode**: click → `prompt()` per string code
 - **Shortcuts** (guarded da `!isInputFocused`): F=Terra1, W=Occludente, D=Niente, C=Cancella, R=Riempimento1, Arrows=muro
@@ -367,6 +367,7 @@ Funzioni:
 **Files**: `Web/src/pages/leveleditor.ts`, `Web/src/pages/router.ts`, `Web/src/pages/menu.ts`
 
 - `renderLevelEditorPage(container)` — layout: toolbar (Nuovo/Apri/Salva + dirty% + texture pack) + sidebar + canvas scrollabile
+- **Blocco mobile**: all'avvio della pagina, rilevare se il dispositivo e' touch-only o schermo piccolo. Se si', mostrare un messaggio di blocco al posto dell'editor (es. "Il Level Editor richiede un mouse e uno schermo desktop"). Criteri di rilevamento: `window.matchMedia('(pointer: coarse)')` (input primario touch) oppure `window.innerWidth < 1024`. Nessun editor viene inizializzato in questo caso.
 - Crea stato iniziale, renderizza sidebar e griglia, attacca interazione e toolbar
 - Route `#/level-editor` con `leave` hook (cleanup + dirty check)
 - Link nel menu principale
