@@ -5,14 +5,71 @@ Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMA
 
 ---
 
+## VINCOLI INVIOLABILI — leggere PRIMA di qualsiasi altra cosa
+
+Questi sono i vincoli che l'AI viola più spesso. Vanno verificati PRIMA di scrivere l'ASCII.
+
+### 1. DIMENSIONI — non superare la bounding box
+
+Ogni livello ha una bounding box massima (vedi tabella in `LEVEL_TASKS.md`). Un livello fuori dimensione è un bug di design, non una questione estetica.
+
+Il livello 1 è piccolo per definizione: **9–11 righe × 22–28 colonne**. Un giardino enorme non è "più immersivo" — è un errore.
+
+### 2. TRIGGER DI TESTO — solo in corridoi obbligati da 1 cella
+
+Il trigger `!` si attiva solo quando il player calpesta quella cella esatta. Se il player può aggirarla, il testo non parte mai.
+
+**Regola di verifica:** prima di piazzare un `!`, controlla che la sua riga (o colonna) non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono → il trigger è aggirabile → **non metterlo lì**.
+
+Pattern VALIDO (corridoio 1 cella):
+```
+▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ · · ! · · ▓   ← fill sopra E sotto: il player DEVE passare su !
+▓ ▓ ▓ ▓ ▓ ▓ ▓
+```
+
+Pattern INVALIDO (trigger aggirabile):
+```
+▓ · · · · · ▓
+▓ · · ! · · ▓   ← il player passa sopra o sotto !
+▓ · · · · · ▓
+```
+
+Pattern VALIDO per area aperta (giardino livello 1 — trigger nei colli di bottiglia):
+```
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓
+▓ ! · · · · K · · · · · · ! E ▓   ← trigger a sx (ingresso) e dx (uscita): OBBLIGATI
+▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓
+▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
+```
+
+L'area interna può essere ampia — i trigger stanno nei colli di bottiglia di ingresso/uscita.
+
+### 3. LINEARITÀ — il grafo delle stanze è una catena
+
+Se la spec dice "lineare" o "strettamente lineare":
+- Il grafo è: `Spawn → A → B → … → Uscita`
+- Nessuna stanza ha più di 2 aperture (ingresso + uscita)
+- Zero bivi sul percorso principale
+
+Se la spec prevede diramazioni opzionali: max 1 bivio visibile alla volta, ogni diramazione max 2–3 stanze, mai chiave o uscita nelle diramazioni.
+
+### 4. PRIMA IL GRAFO, POI L'ASCII
+
+Non iniziare mai a disegnare l'ASCII senza aver prima scritto il grafo delle stanze. Vedi il workflow obbligatorio in [Sezione 6](#6-workflow-obbligatorio-per-la-generazione).
+
+---
+
 ## Indice
 
+0. [VINCOLI INVIOLABILI](#vincoli-inviolabili--leggere-prima-di-qualsiasi-altra-cosa) ← **leggere per primo**
 1. [La storia di Mark — L'eredità del vuoto](#1-la-storia-di-mark--leredità-del-vuoto)
 2. [Meccaniche del gioco — introduzione progressiva](#2-meccaniche-del-gioco--introduzione-progressiva)
 3. [I nemici — descrizione e placement](#3-i-nemici--descrizione-e-placement)
 4. [Convenzioni di design spaziale](#4-convenzioni-di-design-spaziale)
 5. [Progressione dei livelli — principi e arco narrativo](#5-progressione-dei-livelli--principi-e-arco-narrativo)
-6. [Istruzioni per la generazione di livelli](#6-istruzioni-per-la-generazione-di-livelli)
+6. [Workflow obbligatorio per la generazione](#6-workflow-obbligatorio-per-la-generazione) ← **workflow a fasi**
 
 ---
 
@@ -66,8 +123,7 @@ I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il to
 
 - **2–3 testi per livello** al massimo. Ogni testo deve avere un impatto.
 - **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
-- **I testi vanno piazzati solo in passaggi obbligati.** Un testo in un corridoio largo 3 celle può non essere mai visto se il giocatore passa dall'altro lato. I trigger di testo devono stare in punti dove il giocatore è costretto a passare: corridoi larghi 1 cella, soglie di porte, passaggi unici. Se il passaggio è largo, restringerlo architettonicamente oppure non mettere il testo. Un testo che il 50% dei giocatori non vedrà non è design, è decorazione casuale.
-  - **Pattern concreto per livelli con area aperta + testi obbligati:** se il livello richiede un'area visivamente larga (es. un giardino da "respirare"), usa passaggi stretti (1 cella) agli ingressi e alle uscite di quell'area per posizionare i trigger. L'area interna può essere ampia, ma il giocatore deve passare fisicamente per i punti stretti. Esempio: ingresso stretto a sinistra (row 13 col 8–9 su una griglia rows 9–17) → area aperta → uscita stretta a destra (row 13 col 31–35).
+- **I testi vanno piazzati solo in passaggi obbligati.** Vedi [VINCOLI INVIOLABILI §2](#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella) per i pattern validi e invalidi. Un testo che il 50% dei giocatori non vedrà non è design, è decorazione casuale.
 - **Non spiegare la meccanica direttamente** — suggerire in modo utilitaristico. "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." funziona meglio di "piazza la candela per distrarre il nemico".
 - **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nell'Atto I (livelli 1–5), sempre in voce. Dal livello 6 in poi: solo suggerimenti indiretti.
 - **Ogni testo è una frase sola, corta.** Se il pensiero richiede più frasi, spezzarlo in trigger consecutivi separati — il giocatore li incontra uno dopo l'altro avanzando. Una frase lunga è sempre peggio di due frasi brevi in sequenza: il giocatore legge più velocemente, l'impatto è maggiore, il ritmo è più naturale. _"Nessuno di loro è tornato."_ poi, due passi dopo, _"Eppure il rito continua."_ vale più di _"Nessuno di loro è tornato, eppure il rito continua da generazioni."_
@@ -234,27 +290,9 @@ Questo corridoio è l'unico punto garantito in cui il player passerà. È il luo
 
 ### Regola dei trigger di testo (`!`) — OBBLIGATORIA
 
-Un trigger di testo si attiva solo quando il player calpesta la cella `!`. Se il player può aggirarla, il testo non viene visto.
+Vedi [VINCOLI INVIOLABILI §2](#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella) per i pattern validi/invalidi con esempi ASCII.
 
-**Pattern VALIDO — trigger in corridoio 1-cella (obbligatorio):**
-
-```
-▓ ▓ ▓ ▓ ▓ ▓ ▓
-▓ · · ! · · ▓   ← il player DEVE passare su !
-▓ ▓ ▓ ▓ ▓ ▓ ▓
-```
-
-**Pattern INVALIDO — trigger aggirabile (vietato):**
-
-```
-▓ · · · · · ▓
-▓ · · ! · · ▓   ← il player può passare sopra o sotto !
-▓ · · · · · ▓
-```
-
-**Regola pratica:** prima di mettere un `!`, verifica che la riga in cui si trova non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono, il trigger è aggirabile — restringi il corridoio o sposta il trigger.
-
-Per aree aperte (es. il giardino del livello 1), la soluzione è creare passaggi stretti agli ingressi e alle uscite dell'area, e mettere i trigger in quei passaggi — non nell'area aperta stessa.
+Regola di auto-verifica rapida: prima di mettere un `!`, verifica che la riga (o colonna) in cui si trova non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono → trigger aggirabile → sposta o restringi il corridoio.
 
 ### Densità fill (regola obbligatoria)
 
@@ -264,17 +302,11 @@ Eccezione: `pacco1` (esterno) usa muri perimetrali invece del fill come confine.
 
 ### Dimensioni della bounding box per livello
 
-La griglia è fissa **25 righe × 45 colonne**. Non usare l'intera griglia — lasciare sempre almeno 3 righe e 3 colonne di spazio vuoto (NonCella) su ogni bordo. Le dimensioni indicate sono della bounding box del livello (include fill perimetrale ma non il vuoto esterno).
+La griglia è fissa **25 righe × 45 colonne**. Non usare l'intera griglia — lasciare sempre almeno 3 righe e 3 colonne di spazio vuoto (NonCella) su ogni bordo.
 
-| Fase | Livelli | Bounding box (righe × colonne) | Celle floor tipiche |
-|------|---------|-------------------------------|---------------------|
-| Semplice | 1–2 | 7–11 × 18–28 | 30–70 |
-| Introduttivo | 3–5 | 11–15 × 25–35 | 60–130 |
-| Medio | 6–10 | 13–17 × 28–38 | 100–180 |
-| Avanzato | 11–16 | 15–20 × 33–42 | 150–260 |
-| Finale | 17–20 | 18–22 × 38–44 | 200–350 |
+La tabella delle bounding box per livello è in `LEVEL_TASKS.md` (sezione "Vincoli dimensionali e strutturali obbligatori") — è quella la fonte autorevole. Ogni spec di livello in `LEVEL_TASKS.md` riporta anche la bounding box specifica.
 
-**Vincolo duro:** per i livelli 1 e 2, la bounding box non deve superare 11 righe × 28 colonne. Un livello 1 grande quanto un livello 10 è un errore di design.
+**Vincolo duro generale:** per i livelli 1 e 2, la bounding box non deve superare 11 righe × 28 colonne. Un livello 1 grande quanto un livello 10 è un errore di design.
 
 ### Distribuzione delle risorse
 
@@ -361,34 +393,50 @@ Per lo schema dettagliato livello-per-livello (testi, nemici, meccaniche) e lo s
 
 ---
 
-## 6. Istruzioni per la generazione di livelli
+## 6. Workflow obbligatorio per la generazione
 
 La regola fondamentale per qualsiasi livello generato è:
 
-- **Ogni livello introduce una cosa sola** e la insegna bene. La complessità si accumula nel tempo, non in un singolo livello.
-- **Il giocatore deve sempre sapere dove andare** anche senza aver trovato la chiave. La struttura della mappa deve essere leggibile.
-- **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati, anche se più pericolosi.
+- **Ogni livello introduce una cosa sola** e la insegna bene.
+- **Il giocatore deve sempre sapere dove andare** — la struttura della mappa deve essere leggibile.
+- **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati.
 
-### Prima di iniziare a costruire un livello
+### FASE 1 — Scrivi il grafo delle stanze (testo, NON ASCII)
 
-1. Leggi i livelli adiacenti (precedente e successivo) per capire il contesto
-2. Identifica la **meccanica nuova** che questo livello introduce
-3. Stabilisci la bounding box (righe × colonne) rispettando la tabella dimensionale sopra
-4. Disegna il grafo delle stanze su carta: Spawn → stanza A → collo di bottiglia → stanza B → … → Uscita
-5. Costruisci la mappa ASCII partendo da tutta `▓` e "scavando" i corridoi — non il contrario
-6. Verifica che ogni transizione tra stanze abbia un collo di bottiglia largo 1 cella
-7. Posiziona i trigger `!` solo all'interno dei colli di bottiglia — mai in stanze aperte
-8. Posiziona i brazier (`Lucina`) sui punti di riferimento: chiave, uscita, incroci principali
-9. Aggiungi i nemici e verifica che la soluzione (candela, schivata, ecc.) sia leggibile
+Prima di toccare l'ASCII, scrivi il grafo in forma testuale. Questo ti forza a verificare i vincoli mentre il design è ancora modificabile.
 
-### Checklist pre-generazione (da verificare prima di scrivere l'ASCII)
+Esempio di grafo valido per livello 1:
+```
+Spawn (corridoio 1×4) → Area giardino (7×14) → Corridoio uscita (1×5) → Uscita
+Trigger 1 "Mio padre...": corridoio spawn, cella 2  ← 1 cella larga: OBBLIGATO
+Trigger 2 "Il nome...":   corridoio uscita, cella 2 ← 1 cella larga: OBBLIGATO
+Trigger 3 "Sotto di lui": corridoio uscita, cella 4 ← 1 cella larga: OBBLIGATO
+Chiave: centro area giardino
+Bounding box stimata: 10 righe × 24 colonne ✓ (limite: 9–11 × 22–28)
+Celle floor stimate: ~60 ✓ (limite: 50–70)
+Linearità: Spawn → 1 area → Uscita, zero bivi ✓
+```
 
-- [ ] La bounding box è dentro i limiti della fase di gioco?
-- [ ] Il grafo delle stanze è lineare (o ha max 1 bivio per i livelli con diramazioni)?
-- [ ] Ogni coppia di stanze adiacenti ha un collo di bottiglia da 1 cella?
-- [ ] Ogni trigger `!` è posizionato in un collo di bottiglia, non in un'area aperta?
-- [ ] Le celle floor sono meno del 50% della bounding box?
+### FASE 2 — Verifica i vincoli PRIMA di scrivere l'ASCII
+
+Spunta ogni voce. Se una fallisce, torna alla Fase 1.
+
+- [ ] Bounding box rispetta i limiti della tabella in `LEVEL_TASKS.md`?
+- [ ] Celle floor stimate < 50% della bounding box?
+- [ ] Grafo lineare (o max 1 bivio per livelli con diramazioni)?
+- [ ] Ogni trigger `!` è in un corridoio largo esattamente 1 cella?
+- [ ] Nessun trigger `!` è in un'area aperta dove il player può aggirarlo?
 - [ ] I testi sono max 3, in voce di Mark, nel tono corretto per l'atto?
 - [ ] La meccanica nuova è esattamente una sola?
 
-Per il workflow tecnico di creazione e la checklist pre-consegna: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.
+### FASE 3 — Genera l'ASCII
+
+Costruisci la mappa partendo da tutta `▓` e "scavando" i corridoi — non il contrario. Non aggiungere stanze finché quelle già presenti non rispettano il grafo pianificato.
+
+### FASE 4 — Auto-validazione dopo aver scritto l'ASCII
+
+- **Conta le righe e colonne** della bounding box effettiva — confronta con i limiti
+- **Per ogni `!`:** verifica che la riga (o colonna) non abbia floor sia sopra che sotto (o a sx e dx). Se sì, il trigger è aggirabile → sposta o restringi
+- **Verifica il grafo:** per ogni stanza, conta le aperture — non più di 2 (ingresso + uscita)
+
+Per il workflow tecnico di creazione, la checklist pre-consegna e le spec di ogni livello: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.

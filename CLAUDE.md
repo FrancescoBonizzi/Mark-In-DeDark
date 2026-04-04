@@ -74,12 +74,13 @@ Documentazione di supporto:
 Workflow per ogni livello:
 
 1. Leggi le specifiche del livello in `LEVEL_TASKS.md`.
-2. Leggi `LEVEL_FORMAT.md` e `LEVEL_DESIGN_GUIDELINES.md` se non li hai già in contesto.
-3. Crea `Web/public/assets/levels/N.ascii` (sorgente editabile) e itera fino a quando non sei soddisfatto del risultato.
-4. Quando vuoi finalizzare, converti con `npx ts-node Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii` → genera `N.mark`.
-5. Valida con `npx ts-node Web/scripts/validate-level.ts Web/public/assets/levels/N.mark`.
-6. Se ci sono errori, correggi il `.ascii` e rigenera — non modificare mai il `.mark` a mano.
-7. Aggiungi eventuali nuovi stringCode a `Web/src/ui/GameTexts.ts`.
-8. Segna il livello come ✅ in `LEVEL_TASKS.md`.
+2. Leggi `LEVEL_FORMAT.md` e `LEVEL_DESIGN_GUIDELINES.md` se non li hai già in contesto. **Inizia sempre dai VINCOLI INVIOLABILI** in cima a `LEVEL_DESIGN_GUIDELINES.md`.
+3. **PRIMA di scrivere qualsiasi ASCII:** produci il grafo delle stanze in testo (Spawn → A → B → … → Uscita) e verifica i vincoli (bounding box, trigger nei corridoi 1-cella, linearità). Segui il workflow a fasi nella sezione 6 di `LEVEL_DESIGN_GUIDELINES.md`.
+4. Crea `Web/public/assets/levels/N.ascii` (sorgente editabile) partendo da tutta `▓` e scavando i corridoi — non il contrario.
+5. Quando vuoi finalizzare, converti con `npx ts-node Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii` → genera `N.mark`.
+6. Valida con `npx ts-node Web/scripts/validate-level.ts Web/public/assets/levels/N.mark`.
+7. Se ci sono errori, correggi il `.ascii` e rigenera — non modificare mai il `.mark` a mano.
+8. Aggiungi eventuali nuovi stringCode a `Web/src/ui/GameTexts.ts`.
+9. Segna il livello come ✅ in `LEVEL_TASKS.md`.
 
 **Conserva sempre entrambi i file** — `.ascii` è la sorgente editabile, `.mark` è il formato di gioco.

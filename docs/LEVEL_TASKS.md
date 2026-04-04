@@ -64,33 +64,27 @@ Questi vincoli integrano le linee guida di `LEVEL_DESIGN_GUIDELINES.md` con misu
 La bounding box include il fill perimetrale ma non il vuoto (NonCella) esterno alla mappa.
 
 | Livello | Bounding box (righe × colonne) | Celle floor max | Larghezza corridoi principali |
-|---------|-------------------------------|-----------------|-------------------------------|
-| 1       | 9–11 × 20–28                 | 50–70           | 1–3 (ingresso/uscita: 1)     |
-| 2       | 9–11 × 22–30                 | 50–75           | 1–3 (zona buia: 3–5)         |
-| 3       | 11–13 × 25–33                | 60–100          | 1–3                          |
-| 4       | 13–15 × 28–36                | 80–130          | 1–3                          |
-| 5       | 13–15 × 30–38                | 90–140          | 1–3                          |
-| 6       | 13–16 × 30–38                | 100–150         | 1–5 (stanza aperta)          |
-| 7       | 14–17 × 32–40                | 110–170         | 1–3                          |
-| 8       | 13–16 × 28–36                | 90–140          | 1–3                          |
-| 9       | 14–17 × 30–38                | 110–165         | 1–3                          |
-| 10      | 13–15 × 28–35                | 80–130          | 1–3 (arena: fino a 7×7)      |
-| 11–16   | 15–20 × 33–42                | 130–240         | 1–3                          |
-| 17–20   | 18–22 × 38–44                | 180–320         | 1–3                          |
+| ------- | ------------------------------ | --------------- | ----------------------------- |
+| 1       | 9–11 × 20–28                   | 50–70           | 1–3 (ingresso/uscita: 1)      |
+| 2       | 9–11 × 22–30                   | 50–75           | 1–3 (zona buia: 3–5)          |
+| 3       | 11–13 × 25–33                  | 60–100          | 1–3                           |
+| 4       | 13–15 × 28–36                  | 80–130          | 1–3                           |
+| 5       | 13–15 × 30–38                  | 90–140          | 1–3                           |
+| 6       | 13–16 × 30–38                  | 100–150         | 1–5 (stanza aperta)           |
+| 7       | 14–17 × 32–40                  | 110–170         | 1–3                           |
+| 8       | 13–16 × 28–36                  | 90–140          | 1–3                           |
+| 9       | 14–17 × 30–38                  | 110–165         | 1–3                           |
+| 10      | 13–15 × 28–35                  | 80–130          | 1–3 (arena: fino a 7×7)       |
+| 11–16   | 15–20 × 33–42                  | 130–240         | 1–3                           |
+| 17–20   | 18–22 × 38–44                  | 180–320         | 1–3                           |
 
 ### Regola trigger di testo — sintesi operativa
 
-Il trigger `!` si attiva **solo** quando il player calpesta quella cella. Se può aggirarla, il testo non parte mai.
+Fonte autorevole con pattern visivi: [VINCOLI INVIOLABILI §2 in LEVEL_DESIGN_GUIDELINES.md](./LEVEL_DESIGN_GUIDELINES.md#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella).
 
-**Unico pattern valido (corridoio largo 1 cella):**
+**Regola in una riga:** ogni `!` deve stare in un corridoio largo esattamente 1 cella. Se sopra O sotto (o a sx O dx) c'è floor → trigger aggirabile → BUG di design.
 
-```
-▓ ▓ ▓ ▓ ▓ ▓
-▓ · · ! · ▓   ← fill sopra E sotto (o a sx E a dx): il player non può aggirare
-▓ ▓ ▓ ▓ ▓ ▓
-```
-
-Se l'area è aperta (es. giardino livello 1–2), posizionare i trigger nei colli di bottiglia di ingresso/uscita all'area, non nell'area stessa.
+Se l'area è aperta (es. giardino livello 1–2), i trigger vanno nei colli di bottiglia di ingresso/uscita all'area, non nell'area stessa.
 
 ### Schema strutturale livello 1 — gold standard
 
@@ -108,7 +102,7 @@ Schematico ASCII (non in scala — mostra la struttura, non le misure esatte):
 ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
-▓ @ ! · ▓ · · · K · · · · · ▓ · ! · ! · E ▓ ▓ ▓ ▓ ▓ ▓   ← spawn a sx, chiave centro, uscita dx
+▓ @ ! · · · · · K · · · · · · · ! · ! · E ▓ ▓ ▓ ▓ ▓ ▓   ← spawn a sx, chiave centro, uscita dx
 ▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ ▓ ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
@@ -116,6 +110,7 @@ Schematico ASCII (non in scala — mostra la struttura, non le misure esatte):
 ```
 
 Lettura dello schema:
+
 - **`@`** = spawn player, in corridoio ingresso (1 cella di altezza) → il player entra da sinistra
 - **`!`** subito dopo `@` = primo trigger ("Mio padre...") — il player DEVE passarci sopra
 - **Area centrale** = 5+ celle di altezza, abbastanza ampia — il giardino che "respira"
