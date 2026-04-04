@@ -5,12 +5,6 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 
 ---
 
-## Nota sui file .mark esistenti
-
-I file `.mark` con status **⬜ Da fare** nella tabella sono **placeholder da sovrascrivere** — possono contenere dati di test o livelli vecchi non più validi. Ignorarne il contenuto e rigenerare il livello secondo le specifiche in questo file.
-
----
-
 ## Come creare un livello
 
 Ogni livello va creato nel formato ASCII con `level-editor.ts` e poi convertito in `.mark`.
@@ -49,6 +43,8 @@ npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/N.mark
 npx tsx Web/scripts/level-editor.ts Web/public/assets/levels/N.mark
 ```
 
+> **Nota:** `level-editor.ts` legge solo file `.mark`, non `.ascii`. Usarlo su un `.ascii` produce output vuoto senza errori — non è un bug del file. Per verificare un `.ascii` bisogna sempre convertirlo prima (step 4) e poi visualizzare il `.mark` risultante.
+
 **7. Registra il livello in `src/levels.ts`:**
 
 Il file `Web/src/levels.ts` è il manifest dei livelli pubblicati — quelli che compaiono nella pagina di selezione. Ogni voce è commentata finché il livello non è pronto.
@@ -56,6 +52,24 @@ Il file `Web/src/levels.ts` è il manifest dei livelli pubblicati — quelli che
 - Scegli il nome definitivo (può differire dal nome provvisorio in questo file)
 - Decomenta la riga corrispondente in `Web/src/levels.ts` e scrivi il nome definitivo
 - Se il nome cambia, aggiornalo anche nella tabella "Stato complessivo" qui sotto
+
+---
+
+## Note pratiche sul formato ASCII
+
+Queste note integrano la guida di `--help` con problemi concreti incontrati durante la generazione.
+
+**Struttura delle righe-cella (89 caratteri)**
+Ogni riga-cella ha 89 posizioni (per 45 colonne): le posizioni pari `0, 2, 4, …, 88` sono le celle, le posizioni dispari `1, 3, 5, …, 87` sono i separatori verticali. Ogni carattere Unicode (inclusi `▓`, `·`, `─`, `i`, `o`) occupa esattamente 1 posizione nella stringa JavaScript — il conteggio è per caratteri, non per byte UTF-8. Righe compatte tipo `▓▓▓▓▓` funzionano: i `▓` nelle posizioni dispari vengono trattati come separatore assente (nessun muro).
+
+**Righe muro e posizione del primo `─`**
+Il contenuto di una riga muro inizia alla posizione 0 (dopo i 5 spazi di prefisso). La posizione 0 corrisponde alla colonna 0. Se il livello ha fill (`▓`) in colonna 0, scrivere `─` in posizione 0 aggiunge un muro BOTTOM sulla cella fill — innocuo visivamente ma tecnicamente impreciso. Per precisione, lasciare 2 spazi iniziali nel contenuto (`  ─ ─ ─ …`) in modo che col 0 (e il suo separatore) non ricevano il muro, e il primo `─` cada sulla colonna 1.
+
+**Ingresso orizzontale senza MURI espliciti**
+La guida avverte che per Ingresso/Uscita su lato LEFT/RIGHT in corridoi orizzontali bisognerebbe usare la sezione `MURI`. In pratica, scrivere `▓i·` nel corpo della riga-cella (fill + separatore `i` + floor) funziona correttamente: il convertitore assegna `RIGHT=5` (Ingresso) alla cella fill, che il gioco tratta come equivalente visivo di `LEFT=5` sulla cella floor. Non è necessario aggiungere voci MURI per questo caso.
+
+**Il validatore avverte "nessun pacco di candele"**
+Per i livelli senza nemici (livelli 1 e 2) questa è la situazione corretta. L'avviso può essere ignorato.
 
 ---
 
