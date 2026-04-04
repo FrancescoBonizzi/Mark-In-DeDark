@@ -8,7 +8,17 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 ## Nota sui pack di texture
 
 - **`pacco1`** — esterno: giardino al chiaro di luna, rovine all'aperto. Usato per i livelli iniziali e per il finale del livello 20.
-- **`pacco2–8`** — interni: ambienti sotterranei o chiusi, progressivamente più cupi.
+- **`pacco2`** — interno castello: ben tenuto, pulito, pavimenti rifiniti, muri intonacati. L'aspetto più "nobile" degli interni.
+- **`pacco3`** — interno castello: ancora decoroso, qualche segno di usura ma strutturalmente integro.
+- **`pacco4`** — interno castello: degrado visibile, muri screpolati, atmosfera più pesante.
+- **`pacco5`** — interno castello: trascurato, poco illuminato, strutture che cominciano a cedere.
+- **`pacco6`** — interno castello: rozzo, quasi nessun elemento decorativo, pietra a vista.
+- **`pacco7`** — interno castello: fatiscente, corridoi irregolari, pavimentazione assente o rotta.
+- **`pacco8`** — interno castello: il livello più grezzo — pietra nuda, nessun pavimento, architettura primitiva o crollata. Il cuore buio del castello.
+
+### Porte
+
+Le porte si aprono **e si chiudono** con CTRL. Possono essere usate strategicamente: chiudere una porta dietro di sé per bloccare temporaneamente un nemico in inseguimento, o aprirla per indirizzare un Taurus verso un muro fragile.
 
 ---
 
@@ -145,7 +155,7 @@ _Testi (ogni riga = trigger separato):_
 > "Quanti nomi riconosco sui muri." _(nella stanza principale)_
 > "Sono entrati tutti." _(stesso punto o passo successivo)_
 > "Nessuno di loro ha trovato la strada fuori." _(stesso punto, lascia il peso)_
-> "Una porta. Si apre con CTRL — l'unica cosa che obbedisce ancora." _(tutorial porta — zona di pausa)_
+> "Una porta. CTRL per aprirla, CTRL per chiuderla — l'unica cosa che obbedisce ancora." _(tutorial porta — zona di pausa)_
 
 ---
 
