@@ -29,6 +29,28 @@ const ROWS = 25;
 const COLS = 45;
 
 // ---------------------------------------------------------------------------
+// Alias terra/fill → ground ID
+// ---------------------------------------------------------------------------
+
+/** Mappa alias leggibile → ground ID (es. 'terra2' → 6, 'fill7' → 22). */
+const ALIAS_TO_GROUND_ID: Record<string, number> = {
+    terra1: 1,  terra2: 6,  terra3: 9,  terra4: 10, terra5: 11,
+    terra6: 12, terra7: 13, terra8: 14, terra9: 15, terra10: 16,
+    fill1: 8,   fill2: 17,  fill3: 18,  fill4: 19,  fill5: 20,
+    fill6: 21,  fill7: 22,  fill8: 23,  fill9: 24,  fill10: 25,
+    fill11: 26, fill12: 27, fill13: 28,
+};
+
+function resolveGroundAlias(val: string): number {
+    const alias = val.trim().toLowerCase();
+    const id = ALIAS_TO_GROUND_ID[alias];
+    if (id !== undefined) return id;
+    // Fallback numerico (es. "1", "6") per robustezza
+    const n = parseInt(val, 10);
+    return isNaN(n) ? 1 : n;
+}
+
+// ---------------------------------------------------------------------------
 // Struttura dati
 // ---------------------------------------------------------------------------
 
@@ -185,7 +207,7 @@ function parseAscii(text: string): ParsedAscii {
                     case 'TESTI':     testi.set(key, val); break;
                     case 'CANDELE':   candele.set(key, parseInt(val, 10)); break;
                     case 'WAYPOINTS': waypts.set(key, val); break;
-                    case 'TERRA':     terraOvr.set(key, parseInt(val, 10)); break;
+                    case 'TERRA':     terraOvr.set(key, resolveGroundAlias(val)); break;
                     case 'MURI':
                         if (side) muriOvr.set(`${key},${side}`, parseInt(val, 10));
                         break;
