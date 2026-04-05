@@ -1,10 +1,12 @@
 import { Rectangle } from 'pixi.js';
+import { MarkLight } from '../lighting/MarkLight';
 import { WallEsteticDoor } from '../grid/WallEsteticDoor';
 import { GameGrid } from '../grid/GameGrid';
 
 /** The level exit zone (port of C# Exit.cs). */
 export class Exit {
     readonly collisionRectangle: Rectangle;
+    readonly surroundingLight: MarkLight;
 
     private readonly _exitDoor: WallEsteticDoor | null;
     private readonly _grid: GameGrid;
@@ -20,6 +22,19 @@ export class Exit {
         this._grid = grid;
         // HitBoxTolerance(60, 60, 120, 120)
         this.collisionRectangle = new Rectangle(centerX - 60, centerY - 60, 120, 120);
+
+        this.surroundingLight = new MarkLight({
+            x: centerX,
+            y: centerY,
+            z: 31,
+            opacity: 0.3,
+            radius: 80,
+            castsShadows: false,
+            color1: 0x55ddcc,
+            color2: 0x33aaaa,
+            distanceSquared: 2_200,
+        });
+        this.surroundingLight.lightMaskScale = 0.9;
     }
 
     get isOpen(): boolean { return this._isOpen; }

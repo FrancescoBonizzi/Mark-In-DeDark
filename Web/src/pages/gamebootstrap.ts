@@ -288,6 +288,7 @@ export async function initGame(
       grid.exitDoor,
       grid,
     );
+    shadowSystem.addLight(exit.surroundingLight);
 
     // Traps
     traps = grid.trapPlacements.map((t) => {

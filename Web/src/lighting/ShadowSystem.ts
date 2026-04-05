@@ -511,12 +511,17 @@ export class ShadowSystem {
     }
 
     this._normalMapFilter.setNormalMap(this._groundNormalRT);
-    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
-    // Single-pass additive accumulation: filter writes directly onto _normalMappedGroundRT
-    // with blendMode="add" instead of the two-pass (filter→_perLightRT, sprite→finalRT) approach.
-    // This matches how PixiJS 8 FilterSystem applies the filter blend state: filter._state.blendMode
-    // controls the blend when the filter quad is drawn to the outputRenderSurface.
     this._normalMapFilter.blendMode = "add";
+
+    // Ambient-only pass: applied exactly once regardless of how many lights exist.
+    // Keeping ambient separate from per-light passes prevents it from accumulating
+    // N times (once per light), which would brighten the whole scene globally.
+    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
+    this._normalMapFilter.setLight(0, 0, 1, { r: 0, g: 0, b: 0 }, 0, 0);
+    renderer.render({ container: this._groundNMFilterContainer, target: this._normalMappedGroundRT, clear: false });
+
+    // Per-light passes: ambient=0, only directional light contribution.
+    this._normalMapFilter.setAmbientColor({ r: 0, g: 0, b: 0 });
 
     if (debug.enabled) {
       console.log(`[NM-ground] cw.pos=(${cw.position.x.toFixed(1)},${cw.position.y.toFixed(1)}) scale=(${cw.scale.x.toFixed(3)}) pivot=(${cw.pivot.x.toFixed(1)},${cw.pivot.y.toFixed(1)})`);
@@ -537,7 +542,6 @@ export class ShadowSystem {
         console.log(`[NM-ground] light[${i}] world=(${(light.position.x+light.deltaForGround.x).toFixed(0)},${(light.position.y+light.deltaForGround.y).toFixed(0)}) screen=(${sx.toFixed(1)},${sy.toFixed(1)}) z=${light.z} distSq=${light.distanceSquaredForGround} opacity=${light.opacity} rgb=(${c.r.toFixed(2)},${c.g.toFixed(2)},${c.b.toFixed(2)})`);
       }
       this._normalMapFilter.setLight(sx, sy, light.z, light.colorNormalVec3, light.distanceSquaredForGround, light.opacity);
-      // Use pre-created filter container (no allocation)
       renderer.render({ container: this._groundNMFilterContainer, target: this._normalMappedGroundRT, clear: false });
     }
 
@@ -572,8 +576,14 @@ export class ShadowSystem {
     renderer.render({ container: this._emptyContainer, target: this._normalMappedObjectsRT, clear: true });
 
     this._normalMapFilter.setNormalMap(this._objectsNormalRT);
-    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
     this._normalMapFilter.blendMode = "add";
+
+    // Ambient-only pass (same fix as ground pass — ambient once, not per-light).
+    this._normalMapFilter.setAmbientColor(debug.forceAmbient ?? this.normalMapAmbienceColor);
+    this._normalMapFilter.setLight(0, 0, 1, { r: 0, g: 0, b: 0 }, 0, 0);
+    renderer.render({ container: this._objectsNMFilterContainer, target: this._normalMappedObjectsRT, clear: false });
+
+    this._normalMapFilter.setAmbientColor({ r: 0, g: 0, b: 0 });
 
     for (let i = 0; i < this.lights.length; i++) {
       const light = this.lights[i]!;
@@ -586,7 +596,6 @@ export class ShadowSystem {
         cw,
       );
       this._normalMapFilter.setLight(sx, sy, light.z, light.colorNormalVec3, light.distanceSquaredForWall, light.opacity);
-      // Use pre-created filter container (no allocation)
       renderer.render({ container: this._objectsNMFilterContainer, target: this._normalMappedObjectsRT, clear: false });
     }
 
