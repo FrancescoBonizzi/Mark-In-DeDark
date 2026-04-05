@@ -133,16 +133,58 @@ function isWallPositionValid(wallType: number, wallPosition: number): boolean {
     return true;
 }
 
+// Delta (dCol, dRow) per raggiungere la cella adiacente sul lato indicato
+const ADJACENT_DELTA: Record<number, [number, number]> = {
+    [WP_TOP]:    [0, -1],
+    [WP_BOTTOM]: [0, +1],
+    [WP_LEFT]:   [-1, 0],
+    [WP_RIGHT]:  [+1, 0],
+};
+
+// Lato opposto per la regola del doppio muro
+const OPPOSITE_WALL: Record<number, number> = {
+    [WP_TOP]:    WP_BOTTOM,
+    [WP_BOTTOM]: WP_TOP,
+    [WP_LEFT]:   WP_RIGHT,
+    [WP_RIGHT]:  WP_LEFT,
+};
+
+export interface SetWallResult {
+    ok: boolean;
+    reason: string | undefined;
+}
+
 export function setWallType(
     state: EditorState,
     col: number,
     row: number,
     wallType: number,
     wallPosition: number
-): boolean {
+): SetWallResult {
     if (!isWallPositionValid(wallType, wallPosition)) {
-        return false;
+        return { ok: false, reason: 'Ingresso/Uscita è ammesso solo sul lato superiore.' };
     }
+
+    // Regola doppio muro: se sto aggiungendo un muro (wallType != 0),
+    // la cella adiacente non può già avere un muro sul lato opposto.
+    if (wallType !== 0) {
+        const [dCol, dRow] = ADJACENT_DELTA[wallPosition]!;
+        const adjCol = col + dCol;
+        const adjRow = row + dRow;
+        if (adjCol >= 0 && adjCol < state.grid.columns && adjRow >= 0 && adjRow < state.grid.rows) {
+            const adjCell = state.grid.grid[adjCol]?.[adjRow];
+            if (adjCell) {
+                const oppSide = OPPOSITE_WALL[wallPosition]!;
+                const adjWall = oppSide === WP_TOP ? adjCell.top :
+                                oppSide === WP_RIGHT ? adjCell.right :
+                                oppSide === WP_LEFT ? adjCell.left : adjCell.bottom;
+                if (adjWall !== 0) {
+                    return { ok: false, reason: 'Muro doppio: la cella adiacente ha già un muro su questo confine.' };
+                }
+            }
+        }
+    }
+
     const cell = ensureCell(state.grid, col, row);
     switch (wallPosition) {
         case WP_TOP:    cell.top    = wallType; break;
@@ -150,7 +192,7 @@ export function setWallType(
         case WP_LEFT:   cell.left   = wallType; break;
         case WP_BOTTOM: cell.bottom = wallType; break;
     }
-    return true;
+    return { ok: true, reason: undefined };
 }
 
 export function setObjectType(

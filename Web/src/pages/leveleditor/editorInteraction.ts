@@ -15,6 +15,7 @@ import {
 import { setHoverHighlight, clearHoverHighlight } from './editorGrid';
 
 export type CellChangedCallback = (col: number, row: number) => void;
+export type BlockedCallback = (reason: string) => void;
 
 /**
  * Attacca tutti i listener di interazione mouse e keyboard alla griglia.
@@ -25,7 +26,8 @@ export function attachInteraction(
     state: EditorState,
     onCellChanged: CellChangedCallback,
     updateSingletonButtons: (s: EditorState) => void,
-    switchToTab: (tabId: string) => void
+    switchToTab: (tabId: string) => void,
+    onBlocked: BlockedCallback = () => {}
 ): () => void {
     let isMouseDown = false;
     let lastHoveredEl: HTMLElement | null = null;
@@ -81,8 +83,9 @@ export function attachInteraction(
             return;
         }
 
-        // Singleton già piazzato → ignora
+        // Singleton già piazzato → blocca con toast
         if (SINGLETON_OBJECTS.has(objType) && state.singletonPlaced.has(objType)) {
+            onBlocked('Questo oggetto è già stato piazzato (è unico per livello).');
             return;
         }
 
@@ -125,8 +128,12 @@ export function attachInteraction(
     }
 
     function applyWall(col: number, row: number, wallPosition: number): void {
-        const ok = setWallType(state, col, row, state.selectedWall, wallPosition);
-        if (ok) refreshCell(col, row);
+        const result = setWallType(state, col, row, state.selectedWall, wallPosition);
+        if (!result.ok) {
+            onBlocked(result.reason ?? 'Azione non permessa.');
+            return;
+        }
+        refreshCell(col, row);
     }
 
     function refreshCell(col: number, row: number): void {

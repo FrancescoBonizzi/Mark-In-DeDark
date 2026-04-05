@@ -389,6 +389,36 @@ export function validateLevel(text: string): ValidationResult {
         }
     }
 
+    // Doppio muro: se cella A ha muro su un lato, la cella adiacente non deve averlo sul lato opposto
+    const cellMap = new Map<string, CellEntry>();
+    for (const c of parsedCells) cellMap.set(`${c.col},${c.row}`, c);
+
+    const reportedPairs = new Set<string>();
+    for (const cell of parsedCells) {
+        const checks: Array<{ myWall: number; adjCol: number; adjRow: number; adjWallKey: 'wallTop'|'wallRight'|'wallBottom'|'wallLeft'; sideLabel: string }> = [
+            { myWall: cell.wallTop,    adjCol: cell.col,     adjRow: cell.row - 1, adjWallKey: 'wallBottom', sideLabel: 'Top' },
+            { myWall: cell.wallBottom, adjCol: cell.col,     adjRow: cell.row + 1, adjWallKey: 'wallTop',    sideLabel: 'Bottom' },
+            { myWall: cell.wallLeft,   adjCol: cell.col - 1, adjRow: cell.row,     adjWallKey: 'wallRight',  sideLabel: 'Left' },
+            { myWall: cell.wallRight,  adjCol: cell.col + 1, adjRow: cell.row,     adjWallKey: 'wallLeft',   sideLabel: 'Right' },
+        ];
+        for (const { myWall, adjCol, adjRow, adjWallKey, sideLabel } of checks) {
+            if (myWall === 0) continue;
+            const adj = cellMap.get(`${adjCol},${adjRow}`);
+            if (!adj) continue;
+            if (adj[adjWallKey] === 0) continue;
+            const pairKey = [
+                `${cell.col},${cell.row},${sideLabel}`,
+                `${adjCol},${adjRow}`,
+            ].sort().join('|');
+            if (reportedPairs.has(pairKey)) continue;
+            reportedPairs.add(pairKey);
+            addWarning(
+                `Muro doppio tra (${cell.row},${cell.col}) lato ${sideLabel} e ` +
+                `(${adjRow},${adjCol}): stesso confine fisico definito due volte.`
+            );
+        }
+    }
+
     // Bordi mappa
     const borderCells = parsedCells.filter(c =>
         c.row === 0 || c.row === EXPECTED_ROWS - 1 ||

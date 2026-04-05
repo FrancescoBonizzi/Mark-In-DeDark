@@ -6,49 +6,62 @@ import { createStateFromBundle, isDirty, markSaved } from './editorState';
 
 /**
  * Apre un file .mark dal filesystem locale.
- * Ritorna il nuovo EditorState o null se l'utente ha annullato.
+ * L'input viene appendato al DOM prima del click per evitare GC prematuro
+ * (bug: prima apertura silenziosamente ignorata su alcuni browser).
  */
 export async function openFile(): Promise<{ state: EditorState; filename: string } | null> {
     return new Promise(resolve => {
+        let resolved = false;
+        const resolveOnce = (val: { state: EditorState; filename: string } | null) => {
+            if (resolved) return;
+            resolved = true;
+            if (document.body.contains(input)) document.body.removeChild(input);
+            resolve(val);
+        };
+
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.mark';
+        input.style.display = 'none';
 
-        input.onchange = () => {
+        input.addEventListener('change', () => {
             const file = input.files?.[0];
-            if (!file) {
-                resolve(null);
-                return;
-            }
+            if (!file) { resolveOnce(null); return; }
+
             const reader = new FileReader();
             reader.onload = () => {
                 try {
                     const text = reader.result as string;
                     const bundle = parseLevel(text);
                     const state = createStateFromBundle(bundle, file.name);
-                    resolve({ state, filename: file.name });
+                    resolveOnce({ state, filename: file.name });
                 } catch (err) {
                     console.error('[LevelEditor] Errore parsing .mark:', err);
                     window.alert(`Errore nel leggere il file:\n${String(err)}`);
-                    resolve(null);
+                    resolveOnce(null);
                 }
             };
             reader.onerror = () => {
                 window.alert('Errore nel leggere il file.');
-                resolve(null);
+                resolveOnce(null);
             };
             reader.readAsText(file);
-        };
+        });
 
-        input.oncancel = () => resolve(null);
+        // cancel è non-standard ma supportato in Chrome/Firefox recenti
+        input.addEventListener('cancel', () => resolveOnce(null));
+
+        // Appendere al DOM è fondamentale: senza di esso alcuni browser
+        // ignorano silenziosamente l'evento change (bug Task 21)
+        document.body.appendChild(input);
         input.click();
     });
 }
 
 /**
  * Salva il livello corrente come file .mark tramite download.
- * Prima valida: se ci sono errori mostra confirm, se ci sono solo warning mostra confirm.
- * Ritorna true se il salvataggio è avvenuto, false se annullato.
+ * Prima valida: errori → confirm bloccante, warning → confirm.
+ * Ritorna true se il salvataggio è avvenuto.
  */
 export function saveFile(state: EditorState): boolean {
     const content = serializeMark(state.grid);
@@ -70,7 +83,6 @@ export function saveFile(state: EditorState): boolean {
 
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-
     const a = document.createElement('a');
     a.href = url;
     a.download = state.currentFilename;
@@ -85,7 +97,6 @@ export function saveFile(state: EditorState): boolean {
 
 /**
  * Mostra confirm se ci sono modifiche non salvate.
- * Ritorna true se si può procedere.
  */
 export function confirmIfDirty(state: EditorState): boolean {
     if (!isDirty(state)) return true;

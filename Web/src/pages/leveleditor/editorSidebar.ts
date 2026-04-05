@@ -6,6 +6,7 @@ import {
     ENEMY_ENTRIES,
 } from './editorTypes';
 import type { EditorState } from './editorState';
+import type { PackAvailability } from './packCatalog';
 
 export interface SidebarCallbacks {
     onGroundSelected: (value: number) => void;
@@ -25,6 +26,7 @@ export function createSidebar(
     element: HTMLElement;
     updateSingletonButtons: (s: EditorState) => void;
     switchToTab: (tabId: string) => void;
+    updatePackFilter: (avail: PackAvailability) => void;
 } {
     const sidebar = document.createElement('aside');
     sidebar.className = 'editor-sidebar';
@@ -237,7 +239,38 @@ export function createSidebar(
         });
     }
 
-    return { element: sidebar, updateSingletonButtons, switchToTab };
+    // --- updatePackFilter: disabilita ground/wall non disponibili per il pack ---
+    function updatePackFilter(avail: PackAvailability): void {
+        GROUND_ENTRIES.forEach(entry => {
+            // NonCella (0) e Riempimento (8, 17-28) sono sempre disponibili
+            if (entry.value === 0 || entry.value === 8 || entry.value >= 17) return;
+            const radio = sidebar.querySelector<HTMLInputElement>(
+                `input[name="editor-tool-ground"][value="${entry.value}"]`
+            );
+            if (!radio) return;
+            const available = avail.availableGrounds.has(entry.value);
+            radio.disabled = !available;
+            const label = radio.nextElementSibling as HTMLElement | null;
+            if (label) label.style.opacity = available ? '' : '0.3';
+        });
+
+        WALL_ENTRIES.forEach(entry => {
+            // Valori non-decal sono sempre disponibili
+            const isDecal = avail.availableDecals.has(entry.value) ||
+                            [7, 8, 9, 10, 11, 16, 17, 18].includes(entry.value);
+            if (!isDecal) return;
+            const radio = sidebar.querySelector<HTMLInputElement>(
+                `input[name="editor-tool-wall"][value="${entry.value}"]`
+            );
+            if (!radio) return;
+            const available = avail.availableDecals.has(entry.value);
+            radio.disabled = !available;
+            const label = radio.nextElementSibling as HTMLElement | null;
+            if (label) label.style.opacity = available ? '' : '0.3';
+        });
+    }
+
+    return { element: sidebar, updateSingletonButtons, switchToTab, updatePackFilter };
 }
 
 // ---------------------------------------------------------------------------

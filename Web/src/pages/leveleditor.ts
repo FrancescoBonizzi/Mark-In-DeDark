@@ -12,7 +12,8 @@ import { renderGrid, updateCell } from './leveleditor/editorGrid';
 import { createSidebar } from './leveleditor/editorSidebar';
 import { attachInteraction } from './leveleditor/editorInteraction';
 import { openFile, saveFile, confirmIfDirty } from './leveleditor/editorFileIo';
-import { PREVIEW_SESSION_KEY, PREVIEW_FOLDER } from '../assets/LevelLoader';
+import { PREVIEW_LOCAL_KEY, PREVIEW_FOLDER } from '../assets/LevelLoader';
+import { getPackAvailability } from './leveleditor/packCatalog';
 
 let cleanup: (() => void) | null = null;
 let autosaveInterval: ReturnType<typeof setInterval> | null = null;
@@ -101,6 +102,9 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     page.className = 'level-editor-page';
     container.appendChild(page);
 
+    // Ref per pack filter: viene impostato dopo che la sidebar è creata
+    let onPackChangedRef: (packId: number) => void = () => {};
+
     // Toolbar
     const { toolbar, setAutosaveStatus } = buildToolbar(
         state,
@@ -111,6 +115,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
+            onPackChangedRef(state.grid.envTexturePackId);
         },
         // onOpen
         async () => {
@@ -121,6 +126,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
+            onPackChangedRef(state.grid.envTexturePackId);
         },
         // onSave
         () => {
@@ -129,9 +135,12 @@ export function renderLevelEditorPage(container: HTMLElement): void {
         },
         // onTestInGame
         () => {
-            sessionStorage.setItem(PREVIEW_SESSION_KEY, serializeMark(state.grid));
-            window.location.hash = `#/game/${PREVIEW_FOLDER}/0`;
-        }
+            localStorage.setItem(PREVIEW_LOCAL_KEY, serializeMark(state.grid));
+            const url = `${window.location.origin}${window.location.pathname}#/game/${PREVIEW_FOLDER}/0`;
+            window.open(url, '_blank');
+        },
+        // onPackChanged
+        (packId) => onPackChangedRef(packId)
     );
     page.appendChild(toolbar);
 
@@ -140,8 +149,19 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     body.className = 'editor-body';
     page.appendChild(body);
 
+    // Toast per azioni bloccate (Task 20)
+    function showEditorToast(message: string): void {
+        const existing = document.querySelector('.editor-toast');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'editor-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
     // Sidebar
-    const { element: sidebarEl, updateSingletonButtons, switchToTab } = createSidebar(state, {
+    const { element: sidebarEl, updateSingletonButtons, switchToTab, updatePackFilter } = createSidebar(state, {
         onGroundSelected: (value) => {
             state.selectedGround = value;
             state.currentAction = EditorAction.Ground;
@@ -191,7 +211,8 @@ export function renderLevelEditorPage(container: HTMLElement): void {
                 updateDirtyIndicator();
             },
             updateSingletonButtons,
-            switchToTab
+            switchToTab,
+            showEditorToast
         );
     }
 
@@ -218,6 +239,12 @@ export function renderLevelEditorPage(container: HTMLElement): void {
 
     rebuildGrid();
 
+    // Collega il ref ora che la sidebar è pronta (Task 17)
+    onPackChangedRef = (packId) => updatePackFilter(getPackAvailability(packId));
+
+    // Applica filtro pack iniziale
+    updatePackFilter(getPackAvailability(state.grid.envTexturePackId));
+
     // Autosave ogni 30s
     autosaveInterval = setInterval(() => {
         saveToAutosave(state);
@@ -234,7 +261,8 @@ function buildToolbar(
     onNew: () => void,
     onOpen: () => void,
     onSave: () => void,
-    onTestInGame: () => void
+    onTestInGame: () => void,
+    onPackChanged: (packId: number) => void
 ): { toolbar: HTMLElement; setAutosaveStatus: (msg: string) => void } {
     const toolbar = document.createElement('div');
     toolbar.className = 'editor-toolbar';
@@ -288,6 +316,7 @@ function buildToolbar(
         const v = parseInt(packInput.value, 10);
         if (!isNaN(v) && v >= 1 && v <= 8) {
             state.grid.envTexturePackId = v;
+            onPackChanged(v);
         }
     });
     toolbar.appendChild(lbPack);

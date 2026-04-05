@@ -330,3 +330,217 @@ test("Waypoint nemici auto-generati nel Level Editor", async ({ page }) => {
 
   fs.writeFileSync("debug/leveleditor-waypoints-output.txt", logs.join("\n"));
 });
+
+// ---------------------------------------------------------------------------
+// Test 6: Bug Task 21 — apertura file funziona alla prima apertura
+// ---------------------------------------------------------------------------
+
+test("Apri file funziona alla prima apertura (Task 21)", async ({ page }) => {
+  const logs: string[] = [];
+  page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
+  page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
+
+  await setupPage(page);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.waitForSelector(".editor-grid", { timeout: 10_000 });
+
+  // Verifica che l'input file sia appendato al DOM durante il click su "Apri"
+  const btnApri = page.locator('.editor-toolbar .btn:nth-child(2)');
+
+  // Intercetta i file chooser
+  const [fileChooser] = await Promise.all([
+    page.waitForEvent('filechooser', { timeout: 3_000 }),
+    btnApri.click(),
+  ]);
+
+  // Il file chooser deve essere stato aperto (non silenziosamente ignorato)
+  expect(fileChooser).toBeTruthy();
+  logs.push("[test] File chooser aperto alla prima apertura ✓");
+
+  // Annulla senza selezionare nulla
+  await fileChooser.setFiles([]);
+  logs.push("[test] File chooser annullato correttamente ✓");
+
+  fs.writeFileSync("debug/leveleditor-fileopen-output.txt", logs.join("\n"));
+});
+
+// ---------------------------------------------------------------------------
+// Test 7: Regola muro doppio bloccata con toast (Task 19 + Task 20)
+// ---------------------------------------------------------------------------
+
+test("Muro doppio viene bloccato con toast nel Level Editor", async ({ page }) => {
+  const logs: string[] = [];
+  page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
+  page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
+
+  await setupPage(page);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.waitForSelector(".editor-grid", { timeout: 10_000 });
+
+  // Dipingi Terra1 su due celle adiacenti in verticale
+  await page.locator('[data-col="10"][data-row="10"]').click();
+  await page.locator('[data-col="10"][data-row="11"]').click();
+  await page.waitForTimeout(50);
+
+  // Vai al tab Muri
+  await page.locator('.editor-tab-btn:nth-child(2)').click();
+  await page.waitForTimeout(100);
+
+  // Seleziona Occludente (valore 1) cliccando la label
+  await page.locator('label[for="editor-tool-wall-1"]').click();
+  await page.waitForTimeout(50);
+  expect(await page.locator('input[name="editor-tool-wall"][value="1"]').isChecked()).toBe(true);
+
+  // Posiziona un muro Bottom sulla cella (10,10) via freccia ArrowDown
+  await page.locator('[data-col="10"][data-row="10"]').hover();
+  await page.waitForTimeout(50);
+  await page.keyboard.press('ArrowDown');
+  await page.waitForTimeout(100);
+
+  // Ora tenta di posizionare un muro Top sulla cella (10,11) via freccia ArrowUp
+  // → deve essere bloccato (doppio muro sullo stesso confine)
+  await page.locator('[data-col="10"][data-row="11"]').hover();
+  await page.waitForTimeout(50);
+  await page.keyboard.press('ArrowUp');
+  await page.waitForTimeout(200);
+
+  // Verifica che il toast sia apparso
+  const toast = page.locator('.editor-toast');
+  expect(await toast.isVisible()).toBe(true);
+  const toastText = await toast.textContent();
+  logs.push(`[test] Toast testo: "${toastText}"`);
+  expect(toastText).toContain('doppio');
+  logs.push("[test] Toast muro doppio mostrato ✓");
+
+  fs.writeFileSync("debug/leveleditor-doublewall-output.txt", logs.join("\n"));
+});
+
+// ---------------------------------------------------------------------------
+// Test 8: Toast per singleton già piazzato (Task 20)
+// ---------------------------------------------------------------------------
+
+test("Toast appare se si tenta di ripiazzare un singleton", async ({ page }) => {
+  const logs: string[] = [];
+  page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
+  page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
+
+  await setupPage(page);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.waitForSelector(".editor-grid", { timeout: 10_000 });
+
+  // Vai al tab Oggetti e seleziona Giocatore
+  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.waitForTimeout(100);
+  await clickToolLabel(page, 'obj-radio-1');
+  await page.waitForTimeout(50);
+
+  // Piazza il Giocatore su una cella
+  await page.locator('[data-col="5"][data-row="5"]').click();
+  await page.waitForTimeout(100);
+  logs.push("[test] Giocatore piazzato ✓");
+
+  // Dopo il piazzamento del singleton, l'editor torna a Ground mode.
+  // Rientro nella tab Oggetti (imposta currentAction = Object)
+  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.waitForTimeout(100);
+
+  // Force-abilita il radio e dispatcha l'evento change per aggiornare selectedObject
+  await page.evaluate(() => {
+    const radio = document.querySelector<HTMLInputElement>('#obj-radio-1');
+    if (radio) {
+      radio.disabled = false;
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+  await page.waitForTimeout(50);
+
+  // Tenta di piazzare il Giocatore di nuovo su una cella diversa
+  await page.locator('[data-col="6"][data-row="5"]').click();
+  await page.waitForTimeout(200);
+
+  // Il toast deve apparire
+  const toast = page.locator('.editor-toast');
+  expect(await toast.isVisible()).toBe(true);
+  const toastText = await toast.textContent();
+  logs.push(`[test] Toast testo: "${toastText}"`);
+  expect(toastText).toContain('unico');
+  logs.push("[test] Toast singleton mostrato ✓");
+
+  fs.writeFileSync("debug/leveleditor-singleton-toast-output.txt", logs.join("\n"));
+});
+
+// ---------------------------------------------------------------------------
+// Test 9: Preview in gioco usa localStorage (Task 18)
+// ---------------------------------------------------------------------------
+
+test("Testa in gioco scrive in localStorage (Task 18)", async ({ page }) => {
+  const logs: string[] = [];
+  page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
+
+  await setupPage(page);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.waitForSelector(".editor-grid", { timeout: 10_000 });
+
+  // Dipingi una cella per avere contenuto
+  await page.locator('[data-col="5"][data-row="5"]').click();
+  await page.waitForTimeout(50);
+
+  // Intercetta l'apertura del nuovo tab (window.open) senza seguirla
+  const [newPage] = await Promise.all([
+    page.context().waitForEvent('page', { timeout: 3_000 }),
+    page.locator('.editor-toolbar .btn.primary').click(),
+  ]);
+  await newPage.close();
+  logs.push("[test] Nuovo tab aperto ✓");
+
+  // Verifica che localStorage contenga la chiave editor-preview
+  const storedValue = await page.evaluate(() => localStorage.getItem('editor-preview'));
+  expect(storedValue).not.toBeNull();
+  expect(storedValue).toContain('GameGridSerializerV4');
+  logs.push("[test] localStorage 'editor-preview' scritto correttamente ✓");
+
+  fs.writeFileSync("debug/leveleditor-preview-output.txt", logs.join("\n"));
+});
+
+// ---------------------------------------------------------------------------
+// Test 10: Filtro pack disabilita Terra6-10 per pack 1 (Task 17)
+// ---------------------------------------------------------------------------
+
+test("Filtro pack disabilita Terra6-10 per pack 1 (Task 17)", async ({ page }) => {
+  const logs: string[] = [];
+  page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
+
+  await setupPage(page);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.waitForSelector(".editor-grid", { timeout: 10_000 });
+
+  // Pack 1 è il default — Terra6 (value=12) deve essere disabilitata
+  const terra6Radio = page.locator('input[name="editor-tool-ground"][value="12"]');
+  expect(await terra6Radio.isDisabled()).toBe(true);
+  logs.push("[test] Terra6 disabilitata per pack 1 ✓");
+
+  // Terra1-5 devono essere abilitate
+  const terra1Radio = page.locator('input[name="editor-tool-ground"][value="1"]');
+  expect(await terra1Radio.isDisabled()).toBe(false);
+  logs.push("[test] Terra1 abilitata per pack 1 ✓");
+
+  // Cambia a pack 2 → Terra6 deve abilitarsi
+  const packInput = page.locator('.toolbar-pack');
+  await packInput.fill('2');
+  await packInput.dispatchEvent('change');
+  await page.waitForTimeout(100);
+
+  expect(await terra6Radio.isDisabled()).toBe(false);
+  logs.push("[test] Terra6 abilitata per pack 2 ✓");
+
+  // Torna a pack 1 → Terra6 torna disabilitata
+  await packInput.fill('1');
+  await packInput.dispatchEvent('change');
+  await page.waitForTimeout(100);
+
+  expect(await terra6Radio.isDisabled()).toBe(true);
+  logs.push("[test] Terra6 di nuovo disabilitata tornando a pack 1 ✓");
+
+  fs.writeFileSync("debug/leveleditor-packfilter-output.txt", logs.join("\n"));
+});

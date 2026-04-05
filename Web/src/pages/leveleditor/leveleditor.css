@@ -374,6 +374,29 @@
     line-height: 1.3;
 }
 
+/* Toast notifica azioni bloccate */
+.editor-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: #333;
+    color: #ff9900;
+    border: 1px solid #ff9900;
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-size: 13px;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: editor-toast-in 0.15s ease;
+}
+
+@keyframes editor-toast-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 /* Blocco mobile */
 .editor-mobile-block {
     display: flex;
