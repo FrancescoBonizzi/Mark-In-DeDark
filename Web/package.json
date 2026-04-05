@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "generate-manifest": "npx tsx scripts/generate-level-manifest.ts",
-    "dev": "npx tsx scripts/generate-level-manifest.ts && tsc && vite",
-    "build": "npx tsx scripts/generate-level-manifest.ts && tsc && vite build",
+    "generate-manifest": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts",
+    "dev": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && tsc && vite",
+    "build": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
