@@ -25,6 +25,12 @@ const GROUND_TO_CELL: Readonly<Record<number, number>> = {
     16: 10,  // Terra10 — solo pack2
 };
 
+/** Numero cella → label "Terra N" mostrata nella preview */
+const CELL_TO_LABEL: Readonly<Record<number, string>> = {
+    1: 'Terra1', 2: 'Terra2', 3: 'Terra3', 4: 'Terra4', 5: 'Terra5',
+    6: 'Terra6', 7: 'Terra7', 8: 'Terra8', 9: 'Terra9', 10: 'Terra10',
+};
+
 /** wallType editor → numero decal pack (decal1..8) */
 const WALL_TO_DECAL: Readonly<Record<number, number>> = {
     7:  1,   // Decal1
@@ -142,15 +148,28 @@ export function renderPackPreview(
     // Raccoglie i canvas da disegnare
     const canvases: Array<{ canvas: HTMLCanvasElement; frame: CellFrame }> = [];
 
-    for (const frame of frames) {
+    frames.forEach((frame, idx) => {
+        const cellNum = idx + 1;
+        const label = CELL_TO_LABEL[cellNum] ?? `Cell${cellNum}`;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'pack-preview-item';
+
         const canvas = document.createElement('canvas');
         canvas.width  = PREVIEW_CELL_SIZE;
         canvas.height = PREVIEW_CELL_SIZE;
         canvas.className = 'pack-preview-cell';
-        canvas.title = `SS${frame.ss} (${frame.x},${frame.y})`;
-        container.appendChild(canvas);
+        canvas.title = label;
+
+        const lbl = document.createElement('span');
+        lbl.className = 'pack-preview-item-label';
+        lbl.textContent = label;
+
+        wrapper.appendChild(canvas);
+        wrapper.appendChild(lbl);
+        container.appendChild(wrapper);
         canvases.push({ canvas, frame });
-    }
+    });
 
     // Raggruppa per spritesheet e carica in parallelo
     const neededSS = new Set(frames.map(f => f.ss));

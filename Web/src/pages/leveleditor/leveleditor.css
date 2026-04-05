@@ -137,20 +137,35 @@
 .pack-preview-cells {
     display: flex;
     flex-direction: row;
-    gap: 2px;
+    gap: 4px;
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: #333 transparent;
 }
 
+.pack-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
 .pack-preview-cell {
     width: 40px;
     height: 40px;
-    flex-shrink: 0;
     border: 1px solid #333;
     border-radius: 2px;
     cursor: default;
     image-rendering: pixelated;
+}
+
+.pack-preview-item-label {
+    font-size: 8px;
+    color: #888;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1;
 }
 
 /* Tab header */
