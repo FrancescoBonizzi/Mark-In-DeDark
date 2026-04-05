@@ -31,6 +31,30 @@ const CELL_TO_LABEL: Readonly<Record<number, string>> = {
     6: 'Terra6', 7: 'Terra7', 8: 'Terra8', 9: 'Terra9', 10: 'Terra10',
 };
 
+/** Frame dei decal per pack (decal_1..N). Labels: D1..D8 */
+const DECAL_FRAMES: Readonly<Record<number, CellFrame[]>> = {
+    1: [{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    2: [{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    3: [{ss:1,x:777,y:389},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:1,x:1359,y:389},{ss:1,x:583,y:583}],
+    4: [{ss:1,x:777,y:389},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:1,x:1359,y:389},{ss:1,x:583,y:583}],
+    5: [{ss:2,x:195,y:1},{ss:2,x:583,y:1},{ss:2,x:971,y:1},{ss:2,x:1359,y:1},{ss:2,x:1747,y:1}],
+    6: [{ss:2,x:195,y:1},{ss:2,x:583,y:1},{ss:0,x:675,y:1859},{ss:2,x:1359,y:1},{ss:2,x:1747,y:1}],
+    7: [{ss:2,x:195,y:1},{ss:2,x:583,y:1},{ss:2,x:971,y:1},{ss:2,x:1359,y:1},{ss:2,x:1747,y:1}],
+    8: [{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+};
+
+/** Frame dei special wall per pack (wall_special_1..5). Labels: M1..M5 */
+const SPECWALL_FRAMES: Readonly<Record<number, CellFrame[]>> = {
+    1: [{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    2: [{ss:1,x:1,y:1553},{ss:0,x:195,y:1353},{ss:1,x:389,y:1},{ss:1,x:777,y:1},{ss:1,x:1165,y:1}],
+    3: [{ss:1,x:1553,y:777},{ss:1,x:971,y:971},{ss:0,x:195,y:735},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    4: [{ss:1,x:1553,y:777},{ss:1,x:971,y:971},{ss:1,x:1553,y:1359},{ss:1,x:1553,y:1553},{ss:1,x:1747,y:1553}],
+    5: [{ss:2,x:195,y:777},{ss:2,x:195,y:1165},{ss:0,x:413,y:1},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    6: [{ss:2,x:195,y:777},{ss:2,x:195,y:1165},{ss:0,x:413,y:1},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    7: [{ss:2,x:195,y:777},{ss:2,x:195,y:1165},{ss:0,x:413,y:1},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+    8: [{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353},{ss:0,x:195,y:1353}],
+};
+
 /**
  * Frame dei 13 Riempimento — identici per tutti i pack, tutti su SS0.
  * Ordine: riempimento_1..13 → ground values 8, 17..28.
@@ -193,14 +217,34 @@ export function renderPackPreview(
         makeItem(frame, CELL_TO_LABEL[idx + 1] ?? `Cell${idx + 1}`);
     });
 
-    // --- Separatore ---
-    const sep = document.createElement('div');
-    sep.className = 'pack-preview-sep';
-    container.appendChild(sep);
+    function addSep(): void {
+        const sep = document.createElement('div');
+        sep.className = 'pack-preview-sep';
+        container.appendChild(sep);
+    }
 
     // --- Riempimento (uguali per tutti i pack) ---
+    addSep();
     for (const { frame, label } of RIEMP_FRAMES) {
         makeItem(frame, label);
+    }
+
+    // --- Decal ---
+    const decalFrames = DECAL_FRAMES[packId];
+    if (decalFrames && decalFrames.length > 0) {
+        addSep();
+        decalFrames.forEach((frame, idx) => {
+            makeItem(frame, `D${idx + 1}`);
+        });
+    }
+
+    // --- Special Walls (M1-M5) ---
+    const specwallFrames = SPECWALL_FRAMES[packId];
+    if (specwallFrames && specwallFrames.length > 0) {
+        addSep();
+        specwallFrames.forEach((frame, idx) => {
+            makeItem(frame, `M${idx + 1}`);
+        });
     }
 
     // --- Carica spritesheet in parallelo e disegna ---
