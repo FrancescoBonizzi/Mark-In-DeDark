@@ -31,6 +31,26 @@ const CELL_TO_LABEL: Readonly<Record<number, string>> = {
     6: 'Terra6', 7: 'Terra7', 8: 'Terra8', 9: 'Terra9', 10: 'Terra10',
 };
 
+/**
+ * Frame dei 13 Riempimento — identici per tutti i pack, tutti su SS0.
+ * Ordine: riempimento_1..13 → ground values 8, 17..28.
+ */
+const RIEMP_FRAMES: ReadonlyArray<{ frame: CellFrame; label: string }> = [
+    { frame: { ss: 0, x: 503,  y: 1665 }, label: 'Riemp1'  },
+    { frame: { ss: 0, x: 777,  y: 713  }, label: 'Riemp2'  },
+    { frame: { ss: 0, x: 583,  y: 1315 }, label: 'Riemp3'  },
+    { frame: { ss: 0, x: 697,  y: 1639 }, label: 'Riemp4'  },
+    { frame: { ss: 0, x: 869,  y: 1833 }, label: 'Riemp5'  },
+    { frame: { ss: 0, x: 931,  y: 195  }, label: 'Riemp6'  },
+    { frame: { ss: 0, x: 995,  y: 1    }, label: 'Riemp7'  },
+    { frame: { ss: 0, x: 931,  y: 389  }, label: 'Riemp8'  },
+    { frame: { ss: 0, x: 777,  y: 1113 }, label: 'Riemp9'  },
+    { frame: { ss: 0, x: 737,  y: 195  }, label: 'Riemp10' },
+    { frame: { ss: 0, x: 737,  y: 389  }, label: 'Riemp11' },
+    { frame: { ss: 0, x: 583,  y: 1121 }, label: 'Riemp12' },
+    { frame: { ss: 0, x: 737,  y: 919  }, label: 'Riemp13' },
+];
+
 /** wallType editor → numero decal pack (decal1..8) */
 const WALL_TO_DECAL: Readonly<Record<number, number>> = {
     7:  1,   // Decal1
@@ -145,13 +165,10 @@ export function renderPackPreview(
 
     container.innerHTML = '';
 
-    // Raccoglie i canvas da disegnare
+    // Tutti i canvas da disegnare (Terra + Riempimento)
     const canvases: Array<{ canvas: HTMLCanvasElement; frame: CellFrame }> = [];
 
-    frames.forEach((frame, idx) => {
-        const cellNum = idx + 1;
-        const label = CELL_TO_LABEL[cellNum] ?? `Cell${cellNum}`;
-
+    function makeItem(frame: CellFrame, label: string): void {
         const wrapper = document.createElement('div');
         wrapper.className = 'pack-preview-item';
 
@@ -169,10 +186,25 @@ export function renderPackPreview(
         wrapper.appendChild(lbl);
         container.appendChild(wrapper);
         canvases.push({ canvas, frame });
+    }
+
+    // --- Celle Terra ---
+    frames.forEach((frame, idx) => {
+        makeItem(frame, CELL_TO_LABEL[idx + 1] ?? `Cell${idx + 1}`);
     });
 
-    // Raggruppa per spritesheet e carica in parallelo
-    const neededSS = new Set(frames.map(f => f.ss));
+    // --- Separatore ---
+    const sep = document.createElement('div');
+    sep.className = 'pack-preview-sep';
+    container.appendChild(sep);
+
+    // --- Riempimento (uguali per tutti i pack) ---
+    for (const { frame, label } of RIEMP_FRAMES) {
+        makeItem(frame, label);
+    }
+
+    // --- Carica spritesheet in parallelo e disegna ---
+    const neededSS = new Set(canvases.map(c => c.frame.ss));
 
     neededSS.forEach(ssIdx => {
         const url = `${assetsRoot}assets/images/spriteSheets/Spritesheet-${ssIdx}.png`;
@@ -189,7 +221,6 @@ export function renderPackPreview(
                 );
             }
         }).catch(() => {
-            // fallback: rettangolo colorato se l'immagine non carica
             for (const { canvas, frame } of canvases) {
                 if (frame.ss !== ssIdx) continue;
                 const ctx = canvas.getContext('2d');

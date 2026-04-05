@@ -168,6 +168,14 @@
     line-height: 1;
 }
 
+.pack-preview-sep {
+    width: 1px;
+    background: #444;
+    flex-shrink: 0;
+    align-self: stretch;
+    margin: 0 2px;
+}
+
 /* Tab header */
 .editor-tabs {
     display: flex;
