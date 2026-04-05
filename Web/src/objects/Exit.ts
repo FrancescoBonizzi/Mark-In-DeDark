@@ -33,8 +33,11 @@ export class Exit {
             color1: 0x55ddcc,
             color2: 0x33aaaa,
             distanceSquared: 2_200,
+            distanceSquaredForWall: 7_000,
         });
         this.surroundingLight.lightMaskScale = 0.9;
+        // La porta è sul bordo alto della cella; spostiamo la luce verso l'alto
+        this.surroundingLight.deltaForWall = { x: 0, y: -90 };
     }
 
     get isOpen(): boolean { return this._isOpen; }

@@ -1,7 +1,7 @@
 # Task
 
 - Alcuni sono da eseguire, flaggali come fatti
-- Altri sono di approfondimento, in quel caso crea un nuovo task in un heading h2 a parte in cui descrivi come lo faresti
+- Altri sono di approfondimento, sono quelli che iniziano con "Task di approfondimento" in quel caso crea un nuovo task in un heading h2 a parte in cui descrivi come lo faresti, ma non implementarlo. Tutti gli altri task implementali subito invece.
 
 - [ ] LevelEditor: il colore per il muro ingresso/uscita è troppo forte per il testo bianco, cambia uno dei due
 - [ ] Script di generazione manifest (entrambi), migliora un po' i log, falli più carini con qualche emoji e rimuovi i logo inutili
@@ -13,7 +13,7 @@
 - [ ] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: revisione di come appaiono i testi in game, parlo dei testi popup che appaiono ogni tanto. Il problema è attualmente sono dei popup che appunti fanno fadeout volando in alto. Non è male, ma non mi piace che si vedano solo una tantum e poi non li puoi più leggere. Potremmo pensare di mostrarli sempre fissi quando cammini sulla cella di riferimento, ma mi chiedevo se secondo te ci fosse un modo migliore per mostrarli. Hai delle idee? Accetto ipotesi.
 - [ ] Task di approfondimento: aggiungi qui in questo file un'ipotesi (se ne hai una), se ci sono migliorie che posso fare al gioco per renderlo più giocabile, senza introdurre nuove texture, ma solo cambiando alcune piccole cose. Fai un'analisi e fammi delle proposte
 - [ ] Task di approfondimento: rileggiti il file docs/ENEMY_AI e valuta migliorie alle AI dei nemici. Ovviamente l'anima dei nemici va bene che resti così com'è, ma valuta se si può fare qualcosa di meglio o se alcuni nemici, boh, si possono rendere più idiomatici. Sono disposto ad usare a dare a bubu o ghost qualcosa di più coinvolgente, se ti vengono in mente idee.
-- [ ] Parliamo delle pagine del menù.
+- [ ] Dobbiamo fare delle modifiche alle pagine del menù.
   - [ ] Il gioco originale aveva un logo: Csharp/Assets/logo.png usalo in giro
   - [ ] C'era anche uno sfondo per la pagina dei livelli: /Users/fbonizzi/Source/Mark-In-DeDark/Csharp/MarkInDeDark.Game/Assets/ContentBuilder/levels.png (è tutto nero con degli occhi rossi sulla destra)
   - [ ] Con il tuo plugin sul frontend-design dobbiamo rivedere tutte le pagine di navigazione (pagina principale, pagina di selezione gruppo di livelli, pagina di selezione livelli). Considera che stiamo parlando di un videogioco e che per me è molto importante che questa parte sia fatta bene. Considera che ci sarà un gruppo di livelli "di default" che rappresenta la storia ufficiale, sono i livelli dentro alla cartella "default" appunto. Quelli devono essere in primissimo piano e i primi proposti. Tutti gli altri con le altre cartelle devono essere secondari, come "ESPANSIONI" che uno può selezionarsi per giocare ancora.

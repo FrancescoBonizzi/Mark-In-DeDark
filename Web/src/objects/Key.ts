@@ -44,10 +44,11 @@ export class Key {
             color1: 0xffdd44,
             color2: 0xffaa00,
             distanceSquared: 2_200,
+            distanceSquaredForWall: 7_000,
         });
-        // lightMaskScale default=2.0 coprirebbe >2 celle; 0.5 ≈ mezza cella
         this.surroundingLight.lightMaskScale = 0.9;
         this.surroundingLight.opacity = 0.3;
+        this.surroundingLight.deltaForWall = { x: 0, y: 0 };
     }
 
     get isCollected(): boolean { return this._collected; }
