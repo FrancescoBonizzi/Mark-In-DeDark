@@ -4,6 +4,7 @@
 - Altri sono di approfondimento, sono quelli che iniziano con "Task di approfondimento" in quel caso crea un nuovo task in un heading h2 a parte in cui descrivi come lo faresti, ma non implementarlo. Tutti gli altri task implementali subito invece.
 
 - [ ] LevelEditor: il colore per il muro ingresso/uscita è troppo forte per il testo bianco, cambia uno dei due
+- [ ] LevelEditor: bug, se io apro un livello che un dato texture pack e cambio il texture pack, poi salvo o eseguo il gioco, non viene applicato il nuovo texture pack.
 - [ ] Script di generazione manifest (entrambi), migliora un po' i log, falli più carini con qualche emoji e rimuovi i logo inutili
 - [ ] LevelEditor: il trigger goblin non c'è tra i possibili oggetti da piazzare
 - [ ] LevelEditor: fenomeno paranormale, le faccio partire ad esempio il livello old/3 dal gioco (quindi partendo dal menù livelli) si vede perfettamente. Se lo apro nel level editor e lo faccio partire da lì premendo su "Testa in game" viene un render stranissimo tutto completamente blu come se stesse disegnando la normal map invece di applicare gli shader
