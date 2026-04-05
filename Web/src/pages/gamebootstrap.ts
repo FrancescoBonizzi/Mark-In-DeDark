@@ -296,13 +296,20 @@ export async function initGame(
       const cx = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
       const cy = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
       const entranceLight = new MarkLight({
-        x: cx, y: cy, z: 31,
-        opacity: 0.3, radius: 80, castsShadows: false,
-        color1: 0xbb88ff, color2: 0x9966dd,
-        distanceSquared: 2_200, distanceSquaredForWall: 7_000,
+        x: cx,
+        y: cy,
+        z: 31,
+        opacity: 0.3,
+        radius: 80,
+        castsShadows: false,
+        color1: 0xbb88ff,
+        color2: 0x9966dd,
+        distanceSquared: 2_200,
+        distanceSquaredForWall: 7_000,
       });
       entranceLight.lightMaskScale = 0.9;
       entranceLight.deltaForWall = { x: 0, y: -110 };
+      entranceLight.deltaForGround = { x: 0, y: -20 };
       shadowSystem.addLight(entranceLight);
     }
 
