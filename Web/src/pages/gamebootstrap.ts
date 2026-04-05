@@ -23,7 +23,7 @@ import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
 import Numbers from "../services/Numbers";
 import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
-import { GameTexts, getStringCodeText } from "../ui/GameTexts";
+import { GameTexts } from "../ui/GameTexts";
 import Camera from "../world/Camera";
 import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 
@@ -514,10 +514,9 @@ sessionStorage.setItem(
       // Cell text triggers (tutorial / ambient hints)
       const playerCell = player.currentCell;
       if (playerCell && !triggeredCells.has(playerCell)) {
-        const code = grid.cellTriggerTexts.get(playerCell);
-        if (code) {
-          const text = getStringCodeText(code);
-          if (text) hud?.showMessage(text, "#ffff00");
+        const text = grid.cellTriggerTexts.get(playerCell);
+        if (text) {
+          hud?.showMessage(text, "#ffff00");
           triggeredCells.add(playerCell);
         }
       }

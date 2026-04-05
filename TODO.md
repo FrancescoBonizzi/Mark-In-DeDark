@@ -2,9 +2,7 @@
 
 ### Level editor
 
-- [ ] Migrarlo in versione web così anche Tommy può fare livelli (e glieli pubblico)
-- [ ] I testi devono stare dentro al file .mark (anzi, tutto! non ci devono essere dipendenze da altre cose nel codice)
-- [ ] Il visualizzatore ASCII comunque è carino, ma se alla fine non serve a niente, lo buttiamo
+- [ ] Il visualizzatore ASCII lo tengo per l'AI, in modo che mi generi tutti i livelli poi li aggiusto io
 
 ### Livelli
 
@@ -18,11 +16,10 @@
 - [ ] Illuminare la chiave
 - [ ] Illuminare la porta finale e iniziale
 - [ ] Revisione di come appaiono i testi in game. Magari potrei davvero tenerli fissi nelle aree in cui devono comprarire, ma appaiono e scompaiono sulla cella in base a quanto ne sei vicino? Altre idee? A comparsa/scomparsa non mi fanno impazzire
-- [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 
 ### Marco
 
-- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi)
+- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi) -> un readme che vada bene per tutti, anche per Tommy, magari con una pagina helper che lo renderizza
 - [ ] Passargli i texture pack e fargli fare le modifiche in place
 - [ ] Passargli la storia e fargli creare i livelli "Marco version", con totale libertà, massimo 20
 
@@ -31,8 +28,6 @@
 - [ ] Valuta migliorie alle AI dei nemici insieme all'AI, se qualcosa si può fare meglio
 - [ ] Provare a creare dei livelli con bubu e ghost, perchè non ricordo cosa facciano
 - [ ] Se qualcuno non ha l'AI, inventarla per lui e usalo
-- [ ] Porting del level editor, quello potrei farlo con Avalonia per non impazzire, oppure web anche lui così posso darlo a Marco da usare da fuori? Mah, forse è follia (Vedere l'AI come se la cava a creare livelli nuovi)
-- [ ] Per cambiare un po' posso anche chiedere all'AI di generare un nuovo spritesheet con anche le normal map con un'ambientazione diversa, secondo me ce la può fare
 
 ### Interfaccia
 
