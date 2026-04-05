@@ -22,6 +22,7 @@ Il trigger `!` si attiva solo quando il player calpesta quella cella esatta. Se 
 **Regola di verifica:** prima di piazzare un `!`, controlla che la sua riga (o colonna) non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono → il trigger è aggirabile → **non metterlo lì**.
 
 Pattern VALIDO (corridoio 1 cella):
+
 ```
 ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ · · ! · · ▓   ← fill sopra E sotto: il player DEVE passare su !
@@ -29,6 +30,7 @@ Pattern VALIDO (corridoio 1 cella):
 ```
 
 Pattern INVALIDO (trigger aggirabile):
+
 ```
 ▓ · · · · · ▓
 ▓ · · ! · · ▓   ← il player passa sopra o sotto !
@@ -36,6 +38,7 @@ Pattern INVALIDO (trigger aggirabile):
 ```
 
 Pattern VALIDO per area aperta (giardino livello 1 — trigger nei colli di bottiglia):
+
 ```
 ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
 ▓ ▓ ▓ · · · · · · · · · ▓ ▓ ▓ ▓
@@ -49,6 +52,7 @@ L'area interna può essere ampia — i trigger stanno nei colli di bottiglia di 
 ### 3. LINEARITÀ — il grafo delle stanze è una catena
 
 Se la spec dice "lineare" o "strettamente lineare":
+
 - Il grafo è: `Spawn → A → B → … → Uscita`
 - Nessuna stanza ha più di 2 aperture (ingresso + uscita)
 - Zero bivi sul percorso principale
@@ -62,14 +66,17 @@ Ogni cella floor deve essere circondata da muri espliciti (`│` e `─`) ai bor
 **Regola in una riga:** ogni transizione floor↔fill (o floor↔NonCella) deve avere un separatore muro nel file `.ascii`.
 
 Separatori verticali (`│`) nelle righe-cella, posizione dispari `c*2+1` tra col C e col C+1:
+
 - `│` tra fill col C e floor col C+1 → LEFT wall su col C+1
 
 Separatori orizzontali (`─`) nelle righe-muro (prefisso 5 spazi), posizione `c*2` per col C:
+
 - `─` alla col C tra riga R (fill) e riga R+1 (floor) → TOP wall su (R+1, C)
 
 **Eccezioni lecite:** il separatore `i` (Ingresso) e `o` (Uscita) sostituiscono `│` o `─` dove serve una apertura con tipo speciale. Il separatore tra due celle fill non richiede muro.
 
 Esempio pattern corretto (area aperta circondata da fill con muri):
+
 ```
   1: ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
                ─ ─ ─ ─ ─ ─ ─       ← muri TOP dell'area (cols 5-11)
@@ -82,6 +89,16 @@ Esempio pattern corretto (area aperta circondata da fill con muri):
 ### 5. PRIMA IL GRAFO, POI L'ASCII
 
 Non iniziare mai a disegnare l'ASCII senza aver prima scritto il grafo delle stanze. Vedi il workflow obbligatorio in [Sezione 6](#6-workflow-obbligatorio-per-la-generazione).
+
+### 6. Alcuni livelli d'esempio
+
+Vedi:
+
+- Web/public/assets/levels/demo/1.mark
+- Web/public/assets/levels/demo/2.mark
+- Web/public/assets/levels/demo/4.mark
+
+Puoi valutarli convertendoli in ASCII con il nostro tool per leggerli.
 
 ---
 
@@ -174,26 +191,26 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 
 ### Mappa delle meccaniche e quando introdurle
 
-| Meccanica                                    | Livello di introduzione | Note                                                          |
-| -------------------------------------------- | ----------------------- | ------------------------------------------------------------- |
-| Movimento del giocatore                      | 1                       | Implicita — il giocatore scopre da solo                       |
-| Raccogliere la chiave                        | 1                       | Chiave visibile, percorso diretto                             |
-| Aprire l'uscita con la chiave                | 1                       | Uscita vicina alla chiave nei primi livelli                   |
-| Raccogliere le candele                       | 1                       | Candele sul percorso, testo esplicativo                       |
+| Meccanica                                    | Livello di introduzione | Note                                                                 |
+| -------------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
+| Movimento del giocatore                      | 1                       | Implicita — il giocatore scopre da solo                              |
+| Raccogliere la chiave                        | 1                       | Chiave visibile, percorso diretto                                    |
+| Aprire l'uscita con la chiave                | 1                       | Uscita vicina alla chiave nei primi livelli                          |
+| Raccogliere le candele                       | 1                       | Candele sul percorso, testo esplicativo                              |
 | Zone buie (Buio)                             | 2                       | Zona buia piccola, la candela in mano illumina — non serve piazzarla |
-| Piazzare una candela (SPAZIO)                | 3                       | Introdotta col primo zombie come meccanica di distrazione     |
-| Nemico Zombie — patruglia                    | 3                       | Un singolo zombie, meccanica distrazione candela              |
-| Distrazione con candela                      | 3                       | Insegnata con il primo zombie                                 |
-| Aprire/chiudere porte (CTRL)                 | 4                       | Una singola porta, testo esplicativo in voce                  |
-| Trappola temporizzata (TrappolaTemporizzata) | 5                       | Una trappola ovvia, si può attraversare di corsa              |
-| Nemico Scheletro — visuale lineare           | 6                       | Da solo in stanza aperta                                      |
-| Muri rompibili (Fragile, WallType=2)         | 8                       | Prima mostrati come muri distinguibili, poi Taurus li abbatte |
-| Nemico Taurus — carica                       | 8                       | Da solo, corridoio dove la carica è dimostrativa              |
-| Trappola letale (TrappolaMorteIstantanea)    | 9                       | Introdotta visivamente, non nascosta                          |
-| Nemico Ghost — stai fermo                    | 10                      | Da solo, stanza dove il giocatore DEVE fermarsi               |
-| Nemico Bubu — spegne candele                 | 12                      | Con 1–2 zombie, per insegnare la scarsità                     |
-| Nemico Goblin — inseguimento puro            | 15                      | **Da solo in un livello dedicato**                            |
-| Mix completo nemici                          | 17+                     | Solo dopo che il giocatore conosce tutti                      |
+| Piazzare una candela (SPAZIO)                | 3                       | Introdotta col primo zombie come meccanica di distrazione            |
+| Nemico Zombie — patruglia                    | 3                       | Un singolo zombie, meccanica distrazione candela                     |
+| Distrazione con candela                      | 3                       | Insegnata con il primo zombie                                        |
+| Aprire/chiudere porte (CTRL)                 | 4                       | Una singola porta, testo esplicativo in voce                         |
+| Trappola temporizzata (TrappolaTemporizzata) | 5                       | Una trappola ovvia, si può attraversare di corsa                     |
+| Nemico Scheletro — visuale lineare           | 6                       | Da solo in stanza aperta                                             |
+| Muri rompibili (Fragile, WallType=2)         | 8                       | Prima mostrati come muri distinguibili, poi Taurus li abbatte        |
+| Nemico Taurus — carica                       | 8                       | Da solo, corridoio dove la carica è dimostrativa                     |
+| Trappola letale (TrappolaMorteIstantanea)    | 9                       | Introdotta visivamente, non nascosta                                 |
+| Nemico Ghost — stai fermo                    | 10                      | Da solo, stanza dove il giocatore DEVE fermarsi                      |
+| Nemico Bubu — spegne candele                 | 12                      | Con 1–2 zombie, per insegnare la scarsità                            |
+| Nemico Goblin — inseguimento puro            | 15                      | **Da solo in un livello dedicato**                                   |
+| Mix completo nemici                          | 17+                     | Solo dopo che il giocatore conosce tutti                             |
 
 ### Principio fondamentale
 
@@ -430,6 +447,7 @@ La regola fondamentale per qualsiasi livello generato è:
 Prima di toccare l'ASCII, scrivi il grafo in forma testuale. Questo ti forza a verificare i vincoli mentre il design è ancora modificabile.
 
 Esempio di grafo valido per livello 1:
+
 ```
 Spawn (corridoio 1×4) → Area giardino (7×14) → Corridoio uscita (1×5) → Uscita
 Trigger 1 "Mio padre...": corridoio spawn, cella 2  ← 1 cella larga: OBBLIGATO
