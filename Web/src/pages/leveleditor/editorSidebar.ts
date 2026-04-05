@@ -266,8 +266,8 @@ export function createSidebar(
 
     // --- updatePackFilter: disabilita ground/wall non disponibili per il pack ---
     function updatePackFilter(avail: PackAvailability): void {
+        // Ground: NonCella (0) e Riempimento (8, 17-28) sempre disponibili
         GROUND_ENTRIES.forEach(entry => {
-            // NonCella (0) e Riempimento (8, 17-28) sono sempre disponibili
             if (entry.value === 0 || entry.value === 8 || entry.value >= 17) return;
             const radio = sidebar.querySelector<HTMLInputElement>(
                 `input[name="editor-tool-ground"][value="${entry.value}"]`
@@ -279,16 +279,23 @@ export function createSidebar(
             if (label) label.style.opacity = available ? '' : '0.3';
         });
 
+        // Wall: decal e muri speciali filtrati per pack
+        const DECAL_VALUES = new Set([7, 8, 9, 10, 11, 16, 17, 18]);
+        const SPECWALL_VALUES = new Set([4, 12, 13, 14, 15]);
+
         WALL_ENTRIES.forEach(entry => {
-            // Valori non-decal sono sempre disponibili
-            const isDecal = avail.availableDecals.has(entry.value) ||
-                            [7, 8, 9, 10, 11, 16, 17, 18].includes(entry.value);
-            if (!isDecal) return;
+            let available: boolean;
+            if (DECAL_VALUES.has(entry.value)) {
+                available = avail.availableDecals.has(entry.value);
+            } else if (SPECWALL_VALUES.has(entry.value)) {
+                available = avail.availableSpecialWalls.has(entry.value);
+            } else {
+                return; // Occludente, Fragile, Porta, Ingresso, Uscita: sempre disponibili
+            }
             const radio = sidebar.querySelector<HTMLInputElement>(
                 `input[name="editor-tool-wall"][value="${entry.value}"]`
             );
             if (!radio) return;
-            const available = avail.availableDecals.has(entry.value);
             radio.disabled = !available;
             const label = radio.nextElementSibling as HTMLElement | null;
             if (label) label.style.opacity = available ? '' : '0.3';

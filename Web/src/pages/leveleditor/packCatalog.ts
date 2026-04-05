@@ -106,6 +106,19 @@ const PACK_MAX_DECALS: Readonly<Record<number, number>> = {
 
 interface CellFrame { ss: number; x: number; y: number }
 
+/**
+ * Frame placeholder usato dallo spritesheet quando un pack non ha quella texture.
+ * Rilevabile confrontando le coordinate — stessa costante in tutti i pack.
+ */
+const PLACEHOLDER: CellFrame = { ss: 0, x: 195, y: 1353 };
+
+function isPlaceholder(f: CellFrame): boolean {
+    return f.ss === PLACEHOLDER.ss && f.x === PLACEHOLDER.x && f.y === PLACEHOLDER.y;
+}
+
+/** Indice specwall (0-based) → wall value editor (M1=4, M2=12, M3=13, M4=14, M5=15) */
+const SPECWALL_IDX_TO_VALUE = [4, 12, 13, 14, 15] as const;
+
 /** Coordinate dei frame cell1..cellN per ciascun pack (ordine: cell1, cell2, ...) */
 const CELL_FRAMES: Readonly<Record<number, CellFrame[]>> = {
     1: [{ss:0,x:931,y:907},{ss:0,x:891,y:1631},{ss:0,x:1189,y:1},{ss:0,x:1125,y:907},{ss:0,x:195,y:1353}],
@@ -145,6 +158,8 @@ export interface PackAvailability {
     availableGrounds: ReadonlySet<number>;
     /** Set di wallType values per decal disponibili per questo pack */
     availableDecals: ReadonlySet<number>;
+    /** Set di wallType values per muri speciali (M1-M5) con texture reale in questo pack */
+    availableSpecialWalls: ReadonlySet<number>;
 }
 
 /**
@@ -169,7 +184,17 @@ export function getPackAvailability(packId: number): PackAvailability {
         }
     }
 
-    return { availableGrounds, availableDecals };
+    // Muri speciali: disponibile solo se il frame non è il placeholder
+    const availableSpecialWalls = new Set<number>();
+    const specwallFrames = SPECWALL_FRAMES[packId] ?? [];
+    specwallFrames.forEach((frame, idx) => {
+        if (!isPlaceholder(frame)) {
+            const wallValue = SPECWALL_IDX_TO_VALUE[idx];
+            if (wallValue !== undefined) availableSpecialWalls.add(wallValue);
+        }
+    });
+
+    return { availableGrounds, availableDecals, availableSpecialWalls };
 }
 
 /**
