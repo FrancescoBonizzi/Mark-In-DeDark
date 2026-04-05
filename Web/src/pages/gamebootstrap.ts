@@ -11,6 +11,7 @@ import { createLevelConfig } from "../grid/LevelConfig";
 import { createLevelCustomization } from "../grid/LevelCustomization";
 import { GroundTypes } from "../grid/enums";
 import Controller from "../interaction/Controller";
+import { MarkLight } from "../lighting/MarkLight";
 import { ShadowSystem } from "../lighting/ShadowSystem";
 import { BrazierLit } from "../objects/BrazierLit";
 import { CandlePack } from "../objects/CandlePack";
@@ -289,6 +290,21 @@ export async function initGame(
       grid,
     );
     shadowSystem.addLight(exit.surroundingLight);
+
+    // Entrance — static ambient light on the spawn door (no game logic, purely visual)
+    {
+      const cx = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
+      const cy = grid.playerStartRow * CELL_SIZE + CELL_SIZE / 2;
+      const entranceLight = new MarkLight({
+        x: cx, y: cy, z: 31,
+        opacity: 0.3, radius: 80, castsShadows: false,
+        color1: 0xbb88ff, color2: 0x9966dd,
+        distanceSquared: 2_200, distanceSquaredForWall: 7_000,
+      });
+      entranceLight.lightMaskScale = 0.9;
+      entranceLight.deltaForWall = { x: 0, y: -110 };
+      shadowSystem.addLight(entranceLight);
+    }
 
     // Traps
     traps = grid.trapPlacements.map((t) => {

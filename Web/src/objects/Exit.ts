@@ -37,7 +37,7 @@ export class Exit {
         });
         this.surroundingLight.lightMaskScale = 0.9;
         // La porta è sul bordo alto della cella; spostiamo la luce verso l'alto
-        this.surroundingLight.deltaForWall = { x: 0, y: -90 };
+        this.surroundingLight.deltaForWall = { x: 0, y: -110 };
     }
 
     get isOpen(): boolean { return this._isOpen; }
