@@ -21,6 +21,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
+console.info();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ssDir = path.join(
   __dirname,
@@ -125,7 +126,7 @@ const [pss, px, py] = placeholderKey.split(":").map(Number) as [
 ];
 const placeholder: FrameCoord = { ss: pss, x: px, y: py };
 
-console.log(
+console.info(
   `Placeholder rilevato: SS${pss} (${px},${py}) — appare ${coordFreq.get(placeholderKey)} volte`,
 );
 
@@ -134,7 +135,7 @@ console.log(
 // ---------------------------------------------------------------------------
 
 const packIds = [...packs.keys()].sort((a, b) => a - b);
-console.log(`Pack trovati: ${packIds.join(", ")}`);
+console.info(`Pack trovati: ${packIds.join(", ")}`);
 
 function coordStr(c: FrameCoord): string {
   return `{ss:${c.ss},x:${c.x},y:${c.y}}`;

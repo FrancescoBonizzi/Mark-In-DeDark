@@ -8,6 +8,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
+console.info();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const levelsDir = path.join(__dirname, "..", "public", "assets", "levels");
 const outputFile = path.join(
