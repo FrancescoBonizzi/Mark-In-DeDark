@@ -20,12 +20,12 @@ import { GoblinTriggerTrap } from "../objects/GoblinTriggerTrap";
 import { InstantlyDieTrap } from "../objects/InstantlyDieTrap";
 import { Key } from "../objects/Key";
 import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
+import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 import Numbers from "../services/Numbers";
 import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
 import { GameTexts } from "../ui/GameTexts";
 import Camera from "../world/Camera";
-import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 
 // Task 1 triage: warn early when runtime lighting prerequisites are missing.
 
@@ -57,7 +57,7 @@ let deathOverlaySprite: Sprite | null = null;
 let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
 let currentLevelId = 1;
-let currentFolder = '';
+let currentFolder = "";
 let visibilityHandler: (() => void) | null = null;
 let torchFireParticles: TorchFireParticleSystem | null = null;
 
@@ -69,8 +69,19 @@ function navigateToGameOver(): void {
   window.location.hash = "#/gameover";
 }
 
-export async function initGame(container: HTMLElement, folder: string, levelIdParam: string) {
-  console.log("[gamebootstrap] initGame called, folder=" + folder + ", level=" + levelIdParam + ", hasKeyboard=" + hasPhysicalKeyboard());
+export async function initGame(
+  container: HTMLElement,
+  folder: string,
+  levelIdParam: string,
+) {
+  console.log(
+    "[gamebootstrap] initGame called, folder=" +
+      folder +
+      ", level=" +
+      levelIdParam +
+      ", hasKeyboard=" +
+      hasPhysicalKeyboard(),
+  );
   if (app) {
     destroyGame();
   }
@@ -268,6 +279,7 @@ export async function initGame(container: HTMLElement, folder: string, levelIdPa
       grid.keyRow * CELL_SIZE + CELL_SIZE / 2,
       grid.objectsContainer,
     );
+    shadowSystem.addLight(key.surroundingLight);
 
     // Exit
     exit = new Exit(
@@ -331,7 +343,7 @@ export async function initGame(container: HTMLElement, folder: string, levelIdPa
     });
 
     // Blood decal texture
-    const bloodTexture = getTexture(assets.spriteSheets, 'Effects/blood_decal');
+    const bloodTexture = getTexture(assets.spriteSheets, "Effects/blood_decal");
     grid.setBloodDecalTexture(bloodTexture);
 
     // Create enemies from grid placements
@@ -437,7 +449,7 @@ export async function initGame(container: HTMLElement, folder: string, levelIdPa
             gameEnded = true;
             hud?.showMessage(GameTexts.levelCompleted, "#4ade80", true);
             const used = candlesManager?.playerUsedCandles ?? 0;
-sessionStorage.setItem(
+            sessionStorage.setItem(
               GAMEOVER_KEY,
               JSON.stringify({
                 folder: currentFolder,
