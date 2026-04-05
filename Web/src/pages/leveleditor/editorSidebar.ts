@@ -7,6 +7,7 @@ import {
 } from './editorTypes';
 import type { EditorState } from './editorState';
 import type { PackAvailability } from './packCatalog';
+import { renderPackPreview } from './packCatalog';
 
 export interface SidebarCallbacks {
     onGroundSelected: (value: number) => void;
@@ -15,21 +16,45 @@ export interface SidebarCallbacks {
     onActionChanged: (action: EditorAction) => void;
 }
 
+export interface SidebarOptions {
+    assetsRoot: string;
+    initialPackId: number;
+}
+
 /**
  * Crea la sidebar con 4 tab: Terreno, Muri, Oggetti, Nemici.
  * Ritorna elemento DOM, updateSingletonButtons, switchToTab.
  */
 export function createSidebar(
     state: EditorState,
-    callbacks: SidebarCallbacks
+    callbacks: SidebarCallbacks,
+    options: SidebarOptions
 ): {
     element: HTMLElement;
     updateSingletonButtons: (s: EditorState) => void;
     switchToTab: (tabId: string) => void;
     updatePackFilter: (avail: PackAvailability) => void;
+    updatePreview: (packId: number) => void;
 } {
     const sidebar = document.createElement('aside');
     sidebar.className = 'editor-sidebar';
+
+    // --- Preview striscia texture pack ---
+    const previewStrip = document.createElement('div');
+    previewStrip.className = 'pack-preview-strip';
+
+    const previewLabel = document.createElement('div');
+    previewLabel.className = 'pack-preview-label';
+    previewLabel.textContent = `Pack ${options.initialPackId}`;
+
+    const previewCells = document.createElement('div');
+    previewCells.className = 'pack-preview-cells';
+
+    previewStrip.appendChild(previewLabel);
+    previewStrip.appendChild(previewCells);
+    sidebar.appendChild(previewStrip);
+
+    renderPackPreview(options.initialPackId, previewCells, options.assetsRoot);
 
     // --- Tab header ---
     const tabsBar = document.createElement('div');
@@ -270,7 +295,12 @@ export function createSidebar(
         });
     }
 
-    return { element: sidebar, updateSingletonButtons, switchToTab, updatePackFilter };
+    function updatePreview(packId: number): void {
+        previewLabel.textContent = `Pack ${packId}`;
+        renderPackPreview(packId, previewCells, options.assetsRoot);
+    }
+
+    return { element: sidebar, updateSingletonButtons, switchToTab, updatePackFilter, updatePreview };
 }
 
 // ---------------------------------------------------------------------------

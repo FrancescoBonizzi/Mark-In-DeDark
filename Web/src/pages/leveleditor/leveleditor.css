@@ -118,6 +118,41 @@
     overflow: hidden;
 }
 
+/* Preview striscia texture pack */
+.pack-preview-strip {
+    padding: 5px 4px 4px;
+    background: #111;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+}
+
+.pack-preview-label {
+    font-size: 9px;
+    color: #666;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pack-preview-cells {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
+}
+
+.pack-preview-cell {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid #333;
+    border-radius: 2px;
+    cursor: default;
+    image-rendering: pixelated;
+}
+
 /* Tab header */
 .editor-tabs {
     display: flex;

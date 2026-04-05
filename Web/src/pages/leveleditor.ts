@@ -14,6 +14,7 @@ import { attachInteraction } from './leveleditor/editorInteraction';
 import { openFile, saveFile, confirmIfDirty } from './leveleditor/editorFileIo';
 import { PREVIEW_LOCAL_KEY, PREVIEW_FOLDER } from '../assets/LevelLoader';
 import { getPackAvailability } from './leveleditor/packCatalog';
+import { AssetsRoot } from '../assets/constants';
 
 let cleanup: (() => void) | null = null;
 let autosaveInterval: ReturnType<typeof setInterval> | null = null;
@@ -115,7 +116,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
-            onPackChangedRef(state.grid.envTexturePackId);
+            onPackChangedRef(state.grid.envTexturePackId);  // aggiorna preview e filtri
         },
         // onOpen
         async () => {
@@ -126,7 +127,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
-            onPackChangedRef(state.grid.envTexturePackId);
+            onPackChangedRef(state.grid.envTexturePackId);  // il file caricato può avere un pack diverso
         },
         // onSave
         () => {
@@ -161,7 +162,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     }
 
     // Sidebar
-    const { element: sidebarEl, updateSingletonButtons, switchToTab, updatePackFilter } = createSidebar(state, {
+    const { element: sidebarEl, updateSingletonButtons, switchToTab, updatePackFilter, updatePreview } = createSidebar(state, {
         onGroundSelected: (value) => {
             state.selectedGround = value;
             state.currentAction = EditorAction.Ground;
@@ -182,7 +183,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
         onActionChanged: (action) => {
             state.currentAction = action;
         },
-    });
+    }, { assetsRoot: AssetsRoot, initialPackId: state.grid.envTexturePackId });
     body.appendChild(sidebarEl);
 
     // Canvas scroll wrapper
@@ -240,7 +241,10 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     rebuildGrid();
 
     // Collega il ref ora che la sidebar è pronta (Task 17)
-    onPackChangedRef = (packId) => updatePackFilter(getPackAvailability(packId));
+    onPackChangedRef = (packId) => {
+        updatePackFilter(getPackAvailability(packId));
+        updatePreview(packId);
+    };
 
     // Applica filtro pack iniziale
     updatePackFilter(getPackAvailability(state.grid.envTexturePackId));
