@@ -46,7 +46,8 @@ export class Key {
             distanceSquared: 2_200,
         });
         // lightMaskScale default=2.0 coprirebbe >2 celle; 0.5 ≈ mezza cella
-        this.surroundingLight.lightMaskScale = 0.5;
+        this.surroundingLight.lightMaskScale = 0.9;
+        this.surroundingLight.opacity = 0.3;
     }
 
     get isCollected(): boolean { return this._collected; }
