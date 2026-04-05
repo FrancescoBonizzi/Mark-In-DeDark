@@ -264,19 +264,19 @@ export function createSidebar(
         });
     }
 
-    // --- updatePackFilter: disabilita ground/wall non disponibili per il pack ---
+    // --- updatePackFilter: nasconde ground/wall non disponibili per il pack ---
     function updatePackFilter(avail: PackAvailability): void {
-        // Ground: NonCella (0) e Riempimento (8, 17-28) sempre disponibili
+        // Ground: NonCella (0) e Riempimento (8, 17-28) sempre visibili
         GROUND_ENTRIES.forEach(entry => {
             if (entry.value === 0 || entry.value === 8 || entry.value >= 17) return;
             const radio = sidebar.querySelector<HTMLInputElement>(
                 `input[name="editor-tool-ground"][value="${entry.value}"]`
             );
             if (!radio) return;
-            const available = avail.availableGrounds.has(entry.value);
-            radio.disabled = !available;
+            const visible = avail.availableGrounds.has(entry.value);
+            radio.disabled = !visible;
             const label = radio.nextElementSibling as HTMLElement | null;
-            if (label) label.style.opacity = available ? '' : '0.3';
+            if (label) label.style.display = visible ? '' : 'none';
         });
 
         // Wall: decal e muri speciali filtrati per pack
@@ -284,21 +284,21 @@ export function createSidebar(
         const SPECWALL_VALUES = new Set([4, 12, 13, 14, 15]);
 
         WALL_ENTRIES.forEach(entry => {
-            let available: boolean;
+            let visible: boolean;
             if (DECAL_VALUES.has(entry.value)) {
-                available = avail.availableDecals.has(entry.value);
+                visible = avail.availableDecals.has(entry.value);
             } else if (SPECWALL_VALUES.has(entry.value)) {
-                available = avail.availableSpecialWalls.has(entry.value);
+                visible = avail.availableSpecialWalls.has(entry.value);
             } else {
-                return; // Occludente, Fragile, Porta, Ingresso, Uscita: sempre disponibili
+                return; // Occludente, Fragile, Porta, Ingresso, Uscita: sempre visibili
             }
             const radio = sidebar.querySelector<HTMLInputElement>(
                 `input[name="editor-tool-wall"][value="${entry.value}"]`
             );
             if (!radio) return;
-            radio.disabled = !available;
+            radio.disabled = !visible;
             const label = radio.nextElementSibling as HTMLElement | null;
-            if (label) label.style.opacity = available ? '' : '0.3';
+            if (label) label.style.display = visible ? '' : 'none';
         });
     }
 

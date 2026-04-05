@@ -138,10 +138,9 @@ export function renderPackPreview(
 
     const canvases: Array<{ canvas: HTMLCanvasElement; frame: FrameCoord }> = [];
 
-    function makeItem(frame: FrameCoord, label: string, dimmed = false): void {
+    function makeItem(frame: FrameCoord, label: string): void {
         const wrapper = document.createElement('div');
         wrapper.className = 'pack-preview-item';
-        if (dimmed) wrapper.style.opacity = '0.3';
 
         const canvas = document.createElement('canvas');
         canvas.width  = PREVIEW_CELL_SIZE;
@@ -165,30 +164,35 @@ export function renderPackPreview(
         container.appendChild(sep);
     }
 
-    // Terra
+    // Terra — solo frame reali
     pd.cells.forEach((pf, idx) => {
-        makeItem(pf.frame, CELL_IDX_TO_LABEL[idx] ?? `Cell${idx + 1}`, !pf.real);
+        if (!pf.real) return;
+        makeItem(pf.frame, CELL_IDX_TO_LABEL[idx] ?? `Cell${idx + 1}`);
     });
 
-    // Riempimento
+    // Riempimento — sempre presenti per tutti i pack
     addSep();
     RIEMPIMENTO_FRAMES.forEach((frame, idx) => {
         makeItem(frame, `Riemp${idx + 1}`);
     });
 
-    // Decal
-    if (pd.decals.length > 0) {
+    // Decal — solo frame reali
+    const realDecals = pd.decals.filter(pf => pf.real);
+    if (realDecals.length > 0) {
         addSep();
         pd.decals.forEach((pf, idx) => {
-            makeItem(pf.frame, `D${idx + 1}`, !pf.real);
+            if (!pf.real) return;
+            makeItem(pf.frame, `D${idx + 1}`);
         });
     }
 
-    // Muri speciali
-    if (pd.specwalls.length > 0) {
+    // Muri speciali — solo frame reali
+    const realSpecwalls = pd.specwalls.filter(pf => pf.real);
+    if (realSpecwalls.length > 0) {
         addSep();
         pd.specwalls.forEach((pf, idx) => {
-            makeItem(pf.frame, `M${idx + 1}`, !pf.real);
+            if (!pf.real) return;
+            makeItem(pf.frame, `M${idx + 1}`);
         });
     }
 
