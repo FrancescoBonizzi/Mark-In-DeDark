@@ -3,6 +3,26 @@
 - Alcuni sono da eseguire, flaggali come fatti
 - Altri sono di approfondimento, sono quelli che iniziano con "Task di approfondimento" in quel caso crea un nuovo task in un heading h2 a parte in cui descrivi come lo faresti, ma non implementarlo. Tutti gli altri task implementali subito invece.
 
+---
+
+## Resoconto notturno — decisioni e ragionamenti
+
+Questa sezione viene aggiornata durante l'esecuzione dei task. Leggila domattina.
+
+### Decisioni preliminari concordate
+
+- **Nome livello nel .mark**: aggiunta riga 2 dedicata (solo il nome, testo plain) dopo `GameGridSerializerV4`. Il parser viene aggiornato per leggere e ignorarla in retrocompatibilità. Tutti i `.mark` esistenti vengono aggiornati con un nome inventato coerente.
+- **Livelli da generare stanotte**: solo livelli 2–5 (Atto I). Livelli 6–20 rimandati.
+- **Estetica menu**: dark amb ambra/arancione come le candele. Horror ma elegante.
+- **Bug "tutto blu" LevelEditor**: già risolto, saltato.
+- **Autonomia**: procedo con giudizio, ogni scelta non ovvia è documentata qui sotto.
+
+### Log esecuzione task
+
+*(aggiornato task per task)*
+
+---
+
 - [ ] LevelEditor: il colore per il muro ingresso/uscita è troppo forte per il testo bianco, cambia uno dei due
 - [ ] LevelEditor: bug, se io apro un livello che un dato texture pack e cambio il texture pack, poi salvo o eseguo il gioco, non viene applicato il nuovo texture pack.
 - [ ] Script di generazione manifest (entrambi), migliora un po' i log, falli più carini con qualche emoji e rimuovi i logo inutili
