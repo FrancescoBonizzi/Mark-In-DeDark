@@ -32,7 +32,6 @@
 ### Interfaccia
 
 - [ ] Fare il menù fatto bene anche con gli sfondi
-- [ ] Far generare all'AI delle immagini tutorial da mettere dentro al menù con HTML ecc per farle vedere a chi lo prova
 - [ ] Gestire bene l'interfaccia dentro al gioco, adesso è un po' buttata a caso, potrei fare la solita barra sotto come in Ghost and gouls, il tempo non serve a niente
 
 ### Colonna sonora

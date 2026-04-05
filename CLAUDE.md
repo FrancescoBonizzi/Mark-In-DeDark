@@ -81,7 +81,7 @@ Workflow per ogni livello:
 5. Quando vuoi finalizzare, converti con `npx ts-node Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii` → genera `N.mark`.
 6. Valida con `npx ts-node Web/scripts/validate-level.ts Web/public/assets/levels/N.mark`.
 7. Se ci sono errori, correggi il `.ascii` e rigenera — non modificare mai il `.mark` a mano.
-8. Aggiungi eventuali nuovi stringCode a `Web/src/ui/GameTexts.ts`.
+8. I testi da mostrare in gioco vanno scritti direttamente nel campo `stringCode` della cella nel file `.ascii` — nessun mapping esterno necessario.
 9. Segna il livello come ✅ in `LEVEL_TASKS.md`.
 
 **Conserva sempre entrambi i file** — `.ascii` è la sorgente editabile, `.mark` è il formato di gioco.
