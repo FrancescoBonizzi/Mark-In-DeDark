@@ -1,0 +1,4 @@
+- [ ] LevelEditor: il colore per il muro ingresso/uscita è troppo forte per il testo bianco, cambia uno dei due
+- [ ] Script di generazione manifest (entrambi), migliora un po' i log, falli più carini con qualche emoji e rimuovi i logo inutili
+- [ ] LevelEditor: il trigger goblin non c'è tra i possibili oggetti da piazzare
+- [ ]

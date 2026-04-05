@@ -1,11 +1,8 @@
 ## Migliorare il gioco
 
-### Level editor
-
-- [ ] Il visualizzatore ASCII lo tengo per l'AI, in modo che mi generi tutti i livelli poi li aggiusto io
-
 ### Livelli
 
+- [ ] Riprovare a farli generare dall'AI, magari prendo i livelli di Marco come esempio, li esporto in ASCII e glieli do da guardare
 - [ ] Farli tutti con la mia storia
 - [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
 - [ ] Predisporre il multilevel pack sulla UI della selezione livelli
