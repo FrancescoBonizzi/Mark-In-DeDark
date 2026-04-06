@@ -221,6 +221,17 @@ Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il
 
 Il giocatore ha **sempre** una candela accesa in mano che illumina il suo intorno. Questa luce è **inesauribile** e non si spegne mai da sola. Le candele raccoglibili nella mappa servono esclusivamente a essere **piazzate a terra** per distrarre i nemici (o illuminare zone fisse). Non servono per sopravvivere al buio: il giocatore può attraversare qualsiasi zona buia finché ha la candela in mano, il che è sempre. Questa distinzione è fondamentale: il game over per "buio" arriva solo se un nemico spegne tutte le candele che il giocatore ha in inventario **e poi** spegne anche quella in mano.
 
+### Pacchetti candela vs candela singola — distinzione per il giocatore
+
+Nel gioco esistono due tipi di oggetti "candela" con interazioni diverse:
+
+- **Pacchetti candela (`CandlePack`):** oggetti sul pavimento che si raccolgono automaticamente **camminandoci sopra**. Danno N candele all'inventario del giocatore. Visivamente sono un gruppo di candele impacchettate.
+- **Candele singole (`Candle`):** candele già posizionate nel livello (accese o spente). Si interagisce con esse premendo **CTRL** mentre ci si è accanto.
+
+Questa distinzione è **contro-intuitiva** per un nuovo giocatore: l'interazione con CTRL funziona per le porte, e il giocatore potrebbe non capire che i pacchetti si raccolgono solo camminandoci sopra.
+
+**Linea guida per il level design (livello 1):** il primo livello deve comunicare questa distinzione via testo narrativo. Il testo deve apparire _prima_ del primo pacchetto candela (es. "Le candele sul pavimento... le prendo senza fermarmi.") e, se il livello contiene anche candele singole, un secondo trigger prima di esse (es. "Questa è già accesa. Ctrl.").
+
 ### Ogni livello è autonomo — nessun carry-over
 
 **L'inventario del giocatore si azzera a ogni livello.** Le candele raccolte in un livello non vengono portate in quello successivo: ogni livello inizia sempre con inventario vuoto. Di conseguenza, ogni livello deve essere progettato come un sistema chiuso: le candele presenti nella mappa sono esattamente quelle disponibili per quel livello, né di più né di meno. Non ha senso lasciare candele "di riserva per dopo" — o servono in quel livello, o non devono esserci. Questa regola vale per qualsiasi risorsa raccoglibile futura.
@@ -270,6 +281,7 @@ Per la documentazione completa dell'AI (stati, transizioni, parametri di velocit
 - **Attraversa i muri:** sì
 - **Luce propria:** sì — aura verde/rosa
 - **Placement consigliato:** il livello di introduzione deve avere un Ghost in una stanza dove il giocatore è solo con lui. Solo dopo, combinarlo con altri nemici che forzano il movimento.
+- **Comunicare la meccanica "stai fermo":** il Ghost attacca solo se il giocatore si muove — ma questa è una meccanica completamente contro-intuitiva. Il giocatore reagisce istintivamente scappando e muore. Il testo narrativo nel livello di introduzione (livello 10) deve suggerirla _prima_ che il Ghost si avvicini, in un corridoio obbligato: `"Immobile. Devo restare immobile."` — una frase sola, breve, in prima persona. Questo è sufficiente a far intuire al giocatore che fermarsi è una risposta valida.
 
 ### Bubu (ObjectType=11) — il sabotatore
 

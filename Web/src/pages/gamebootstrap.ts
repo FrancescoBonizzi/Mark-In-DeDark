@@ -375,6 +375,7 @@ export async function initGame(
               player,
               candlesManager,
             );
+            goblin.onSpeedWarning = () => hud?.showMessage(GameTexts.goblinApproaching, '#ff6600');
             if (goblin.surroundingLight)
               shadowSystem.addLight(goblin.surroundingLight);
             enemies.push(goblin);
@@ -401,6 +402,9 @@ export async function initGame(
     );
     for (const enemy of enemies) {
       enemy.onDeath = (x, y) => grid!.applyBloodDecal(x, y);
+      if (enemy instanceof Goblin) {
+        enemy.onSpeedWarning = () => hud?.showMessage(GameTexts.goblinApproaching, '#ff6600');
+      }
     }
     if (shadowSystem.lights.length === 0) {
       console.warn(

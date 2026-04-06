@@ -416,6 +416,7 @@ Il giocatore entra, il Ghost si avvicina. Se si muove viene attaccato. Deve star
 
 _Testi (ogni riga = trigger separato):_
 
+> "Immobile. Devo restare immobile." _(corridoio obbligato prima della stanza del Ghost — il testo insegna la meccanica PRIMA dell'incontro)_
 > "Non guardarlo." _(entrando nella stanza — zona pericolosa, 2 parole)_
 > "Ombre che un tempo erano ragazzi come me." _(dopo il Ghost, zona sicura — player respira)_
 

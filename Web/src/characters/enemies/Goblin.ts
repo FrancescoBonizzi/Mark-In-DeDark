@@ -7,9 +7,17 @@ import { CandlesManager } from '../../objects/CandlesManager';
 import { PlayerHunterAI } from '../../ai/PlayerHunterAI';
 import { buildEnemyAnimations } from './enemyAnimations';
 
+function lerpColor(c1: number, c2: number, t: number): number {
+    const r = Math.round(((c1 >> 16) & 0xff) + (((c2 >> 16) & 0xff) - ((c1 >> 16) & 0xff)) * t);
+    const g = Math.round(((c1 >> 8) & 0xff) + (((c2 >> 8) & 0xff) - ((c1 >> 8) & 0xff)) * t);
+    const b = Math.round((c1 & 0xff) + ((c2 & 0xff) - (c1 & 0xff)) * t);
+    return (r << 16) | (g << 8) | b;
+}
+
 const BASE_SPEED_S = 0.8;
 const SPEED_DECREMENT = 0.1; // Gets faster with each candle placed
 const MIN_SPEED_S = 0.2;
+const SPEED_WARNING_THRESHOLD_MS = 500; // Below 0.5s/cell → warn player
 
 const TORCH_OFFSETS = {
     up:    { x: -35, y: -10 },
@@ -20,6 +28,10 @@ const TORCH_OFFSETS = {
 
 export class Goblin extends Enemy {
     private _lastUsedCandleCount = 0;
+    private _speedWarningFired = false;
+
+    /** Called once when Goblin crosses the speed warning threshold. */
+    onSpeedWarning: (() => void) | undefined;
 
     constructor(
         grid: GameGrid,
@@ -72,6 +84,19 @@ export class Goblin extends Enemy {
             this._lastUsedCandleCount = currentUsed;
             const newSpeed = Math.max(MIN_SPEED_S, this.movementSpeedMS / 1000 - SPEED_DECREMENT * increments);
             this.movementSpeedMS = newSpeed * 1000;
+
+            // One-time warning when speed crosses threshold
+            if (!this._speedWarningFired && this.movementSpeedMS < SPEED_WARNING_THRESHOLD_MS) {
+                this._speedWarningFired = true;
+                this.onSpeedWarning?.();
+            }
+
+            // Progressive tint: 0 candles = white, 3 = orange, 6+ = red
+            if (currentUsed <= 3) {
+                this._mainSprite.tint = lerpColor(0xFFFFFF, 0xFF8800, currentUsed / 3);
+            } else {
+                this._mainSprite.tint = lerpColor(0xFF8800, 0xFF2200, Math.min((currentUsed - 3) / 3, 1));
+            }
         }
         super.update(deltaMS);
     }
