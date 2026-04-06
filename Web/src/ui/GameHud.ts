@@ -68,6 +68,16 @@ export class GameHud {
     rightWrap.appendChild(this._levelEl);
     rightWrap.appendChild(this._diaryBadge);
 
+    // Specchietto tasti (sopra la barra)
+    const keysEl = document.createElement("div");
+    keysEl.id = "hud-keys-hint";
+    keysEl.innerHTML =
+      "<span>↑↓←→ muovi</span>" +
+      "<span>Spazio candela</span>" +
+      "<span>Ctrl porta</span>" +
+      "<span>T diario</span>";
+    parent.appendChild(keysEl);
+
     this._el.appendChild(this._candlesEl);
     this._el.appendChild(this._keyEl);
     this._el.appendChild(rightWrap);
@@ -255,6 +265,7 @@ export class GameHud {
     document.removeEventListener("keydown", this._onKeyDown);
     this._removeCellText();
     this._diaryOverlay?.remove();
+    document.getElementById("hud-keys-hint")?.remove();
     this._el.remove();
     // Rimuovi eventuali popup rimasti
     for (const p of this._popups) p.el.remove();

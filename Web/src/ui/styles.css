@@ -405,6 +405,23 @@ canvas { display: block; }
     gap: 8px;
 }
 
+/* Specchietto tasti — sopra la barra HUD */
+#hud-keys-hint {
+    position: fixed;
+    bottom: 44px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    padding: 3px 20px;
+    font: 400 14px/1 "VT323", monospace;
+    color: #3a3028;
+    pointer-events: none;
+    z-index: 99;
+    letter-spacing: 0.04em;
+}
+
 .hud-candles {
     flex: 0 0 auto;
     opacity: 0.9;
