@@ -1,40 +1,49 @@
-import router from './router';
-import { LEVEL_FOLDERS } from '../generatedLevelManifest';
-import { blockIfNoKeyboard } from '../services/DeviceGuard';
+import { LEVEL_FOLDERS } from "../generatedLevelManifest";
+import { blockIfNoKeyboard } from "../services/DeviceGuard";
+import router from "./router";
 
 export function renderLevelSelectPage(container: HTMLElement) {
-    if (blockIfNoKeyboard(container)) return;
+  if (blockIfNoKeyboard(container)) return;
 
-    const defaultFolder = LEVEL_FOLDERS.find(f => f.folder === 'default');
-    const expansionFolders = LEVEL_FOLDERS.filter(f => f.folder !== 'default');
+  const defaultFolder = LEVEL_FOLDERS.find((f) => f.folder === "default");
+  const expansionFolders = LEVEL_FOLDERS.filter((f) => f.folder !== "default");
 
-    const defaultCard = defaultFolder ? `
+  const defaultCard = defaultFolder
+    ? `
 <a href="/levels/default" class="story-card" data-navigo>
     <div class="story-card__eyes" aria-hidden="true"></div>
     <div class="story-card__content">
         <div class="story-card__eyebrow">STORIA UFFICIALE</div>
-        <h2 class="story-card__title">La Discesa di Mark</h2>
+        <h2 class="story-card__title">Il ventre del padre</h2>
         <p class="story-card__desc">
-            ${defaultFolder.levels.length} livell${defaultFolder.levels.length === 1 ? 'o' : 'i'} &nbsp;·&nbsp; Atto I–IV
+            ${defaultFolder.levels.length} livell${defaultFolder.levels.length === 1 ? "o" : "i"} &nbsp;·&nbsp; Atto I–IV
         </p>
         <span class="story-card__cta">INIZIA ▶</span>
     </div>
-</a>` : '';
+</a>`
+    : "";
 
-    const expansionCards = expansionFolders.length > 0 ? `
+  const expansionCards =
+    expansionFolders.length > 0
+      ? `
 <section class="expansions">
     <h3 class="expansions__label">— ESPANSIONI —</h3>
     <div class="expansions__grid">
-        ${expansionFolders.map(f => `
+        ${expansionFolders
+          .map(
+            (f) => `
         <a href="/levels/${f.folder}" class="expansion-card" data-navigo>
             <span class="expansion-card__border"></span>
             <span class="expansion-card__name">${f.displayName}</span>
-            <span class="expansion-card__count">${f.levels.length} livell${f.levels.length === 1 ? 'o' : 'i'}</span>
-        </a>`).join('')}
+            <span class="expansion-card__count">${f.levels.length} livell${f.levels.length === 1 ? "o" : "i"}</span>
+        </a>`,
+          )
+          .join("")}
     </div>
-</section>` : '';
+</section>`
+      : "";
 
-    container.innerHTML = `
+  container.innerHTML = `
 <div class="level-select-page">
     <div class="level-select-page__bg-glow"></div>
 
@@ -50,5 +59,5 @@ export function renderLevelSelectPage(container: HTMLElement) {
 </div>
 `;
 
-    router.updatePageLinks();
+  router.updatePageLinks();
 }
