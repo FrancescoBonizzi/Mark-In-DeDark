@@ -17,7 +17,7 @@
 - [ ] Suoni ambientali generati con AI -> repo Michele
   - [ ] Crepitio del fuoco braceri
   - [ ] Crepitio della candela
-  - [ ] Versi dei mostri
+  - [ ] Versi dei mostri (uno diverso per ogni mostro)
   - [ ] Passi del player
   - [ ] Passi dei mostri con volume legato alla distanza e direzionalità
   - [ ] Suono da gioco quando prendi il pacco di candele, quando prendi la chiave
