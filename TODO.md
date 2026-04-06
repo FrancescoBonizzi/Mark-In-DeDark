@@ -15,13 +15,18 @@
 
 - [ ] Rach in sottofondo molto leggero e loppato
 - [ ] Suoni ambientali generati con AI -> repo Michele
-  - [ ] Crepitio del fuoco vicino ai braceri
+  - [ ] Crepitio del fuoco braceri
+  - [ ] Crepitio della candela
   - [ ] Versi dei mostri
-  - [ ]
+  - [ ] Passi del player
+  - [ ] Passi dei mostri con volume legato alla distanza e direzionalità
+  - [ ] Suono da gioco quando prendi il pacco di candele, quando prendi la chiave
+  - [ ] Suono quando apri e chiudi le porte
 - [ ] Chiedi all'AI consigli dopo aver comunque già impostato alcune cose
 
 ## Erogarlo sul mio sito
 
+- [ ] Mark: articolo sul sito, parla di shader. Ho unito la mia passione per i videogiochi con la mia passione per la matematica e spiega gli shader-chiedi aiuto all’ai per scrivere articoli. E ancje quello di infatt e starfall arricchisco meglio, non farlo solo markettaro
 - [ ] Fare in modo che funzioni online
 - [ ] Post LinkedIn e tutto il resto
 - [ ] Open source

@@ -12,10 +12,10 @@ import { getTexture } from '../../assets/AssetsLoader';
 
 const SPEED_S = 1.5;
 const TORCH_OFFSETS = {
-    up:    { x: 25, y: 10 },
-    left:  { x:  0, y: 25 },
-    right: { x:  0, y: 25 },
-    down:  { x: -25, y: 10 },
+    up:    { x: 25, y: -20 },
+    left:  { x:  0, y: -20 },
+    right: { x:  0, y: -20 },
+    down:  { x: -25, y: -20 },
 };
 
 function buildTaurusAnim(sheets: Spritesheet[], dir: string, type: string, count: number): SpriteAnimation {
