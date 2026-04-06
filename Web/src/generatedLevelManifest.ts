@@ -14,14 +14,16 @@ export interface FolderManifest {
 
 export const LEVEL_FOLDERS: readonly FolderManifest[] = [
     { folder: "ai", displayName: "Ai", levels: [
-      { id: 1, name: "Test AI" }
-    ] as const },
-    { folder: "default", displayName: "Default", levels: [
       { id: 1, name: "L'ingresso" },
       { id: 2, name: "Il buio" },
       { id: 3, name: "La prima creatura" },
       { id: 4, name: "Gli automi" },
       { id: 5, name: "I corridoi del rito" }
+    ] as const },
+    { folder: "default", displayName: "Default", levels: [
+      { id: 1, name: "Primo livello" },
+      { id: 2, name: "Secondo livello" },
+      { id: 3, name: "Terzo livello" }
     ] as const },
     { folder: "demo", displayName: "Demo", levels: [
       { id: 1, name: "Demo - Il Giardino" },
