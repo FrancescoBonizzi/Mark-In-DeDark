@@ -1,14 +1,14 @@
-import router from './router';
-import { unlockHowler, isAudioUnlocked } from '../services/AudioUnlocker';
-import { blockIfNoKeyboard } from '../services/DeviceGuard';
-import { AssetsRoot } from '../assets/constants';
+import { AssetsRoot } from "../assets/constants";
+import { isAudioUnlocked, unlockHowler } from "../services/AudioUnlocker";
+import { blockIfNoKeyboard } from "../services/DeviceGuard";
+import router from "./router";
 
 export function renderMenuPage(container: HTMLElement) {
-    if (blockIfNoKeyboard(container)) return;
+  if (blockIfNoKeyboard(container)) return;
 
-    const logoSrc = `${AssetsRoot}assets/logo.png`;
+  const logoSrc = `${AssetsRoot}assets/logo.png`;
 
-    container.innerHTML = `
+  container.innerHTML = `
 <div class="main-menu">
     <div class="main-menu__bg-glow"></div>
     <div class="main-menu__embers" aria-hidden="true">
@@ -40,27 +40,30 @@ export function renderMenuPage(container: HTMLElement) {
                 ✦&nbsp; LEVEL EDITOR
             </a>
         </nav>
-
-        <div class="main-menu__footer">
-            <span class="main-menu__footer-line">usa i tasti freccia &nbsp;·&nbsp; premi invio</span>
-        </div>
     </div>
 </div>
 `;
 
-    router.updatePageLinks();
+  router.updatePageLinks();
 
-    const audioButton = container.querySelector<HTMLAnchorElement>('#audio-button');
-    if (audioButton) {
-        if (isAudioUnlocked()) {
-            audioButton.innerHTML = audioButton.innerHTML.replace('ATTIVA AUDIO', 'AUDIO ATTIVO ✓');
-            audioButton.classList.add('menu-btn--disabled');
-        } else {
-            audioButton.addEventListener('click', async () => {
-                await unlockHowler();
-                audioButton.innerHTML = audioButton.innerHTML.replace('ATTIVA AUDIO', 'AUDIO ATTIVO ✓');
-                audioButton.classList.add('menu-btn--disabled');
-            });
-        }
+  const audioButton =
+    container.querySelector<HTMLAnchorElement>("#audio-button");
+  if (audioButton) {
+    if (isAudioUnlocked()) {
+      audioButton.innerHTML = audioButton.innerHTML.replace(
+        "ATTIVA AUDIO",
+        "AUDIO ATTIVO ✓",
+      );
+      audioButton.classList.add("menu-btn--disabled");
+    } else {
+      audioButton.addEventListener("click", async () => {
+        await unlockHowler();
+        audioButton.innerHTML = audioButton.innerHTML.replace(
+          "ATTIVA AUDIO",
+          "AUDIO ATTIVO ✓",
+        );
+        audioButton.classList.add("menu-btn--disabled");
+      });
     }
+  }
 }
