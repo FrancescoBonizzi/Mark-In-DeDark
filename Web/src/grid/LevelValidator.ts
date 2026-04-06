@@ -115,13 +115,24 @@ export function validateLevel(text: string): ValidationResult {
         return { errors, warnings };
     }
 
-    // Dimensioni
+    // Dimensioni — salta la riga del nome se presente (non contiene '|')
     if (nonEmpty.length < 2) {
         addError('Mancano dimensioni e celle.');
         return { errors, warnings };
     }
 
-    const dimLine = nonEmpty[1]!;
+    let nextIdx = 1;
+    if (!nonEmpty[1]!.content.includes('|')) {
+        nextIdx = 2; // nome presente, dimensioni sono alla riga successiva
+    }
+
+    if (nonEmpty.length <= nextIdx) {
+        addError('Il file termina dopo il nome: mancano dimensioni e celle.');
+        return { errors, warnings };
+    }
+
+    const dimLine = nonEmpty[nextIdx]!;
+    nextIdx++;
     const dimParts = dimLine.content.split('|');
     if (dimParts.length !== 2 || !isInt(dimParts[0]!) || !isInt(dimParts[1]!)) {
         addError(`Riga ${dimLine.lineNumber}: formato dimensioni non valido. Atteso "RIGHE|COLONNE".`);
@@ -139,12 +150,13 @@ export function validateLevel(text: string): ValidationResult {
     }
 
     // Configurazione ambiente
-    if (nonEmpty.length < 3) {
+    if (nonEmpty.length <= nextIdx) {
         addError('Mancano configurazione ambiente e celle.');
         return { errors, warnings };
     }
 
-    const envLine = nonEmpty[2]!;
+    const envLine = nonEmpty[nextIdx]!;
+    nextIdx++;
     const envParts = envLine.content.split('|');
     if (envParts.length !== 2 || !isInt(envParts[0]!) || !isInt(envParts[1]!)) {
         addError(`Riga ${envLine.lineNumber}: formato configurazione ambiente non valido.`);
@@ -160,7 +172,7 @@ export function validateLevel(text: string): ValidationResult {
     }
 
     // Celle
-    const cellLines = nonEmpty.slice(3);
+    const cellLines = nonEmpty.slice(nextIdx);
     const parsedCells: CellEntry[] = [];
     const seenPositions = new Map<string, number>();
 

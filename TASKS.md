@@ -5,11 +5,67 @@
 
 ---
 
-- [ ] LevelEditor: quando salvo continuo ad avere l'errore: "• ERRORE: Riga 2: formato dimensioni non valido. Atteso "RIGHE|COLONNE"." Penso sia perché abbiamo cambiato il formato aggiungendo il titolo del gioco, adegua anche il validatore
-- [ ] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
-- [ ] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
-- [ ] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? Attualmente sono due porte quasi identiche, le ho dato colori diversi ma non è sufficiente per renderlo intuitivo. Inoltre attualmente appena prendi la chiave, la porta dell'uscita si apre. E questo è un po' confusionario perchè uno non capisce perché prende la chiave, trovando una porta già aperta.
-- [ ] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
+- [x] LevelEditor: quando salvo continuo ad avere l'errore: "• ERRORE: Riga 2: formato dimensioni non valido. Atteso "RIGHE|COLONNE"." Penso sia perché abbiamo cambiato il formato aggiungendo il titolo del gioco, adegua anche il validatore
+- [x] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
+- [x] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
+- [x] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? → vedi Approfondimento 5
+- [x] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
+
+---
+
+## Approfondimento 5 — Distinguere entrata da uscita
+
+### Problema
+
+Le due porte (Ingresso e Uscita) sono visivamente quasi identiche. Il colore diverso non basta a renderle intuitive. In più, l'uscita si apre nel momento in cui il giocatore raccoglie la chiave — chi ci passa sopra dopo trova una porta già aperta e non capisce perché ce l'ha la chiave.
+
+### Analisi del problema in due parti
+
+---
+
+**Parte A — Distinguere visivamente entrata e uscita**
+
+Opzione A1 — **Simbolo sovrapposto alla porta**
+Aggiungere un'icona/sprite statico sopra la porta: per l'ingresso una freccia verso il basso (o simbolo "entrata"), per l'uscita una freccia verso l'alto (o simbolo "scaletta"). Già in uso in molti dungeon roguelike.
+- Pro: immediato, zero ambiguità, nessuna texture nuova se usi un testo/simbolo
+- Contro: richiede un asset sprite
+
+Opzione A2 — **Testo narrativo obbligatorio**
+Il livello 1 introduce entrambe le porte con testo trigger (es. "Questa è la porta da cui sono entrato" e "Questa porta è chiusa — serve qualcosa per aprirla"). Dall'Atto II in poi il giocatore ha già il modello mentale.
+- Pro: zero modifica al codice, funziona col sistema di trigger già esistente
+- Contro: funziona solo per chi legge i testi; non aiuta chi li salta
+
+Opzione A3 — **Luce colorata diversa** (già parzialmente fatto)
+Intensificare la differenza: ingresso con luce calda (ambra/arancione), uscita con luce fredda (ciano), e aggiungere una pulsazione sulla porta dell'uscita quando è aperta.
+- Pro: atmosfera, no asset nuovi
+- Contro: meno intuitivo rispetto a un simbolo esplicito
+
+**Raccomandazione A:** Opzione A2 per i livelli 1–3, Opzione A3 (già implementata) + A2 per i livelli successivi. La soluzione permanente A1 va pianificata per quando ci sono risorse grafiche disponibili.
+
+---
+
+**Parte B — La porta si apre "da sola" quando prendi la chiave**
+
+Il problema: appena il giocatore raccoglie la chiave, `exit.setOpen()` chiama `_exitDoor.setOpen()` che apre la porta visivamente. Se il giocatore poi si avvicina all'uscita trova una porta già aperta e la connessione causale (chiave → porta) non è chiara.
+
+Opzioni:
+
+**B1 — Porta rimane chiusa visivamente, si apre solo all'interazione**
+Il giocatore, quando cammina sull'uscita con la chiave, vede la porta aprirsi in quel momento. La chiave "si usa" sul posto.
+- Come implementare: non chiamare `_exitDoor.setOpen()` in `key.collect()`. Chiamarlo invece in `gamebootstrap.ts` quando il player entra nella collision rect dell'uscita con `key.isCollected === true`.
+- Impatto minimo: 2-3 righe in `gamebootstrap.ts`, zero modifiche al sistema porte.
+- Pro: connessione causale chiara (metti piede sulla porta, la porta si apre)
+- Contro: il giocatore deve sapere dove andare
+
+**B2 — Porta rimane chiusa ma lampeggia/pulsa quando hai la chiave**
+Quando `key.isCollected === true`, la porta dell'uscita inizia a pulsare (tint che oscilla) come segnale "c'è qualcosa qui che aspetta la chiave". Si apre ancora all'interazione.
+- Implementazione: flag `Exit.hasKey: boolean` aggiornato da `gamebootstrap.ts`; in `Exit.update()` si applica un tint oscillante se `hasKey && !isOpen`.
+
+**B3 — Porta aperta, ma con chiave visibile sulla porta fino all'arrivo**
+La porta si apre visivamente (comportamento attuale), ma finché il giocatore non ci arriva appare una chiave rotante sopra. Questo segnala "la tua chiave ha fatto qualcosa LÌ".
+- Implementazione: sprite key overlay sull'uscita, rimosso quando il player entra nella collision.
+
+**Raccomandazione B:** Opzione B1 è la più pulita narrativamente e la più semplice da implementare. Nessun asset nuovo, 3 righe di codice, risolve completamente la confusione.
 
 ---
 

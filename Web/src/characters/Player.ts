@@ -101,6 +101,12 @@ export class Player extends Character {
   /** Called when the player tries to interact but gets a feedback message. */
   onMessage: ((text: string, color: string) => void) | undefined = undefined;
 
+  private _isExiting = false;
+  // C# PlayerWinAnimation: 2px / 10ms = 0.2 px/ms upward; adapt to PixiJS scale
+  private static readonly WIN_MOVE_RATE = 0.2; // px/ms
+  // Fade from alpha 1 to 0 over ~1200ms (matches setTimeout(navigate, 1200))
+  private static readonly WIN_FADE_RATE = 1 / 1200;
+
   constructor(
     grid: GameGrid,
     sheets: Spritesheet[],
@@ -149,6 +155,45 @@ export class Player extends Character {
   /** Wire up the CandlesManager so the player can place candles. */
   setCandlesManager(mgr: CandlesManager): void {
     this._candlesManager = mgr;
+  }
+
+  /** Avvia l'animazione di vittoria (port of C# Player.Win). */
+  win(): void {
+    if (this._isExiting) return;
+    this._isExiting = true;
+    this._animations.play('WalkUp');
+    this._stopCurrentMovement();
+  }
+
+  override update(deltaMS: number): void {
+    if (this._isExiting) {
+      this._updateWinAnimation(deltaMS);
+      return;
+    }
+    super.update(deltaMS);
+  }
+
+  private _updateWinAnimation(deltaMS: number): void {
+    this._animations.update(deltaMS);
+
+    this._y -= Player.WIN_MOVE_RATE * deltaMS;
+
+    const newAlpha = Math.max(0, this._mainSprite.alpha - Player.WIN_FADE_RATE * deltaMS);
+    this._mainSprite.alpha = newAlpha;
+    this._normalSprite.alpha = newAlpha;
+
+    this._mainSprite.texture = this._animations.currentFrameTexture;
+    this._mainSprite.x = this._x;
+    this._mainSprite.y = this._y;
+    this._normalSprite.x = this._x;
+    this._normalSprite.y = this._y;
+
+    if (this.surroundingLight) {
+      this.surroundingLight.position.x = this._x + TORCH_OFFSETS.up.x;
+      this.surroundingLight.position.y = this._y + TORCH_OFFSETS.up.y;
+      this.surroundingLight.opacity = newAlpha;
+      this.surroundingLight.update(deltaMS);
+    }
   }
 
   override handleInput(action: CharacterActions): void {

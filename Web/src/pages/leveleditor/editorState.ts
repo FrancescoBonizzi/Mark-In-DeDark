@@ -166,6 +166,22 @@ export function setWallType(
         return { ok: false, reason: 'Ingresso/Uscita è ammesso solo sul lato superiore.' };
     }
 
+    if (wallType !== 0) {
+        const [dColExt, dRowExt] = ADJACENT_DELTA[wallPosition]!;
+        const adjColExt = col + dColExt;
+        const adjRowExt = row + dRowExt;
+
+        // Regola "solo interni": la cella adiacente deve esistere e non essere NonCella
+        if (adjColExt < 0 || adjColExt >= state.grid.columns ||
+            adjRowExt < 0 || adjRowExt >= state.grid.rows) {
+            return { ok: false, reason: 'I muri possono essere piazzati solo tra celle esistenti (non sul bordo esterno della mappa).' };
+        }
+        const adjCellExt = state.grid.grid[adjColExt]?.[adjRowExt];
+        if (!adjCellExt || adjCellExt.groundType === 0) {
+            return { ok: false, reason: 'I muri possono essere piazzati solo tra celle non vuote.' };
+        }
+    }
+
     // Regola doppio muro: se sto aggiungendo un muro (wallType != 0),
     // la cella adiacente non può già avere un muro sul lato opposto.
     if (wallType !== 0) {

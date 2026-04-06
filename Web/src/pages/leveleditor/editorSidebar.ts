@@ -272,9 +272,11 @@ export function createSidebar(
 
     // --- updatePackFilter: nasconde ground/wall non disponibili per il pack ---
     function updatePackFilter(avail: PackAvailability): void {
-        // Ground: NonCella (0) e Riempimento (8, 17-28) sempre visibili
+        // Ground: NonCella (0), terreni speciali (3,4,5,7) e Riempimento (8, 17-28) sempre visibili
         GROUND_ENTRIES.forEach(entry => {
-            if (entry.value === 0 || entry.value === 8 || entry.value >= 17) return;
+            if (entry.value === 0 || entry.value === 3 || entry.value === 4 ||
+                entry.value === 5 || entry.value === 7 || entry.value === 8 ||
+                entry.value >= 17) return;
             const radio = sidebar.querySelector<HTMLInputElement>(
                 `input[name="editor-tool-ground"][value="${entry.value}"]`
             );

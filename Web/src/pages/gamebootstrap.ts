@@ -470,6 +470,7 @@ export async function initGame(
         if (intersects(player.collisionRectangle, exit.collisionRectangle)) {
           if (exit.isOpen) {
             gameEnded = true;
+            player.win();
             hud?.showMessage(GameTexts.levelCompleted, "#4ade80", true);
             const used = candlesManager?.playerUsedCandles ?? 0;
             sessionStorage.setItem(
