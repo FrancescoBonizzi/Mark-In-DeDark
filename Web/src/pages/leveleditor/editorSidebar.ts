@@ -206,8 +206,14 @@ export function createSidebar(
     groupHelp.className = 'waypoint-group-help';
     groupHelp.textContent = 'Il waypoint viene auto-generato al click. Modifica nel prompt se necessario.';
 
+    const goblinTriggerHint = document.createElement('div');
+    goblinTriggerHint.className = 'waypoint-group-help';
+    goblinTriggerHint.style.marginTop = '6px';
+    goblinTriggerHint.textContent = '⚡ Per far spawnare un Goblin usa "Trappola Goblin" nel tab Terra.';
+
     enemyPanel.appendChild(groupControl);
     enemyPanel.appendChild(groupHelp);
+    enemyPanel.appendChild(goblinTriggerHint);
 
     ENEMY_ENTRIES.forEach(entry => {
         const isSelected = entry.value === state.selectedObject &&

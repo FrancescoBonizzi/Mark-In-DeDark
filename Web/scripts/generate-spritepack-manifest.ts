@@ -21,7 +21,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
-console.info();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ssDir = path.join(
   __dirname,
@@ -126,16 +125,14 @@ const [pss, px, py] = placeholderKey.split(":").map(Number) as [
 ];
 const placeholder: FrameCoord = { ss: pss, x: px, y: py };
 
-console.info(
-  `Placeholder rilevato: SS${pss} (${px},${py}) — appare ${coordFreq.get(placeholderKey)} volte`,
-);
+console.info(`🔍 Placeholder rilevato: SS${pss} (${px},${py}) — appare ${coordFreq.get(placeholderKey)} volte`);
 
 // ---------------------------------------------------------------------------
 // Generazione output TypeScript
 // ---------------------------------------------------------------------------
 
 const packIds = [...packs.keys()].sort((a, b) => a - b);
-console.info(`Pack trovati: ${packIds.join(", ")}`);
+console.info(`🎨 Pack trovati: ${packIds.length} → [${packIds.join(", ")}]`);
 
 function coordStr(c: FrameCoord): string {
   return `{ss:${c.ss},x:${c.x},y:${c.y}}`;
@@ -204,4 +201,4 @@ ${packsCode}
 `;
 
 fs.writeFileSync(outFile, output, "utf-8");
-console.info(`Manifesto SpriteSheet per level-editor scritto in ${outFile}`);
+console.info(`✅ Manifesto spritepacks scritto → ${path.relative(process.cwd(), outFile)}`);

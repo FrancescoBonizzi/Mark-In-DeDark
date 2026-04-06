@@ -86,6 +86,10 @@
     width: 180px;
 }
 
+.editor-toolbar .toolbar-levelname {
+    width: 220px;
+}
+
 .editor-toolbar .dirty-indicator {
     font-size: 11px;
     color: #ff9900;

@@ -14,11 +14,19 @@ export function parseLevel(text: string): GridBundle {
         throw new Error('Invalid level format: expected GameGridSerializerV4');
     }
 
-    const headerParts = lines[1]!.split('|');
+    // Riga 1: nome del livello (opzionale per retrocompatibilità)
+    // Se la riga 1 contiene '|' è il vecchio formato senza nome → il nome è vuoto
+    const hasNameLine = lines[1] !== undefined && !lines[1]!.includes('|');
+    const levelName = hasNameLine ? lines[1]!.trim() : '';
+    const dimLineIdx = hasNameLine ? 2 : 1;
+    const envLineIdx = hasNameLine ? 3 : 2;
+    const cellsStartIdx = hasNameLine ? 4 : 3;
+
+    const headerParts = lines[dimLineIdx]!.split('|');
     const rows = Number(headerParts[0]);
     const cols = Number(headerParts[1]);
 
-    const envParts = lines[2]!.split('|');
+    const envParts = lines[envLineIdx]!.split('|');
     const envTexturePackId = Number(envParts[0]);
     const dirtyProbabilityPct = Number(envParts[1]);
 
@@ -28,7 +36,7 @@ export function parseLevel(text: string): GridBundle {
         () => new Array<CellData | null>(rows).fill(null)
     );
 
-    for (let i = 3; i < lines.length; i++) {
+    for (let i = cellsStartIdx; i < lines.length; i++) {
         const line = lines[i]!.trim();
         if (!line) continue;
 
@@ -62,7 +70,7 @@ export function parseLevel(text: string): GridBundle {
         };
     }
 
-    return { rows, columns: cols, envTexturePackId, dirtyProbabilityPct, grid };
+    return { rows, columns: cols, envTexturePackId, dirtyProbabilityPct, levelName, grid };
 }
 
 export async function loadAndParseLevel(folder: string, levelId: number): Promise<GridBundle> {

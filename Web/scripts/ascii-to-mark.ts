@@ -375,9 +375,10 @@ function parseAscii(text: string): ParsedAscii {
 // Serializzazione → .mark
 // ---------------------------------------------------------------------------
 
-function serializeMark(packId: number, dirty: number, cells: (Cell | null)[][]): string {
+function serializeMark(packId: number, dirty: number, cells: (Cell | null)[][], levelName: string): string {
     const lines: string[] = [
         'GameGridSerializerV4',
+        levelName,
         '25|45',
         `${packId}|${dirty}`,
     ];
@@ -414,10 +415,14 @@ function serializeMark(packId: number, dirty: number, cells: (Cell | null)[][]):
 const args = process.argv.slice(2);
 const outIdx = args.indexOf('-o');
 const outFile = outIdx >= 0 ? args[outIdx + 1] : undefined;
-const positional = args.filter((a, i) => !a.startsWith('-') && args[i - 1] !== '-o');
+const nameIdx = args.indexOf('-n');
+const levelName = nameIdx >= 0 ? (args[nameIdx + 1] ?? '') : '';
+const positional = args.filter((a, i) =>
+    !a.startsWith('-') && args[i - 1] !== '-o' && args[i - 1] !== '-n'
+);
 
 if (positional.length === 0) {
-    console.error('Uso: npx tsx scripts/ascii-to-mark.ts <livello.ascii> [-o output.mark]');
+    console.error('Uso: npx tsx scripts/ascii-to-mark.ts <livello.ascii> [-o output.mark] [-n "Nome Livello"]');
     process.exit(1);
 }
 
@@ -432,7 +437,7 @@ try {
 }
 
 const { packId, dirty, cells } = parseAscii(content);
-const markContent = serializeMark(packId, dirty, cells);
+const markContent = serializeMark(packId, dirty, cells, levelName);
 
 if (outFile) {
     const outPath = resolve(outFile);

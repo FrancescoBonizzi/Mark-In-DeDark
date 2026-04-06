@@ -116,7 +116,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
-            onPackChangedRef(state.grid.envTexturePackId);  // aggiorna preview e filtri
+            onPackChangedRef(state.grid.envTexturePackId);
         },
         // onOpen
         async () => {
@@ -127,7 +127,7 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             rebuildGrid();
             updateSingletonButtons(state);
             updateToolbar();
-            onPackChangedRef(state.grid.envTexturePackId);  // il file caricato può avere un pack diverso
+            onPackChangedRef(state.grid.envTexturePackId);
         },
         // onSave
         () => {
@@ -140,8 +140,17 @@ export function renderLevelEditorPage(container: HTMLElement): void {
             const url = `${window.location.origin}${window.location.pathname}#/game/${PREVIEW_FOLDER}/0`;
             window.open(url, '_blank');
         },
-        // onPackChanged
-        (packId) => onPackChangedRef(packId)
+        // onPackChanged — muta lo state corrente (non quello catturato in buildToolbar)
+        (packId) => {
+            state.grid.envTexturePackId = packId;
+            onPackChangedRef(packId);
+        },
+        // onDirtyChanged
+        (pct) => { state.grid.dirtyProbabilityPct = pct; },
+        // onFilenameChanged
+        (name) => { state.currentFilename = name; },
+        // onLevelNameChanged
+        (name) => { state.grid.levelName = name; },
     );
     page.appendChild(toolbar);
 
@@ -225,6 +234,9 @@ export function renderLevelEditorPage(container: HTMLElement): void {
     }
 
     function updateToolbar(): void {
+        const nameInput = toolbar.querySelector<HTMLInputElement>('.toolbar-levelname');
+        if (nameInput) nameInput.value = state.grid.levelName;
+
         const filenameInput = toolbar.querySelector<HTMLInputElement>('.toolbar-filename');
         if (filenameInput) filenameInput.value = state.currentFilename;
 
@@ -266,7 +278,10 @@ function buildToolbar(
     onOpen: () => void,
     onSave: () => void,
     onTestInGame: () => void,
-    onPackChanged: (packId: number) => void
+    onPackChanged: (packId: number) => void,
+    onDirtyChanged: (pct: number) => void,
+    onFilenameChanged: (name: string) => void,
+    onLevelNameChanged: (name: string) => void,
 ): { toolbar: HTMLElement; setAutosaveStatus: (msg: string) => void } {
     const toolbar = document.createElement('div');
     toolbar.className = 'editor-toolbar';
@@ -292,6 +307,22 @@ function buildToolbar(
 
     toolbar.appendChild(makeSep());
 
+    // Nome livello
+    const lbName = document.createElement('label');
+    lbName.textContent = 'Nome:';
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.className = 'toolbar-levelname';
+    nameInput.placeholder = 'Nome del livello';
+    nameInput.value = state.grid.levelName;
+    nameInput.addEventListener('change', () => {
+        onLevelNameChanged(nameInput.value);
+    });
+    toolbar.appendChild(lbName);
+    toolbar.appendChild(nameInput);
+
+    toolbar.appendChild(makeSep());
+
     // Nome file
     const lbFile = document.createElement('label');
     lbFile.textContent = 'File:';
@@ -300,7 +331,7 @@ function buildToolbar(
     filenameInput.className = 'toolbar-filename';
     filenameInput.value = state.currentFilename;
     filenameInput.addEventListener('change', () => {
-        state.currentFilename = filenameInput.value;
+        onFilenameChanged(filenameInput.value);
     });
     toolbar.appendChild(lbFile);
     toolbar.appendChild(filenameInput);
@@ -319,7 +350,6 @@ function buildToolbar(
     packInput.addEventListener('change', () => {
         const v = parseInt(packInput.value, 10);
         if (!isNaN(v) && v >= 1 && v <= 8) {
-            state.grid.envTexturePackId = v;
             onPackChanged(v);
         }
     });
@@ -340,7 +370,7 @@ function buildToolbar(
     dirtyInput.addEventListener('change', () => {
         const v = parseInt(dirtyInput.value, 10);
         if (!isNaN(v) && v >= 0 && v <= 100) {
-            state.grid.dirtyProbabilityPct = v;
+            onDirtyChanged(v);
         }
     });
     toolbar.appendChild(lbDirtyPct);

@@ -7,6 +7,7 @@ import type { CellData, GridBundle } from './GridTypes';
 export function serializeMark(bundle: GridBundle): string {
     const lines: string[] = [
         'GameGridSerializerV4',
+        bundle.levelName,
         `${bundle.rows}|${bundle.columns}`,
         `${bundle.envTexturePackId}|${bundle.dirtyProbabilityPct}`,
     ];

@@ -178,10 +178,10 @@ Prima di segnare un livello come completato, verifica:
 | Livello | Nome provvisorio           | Atto | Status     |
 | ------- | -------------------------- | ---- | ---------- |
 | 1       | L'ingresso                 | I    | ✅ Fatto   |
-| 2       | Il buio                    | I    | ⬜ Da fare |
-| 3       | La prima creatura          | I    | ⬜ Da fare |
-| 4       | Gli automi                 | I    | ⬜ Da fare |
-| 5       | I corridoi del rito        | I    | ⬜ Da fare |
+| 2       | Il buio                    | I    | ✅ Fatto   |
+| 3       | La prima creatura          | I    | ✅ Fatto   |
+| 4       | Gli automi                 | I    | ✅ Fatto   |
+| 5       | I corridoi del rito        | I    | ✅ Fatto   |
 | 6       | I soldati di polvere       | II   | ⬜ Da fare |
 | 7       | La sorveglianza            | II   | ⬜ Da fare |
 | 8       | La rabbia cieca            | II   | ⬜ Da fare |

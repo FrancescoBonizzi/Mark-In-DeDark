@@ -23,6 +23,7 @@ import { Key } from "../objects/Key";
 import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
 import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 import Numbers from "../services/Numbers";
+import { hasPhysicalKeyboard } from "../services/DeviceGuard";
 import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
 import { GameTexts } from "../ui/GameTexts";
@@ -62,8 +63,6 @@ let currentFolder = "";
 let visibilityHandler: (() => void) | null = null;
 let torchFireParticles: TorchFireParticleSystem | null = null;
 
-const hasPhysicalKeyboard = (): boolean =>
-  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 function navigateToGameOver(): void {
   // Avoids circular import with router.ts — Navigo listens to hashchange

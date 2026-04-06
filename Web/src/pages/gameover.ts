@@ -34,10 +34,11 @@ export function renderGameOverPage(container: HTMLElement) {
     const title = isWin ? 'COMPLETATO!' : 'GAME OVER';
     const nextLevelId = levelId + 1;
     const folderManifest = LEVEL_FOLDERS.find(f => f.folder === folder);
-    const hasNextLevel = isWin && folderManifest !== undefined && folderManifest.levels.includes(nextLevelId);
+    const nextLevelEntry = folderManifest?.levels.find(l => l.id === nextLevelId);
+    const hasNextLevel = isWin && nextLevelEntry !== undefined;
 
     const primaryBtn = hasNextLevel
-        ? `<a href="/game/${folder}/${nextLevelId}" class="button primary" data-navigo>${nextLevelId}</a>`
+        ? `<a href="/game/${folder}/${nextLevelId}" class="button primary" data-navigo>${nextLevelEntry!.name || String(nextLevelId)}</a>`
         : `<a href="/game/${folder}/${levelId}" class="button primary" data-navigo>RIPROVA</a>`;
 
     const retryBtn = hasNextLevel

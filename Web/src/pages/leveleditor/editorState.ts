@@ -42,6 +42,7 @@ export function createEmptyState(): EditorState {
         columns: COLS,
         envTexturePackId: 1,
         dirtyProbabilityPct: 0,
+        levelName: 'Nuovo livello',
         grid,
     };
     return {

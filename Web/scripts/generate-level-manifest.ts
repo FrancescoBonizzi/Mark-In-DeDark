@@ -8,7 +8,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
-console.info();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const levelsDir = path.join(__dirname, "..", "public", "assets", "levels");
 const outputFile = path.join(
@@ -23,10 +22,29 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+/** Legge il nome dal file .mark (riga 2 se non contiene '|', altrimenti vuoto). */
+function readLevelName(filePath: string): string {
+  try {
+    const content = fs.readFileSync(filePath, "utf-8");
+    const lines = content.split("\n");
+    if (lines.length >= 2 && !lines[1]!.includes("|")) {
+      return lines[1]!.trim();
+    }
+  } catch {
+    // file non leggibile: ignora
+  }
+  return "";
+}
+
+interface LevelEntry {
+  id: number;
+  name: string;
+}
+
 interface FolderEntry {
   folder: string;
   displayName: string;
-  levels: number[];
+  levels: LevelEntry[];
 }
 
 const entries: FolderEntry[] = [];
@@ -37,16 +55,23 @@ const subdirs = fs
   .map((d) => d.name)
   .sort();
 
+console.info(`\n🗺️  Generazione manifesto livelli...`);
+
 for (const dir of subdirs) {
   const dirPath = path.join(levelsDir, dir);
   const markFiles = fs.readdirSync(dirPath).filter((f) => f.endsWith(".mark"));
 
   if (markFiles.length === 0) continue;
 
-  const levels = markFiles
-    .map((f) => parseInt(path.basename(f, ".mark"), 10))
-    .filter((n) => !isNaN(n))
-    .sort((a, b) => a - b);
+  const levels: LevelEntry[] = markFiles
+    .map((f) => {
+      const id = parseInt(path.basename(f, ".mark"), 10);
+      if (isNaN(id)) return null;
+      const name = readLevelName(path.join(dirPath, f));
+      return { id, name };
+    })
+    .filter((e): e is LevelEntry => e !== null)
+    .sort((a, b) => a.id - b.id);
 
   if (levels.length === 0) continue;
 
@@ -55,22 +80,40 @@ for (const dir of subdirs) {
     displayName: capitalize(dir),
     levels,
   });
+
+  console.info(
+    `  📁 ${dir}: ${levels.map((l) => `${l.id} "${l.name || "(senza nome)"}"`).join(", ")}`,
+  );
 }
 
 const foldersCode = entries
-  .map(
-    (e) =>
-      `    { folder: ${JSON.stringify(e.folder)}, displayName: ${JSON.stringify(e.displayName)}, levels: [${e.levels.join(", ")}] as const },`,
-  )
+  .map((e) => {
+    const levelsStr = e.levels
+      .map(
+        (l) =>
+          `      { id: ${l.id}, name: ${JSON.stringify(l.name)} }`,
+      )
+      .join(",\n");
+    return (
+      `    { folder: ${JSON.stringify(e.folder)}, displayName: ${JSON.stringify(e.displayName)}, levels: [\n` +
+      `${levelsStr}\n` +
+      `    ] as const },`
+    );
+  })
   .join("\n");
 
 const output = `// GENERATO AUTOMATICAMENTE — non modificare manualmente.
 // Rigenera con: npx tsx Web/scripts/generate-level-manifest.ts
 
+export interface LevelEntry {
+    id: number;
+    name: string;
+}
+
 export interface FolderManifest {
     folder: string;
     displayName: string;
-    levels: readonly number[];
+    levels: readonly LevelEntry[];
 }
 
 export const LEVEL_FOLDERS: readonly FolderManifest[] = [
@@ -79,7 +122,7 @@ ${foldersCode}
 `;
 
 fs.writeFileSync(outputFile, output, "utf-8");
-console.info(`Manifesto livelli .mark scritto in ${outputFile}`);
+console.info(`\n✅ Manifesto livelli scritto → ${path.relative(process.cwd(), outputFile)}`);
 console.info(
-  `Cartelle trovate: ${entries.map((e) => `${e.folder} (${e.levels.length} livelli)`).join(", ")}`,
+  `   Cartelle: ${entries.map((e) => `${e.folder} (${e.levels.length} livelli)`).join(", ")}`,
 );

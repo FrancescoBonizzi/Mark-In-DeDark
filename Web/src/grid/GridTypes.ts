@@ -16,6 +16,7 @@ export interface GridBundle {
     columns: number;
     envTexturePackId: number;
     dirtyProbabilityPct: number;
+    levelName: string;
     /** Indexed as grid[col][row] */
     grid: (CellData | null)[][];
 }
