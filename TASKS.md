@@ -5,46 +5,11 @@
 
 ---
 
-## Resoconto notturno — decisioni e ragionamenti
-
-Questa sezione viene aggiornata durante l'esecuzione dei task. Leggila domattina.
-
-### Decisioni preliminari concordate
-
-- **Nome livello nel .mark**: aggiunta riga 2 dedicata (solo il nome, testo plain) dopo `GameGridSerializerV4`. Il parser viene aggiornato per leggere e ignorarla in retrocompatibilità. Tutti i `.mark` esistenti vengono aggiornati con un nome inventato coerente.
-- **Livelli da generare stanotte**: solo livelli 2–5 (Atto I). Livelli 6–20 rimandati.
-- **Estetica menu**: dark amb ambra/arancione come le candele. Horror ma elegante.
-- **Bug "tutto blu" LevelEditor**: già risolto, saltato.
-- **Autonomia**: procedo con giudizio, ogni scelta non ovvia è documentata qui sotto.
-
-### Log esecuzione task
-
-**Timer rimosso** ✅ — `GameHud.ts`: rimosso `_timerEl` dal DOM e dalla logica `update`. Il parametro `elapsedMs` resta nella firma (prefissato `_`) per non rompere i call site esistenti in `gamebootstrap.ts`.
-
-**Script manifest** ✅ — Rimosso `console.info()` vuoto iniziale (era il "logo inutile"). Aggiunte emoji nei log: 🗺️ 📁 ✅ per level-manifest, 🔍 🎨 ✅ per spritepack-manifest.
-
-**Colore ingresso/uscita LevelEditor** ✅ — Cambiato `#00FFFF` (cyan brillante, testo bianco illeggibile) a `#006868` (teal scuro), stesso aspetto riconoscibile ma con contrasto adeguato per il testo.
-
-**Goblin trigger LevelEditor** ✅ — Rinominato da `TriggerGoblin` a `Trappola Goblin ⚡` nel tab Terra (ground type 5), colore reso meno fluorescente. Aggiunto hint nel tab Nemici: "⚡ Per far spawnare un Goblin usa Trappola Goblin nel tab Terra".
-
-**Nome livello nel .mark** ✅ — Aggiunta riga 2 (plain text, senza pipe) dopo `GameGridSerializerV4`. Retrocompatibilità: se la riga 2 contiene `|` è il vecchio formato, il parser gestisce entrambi. Modificati: `GridTypes.ts` (campo `levelName`), `GridLoader.ts`, `GridSerializer.ts`, `ascii-to-mark.ts` (flag `-n "Nome"`), `validate-level.ts`, `generate-level-manifest.ts` (legge nome dai file, lo include nel manifest), `generatedLevelManifest.ts` (tipo `LevelEntry` con `id+name`), `folderlevels.ts` (mostra nome nei bottoni), `gameover.ts` (usa `LevelEntry.name`). Tutti i .mark esistenti aggiornati con nomi inventati coerenti. LevelEditor: campo "Nome:" in toolbar, persiste in stato e nel file salvato.
-
-**Bug texture pack LevelEditor** ✅ — Root cause: `buildToolbar` catturava `state` come parametro al momento della costruzione; dopo `state = result.state` (open file), i listener continuavano a mutare il vecchio oggetto. Fix: rimossi i direct mutations dai listener in `buildToolbar`, aggiunti callback (`onPackChanged`, `onDirtyChanged`, `onFilenameChanged`, `onLevelNameChanged`) che mutano il `state` nell'outer scope dove vive sempre il riferimento corretto.
-
-**Pagine menu redesign** ✅ — Redesign completo con estetica Gothic Dungeon Crawler: sfondo quasi-nero, luce ambra pulsante, ember CSS animati. Logo PNG originale con glow candle. Menu principale: 3 bottoni con taglio obliquo (clip-path), angoli dorati all'hover. Selezione livelli: "default" = story card hero con occhi rossi animati in background (blink CSS), espansioni in griglia secondaria. Lista livelli: righe con numero/nome e accento arancione al hover. Blocco dispositivi touch: `DeviceGuard.ts` shared utility, schermata di errore elegante. `hasPhysicalKeyboard()` estratto dal `gamebootstrap.ts` nel servizio condiviso.
-
----
-
 - [ ] LevelEditor: quando salvo continuo ad avere l'errore: "• ERRORE: Riga 2: formato dimensioni non valido. Atteso "RIGHE|COLONNE"." Penso sia perché abbiamo cambiato il formato aggiungendo il titolo del gioco, adegua anche il validatore
 - [ ] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
 - [ ] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
 - [ ] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? Attualmente sono due porte quasi identiche, le ho dato colori diversi ma non è sufficiente per renderlo intuitivo
 - [ ] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
-
-- [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: in game per quanto riguarda dove mettiamo i testi (tipo il numero di candele). E vorrei anche aggiungere "non hai ancora trovato la chiave" o "hai una chiave per uscire". Non mi dispiace mettere tutto in basso in una barra stile giochi retrò
-- [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: revisione di come appaiono i testi in game, parlo dei testi popup che appaiono ogni tanto. Il problema è attualmente sono dei popup che appunti fanno fadeout volando in alto. Non è male, ma non mi piace che si vedano solo una tantum e poi non li puoi più leggere. Potremmo pensare di mostrarli sempre fissi quando cammini sulla cella di riferimento, ma mi chiedevo se secondo te ci fosse un modo migliore per mostrarli. Hai delle idee? Accetto ipotesi.
-- [x] Task di approfondimento: aggiungi qui in questo file un'ipotesi (se ne hai una), se ci sono migliorie che posso fare al gioco per renderlo più giocabile, senza introdurre nuove texture, ma solo cambiando alcune piccole cose. Fai un'analisi e fammi delle proposte
-- [x] Task di approfondimento: rileggiti il file docs/ENEMY_AI e valuta migliorie alle AI dei nemici. Ovviamente l'anima dei nemici va bene che resti così com'è, ma valuta se si può fare qualcosa di meglio o se alcuni nemici, boh, si possono rendere più idiomatici. Sono disposto ad usare a dare a bubu o ghost qualcosa di più coinvolgente, se ti vengono in mente idee.
 
 ---
 
