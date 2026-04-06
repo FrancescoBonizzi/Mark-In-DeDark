@@ -688,16 +688,13 @@ canvas { display: block; }
 }
 
 /* Logo */
-.main-menu__logo-wrap {
-    position: relative;
-}
-
 .main-menu__logo-glow {
     position: absolute;
-    inset: -30px;
-    background: radial-gradient(ellipse at 50% 60%, rgba(180, 90, 0, 0.4) 0%, transparent 70%);
+    inset: 0;
+    background: radial-gradient(ellipse 70% 45% at 50% 30%, rgba(180, 90, 0, 0.5) 0%, transparent 70%);
     animation: logoGlowPulse 3s ease-in-out infinite;
     pointer-events: none;
+    z-index: 0;
 }
 
 @keyframes logoGlowPulse {

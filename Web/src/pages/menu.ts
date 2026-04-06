@@ -11,6 +11,7 @@ export function renderMenuPage(container: HTMLElement) {
   container.innerHTML = `
 <div class="main-menu">
     <div class="main-menu__bg-glow"></div>
+    <div class="main-menu__logo-glow"></div>
     <div class="main-menu__embers" aria-hidden="true">
         <span class="ember"></span><span class="ember"></span><span class="ember"></span>
         <span class="ember"></span><span class="ember"></span><span class="ember"></span>
@@ -19,7 +20,6 @@ export function renderMenuPage(container: HTMLElement) {
 
     <div class="main-menu__content">
         <div class="main-menu__logo-wrap">
-            <div class="main-menu__logo-glow"></div>
             <img class="main-menu__logo" src="${logoSrc}" alt="Mark In DeDark" />
         </div>
 
