@@ -6,7 +6,7 @@ import router from "./router";
 export function renderMenuPage(container: HTMLElement) {
   if (blockIfNoKeyboard(container)) return;
 
-  const logoSrc = `${AssetsRoot}assets/logo.png`;
+  const logoSrc = `${AssetsRoot}assets/images/menu/logo.png`;
 
   container.innerHTML = `
 <div class="main-menu">
