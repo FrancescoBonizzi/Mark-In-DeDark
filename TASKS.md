@@ -35,23 +35,12 @@ Questa sezione viene aggiornata durante l'esecuzione dei task. Leggila domattina
 
 ---
 
-- [x] LevelEditor: il colore per il muro ingresso/uscita è troppo forte per il testo bianco, cambia uno dei due
-- [x] LevelEditor: bug, se io apro un livello che un dato texture pack e cambio il texture pack, poi salvo o eseguo il gioco, non viene applicato il nuovo texture pack.
-- [x] Script di generazione manifest (entrambi), migliora un po' i log, falli più carini con qualche emoji e rimuovi i logo inutili
-- [x] LevelEditor: il trigger goblin non c'è tra i possibili oggetti da piazzare
-- [x] LevelEditor: fenomeno paranormale (già risolto in precedenza, saltato)
-- [x] LevelEditor: attualmente non abbiamo un nome per ogni livello. Lo dobbiamo aggiungere, lo aggiugiamo da qualche parte nel file .mark, magari come prima riga. Così uno può chiamare il livello come gli pare (uno così può chiamare il livello 1.mark, 2.mark ecc così vengono ordinati nel gioco) ma avere il nome che preferisce. Il nome deve essere specificabile nel level editor, deve finire nel file .mark e deve essere utilizzato alla creazione del manifest per popolare poi nella pagina dei livelli, il nome sul pulsante.
-- [x] Rimuovi il tempo che scorre dalla schermata di gioco, non serve più a nulla
+- [ ] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
+
 - [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: in game per quanto riguarda dove mettiamo i testi (tipo il numero di candele). E vorrei anche aggiungere "non hai ancora trovato la chiave" o "hai una chiave per uscire". Non mi dispiace mettere tutto in basso in una barra stile giochi retrò
 - [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: revisione di come appaiono i testi in game, parlo dei testi popup che appaiono ogni tanto. Il problema è attualmente sono dei popup che appunti fanno fadeout volando in alto. Non è male, ma non mi piace che si vedano solo una tantum e poi non li puoi più leggere. Potremmo pensare di mostrarli sempre fissi quando cammini sulla cella di riferimento, ma mi chiedevo se secondo te ci fosse un modo migliore per mostrarli. Hai delle idee? Accetto ipotesi.
 - [x] Task di approfondimento: aggiungi qui in questo file un'ipotesi (se ne hai una), se ci sono migliorie che posso fare al gioco per renderlo più giocabile, senza introdurre nuove texture, ma solo cambiando alcune piccole cose. Fai un'analisi e fammi delle proposte
 - [x] Task di approfondimento: rileggiti il file docs/ENEMY_AI e valuta migliorie alle AI dei nemici. Ovviamente l'anima dei nemici va bene che resti così com'è, ma valuta se si può fare qualcosa di meglio o se alcuni nemici, boh, si possono rendere più idiomatici. Sono disposto ad usare a dare a bubu o ghost qualcosa di più coinvolgente, se ti vengono in mente idee.
-- [x] Dobbiamo fare delle modifiche alle pagine del menù.
-  - [x] Il gioco originale aveva un logo: Csharp/Assets/logo.png usalo in giro
-  - [x] C'era anche uno sfondo per la pagina dei livelli
-  - [x] Revisione pagine navigazione con frontend-design
-  - [x] Blocco dispositivi touch-only / schermo piccolo
-- [x] Genera livelli 2–5 in @LEVEL_TASKS
 
 ---
 
@@ -95,27 +84,32 @@ I popup appaiono una sola volta (fadeout volante verso l'alto) quando il giocato
 
 **Opzione A — "Mostra quando sei sulla cella" (idea originale dell'utente)**
 Il testo rimane fisso (niente animazione) finché il giocatore è sulla cella trigger. Quando se ne va, il testo scompare.
+
 - Pro: sempre leggibile se ci torni
 - Contro: rovina la narrativa atmosferica — diventa un "cartello" meccanico, perde il senso di ricordo/pensiero spontaneo
 
 **Opzione B — "Diario persistente" (mia proposta preferita)**
 Ogni testo narrativo è memorizzato in un piccolo log accessibile con un tasto (es. `T` o `TAB`). In game appare un'icona discreta nell'angolo quando c'è un nuovo messaggio non letto (`✦`). Premendo il tasto si apre un overlay semi-trasparente con tutti i messaggi letti in ordine cronologico.
+
 - Pro: atmosfera mantenuta (il primo incontro è sempre il popup volante), niente perso, si può rileggere a piacimento
 - Contro: aggiunge un overlay UI e un altro tasto da ricordare
 
 **Opzione C — "Popup con persistenza breve" (compromesso)**
 Il popup vola in alto ma invece di sparire completamente, rimane nell'angolo in miniatura (piccolo, semi-opaco) per 30 secondi. Si fa click per rileggere o scompare da solo.
+
 - Pro: elegante, non invade
 - Contro: complesso da implementare bene su canvas
 
 **Opzione D — "Prima apparizione + ripetizione audio breve"**
 Il testo appare la prima volta come ora. Quando il giocatore torna sulla cella, il testo riappare senza animazione per 2 secondi (reminder silenzioso). Non si "accumula" più volte.
+
 - Pro: semplice, poco invasivo, funziona per testi importanti
 - Contro: il giocatore deve tornare sulla cella specifica
 
 **Raccomandazione:** Opzione B (Diario) per i livelli con molto testo narrativo (dall'Atto II in poi), abbinata all'Opzione D come fallback per tutti i livelli. Si implementa in due fasi: prima D (basso costo), poi B se vuoi aggiungere profondità narrativa.
 
 **Implementazione minima (Opzione D):**
+
 - `TriggerObject` tiene un flag `_hasTriggered: boolean`
 - Alla prima attivazione: popup normale (animazione volante)
 - Alle attivazioni successive: popup breve (2 s, niente animazione, opacità 0.6)
@@ -233,4 +227,3 @@ Attualmente: patruglia, cerca candele, le spegne. Non emette luce. È "invisibil
 **Proposta trasversale — "allarme nemico" audivisivo**
 
 Quando un nemico rileva il player (Skeleton entra in Following, Goblin viene spawned dal trigger), aggiungere un suono di allerta breve e distinto per tipo nemico. Questo aiuta il player a capire cosa sta succedendo anche quando il nemico è fuori campo visivo. Probabilmente già parzialmente implementato per Taurus/Skeleton — verificare se i sound asset esistono.
-
