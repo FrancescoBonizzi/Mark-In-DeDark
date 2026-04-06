@@ -1,4 +1,4 @@
-import { Application, Point, Rectangle, Sprite, TextureSource } from "pixi.js";
+import { Application, Point, Rectangle, Sprite, Text, TextStyle, TextureSource } from "pixi.js";
 import { getTexture, loadAssets } from "../assets/AssetsLoader";
 import { Enemy } from "../characters/Enemy";
 import { Player } from "../characters/Player";
@@ -58,7 +58,7 @@ let playerDyingDetected = false;
 let deathOverlaySprite: Sprite | null = null;
 let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
-let keyOverlaySprite: Sprite | null = null;
+let keyOverlayText: Text | null = null;
 let keyOverlayTimer = 0;
 let currentLevelId = 1;
 let currentFolder = "";
@@ -96,7 +96,7 @@ export async function initGame(
   deathOverlaySprite = null;
   triggeredCells = new Set();
   lockedExitNotified = false;
-  keyOverlaySprite = null;
+  keyOverlayText = null;
   keyOverlayTimer = 0;
 
   if (!hasPhysicalKeyboard()) {
@@ -294,6 +294,20 @@ export async function initGame(
     );
     shadowSystem.addLight(exit.surroundingLight);
 
+    // Lucchetto sopra la porta di uscita (visibile da subito)
+    {
+      const lockText = new Text({
+        text: '🔒',
+        style: new TextStyle({ fontSize: 48 }),
+      });
+      lockText.anchor.set(0.5);
+      lockText.x = exit.centerX;
+      lockText.y = exit.centerY - 80;
+      lockText.zIndex = 9000;
+      grid.objectsContainer.addChild(lockText);
+      keyOverlayText = lockText;
+    }
+
     // Entrance — static ambient light on the spawn door (no game logic, purely visual)
     {
       const cx = grid.playerStartCol * CELL_SIZE + CELL_SIZE / 2;
@@ -449,18 +463,6 @@ export async function initGame(
         if (intersects(playerRect, key.collisionRectangle)) {
           key.collect();
           hud?.showMessage(GameTexts.keyFound, "#ffd700");
-          // B2: mostra una chiave rotante sopra la porta di uscita
-          if (exit && !keyOverlaySprite) {
-            const tex = getTexture(assets.spriteSheets, 'Objects/key');
-            const ov = new Sprite(tex);
-            ov.anchor.set(0.5);
-            ov.x = exit.centerX;
-            ov.y = exit.centerY - 72;
-            ov.scale.set(0.5);
-            ov.zIndex = 9000;
-            grid.objectsContainer.addChild(ov);
-            keyOverlaySprite = ov;
-          }
         }
       } else {
         key?.update(dt);
@@ -486,11 +488,11 @@ export async function initGame(
           // B1: porta si apre solo quando il player arriva con la chiave
           if (!exit.isOpen && key?.isCollected) {
             exit.setOpen();
-            // B2: rimuovi l'overlay della chiave sopra la porta
-            if (keyOverlaySprite) {
-              keyOverlaySprite.parent?.removeChild(keyOverlaySprite);
-              keyOverlaySprite.destroy();
-              keyOverlaySprite = null;
+            // B2: rimuovi il lucchetto sopra la porta
+            if (keyOverlayText) {
+              keyOverlayText.parent?.removeChild(keyOverlayText);
+              keyOverlayText.destroy();
+              keyOverlayText = null;
             }
           }
           if (exit.isOpen) {
@@ -596,11 +598,11 @@ export async function initGame(
       // Exit pulsation
       exit?.update(dt);
 
-      // B2: animazione key overlay sopra la porta di uscita
-      if (keyOverlaySprite) {
+      // B2: animazione lucchetto sopra la porta di uscita
+      if (keyOverlayText) {
         keyOverlayTimer += dt;
-        keyOverlaySprite.rotation += 0.0015 * dt;
-        keyOverlaySprite.y = (exit?.centerY ?? 0) - 72 + Math.sin(keyOverlayTimer * 0.003) * 8;
+        keyOverlayText.y = (exit?.centerY ?? 0) - 80 + Math.sin(keyOverlayTimer * 0.003) * 8;
+        keyOverlayText.alpha = 0.85 + Math.sin(keyOverlayTimer * 0.004) * 0.15;
       }
 
       // Braziers
@@ -715,8 +717,8 @@ export function destroyGame() {
   candlePacks = [];
   key = null;
   exit = null;
-  keyOverlaySprite?.destroy();
-  keyOverlaySprite = null;
+  keyOverlayText?.destroy();
+  keyOverlayText = null;
   keyOverlayTimer = 0;
   traps = [];
   for (const b of braziers) {
