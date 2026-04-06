@@ -35,7 +35,11 @@ Questa sezione viene aggiornata durante l'esecuzione dei task. Leggila domattina
 
 ---
 
+- [ ] LevelEditor: quando salvo continuo ad avere l'errore: "• ERRORE: Riga 2: formato dimensioni non valido. Atteso "RIGHE|COLONNE"." Penso sia perché abbiamo cambiato il formato aggiungendo il titolo del gioco, adegua anche il validatore
 - [ ] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
+- [ ] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
+- [ ] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? Attualmente sono due porte quasi identiche, le ho dato colori diversi ma non è sufficiente per renderlo intuitivo
+- [ ] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
 
 - [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: in game per quanto riguarda dove mettiamo i testi (tipo il numero di candele). E vorrei anche aggiungere "non hai ancora trovato la chiave" o "hai una chiave per uscire". Non mi dispiace mettere tutto in basso in una barra stile giochi retrò
 - [x] Task di approfondimento: aggiungimi qui in questo file un'ipotesi di miglioria della UI: revisione di come appaiono i testi in game, parlo dei testi popup che appaiono ogni tanto. Il problema è attualmente sono dei popup che appunti fanno fadeout volando in alto. Non è male, ma non mi piace che si vedano solo una tantum e poi non li puoi più leggere. Potremmo pensare di mostrarli sempre fissi quando cammini sulla cella di riferimento, ma mi chiedevo se secondo te ci fosse un modo migliore per mostrarli. Hai delle idee? Accetto ipotesi.
