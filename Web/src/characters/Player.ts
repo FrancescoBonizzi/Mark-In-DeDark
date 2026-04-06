@@ -157,10 +157,15 @@ export class Player extends Character {
     this._candlesManager = mgr;
   }
 
-  /** Avvia l'animazione di vittoria (port of C# Player.Win). */
-  win(): void {
+  /** Avvia l'animazione di vittoria (port of C# Player.Win).
+   *  exitCenterX: coordinata X del centro della porta — il player viene snappato
+   *  prima di iniziare l'animazione (come fa il C# con exit.Position). */
+  win(exitCenterX: number, exitCenterY: number): void {
     if (this._isExiting) return;
     this._isExiting = true;
+    // C#: MainFigureDrawingInfos.Position = exit.Position — snap al centro porta
+    this._x = exitCenterX;
+    this._y = exitCenterY;
     this._animations.play('WalkUp');
     this._stopCurrentMovement();
   }

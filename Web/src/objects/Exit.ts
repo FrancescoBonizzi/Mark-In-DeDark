@@ -7,10 +7,16 @@ import { MarkLight } from "../lighting/MarkLight";
 export class Exit {
   readonly collisionRectangle: Rectangle;
   readonly surroundingLight: MarkLight;
+  readonly centerX: number;
+  readonly centerY: number;
 
   private readonly _exitDoor: WallEsteticDoor | null;
   private readonly _grid: GameGrid;
   private _isOpen = false;
+  private _pulseTimer = 0;
+  private static readonly PULSE_BASE_OPACITY = 0.35;
+  private static readonly PULSE_AMP = 0.15;
+  private static readonly PULSE_SPEED = 0.003; // rad/ms
 
   constructor(
     centerX: number,
@@ -20,6 +26,8 @@ export class Exit {
   ) {
     this._exitDoor = exitDoor;
     this._grid = grid;
+    this.centerX = centerX;
+    this.centerY = centerY;
     // HitBoxTolerance(60, 60, 120, 120)
     this.collisionRectangle = new Rectangle(
       centerX - 60,
@@ -55,5 +63,15 @@ export class Exit {
     this._isOpen = true;
     this._exitDoor?.setOpen();
     this._grid.openExitPassage();
+  }
+
+  /** Aggiorna la pulsazione della luce quando la porta è aperta. */
+  update(deltaMS: number): void {
+    if (!this._isOpen) return;
+    this._pulseTimer += deltaMS;
+    this.surroundingLight.opacity =
+      Exit.PULSE_BASE_OPACITY +
+      Math.sin(this._pulseTimer * Exit.PULSE_SPEED) * Exit.PULSE_AMP;
+    this.surroundingLight.update(deltaMS);
   }
 }

@@ -58,6 +58,8 @@ let playerDyingDetected = false;
 let deathOverlaySprite: Sprite | null = null;
 let triggeredCells = new Set<object>();
 let lockedExitNotified = false;
+let keyOverlaySprite: Sprite | null = null;
+let keyOverlayTimer = 0;
 let currentLevelId = 1;
 let currentFolder = "";
 let visibilityHandler: (() => void) | null = null;
@@ -94,6 +96,8 @@ export async function initGame(
   deathOverlaySprite = null;
   triggeredCells = new Set();
   lockedExitNotified = false;
+  keyOverlaySprite = null;
+  keyOverlayTimer = 0;
 
   if (!hasPhysicalKeyboard()) {
     container.innerHTML = `
@@ -301,8 +305,8 @@ export async function initGame(
         opacity: 0.3,
         radius: 80,
         castsShadows: false,
-        color1: 0xbb88ff,
-        color2: 0x9966dd,
+        color1: 0xffaa44,
+        color2: 0xff8800,
         distanceSquared: 2_200,
         distanceSquaredForWall: 7_000,
       });
@@ -394,7 +398,7 @@ export async function initGame(
     const gameWrapper =
       container.querySelector<HTMLDivElement>("#game-wrapper");
     if (gameWrapper) {
-      hud = new GameHud(gameWrapper);
+      hud = new GameHud(gameWrapper, bundle.levelName);
     }
 
     // Center camera on player start
@@ -423,7 +427,7 @@ export async function initGame(
       }
 
       elapsedMs += dt;
-      hud?.update(candlesManager?.leftCandles ?? 0, elapsedMs);
+      hud?.update(candlesManager?.leftCandles ?? 0, elapsedMs, key?.isCollected ?? false);
       hud?.updatePopups(dt);
 
       // Input + player update
@@ -444,8 +448,19 @@ export async function initGame(
         const playerRect = player.collisionRectangle;
         if (intersects(playerRect, key.collisionRectangle)) {
           key.collect();
-          exit?.setOpen();
           hud?.showMessage(GameTexts.keyFound, "#ffd700");
+          // B2: mostra una chiave rotante sopra la porta di uscita
+          if (exit && !keyOverlaySprite) {
+            const tex = getTexture(assets.spriteSheets, 'Objects/key');
+            const ov = new Sprite(tex);
+            ov.anchor.set(0.5);
+            ov.x = exit.centerX;
+            ov.y = exit.centerY - 72;
+            ov.scale.set(0.5);
+            ov.zIndex = 9000;
+            grid.objectsContainer.addChild(ov);
+            keyOverlaySprite = ov;
+          }
         }
       } else {
         key?.update(dt);
@@ -468,9 +483,19 @@ export async function initGame(
       // Exit collision — locked feedback or win
       if (exit && !player.isDead) {
         if (intersects(player.collisionRectangle, exit.collisionRectangle)) {
+          // B1: porta si apre solo quando il player arriva con la chiave
+          if (!exit.isOpen && key?.isCollected) {
+            exit.setOpen();
+            // B2: rimuovi l'overlay della chiave sopra la porta
+            if (keyOverlaySprite) {
+              keyOverlaySprite.parent?.removeChild(keyOverlaySprite);
+              keyOverlaySprite.destroy();
+              keyOverlaySprite = null;
+            }
+          }
           if (exit.isOpen) {
             gameEnded = true;
-            player.win();
+            player.win(exit.centerX, exit.centerY);
             hud?.showMessage(GameTexts.levelCompleted, "#4ade80", true);
             const used = candlesManager?.playerUsedCandles ?? 0;
             sessionStorage.setItem(
@@ -548,13 +573,34 @@ export async function initGame(
       }
 
       // Cell text triggers (tutorial / ambient hints)
+      // Sviluppo A: testo fisso finché player è sulla cella; B: aggiunge al diario
       const playerCell = player.currentCell;
-      if (playerCell && !triggeredCells.has(playerCell)) {
-        const text = grid.cellTriggerTexts.get(playerCell);
-        if (text) {
-          hud?.showMessage(text, "#ffff00");
-          triggeredCells.add(playerCell);
+      if (hud) {
+        if (playerCell) {
+          const text = grid.cellTriggerTexts.get(playerCell);
+          if (text) {
+            hud.showCellText(text);
+            // Sviluppo B: prima volta su questa cella → aggiungi al diario
+            if (!triggeredCells.has(playerCell)) {
+              triggeredCells.add(playerCell);
+              hud.addToDiary(text, elapsedMs);
+            }
+          } else {
+            hud.hideCellText();
+          }
+        } else {
+          hud.hideCellText();
         }
+      }
+
+      // Exit pulsation
+      exit?.update(dt);
+
+      // B2: animazione key overlay sopra la porta di uscita
+      if (keyOverlaySprite) {
+        keyOverlayTimer += dt;
+        keyOverlaySprite.rotation += 0.0015 * dt;
+        keyOverlaySprite.y = (exit?.centerY ?? 0) - 72 + Math.sin(keyOverlayTimer * 0.003) * 8;
       }
 
       // Braziers
@@ -669,6 +715,9 @@ export function destroyGame() {
   candlePacks = [];
   key = null;
   exit = null;
+  keyOverlaySprite?.destroy();
+  keyOverlaySprite = null;
+  keyOverlayTimer = 0;
   traps = [];
   for (const b of braziers) {
     shadowSystem?.removeLight(b.surroundingLight);

@@ -10,8 +10,8 @@
 - [x] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
 - [x] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? → vedi Approfondimento 5
 - [x] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
-- [ ] Quando si esce dal livello perché è completato, l'animazione va bene ma è scentrata rispetto alla texture della porta. L'ominio dovrebbe entrare centralmente nella porta
-- [ ] Completa i task da fare più complessi scritti qui sotto
+- [x] Quando si esce dal livello perché è completato, l'animazione va bene ma è scentrata rispetto alla texture della porta. L'ominio dovrebbe entrare centralmente nella porta
+- [x] Completa i TASK DA FARE più complessi scritti qui sotto
 
 ---
 
