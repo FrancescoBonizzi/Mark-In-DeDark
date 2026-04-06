@@ -8,7 +8,7 @@
 - [ ] LevelEditor: quando salvo continuo ad avere l'errore: "• ERRORE: Riga 2: formato dimensioni non valido. Atteso "RIGHE|COLONNE"." Penso sia perché abbiamo cambiato il formato aggiungendo il titolo del gioco, adegua anche il validatore
 - [ ] LevelEditor: non trovo il pulsante per piazzare il trigger goblin
 - [ ] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
-- [ ] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? Attualmente sono due porte quasi identiche, le ho dato colori diversi ma non è sufficiente per renderlo intuitivo
+- [ ] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? Attualmente sono due porte quasi identiche, le ho dato colori diversi ma non è sufficiente per renderlo intuitivo. Inoltre attualmente appena prendi la chiave, la porta dell'uscita si apre. E questo è un po' confusionario perchè uno non capisce perché prende la chiave, trovando una porta già aperta.
 - [ ] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
 
 ---
