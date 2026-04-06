@@ -10,37 +10,24 @@
 - [x] LevelEditor: imponi che i muri e le porte possano solo essere INTERNI alla cella mai esterni
 - [x] Task di approfondimento: come posso far distinguere l'entrata dall'uscita? → vedi Approfondimento 5
 - [x] Animazione uscita: nel vecchio gioco il player quando era sull'uscita con la chiave, partiva un'animazione in cui andava verso la porta e diventava più piccolo e faceva fadeout. Guarda il vecchio codice CSharp.
+- [ ] Quando si esce dal livello perché è completato, l'animazione va bene ma è scentrata rispetto alla texture della porta. L'ominio dovrebbe entrare centralmente nella porta
+- [ ] Completa i task da fare più complessi scritti qui sotto
 
 ---
 
-## Approfondimento 5 — Distinguere entrata da uscita
+## TASK DA FARE — Distinguere entrata da uscita
 
 ### Problema
 
 Le due porte (Ingresso e Uscita) sono visivamente quasi identiche. Il colore diverso non basta a renderle intuitive. In più, l'uscita si apre nel momento in cui il giocatore raccoglie la chiave — chi ci passa sopra dopo trova una porta già aperta e non capisce perché ce l'ha la chiave.
 
-### Analisi del problema in due parti
-
----
-
 **Parte A — Distinguere visivamente entrata e uscita**
 
-Opzione A1 — **Simbolo sovrapposto alla porta**
-Aggiungere un'icona/sprite statico sopra la porta: per l'ingresso una freccia verso il basso (o simbolo "entrata"), per l'uscita una freccia verso l'alto (o simbolo "scaletta"). Già in uso in molti dungeon roguelike.
-- Pro: immediato, zero ambiguità, nessuna texture nuova se usi un testo/simbolo
-- Contro: richiede un asset sprite
-
-Opzione A2 — **Testo narrativo obbligatorio**
-Il livello 1 introduce entrambe le porte con testo trigger (es. "Questa è la porta da cui sono entrato" e "Questa porta è chiusa — serve qualcosa per aprirla"). Dall'Atto II in poi il giocatore ha già il modello mentale.
-- Pro: zero modifica al codice, funziona col sistema di trigger già esistente
-- Contro: funziona solo per chi legge i testi; non aiuta chi li salta
-
-Opzione A3 — **Luce colorata diversa** (già parzialmente fatto)
+**Luce colorata diversa** (già parzialmente fatto)
 Intensificare la differenza: ingresso con luce calda (ambra/arancione), uscita con luce fredda (ciano), e aggiungere una pulsazione sulla porta dell'uscita quando è aperta.
+
 - Pro: atmosfera, no asset nuovi
 - Contro: meno intuitivo rispetto a un simbolo esplicito
-
-**Raccomandazione A:** Opzione A2 per i livelli 1–3, Opzione A3 (già implementata) + A2 per i livelli successivi. La soluzione permanente A1 va pianificata per quando ci sono risorse grafiche disponibili.
 
 ---
 
@@ -48,28 +35,24 @@ Intensificare la differenza: ingresso con luce calda (ambra/arancione), uscita c
 
 Il problema: appena il giocatore raccoglie la chiave, `exit.setOpen()` chiama `_exitDoor.setOpen()` che apre la porta visivamente. Se il giocatore poi si avvicina all'uscita trova una porta già aperta e la connessione causale (chiave → porta) non è chiara.
 
-Opzioni:
+Da fare entrambe:
 
 **B1 — Porta rimane chiusa visivamente, si apre solo all'interazione**
 Il giocatore, quando cammina sull'uscita con la chiave, vede la porta aprirsi in quel momento. La chiave "si usa" sul posto.
+
 - Come implementare: non chiamare `_exitDoor.setOpen()` in `key.collect()`. Chiamarlo invece in `gamebootstrap.ts` quando il player entra nella collision rect dell'uscita con `key.isCollected === true`.
 - Impatto minimo: 2-3 righe in `gamebootstrap.ts`, zero modifiche al sistema porte.
 - Pro: connessione causale chiara (metti piede sulla porta, la porta si apre)
 - Contro: il giocatore deve sapere dove andare
 
-**B2 — Porta rimane chiusa ma lampeggia/pulsa quando hai la chiave**
-Quando `key.isCollected === true`, la porta dell'uscita inizia a pulsare (tint che oscilla) come segnale "c'è qualcosa qui che aspetta la chiave". Si apre ancora all'interazione.
-- Implementazione: flag `Exit.hasKey: boolean` aggiornato da `gamebootstrap.ts`; in `Exit.update()` si applica un tint oscillante se `hasKey && !isOpen`.
+**B2 — Porta aperta, ma con chiave visibile sulla porta fino all'arrivo**
+Finché il giocatore non arriva davanti alla porta, appare una chiave rotante sopra (stessa sprite della chiave attuale, ma rimpicciolita).
 
-**B3 — Porta aperta, ma con chiave visibile sulla porta fino all'arrivo**
-La porta si apre visivamente (comportamento attuale), ma finché il giocatore non ci arriva appare una chiave rotante sopra. Questo segnala "la tua chiave ha fatto qualcosa LÌ".
 - Implementazione: sprite key overlay sull'uscita, rimosso quando il player entra nella collision.
-
-**Raccomandazione B:** Opzione B1 è la più pulita narrativamente e la più semplice da implementare. Nessun asset nuovo, 3 righe di codice, risolve completamente la confusione.
 
 ---
 
-## Approfondimento 1 — HUD in-game: barra retrò in basso
+## TASK DA FARE — HUD in-game: barra retrò in basso
 
 ### Proposta
 
@@ -99,7 +82,7 @@ oppure, se la chiave è raccolta:
 
 ---
 
-## Approfondimento 2 — Popup testi narrativi: proposta di miglioramento
+## TASK DA FARE 2 — Popup testi narrativi: proposta di miglioramento
 
 ### Problema attuale
 
@@ -107,38 +90,13 @@ I popup appaiono una sola volta (fadeout volante verso l'alto) quando il giocato
 
 ### Analisi opzioni
 
-**Opzione A — "Mostra quando sei sulla cella" (idea originale dell'utente)**
+**Sviluppo A — "Mostra quando sei sulla cella"**
 Il testo rimane fisso (niente animazione) finché il giocatore è sulla cella trigger. Quando se ne va, il testo scompare.
 
-- Pro: sempre leggibile se ci torni
-- Contro: rovina la narrativa atmosferica — diventa un "cartello" meccanico, perde il senso di ricordo/pensiero spontaneo
-
-**Opzione B — "Diario persistente" (mia proposta preferita)**
+**Sviluppo B — "Diario persistente"**
 Ogni testo narrativo è memorizzato in un piccolo log accessibile con un tasto (es. `T` o `TAB`). In game appare un'icona discreta nell'angolo quando c'è un nuovo messaggio non letto (`✦`). Premendo il tasto si apre un overlay semi-trasparente con tutti i messaggi letti in ordine cronologico.
 
-- Pro: atmosfera mantenuta (il primo incontro è sempre il popup volante), niente perso, si può rileggere a piacimento
-- Contro: aggiunge un overlay UI e un altro tasto da ricordare
-
-**Opzione C — "Popup con persistenza breve" (compromesso)**
-Il popup vola in alto ma invece di sparire completamente, rimane nell'angolo in miniatura (piccolo, semi-opaco) per 30 secondi. Si fa click per rileggere o scompare da solo.
-
-- Pro: elegante, non invade
-- Contro: complesso da implementare bene su canvas
-
-**Opzione D — "Prima apparizione + ripetizione audio breve"**
-Il testo appare la prima volta come ora. Quando il giocatore torna sulla cella, il testo riappare senza animazione per 2 secondi (reminder silenzioso). Non si "accumula" più volte.
-
-- Pro: semplice, poco invasivo, funziona per testi importanti
-- Contro: il giocatore deve tornare sulla cella specifica
-
-**Raccomandazione:** Opzione B (Diario) per i livelli con molto testo narrativo (dall'Atto II in poi), abbinata all'Opzione D come fallback per tutti i livelli. Si implementa in due fasi: prima D (basso costo), poi B se vuoi aggiungere profondità narrativa.
-
-**Implementazione minima (Opzione D):**
-
-- `TriggerObject` tiene un flag `_hasTriggered: boolean`
-- Alla prima attivazione: popup normale (animazione volante)
-- Alle attivazioni successive: popup breve (2 s, niente animazione, opacità 0.6)
-- Nessuna UI aggiuntiva richiesta
+Fare entrambi.
 
 ---
 
