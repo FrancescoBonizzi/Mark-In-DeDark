@@ -34,7 +34,7 @@ export function renderFolderLevelsPage(container: HTMLElement, folder: string) {
 
     <header class="folder-levels-page__header">
         <a href="/levels" class="back-link" data-navigo>← INDIETRO</a>
-        <div>
+        <div class="folder-levels-page__title-block">
             <div class="folder-levels-page__eyebrow">${pageSubtitle}</div>
             <h1 class="folder-levels-page__title">${pageTitle}</h1>
         </div>
