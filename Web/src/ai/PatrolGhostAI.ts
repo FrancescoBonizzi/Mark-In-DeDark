@@ -11,9 +11,10 @@ const enum GhostPhase {
 }
 
 const HOVER_TRIGGER_DISTANCE = 4;
-const HOVER_CHECK_INTERVAL_FRAMES = 60;
 const HOVER_PROBABILITY = 0.15;
 const HOVER_DURATION_MS = 500;
+/** Minimum cells traversed between hover checks (cooldown). */
+const HOVER_CELL_COOLDOWN = 5;
 
 /**
  * Ghost patrol AI — same as PatrolAI but uses wall-ignoring pathfinding
@@ -30,7 +31,7 @@ export class PatrolGhostAI implements IEnemyAI {
     private _actions: CharacterActions[] = [];
     private _phase: GhostPhase = GhostPhase.Patrol;
     private _hoverTimer: number = 0;
-    private _frameCounter: number = 0;
+    private _cellCooldown: number = 0;
 
     constructor(
         waypoints: GameCell[],
@@ -43,19 +44,24 @@ export class PatrolGhostAI implements IEnemyAI {
         this._waypointIndex = waypoints.length > 1 ? 1 : 0;
     }
 
+    get isHovering(): boolean {
+        return this._phase === GhostPhase.Hovering;
+    }
+
     update(enemy: Enemy, deltaMS: number): CharacterActions {
         if (this._phase === GhostPhase.Hovering) {
             this._hoverTimer -= deltaMS;
             if (this._hoverTimer <= 0) {
                 this._phase = GhostPhase.Patrol;
+                this._cellCooldown = HOVER_CELL_COOLDOWN;
             }
             return CharacterActions.Idle;
         }
 
-        // Controlla se passare a Hovering
-        this._frameCounter++;
-        if (this._frameCounter >= HOVER_CHECK_INTERVAL_FRAMES) {
-            this._frameCounter = 0;
+        // Controlla se passare a Hovering (una volta per cella attraversata)
+        if (this._cellCooldown > 0) {
+            this._cellCooldown--;
+        } else {
             const enemyCell = enemy.currentCell;
             const playerCell = this._player.currentCell;
             if (enemyCell && playerCell) {

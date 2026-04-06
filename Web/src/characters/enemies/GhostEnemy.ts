@@ -18,6 +18,9 @@ const TORCH_OFFSETS = {
 };
 
 export class GhostEnemy extends Enemy {
+    private _hoverPulseTime: number = 0;
+    private readonly _normalOpacity: number = 1.0;
+
     constructor(
         grid: GameGrid,
         sheets: Spritesheet[],
@@ -61,6 +64,33 @@ export class GhostEnemy extends Enemy {
             killCandleDurationMS: 250,
         };
         super(grid, objectsContainer, objectsNormalContainer, config);
+    }
+
+    override update(deltaMS: number): void {
+        super.update(deltaMS);
+
+        const hovering = this.currentAI instanceof PatrolGhostAI && this.currentAI.isHovering;
+
+        if (hovering) {
+            this._hoverPulseTime += deltaMS;
+            // Pulse 0→1→0 at ~4Hz
+            const pulse = (Math.sin(this._hoverPulseTime * 0.012) + 1) / 2;
+            // Tint: blend from 0xCCEEFF (pale cyan) to 0xFFFFFF (white)
+            const r = Math.round(0xCC + pulse * 0x33);
+            const g = Math.round(0xEE + pulse * 0x11);
+            this._mainSprite.tint = (r << 16) | (g << 8) | 0xFF;
+            if (this.surroundingLight) {
+                this.surroundingLight.opacity = this._normalOpacity + pulse * 1.2;
+            }
+        } else {
+            if (this._hoverPulseTime > 0) {
+                this._hoverPulseTime = 0;
+                this._mainSprite.tint = 0xFFFFFF;
+                if (this.surroundingLight) {
+                    this.surroundingLight.opacity = this._normalOpacity;
+                }
+            }
+        }
     }
 
     /** Ghost cannot die. */
