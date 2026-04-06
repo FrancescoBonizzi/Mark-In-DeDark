@@ -463,6 +463,7 @@ export async function initGame(
         if (intersects(playerRect, key.collisionRectangle)) {
           key.collect();
           hud?.showMessage(GameTexts.keyFound, "#ffd700");
+          if (keyOverlayText) keyOverlayText.text = '🔓';
         }
       } else {
         key?.update(dt);
