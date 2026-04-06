@@ -22,7 +22,7 @@ const LETTER_TO_TYPE: Record<string, ObjectTypes> = {
     Z: ObjectTypes.Zombie,
     S: ObjectTypes.Scheletro,
     T: ObjectTypes.Taurus,
-    G: ObjectTypes.Ghost,
+    H: ObjectTypes.Ghost,
     B: ObjectTypes.Bubu,
 };
 
