@@ -319,8 +319,8 @@ export async function initGame(
         opacity: 0.3,
         radius: 80,
         castsShadows: false,
-        color1: 0xffaa44,
-        color2: 0xff8800,
+        color1: 0x55ddcc,
+        color2: 0x33aaaa,
         distanceSquared: 2_200,
         distanceSquaredForWall: 7_000,
       });

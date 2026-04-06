@@ -43,8 +43,8 @@ export class Exit {
       opacity: 0.3,
       radius: 80,
       castsShadows: false,
-      color1: 0x55ddcc,
-      color2: 0x33aaaa,
+      color1: 0xffaa44,
+      color2: 0xff8800,
       distanceSquared: 2_200,
       distanceSquaredForWall: 7_000,
     });
