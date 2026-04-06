@@ -89,10 +89,7 @@ for (const dir of subdirs) {
 const foldersCode = entries
   .map((e) => {
     const levelsStr = e.levels
-      .map(
-        (l) =>
-          `      { id: ${l.id}, name: ${JSON.stringify(l.name)} }`,
-      )
+      .map((l) => `      { id: ${l.id}, name: ${JSON.stringify(l.name)} }`)
       .join(",\n");
     return (
       `    { folder: ${JSON.stringify(e.folder)}, displayName: ${JSON.stringify(e.displayName)}, levels: [\n` +
@@ -122,7 +119,9 @@ ${foldersCode}
 `;
 
 fs.writeFileSync(outputFile, output, "utf-8");
-console.info(`\n✅ Manifesto livelli scritto → ${path.relative(process.cwd(), outputFile)}`);
+console.info(
+  `\n✅ Manifesto livelli scritto → ${path.relative(process.cwd(), outputFile)}`,
+);
 console.info(
   `   Cartelle: ${entries.map((e) => `${e.folder} (${e.levels.length} livelli)`).join(", ")}`,
 );

@@ -10,8 +10,8 @@ const enum GhostPhase {
     Hovering,
 }
 
-const HOVER_TRIGGER_DISTANCE = 4;
-const HOVER_PROBABILITY = 0.15;
+const HOVER_TRIGGER_DISTANCE = 6;
+const HOVER_PROBABILITY = 0.25;
 const HOVER_DURATION_MS = 500;
 /** Minimum cells traversed between hover checks (cooldown). */
 const HOVER_CELL_COOLDOWN = 5;
@@ -69,6 +69,7 @@ export class PatrolGhostAI implements IEnemyAI {
                     Math.abs(enemyCell.col - playerCell.col) +
                     Math.abs(enemyCell.row - playerCell.row);
                 if (dist <= HOVER_TRIGGER_DISTANCE && Math.random() < HOVER_PROBABILITY) {
+                    console.log(`[GhostAI] HOVERING dist=${dist}`);
                     this._phase = GhostPhase.Hovering;
                     this._hoverTimer = HOVER_DURATION_MS;
                     this._actions = [];

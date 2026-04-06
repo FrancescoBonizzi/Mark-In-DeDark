@@ -5,20 +5,10 @@
 
 ---
 
-## Da implementare: **Ghost — potrebbe avere un comportamento più teatrale**
-
-Attualmente patruglia ignorando i muri e attacca solo se il giocatore si muove. L'idea è bella ma il Ghost "si comporta normalmente" tranne per la condizione di attacco. Manca teatralità.
-
-**Proposta concreta:** aggiungere uno stato `Hovering` dove il Ghost si ferma brevemente (0.5 s) su una cella casuale vicina al giocatore prima di riprendere il percorso. Effetto: sembra che il Ghost "annusi" la presenza del player, creando tensione anche quando il player è fermo. Implementazione: aggiungere un check in `PatrolGhostAI.update()` — se il Ghost è entro N celle dal player (es. 4), probabilità X% ogni N frame di fare una pausa. Non cambia la meccanica letale ma aumenta la tensione percepita.
-
-**Dove:** `Web/src/ai/PatrolGhostAI.ts`
-
-**Come:**
-
-1. Aggiungere `enum GhostPhase { Patrol, Hovering }` e `_phase = GhostPhase.Patrol`.
-2. In `update()`, dopo il movimento patrol standard: se `_phase === Patrol` e il Ghost è entro 4 celle dal player (distanza Manhattan su griglia), generare un numero random ogni 60 frame; se < 0.15 (15% di probabilità), passare a `Hovering` per 500ms.
-3. In `Hovering`: non restituire alcun input di movimento (restituire `CharacterActions.Idle`), decrementare il timer. Alla scadenza, tornare a `Patrol`.
-4. Nessun cambio alla condizione di attacco (che è in `GhostEnemy.ts`, non nell'AI).
-5. Aggiornare il file ENEMY_AI con la nuova gestione
-
-**Impatto:** zero sul gameplay, alta teatralità. Il Ghost sembra "fiutare" la presenza del player.
+- [ ] Nei log i generazione del manifest dei livelli, scrivi una nota visibile a console che dice che pesca solo file che hanno il formato numero.mark
+- [ ] I log del secondo script, quello che analizza gli spritesheet per il level editor, è troppo appicicato a quello dello script di generazione del manifest, fai in modo di separarli in qualche modo, e assicurati che entrambi appena partono abbiamo un log che dica chi sono e cosa stanno per fare, a mo' di titolo.
+- [ ] Prima pensavo di poter far fare i livelli all'AI con un editor ASCII. Ho cambiato idea, li farò a mano con un level editor. Rileggi i file LEVEL_TASKS e LEVEL_DESIGN_GUIDELINES per eliminare tutti i riferimenti a ASCII o cose analoghe
+- [ ] In relazione al task precedente, dato che i livelli li faranno degli umani, ti chiedo di revisione i seguenti testi per fare in modo che siano indirizzati ad umani:
+  - [ ] LEVEL_DESIGN_GUIDELINES.md: immagina di poterlo poi stampare e dare ad un essere umano che prenderà in mano il level editor. Non servono tanti testi secondo me, bisogna essere più generici. Inoltre tutta la parte legata alla storia va eliminata da lì, deve restare solo dentro a LEVEL_TASKS (perché ogni designer deciderà la sua storia)
+  - [ ] LEVEL_TASKS.md: anche qui, io userò questo file come canovaccio per tutto. Mantieni pure i nomi dei livelli, le indicazioni di gameplay del livello di massima, e i testi già pronti (che vanno benissimo), ma niente di più. È un canovaccio per me per implementare il tutto e lo userò come "board" di project management.
+  - [ ] Controlla in giro in altri file se si parla di ASCII o di aiuto per l'AI per implementare i livelli / level design, se li trovi, elimina quelle parti/semplifica perché questa parte sarà fatta da umani.

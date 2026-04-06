@@ -69,8 +69,8 @@ test("Cattura output console del gioco", async ({ page }) => {
     };
   });
 
-  await page.goto("http://localhost:5173/mark-in-dedark/#/game/4");
-  await page.waitForTimeout(5_000);
+  await page.goto("http://localhost:5173/mark-in-dedark/#/game/debug/1");
+  await page.waitForTimeout(15_000);
 
   // Log lightmap pixel direttamente
   const lightmapPixels = await page.evaluate(async () => {

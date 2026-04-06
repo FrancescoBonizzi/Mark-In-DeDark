@@ -73,14 +73,14 @@ export class GhostEnemy extends Enemy {
 
         if (hovering) {
             this._hoverPulseTime += deltaMS;
-            // Pulse 0→1→0 at ~4Hz
-            const pulse = (Math.sin(this._hoverPulseTime * 0.012) + 1) / 2;
-            // Tint: blend from 0xCCEEFF (pale cyan) to 0xFFFFFF (white)
-            const r = Math.round(0xCC + pulse * 0x33);
-            const g = Math.round(0xEE + pulse * 0x11);
+            // Pulse rapido ~6Hz: 0→1
+            const pulse = (Math.sin(this._hoverPulseTime * 0.018) + 1) / 2;
+            // Tint: da 0x66AAFF (blu acceso) a 0xFFFFFF (bianco) — effetto "brillante"
+            const r = Math.round(0x66 + pulse * 0x99);
+            const g = Math.round(0xAA + pulse * 0x55);
             this._mainSprite.tint = (r << 16) | (g << 8) | 0xFF;
             if (this.surroundingLight) {
-                this.surroundingLight.opacity = this._normalOpacity + pulse * 1.2;
+                this.surroundingLight.opacity = this._normalOpacity + pulse * 1.5;
             }
         } else {
             if (this._hoverPulseTime > 0) {

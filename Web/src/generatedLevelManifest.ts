@@ -13,6 +13,9 @@ export interface FolderManifest {
 }
 
 export const LEVEL_FOLDERS: readonly FolderManifest[] = [
+    { folder: "debug", displayName: "Debug", levels: [
+      { id: 1, name: "Primo livello" }
+    ] as const },
     { folder: "default", displayName: "Default", levels: [
       { id: 1, name: "Primo livello" },
       { id: 2, name: "Secondo livello" },
