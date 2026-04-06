@@ -47,6 +47,7 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 - **Livelli:** `.mark` (testo pipe-delimited, parsati da `grid/GridLoader.ts`). Validatore: `Web/scripts/validate-level.ts`
 - **progetto-riferimento**: `/progetto-riferimento` contiene un altro gioco molto più semplice di questo che ho convertito manualmente da C# a Typescript/PixiJs (trovi entrambe le versioni). Usalo come riferimento per le parti di conversione a PixiJs, ma considera che non c'è nulla, in quel progetto, di relativo a rendering avanzato come shader, normal map, ecc.
 - **Level Editor Migration**: `LEVEL_EDITOR_MIGRATION.md` — analisi completa della conversione del Level Editor WPF → TypeScript/Vite (inventario C#, funzionalità, complessità per area, risorse riusabili)
+- **Level Editor Web**: `Web/src/pages/leveleditor/` — editor visuale integrato per creare e modificare i file `.mark` direttamente nel browser
 
 ---
 
@@ -68,20 +69,15 @@ Il punto di partenza obbligatorio è **`docs/LEVEL_TASKS.md`**: contiene la list
 
 Documentazione di supporto:
 
-- `docs/LEVEL_FORMAT.md` — struttura tecnica del formato `.mark` e del formato `.ascii`
+- `docs/LEVEL_FORMAT.md` — struttura tecnica del formato `.mark`
 - `docs/LEVEL_DESIGN_GUIDELINES.md` — linee guida di design, narrativa, progressione difficoltà
-- `Web/scripts/level-editor.ts` — documentazione in-code del formato `.ascii` e del convertitore
 
 Workflow per ogni livello:
 
 1. Leggi le specifiche del livello in `LEVEL_TASKS.md`.
 2. Leggi `LEVEL_FORMAT.md` e `LEVEL_DESIGN_GUIDELINES.md` se non li hai già in contesto. **Inizia sempre dai VINCOLI INVIOLABILI** in cima a `LEVEL_DESIGN_GUIDELINES.md`.
-3. **PRIMA di scrivere qualsiasi ASCII:** produci il grafo delle stanze in testo (Spawn → A → B → … → Uscita) e verifica i vincoli (bounding box, trigger nei corridoi 1-cella, linearità). Segui il workflow a fasi nella sezione 6 di `LEVEL_DESIGN_GUIDELINES.md`.
-4. Crea `Web/public/assets/levels/N.ascii` (sorgente editabile) partendo da tutta `▓` e scavando i corridoi — non il contrario.
-5. Quando vuoi finalizzare, converti con `npx ts-node Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii` → genera `N.mark`.
-6. Valida con `npx ts-node Web/scripts/validate-level.ts Web/public/assets/levels/N.mark`.
-7. Se ci sono errori, correggi il `.ascii` e rigenera — non modificare mai il `.mark` a mano.
-8. I testi da mostrare in gioco vanno scritti direttamente nel campo `stringCode` della cella nel file `.ascii` — nessun mapping esterno necessario.
-9. Segna il livello come ✅ in `LEVEL_TASKS.md`.
-
-**Conserva sempre entrambi i file** — `.ascii` è la sorgente editabile, `.mark` è il formato di gioco.
+3. Produci il grafo delle stanze in testo (Spawn → A → B → … → Uscita) e verifica i vincoli (bounding box, trigger nei corridoi 1-cella, linearità). Segui il workflow a fasi nella sezione 6 di `LEVEL_DESIGN_GUIDELINES.md`.
+4. Crea o modifica `Web/public/assets/levels/folder/N.mark` direttamente nel formato pipe-delimited secondo `LEVEL_FORMAT.md`.
+5. Valida con `npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/folder/N.mark`.
+6. Se ci sono errori, correggi il `.mark` direttamente.
+7. Segna il livello come ✅ in `LEVEL_TASKS.md`.

@@ -2,7 +2,6 @@
 
 ### Livelli
 
-- [ ] Riprovare a farli generare dall'AI, magari prendo i livelli di Marco come esempio, li esporto in ASCII e glieli do da guardare
 - [ ] Farli tutti con la mia storia
 - [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
 
@@ -15,8 +14,11 @@
 ### Colonna sonora
 
 - [ ] Rach in sottofondo molto leggero e loppato
-- [ ] Suoni ambientali generati con AI
-- [ ] Qualche suono da horror/thriller generato con l'AI
+- [ ] Suoni ambientali generati con AI -> repo Michele
+  - [ ] Crepitio del fuoco vicino ai braceri
+  - [ ] Versi dei mostri
+  - [ ]
+- [ ] Chiedi all'AI consigli dopo aver comunque già impostato alcune cose
 
 ## Erogarlo sul mio sito
 

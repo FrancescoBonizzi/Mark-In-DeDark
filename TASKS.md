@@ -5,27 +5,11 @@
 
 ---
 
-## DA RIFLETTERE ANCORA
-
-**Ghost — potrebbe avere un comportamento più teatrale**
+## Da implementare: **Ghost — potrebbe avere un comportamento più teatrale**
 
 Attualmente patruglia ignorando i muri e attacca solo se il giocatore si muove. L'idea è bella ma il Ghost "si comporta normalmente" tranne per la condizione di attacco. Manca teatralità.
 
 **Proposta concreta:** aggiungere uno stato `Hovering` dove il Ghost si ferma brevemente (0.5 s) su una cella casuale vicina al giocatore prima di riprendere il percorso. Effetto: sembra che il Ghost "annusi" la presenza del player, creando tensione anche quando il player è fermo. Implementazione: aggiungere un check in `PatrolGhostAI.update()` — se il Ghost è entro N celle dal player (es. 4), probabilità X% ogni N frame di fare una pausa. Non cambia la meccanica letale ma aumenta la tensione percepita.
-
----
-
-**Bubu — ha molto potenziale inespresso**
-
-Attualmente: patruglia, cerca candele, le spegne. Non emette luce. È "invisibile nel buio".
-
-**Proposta più ambiziosa (consigliata):** aggiungere un breve **suono di respiro** o fruscio ogni N secondi quando il Bubu è vicino al giocatore (es. entro 5 celle), senza che il Bubu cambi comportamento. Il player sente qualcosa vicino ma non lo vede. Effetto orror puro — aumenta enormemente la tensione senza modificare la meccanica. Implementazione: in `Bubu.update()`, calcola distanza Manhattan dal player → se sotto soglia → chiama `SoundManager.playIfNotPlaying('bubu_nearby')` con rate casuale (ogni 2-4 secondi). Serve solo un nuovo file audio di 0.5 secondi.
-
----
-
-## Analisi approfondimento — Come implementerei le proposte "DA RIFLETTERE ANCORA"
-
-### Ghost — stato Hovering per teatralità
 
 **Dove:** `Web/src/ai/PatrolGhostAI.ts`
 
@@ -35,16 +19,6 @@ Attualmente: patruglia, cerca candele, le spegne. Non emette luce. È "invisibil
 2. In `update()`, dopo il movimento patrol standard: se `_phase === Patrol` e il Ghost è entro 4 celle dal player (distanza Manhattan su griglia), generare un numero random ogni 60 frame; se < 0.15 (15% di probabilità), passare a `Hovering` per 500ms.
 3. In `Hovering`: non restituire alcun input di movimento (restituire `CharacterActions.Idle`), decrementare il timer. Alla scadenza, tornare a `Patrol`.
 4. Nessun cambio alla condizione di attacco (che è in `GhostEnemy.ts`, non nell'AI).
+5. Aggiornare il file ENEMY_AI con la nuova gestione
 
 **Impatto:** zero sul gameplay, alta teatralità. Il Ghost sembra "fiutare" la presenza del player.
-
-### Bubu — suono di respiro di prossimità
-
-**Dove:** `Web/src/characters/enemies/Bubu.ts`
-
-**Come:**
-
-1. Aggiungere un timer `_nearbyBreathTimer = 0` e una soglia random `_nextBreathAt = randomBetween(2000, 4000)`.
-2. In `update()`: calcolare distanza Manhattan tra `this.currentCell` e `player.currentCell`. Se < 5 celle, incrementare il timer. Quando supera `_nextBreathAt`, chiamare `SoundManagerInstance.play('bubuNearby', '...path...')` e resettare il timer con nuovo valore random.
-3. Se il player si allontana (distanza ≥ 5), resettare il timer a 0.
-4. Serve solo il file audio `Web/public/assets/sounds/effects/BubuNearby.wav` (0.5s, volume basso).

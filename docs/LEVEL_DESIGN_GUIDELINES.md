@@ -7,7 +7,7 @@ Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMA
 
 ## VINCOLI INVIOLABILI — leggere PRIMA di qualsiasi altra cosa
 
-Questi sono i vincoli che l'AI viola più spesso. Vanno verificati PRIMA di scrivere l'ASCII.
+Questi sono i vincoli che l'AI viola più spesso. Vanno verificati PRIMA di creare il livello.
 
 ### 1. DIMENSIONI — non superare la bounding box
 
@@ -61,34 +61,20 @@ Se la spec prevede diramazioni opzionali: max 1 bivio visibile alla volta, ogni 
 
 ### 4. MURI — obbligatori attorno a ogni cella floor
 
-Ogni cella floor deve essere circondata da muri espliciti (`│` e `─`) ai bordi con fill o NonCella. **Non basta avere fill adiacente:** senza separatori muro il motore di rendering usa texture "da esterno" che producono artefatti visivi.
+Ogni cella floor deve avere muri espliciti (`LEFT`, `RIGHT`, `TOP`, `BOTTOM`) ai bordi con fill o NonCella. **Non basta avere fill adiacente:** senza muri il motore di rendering usa texture "da esterno" che producono artefatti visivi.
 
-**Regola in una riga:** ogni transizione floor↔fill (o floor↔NonCella) deve avere un separatore muro nel file `.ascii`.
+**Regola in una riga:** ogni transizione floor↔fill (o floor↔NonCella) deve avere un muro sul lato corrispondente della cella floor.
 
-Separatori verticali (`│`) nelle righe-cella, posizione dispari `c*2+1` tra col C e col C+1:
+Nel formato `.mark`:
+- bordo sinistro dell'area floor: `LEFT=1` sulla cella floor di bordo
+- bordo destro: `RIGHT=1`
+- bordo superiore: `TOP=1`
+- bordo inferiore: `BOTTOM=1`
+- dove c'è un ingresso usa `WallType=5`, dove c'è un'uscita usa `WallType=6`
 
-- `│` tra fill col C e floor col C+1 → LEFT wall su col C+1
+### 5. PRIMA IL GRAFO, POI IL LIVELLO
 
-Separatori orizzontali (`─`) nelle righe-muro (prefisso 5 spazi), posizione `c*2` per col C:
-
-- `─` alla col C tra riga R (fill) e riga R+1 (floor) → TOP wall su (R+1, C)
-
-**Eccezioni lecite:** il separatore `i` (Ingresso) e `o` (Uscita) sostituiscono `│` o `─` dove serve una apertura con tipo speciale. Il separatore tra due celle fill non richiede muro.
-
-Esempio pattern corretto (area aperta circondata da fill con muri):
-
-```
-  1: ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
-               ─ ─ ─ ─ ─ ─ ─       ← muri TOP dell'area (cols 5-11)
-  2: ▓ ▓ ▓ ▓ ▓│· · · · · · ·│▓ ▓  ← │ = muri LEFT e RIGHT dell'area
-  3: ▓i@ · · · · · · · · · · ·│▓   ← i = ingresso, │ = muro destro
-               ─ ─ ─ ─ ─ ─ ─       ← muri BOTTOM dell'area
-  4: ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓
-```
-
-### 5. PRIMA IL GRAFO, POI L'ASCII
-
-Non iniziare mai a disegnare l'ASCII senza aver prima scritto il grafo delle stanze. Vedi il workflow obbligatorio in [Sezione 6](#6-workflow-obbligatorio-per-la-generazione).
+Non iniziare mai a costruire il livello senza aver prima scritto il grafo delle stanze. Vedi il workflow obbligatorio in [Sezione 6](#6-workflow-obbligatorio-per-la-generazione).
 
 ### 6. Alcuni livelli d'esempio
 
@@ -98,7 +84,7 @@ Vedi:
 - Web/public/assets/levels/demo/2.mark
 - Web/public/assets/levels/demo/4.mark
 
-Puoi valutarli convertendoli in ASCII con il nostro tool per leggerli.
+Puoi aprirli nel Level Editor visuale o leggerli direttamente come file `.mark`.
 
 ---
 
@@ -483,11 +469,11 @@ Spunta ogni voce. Se una fallisce, torna alla Fase 1.
 - [ ] I testi sono max 3, in voce di Mark, nel tono corretto per l'atto?
 - [ ] La meccanica nuova è esattamente una sola?
 
-### FASE 3 — Genera l'ASCII
+### FASE 3 — Costruisci il livello
 
-Costruisci la mappa partendo da tutta `▓` e "scavando" i corridoi — non il contrario. Non aggiungere stanze finché quelle già presenti non rispettano il grafo pianificato.
+Crea il file `.mark` partendo da celle tutte fill (`ground=8`) e "scavando" le celle floor — non il contrario. Non aggiungere stanze finché quelle già presenti non rispettano il grafo pianificato.
 
-### FASE 4 — Auto-validazione dopo aver scritto l'ASCII
+### FASE 4 — Auto-validazione dopo aver costruito il livello
 
 - **Conta le righe e colonne** della bounding box effettiva — confronta con i limiti
 - **Per ogni `!`:** verifica che la riga (o colonna) non abbia floor sia sopra che sotto (o a sx e dx). Se sì, il trigger è aggirabile → sposta o restringi

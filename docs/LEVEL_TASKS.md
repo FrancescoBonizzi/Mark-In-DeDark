@@ -7,45 +7,17 @@ Per le linee guida di design, narrativa, nemici e meccaniche: [`LEVEL_DESIGN_GUI
 
 ## Come creare un livello
 
-Ogni livello va creato nel formato ASCII con `level-editor.ts` e poi convertito in `.mark`.
+I livelli sono file `.mark` pipe-delimited creati direttamente tramite il Level Editor visuale integrato (`Web/src/pages/leveleditor/`) o modificati a mano secondo `LEVEL_FORMAT.md`.
 
-**1. Leggi la guida completa (obbligatorio prima di iniziare):**
+**1. Crea o modifica il file `.mark`** in `Web/public/assets/levels/folder/N.mark`.
 
-```
-npx tsx Web/scripts/level-editor.ts --help
-```
-
-**2. Genera la griglia vuota con il pack corretto:**
+**2. Valida:**
 
 ```
-npx tsx Web/scripts/level-editor.ts --new --pack=N > Web/public/assets/levels/N.ascii
+npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/folder/N.mark
 ```
 
-**3. Disegna il livello** nel file `.ascii` generato — mappa + annotazioni secondo le specifiche in `--help`.
-
-**4. Converti in `.mark`:**
-
-```
-npx tsx Web/scripts/ascii-to-mark.ts Web/public/assets/levels/N.ascii -o Web/public/assets/levels/N.mark
-```
-
-> **Importante:** conserva sempre entrambi i file — `N.ascii` è la sorgente editabile, `N.mark` è il formato di gioco. Non cancellare il `.ascii` dopo la conversione: è l'unico modo per riaprire e correggere il livello in futuro.
-
-**5. Valida:**
-
-```
-npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/N.mark
-```
-
-**6. Verifica il round-trip** (facoltativo ma consigliato — deve essere identico):
-
-```
-npx tsx Web/scripts/level-editor.ts Web/public/assets/levels/N.mark
-```
-
-> **Nota:** `level-editor.ts` legge solo file `.mark`, non `.ascii`. Usarlo su un `.ascii` produce output vuoto senza errori — non è un bug del file. Per verificare un `.ascii` bisogna sempre convertirlo prima (step 4) e poi visualizzare il `.mark` risultante.
-
-**7. Registra il livello in `src/levels.ts`:**
+**3. Registra il livello in `src/levels.ts`:**
 
 Il file `Web/src/levels.ts` è il manifest dei livelli pubblicati — quelli che compaiono nella pagina di selezione. Ogni voce è commentata finché il livello non è pronto.
 
@@ -121,29 +93,6 @@ Lettura dello schema:
 
 Proporzioni reali indicative: ingresso corridor = 3–4 celle lunghe, area centrale = 5–7 celle alte × 12–16 celle larghe, uscita corridor = 4–5 celle lunghe.
 
----
-
-## Note pratiche sul formato ASCII
-
-Queste note integrano la guida di `--help` con problemi concreti incontrati durante la generazione.
-
-**Struttura delle righe-cella (89 caratteri)**
-Ogni riga-cella ha 89 posizioni (per 45 colonne): le posizioni pari `0, 2, 4, …, 88` sono le celle, le posizioni dispari `1, 3, 5, …, 87` sono i separatori verticali. Ogni carattere Unicode (inclusi `▓`, `·`, `─`, `i`, `o`) occupa esattamente 1 posizione nella stringa JavaScript — il conteggio è per caratteri, non per byte UTF-8. Righe compatte tipo `▓▓▓▓▓` funzionano: i `▓` nelle posizioni dispari vengono trattati come separatore assente (nessun muro).
-
-**Righe muro e posizione del primo `─`**
-Il contenuto di una riga muro inizia alla posizione 0 (dopo i 5 spazi di prefisso). La posizione 0 corrisponde alla colonna 0. Se il livello ha fill (`▓`) in colonna 0, scrivere `─` in posizione 0 aggiunge un muro BOTTOM sulla cella fill — innocuo visivamente ma tecnicamente impreciso. Per precisione, lasciare 2 spazi iniziali nel contenuto (`  ─ ─ ─ …`) in modo che col 0 (e il suo separatore) non ricevano il muro, e il primo `─` cada sulla colonna 1.
-
-**Ingresso orizzontale senza MURI espliciti**
-La guida avverte che per Ingresso/Uscita su lato LEFT/RIGHT in corridoi orizzontali bisognerebbe usare la sezione `MURI`. In pratica, scrivere `▓i·` nel corpo della riga-cella (fill + separatore `i` + floor) funziona correttamente: il convertitore assegna `RIGHT=5` (Ingresso) alla cella fill, che il gioco tratta come equivalente visivo di `LEFT=5` sulla cella floor. Non è necessario aggiungere voci MURI per questo caso.
-
-**Muri obbligatori attorno al floor — regola critica**
-Ogni transizione floor↔fill (e floor↔NonCella) richiede un separatore muro esplicito nel file `.ascii`. Senza di esso, il motore usa texture "da esterno" che producono artefatti visivi. Vedi VINCOLO §4 in `LEVEL_DESIGN_GUIDELINES.md` per la regola completa con esempi.
-
-Riepilogo pratico per un livello con fill perimetrale e area floor interna:
-- **Verticali `│`:** nelle righe-cella, inserire `│` nella posizione dispari tra fill e floor (es. `▓▓▓▓▓▓▓▓▓│· ·`)
-- **Orizzontali `─`:** nelle righe-muro (prefisso 5 spazi), scrivere `─` alla posizione `c*2` per ogni colonna floor che confina con fill sopra o sotto (es. `               ─ ─ ─ ─ ─`)
-- L'ingresso `i` e l'uscita `o` sostituiscono `│`/`─` dove serve una apertura con tipo speciale.
-
 **Il validatore avverte "nessun pacco di candele"**
 Per i livelli senza nemici (livelli 1 e 2) questa è la situazione corretta. L'avviso può essere ignorato.
 
@@ -155,7 +104,7 @@ Prima di segnare un livello come completato, verifica:
 
 - [ ] `npx tsx Web/scripts/validate-level.ts <livello.mark>` non riporta errori
 - [ ] `npm run build` passa senza errori
-- [ ] Entrambi i file `N.ascii` e `N.mark` sono presenti in `Web/public/assets/levels/`
+- [ ] Il file `N.mark` è presente in `Web/public/assets/levels/`
 - [ ] Almeno 1 Giocatore, 1 Chiave, 1 Uscita, almeno 1 pacco di Candele
 - [ ] Lo spawn del giocatore è distante dai nemici (≥ 3 celle Manhattan)
 - [ ] I bordi della mappa sono chiusi (Riempimento o muri Occludente)
