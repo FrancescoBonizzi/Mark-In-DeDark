@@ -642,12 +642,14 @@ canvas { display: block; }
     pointer-events: none;
 }
 
-/* Brace embers floating up */
+/* Brace embers floating up — usato su tutte le pagine */
+.page-embers,
 .main-menu__embers {
-    position: absolute;
+    position: fixed;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
+    z-index: 0;
 }
 
 .ember {

@@ -147,6 +147,15 @@ new PatrolGhostAI(waypoints, grid, player)
 
 Non ricerca mai candele (il Ghost non ha `searchesCandles`).
 
+**Fase Hovering (teatralità):**
+
+Il Ghost alterna tra due fasi interne: `Patrol` e `Hovering`.
+
+- Ogni 60 frame, se il Ghost è entro 4 celle (distanza Manhattan) dal player, c'è il 15% di probabilità di passare a `Hovering` per 500 ms.
+- In `Hovering` il Ghost restituisce `CharacterActions.Idle` (si ferma) e non calcola nuovi percorsi.
+- Alla scadenza torna a `Patrol`.
+- La condizione di attacco (in `GhostEnemy.ts`) non è modificata.
+
 **Transizioni:**
 - → `IdleAI` se il giocatore viene ucciso
 

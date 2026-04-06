@@ -31,6 +31,11 @@ export function renderFolderLevelsPage(container: HTMLElement, folder: string) {
   container.innerHTML = `
 <div class="folder-levels-page">
     <div class="folder-levels-page__bg-glow"></div>
+    <div class="page-embers" aria-hidden="true">
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span>
+    </div>
 
     <header class="folder-levels-page__header">
         <a href="/levels" class="back-link" data-navigo>← INDIETRO</a>

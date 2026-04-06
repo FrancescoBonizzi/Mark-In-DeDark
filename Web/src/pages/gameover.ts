@@ -47,6 +47,11 @@ export function renderGameOverPage(container: HTMLElement) {
 
     container.innerHTML = `
 <main>
+    <div class="page-embers" aria-hidden="true">
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span>
+    </div>
     <section class="gameover">
         <div class="menu-content">
             <h1 class="title${isWin ? ' title-win' : ''}">${title}</h1>

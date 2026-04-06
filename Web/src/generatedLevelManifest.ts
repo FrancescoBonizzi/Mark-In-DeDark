@@ -19,13 +19,13 @@ export const LEVEL_FOLDERS: readonly FolderManifest[] = [
       { id: 3, name: "Terzo livello" }
     ] as const },
     { folder: "demo", displayName: "Demo", levels: [
-      { id: 1, name: "Demo - Il Giardino" },
-      { id: 2, name: "Demo - Grotta di Pietra" },
-      { id: 3, name: "Demo - Caverne del Buio" },
-      { id: 4, name: "Demo - Antri Profondi" },
-      { id: 5, name: "Demo - Il Tempio" },
-      { id: 6, name: "Demo - Sale Oscure" },
-      { id: 7, name: "Demo - Catacomba" },
-      { id: 8, name: "Demo - Corridoi Erosi" }
+      { id: 1, name: "Il Giardino" },
+      { id: 2, name: "Grotta di Pietra" },
+      { id: 3, name: "Caverne del Buio" },
+      { id: 4, name: "Antri Profondi" },
+      { id: 5, name: "Il Tempio" },
+      { id: 6, name: "Sale Oscure" },
+      { id: 7, name: "Catacomba" },
+      { id: 8, name: "Corridoi Erosi" }
     ] as const },
 ];

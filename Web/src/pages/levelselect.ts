@@ -46,6 +46,11 @@ export function renderLevelSelectPage(container: HTMLElement) {
   container.innerHTML = `
 <div class="level-select-page">
     <div class="level-select-page__bg-glow"></div>
+    <div class="page-embers" aria-hidden="true">
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span><span class="ember"></span>
+        <span class="ember"></span><span class="ember"></span>
+    </div>
 
     <header class="level-select-page__header">
         <a href="/" class="back-link" data-navigo>← MENU</a>
