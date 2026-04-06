@@ -136,7 +136,7 @@ export class GameHud {
     update(candlesLeft: number, _elapsedMs: number, hasKey = false): void {
         this._candlesEl.textContent = `🕯 ${candlesLeft}`;
         if (hasKey) {
-            this._keyEl.textContent = '🗝 Trovate l\'uscita';
+            this._keyEl.textContent = '🗝 Trova l\'uscita';
             this._keyEl.style.color = '#ffd700';
         } else {
             this._keyEl.textContent = '';

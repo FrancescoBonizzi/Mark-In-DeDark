@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import * as fs from "fs";
 
 // ---------------------------------------------------------------------------
@@ -27,7 +27,10 @@ async function setupPage(page: import("@playwright/test").Page) {
 }
 
 /** Clicca la label associata a un radio nascosto (display:none). */
-async function clickToolLabel(page: import("@playwright/test").Page, radioId: string) {
+async function clickToolLabel(
+  page: import("@playwright/test").Page,
+  radioId: string,
+) {
   await page.locator(`label[for="${radioId}"]`).click();
 }
 
@@ -67,7 +70,9 @@ test("Cattura output console del Level Editor", async ({ page }) => {
   logs.push("[test] Sidebar e toolbar visibili");
 
   // 3. Verifica che Terra1 sia selezionata di default
-  const terra1Radio = await page.locator('input[name="editor-tool-ground"][value="1"]');
+  const terra1Radio = await page.locator(
+    'input[name="editor-tool-ground"][value="1"]',
+  );
   expect(await terra1Radio.isChecked()).toBe(true);
   logs.push("[test] Terra1 selezionata di default ✓");
 
@@ -77,7 +82,7 @@ test("Cattura output console del Level Editor", async ({ page }) => {
   await page.waitForTimeout(100);
 
   // Verifica che il colore sia cambiato a Terra1 (#6E2233)
-  const bgColor = await targetCell.evaluate(el => {
+  const bgColor = await targetCell.evaluate((el) => {
     return window.getComputedStyle(el).backgroundColor;
   });
   logs.push(`[test] Colore cella dopo click Terra1: ${bgColor}`);
@@ -95,16 +100,20 @@ test("Cattura output console del Level Editor", async ({ page }) => {
   await page.mouse.up();
   await page.waitForTimeout(100);
 
-  const draggedCellColor = await page.locator('[data-col="6"][data-row="5"]').evaluate(el => {
-    return window.getComputedStyle(el).backgroundColor;
-  });
+  const draggedCellColor = await page
+    .locator('[data-col="6"][data-row="5"]')
+    .evaluate((el) => {
+      return window.getComputedStyle(el).backgroundColor;
+    });
   logs.push(`[test] Colore cella dopo drag: ${draggedCellColor}`);
   expect(draggedCellColor).toBe("rgb(110, 34, 51)");
 
   // 6. Cambia a tab Muri e verifica
-  await page.locator('.editor-tab-btn:nth-child(2)').click();
+  await page.locator(".editor-tab-btn:nth-child(2)").click();
   await page.waitForTimeout(100);
-  const wallPanelVisible = await page.locator('[data-panel="wall"]').isVisible();
+  const wallPanelVisible = await page
+    .locator('[data-panel="wall"]')
+    .isVisible();
   expect(wallPanelVisible).toBe(true);
   logs.push("[test] Tab Muri switchato ✓");
 
@@ -130,15 +139,15 @@ test("Posizionamento oggetti nel Level Editor", async ({ page }) => {
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // --- Switch al tab Oggetti ---
-  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.locator(".editor-tab-btn:nth-child(3)").click();
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="obj"]').isVisible()).toBe(true);
   logs.push("[test] Tab Oggetti visibile ✓");
 
   // --- Seleziona Giocatore cliccando la label (radio è display:none) ---
-  await clickToolLabel(page, 'obj-radio-1');
+  await clickToolLabel(page, "obj-radio-1");
   await page.waitForTimeout(50);
-  const playerRadio = page.locator('#obj-radio-1');
+  const playerRadio = page.locator("#obj-radio-1");
   expect(await playerRadio.isChecked()).toBe(true);
   logs.push("[test] Radio Giocatore selezionato ✓");
 
@@ -148,9 +157,9 @@ test("Posizionamento oggetti nel Level Editor", async ({ page }) => {
   await page.waitForTimeout(100);
 
   // Verifica che l'emoji del Giocatore sia nella cella
-  const cellContent = await targetCell.locator('.cell-object').textContent();
+  const cellContent = await targetCell.locator(".cell-object").textContent();
   logs.push(`[test] Emoji cella: "${cellContent}"`);
-  expect(cellContent).toBe('🧍');
+  expect(cellContent).toBe("🧍");
   logs.push("[test] Giocatore piazzato ✓");
 
   // --- Verifica che il radio Giocatore sia ora disabilitato (singleton) ---
@@ -159,13 +168,15 @@ test("Posizionamento oggetti nel Level Editor", async ({ page }) => {
   logs.push("[test] Radio Giocatore disabilitato (singleton) ✓");
 
   // --- Seleziona Cancella cliccando la label ---
-  await clickToolLabel(page, 'obj-radio-0');
+  await clickToolLabel(page, "obj-radio-0");
   await page.waitForTimeout(50);
   await targetCell.click();
   await page.waitForTimeout(100);
 
   // Verifica che l'emoji sia sparita
-  const cellContentAfterDelete = await targetCell.locator('.cell-object').count();
+  const cellContentAfterDelete = await targetCell
+    .locator(".cell-object")
+    .count();
   expect(cellContentAfterDelete).toBe(0);
   logs.push("[test] Cancella oggetto funziona ✓");
 
@@ -181,7 +192,9 @@ test("Posizionamento oggetti nel Level Editor", async ({ page }) => {
 // Test 3: Shortcut tastiera → switch tab
 // ---------------------------------------------------------------------------
 
-test("Shortcut tastiera cambiano tab attivo nel Level Editor", async ({ page }) => {
+test("Shortcut tastiera cambiano tab attivo nel Level Editor", async ({
+  page,
+}) => {
   const logs: string[] = [];
 
   await setupPage(page);
@@ -193,31 +206,31 @@ test("Shortcut tastiera cambiano tab attivo nel Level Editor", async ({ page }) 
   await page.waitForTimeout(100);
 
   // F → tab Terra
-  await page.keyboard.press('f');
+  await page.keyboard.press("f");
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="ground"]').isVisible()).toBe(true);
   logs.push("[test] F → tab Terra ✓");
 
   // W → tab Muri
-  await page.keyboard.press('w');
+  await page.keyboard.press("w");
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="wall"]').isVisible()).toBe(true);
   logs.push("[test] W → tab Muri ✓");
 
   // D → tab Muri (D seleziona NoMuro)
-  await page.keyboard.press('d');
+  await page.keyboard.press("d");
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="wall"]').isVisible()).toBe(true);
   logs.push("[test] D → tab Muri (NoMuro) ✓");
 
   // C → tab Oggetti
-  await page.keyboard.press('c');
+  await page.keyboard.press("c");
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="obj"]').isVisible()).toBe(true);
   logs.push("[test] C → tab Oggetti ✓");
 
   // R → tab Terra (Riempimento1)
-  await page.keyboard.press('r');
+  await page.keyboard.press("r");
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="ground"]').isVisible()).toBe(true);
   logs.push("[test] R → tab Terra (Riempimento1) ✓");
@@ -237,20 +250,22 @@ test("Inserimento testo in cella nel Level Editor", async ({ page }) => {
   await setupPage(page);
 
   // Intercetta il prompt PRIMA della navigazione
-  page.on('dialog', async dialog => {
-    logs.push(`[test] Dialog: tipo=${dialog.type()} default="${dialog.defaultValue()}"`);
-    await dialog.accept('Testo di test');
+  page.on("dialog", async (dialog) => {
+    logs.push(
+      `[test] Dialog: tipo=${dialog.type()} default="${dialog.defaultValue()}"`,
+    );
+    await dialog.accept("Testo di test");
   });
 
   await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Vai a tab Oggetti e seleziona Testo (value=-1)
-  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.locator(".editor-tab-btn:nth-child(3)").click();
   await page.waitForTimeout(100);
-  await clickToolLabel(page, 'obj-radio--1');
+  await clickToolLabel(page, "obj-radio--1");
   await page.waitForTimeout(50);
-  expect(await page.locator('#obj-radio--1').isChecked()).toBe(true);
+  expect(await page.locator("#obj-radio--1").isChecked()).toBe(true);
   logs.push("[test] Radio Testo selezionato ✓");
 
   // Clicca su una cella (auto-set Terra1 se NonCella grazie a setStringCode)
@@ -259,7 +274,7 @@ test("Inserimento testo in cella nel Level Editor", async ({ page }) => {
   await page.waitForTimeout(300);
 
   // Verifica che il marker "A" sia nella cella
-  const markerCount = await targetCell.locator('.cell-text-marker').count();
+  const markerCount = await targetCell.locator(".cell-text-marker").count();
   logs.push(`[test] Marker "A" trovati: ${markerCount}`);
   expect(markerCount).toBe(1);
   logs.push("[test] Testo piazzato correttamente ✓");
@@ -278,7 +293,7 @@ test("Waypoint nemici auto-generati nel Level Editor", async ({ page }) => {
 
   // Intercetta tutti i prompt PRIMA della navigazione
   const promptDefaults: string[] = [];
-  page.on('dialog', async dialog => {
+  page.on("dialog", async (dialog) => {
     const def = dialog.defaultValue();
     promptDefaults.push(def);
     logs.push(`[test] Prompt waypoint: default="${def}"`);
@@ -296,15 +311,15 @@ test("Waypoint nemici auto-generati nel Level Editor", async ({ page }) => {
   }
 
   // Vai al tab Nemici
-  await page.locator('.editor-tab-btn:nth-child(4)').click();
+  await page.locator(".editor-tab-btn:nth-child(4)").click();
   await page.waitForTimeout(100);
   expect(await page.locator('[data-panel="enemy"]').isVisible()).toBe(true);
   logs.push("[test] Tab Nemici visibile ✓");
 
   // Seleziona Zombie cliccando la label (radio è display:none)
-  await clickToolLabel(page, 'obj-radio-5');
+  await clickToolLabel(page, "obj-radio-5");
   await page.waitForTimeout(50);
-  expect(await page.locator('#obj-radio-5').isChecked()).toBe(true);
+  expect(await page.locator("#obj-radio-5").isChecked()).toBe(true);
   logs.push("[test] Zombie selezionato ✓");
 
   // Piazza primo zombie
@@ -316,16 +331,20 @@ test("Waypoint nemici auto-generati nel Level Editor", async ({ page }) => {
   await page.waitForTimeout(200);
 
   // Verifica che i default siano stati Z-1-1 e Z-1-2
-  logs.push(`[test] Prompt defaults ricevuti: ${promptDefaults.join(', ')}`);
-  expect(promptDefaults[0]).toBe('Z-1-1');
-  expect(promptDefaults[1]).toBe('Z-1-2');
+  logs.push(`[test] Prompt defaults ricevuti: ${promptDefaults.join(", ")}`);
+  expect(promptDefaults[0]).toBe("Z-1-1");
+  expect(promptDefaults[1]).toBe("Z-1-2");
   logs.push("[test] Auto-generazione waypoint: Z-1-1, Z-1-2 ✓");
 
   // Verifica che l'emoji zombie sia visibile nelle celle
-  const emoji1 = await page.locator('[data-col="5"][data-row="15"] .cell-object').textContent();
-  const emoji2 = await page.locator('[data-col="6"][data-row="15"] .cell-object').textContent();
-  expect(emoji1).toBe('🧟');
-  expect(emoji2).toBe('🧟');
+  const emoji1 = await page
+    .locator('[data-col="5"][data-row="15"] .cell-object')
+    .textContent();
+  const emoji2 = await page
+    .locator('[data-col="6"][data-row="15"] .cell-object')
+    .textContent();
+  expect(emoji1).toBe("🧟");
+  expect(emoji2).toBe("🧟");
   logs.push("[test] Emoji zombie visibili ✓");
 
   fs.writeFileSync("debug/leveleditor-waypoints-output.txt", logs.join("\n"));
@@ -345,11 +364,11 @@ test("Apri file funziona alla prima apertura (Task 21)", async ({ page }) => {
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Verifica che l'input file sia appendato al DOM durante il click su "Apri"
-  const btnApri = page.locator('.editor-toolbar .btn:nth-child(2)');
+  const btnApri = page.locator(".editor-toolbar .btn:nth-child(2)");
 
   // Intercetta i file chooser
   const [fileChooser] = await Promise.all([
-    page.waitForEvent('filechooser', { timeout: 3_000 }),
+    page.waitForEvent("filechooser", { timeout: 3_000 }),
     btnApri.click(),
   ]);
 
@@ -368,7 +387,9 @@ test("Apri file funziona alla prima apertura (Task 21)", async ({ page }) => {
 // Test 7: Regola muro doppio bloccata con toast (Task 19 + Task 20)
 // ---------------------------------------------------------------------------
 
-test("Muro doppio viene bloccato con toast nel Level Editor", async ({ page }) => {
+test("Muro doppio viene bloccato con toast nel Level Editor", async ({
+  page,
+}) => {
   const logs: string[] = [];
   page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
@@ -383,33 +404,35 @@ test("Muro doppio viene bloccato con toast nel Level Editor", async ({ page }) =
   await page.waitForTimeout(50);
 
   // Vai al tab Muri
-  await page.locator('.editor-tab-btn:nth-child(2)').click();
+  await page.locator(".editor-tab-btn:nth-child(2)").click();
   await page.waitForTimeout(100);
 
   // Seleziona Occludente (valore 1) cliccando la label
   await page.locator('label[for="editor-tool-wall-1"]').click();
   await page.waitForTimeout(50);
-  expect(await page.locator('input[name="editor-tool-wall"][value="1"]').isChecked()).toBe(true);
+  expect(
+    await page.locator('input[name="editor-tool-wall"][value="1"]').isChecked(),
+  ).toBe(true);
 
   // Posiziona un muro Bottom sulla cella (10,10) via freccia ArrowDown
   await page.locator('[data-col="10"][data-row="10"]').hover();
   await page.waitForTimeout(50);
-  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press("ArrowDown");
   await page.waitForTimeout(100);
 
   // Ora tenta di posizionare un muro Top sulla cella (10,11) via freccia ArrowUp
   // → deve essere bloccato (doppio muro sullo stesso confine)
   await page.locator('[data-col="10"][data-row="11"]').hover();
   await page.waitForTimeout(50);
-  await page.keyboard.press('ArrowUp');
+  await page.keyboard.press("ArrowUp");
   await page.waitForTimeout(200);
 
   // Verifica che il toast sia apparso
-  const toast = page.locator('.editor-toast');
+  const toast = page.locator(".editor-toast");
   expect(await toast.isVisible()).toBe(true);
   const toastText = await toast.textContent();
   logs.push(`[test] Toast testo: "${toastText}"`);
-  expect(toastText).toContain('doppio');
+  expect(toastText).toContain("doppio");
   logs.push("[test] Toast muro doppio mostrato ✓");
 
   fs.writeFileSync("debug/leveleditor-doublewall-output.txt", logs.join("\n"));
@@ -419,7 +442,9 @@ test("Muro doppio viene bloccato con toast nel Level Editor", async ({ page }) =
 // Test 8: Toast per singleton già piazzato (Task 20)
 // ---------------------------------------------------------------------------
 
-test("Toast appare se si tenta di ripiazzare un singleton", async ({ page }) => {
+test("Toast appare se si tenta di ripiazzare un singleton", async ({
+  page,
+}) => {
   const logs: string[] = [];
   page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
@@ -429,9 +454,9 @@ test("Toast appare se si tenta di ripiazzare un singleton", async ({ page }) => 
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Vai al tab Oggetti e seleziona Giocatore
-  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.locator(".editor-tab-btn:nth-child(3)").click();
   await page.waitForTimeout(100);
-  await clickToolLabel(page, 'obj-radio-1');
+  await clickToolLabel(page, "obj-radio-1");
   await page.waitForTimeout(50);
 
   // Piazza il Giocatore su una cella
@@ -441,16 +466,16 @@ test("Toast appare se si tenta di ripiazzare un singleton", async ({ page }) => 
 
   // Dopo il piazzamento del singleton, l'editor torna a Ground mode.
   // Rientro nella tab Oggetti (imposta currentAction = Object)
-  await page.locator('.editor-tab-btn:nth-child(3)').click();
+  await page.locator(".editor-tab-btn:nth-child(3)").click();
   await page.waitForTimeout(100);
 
   // Force-abilita il radio e dispatcha l'evento change per aggiornare selectedObject
   await page.evaluate(() => {
-    const radio = document.querySelector<HTMLInputElement>('#obj-radio-1');
+    const radio = document.querySelector<HTMLInputElement>("#obj-radio-1");
     if (radio) {
       radio.disabled = false;
       radio.checked = true;
-      radio.dispatchEvent(new Event('change', { bubbles: true }));
+      radio.dispatchEvent(new Event("change", { bubbles: true }));
     }
   });
   await page.waitForTimeout(50);
@@ -460,14 +485,17 @@ test("Toast appare se si tenta di ripiazzare un singleton", async ({ page }) => 
   await page.waitForTimeout(200);
 
   // Il toast deve apparire
-  const toast = page.locator('.editor-toast');
+  const toast = page.locator(".editor-toast");
   expect(await toast.isVisible()).toBe(true);
   const toastText = await toast.textContent();
   logs.push(`[test] Toast testo: "${toastText}"`);
-  expect(toastText).toContain('unico');
+  expect(toastText).toContain("unico");
   logs.push("[test] Toast singleton mostrato ✓");
 
-  fs.writeFileSync("debug/leveleditor-singleton-toast-output.txt", logs.join("\n"));
+  fs.writeFileSync(
+    "debug/leveleditor-singleton-toast-output.txt",
+    logs.join("\n"),
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -488,16 +516,18 @@ test("Testa in gioco scrive in localStorage (Task 18)", async ({ page }) => {
 
   // Intercetta l'apertura del nuovo tab (window.open) senza seguirla
   const [newPage] = await Promise.all([
-    page.context().waitForEvent('page', { timeout: 3_000 }),
-    page.locator('.editor-toolbar .btn.primary').click(),
+    page.context().waitForEvent("page", { timeout: 3_000 }),
+    page.locator(".editor-toolbar .btn.primary").click(),
   ]);
   await newPage.close();
   logs.push("[test] Nuovo tab aperto ✓");
 
   // Verifica che localStorage contenga la chiave editor-preview
-  const storedValue = await page.evaluate(() => localStorage.getItem('editor-preview'));
+  const storedValue = await page.evaluate(() =>
+    localStorage.getItem("editor-preview"),
+  );
   expect(storedValue).not.toBeNull();
-  expect(storedValue).toContain('GameGridSerializerV4');
+  expect(storedValue).toContain("GameGridSerializerV4");
   logs.push("[test] localStorage 'editor-preview' scritto correttamente ✓");
 
   fs.writeFileSync("debug/leveleditor-preview-output.txt", logs.join("\n"));
@@ -507,7 +537,9 @@ test("Testa in gioco scrive in localStorage (Task 18)", async ({ page }) => {
 // Test 10: Filtro pack disabilita Terra6-10 per pack 1 (Task 17)
 // ---------------------------------------------------------------------------
 
-test("Filtro pack disabilita Terra6-10 per pack 1 (Task 17)", async ({ page }) => {
+test("Filtro pack disabilita Terra6-10 per pack 1 (Task 17)", async ({
+  page,
+}) => {
   const logs: string[] = [];
   page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
 
@@ -516,27 +548,31 @@ test("Filtro pack disabilita Terra6-10 per pack 1 (Task 17)", async ({ page }) =
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Pack 1 è il default — Terra6 (value=12) deve essere disabilitata
-  const terra6Radio = page.locator('input[name="editor-tool-ground"][value="12"]');
+  const terra6Radio = page.locator(
+    'input[name="editor-tool-ground"][value="12"]',
+  );
   expect(await terra6Radio.isDisabled()).toBe(true);
   logs.push("[test] Terra6 disabilitata per pack 1 ✓");
 
   // Terra1-5 devono essere abilitate
-  const terra1Radio = page.locator('input[name="editor-tool-ground"][value="1"]');
+  const terra1Radio = page.locator(
+    'input[name="editor-tool-ground"][value="1"]',
+  );
   expect(await terra1Radio.isDisabled()).toBe(false);
   logs.push("[test] Terra1 abilitata per pack 1 ✓");
 
   // Cambia a pack 2 → Terra6 deve abilitarsi
-  const packInput = page.locator('.toolbar-pack');
-  await packInput.fill('2');
-  await packInput.dispatchEvent('change');
+  const packInput = page.locator(".toolbar-pack");
+  await packInput.fill("2");
+  await packInput.dispatchEvent("change");
   await page.waitForTimeout(100);
 
   expect(await terra6Radio.isDisabled()).toBe(false);
   logs.push("[test] Terra6 abilitata per pack 2 ✓");
 
   // Torna a pack 1 → Terra6 torna disabilitata
-  await packInput.fill('1');
-  await packInput.dispatchEvent('change');
+  await packInput.fill("1");
+  await packInput.dispatchEvent("change");
   await page.waitForTimeout(100);
 
   expect(await terra6Radio.isDisabled()).toBe(true);
