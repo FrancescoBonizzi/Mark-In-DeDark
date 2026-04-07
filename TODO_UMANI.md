@@ -11,7 +11,7 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 
 ### Marco
 
-- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi) -> un readme che vada bene per tutti, anche per Tommy, magari con una pagina helper che lo renderizza
+- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi) -> un readme che vada bene per tutti, anche per Tommy, magari con una pagina helper che lo renderizza, sì linkato nel level editor posso renderizzare LEVEL_DESIGN_GUIDELINES
 - [ ] Passargli i texture pack e fargli fare le modifiche in place
 - [ ] Passargli la mia storia e fargli creare i livelli "Marco version" - in modo che faccia come gli piace di più e si diverta, con totale libertà, massimo 20
 
