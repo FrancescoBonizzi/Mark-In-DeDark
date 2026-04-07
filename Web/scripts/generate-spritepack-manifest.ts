@@ -125,6 +125,12 @@ const [pss, px, py] = placeholderKey.split(":").map(Number) as [
 ];
 const placeholder: FrameCoord = { ss: pss, x: px, y: py };
 
+console.info(`\n${"=".repeat(60)}`);
+console.info(`  GENERATE-SPRITEPACK-MANIFEST`);
+console.info(`  Analizza gli spritesheet JSON e genera il manifesto dei`);
+console.info(`  texture pack in generatedSpritepacks.ts`);
+console.info(`${"=".repeat(60)}\n`);
+
 console.info(`🔍 Placeholder rilevato: SS${pss} (${px},${py}) — appare ${coordFreq.get(placeholderKey)} volte`);
 
 // ---------------------------------------------------------------------------

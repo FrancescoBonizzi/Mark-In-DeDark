@@ -61,23 +61,16 @@ Stiamo lavorando sul porting dalla versione C# alla versione web con Typescript/
 
 ---
 
-## Workflow — generazione livelli
+## Workflow — livelli
 
-Quando il task riguarda la creazione o modifica di livelli di gioco, **non eseguire build né test Playwright** — non hanno senso in questo contesto.
+I livelli sono creati manualmente dall'utente tramite il Level Editor visuale (`/level-editor`). Non generare livelli in autonomia a meno che l'utente non lo richieda esplicitamente.
 
-Il punto di partenza obbligatorio è **`docs/LEVEL_TASKS.md`**: contiene la lista dei livelli, lo stato di avanzamento, le specifiche di ogni livello, il workflow da seguire e la checklist di completamento.
+Se l'utente chiede di modificare o correggere un file `.mark` esistente:
 
-Documentazione di supporto:
+1. Leggi il file `.mark` da modificare.
+2. Consulta `docs/LEVEL_FORMAT.md` per la struttura tecnica.
+3. Modifica direttamente il file `.mark`.
+4. Valida con `npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/folder/N.mark`.
+5. Se ci sono errori, correggi direttamente.
 
-- `docs/LEVEL_FORMAT.md` — struttura tecnica del formato `.mark`
-- `docs/LEVEL_DESIGN_GUIDELINES.md` — linee guida di design, narrativa, progressione difficoltà
-
-Workflow per ogni livello:
-
-1. Leggi le specifiche del livello in `LEVEL_TASKS.md`.
-2. Leggi `LEVEL_FORMAT.md` e `LEVEL_DESIGN_GUIDELINES.md` se non li hai già in contesto. **Inizia sempre dai VINCOLI INVIOLABILI** in cima a `LEVEL_DESIGN_GUIDELINES.md`.
-3. Produci il grafo delle stanze in testo (Spawn → A → B → … → Uscita) e verifica i vincoli (bounding box, trigger nei corridoi 1-cella, linearità). Segui il workflow a fasi nella sezione 6 di `LEVEL_DESIGN_GUIDELINES.md`.
-4. Crea o modifica `Web/public/assets/levels/folder/N.mark` direttamente nel formato pipe-delimited secondo `LEVEL_FORMAT.md`.
-5. Valida con `npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/folder/N.mark`.
-6. Se ci sono errori, correggi il `.mark` direttamente.
-7. Segna il livello come ✅ in `LEVEL_TASKS.md`.
+Non eseguire build né test Playwright per task legati ai livelli.

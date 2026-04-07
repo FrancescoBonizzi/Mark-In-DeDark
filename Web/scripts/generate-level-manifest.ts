@@ -55,7 +55,13 @@ const subdirs = fs
   .map((d) => d.name)
   .sort();
 
-console.info(`\n🗺️  Generazione manifesto livelli...`);
+console.info(`\n${"=".repeat(60)}`);
+console.info(`  GENERATE-LEVEL-MANIFEST`);
+console.info(`  Scansiona Web/public/assets/levels/ e genera il manifesto`);
+console.info(`  dei livelli in generatedLevelManifest.ts`);
+console.info(`${"=".repeat(60)}`);
+console.info(`\n  ⚠️  Vengono inclusi SOLO file con nome numerico: es. 1.mark, 2.mark`);
+console.info(`     File come TEST_GHOST.mark o draft.mark vengono ignorati.\n`);
 
 for (const dir of subdirs) {
   const dirPath = path.join(levelsDir, dir);

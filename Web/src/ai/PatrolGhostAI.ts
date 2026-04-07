@@ -69,7 +69,6 @@ export class PatrolGhostAI implements IEnemyAI {
                     Math.abs(enemyCell.col - playerCell.col) +
                     Math.abs(enemyCell.row - playerCell.row);
                 if (dist <= HOVER_TRIGGER_DISTANCE && Math.random() < HOVER_PROBABILITY) {
-                    console.log(`[GhostAI] HOVERING dist=${dist}`);
                     this._phase = GhostPhase.Hovering;
                     this._hoverTimer = HOVER_DURATION_MS;
                     this._actions = [];

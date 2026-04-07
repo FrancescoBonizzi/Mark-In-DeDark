@@ -151,10 +151,11 @@ Non ricerca mai candele (il Ghost non ha `searchesCandles`).
 
 Il Ghost alterna tra due fasi interne: `Patrol` e `Hovering`.
 
-- Ogni 60 frame, se il Ghost è entro 4 celle (distanza Manhattan) dal player, c'è il 15% di probabilità di passare a `Hovering` per 500 ms.
+- Ad ogni cella attraversata, se il Ghost è entro **6 celle** (distanza Manhattan) dal player, c'è il **25% di probabilità** di passare a `Hovering` per **500 ms**.
 - In `Hovering` il Ghost restituisce `CharacterActions.Idle` (si ferma) e non calcola nuovi percorsi.
-- Alla scadenza torna a `Patrol`.
+- Alla scadenza torna a `Patrol` con un cooldown di **5 celle** prima del check successivo.
 - La condizione di attacco (in `GhostEnemy.ts`) non è modificata.
+- Mentre è in `Hovering`, `GhostEnemy.update()` espone `PatrolGhostAI.isHovering` per applicare l'effetto visivo: tint dello sprite che pulsa da blu acceso (`0x66AAFF`) a bianco, e opacità della luce aumentata fino a 2.5×.
 
 **Transizioni:**
 - → `IdleAI` se il giocatore viene ucciso

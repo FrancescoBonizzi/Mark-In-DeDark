@@ -7,7 +7,7 @@ Per la struttura tecnica del file `.mark` vedi [`LEVEL_FORMAT.md`](./LEVEL_FORMA
 
 ## VINCOLI INVIOLABILI — leggere PRIMA di qualsiasi altra cosa
 
-Questi sono i vincoli che l'AI viola più spesso. Vanno verificati PRIMA di creare il livello.
+Da verificare PRIMA di creare il livello — senza eccezioni.
 
 ### 1. DIMENSIONI — non superare la bounding box
 
@@ -91,87 +91,15 @@ Puoi aprirli nel Level Editor visuale o leggerli direttamente come file `.mark`.
 ## Indice
 
 0. [VINCOLI INVIOLABILI](#vincoli-inviolabili--leggere-prima-di-qualsiasi-altra-cosa) ← **leggere per primo**
-1. [La storia di Mark — L'eredità del vuoto](#1-la-storia-di-mark--leredità-del-vuoto)
-2. [Meccaniche del gioco — introduzione progressiva](#2-meccaniche-del-gioco--introduzione-progressiva)
-3. [I nemici — descrizione e placement](#3-i-nemici--descrizione-e-placement)
-4. [Convenzioni di design spaziale](#4-convenzioni-di-design-spaziale)
-5. [Progressione dei livelli — principi e arco narrativo](#5-progressione-dei-livelli--principi-e-arco-narrativo)
-6. [Workflow obbligatorio per la generazione](#6-workflow-obbligatorio-per-la-generazione) ← **workflow a fasi**
+1. [Meccaniche del gioco — introduzione progressiva](#1-meccaniche-del-gioco--introduzione-progressiva)
+2. [I nemici — descrizione e placement](#2-i-nemici--descrizione-e-placement)
+3. [Convenzioni di design spaziale](#3-convenzioni-di-design-spaziale)
+4. [Progressione dei livelli — texture e struttura](#4-progressione-dei-livelli--texture-e-struttura)
+5. [Workflow per la creazione di un livello](#5-workflow-per-la-creazione-di-un-livello) ← **da seguire sempre**
 
 ---
 
-## 1. La storia di Mark — L'eredità del vuoto
-
-### Il rito
-
-Nella comunità di Mark non si diventa uomini compiendo diciotto anni. Si diventa uomini uscendo vivi dal **Ventre del Padre** — il labirinto sotterraneo sotto le rovine del vecchio castello, che ogni giovane maschio del villaggio deve attraversare da solo quando il tempo arriva.
-
-La notte della prova, il padre stringe la mano del figlio — sempre troppo forte — e gli consegna una candela. Una candela fatta con il grasso dei falliti precedenti. Se la luce si spegne, sei perduto: diventi parte del labirinto. Se esci, sei un uomo. Se non esci... dicono che fossi un codardo.
-
-Mark è l'ultimo di una stirpe obbligata a scendere nel buio per _meritarsi il sole_.
-
-### Chi è Mark
-
-Mark è un ragazzo adolescente, spaventato, che non ha mai scelto di essere qui. Ha letto i nomi incisi sulle porte: alcuni li riconosce. Suo fratello. Suo zio. Amici del padre. Nessuno che conosce è mai tornato, eppure il rito continua da generazioni. La società che lo ha costruito era ossessionata dalla _tempra_ — la convinzione che la sofferenza forgi la forza, che il buio insegni chi sei davvero.
-
-Mark non sa ancora cosa pensa di tutto questo. Sa solo che vuole uscire.
-
-### I mostri come specchi
-
-I nemici che Mark incontra nel labirinto non sono creature casuali. Sono le deformazioni di chi è entrato prima di lui e non è riuscito a uscire — o è uscito trasformato in qualcosa di irriconoscibile.
-
-- **Zombie:** Quelli che hanno _obbedito_ troppo. Hanno perso la volontà scendendo i gradini del labirinto e hanno continuato a camminare, meccanicamente, senza mai chiedersi perché. Vagano ancora nei corridoi ripetendo i gesti del rito, senza nessuno che li osservi.
-- **Scheletri:** Quelli che hanno cercato l'onore militare. Pattugliano stanze vuote con la stessa disciplina che avevano in vita, proteggendo un trono che non esiste più, in nome di un re che non c'è mai stato.
-- **Taurus:** L'incarnazione della rabbia cieca. È quello che resta di un uomo quando gli togli tutto tranne la forza e il senso di minaccia. Non sa dove andare se non _dritto_, non conosce altra risposta che la carica. I muri che sfonda erano già fragili — erano fatti per cedere.
-- **Goblin:** L'invidia pura. Odiano chi ha ancora una luce perché loro l'hanno persa per primi, o gliela hanno strappata. Sono veloci, accaniti, e diventano più veloci ogni volta che vedono qualcuno usare le proprie risorse. Non vogliono uccidere Mark: vogliono che rimanga al buio come loro.
-- **Ghost:** Il senso di colpa. L'ombra che sussurra di arrendersi. Attacca solo chi si muove — chi ancora _lotta_. Se ti fermi, ti sorpassa. Il labirinto premia la resa.
-- **Bubu:** Il rimpianto. Non vuole uccidere, vuole solo spegnere la luce. Come se la luce fosse un'offesa alla miseria di chi l'ha perduta. È il sabotatore silenzioso che trasforma ogni risorsa in un lusso che non puoi permetterti.
-
-### La candela
-
-La candela non è un oggetto di gioco. È la speranza di Mark — l'unica cosa che tiene il buio a distanza, costruita con i resti di chi ha fallito prima di lui. Piazzarla per distrarre un nemico è un atto che ha un peso: Mark sacrifica temporaneamente la sua sicurezza, la sua luce, per creare un'opportunità. Il labirinto è progettato per far spegnere quella candela. Ogni nemico, a modo suo, vuole il buio.
-
-Perdere la candela nel buio non è solo un malus meccanico: è Mark solo, senza niente, che deve trovare la forza di continuare in un posto che non vuole che lui esca.
-
-### Il colpo di scena finale
-
-Veicolato al livello 20.
-
-**"Il giardino vuoto"** (nichilismo puro)
-Mark apre l'ultima porta e trova il villaggio in rovina. Cenere, silenzio, nessuno. Mentre lui era nel labirinto, il mondo che aveva costruito quel rito si è spento di indifferenza. Il rito era l'unica cosa che teneva in piedi quella civiltà — e senza vittime da consumare, non è rimasto niente. La sua forza non serve a nulla in un mondo che non esiste più.
-
-> _"Il cielo è grigio. Il villaggio è in cenere. Non c'è nessuno ad attendermi, non c'è festa né orgoglio. Hanno tirato avanti questa farsa spietata finché non si sono estinti da soli. Mi sono salvato l'anima per un mondo che aveva già smesso di esistere."_
-
-### Il tono dei testi narrativi
-
-I testi sono pensieri di Mark — voce interiore, prima persona singolare. Il tono è quello di un adolescente lucido e disilluso, che scarta in fretta l'ingenuità e sviluppa un cinismo difensivo e nichilista sempre più marcato. Più scende, più realizza che l'intero sistema è una truffa crudele e insensata, e lui è solo carne da macello. Non è l'eroe: è l'ingranaggio che capisce l'ingranaggio.
-
-**Regole per scrivere i testi:**
-
-- **2–3 testi per livello** al massimo. Ogni testo deve avere un impatto.
-- **Posizionarli prima dell'oggetto o del pericolo**, non sopra. Mark pensa mentre si avvicina.
-- **I testi vanno piazzati solo in passaggi obbligati.** Vedi [VINCOLI INVIOLABILI §2](#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella) per i pattern validi e invalidi. Un testo che il 50% dei giocatori non vedrà non è design, è decorazione casuale.
-- **Non spiegare la meccanica direttamente** — suggerire in modo utilitaristico. "Sono attratti dalla luce. Se lascio la candela lì, inseguono quella." funziona meglio di "piazza la candela per distrarre il nemico".
-- **I tutorial espliciti** (premi X per fare Y) sono accettabili solo nell'Atto I (livelli 1–5), sempre in voce. Dal livello 6 in poi: solo suggerimenti indiretti.
-- **Ogni testo è una frase sola, corta.** Se il pensiero richiede più frasi, spezzarlo in trigger consecutivi separati — il giocatore li incontra uno dopo l'altro avanzando. Una frase lunga è sempre peggio di due frasi brevi in sequenza: il giocatore legge più velocemente, l'impatto è maggiore, il ritmo è più naturale. _"Nessuno di loro è tornato."_ poi, due passi dopo, _"Eppure il rito continua."_ vale più di _"Nessuno di loro è tornato, eppure il rito continua da generazioni."_
-- **Lunghezza in funzione del pericolo:**
-  - Vicino a un nemico attivo: **1 frase, massimo 6–8 parole**. Il giocatore sta guardando il nemico, non lo schermo.
-  - In zone di pausa o transizione: 1–2 frasi per trigger, più trigger consecutivi se serve.
-  - Finale (livello 20): unico momento in cui si tollera un trigger da 2 frasi — è l'unico momento in cui il giocatore si ferma davvero.
-- **L'arco della voce si comprime** man mano che Mark scende. All'inizio è spaventato e concreto (sente, annusa, riconosce). Poi diventa freddo e osservativo. Alla fine è minimalista, amaro, quasi senza fiato. Le frasi si accorciano. I punti fermi aumentano.
-
-**Evoluzione della voce attraverso i livelli:**
-
-| Atto        | Tono                   | Esempio                                 |
-| ----------- | ---------------------- | --------------------------------------- |
-| I (1–5)     | Spaventato, sensoriale | _"La candela puzza di grasso rancido."_ |
-| II (6–10)   | Osservativo, freddo    | _"Proteggono il nulla."_                |
-| III (11–16) | Cinico, tagliente      | _"Se non l'accendo muoio al buio."_     |
-| IV (17–20)  | Minimale, rassegnato   | _"Sa di piombo."_                       |
-
----
-
-## 2. Meccaniche del gioco — introduzione progressiva
+## 1. Meccaniche del gioco — introduzione progressiva
 
 Ogni meccanica deve essere **introdotta una alla volta**, in un contesto dove il giocatore capisce cosa sta succedendo senza possibilità di confusione. Non introdurre mai due meccaniche nuove nello stesso livello.
 
@@ -224,7 +152,7 @@ Questa distinzione è **contro-intuitiva** per un nuovo giocatore: l'interazione
 
 ---
 
-## 3. I nemici — descrizione e placement
+## 2. I nemici — descrizione e placement
 
 Per la documentazione completa dell'AI (stati, transizioni, parametri di velocità) vedi [`ENEMY_AI.md`](./ENEMY_AI.md).
 
@@ -289,7 +217,7 @@ Per la documentazione completa dell'AI (stati, transizioni, parametri di velocit
 
 ---
 
-## 4. Convenzioni di design spaziale
+## 3. Convenzioni di design spaziale
 
 ### Filosofia: leggibilità prima di tutto
 
@@ -316,7 +244,7 @@ Quando le specifiche di un livello dicono "lineare" o "strettamente lineare" sig
 - Nessuna stanza ha più di **2 aperture** verso altre stanze (un ingresso, un'uscita)
 - Se il livello prevede diramazioni opzionali: max 1 bivio visibile contemporaneamente; ogni diramazione ha max 2–3 stanze e non contiene chiave né uscita
 
-**Come ottenere linearità nell'ASCII:** ogni stanza deve avere al massimo 1 uscita che porta avanti e 1 che porta indietro. Usa il `▓` (fill) per murare tutte le aperture in eccesso. Non lasciare mai una stanza aperta su più di due lati.
+**Come ottenere linearità:** ogni stanza deve avere al massimo 1 uscita che porta avanti e 1 che porta indietro. Usa il fill per murare tutte le aperture in eccesso. Non lasciare mai una stanza aperta su più di due lati.
 
 ### Colli di bottiglia obbligatori tra stanze
 
@@ -329,7 +257,7 @@ Questo corridoio è l'unico punto garantito in cui il player passerà. È il luo
 
 ### Regola dei trigger di testo (`!`) — OBBLIGATORIA
 
-Vedi [VINCOLI INVIOLABILI §2](#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella) per i pattern validi/invalidi con esempi ASCII.
+Vedi [VINCOLI INVIOLABILI §2](#2-trigger-di-testo--solo-in-corridoi-obbligati-da-1-cella) per i pattern validi/invalidi.
 
 Regola di auto-verifica rapida: prima di mettere un `!`, verifica che la riga (o colonna) in cui si trova non abbia celle floor sia sopra che sotto (o sia a sinistra che a destra). Se ci sono → trigger aggirabile → sposta o restringi il corridoio.
 
@@ -396,7 +324,7 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 
 ---
 
-## 5. Progressione dei livelli — principi e arco narrativo
+## 4. Progressione dei livelli — texture e struttura
 
 ### Principi di progressione
 
@@ -406,14 +334,14 @@ I muri fragili aggiungono una meccanica di ambiente dinamico. Regole:
 4. **La struttura è sempre leggibile** — tutti i livelli hanno un percorso principale chiaro. I livelli avanzati aggiungono 2–3 diramazioni brevi (max 2–3 stanze ciascuna) con candele extra o vicoli ciechi. Mai più di 2 bivi contemporanei visibili. La complessità è nei nemici, non nella navigazione.
 5. **Il buio non è mai obbligatorio** — si può sempre trovare un percorso con abbastanza luce. Il buio è una sfida opzionale o una scorciatoia.
 
-### Arco narrativo in quattro atti
+### Struttura per atti
 
-| Atto                   | Livelli | Texture         | Atmosfera                                              |
-| ---------------------- | ------- | --------------- | ------------------------------------------------------ |
-| **I — La discesa**     | 1–5     | pacco1 → pacco2 | Rovine esterne, ingresso nel labirinto, prime creature |
-| **II — Le profondità** | 6–10    | pacco3 → pacco5 | Dungeon vero, guardiani antichi, l'orrore si consolida |
-| **III — Il cuore**     | 11–16   | pacco6 → pacco8 | Il punto più buio, scarsità totale, il cacciatore      |
-| **IV — Il finale**     | 17–20   | pacco8 → pacco1 | Tutto insieme, risalita, il colpo di scena             |
+| Atto           | Livelli | Texture         |
+| -------------- | ------- | --------------- |
+| I — La discesa | 1–5     | pacco1 → pacco2 |
+| II — Profondità| 6–10    | pacco3 → pacco5 |
+| III — Il cuore | 11–16   | pacco6 → pacco8 |
+| IV — Finale    | 17–20   | pacco8 → pacco1 |
 
 ### Pack di texture — descrizione visiva
 
@@ -432,51 +360,43 @@ Per lo schema dettagliato livello-per-livello (testi, nemici, meccaniche) e lo s
 
 ---
 
-## 6. Workflow obbligatorio per la generazione
+## 5. Workflow per la creazione di un livello
 
-La regola fondamentale per qualsiasi livello generato è:
+### FASE 1 — Pianifica il grafo delle stanze
 
-- **Ogni livello introduce una cosa sola** e la insegna bene.
-- **Il giocatore deve sempre sapere dove andare** — la struttura della mappa deve essere leggibile.
-- **Il buio non è mai l'unica via** — ci sono sempre percorsi illuminati.
+Prima di aprire il Level Editor, scrivi il grafo in forma testuale. Questo ti forza a verificare i vincoli mentre il design è ancora modificabile.
 
-### FASE 1 — Scrivi il grafo delle stanze (testo, NON ASCII)
-
-Prima di toccare l'ASCII, scrivi il grafo in forma testuale. Questo ti forza a verificare i vincoli mentre il design è ancora modificabile.
-
-Esempio di grafo valido per livello 1:
-
+Esempio:
 ```
-Spawn (corridoio 1×4) → Area giardino (7×14) → Corridoio uscita (1×5) → Uscita
-Trigger 1 "Mio padre...": corridoio spawn, cella 2  ← 1 cella larga: OBBLIGATO
-Trigger 2 "Il nome...":   corridoio uscita, cella 2 ← 1 cella larga: OBBLIGATO
-Trigger 3 "Sotto di lui": corridoio uscita, cella 4 ← 1 cella larga: OBBLIGATO
-Chiave: centro area giardino
-Bounding box stimata: 10 righe × 24 colonne ✓ (limite: 9–11 × 22–28)
-Celle floor stimate: ~60 ✓ (limite: 50–70)
-Linearità: Spawn → 1 area → Uscita, zero bivi ✓
+Spawn (corridoio 1×4) → Area principale (7×14) → Corridoio uscita (1×5) → Uscita
+Trigger 1: corridoio spawn cella 2  ← obbligato
+Trigger 2: corridoio uscita cella 2 ← obbligato
+Chiave: centro area principale
+Bounding box stimata: 10 righe × 24 colonne
 ```
 
-### FASE 2 — Verifica i vincoli PRIMA di scrivere l'ASCII
+### FASE 2 — Verifica i vincoli
 
 Spunta ogni voce. Se una fallisce, torna alla Fase 1.
 
 - [ ] Bounding box rispetta i limiti della tabella in `LEVEL_TASKS.md`?
-- [ ] Celle floor stimate < 50% della bounding box?
+- [ ] Celle floor < 50% della bounding box?
 - [ ] Grafo lineare (o max 1 bivio per livelli con diramazioni)?
 - [ ] Ogni trigger `!` è in un corridoio largo esattamente 1 cella?
-- [ ] Nessun trigger `!` è in un'area aperta dove il player può aggirarlo?
-- [ ] I testi sono max 3, in voce di Mark, nel tono corretto per l'atto?
-- [ ] La meccanica nuova è esattamente una sola?
+- [ ] La meccanica nuova introdotta è esattamente una sola?
 
-### FASE 3 — Costruisci il livello
+### FASE 3 — Costruisci nel Level Editor
 
-Crea il file `.mark` partendo da celle tutte fill (`ground=8`) e "scavando" le celle floor — non il contrario. Non aggiungere stanze finché quelle già presenti non rispettano il grafo pianificato.
+Apri il Level Editor (`/level-editor`), crea il livello partendo dal fill e "scavando" le stanze. Non aggiungere stanze finché quelle già presenti non rispettano il grafo pianificato.
 
-### FASE 4 — Auto-validazione dopo aver costruito il livello
+### FASE 4 — Valida il file
 
-- **Conta le righe e colonne** della bounding box effettiva — confronta con i limiti
-- **Per ogni `!`:** verifica che la riga (o colonna) non abbia floor sia sopra che sotto (o a sx e dx). Se sì, il trigger è aggirabile → sposta o restringi
-- **Verifica il grafo:** per ogni stanza, conta le aperture — non più di 2 (ingresso + uscita)
+Esegui il validatore:
+```
+npx tsx Web/scripts/validate-level.ts Web/public/assets/levels/folder/N.mark
+```
 
-Per il workflow tecnico di creazione, la checklist pre-consegna e le spec di ogni livello: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.
+- **Per ogni `!`:** verifica che la riga (o colonna) non abbia floor sia sopra che sotto. Se sì, il trigger è aggirabile → sposta o restringi il corridoio.
+- **Verifica il grafo:** ogni stanza ha max 2 aperture (ingresso + uscita).
+
+Per le spec dettagliate di ogni livello: **[`LEVEL_TASKS.md`](./LEVEL_TASKS.md)**.
