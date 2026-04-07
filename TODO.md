@@ -1,5 +1,9 @@
 ## Migliorare il gioco
 
+### UI
+
+Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico per ogni meccanica, così posso fare un pulsante "tutorial" e mostrarle lì a mo' di gallery
+
 ### Livelli
 
 - [ ] Farli tutti con la mia storia
@@ -15,7 +19,7 @@
 
 - [ ] Rach in sottofondo molto leggero e loppato
 - [ ] Suoni ambientali generati con AI -> repo Michele
-  - [ ] Crepitio del fuoco braceri
+  - [ ] Crepitio del fuoco bracieri
   - [ ] Crepitio della candela
   - [ ] Versi dei mostri (uno diverso per ogni mostro)
   - [ ] Passi del player
