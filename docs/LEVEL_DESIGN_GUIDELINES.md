@@ -14,12 +14,7 @@ Ogni meccanica deve essere **introdotta una alla volta**, non introdurre mai due
 8. Attiro il Taurus sulla trappola a morte istantaea per liberarmi di lui (e altri mostri forse? Se non erro gli altri le evitano)
 9. Attiro il Taurus contro altri nemici così se li carica, li ammazza
 10. Sto fermo immobile quando il fantasma mi sta per attraversa, così mi passa attraverso. Se camminiamo insieme, muoio. Quindi capisco perché devo fare dei momenti in cui cammino e devi momenti in cui aspetto che mi attraversi e riprendo. (meccanica contro intruitiva ma per farla capire basta un testo)
-
-Cose che non saprei se definire meccaniche di gioco, perché con queste caratteristiche il player non fa "niente" di diverso, sapendolo, per uscire dalla situazione:
-
-- TODO: dinamica del goblin che accelera se uso tante candele -> Mi sembra un po' inutile. Sempre per i goblin, il fatto che mi insegua sempre che tipo di gameplay mi consente? Solo piazzare un treno di candele alla fine, mah. È bello che ci sia un mostro più intelligente, però boh, a livello di gameplay cosa mi dà? Tra l'altro il goblin può essere usato solo da solo in un livello perché se no viene un casino, forse ha senso tipo come boss
-- TODO: il bubu che non ha luce e ha paura dei bracieri (non è una dinamica perché non genera nuovi gameplay, alla fine il player non deve fare niente di che per evitarlo, rientra comunque in quelli che spengono le candele)
-- TODO: può avere senso che quando piazzi una candela do al player un boost di velocità per qualche secondo (non cumulativo se piazzi più di 1 candela), per incentivare il "piazza e scappa"?
+11. Attiro il Bubu in stanze con tanti braceri così si blocca e non mi segue più. Infatti il Bubu ha paura dei braceri grossi. La meccanica è "Come faccio a far sì che il Bubu rimanga dall'altra parte del braciere mentre io passo?". Lo attiri con una candela, lo fai avvicinare al braciere, lui si ferma, tu passi dall'altro lato. Oppure lo intrappi in una stanza con bracieri agli angoli.
 
 ## Trigger di testo / Come veicolare la storia
 
