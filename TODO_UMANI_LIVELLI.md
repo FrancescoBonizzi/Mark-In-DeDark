@@ -5,42 +5,6 @@ Per le linee guida di design, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`
 
 ---
 
-## Atto I — La discesa (Livelli 1–5)
-
----
-
-### Livello 1 — "Il giardino" ✅
-
-`pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
-
-**Bounding box:** 9–11 righe × 22–28 colonne
-**Candele:** 0
-
-Giardino esterno, percorso lineare. Ingresso → area aperta con chiave → uscita. Nessuna zona buia, nessun brazier.
-
-_Testi (ogni riga = trigger separato):_
-
-> "Mio padre mi ha stretto la mano troppo forte, come al solito." _(all'ingresso)_
-> "Il nome di mio fratello è graffiato su questa porta." _(vicino all'uscita)_
-
----
-
-### Livello 2 — "L'ingresso" ⬜
-
-`pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
-
-**Bounding box:** 9–11 righe × 24–30 colonne
-**Candele:** 0
-
-Giardino con sezione centrale buia obbligatoria. Il giocatore scopre che la candela in mano illumina e basta — non si piazza nulla.
-
-_Testi (ogni riga = trigger separato):_
-
-> "La luna non arriva qui." _(entrando nella zona buia)_
-> "Piano." _(al centro della zona buia)_
-
----
-
 ### Livello 3 — "La prima creatura" ⬜
 
 `pacco2` (interno) | **1 Zombie** | Meccanica: piazzare la candela (SPAZIO), distrazione
