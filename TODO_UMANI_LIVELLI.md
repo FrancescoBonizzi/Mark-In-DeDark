@@ -5,21 +5,7 @@ Per le linee guida di design, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`
 
 ---
 
-### Livello 3 — "La prima creatura" ⬜
-
-`pacco2` (interno) | **1 Zombie** | Meccanica: piazzare la candela (SPAZIO), distrazione
-
-**Bounding box:** 11–13 righe × 25–33 colonne
-**Candele:** 3
-
-Due stanze collegate da un corridoio stretto. Candele nel corridoio prima dello zombie.
-
-_Testi (ogni riga = trigger separato):_
-
-> "Ha i vestiti rituali." _(vedendo lo zombie per la prima volta)_
-> "Segue la fiamma, non me." _(vicino alle candele)_
-
----
+### Livello 4 - Fare un livello in cui mostro l'utilizzo delle candele, spostando avanti quello della porta
 
 ### Livello 4 — "Gli automi" ⬜
 
