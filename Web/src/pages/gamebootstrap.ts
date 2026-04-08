@@ -1,4 +1,12 @@
-import { Application, Point, Rectangle, Sprite, Text, TextStyle, TextureSource } from "pixi.js";
+import {
+  Application,
+  Point,
+  Rectangle,
+  Sprite,
+  Text,
+  TextStyle,
+  TextureSource,
+} from "pixi.js";
 import { getTexture, loadAssets } from "../assets/AssetsLoader";
 import { Enemy } from "../characters/Enemy";
 import { Player } from "../characters/Player";
@@ -22,8 +30,8 @@ import { InstantlyDieTrap } from "../objects/InstantlyDieTrap";
 import { Key } from "../objects/Key";
 import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
 import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
-import Numbers from "../services/Numbers";
 import { hasPhysicalKeyboard } from "../services/DeviceGuard";
+import Numbers from "../services/Numbers";
 import { SoundManagerInstance } from "../services/SoundInstance";
 import { GameHud } from "../ui/GameHud";
 import { GameTexts } from "../ui/GameTexts";
@@ -64,7 +72,6 @@ let currentLevelId = 1;
 let currentFolder = "";
 let visibilityHandler: (() => void) | null = null;
 let torchFireParticles: TorchFireParticleSystem | null = null;
-
 
 function navigateToGameOver(): void {
   // Avoids circular import with router.ts — Navigo listens to hashchange
@@ -297,7 +304,7 @@ export async function initGame(
     // Lucchetto sopra la porta di uscita (visibile da subito)
     {
       const lockText = new Text({
-        text: '🔒',
+        text: "🔒",
         style: new TextStyle({ fontSize: 48 }),
       });
       lockText.anchor.set(0.5);
@@ -375,7 +382,6 @@ export async function initGame(
               player,
               candlesManager,
             );
-            goblin.onSpeedWarning = () => hud?.showMessage(GameTexts.goblinApproaching, '#ff6600');
             if (goblin.surroundingLight)
               shadowSystem.addLight(goblin.surroundingLight);
             enemies.push(goblin);
@@ -402,9 +408,6 @@ export async function initGame(
     );
     for (const enemy of enemies) {
       enemy.onDeath = (x, y) => grid!.applyBloodDecal(x, y);
-      if (enemy instanceof Goblin) {
-        enemy.onSpeedWarning = () => hud?.showMessage(GameTexts.goblinApproaching, '#ff6600');
-      }
     }
     if (shadowSystem.lights.length === 0) {
       console.warn(
@@ -445,7 +448,11 @@ export async function initGame(
       }
 
       elapsedMs += dt;
-      hud?.update(candlesManager?.leftCandles ?? 0, elapsedMs, key?.isCollected ?? false);
+      hud?.update(
+        candlesManager?.leftCandles ?? 0,
+        elapsedMs,
+        key?.isCollected ?? false,
+      );
       hud?.updatePopups(dt);
 
       // Input + player update
@@ -466,8 +473,7 @@ export async function initGame(
         const playerRect = player.collisionRectangle;
         if (intersects(playerRect, key.collisionRectangle)) {
           key.collect();
-          hud?.showMessage(GameTexts.keyFound, "#ffd700");
-          if (keyOverlayText) keyOverlayText.text = '🔓';
+          if (keyOverlayText) keyOverlayText.text = "🔓";
         }
       } else {
         key?.update(dt);
@@ -606,7 +612,8 @@ export async function initGame(
       // B2: animazione lucchetto sopra la porta di uscita
       if (keyOverlayText) {
         keyOverlayTimer += dt;
-        keyOverlayText.y = (exit?.centerY ?? 0) - 80 + Math.sin(keyOverlayTimer * 0.003) * 8;
+        keyOverlayText.y =
+          (exit?.centerY ?? 0) - 80 + Math.sin(keyOverlayTimer * 0.003) * 8;
         keyOverlayText.alpha = 0.85 + Math.sin(keyOverlayTimer * 0.004) * 0.15;
       }
 
