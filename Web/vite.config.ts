@@ -6,5 +6,5 @@ export default defineConfig({
       input: "index.html",
     },
   },
-  base: "/mark-play",
+  base: "/mark-play/",
 });
