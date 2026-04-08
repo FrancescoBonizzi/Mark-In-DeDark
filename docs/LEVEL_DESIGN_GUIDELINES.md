@@ -1,4 +1,4 @@
-# Linee guida per il design dei livelli — Mark In DeDark
+# Linee guida per il design dei livelli
 
 ## Meccaniche del gioco
 

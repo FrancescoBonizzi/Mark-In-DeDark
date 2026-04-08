@@ -115,7 +115,6 @@ export function renderLevelDesignGuidelinesPage(container: HTMLElement): void {
     <div class="guidelines-page">
       <header class="guidelines-header">
         <a class="guidelines-back" href="#/level-editor">← Torna al Level Editor</a>
-        <span class="guidelines-badge">Auto-sync da docs/LEVEL_DESIGN_GUIDELINES.md</span>
       </header>
       <main class="guidelines-content">${guidelinesHtml}</main>
     </div>
