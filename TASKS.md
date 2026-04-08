@@ -7,6 +7,7 @@
 
 ## Da fare
 
+- [ ] Elimina il popup "hai trovato una chiave" perché adesso tanto sta scritto sotto nella barra, quindi non serve più
 - [ ] Elimina completamente dal goblin la meccanica dell'accelerazione quando piazzi le candele, elimina tutto anche gli effetti luminosi relativi
 - [ ] Prendi il file LEVEL_DESIGN_GUIDELINES e trasformalo in una pagina da linkare dentro al level editor così uno può leggersi le linee guida. Facciamo in modo di tenerla aggiornata in qualche modo, tipo mettilo in build. Se il file un giorno qualcuno lo rinomina o non esiste più, tira errore in build. Impaginalo bene considerando già che è un .md
 - [ ] Task di approfondimento: quali mostri possono aprire le porte da soli se li chiudo dentro?

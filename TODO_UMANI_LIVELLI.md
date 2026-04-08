@@ -22,7 +22,6 @@ _Testi (ogni riga = trigger separato):_
 
 > "Mio padre mi ha stretto la mano troppo forte, come al solito." _(all'ingresso)_
 > "Il nome di mio fratello è graffiato su questa porta." _(vicino all'uscita)_
-> "Sotto di lui, altri nomi." _(passo successivo)_
 
 ---
 
