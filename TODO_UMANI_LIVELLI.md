@@ -9,7 +9,7 @@ Per le linee guida di design, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`
 
 ---
 
-### Livello 1 — "L'ingresso" ✅
+### Livello 1 — "Il giardino" ✅
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: movimento, chiave, uscita
 
@@ -25,7 +25,7 @@ _Testi (ogni riga = trigger separato):_
 
 ---
 
-### Livello 2 — "Il buio" ⬜
+### Livello 2 — "L'ingresso" ⬜
 
 `pacco1` (esterno) | Nessun nemico | Meccanica: zona buia (`Buio`)
 
