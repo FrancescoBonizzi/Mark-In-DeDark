@@ -9,7 +9,7 @@ Per le linee guida di design, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`
 
 ### Livello 4 — "Gli automi" ⬜
 
-`pacco2` (interno) | **2 Zombie** | Meccanica: prima porta (CTRL)
+`pacco2` (interno) | **2 Zombie** | Meccanica: prima candela
 
 **Bounding box:** 13–15 righe × 28–36 colonne
 **Candele:** 4
