@@ -7,6 +7,8 @@
 
 ## Da fare
 
+- [ ] Gli oggetti piazzati a terra tipo le candele, la chiave, ecc, quando ci vado vicino con la mia luce, non vengono illuminati, restano "scuri"
+
 ## Task di approfondimento — Mostri che possono aprire porte da soli
 
 - Obiettivo: mappare, senza implementare modifiche, quali AI possono attraversare/azionare porte chiuse in autonomia e in quali condizioni.
