@@ -48,7 +48,7 @@ export class Zombie extends Enemy {
       distanceSquared: 2_200, // C# 4_950 × (2/3)²
     });
 
-    const ai = new PatrolAI(waypoints, grid, candlesManager, player, false);
+    const ai = new PatrolAI(waypoints, grid, candlesManager, player, true);
 
     const config: EnemyConfig = {
       startX,
