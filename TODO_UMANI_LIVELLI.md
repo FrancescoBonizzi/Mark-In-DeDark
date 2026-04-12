@@ -5,25 +5,6 @@ Per le linee guida di design, nemici e meccaniche: [`LEVEL_DESIGN_GUIDELINES.md`
 
 ---
 
-### Livello 4 - Fare un livello in cui mostro l'utilizzo delle candele, spostando avanti quello della porta
-
-### Livello 4 — "Gli automi" ⬜
-
-`pacco2` (interno) | **2 Zombie** | Meccanica: prima candela
-
-**Bounding box:** 13–15 righe × 28–36 colonne
-**Candele:** 4
-
-3–4 stanze in sequenza. La porta divide la mappa in due zone. Brazier all'ingresso della stanza con la porta.
-
-_Testi (ogni riga = trigger separato):_
-
-> "Nessuno di loro ha trovato la strada fuori." _(nella stanza principale)_
-> "La porta obbedisce ancora." _(vicino alla prima porta)_
-> "Si apre, si chiude." _(passo successivo)_
-
----
-
 ### Livello 5 — "I corridoi del rito" ⬜
 
 `pacco2` (interno) | **2 Zombie** | Meccanica: prima trappola temporizzata
