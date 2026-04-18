@@ -42,6 +42,9 @@ import Camera from "../world/Camera";
 const GAME_W = 1280;
 const GAME_H = 720;
 const GAMEOVER_KEY = "mark-in-dedark-gameover";
+const MIN_INTEGER_CANVAS_SCALE = 2;
+
+type CanvasScaleMode = "integer" | "fractional";
 
 let app: Application | null = null;
 let gameContainer: HTMLDivElement | null = null;
@@ -76,6 +79,28 @@ let torchFireParticles: TorchFireParticleSystem | null = null;
 function navigateToGameOver(): void {
   // Avoids circular import with router.ts — Navigo listens to hashchange
   window.location.hash = "#/gameover";
+}
+
+function resolveCanvasScale(
+  containerW: number,
+  containerH: number,
+): { rawScale: number; appliedScale: number; scaleMode: CanvasScaleMode } {
+  const rawScale = Math.min(containerW / GAME_W, containerH / GAME_H);
+  const integerScale = Math.floor(rawScale);
+
+  if (integerScale >= MIN_INTEGER_CANVAS_SCALE) {
+    return {
+      rawScale,
+      appliedScale: integerScale,
+      scaleMode: "integer",
+    };
+  }
+
+  return {
+    rawScale,
+    appliedScale: rawScale,
+    scaleMode: "fractional",
+  };
 }
 
 export async function initGame(
@@ -159,10 +184,13 @@ export async function initGame(
     width: GAME_W,
     height: GAME_H,
     premultipliedAlpha: false,
-    antialias: true,
+    antialias: false,
     autoDensity: true,
     resolution: Math.min(window.devicePixelRatio || 1, 2),
   });
+
+  app.canvas.classList.add("game-canvas");
+  app.canvas.style.imageRendering = "pixelated";
 
   try {
     await (
@@ -690,13 +718,21 @@ function resize() {
     }
   }
 
-  const scale = Math.min(containerW / GAME_W, containerH / GAME_H);
-  const canvasW = Math.floor(GAME_W * scale);
-  const canvasH = Math.floor(GAME_H * scale);
+  const { rawScale, appliedScale, scaleMode } = resolveCanvasScale(
+    containerW,
+    containerH,
+  );
+  const canvasW = Math.round(GAME_W * appliedScale);
+  const canvasH = Math.round(GAME_H * appliedScale);
 
   app.renderer.resize(GAME_W, GAME_H);
   app.canvas.style.width = canvasW + "px";
   app.canvas.style.height = canvasH + "px";
+  app.canvas.dataset.scaleMode = scaleMode;
+  app.canvas.dataset.rawScale = rawScale.toFixed(4);
+  app.canvas.dataset.appliedScale = appliedScale.toFixed(4);
+  app.canvas.dataset.renderWidth = String(GAME_W);
+  app.canvas.dataset.renderHeight = String(GAME_H);
   app.stage.scale.set(1);
   app.stage.position.set(0, 0);
 }

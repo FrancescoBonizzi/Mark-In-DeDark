@@ -16,7 +16,8 @@ export const LEVEL_FOLDERS: readonly FolderManifest[] = [
     { folder: "default", displayName: "Default", levels: [
       { id: 1, name: "Il giardino" },
       { id: 2, name: "L'ingresso" },
-      { id: 3, name: "La prima creatura" }
+      { id: 3, name: "La prima creatura" },
+      { id: 4, name: "Gli automi" }
     ] as const },
     { folder: "demo", displayName: "Demo", levels: [
       { id: 1, name: "Il Giardino" },
