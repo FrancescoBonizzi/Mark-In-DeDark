@@ -11,7 +11,7 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 
 ### Qualità grafica
 
-- Rifai tutti gli asset in veri 128x128. Adesso erano sicuramente più piccoli e ho upscalato. Ma se possiamo davvero usare 128x128 è molto meglio perché viene in risoluzione molto più alta. Oppure se recupero quelli originali originali in 16x16 o quello che è e li uso davvero con quella dimensinoe e upscalo il gioco pixel based. Cioè secondo me essendo upscalato si può fare di meglio per tutto.
+- Dato che tutti gli asset sono disegnati in realtà in 32x32, conviene rifare tutti gli spritesheet in 32x32 e caricarli davvero così, in questo modo costano molto meno lato hardware! E poi upscaliamo dentro al gioco
 
 ### Colonna sonora
 
