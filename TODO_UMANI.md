@@ -12,7 +12,6 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 ### Qualità grafica
 
 - Rifai tutti gli asset in veri 128x128. Adesso erano sicuramente più piccoli e ho upscalato. Ma se possiamo davvero usare 128x128 è molto meglio perché viene in risoluzione molto più alta. Oppure se recupero quelli originali originali in 16x16 o quello che è e li uso davvero con quella dimensinoe e upscalo il gioco pixel based. Cioè secondo me essendo upscalato si può fare di meglio per tutto.
-- In ogni caso, non si può far upscaling responsive dato che è tutto pixel art?
 
 ### Colonna sonora
 
