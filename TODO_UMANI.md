@@ -16,9 +16,11 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 Quindi devo:
 
 - Riprendere in mano Spriter
-- Batchare con photoshop o altro tutte le immagini per essere davvero 32x32
-- Rigenereare le sprite
-- Ricaricare tutto. Magari ci sto dentro con una sola sprite
+- Batchare con photoshop o script AI con qualche libreria tutte le immagini per rigenerarle davvero 32x32, ma con la stessa identica struttura cartelle
+- Rigenereare gli spritesheet, se ho culo ne viene uno solo
+- Ricaricare tutto
+- Impostare il gioco per zoommare/upscalare perché sarebbe tutto minuscolo
+- FORSE potrebbero esserci problemi di offset/pivot in giro, non lo so
 
 ### Colonna sonora
 
