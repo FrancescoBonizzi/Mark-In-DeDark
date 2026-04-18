@@ -9,11 +9,9 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 - [ ] Farli tutti con la mia storia
 - [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
 
-### Marco
+### Qualità grafica
 
-- [ ] Preparagli un elenco di indicazioni che secondo me rendono i livelli perfetti (es i testi in punti obbligati in cui passi) -> un readme che vada bene per tutti, anche per Tommy, magari con una pagina helper che lo renderizza, sì linkato nel level editor posso renderizzare LEVEL_DESIGN_GUIDELINES
-- [ ] Passargli i texture pack e fargli fare le modifiche in place
-- [ ] Passargli la mia storia e fargli creare i livelli "Marco version" - in modo che faccia come gli piace di più e si diverta, con totale libertà, massimo 20
+Rifai tutti gli asset in veri 128x128. Adesso erano sicuramente più piccoli e ho upscalato. Ma se possiamo davvero usare 128x128 è molto meglio perché viene in risoluzione molto più alta. Oppure se recupero quelli originali originali in 16x16 o quello che è e li uso davvero con quella dimensinoe e upscalo il gioco pixel based. Cioè secondo me essendo upscalato si può fare di meglio per tutto.
 
 ### Colonna sonora
 
