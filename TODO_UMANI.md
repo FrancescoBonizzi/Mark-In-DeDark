@@ -11,7 +11,14 @@ Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico
 
 ### Qualità grafica
 
-- Dato che tutti gli asset sono disegnati in realtà in 32x32, conviene rifare tutti gli spritesheet in 32x32 e caricarli davvero così, in questo modo costano molto meno lato hardware! E poi upscaliamo dentro al gioco
+- Dato che tutti gli asset sono disegnati in realtà in 32x32, conviene rifare tutti gli spritesheet in 32x32 e caricarli davvero così, in questo modo costano molto meno lato hardware! E poi upscaliamo dentro al gioco.
+
+Quindi devo:
+
+- Riprendere in mano Spriter
+- Batchare con photoshop o altro tutte le immagini per essere davvero 32x32
+- Rigenereare le sprite
+- Ricaricare tutto. Magari ci sto dentro con una sola sprite
 
 ### Colonna sonora
 
