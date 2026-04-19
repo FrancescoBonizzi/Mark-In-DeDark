@@ -6,8 +6,7 @@
   "scripts": {
     "generate-manifest": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts",
     "dev": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts && tsc && vite",
-    "build": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts && tsc && vite build",
-    "preview": "vite preview"
+    "build": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts && tsc && vite build"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
