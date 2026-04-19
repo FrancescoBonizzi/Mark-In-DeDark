@@ -7,9 +7,9 @@ Questo repository contiene due versioni dello stesso videgioco:
 
 Lavoriamo solo sulla versione web.
 
-## Informazioni
+## Facts
 
-- Il funzionamento preciso della pipeline di rendering è qui: `docs/rendering/RENDERING_PIPELINE_PIXIJS.md`.
+- Il funzionamento preciso della pipeline di rendering è qui: `docs/rendering/RENDERING_PIPELINE_PIXIJS.md`. Utilizzalo solo se ti chiedo cose inerenti questo aspetto.
 - Per iterare in autonomia senza disturbarmi puoi inserire da solo dei debug console, e lanciare il test automatico `npx playwright test tests/debug-game.spec.ts`, questo fa girare il gioco sul livello 3 per 10 secondi e scrive tutto l'output della console in `debug/game-debug-output.txt`, così puoi fare tutto da solo e iterare a volontà. (attualmente punta al livello 8)
 - Ogni build genera anche un manifest per i livelli per popolare le pagine HTML
 
