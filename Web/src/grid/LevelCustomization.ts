@@ -19,6 +19,8 @@ export interface LevelCustomization {
   normalMapAmbienceColor: { r: number; g: number; b: number };
   /** Scale of the glow sprite used for specular lightmask and lightmap additional glow (C# GlowScale). */
   glowScale: number;
+  /** Whether the level should render the snowfall overlay (C# IsSnowing). */
+  isSnowing: boolean;
 }
 
 // Task 1 parity: match C# LevelCustomizations (GlowScale=2 only on levels 1-2, else 1).
@@ -37,5 +39,6 @@ export function createLevelCustomization(levelId: number): LevelCustomization {
       levelId <= 2 ? { r: 0.11, g: 0.1, b: 0.22 } : { r: 0, g: 0, b: 0 },
     // C#: default GlowScale=1, levels 1-2 override to 2.
     glowScale: levelId <= 2 ? 2.0 : 1.0,
+    isSnowing: levelId <= 2,
   };
 }

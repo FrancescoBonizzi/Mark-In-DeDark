@@ -17,7 +17,7 @@ import { GameGrid, GRID_MAX_HEIGHT } from "../grid/GameGrid";
 import { loadAndParseLevel } from "../grid/GridLoader";
 import { createLevelConfig } from "../grid/LevelConfig";
 import { createLevelCustomization } from "../grid/LevelCustomization";
-import { GroundTypes } from "../grid/enums";
+import { GroundTypes, ObjectTypes } from "../grid/enums";
 import Controller from "../interaction/Controller";
 import { MarkLight } from "../lighting/MarkLight";
 import { ShadowSystem } from "../lighting/ShadowSystem";
@@ -28,7 +28,10 @@ import { Exit } from "../objects/Exit";
 import { GoblinTriggerTrap } from "../objects/GoblinTriggerTrap";
 import { InstantlyDieTrap } from "../objects/InstantlyDieTrap";
 import { Key } from "../objects/Key";
+import { PassableObject } from "../objects/PassableObject";
 import { TimedBreakableTrap } from "../objects/TimedBreakableTrap";
+import { UnpassableObject } from "../objects/UnpassableObject";
+import { SnowingManager } from "../particleEmitters/SnowingManager";
 import { TorchFireParticleSystem } from "../particleEmitters/TorchFireParticleSystem";
 import { hasPhysicalKeyboard } from "../services/DeviceGuard";
 import Numbers from "../services/Numbers";
@@ -60,6 +63,7 @@ let candlePacks: CandlePack[] = [];
 let key: Key | null = null;
 let exit: Exit | null = null;
 let traps: (InstantlyDieTrap | TimedBreakableTrap | GoblinTriggerTrap)[] = [];
+let environmentObjects: (PassableObject | UnpassableObject)[] = [];
 let braziers: BrazierLit[] = [];
 let enemies: Enemy[] = [];
 let hud: GameHud | null = null;
@@ -75,6 +79,19 @@ let currentLevelId = 1;
 let currentFolder = "";
 let visibilityHandler: (() => void) | null = null;
 let torchFireParticles: TorchFireParticleSystem | null = null;
+let snowingManager: SnowingManager | null = null;
+
+function registerEnemyOnFloorTraps(enemy: Enemy): void {
+  if (!enemy.canTriggerFloorTraps) return;
+  for (const trap of traps) {
+    if (
+      trap instanceof InstantlyDieTrap ||
+      trap instanceof TimedBreakableTrap
+    ) {
+      trap.addAffectedCharacter(enemy);
+    }
+  }
+}
 
 function navigateToGameOver(): void {
   // Avoids circular import with router.ts — Navigo listens to hashchange
@@ -130,6 +147,8 @@ export async function initGame(
   lockedExitNotified = false;
   keyOverlayText = null;
   keyOverlayTimer = 0;
+  environmentObjects = [];
+  snowingManager = null;
 
   if (!hasPhysicalKeyboard()) {
     container.innerHTML = `
@@ -285,6 +304,13 @@ export async function initGame(
       camera,
     );
 
+    if (levelCustomization.isSnowing) {
+      snowingManager = new SnowingManager(
+        getTexture(assets.spriteSheets, "Effects/snowflake"),
+        camera,
+      );
+    }
+
     // CandlePacks from grid placements
     candlePacks = grid.candlePlacements.map(
       (p) =>
@@ -310,6 +336,42 @@ export async function initGame(
       shadowSystem!.addLight(b.surroundingLight);
       return b;
     });
+
+    environmentObjects = grid.environmentObjectPlacements.flatMap(
+      (placement) => {
+        const cell = grid!.getCell(placement.col, placement.row);
+        if (!cell) return [];
+
+        switch (placement.objectType) {
+          case ObjectTypes.OggettoNonPassabile1:
+            return [
+              new UnpassableObject(
+                getTexture(assets.spriteSheets, "Objects/object_unpassable_1"),
+                cell,
+                grid!.objectsContainer,
+              ),
+            ];
+          case ObjectTypes.OggettoNonPassabile2:
+            return [
+              new UnpassableObject(
+                getTexture(assets.spriteSheets, "Objects/object_unpassable_2"),
+                cell,
+                grid!.objectsContainer,
+              ),
+            ];
+          case ObjectTypes.OggettoPassabile1:
+            return [
+              new PassableObject(
+                getTexture(assets.spriteSheets, "Objects/object_passable_1"),
+                cell,
+                grid!.objectsContainer,
+              ),
+            ];
+          default:
+            return [];
+        }
+      },
+    );
 
     // Key
     key = new Key(
@@ -376,6 +438,7 @@ export async function initGame(
           cy,
           CELL_SIZE,
           grid!.groundContainer,
+          player ? [player] : [],
         );
       } else if (t.groundType === GroundTypes.TrappolaTemporizzata) {
         return new TimedBreakableTrap(
@@ -385,6 +448,7 @@ export async function initGame(
           CELL_SIZE,
           grid!.groundContainer,
           () => camera?.startShake(1),
+          player ? [player] : [],
         );
       } else {
         // TriggerGoblin — spawns a Goblin on trigger
@@ -412,8 +476,10 @@ export async function initGame(
             );
             if (goblin.surroundingLight)
               shadowSystem.addLight(goblin.surroundingLight);
+            registerEnemyOnFloorTraps(goblin);
             enemies.push(goblin);
           },
+          player ? [player] : [],
         );
       }
     });
@@ -436,6 +502,7 @@ export async function initGame(
     );
     for (const enemy of enemies) {
       enemy.onDeath = (x, y) => grid!.applyBloodDecal(x, y);
+      registerEnemyOnFloorTraps(enemy);
     }
     if (shadowSystem.lights.length === 0) {
       console.warn(
@@ -561,7 +628,6 @@ export async function initGame(
 
       // Traps
       for (const trap of traps) {
-        trap.checkAndTrigger(player);
         trap.update(dt);
       }
 
@@ -668,6 +734,8 @@ export async function initGame(
         torchFireParticles.update(ticker);
       }
 
+      snowingManager?.update(dt);
+
       if (shadowSystem) shadowSystem.update(app!, dt);
     });
 
@@ -750,6 +818,8 @@ export function destroyGame() {
   deathOverlaySprite = null;
   torchFireParticles?.dispose();
   torchFireParticles = null;
+  snowingManager?.destroy();
+  snowingManager = null;
   player?.destroy();
   player = null;
   controller?.dispose();
@@ -768,7 +838,14 @@ export function destroyGame() {
   keyOverlayText?.destroy();
   keyOverlayText = null;
   keyOverlayTimer = 0;
+  for (const trap of traps) {
+    trap.destroy();
+  }
   traps = [];
+  for (const levelObject of environmentObjects) {
+    levelObject.destroy();
+  }
+  environmentObjects = [];
   for (const b of braziers) {
     shadowSystem?.removeLight(b.surroundingLight);
     if (grid) b.destroy(grid.objectsContainer);

@@ -274,6 +274,7 @@ export function setObjectType(
     // Cancella oggetto
     cell.objectType = null;
     cell.objectAdditionalData = "";
+    cell.stringCode = "";
   } else {
     // Auto-set Terra1 se la cella è NonCella
     if (cell.groundType === 0) {

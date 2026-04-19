@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 import * as fs from "fs";
 
+const LEVEL_EDITOR_URL = "http://localhost:5173/mark-play/#/level-editor";
+
 // ---------------------------------------------------------------------------
 // Helper: pagina con matchMedia override per desktop
 // ---------------------------------------------------------------------------
@@ -54,7 +56,7 @@ test("Cattura output console del Level Editor", async ({ page }) => {
   });
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
 
   // 1. Verifica griglia
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
@@ -135,7 +137,7 @@ test("Posizionamento oggetti nel Level Editor", async ({ page }) => {
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // --- Switch al tab Oggetti ---
@@ -198,7 +200,7 @@ test("Shortcut tastiera cambiano tab attivo nel Level Editor", async ({
   const logs: string[] = [];
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Clicca sulla griglia per togliere focus dagli input della toolbar
@@ -257,7 +259,7 @@ test("Inserimento testo in cella nel Level Editor", async ({ page }) => {
     await dialog.accept("Testo di test");
   });
 
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Vai a tab Oggetti e seleziona Testo (value=-1)
@@ -278,6 +280,19 @@ test("Inserimento testo in cella nel Level Editor", async ({ page }) => {
   logs.push(`[test] Marker "A" trovati: ${markerCount}`);
   expect(markerCount).toBe(1);
   logs.push("[test] Testo piazzato correttamente ✓");
+
+  // Cancella deve rimuovere anche il testo visualizzabile in game
+  await clickToolLabel(page, "obj-radio-0");
+  await page.waitForTimeout(50);
+  await targetCell.click();
+  await page.waitForTimeout(150);
+
+  const markerCountAfterDelete = await targetCell
+    .locator(".cell-text-marker")
+    .count();
+  logs.push(`[test] Marker "A" dopo Cancella: ${markerCountAfterDelete}`);
+  expect(markerCountAfterDelete).toBe(0);
+  logs.push("[test] Cancella rimuove anche il testo ✓");
 
   fs.writeFileSync("debug/leveleditor-text-output.txt", logs.join("\n"));
 });
@@ -301,7 +316,7 @@ test("Waypoint nemici auto-generati nel Level Editor", async ({ page }) => {
   });
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Dipingi Terra1 su 4 celle (per avere terreno su cui piazzare nemici)
@@ -360,7 +375,7 @@ test("Apri file funziona alla prima apertura (Task 21)", async ({ page }) => {
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Verifica che l'input file sia appendato al DOM durante il click su "Apri"
@@ -395,7 +410,7 @@ test("Muro doppio viene bloccato con toast nel Level Editor", async ({
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Dipingi Terra1 su due celle adiacenti in verticale
@@ -450,7 +465,7 @@ test("Toast appare se si tenta di ripiazzare un singleton", async ({
   page.on("pageerror", (err) => logs.push(`[pageerror] ${err.message}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Vai al tab Oggetti e seleziona Giocatore
@@ -507,7 +522,7 @@ test("Testa in gioco scrive in localStorage (Task 18)", async ({ page }) => {
   page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Dipingi una cella per avere contenuto
@@ -544,7 +559,7 @@ test("Filtro pack disabilita Terra6-10 per pack 1 (Task 17)", async ({
   page.on("console", (msg) => logs.push(`[${msg.type()}] ${msg.text()}`));
 
   await setupPage(page);
-  await page.goto("http://localhost:5173/mark-in-dedark/#/level-editor");
+  await page.goto(LEVEL_EDITOR_URL);
   await page.waitForSelector(".editor-grid", { timeout: 10_000 });
 
   // Pack 1 è il default — Terra6 (value=12) deve essere disabilitata
