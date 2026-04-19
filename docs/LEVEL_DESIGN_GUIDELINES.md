@@ -51,7 +51,7 @@ Non mettere mai pacchi di candele in zone prive di nemici. Le candele si usano e
 ### Zombie
 
 - **Personalità:** patrugliante lento e meccanico — va avanti e indietro senza deviare
-- **Spegne candele:** sì, al contatto
+- **Spegne candele:** sì, le insegue se sono vicine
 - **Vede il giocatore:** no (patrol puro)
 - **Luce propria:** sì
 
