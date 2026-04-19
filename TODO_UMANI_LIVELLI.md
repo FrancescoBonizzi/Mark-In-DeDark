@@ -1,20 +1,5 @@
 # LEVEL_TASKS.md — Tracker livelli Mark In DeDark
 
-### Livello 5 — "I corridoi del rito" ⬜
-
-`pacco2` (interno) | **2 Zombie** | Meccanica: prima trappola temporizzata (osservazione passiva)
-
-**Bounding box:** 1315 righe × 3038 colonne
-**Candele:** 4
-
-Percorso principale lineare con 12 diramazioni brevi. La trappola temporizzata è sul percorso principale — visivamente ovvia. Il giocatore la osserva e impara il ritmo, senza usarla.
-
-_Testi (ogni riga = trigger separato):_
-
-> "Quante scarpe ci sono passate sopra." _(nel corridoio principale)_
-> "Quelle lame battono un ritmo." _(vicino alla trappola)_
-> "Se non mi fermo, passo." _(stesso punto)_
-
 ### Livello 6 — "L'esca" ⬜
 
 `pacco2` (interno) | **2 Zombie** | Meccanica: candela piazzata sulla trappola temporizzata = kill
