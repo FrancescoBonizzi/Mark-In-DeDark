@@ -1,0 +1,81 @@
+﻿// Effect applies normalmapped lighting from i punctual light to a 2D sprite.
+
+float3 LightPosition; // in World Space
+float3 LightColor = 1.0;
+float3 AmbientColor = 0.35;
+float LightDistanceSquared;
+float LightOpacity = 1.0;
+
+float4x4 World;
+float4x4 ViewProjection;
+
+sampler2D ScreenTexture : register(s0);
+texture NormalTexture;
+sampler2D NormalSampler = sampler_state
+{
+    Texture = <NormalTexture>;
+};
+
+struct VertexShaderInput
+{
+    float4 Position: POSITION0;
+    float2 TexCoords : TEXCOORD0;
+    float4 Color : COLOR0;
+};
+
+struct VertexShaderOutput
+{
+    float4 Position: POSITION0;
+    float4 PosWorld: TEXCOORD1;
+    float2 TexCoords : TEXCOORD0;
+    float4 Color : COLOR0;
+};
+
+VertexShaderOutput VS(VertexShaderInput input)
+{
+    VertexShaderOutput output;
+
+    float4 pos = mul(input.Position, World);
+    output.PosWorld = pos; // handing over WorldSpace Coordinates to PS
+    output.Position = mul(pos, ViewProjection);
+
+    // fill other fields of output
+    output.TexCoords = input.TexCoords;
+    output.Color = input.Color;
+
+    return output;
+}
+
+float4 PS(VertexShaderOutput input) : COLOR0
+{
+    // input.PosWorld how has the Position of this Pixel in World Space
+    float3 posWorld = input.PosWorld.xyz;
+    float3 lightdir = normalize(posWorld - LightPosition); // this is now the direction of light for this pixel
+
+    // Look up the texture value
+    float4 tex = tex2D(ScreenTexture, input.TexCoords);
+
+    // Look up the normalmap value
+    float3 normal = normalize((2 * tex2D(NormalSampler, input.TexCoords).xyz) - 1);
+    normal.y *= -1;
+
+    // Introduce fall-off of light intensity
+    float diffuseLighting = saturate(dot(normal, -lightdir));
+    float3 lightVector = LightPosition - posWorld;
+    diffuseLighting *= (LightDistanceSquared / dot(lightVector, lightVector));
+
+    // Compute lighting
+    float lightAmount = saturate(dot(normal, -lightdir));
+    input.Color.rgb *= AmbientColor + (lightAmount * LightColor * diffuseLighting * LightOpacity);
+    
+    return input.Color * tex;
+}
+
+technique PointLightNormalMap
+{
+    pass Pass1
+    {
+        VertexShader = compile vs_3_0 VS();
+        PixelShader = compile ps_3_0 PS();
+    }
+}

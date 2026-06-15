@@ -1,0 +1,1653 @@
+{
+  "frames": {
+    "Bubu/bubu_back_attack_4": {
+      "frame": {
+        "x": 1553,
+        "y": 1521,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Bubu/bubu_back_attack_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1651,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Bubu/bubu_back_walking_1": {
+      "frame": {
+        "x": 1553,
+        "y": 1781,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Bubu/bubu_back_walking_1_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1911,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "Grounds/pacco1/RandomWalls/wall_vertical_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1357,
+        "w": 64,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/RandomWalls/wall_vertical_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1357,
+        "w": 64,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell4": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell4_normal": {
+      "frame": {
+        "x": 1,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell4_spec": {
+      "frame": {
+        "x": 1,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell5": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell5_normal": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell5_spec": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_uscita_closed": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_uscita_open": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell1": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell1_spec": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell2": {
+      "frame": {
+        "x": 195,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell2_spec": {
+      "frame": {
+        "x": 195,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell3": {
+      "frame": {
+        "x": 389,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell3_normal": {
+      "frame": {
+        "x": 583,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/cell3_spec": {
+      "frame": {
+        "x": 777,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_1": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_1_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_2": {
+      "frame": {
+        "x": 583,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_3": {
+      "frame": {
+        "x": 971,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_4": {
+      "frame": {
+        "x": 1359,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_5": {
+      "frame": {
+        "x": 1747,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Decals/decal_5_normal": {
+      "frame": {
+        "x": 195,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 195,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 195,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 195,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/SpecialWalls/wall_special_2": {
+      "frame": {
+        "x": 195,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_door": {
+      "frame": {
+        "x": 971,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_door_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_door_up": {
+      "frame": {
+        "x": 1359,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_door_up_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_horizontal_breakable": {
+      "frame": {
+        "x": 1747,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_horizontal_breakable_normal": {
+      "frame": {
+        "x": 389,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_horizontal_broken": {
+      "frame": {
+        "x": 389,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_horizontal_broken_normal": {
+      "frame": {
+        "x": 389,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_ingresso_closed": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_ingresso_open": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_uscita_closed": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_uscita_open": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell1": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell1_spec": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell2": {
+      "frame": {
+        "x": 195,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell2_spec": {
+      "frame": {
+        "x": 195,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell3": {
+      "frame": {
+        "x": 389,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell3_normal": {
+      "frame": {
+        "x": 583,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/cell3_spec": {
+      "frame": {
+        "x": 777,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_1": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_1_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_2": {
+      "frame": {
+        "x": 583,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_4": {
+      "frame": {
+        "x": 1359,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_5": {
+      "frame": {
+        "x": 1747,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Decals/decal_5_normal": {
+      "frame": {
+        "x": 195,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 195,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_3": {
+      "frame": {
+        "x": 389,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_3_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_4": {
+      "frame": {
+        "x": 389,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_4_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_5": {
+      "frame": {
+        "x": 389,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_5_normal": {
+      "frame": {
+        "x": 583,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 195,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 195,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/SpecialWalls/wall_special_2": {
+      "frame": {
+        "x": 195,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_door": {
+      "frame": {
+        "x": 971,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_door_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_door_up": {
+      "frame": {
+        "x": 1359,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_door_up_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_horizontal_breakable": {
+      "frame": {
+        "x": 1747,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_horizontal_breakable_normal": {
+      "frame": {
+        "x": 389,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_horizontal_broken": {
+      "frame": {
+        "x": 389,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_horizontal_broken_normal": {
+      "frame": {
+        "x": 389,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_ingresso_closed": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_ingresso_open": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_uscita_closed": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_uscita_open": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell1": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell1_spec": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell2": {
+      "frame": {
+        "x": 195,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell2_spec": {
+      "frame": {
+        "x": 195,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell3": {
+      "frame": {
+        "x": 389,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell3_normal": {
+      "frame": {
+        "x": 583,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/cell3_spec": {
+      "frame": {
+        "x": 777,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_1": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_1_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_2": {
+      "frame": {
+        "x": 583,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_3": {
+      "frame": {
+        "x": 971,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_4": {
+      "frame": {
+        "x": 1359,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_5": {
+      "frame": {
+        "x": 1747,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Decals/decal_5_normal": {
+      "frame": {
+        "x": 195,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 777,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 971,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 1165,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_3": {
+      "frame": {
+        "x": 1553,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomWalls/wall_horizontal_3_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 195,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 195,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/SpecialWalls/wall_special_2": {
+      "frame": {
+        "x": 195,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_door": {
+      "frame": {
+        "x": 583,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_door_normal": {
+      "frame": {
+        "x": 583,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_door_up": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_door_up_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_horizontal_breakable": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_horizontal_breakable_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_horizontal_broken": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_horizontal_broken_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_ingresso_closed": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_ingresso_open": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_uscita_closed": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_uscita_open": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell1": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell1_spec": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell2": {
+      "frame": {
+        "x": 195,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell2_spec": {
+      "frame": {
+        "x": 195,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell3": {
+      "frame": {
+        "x": 389,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell3_normal": {
+      "frame": {
+        "x": 583,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/cell3_spec": {
+      "frame": {
+        "x": 777,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 195,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 389,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 583,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_3": {
+      "frame": {
+        "x": 1941,
+        "y": 777,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomPillars/pillar_3_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 971,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_3": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_3_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_4": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_4_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_5": {
+      "frame": {
+        "x": 1165,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/RandomWalls/wall_horizontal_5_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_door": {
+      "frame": {
+        "x": 1553,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_door_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_door_up": {
+      "frame": {
+        "x": 971,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_door_up_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_horizontal_breakable": {
+      "frame": {
+        "x": 971,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_horizontal_breakable_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_horizontal_broken": {
+      "frame": {
+        "x": 971,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_horizontal_broken_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_ingresso_closed": {
+      "frame": {
+        "x": 1359,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_ingresso_open": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_uscita_closed": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_uscita_open": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_1": {
+      "frame": {
+        "x": 1747,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_1_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_2": {
+      "frame": {
+        "x": 1165,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_2_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_1": {
+      "frame": {
+        "x": 1165,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_1_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_2": {
+      "frame": {
+        "x": 1553,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_2_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_3": {
+      "frame": {
+        "x": 1359,
+        "y": 1551,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_3_normal": {
+      "frame": {
+        "x": 1683,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_4": {
+      "frame": {
+        "x": 1683,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_4_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1745,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/trap/trap_breaking_5": {
+      "frame": {
+        "x": 1683,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Objects/object_unpassable_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1165,
+        "w": 76,
+        "h": 190
+      }
+    },
+    "Player/Death/player_front_dying_16": {
+      "frame": {
+        "x": 1359,
+        "y": 1359,
+        "w": 160,
+        "h": 160
+      }
+    },
+    "Player/Death/player_front_dying_17": {
+      "frame": {
+        "x": 1521,
+        "y": 1359,
+        "w": 160,
+        "h": 160
+      }
+    },
+    "Player/Death/player_front_dying_18": {
+      "frame": {
+        "x": 1877,
+        "y": 1551,
+        "w": 160,
+        "h": 160
+      }
+    },
+    "Player/Death/player_front_dying_19": {
+      "frame": {
+        "x": 1877,
+        "y": 1713,
+        "w": 160,
+        "h": 160
+      }
+    },
+    "Player/Death/player_front_dying_20": {
+      "frame": {
+        "x": 1877,
+        "y": 1875,
+        "w": 160,
+        "h": 160
+      }
+    }
+  },
+  "meta": {
+    "image": "Spritesheet-2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": 1
+  }
+}

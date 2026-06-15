@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.1.1</Version>
+    <Authors>Francesco Bonizzi</Authors>
+    <Company>Francesco Bonizzi</Company>
+    <Description>Some libraries that I built over MonoGame Framework to make my games</Description>
+    <PackageProjectUrl>https://github.com/FrancescoBonizzi/FbonizziMonoGame</PackageProjectUrl>
+    <PackageIcon>logo-64x64.png</PackageIcon>
+    <RepositoryUrl>https://github.com/FrancescoBonizzi/FbonizziMonoGame</RepositoryUrl>
+    <PackageTags>monogame francesco bonizzi games videogames android UWP UAP xamarin</PackageTags>
+    <PackageReleaseNotes>Conversion to .NET Core</PackageReleaseNotes>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Implementations\" />
+  </ItemGroup>
+</Project>

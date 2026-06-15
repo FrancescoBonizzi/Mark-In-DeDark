@@ -1,0 +1,485 @@
+/* ============================================================
+   Level Editor — stili CSS
+   Isolato da styles.css — nessuna modifica al CSS globale.
+   ============================================================ */
+
+/* Pagina editor: layout a 3 fasce verticali */
+.level-editor-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: #1a1a1a;
+    color: #e5e7eb;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    /* Override del user-select bloccato globalmente per poter digitare nei prompt */
+    user-select: none;
+}
+
+/* Toolbar superiore */
+.editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #111;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.editor-toolbar .btn {
+    padding: 4px 10px;
+    background: #333;
+    color: #e5e7eb;
+    border: 1px solid #555;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.editor-toolbar .btn:hover {
+    background: #444;
+}
+
+.editor-toolbar .btn.danger {
+    border-color: #aa3333;
+}
+
+.editor-toolbar .btn.primary {
+    background: #1a4f2a;
+    border-color: #2d7a44;
+    color: #7fffaa;
+}
+
+.editor-toolbar .btn.primary:hover {
+    background: #246335;
+}
+
+/* Stato autosalvataggio in toolbar */
+.autosave-status {
+    font-size: 10px;
+    color: #666;
+    white-space: nowrap;
+}
+
+.editor-toolbar label {
+    color: #aaa;
+    font-size: 11px;
+}
+
+.editor-toolbar input[type="number"],
+.editor-toolbar input[type="text"],
+.editor-toolbar select {
+    background: #2a2a2a;
+    color: #e5e7eb;
+    border: 1px solid #555;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    width: 60px;
+}
+
+.editor-toolbar input[type="text"] {
+    width: 180px;
+}
+
+.editor-toolbar .toolbar-levelname {
+    width: 220px;
+}
+
+.editor-toolbar .dirty-indicator {
+    font-size: 11px;
+    color: #ff9900;
+    font-weight: bold;
+    min-width: 10px;
+}
+
+.toolbar-sep {
+    width: 1px;
+    height: 20px;
+    background: #444;
+    margin: 0 4px;
+}
+
+/* Zona centrale: sidebar + canvas */
+.editor-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.editor-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: #181818;
+    border-right: 1px solid #333;
+    overflow: hidden;
+}
+
+/* Preview striscia texture pack */
+.pack-preview-strip {
+    padding: 5px 4px 4px;
+    background: #111;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+}
+
+.pack-preview-label {
+    font-size: 9px;
+    color: #666;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pack-preview-cells {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
+}
+
+.pack-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.pack-preview-cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #333;
+    border-radius: 2px;
+    cursor: default;
+    image-rendering: pixelated;
+}
+
+.pack-preview-item-label {
+    font-size: 8px;
+    color: #888;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.pack-preview-sep {
+    width: 1px;
+    background: #444;
+    flex-shrink: 0;
+    align-self: stretch;
+    margin: 0 2px;
+}
+
+/* Tab header */
+.editor-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.editor-tab-btn {
+    flex: 1;
+    padding: 6px 2px;
+    background: #222;
+    color: #888;
+    border: none;
+    border-right: 1px solid #333;
+    cursor: pointer;
+    font-size: 10px;
+    text-align: center;
+}
+
+.editor-tab-btn:last-child {
+    border-right: none;
+}
+
+.editor-tab-btn.active {
+    background: #333;
+    color: #e5e7eb;
+    border-bottom: 2px solid #ff9900;
+}
+
+.editor-tab-btn:hover:not(.active) {
+    background: #2a2a2a;
+    color: #ccc;
+}
+
+/* Pannelli tab */
+.editor-tab-panel {
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+    gap: 2px;
+    padding: 4px;
+}
+
+.editor-tab-panel.active {
+    display: flex;
+}
+
+/* Radio button tool */
+.tool-radio {
+    display: none;
+}
+
+.tool-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 6px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    user-select: none;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.tool-label:hover {
+    border-color: #555;
+    filter: brightness(1.3);
+}
+
+.tool-radio:checked + .tool-label {
+    border-color: #ff9900;
+    outline: 2px solid #ff9900;
+}
+
+.tool-radio:disabled + .tool-label {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.tool-color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    border: 1px solid #555;
+}
+
+/* Canvas scrollabile */
+.editor-canvas-scroll {
+    flex: 1;
+    overflow: auto;
+    background: #111;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 12px;
+}
+
+/* Griglia CSS */
+.editor-grid {
+    display: grid;
+    border: 1px solid #444;
+    cursor: crosshair;
+    flex-shrink: 0;
+}
+
+/* Cella base */
+.editor-cell {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.editor-cell-hover {
+    filter: brightness(1.6);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: -2px;
+    z-index: 1;
+}
+
+/* Emoji oggetto — centrata nella cella */
+.cell-object {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    line-height: 1;
+    pointer-events: none;
+}
+
+/* Quantità candele — angolo in basso a destra */
+.cell-quantity {
+    position: absolute;
+    bottom: 1px;
+    right: 2px;
+    font-size: 8px;
+    color: #fff;
+    font-weight: bold;
+    pointer-events: none;
+    text-shadow: 0 0 2px #000;
+}
+
+/* Label riempimento — numero piccolo in centro */
+.cell-fill-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    color: #666;
+    pointer-events: none;
+}
+
+/* "A" per celle con stringCode */
+.cell-text-marker {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    font-size: 9px;
+    font-style: italic;
+    font-family: 'Times New Roman', serif;
+    color: #fff;
+    font-weight: bold;
+    pointer-events: none;
+    text-shadow: 0 0 2px #000;
+    cursor: help;
+}
+
+/* Label muri ai bordi */
+.cell-wall-label {
+    position: absolute;
+    font-size: 7px;
+    color: #fff;
+    font-weight: bold;
+    pointer-events: none;
+    text-shadow: 0 0 2px #000;
+    line-height: 1;
+    z-index: 2;
+}
+
+.wall-label-top {
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wall-label-bottom {
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wall-label-left {
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.wall-label-right {
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Waypoint group selector (pannello Nemici) */
+.waypoint-group-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 4px;
+    background: #222;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: #aaa;
+    flex-wrap: wrap;
+}
+
+.waypoint-group-display {
+    font-size: 14px;
+    color: #ff9900;
+    min-width: 20px;
+    text-align: center;
+}
+
+.waypoint-btn {
+    background: #333;
+    color: #e5e7eb;
+    border: 1px solid #555;
+    cursor: pointer;
+    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+
+.waypoint-btn:hover {
+    background: #444;
+}
+
+.waypoint-group-help {
+    font-size: 9px;
+    color: #555;
+    padding: 2px 4px 6px;
+    line-height: 1.3;
+}
+
+/* Toast notifica azioni bloccate */
+.editor-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: #333;
+    color: #ff9900;
+    border: 1px solid #ff9900;
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-size: 13px;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: editor-toast-in 0.15s ease;
+}
+
+@keyframes editor-toast-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Blocco mobile */
+.editor-mobile-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 24px;
+    background: #1a1a1a;
+    color: #e5e7eb;
+    gap: 16px;
+}
+
+.editor-mobile-block h2 {
+    font-size: 20px;
+    color: #ff9900;
+}
+
+.editor-mobile-block p {
+    font-size: 14px;
+    color: #aaa;
+    max-width: 320px;
+}

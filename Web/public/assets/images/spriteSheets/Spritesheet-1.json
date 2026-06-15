@@ -1,0 +1,2125 @@
+{
+  "frames": {
+    "Grounds/pacco2/cell5": {
+      "frame": {
+        "x": 195,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell5_normal": {
+      "frame": {
+        "x": 195,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell5_spec": {
+      "frame": {
+        "x": 195,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell6": {
+      "frame": {
+        "x": 195,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell6_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell6_spec": {
+      "frame": {
+        "x": 195,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell7": {
+      "frame": {
+        "x": 195,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell7_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell7_spec": {
+      "frame": {
+        "x": 389,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell8": {
+      "frame": {
+        "x": 583,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell8_normal": {
+      "frame": {
+        "x": 777,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell8_spec": {
+      "frame": {
+        "x": 971,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell9": {
+      "frame": {
+        "x": 1165,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell9_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell9_spec": {
+      "frame": {
+        "x": 1553,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell10": {
+      "frame": {
+        "x": 1553,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell10_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/cell10_spec": {
+      "frame": {
+        "x": 195,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_5": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_5_normal": {
+      "frame": {
+        "x": 1,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_6": {
+      "frame": {
+        "x": 1,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_6_normal": {
+      "frame": {
+        "x": 1,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_7": {
+      "frame": {
+        "x": 1,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_7_normal": {
+      "frame": {
+        "x": 1,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_8": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_8_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_open": {
+      "frame": {
+        "x": 1,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/Maindoor_exit/maindoor_open_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 1,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 1,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_3": {
+      "frame": {
+        "x": 389,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_3_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_4": {
+      "frame": {
+        "x": 777,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_4_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_5": {
+      "frame": {
+        "x": 1165,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/SpecialWalls/wall_special_5_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_enter": {
+      "frame": {
+        "x": 1747,
+        "y": 195,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_enter_normal ": {
+      "frame": {
+        "x": 389,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_exit": {
+      "frame": {
+        "x": 389,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_exit_normal": {
+      "frame": {
+        "x": 389,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_closed": {
+      "frame": {
+        "x": 389,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_closed_spec": {
+      "frame": {
+        "x": 389,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_open": {
+      "frame": {
+        "x": 389,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_open_normal": {
+      "frame": {
+        "x": 389,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco2/wall_uscita_open_spec": {
+      "frame": {
+        "x": 583,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell1": {
+      "frame": {
+        "x": 971,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell1_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell1_spec": {
+      "frame": {
+        "x": 971,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell2": {
+      "frame": {
+        "x": 1165,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell2_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell2_spec": {
+      "frame": {
+        "x": 1553,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell3": {
+      "frame": {
+        "x": 1747,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/cell3_spec": {
+      "frame": {
+        "x": 1165,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_1": {
+      "frame": {
+        "x": 777,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_1_normal": {
+      "frame": {
+        "x": 971,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_1_spec": {
+      "frame": {
+        "x": 1165,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_4": {
+      "frame": {
+        "x": 1359,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_4_spec": {
+      "frame": {
+        "x": 1747,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_5": {
+      "frame": {
+        "x": 583,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Decals/decal_5_normal": {
+      "frame": {
+        "x": 583,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 195,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 1,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 195,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 1165,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 1165,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 1553,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/SpecialWalls/wall_special_2": {
+      "frame": {
+        "x": 971,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_door": {
+      "frame": {
+        "x": 1165,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_door_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_door_up": {
+      "frame": {
+        "x": 1359,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_door_up_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_closed": {
+      "frame": {
+        "x": 1747,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_closed_spec": {
+      "frame": {
+        "x": 389,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_open": {
+      "frame": {
+        "x": 1359,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_ingresso_open_spec": {
+      "frame": {
+        "x": 583,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_closed": {
+      "frame": {
+        "x": 1747,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_closed_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_closed_spec": {
+      "frame": {
+        "x": 389,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_open": {
+      "frame": {
+        "x": 1359,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_open_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco3/wall_uscita_open_spec": {
+      "frame": {
+        "x": 583,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell1": {
+      "frame": {
+        "x": 971,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell1_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell1_spec": {
+      "frame": {
+        "x": 971,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell2": {
+      "frame": {
+        "x": 1165,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell2_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell2_spec": {
+      "frame": {
+        "x": 1553,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell3": {
+      "frame": {
+        "x": 1747,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/cell3_spec": {
+      "frame": {
+        "x": 1165,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_1": {
+      "frame": {
+        "x": 777,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_1_normal": {
+      "frame": {
+        "x": 971,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_1_spec": {
+      "frame": {
+        "x": 1165,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_4": {
+      "frame": {
+        "x": 1359,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_4_spec": {
+      "frame": {
+        "x": 1747,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_5": {
+      "frame": {
+        "x": 583,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Decals/decal_5_normal": {
+      "frame": {
+        "x": 583,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 195,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 1,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 195,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 1165,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomWalls/wall_horizontal_2": {
+      "frame": {
+        "x": 1165,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/RandomWalls/wall_horizontal_2_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_1": {
+      "frame": {
+        "x": 1553,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_1_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_2": {
+      "frame": {
+        "x": 971,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 971,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_3": {
+      "frame": {
+        "x": 1553,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_3_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_4": {
+      "frame": {
+        "x": 1553,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_5": {
+      "frame": {
+        "x": 1747,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/SpecialWalls/wall_special_5_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_door": {
+      "frame": {
+        "x": 1165,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_door_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_door_up": {
+      "frame": {
+        "x": 1359,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_door_up_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_closed": {
+      "frame": {
+        "x": 1747,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_closed_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_closed_spec": {
+      "frame": {
+        "x": 389,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_open": {
+      "frame": {
+        "x": 1359,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_open_normal": {
+      "frame": {
+        "x": 1359,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco4/wall_ingresso_open_spec": {
+      "frame": {
+        "x": 583,
+        "y": 389,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 389,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 583,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 777,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 971,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 1747,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco5/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 389,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 583,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 777,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 971,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_1": {
+      "frame": {
+        "x": 1747,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/RandomWalls/wall_horizontal_1_normal": {
+      "frame": {
+        "x": 1747,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco6/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomPillars/pillar_1": {
+      "frame": {
+        "x": 1941,
+        "y": 1165,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomPillars/pillar_1_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 1359,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomPillars/pillar_2": {
+      "frame": {
+        "x": 1941,
+        "y": 1553,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/RandomPillars/pillar_2_normal": {
+      "frame": {
+        "x": 1941,
+        "y": 1747,
+        "w": 80,
+        "h": 192
+      }
+    },
+    "Grounds/pacco7/SpecialWalls/wall_special_2_normal": {
+      "frame": {
+        "x": 195,
+        "y": 1,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_0": {
+      "frame": {
+        "x": 583,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_0_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_1": {
+      "frame": {
+        "x": 583,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_1_normal": {
+      "frame": {
+        "x": 583,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_2": {
+      "frame": {
+        "x": 583,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_2_normal": {
+      "frame": {
+        "x": 777,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_3": {
+      "frame": {
+        "x": 971,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_3_normal": {
+      "frame": {
+        "x": 1165,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_4": {
+      "frame": {
+        "x": 1359,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_4_normal": {
+      "frame": {
+        "x": 1553,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_5": {
+      "frame": {
+        "x": 1747,
+        "y": 583,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_5_normal": {
+      "frame": {
+        "x": 777,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_6": {
+      "frame": {
+        "x": 777,
+        "y": 971,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_6_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1165,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_7": {
+      "frame": {
+        "x": 777,
+        "y": 1359,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_7_normal": {
+      "frame": {
+        "x": 777,
+        "y": 1553,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_8": {
+      "frame": {
+        "x": 777,
+        "y": 1747,
+        "w": 192,
+        "h": 192
+      }
+    },
+    "Grounds/pacco8/Door/door_8_normal": {
+      "frame": {
+        "x": 971,
+        "y": 777,
+        "w": 192,
+        "h": 192
+      }
+    }
+  },
+  "meta": {
+    "image": "Spritesheet-1.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": 1
+  }
+}

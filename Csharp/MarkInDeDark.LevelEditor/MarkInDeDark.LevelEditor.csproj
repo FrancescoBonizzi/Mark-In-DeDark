@@ -1,0 +1,149 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://fbonizzi.it/fbonizzi.it/MarkInDeDark/LevelEditor/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://www.fbonizzi.it/MarkInDeDark/LevelEditor/</InstallUrl>
+    <ProductName>Mark in DeDark Level Editor</ProductName>
+    <PublisherName>Francesco Bonizzi</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="packages\**" />
+    <EmbeddedResource Remove="packages\**" />
+    <None Remove="packages\**" />
+    <Page Remove="packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\icons\Riempimento\riempimento_1.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_10.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_11.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_12.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_13.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_2.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_3.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_4.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_5.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_6.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_7.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_8.png" />
+    <None Remove="Assets\icons\Riempimento\riempimento_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\candle6.png" />
+    <Resource Include="Assets\icons\key.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_1.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_10.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_11.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_12.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_13.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_2.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_3.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_4.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_5.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_6.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_7.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_8.png" />
+    <Resource Include="Assets\icons\Riempimento\riempimento_9.png" />
+    <Resource Include="Assets\icons\win_closed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\player_front_iddle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\zombie_front_walking_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\goblin_front_dying_1.png" />
+    <Resource Include="Assets\icons\skeleton_front_iddle.png" />
+    <Resource Include="Assets\icons\taurus_front_iddle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\trap_breakable.png" />
+    <Resource Include="Assets\icons\trap_instantly_die.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MarkInDeDark.Common\MarkInDeDark.Common.csproj" />
+    <ProjectReference Include="..\MarkInDeDark.GameGridCommon\MarkInDeDark.GameGridCommon.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\ghost_back_attack_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\bubu_front_walking_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\object_unpassable_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\object_unpassable_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\object_passable_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icons\brazier_lit_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+    <PackageReference Include="SharpDX.MediaFoundation" Version="4.2.0" />
+    <PackageReference Include="SharpDX.XAudio2" Version="4.2.0" />
+    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+</Project>

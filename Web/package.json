@@ -1,0 +1,23 @@
+{
+  "name": "mark-in-dedark",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "generate-manifest": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts",
+    "dev": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts && tsc && vite",
+    "build": "npx tsx scripts/generate-level-manifest.ts && npx tsx scripts/generate-spritepack-manifest.ts && npx tsx scripts/generate-level-design-guidelines.ts && tsc && vite build"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/howler": "^2.2.12",
+    "@types/node": "^25.5.2",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.11"
+  },
+  "dependencies": {
+    "howler": "^2.2.4",
+    "navigo": "^8.11.1",
+    "pixi.js": "^8.6.2"
+  }
+}
