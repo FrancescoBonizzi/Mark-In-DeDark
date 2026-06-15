@@ -1,13 +1,9 @@
 ## Migliorare il gioco
 
-### UI
-
-Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico per ogni meccanica, così posso fare un pulsante "tutorial" e mostrarle lì a mo' di gallery
-
-### Livelli
-
+- [ ] Convertire AGENTS.md in formato Claude
+- [ ] Prendi il file LEVEL_DESIGN_GUIDELINES.md e fai generare all'AI un asset grafico per ogni meccanica, così posso fare un pulsante "tutorial" e mostrarle lì a mo' di gallery
 - [ ] Farli tutti con la mia storia
-- [ ] Rivedi tutti i testi in levels.ts alla fine (anche a Chiara magari)
+- [ ] Rivedi tutti i testi in levels.ts alla fine
 
 ### Qualità grafica
 
@@ -34,10 +30,3 @@ Quindi devo:
   - [ ] Suono da gioco quando prendi il pacco di candele, quando prendi la chiave
   - [ ] Suono quando apri e chiudi le porte
 - [ ] Chiedi all'AI consigli dopo aver comunque già impostato alcune cose
-
-## Erogarlo sul mio sito
-
-- [ ] Mark: articolo sul sito, parla di shader. Ho unito la mia passione per i videogiochi con la mia passione per la matematica e spiega gli shader-chiedi aiuto all’ai per scrivere articoli. E ancje quello di infatt e starfall arricchisco meglio, non farlo solo markettaro
-- [ ] Fare in modo che funzioni online
-- [ ] Post LinkedIn e tutto il resto
-- [ ] Open source
