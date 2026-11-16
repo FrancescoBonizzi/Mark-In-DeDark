@@ -30,9 +30,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+Il file `Csharp/MarkInDeDark.Shadows/Content/Macros.fxh`, arrivato insieme a Penumbra, proviene dal Microsoft XNA Community Game Platform: Copyright (C) Microsoft Corporation, tutti i diritti riservati. Non è coperto dalla licenza MIT di questo repository.
+
 ## Font della versione C#
 
 - `Csharp/MarkInDeDark.Game/Assets/ContentBuilder/windows_command_prompt.ttf`
 - `Csharp/MarkInDeDark.Windows/Assets/ContentBuilder/windows_command_prompt.ttf`
 
-Font di terze parti usati dalla versione C# (non più mantenuta): non sono coperti dalla licenza MIT di questo repository e restano dei rispettivi autori.
+Font di terze parti usati dalla versione C#: non sono coperti dalla licenza MIT di questo repository e restano dei rispettivi autori.

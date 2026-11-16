@@ -12,6 +12,8 @@ _Mio padre mi ha stretto la mano troppo forte... come al solito._ Poi mi ha lasc
 
 Ti muovi nell'ombra, eviti i nemici che pattugliano le sale, trovi la chiave e raggiungi l'uscita prima di essere scoperto. Le candele sparse nei livelli si piazzano a terra come esca, per attirare, distrarre o bloccare i nemici: sono poche apposta, e ogni livello parte a inventario vuoto. La storia completa, dal progetto multiplayer su UDP dell'università a oggi, è sulla [pagina del progetto](https://imaginesoftware.it/open-source-projects/mark-in-dedark).
 
+![Il menù di Mark in DeDark](docs/screenshots/mark-in-dedark-menu.jpg)
+
 ## Il bestiario
 
 Ogni nemico ha una sua personalità e un suo punto debole.
