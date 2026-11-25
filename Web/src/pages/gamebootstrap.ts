@@ -225,11 +225,21 @@ export async function initGame(
 
   gameContainer.appendChild(app.canvas);
 
+  // La prima partita scarica circa 4 MB di sprite: senza una scritta il canvas resterebbe nero.
+  const caricamento = new Text({
+    text: "Accensione della candela…",
+    style: { fontSize: 32, fontWeight: "bold", fill: { color: "#ff9900" } },
+  });
+  caricamento.anchor.set(0.5);
+  caricamento.position.set(GAME_W / 2, GAME_H / 2);
+  app.stage.addChild(caricamento);
+
   try {
     const [assets, bundle] = await Promise.all([
       loadAssets(),
       loadAndParseLevel(currentFolder, currentLevelId),
     ]);
+    caricamento.destroy();
 
     const levelConfig = createLevelConfig(
       bundle.envTexturePackId,
@@ -755,6 +765,7 @@ export async function initGame(
     document.addEventListener("visibilitychange", visibilityHandler);
   } catch (err) {
     console.error("[gamebootstrap] Failed to load level:", err);
+    if (!caricamento.destroyed) caricamento.text = "Ooops! Il livello non si è caricato.";
   }
 }
 
